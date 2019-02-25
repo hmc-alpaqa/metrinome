@@ -1,0 +1,13 @@
+CHANGES
+MANIFEST.in
+README.rst
+setup.py
+test.py
+src/glob2/__init__.py
+src/glob2/compat.py
+src/glob2/fnmatch.py
+src/glob2/impl.py
+src/glob2.egg-info/PKG-INFO
+src/glob2.egg-info/SOURCES.txt
+src/glob2.egg-info/dependency_links.txt
+src/glob2.egg-info/top_level.txt

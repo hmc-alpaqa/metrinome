@@ -1,0 +1,1 @@
+/usr/local/Wolfram/Mathematica/10.4/Executables/math -script ../src/paths.m ../cfgs/simple_test_cfgs Infinity | tee ../results/simple_test_results.csv

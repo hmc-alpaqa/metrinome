@@ -1,0 +1,1 @@
+/usr/local/Wolfram/Mathematica/10.0/Executables/math -script /home/fse/PathComplexity/src/paths.m /home/fse/PathComplexity/cfgs/java_cfgs Infinity | tee /home/fse/PathComplexity/results/java_cfg_all_results.csv

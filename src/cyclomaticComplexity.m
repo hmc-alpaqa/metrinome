@@ -1,0 +1,1 @@
+cyclomaticComplexity[G_] := Length[EdgeRules[G]] - VertexCount[G] +2;

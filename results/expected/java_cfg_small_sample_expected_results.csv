@@ -1,0 +1,791 @@
+test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class, path_cplxty_asym, path_cplxty
+1,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_abs_0_basic.dot,2,2,Constant,2.,2.
+2,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_access$000_0_basic.dot,1,1,Constant,1.,1.
+3,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_add_0_basic.dot,4,6,Constant,6.,6.
+4,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_adjustScale_0_basic.dot,3,3,Constant,3.,3.
+5,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_audit_0_basic.dot,9,11,Constant,11.,11.
+6,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigDigitLength_0_basic.dot,3,3,Constant,3.,3.
+7,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigMultiplyPowerTen_0_basic.dot,3,3,Constant,3.,3.
+8,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigTenToThe_0_basic.dot,5,5,Polynomial,0.5*n,6. + 0.5*n
+9,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_byteValueExact_0_basic.dot,2,2,Constant,2.,2.
+10,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_checkScale_0_basic.dot,5,7,Constant,7.,7.
+11,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_checkScaleNonZero_0_basic.dot,3,3,Constant,3.,3.
+12,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_<clinit>_0_basic.dot,3,3,Constant,3.,3.
+13,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compactValFor_0_basic.dot,7,11,Constant,11.,11.
+14,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareMagnitude_0_basic.dot,17,37,Constant,37.,37.
+15,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareMagnitudeNormalized_0_basic.dot,2,2,Constant,2.,2.
+16,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareTo_0_basic.dot,1,1,Constant,1.,1.
+17,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_createAndStripZerosToMatchScale_0_basic.dot,5,5,Polynomial,0.8*n,6.15 + 0.8*n
+18,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divide_0_basic.dot,2,2,Constant,2.,2.
+19,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRemainder_0_basic.dot,2,2,Constant,2.,2.
+20,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRound_0_basic.dot,6,10,Constant,10.,10.
+21,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRound128_0_basic.dot,19,649,Exponential,27942.61*1.32^n*n,163. + 0.12*0.87^n + 541509.12*1.32^n + 0.01*0.87^n*n + 27942.61*1.32^n*n
+22,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRoundByTenPow_0_basic.dot,2,2,Constant,2.,2.
+23,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideSmallFastPath_0_basic.dot,17,46,Constant,46.,46.
+24,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideToIntegralValue_0_basic.dot,8,12,Constant,12.,12.
+25,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divWord_0_basic.dot,4,5,Polynomial,0.12*n^2.,4. + 1.25*n + 0.12*n^2.
+26,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doRound_0_basic.dot,7,13,Polynomial,0.17*n^2.,20.439999999999998 + 3.5*n + 0.17*n^2.
+27,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doRound128_0_basic.dot,4,6,Constant,6.,6.
+28,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doubleValue_0_basic.dot,11,23,Constant,23.,23.
+29,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_equals_0_basic.dot,9,10,Constant,10.,10.
+30,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_expandBigIntegerTenPowers_0_basic.dot,5,6,Polynomial,0.12*n^2.,5. + 1.25*n + 0.12*n^2.
+31,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_floatValue_0_basic.dot,11,23,Constant,23.,23.
+32,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_getValueString_0_basic.dot,7,8,Polynomial,1.*n,14. + 1.*n
+33,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_hashCode_0_basic.dot,4,5,Constant,5.,5.
+34,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_inflated_0_basic.dot,2,2,Constant,2.,2.
+35,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_<init>_0_basic.dot,8,26,Polynomial,0.33*n^2.,42.96 + 7.*n + 0.33*n^2.
+36,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_intValue_0_basic.dot,3,3,Constant,3.,3.
+37,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_intValueExact_0_basic.dot,2,2,Constant,2.,2.
+38,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_layoutChars_0_basic.dot,23,1095,Polynomial,78.*n,2943. + 78.*n
+39,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longCompareMagnitude_0_basic.dot,5,12,Constant,12.,12.
+40,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longDigitLength_0_basic.dot,7,17,Constant,17.,17.
+41,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longLongCompareMagnitude_0_basic.dot,4,4,Constant,4.,4.
+42,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longMultiplyPowerTen_0_basic.dot,7,7,Constant,7.,7.
+43,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longValue_0_basic.dot,3,3,Constant,3.,3.
+44,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longValueExact_0_basic.dot,7,11,Constant,11.,11.
+45,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_make64_0_basic.dot,1,1,Constant,1.,1.
+46,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_matchScale_0_basic.dot,4,4,Constant,4.,4.
+47,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_max_0_basic.dot,2,2,Constant,2.,2.
+48,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_min_0_basic.dot,2,2,Constant,2.,2.
+49,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_movePointLeft_0_basic.dot,2,2,Constant,2.,2.
+50,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_movePointRight_0_basic.dot,2,2,Constant,2.,2.
+51,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_mulsub_0_basic.dot,1,1,Constant,1.,1.
+52,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiply_0_basic.dot,1,1,Constant,1.,1.
+53,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiplyAndRound_0_basic.dot,1,1,Constant,1.,1.
+54,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiplyDivideAndRound_0_basic.dot,1,1,Constant,1.,1.
+55,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_needIncrement_0_basic.dot,12,12,Constant,12.,12.
+56,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_negate_0_basic.dot,1,1,Constant,1.,1.
+57,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_parseExp_0_basic.dot,14,390,Exponential,9897.52*1.27^n,42. + 0.93*1.04^n + 1.71*1.06^n + 8.370000000000001*1.21^n + 6238.4800000000005*1.22^n + 9897.52*1.27^n
+58,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_plus_0_basic.dot,2,2,Constant,2.,2.
+59,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_pow_0_basic.dot,11,29,Exponential,89.47*1.32^n,2.33 + 0.03*0.87^n + 3.66*1.21^n + 89.47*1.32^n
+60,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_preAlign_0_basic.dot,6,13,Constant,13.,13.
+61,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_precision_0_basic.dot,6,6,Constant,6.,6.
+62,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_print_0_basic.dot,1,1,Constant,1.,1.
+63,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_readObject_0_basic.dot,2,2,Constant,2.,2.
+64,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_remainder_0_basic.dot,1,1,Constant,1.,1.
+65,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_round_0_basic.dot,1,1,Constant,1.,1.
+66,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_roundedTenPower_0_basic.dot,3,3,Constant,3.,3.
+67,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_saturateLong_0_basic.dot,3,3,Constant,3.,3.
+68,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scale_0_basic.dot,1,1,Constant,1.,1.
+69,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scaleByPowerOfTen_0_basic.dot,1,1,Constant,1.,1.
+70,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scaledTenPow_0_basic.dot,3,3,Constant,3.,3.
+71,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setIntCompactVolatile_0_basic.dot,1,1,Constant,1.,1.
+72,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setIntValVolatile_0_basic.dot,1,1,Constant,1.,1.
+73,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setScale_0_basic.dot,1,1,Constant,1.,1.
+74,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_shortValueExact_0_basic.dot,2,2,Constant,2.,2.
+75,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_signum_0_basic.dot,2,2,Constant,2.,2.
+76,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_stripTrailingZeros_0_basic.dot,2,2,Constant,2.,2.
+77,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_stripZerosToMatchScale_0_basic.dot,3,3,Constant,3.,3.
+78,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_subtract_0_basic.dot,2,2,Constant,2.,2.
+79,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toBigInteger_0_basic.dot,1,1,Constant,1.,1.
+80,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toBigIntegerExact_0_basic.dot,1,1,Constant,1.,1.
+81,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toEngineeringString_0_basic.dot,1,1,Constant,1.,1.
+82,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toPlainString_0_basic.dot,8,9,Polynomial,1.*n,17. + 1.*n
+83,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toString_0_basic.dot,2,2,Constant,2.,2.
+84,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_ulp_0_basic.dot,1,1,Constant,1.,1.
+85,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unscaledValue_0_basic.dot,1,1,Constant,1.,1.
+86,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unsignedLongCompare_0_basic.dot,2,2,Constant,2.,2.
+87,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unsignedLongCompareEq_0_basic.dot,2,2,Constant,2.,2.
+88,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_valueOf_0_basic.dot,1,1,Constant,1.,1.
+89,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_writeObject_0_basic.dot,2,2,Constant,2.,2.
+90,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal_zeroValueOf_0_basic.dot,3,3,Constant,3.,3.
+91,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$1_<init>_0_basic.dot,1,1,Constant,1.,1.
+92,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$1_initialValue_0_basic.dot,1,1,Constant,1.,1.
+93,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_check_0_basic.dot,3,3,Constant,3.,3.
+94,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_<clinit>_0_basic.dot,1,1,Constant,1.,1.
+95,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_<init>_0_basic.dot,1,1,Constant,1.,1.
+96,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+97,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_getCompactCharArray_0_basic.dot,1,1,Constant,1.,1.
+98,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_getStringBuilder_0_basic.dot,1,1,Constant,1.,1.
+99,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_<init>_0_basic.dot,1,1,Constant,1.,1.
+100,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_putIntCompact_0_basic.dot,6,17,Polynomial,0.5*n^2.,22. + 6.5*n + 0.5*n^2.
+101,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_abs_0_basic.dot,2,2,Constant,2.,2.
+102,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_add_0_basic.dot,10,192,Exponential,2104.88*2.^(0.2*n),1284. + 16.95*1.1500000000000001^n + 2104.88*2.^(0.2*n) + 98.*n + 2.*n^2.
+103,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_addOne_0_basic.dot,5,5,Polynomial,1.*n,7. + 1.*n
+104,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_and_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+105,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_andNot_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+106,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitCount_0_basic.dot,5,7,Polynomial,0.12*n^2.,7. + 1.75*n + 0.12*n^2.
+107,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitLength_0_basic.dot,9,19,Exponential,40.25*2.^(0.2*n),5. + 9.49*1.1500000000000001^n + 40.25*2.^(0.2*n)
+108,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitLengthForInt_0_basic.dot,1,1,Constant,1.,1.
+109,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_clearBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+110,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_<clinit>_0_basic.dot,5,9,Polynomial,0.25*n^2.,13. + 3.5*n + 0.25*n^2.
+111,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_compareMagnitude_0_basic.dot,15,47,Constant,47.,47.
+112,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_compareTo_0_basic.dot,1,1,Constant,1.,1.
+113,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_destructiveMulAdd_0_basic.dot,3,4,Polynomial,0.12*n^2.,3. + 1.25*n + 0.12*n^2.
+114,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_divide_0_basic.dot,1,1,Constant,1.,1.
+115,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_divideAndRemainder_0_basic.dot,2,2,Constant,2.,2.
+116,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_doubleValue_0_basic.dot,1,1,Constant,1.,1.
+117,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_equals_0_basic.dot,7,7,Polynomial,0.67*n,10.05 + 0.67*n
+118,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_firstNonzeroIntNum_0_basic.dot,4,4,Polynomial,0.67*n,3.71 + 0.67*n
+119,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_flipBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+120,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_floatValue_0_basic.dot,1,1,Constant,1.,1.
+121,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_gcd_0_basic.dot,3,3,Constant,3.,3.
+122,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_getInt_0_basic.dot,5,5,Constant,5.,5.
+123,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_getLowestSetBit_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
+124,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_getSecureRandom_0_basic.dot,2,2,Constant,2.,2.
+125,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_hashCode_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+126,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_<init>_0_basic.dot,3,4,Constant,4.,4.
+127,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_intArrayCmpToLen_0_basic.dot,4,4,Polynomial,0.75*n,5.3500000000000005 + 0.75*n
+128,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_intLength_0_basic.dot,1,1,Constant,1.,1.
+129,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_intValue_0_basic.dot,1,1,Constant,1.,1.
+130,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_isProbablePrime_0_basic.dot,5,5,Constant,5.,5.
+131,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_jacobiSymbol_0_basic.dot,18,1801,Exponential,45021.07*1.43^n,6. + 0.98*1.06^n + 337.69*1.28^n + 45021.07*1.43^n
+132,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_javaIncrement_0_basic.dot,4,6,Polynomial,1.33*n,5.71 + 1.33*n
+133,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_largePrime_0_basic.dot,4,3,Exponential,2.54*1.43^n,0.33 + 0.04*0.71^n + 0.62*1.18^n + 2.54*1.43^n
+134,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_leftShift_0_basic.dot,5,5,Polynomial,1.*n,9. + 1.*n
+135,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_longValue_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+136,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_lucasLehmerSequence_0_basic.dot,6,11,Exponential,10.36*1.3800000000000001^n,0.11 + 0.05*0.86^n + 0.81*1.1500000000000001^n + 1.94*1.25^n + 10.36*1.3800000000000001^n
+137,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_magSerializedForm_0_basic.dot,4,6,Exponential,9.94*2.^(0.25*n),2. + 9.94*2.^(0.25*n)
+138,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_makePositive_0_basic.dot,8,72,Polynomial,0.01*n^4.,150.18 + 54.18000000000001*n + 7.25*n^2. + 0.43*n^3. + 0.01*n^4.
+139,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_max_0_basic.dot,2,2,Constant,2.,2.
+140,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_min_0_basic.dot,2,2,Constant,2.,2.
+141,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_mod_0_basic.dot,3,3,Constant,3.,3.
+142,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_mod2_0_basic.dot,4,5,Polynomial,1.*n,5. + 1.*n
+143,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_modInverse_0_basic.dot,6,8,Constant,8.,8.
+144,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_modPow_0_basic.dot,20,682,Constant,682.,682.
+145,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_modPow2_0_basic.dot,6,15,Exponential,25.23*1.43^n,1. + 0.04*0.71^n + 2.37*1.18^n + 25.23*1.43^n
+146,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_montReduce_0_basic.dot,4,8,Polynomial,0.04*n^3.,5. + 3.08*n + 0.62*n^2. + 0.04*n^3.
+147,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_mulAdd_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+148,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_multiply_0_basic.dot,11,99,Polynomial,2.*n^2.,275. + 46.*n + 2.*n^2.
+149,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_multiplyByInt_0_basic.dot,4,5,Polynomial,1.*n,5. + 1.*n
+150,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_multiplyToLen_0_basic.dot,6,18,Exponential,21.01*1.62^(0.5*n),3. + 0.1*0.62^(0.5*n) + 21.01*1.62^(0.5*n)
+151,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_negate_0_basic.dot,1,1,Constant,1.,1.
+152,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_nextProbablePrime_0_basic.dot,23,67,Exponential,65220.35*1.52^n,28.39 + 0.02*0.86^n + 0.02*0.87^n + 0.19*0.9400000000000001^n + 0.01*0.97^n + 0.17*1.03^n + 9.58*1.11^n + 65220.35*1.52^n + 1.*n
+153,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_not_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+154,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_oddModPow_0_basic.dot,27,Timeout,Exponential,2.27131789293*^9*1.54^n,8.2716982883845205*^12 + 3.993824238*^7*0.8300000000000001^n + 98.49000000000001*0.87^n + 3763.2000000000003*0.93^n + 8.27165151085204*^12*1.03^n + 6.83*1.09^n + 6.37*1.1500000000000001^n + 1.34*1.16^n + 179.65*1.18^n + 1191.32*1.24^n + 193.78*1.25^n + 7.417488933*^7*1.29^n + 2.27131789293*^9*1.54^n + 2.6054379254837*^11*n + 4.10427986629*^9*n^2. + 4.304772737*^7*n^3. + 341148.9*n^4. + 2077.07*n^5. + 12.73*n^6. + 0.03*n^7.
+155,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_or_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+156,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_parseInt_0_basic.dot,4,4,Polynomial,0.67*n,5.05 + 0.67*n
+157,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_passesLucasLehmer_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
+158,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_passesMillerRabin_0_basic.dot,11,62,Exponential,408.48*1.71^n,17.36 + 0.26*0.9500000000000001^n + 5.97*1.1500000000000001^n + 408.48*1.71^n + 1.6400000000000001*n
+159,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_pow_0_basic.dot,9,18,Exponential,103.84*1.43^n,2. + 0.01*0.71^n + 4.51*1.18^n + 103.84*1.43^n
+160,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_primeToCertainty_0_basic.dot,10,32,Constant,32.,32.
+161,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_primitiveLeftShift_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
+162,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_primitiveRightShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+163,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_probablePrime_0_basic.dot,3,3,Constant,3.,3.
+164,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_randomBits_0_basic.dot,3,3,Constant,3.,3.
+165,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_readObject_0_basic.dot,8,16,Constant,16.,16.
+166,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_remainder_0_basic.dot,1,1,Constant,1.,1.
+167,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_setBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+168,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_shiftLeft_0_basic.dot,5,6,Polynomial,1.5*n,13. + 1.5*n
+169,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_shiftRight_0_basic.dot,18,203,Exponential,6791.71*2.^(0.2*n),755. + 69.89*1.1500000000000001^n + 6791.71*2.^(0.2*n) + 22.5*n
+170,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_signBit_0_basic.dot,2,2,Constant,2.,2.
+171,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_signInt_0_basic.dot,2,2,Constant,2.,2.
+172,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_signum_0_basic.dot,1,1,Constant,1.,1.
+173,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_smallPrime_0_basic.dot,18,16,Exponential,4168.99*1.55^n,0.29 + 0.01*0.9^n + 0.04*0.91^n + 0.1*0.93^n + 0.02*0.9400000000000001^n + 0.02*0.9500000000000001^n + 0.08*0.96^n + 0.09*1.04^n + 25.8*1.2^n + 4168.99*1.55^n
+174,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_square_0_basic.dot,2,2,Constant,2.,2.
+175,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_squareToLen_0_basic.dot,5,12,Polynomial,0.38*n^2.,9. + 3.75*n + 0.38*n^2.
+176,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_stripLeadingZeroBytes_0_basic.dot,5,9,Exponential,9.56*1.62^(0.5*n),1.6600000000000001 + 0.07*0.62^(0.5*n) + 9.56*1.62^(0.5*n)
+177,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_stripLeadingZeroInts_0_basic.dot,3,3,Polynomial,0.67*n,2.71 + 0.67*n
+178,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_subN_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+179,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_subtract_0_basic.dot,7,32,Exponential,298.84000000000003*2.^(0.2*n),224.83 + 1.92*1.1500000000000001^n + 298.84000000000003*2.^(0.2*n) + 20.*n + 0.5*n^2.
+180,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_testBit_0_basic.dot,3,3,Constant,3.,3.
+181,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_toByteArray_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
+182,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_toString_0_basic.dot,1,1,Constant,1.,1.
+183,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_trustedStripLeadingZeroInts_0_basic.dot,4,6,Polynomial,1.33*n,6.77 + 1.33*n
+184,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_valueOf_0_basic.dot,2,2,Constant,2.,2.
+185,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_writeObject_0_basic.dot,1,1,Constant,1.,1.
+186,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_BigInteger_xor_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+187,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_add_0_basic.dot,12,300,Exponential,2919.89*1.32^n,446.62 + 0.14*0.87^n + 2919.89*1.32^n + 41.67*n + 1.*n^2.
+188,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_binaryGcd_0_basic.dot,6,8,Exponential,3.43*1.26^n,0. + 3.43*1.26^n + 12.93*2.^(0.33*n)
+189,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_binaryGCD_0_basic.dot,14,960,Exponential,10487.16*1.28^n,64. + 0.11*0.97^n + 23.330000000000002*1.16^n + 625.24*1.23^n + 1396.26*1.27^n + 10487.16*1.28^n
+190,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_clear_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+191,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+192,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_compare_0_basic.dot,6,6,Polynomial,0.75*n,8.85 + 0.75*n
+193,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_compareHalf_0_basic.dot,11,17,Polynomial,2.67*n,49.77 + 2.67*n
+194,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_copyAndShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+195,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_copyValue_0_basic.dot,2,2,Constant,2.,2.
+196,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_difference_0_basic.dot,5,9,Polynomial,0.25*n^2.,10. + 3.*n + 0.25*n^2.
+197,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divadd_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+198,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divaddLong_0_basic.dot,1,1,Constant,1.,1.
+199,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divide_0_basic.dot,5,6,Constant,6.,6.
+200,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divideLongMagnitude_0_basic.dot,15,720,Exponential,8763.67*1.42^n,0.37 + 0.07*0.9500000000000001^n + 0.05*1.03^n + 34.64*1.16^n + 12.61*1.18^n + 960.98*1.29^n + 8763.67*1.42^n
+201,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divideMagnitude_0_basic.dot,30,Timeout,Exponential,2.24308162084*^9*1.42^n,1792.75 + 0.06*0.9500000000000001^n + 1.81*1.03^n + 3633.48*1.16^n + 3053.27*1.18^n + 8.20628036*^6*1.29^n + 2.24308162084*^9*1.42^n + 34.6*n
+202,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divideOneWord_0_basic.dot,8,26,Exponential,91.87*2.^(0.25*n),6. + 91.87*2.^(0.25*n)
+203,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divWord_0_basic.dot,4,5,Polynomial,0.12*n^2.,4. + 1.25*n + 0.12*n^2.
+204,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_ensureCapacity_0_basic.dot,2,2,Constant,2.,2.
+205,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_euclidModInverse_0_basic.dot,7,10,Exponential,22.27*2.^(0.22*n),2. + 6.97*1.17^n + 22.27*2.^(0.22*n)
+206,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_fixup_0_basic.dot,4,8,Polynomial,0.25*n^2.,6. + 2.5*n + 0.25*n^2.
+207,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getInt_0_basic.dot,1,1,Constant,1.,1.
+208,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getLong_0_basic.dot,1,1,Constant,1.,1.
+209,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getLowestSetBit_0_basic.dot,5,7,Polynomial,1.33*n,9.1 + 1.33*n
+210,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getMagnitudeArray_0_basic.dot,3,3,Constant,3.,3.
+211,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_hybridGCD_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
+212,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_<init>_0_basic.dot,1,1,Constant,1.,1.
+213,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_inverseMod32_0_basic.dot,1,1,Constant,1.,1.
+214,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isEven_0_basic.dot,3,3,Constant,3.,3.
+215,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isNormal_0_basic.dot,4,4,Constant,4.,4.
+216,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isOdd_0_basic.dot,3,3,Constant,3.,3.
+217,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isOne_0_basic.dot,3,3,Constant,3.,3.
+218,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isZero_0_basic.dot,2,2,Constant,2.,2.
+219,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_leftShift_0_basic.dot,12,50,Polynomial,0.75*n^2.,351. + 32.5*n + 0.75*n^2.
+220,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_modInverse_0_basic.dot,7,22,Exponential,47.910000000000004*1.24^n,7.22 + 0.03*0.92^n + 1.18*1.1300000000000001^n + 6.78*1.22^n + 47.910000000000004*1.24^n + 0.33*n
+221,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_modInverseBP2_0_basic.dot,1,1,Constant,1.,1.
+222,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_modInverseMP2_0_basic.dot,7,8,Constant,8.,8.
+223,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mul_0_basic.dot,6,10,Polynomial,2.*n,15. + (-1.)^(1. + n) + 2.*n
+224,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mulsub_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
+225,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mulsubBorrow_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
+226,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mulsubLong_0_basic.dot,3,4,Constant,4.,4.
+227,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_multiply_0_basic.dot,5,12,Exponential,12.98*1.62^(0.5*n),2. + 0.07*0.62^(0.5*n) + 12.98*1.62^(0.5*n)
+228,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mutableModInverse_0_basic.dot,4,4,Constant,4.,4.
+229,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_normalize_0_basic.dot,6,8,Polynomial,2.*n,12. + 2.*n
+230,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_primitiveLeftShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+231,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_primitiveRightShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+232,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_reset_0_basic.dot,1,1,Constant,1.,1.
+233,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_rightShift_0_basic.dot,4,4,Constant,4.,4.
+234,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_setInt_0_basic.dot,1,1,Constant,1.,1.
+235,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_setValue_0_basic.dot,1,1,Constant,1.,1.
+236,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_subtract_0_basic.dot,6,17,Polynomial,0.5*n^2.,22. + 6.5*n + 0.5*n^2.
+237,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toBigDecimal_0_basic.dot,8,12,Constant,12.,12.
+238,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toBigInteger_0_basic.dot,3,3,Constant,3.,3.
+239,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toCompactValue_0_basic.dot,8,12,Constant,12.,12.
+240,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toIntArray_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+241,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toLong_0_basic.dot,5,7,Constant,7.,7.
+242,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toString_0_basic.dot,1,1,Constant,1.,1.
+243,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_unsignedLongCompare_0_basic.dot,2,2,Constant,2.,2.
+244,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_addAffixes_0_basic.dot,3,4,Constant,4.,4.
+245,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_adjustForCurrencyDefaultFractionDigits_0_basic.dot,6,12,Constant,12.,12.
+246,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_append_0_basic.dot,4,4,Exponential,2.92*1.22^n,0. + 0.02*0.72^n + 0.45*1.06^n + 2.92*1.22^n
+247,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_appendAffix_0_basic.dot,25,320,Exponential,11144.41*1.22^n,0. + 7.98*1.06^n + 11144.41*1.22^n
+248,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_appendSuffix_0_basic.dot,5,6,Constant,6.,6.
+249,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_applyLocalizedPattern_0_basic.dot,1,1,Constant,1.,1.
+250,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_applyPattern_0_basic.dot,76,Timeout,Exponential,7.146242262552501*^25*1.58^n,7.465039236277855*^20 + 1.4279724607371574*^18*0.71^n + 2.428496151063765*^17*0.9400000000000001^n + 1.7904339791844973*^17*1.01^n + 4.847258610492831*^16*1.08^n + 9.614922985671523*^16*1.1300000000000001^n + 8.842231901360932*^15*1.1500000000000001^n + 6.195680830787784*^15*1.17^n + 9.96816291821053*^15*1.18^n + 4.983538428701565*^15*1.19^n + 3.6441704147447195*^15*1.21^n + 1.0664878884216972*^16*1.24^n + 3.007072905418212*^15*1.25^n + 1.8297190889700052*^15*1.27^n + 1.2007492026054158*^15*1.28^n + 1.3956495393693725*^15*1.29^n + 7.146242262552501*^25*1.58^n
+251,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_checkAndSetFastPathStatus_0_basic.dot,25,3942,Constant,3942.,3942.
+252,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+253,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_clone_0_basic.dot,2,2,Constant,2.,2.
+254,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_collectFractionalDigits_0_basic.dot,5,5,Constant,5.,5.
+255,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_collectIntegralDigits_0_basic.dot,4,6,Polynomial,1.5*n,5. + 1.5*n
+256,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_equals_0_basic.dot,32,1782,Constant,1782.,1782.
+257,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_exactRoundUp_0_basic.dot,11,78,Constant,78.,78.
+258,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_expandAffix_0_basic.dot,14,46,Exponential,5195.68*1.57^n,0.1 + 0.72*1.07^n + 58.6*1.28^n + 107.91*1.33^n + 5195.68*1.57^n
+259,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_expandAffixes_0_basic.dot,5,16,Constant,16.,16.
+260,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_fastDoubleFormat_0_basic.dot,9,56,Constant,56.,56.
+261,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_fastFormat_0_basic.dot,8,20,Constant,20.,20.
+262,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_format_0_basic.dot,8,49,Constant,49.,49.
+263,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_formatToCharacterIterator_0_basic.dot,12,12,Constant,12.,12.
+264,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getBigDecimalMultiplier_0_basic.dot,2,2,Constant,2.,2.
+265,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getBigIntegerMultiplier_0_basic.dot,2,2,Constant,2.,2.
+266,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getCurrency_0_basic.dot,1,1,Constant,1.,1.
+267,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getDecimalFormatSymbols_0_basic.dot,2,2,Constant,2.,2.
+268,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getGroupingSize_0_basic.dot,1,1,Constant,1.,1.
+269,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMaximumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
+270,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMaximumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
+271,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMinimumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
+272,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMinimumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
+273,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMultiplier_0_basic.dot,1,1,Constant,1.,1.
+274,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativePrefix_0_basic.dot,1,1,Constant,1.,1.
+275,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativePrefixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
+276,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativeSuffix_0_basic.dot,1,1,Constant,1.,1.
+277,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativeSuffixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
+278,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositivePrefix_0_basic.dot,1,1,Constant,1.,1.
+279,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositivePrefixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
+280,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositiveSuffix_0_basic.dot,1,1,Constant,1.,1.
+281,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositiveSuffixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
+282,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getRoundingMode_0_basic.dot,1,1,Constant,1.,1.
+283,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_hashCode_0_basic.dot,1,1,Constant,1.,1.
+284,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_<init>_0_basic.dot,1,1,Constant,1.,1.
+285,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_isDecimalSeparatorAlwaysShown_0_basic.dot,1,1,Constant,1.,1.
+286,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_isParseBigDecimal_0_basic.dot,1,1,Constant,1.,1.
+287,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_localizeDigits_0_basic.dot,4,6,Exponential,8.120000000000001*2.^(0.25*n),2. + 8.120000000000001*2.^(0.25*n)
+288,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_parse_0_basic.dot,27,591,Constant,591.,591.
+289,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_prependPrefix_0_basic.dot,5,6,Constant,6.,6.
+290,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_readObject_0_basic.dot,6,12,Constant,12.,12.
+291,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setCurrency_0_basic.dot,3,3,Constant,3.,3.
+292,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setDecimalFormatSymbols_0_basic.dot,2,2,Constant,2.,2.
+293,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setDecimalSeparatorAlwaysShown_0_basic.dot,1,1,Constant,1.,1.
+294,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setGroupingSize_0_basic.dot,1,1,Constant,1.,1.
+295,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setGroupingUsed_0_basic.dot,1,1,Constant,1.,1.
+296,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMaximumFractionDigits_0_basic.dot,4,6,Constant,6.,6.
+297,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMaximumIntegerDigits_0_basic.dot,4,6,Constant,6.,6.
+298,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMinimumFractionDigits_0_basic.dot,4,6,Constant,6.,6.
+299,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMinimumIntegerDigits_0_basic.dot,4,6,Constant,6.,6.
+300,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMultiplier_0_basic.dot,1,1,Constant,1.,1.
+301,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setNegativePrefix_0_basic.dot,1,1,Constant,1.,1.
+302,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setNegativeSuffix_0_basic.dot,1,1,Constant,1.,1.
+303,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setParseBigDecimal_0_basic.dot,1,1,Constant,1.,1.
+304,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setPositivePrefix_0_basic.dot,1,1,Constant,1.,1.
+305,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setPositiveSuffix_0_basic.dot,1,1,Constant,1.,1.
+306,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setRoundingMode_0_basic.dot,2,2,Constant,2.,2.
+307,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_subformat_0_basic.dot,52,Timeout,Exponential,1.492929991450648*^17*1.45^n,3.55797293*^6 + 1.28941873*^6*0.8300000000000001^n + 38538.37*0.89^n + 251879.86000000002*0.9^n + 33969.5*0.96^n + 130668.23*0.97^n + 60414.850000000006*1.09^n + 69308.94*1.17^n + 2.04400942668*^9*1.2^n + 3.91673686251*^9*1.25^n + 1.7510637160845*^11*1.26^n + 6.36160276729511*^13*1.29^n + 2.5045321240533394*^14*1.35^n + 1.492929991450648*^17*1.45^n + 3.0792020215391003*^11*2.^(0.25*n) + 72375.92*n
+308,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_subparse_0_basic.dot,46,Timeout,Exponential,1.097729208338955*^13*1.41^n,312271.55 + 2.5*0.5^n + 1.35*0.71^n + 0.75*0.77^n + 530261.53*1.07^n + 0.37*1.09^n + 11346.35*1.17^n + 1.11863561729*^9*1.29^n + 8.900727998*^7*1.3^n + 1.097729208338955*^13*1.41^n
+309,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_toLocalizedPattern_0_basic.dot,1,1,Constant,1.,1.
+310,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_toPattern_0_basic.dot,35,Timeout,Exponential,1.9823351480223*^11*1.51^n,0.23 + 13.870000000000001*0.58^n + 11.92*0.64^n + 1.95*0.7000000000000001^n + 1.74*1.04^n + 7.22*1.09^n + 335.05*1.11^n + 42.67*1.12^n + 16126.49*1.2^n + 26787.68*1.21^n + 81111.09*1.24^n + 512741.60000000003*1.27^n + 3.7965443200000003*^6*1.31^n + 4.67323336*^6*1.32^n + 2.1070773070000002*^8*1.33^n + 1.4534078790000001*^7*1.35^n + 1.9823351480223*^11*1.51^n
+311,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat$DigitArrays_<clinit>_0_basic.dot,6,13,Exponential,12.52*1.3800000000000001^n,0.09 + 0.13*1.02^n + 0.37*1.11^n + 0.72*1.17^n + 4.73*1.3^n + 12.52*1.3800000000000001^n
+312,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat$DigitArrays_<init>_0_basic.dot,1,1,Constant,1.,1.
+313,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DecimalFormat$FastPathData_<init>_0_basic.dot,1,1,Constant,1.,1.
+314,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_append_0_basic.dot,2,2,Constant,2.,2.
+315,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_clear_0_basic.dot,1,1,Constant,1.,1.
+316,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+317,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_clone_0_basic.dot,2,2,Constant,2.,2.
+318,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_equals_0_basic.dot,7,7,Polynomial,0.67*n,9.38 + 0.67*n
+319,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_extendDigits_0_basic.dot,2,2,Constant,2.,2.
+320,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_fitsIntoLong_0_basic.dot,14,42,Polynomial,0.42*n^2.,268.55 + 21.080000000000002*n + 0.42*n^2.
+321,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_getBigDecimal_0_basic.dot,4,4,Constant,4.,4.
+322,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_getDataChars_0_basic.dot,3,3,Constant,3.,3.
+323,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_getDouble_0_basic.dot,2,2,Constant,2.,2.
+324,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_getLong_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
+325,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_getStringBuffer_0_basic.dot,2,2,Constant,2.,2.
+326,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_hashCode_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+327,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_<init>_0_basic.dot,1,1,Constant,1.,1.
+328,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_isLongMIN_VALUE_0_basic.dot,5,5,Polynomial,0.67*n,6.05 + 0.67*n
+329,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_isZero_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
+330,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_parseInt_0_basic.dot,7,24,Polynomial,4.5*n,34.08 + 4.5*n
+331,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_round_0_basic.dot,8,14,Polynomial,0.33*n^2.,20.03 + 4.67*n + 0.33*n^2.
+332,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_set_0_basic.dot,4,6,Polynomial,1.33*n,5.71 + 1.33*n
+333,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_setRoundingMode_0_basic.dot,1,1,Constant,1.,1.
+334,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_shouldRoundUp_0_basic.dot,39,39,Polynomial,0.,308.91 + 4.33*n
+335,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList_toString_0_basic.dot,2,2,Constant,2.,2.
+336,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_DigitList$1_<clinit>_0_basic.dot,9,9,Constant,9.,9.
+337,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_<clinit>_0_basic.dot,1,1,Constant,1.,1.
+338,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_clone_0_basic.dot,1,1,Constant,1.,1.
+339,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_equals_0_basic.dot,10,10,Constant,10.,10.
+340,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_fastFormat_0_basic.dot,1,1,Constant,1.,1.
+341,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_format_0_basic.dot,1,1,Constant,1.,1.
+342,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getAvailableLocales_0_basic.dot,1,1,Constant,1.,1.
+343,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getCurrency_0_basic.dot,1,1,Constant,1.,1.
+344,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getCurrencyInstance_0_basic.dot,1,1,Constant,1.,1.
+345,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getInstance_0_basic.dot,7,25,Constant,25.,25.
+346,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getIntegerInstance_0_basic.dot,1,1,Constant,1.,1.
+347,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMaximumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
+348,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMaximumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
+349,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMinimumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
+350,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMinimumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
+351,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getNumberInstance_0_basic.dot,1,1,Constant,1.,1.
+352,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getPercentInstance_0_basic.dot,1,1,Constant,1.,1.
+353,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getRoundingMode_0_basic.dot,1,1,Constant,1.,1.
+354,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getScientificInstance_0_basic.dot,1,1,Constant,1.,1.
+355,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_hashCode_0_basic.dot,1,1,Constant,1.,1.
+356,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_<init>_0_basic.dot,1,1,Constant,1.,1.
+357,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_isGroupingUsed_0_basic.dot,1,1,Constant,1.,1.
+358,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_isParseIntegerOnly_0_basic.dot,1,1,Constant,1.,1.
+359,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_parse_0_basic.dot,2,2,Constant,2.,2.
+360,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_parseObject_0_basic.dot,1,1,Constant,1.,1.
+361,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_readObject_0_basic.dot,6,10,Constant,10.,10.
+362,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setCurrency_0_basic.dot,1,1,Constant,1.,1.
+363,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setGroupingUsed_0_basic.dot,1,1,Constant,1.,1.
+364,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMaximumFractionDigits_0_basic.dot,2,2,Constant,2.,2.
+365,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMaximumIntegerDigits_0_basic.dot,2,2,Constant,2.,2.
+366,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMinimumFractionDigits_0_basic.dot,2,2,Constant,2.,2.
+367,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMinimumIntegerDigits_0_basic.dot,2,2,Constant,2.,2.
+368,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setParseIntegerOnly_0_basic.dot,1,1,Constant,1.,1.
+369,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setRoundingMode_0_basic.dot,1,1,Constant,1.,1.
+370,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat_writeObject_0_basic.dot,5,16,Constant,16.,16.
+371,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat$Field_<clinit>_0_basic.dot,1,1,Constant,1.,1.
+372,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat$Field_<init>_0_basic.dot,2,2,Constant,2.,2.
+373,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat$Field_readResolve_0_basic.dot,3,3,Constant,3.,3.
+374,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_access$000_0_basic.dot,1,1,Constant,1.,1.
+375,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+376,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_getObject_0_basic.dot,1,1,Constant,1.,1.
+377,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_<init>_0_basic.dot,1,1,Constant,1.,1.
+378,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_addEntry_0_basic.dot,2,2,Constant,2.,2.
+379,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_capacity_0_basic.dot,1,1,Constant,1.,1.
+380,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_clear_0_basic.dot,2,2,Constant,2.,2.
+381,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_clone_0_basic.dot,3,4,Constant,4.,4.
+382,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_containsKey_0_basic.dot,2,2,Constant,2.,2.
+383,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_containsNullValue_0_basic.dot,4,4,Exponential,5.3*1.22^n,1. + 0.01*0.72^n + 0.54*1.06^n + 5.3*1.22^n
+384,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_containsValue_0_basic.dot,5,5,Exponential,6.48*1.22^n,0. + 0.01*0.72^n + 0.5700000000000001*1.06^n + 6.48*1.22^n
+385,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_createEntry_0_basic.dot,1,1,Constant,1.,1.
+386,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_entrySet0_0_basic.dot,2,2,Constant,2.,2.
+387,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_entrySet_0_basic.dot,1,1,Constant,1.,1.
+388,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_get_0_basic.dot,8,12,Exponential,27.95*1.19^n,4. + 0.12*0.84^n + 0.67*1.09^n + 27.95*1.19^n
+389,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_getEntry_0_basic.dot,7,12,Exponential,23.84*1.28^n,3. + 0.01*0.65^n + 0.15*0.96^n + 0.75*1.1400000000000001^n + 23.84*1.28^n
+390,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_getForNullKey_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
+391,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_hash_0_basic.dot,1,1,Constant,1.,1.
+392,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_indexFor_0_basic.dot,1,1,Constant,1.,1.
+393,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_<init>_0_basic.dot,1,1,Constant,1.,1.
+394,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_init_0_basic.dot,1,1,Constant,1.,1.
+395,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_isEmpty_0_basic.dot,2,2,Constant,2.,2.
+396,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_keySet_0_basic.dot,2,2,Constant,2.,2.
+397,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_loadFactor_0_basic.dot,1,1,Constant,1.,1.
+398,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_newEntryIterator_0_basic.dot,1,1,Constant,1.,1.
+399,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_newKeyIterator_0_basic.dot,1,1,Constant,1.,1.
+400,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_newValueIterator_0_basic.dot,1,1,Constant,1.,1.
+401,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_put_0_basic.dot,7,11,Exponential,23.42*1.19^n,5. + 0.15*0.84^n + 0.61*1.09^n + 23.42*1.19^n
+402,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_putAll_0_basic.dot,7,19,Polynomial,0.5*n^2.,27. + 7.*n + 0.5*n^2.
+403,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_putAllForCreate_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+404,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_putForCreate_0_basic.dot,8,24,Exponential,54.31*1.28^n,6. + 0.25*0.96^n + 0.73*1.1400000000000001^n + 54.31*1.28^n
+405,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_putForNullKey_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
+406,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_readObject_0_basic.dot,3,4,Polynomial,1.*n,3. + 1.*n
+407,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_remove_0_basic.dot,2,2,Constant,2.,2.
+408,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_removeEntryForKey_0_basic.dot,9,24,Exponential,109.96000000000001*1.28^n,9. + 0.01*0.65^n + 0.93*0.96^n + 4.49*1.1400000000000001^n + 109.96000000000001*1.28^n
+409,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_removeMapping_0_basic.dot,8,15,Exponential,67.36*1.22^n,9. + 0.02*0.72^n + 1.45*1.06^n + 67.36*1.22^n
+410,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_resize_0_basic.dot,3,3,Constant,3.,3.
+411,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_size_0_basic.dot,1,1,Constant,1.,1.
+412,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_transfer_0_basic.dot,4,4,Exponential,2.3000000000000003*1.4000000000000001^n,0. + 0.1*0.79^n + 0.42*1.06^n + 2.3000000000000003*1.4000000000000001^n
+413,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_values_0_basic.dot,2,2,Constant,2.,2.
+414,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap_writeObject_0_basic.dot,4,6,Polynomial,1.*n,6. + 1.*n
+415,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_equals_0_basic.dot,8,11,Constant,11.,11.
+416,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_getKey_0_basic.dot,1,1,Constant,1.,1.
+417,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_getValue_0_basic.dot,1,1,Constant,1.,1.
+418,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_hashCode_0_basic.dot,3,4,Constant,4.,4.
+419,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_<init>_0_basic.dot,1,1,Constant,1.,1.
+420,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+421,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
+422,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_recordAccess_0_basic.dot,1,1,Constant,1.,1.
+423,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_recordRemoval_0_basic.dot,1,1,Constant,1.,1.
+424,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_clear_0_basic.dot,1,1,Constant,1.,1.
+425,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_contains_0_basic.dot,4,4,Constant,4.,4.
+426,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_<init>_0_basic.dot,1,1,Constant,1.,1.
+427,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_iterator_0_basic.dot,1,1,Constant,1.,1.
+428,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_remove_0_basic.dot,2,2,Constant,2.,2.
+429,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_size_0_basic.dot,1,1,Constant,1.,1.
+430,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_setValue_0_basic.dot,2,2,Constant,2.,2.
+431,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_toString_0_basic.dot,1,1,Constant,1.,1.
+432,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$100_0_basic.dot,1,1,Constant,1.,1.
+433,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$200_0_basic.dot,1,1,Constant,1.,1.
+434,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$300_0_basic.dot,1,1,Constant,1.,1.
+435,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$400_0_basic.dot,1,1,Constant,1.,1.
+436,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$500_0_basic.dot,1,1,Constant,1.,1.
+437,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$600_0_basic.dot,1,1,Constant,1.,1.
+438,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_clear_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+439,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_get_0_basic.dot,3,3,Constant,3.,3.
+440,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_<init>_0_basic.dot,1,1,Constant,1.,1.
+441,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_inRange_0_basic.dot,2,2,Constant,2.,2.
+442,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_makeBitMask_0_basic.dot,1,1,Constant,1.,1.
+443,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_put_0_basic.dot,3,3,Constant,3.,3.
+444,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_remove_0_basic.dot,3,3,Constant,3.,3.
+445,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_setValue_0_basic.dot,3,3,Constant,3.,3.
+446,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_transfer_0_basic.dot,1,1,Constant,1.,1.
+447,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_hasNext_0_basic.dot,2,2,Constant,2.,2.
+448,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_<init>_0_basic.dot,4,4,Polynomial,0.67*n,3.71 + 0.67*n
+449,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_nextEntry_0_basic.dot,6,6,Polynomial,0.67*n,7.05 + 0.67*n
+450,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_remove_0_basic.dot,3,3,Constant,3.,3.
+451,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+452,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
+453,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_clear_0_basic.dot,1,1,Constant,1.,1.
+454,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_contains_0_basic.dot,1,1,Constant,1.,1.
+455,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_<init>_0_basic.dot,1,1,Constant,1.,1.
+456,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_iterator_0_basic.dot,1,1,Constant,1.,1.
+457,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_remove_0_basic.dot,2,2,Constant,2.,2.
+458,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_size_0_basic.dot,1,1,Constant,1.,1.
+459,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$ValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+460,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$ValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
+461,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_clear_0_basic.dot,1,1,Constant,1.,1.
+462,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_contains_0_basic.dot,1,1,Constant,1.,1.
+463,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_<init>_0_basic.dot,1,1,Constant,1.,1.
+464,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_iterator_0_basic.dot,1,1,Constant,1.,1.
+465,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_size_0_basic.dot,1,1,Constant,1.,1.
+466,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_access$000_0_basic.dot,1,1,Constant,1.,1.
+467,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_access$100_0_basic.dot,1,1,Constant,1.,1.
+468,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_addEntry_0_basic.dot,3,3,Constant,3.,3.
+469,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_clear_0_basic.dot,1,1,Constant,1.,1.
+470,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_containsValue_0_basic.dot,6,6,Polynomial,0.,14.69 + 1.33*n
+471,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_createEntry_0_basic.dot,1,1,Constant,1.,1.
+472,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_get_0_basic.dot,2,2,Constant,2.,2.
+473,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_<init>_0_basic.dot,1,1,Constant,1.,1.
+474,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_init_0_basic.dot,1,1,Constant,1.,1.
+475,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_newEntryIterator_0_basic.dot,1,1,Constant,1.,1.
+476,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_newKeyIterator_0_basic.dot,1,1,Constant,1.,1.
+477,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_newValueIterator_0_basic.dot,1,1,Constant,1.,1.
+478,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_removeEldestEntry_0_basic.dot,1,1,Constant,1.,1.
+479,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_transfer_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+480,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_access$600_0_basic.dot,1,1,Constant,1.,1.
+481,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_addBefore_0_basic.dot,1,1,Constant,1.,1.
+482,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_<init>_0_basic.dot,1,1,Constant,1.,1.
+483,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$EntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+484,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$EntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
+485,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_recordAccess_0_basic.dot,2,2,Constant,2.,2.
+486,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_recordRemoval_0_basic.dot,1,1,Constant,1.,1.
+487,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_remove_0_basic.dot,1,1,Constant,1.,1.
+488,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$KeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+489,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$KeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
+490,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_hasNext_0_basic.dot,2,2,Constant,2.,2.
+491,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+492,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_nextEntry_0_basic.dot,3,3,Constant,3.,3.
+493,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_remove_0_basic.dot,3,3,Constant,3.,3.
+494,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$ValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+495,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$ValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
+496,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$000_0_basic.dot,1,1,Constant,1.,1.
+497,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$100_0_basic.dot,1,1,Constant,1.,1.
+498,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$200_0_basic.dot,1,1,Constant,1.,1.
+499,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$300_0_basic.dot,1,1,Constant,1.,1.
+500,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$400_0_basic.dot,1,1,Constant,1.,1.
+501,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$500_0_basic.dot,1,1,Constant,1.,1.
+502,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$600_0_basic.dot,1,1,Constant,1.,1.
+503,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$700_0_basic.dot,1,1,Constant,1.,1.
+504,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$800_0_basic.dot,1,1,Constant,1.,1.
+505,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_addAllForTreeSet_0_basic.dot,3,3,Constant,3.,3.
+506,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_addToLast_0_basic.dot,3,3,Constant,3.,3.
+507,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_appendFromLeft_0_basic.dot,2,2,Constant,2.,2.
+508,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_appendFromRight_0_basic.dot,2,2,Constant,2.,2.
+509,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachNullToParent_0_basic.dot,4,5,Constant,5.,5.
+510,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToLeft_0_basic.dot,2,2,Constant,2.,2.
+511,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToParent_0_basic.dot,2,2,Constant,2.,2.
+512,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToParentNoFixup_0_basic.dot,3,3,Constant,3.,3.
+513,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToRight_0_basic.dot,2,2,Constant,2.,2.
+514,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_balance_0_basic.dot,10,12,Exponential,108.68*1.41^n,0.22 + 0.05*1.12^n + 2.59*1.19^n + 42.61*1.36^n + 108.68*1.41^n
+515,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_buildFromSorted_0_basic.dot,5,5,Exponential,8.040000000000001*1.29^n,0.33 + 0.01*0.8300000000000001^n + 0.47000000000000003*1.09^n + 2.71*1.25^n + 8.040000000000001*1.29^n
+516,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_ceilingEntry_0_basic.dot,1,1,Constant,1.,1.
+517,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_ceilingKey_0_basic.dot,1,1,Constant,1.,1.
+518,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_clear_0_basic.dot,1,1,Constant,1.,1.
+519,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_clone_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
+520,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_cmp_0_basic.dot,2,2,Constant,2.,2.
+521,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_comparator_0_basic.dot,1,1,Constant,1.,1.
+522,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_compare_0_basic.dot,2,2,Constant,2.,2.
+523,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_containsKey_0_basic.dot,11,30,Exponential,1310.69*1.22^n,0.4 + 0.01*0.81^n + 0.4*0.98^n + 0.71*1.06^n + 2.99*1.1500000000000001^n + 865.5*1.2^n + 1310.69*1.22^n
+524,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_containsValue_0_basic.dot,9,9,Exponential,0.,1. + 1.76*1.06^n + 52.32*1.22^n
+525,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_createNode_0_basic.dot,1,1,Constant,1.,1.
+526,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_deleteNode_0_basic.dot,7,11,Constant,11.,11.
+527,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_descendingKeyIterator_0_basic.dot,1,1,Constant,1.,1.
+528,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_descendingKeySet_0_basic.dot,1,1,Constant,1.,1.
+529,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_descendingMap_0_basic.dot,2,2,Constant,2.,2.
+530,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_entrySet_0_basic.dot,2,2,Constant,2.,2.
+531,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_exportEntry_0_basic.dot,2,2,Constant,2.,2.
+532,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_firstEntry_0_basic.dot,1,1,Constant,1.,1.
+533,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_firstKey_0_basic.dot,2,2,Constant,2.,2.
+534,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_fixNextChain_0_basic.dot,3,4,Constant,4.,4.
+535,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_fixup_0_basic.dot,22,58,Exponential,138452.12*1.51^n,0.04 + 0.07*1.01^n + 0.45*1.05^n + 49.09*1.23^n + 315.49*1.25^n + 2022.19*1.33^n + 138452.12*1.51^n
+536,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_floorEntry_0_basic.dot,1,1,Constant,1.,1.
+537,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_floorKey_0_basic.dot,1,1,Constant,1.,1.
+538,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_get_0_basic.dot,11,30,Exponential,1310.69*1.22^n,0.4 + 0.01*0.81^n + 0.4*0.98^n + 0.71*1.06^n + 2.99*1.1500000000000001^n + 865.5*1.2^n + 1310.69*1.22^n
+539,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_getCeilingEntry_0_basic.dot,16,42,Exponential,5510.55*1.28^n,4.5600000000000005 + 0.01*0.88^n + 0.01*0.9^n + 0.22*1.02^n + 6.46*1.06^n + 11.17*1.1300000000000001^n + 51.550000000000004*1.19^n + 5510.55*1.28^n
+540,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_getEntry_0_basic.dot,11,30,Exponential,1310.69*1.22^n,0.4 + 0.01*0.81^n + 0.4*0.98^n + 0.71*1.06^n + 2.99*1.1500000000000001^n + 865.5*1.2^n + 1310.69*1.22^n
+541,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_getFirstEntry_0_basic.dot,2,2,Constant,2.,2.
+542,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_getFloorEntry_0_basic.dot,16,42,Exponential,5510.55*1.28^n,4.5600000000000005 + 0.01*0.88^n + 0.01*0.9^n + 0.22*1.02^n + 6.46*1.06^n + 11.17*1.1300000000000001^n + 51.550000000000004*1.19^n + 5510.55*1.28^n
+543,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_getHigherEntry_0_basic.dot,14,38,Exponential,4241.76*1.36^n,2. + 0.01*0.8^n + 0.76*1.02^n + 8.63*1.12^n + 6.01*1.1400000000000001^n + 4241.76*1.36^n
+544,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_getLastEntry_0_basic.dot,2,2,Constant,2.,2.
+545,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_getLowerEntry_0_basic.dot,14,38,Exponential,4241.76*1.36^n,2. + 0.01*0.8^n + 0.76*1.02^n + 8.63*1.12^n + 6.01*1.1400000000000001^n + 4241.76*1.36^n
+546,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_headMap_0_basic.dot,1,1,Constant,1.,1.
+547,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_higherEntry_0_basic.dot,1,1,Constant,1.,1.
+548,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_higherKey_0_basic.dot,1,1,Constant,1.,1.
+549,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_<init>_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+550,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_key_0_basic.dot,2,2,Constant,2.,2.
+551,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_keyIterator_0_basic.dot,1,1,Constant,1.,1.
+552,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_keyOrNull_0_basic.dot,2,2,Constant,2.,2.
+553,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_keySet_0_basic.dot,1,1,Constant,1.,1.
+554,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_lastEntry_0_basic.dot,1,1,Constant,1.,1.
+555,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_lastKey_0_basic.dot,2,2,Constant,2.,2.
+556,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_leftRotate_0_basic.dot,4,6,Constant,6.,6.
+557,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_lowerEntry_0_basic.dot,1,1,Constant,1.,1.
+558,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_lowerKey_0_basic.dot,1,1,Constant,1.,1.
+559,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_maximum_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+560,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_minimum_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+561,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_navigableKeySet_0_basic.dot,2,2,Constant,2.,2.
+562,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_pollFirstEntry_0_basic.dot,2,2,Constant,2.,2.
+563,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_pollLastEntry_0_basic.dot,2,2,Constant,2.,2.
+564,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_put_0_basic.dot,35,1951,Exponential,1.9205746355*^8*1.22^n,97.4 + 11.36*0.98^n + 226.96*1.06^n + 23191.41*1.1500000000000001^n + 6.166056182*^7*1.2^n + 1.9205746355*^8*1.22^n
+565,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_putAll_0_basic.dot,9,9,Constant,9.,9.
+566,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_readObject_0_basic.dot,1,1,Constant,1.,1.
+567,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_readTreeSet_0_basic.dot,1,1,Constant,1.,1.
+568,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_remove_0_basic.dot,12,31,Exponential,1600.02*1.22^n,1.4000000000000001 + 0.01*0.81^n + 0.4*0.98^n + 0.76*1.06^n + 3.44*1.1500000000000001^n + 1037.51*1.2^n + 1600.02*1.22^n
+569,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeFromIterator_0_basic.dot,7,7,Constant,7.,7.
+570,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeLeftmost_0_basic.dot,8,16,Constant,16.,16.
+571,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeMiddleElement_0_basic.dot,10,27,Constant,27.,27.
+572,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeRightmost_0_basic.dot,8,16,Constant,16.,16.
+573,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_rightRotate_0_basic.dot,4,6,Constant,6.,6.
+574,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_size_0_basic.dot,1,1,Constant,1.,1.
+575,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_subMap_0_basic.dot,1,1,Constant,1.,1.
+576,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_successor_0_basic.dot,4,4,Polynomial,0.67*n,4.38 + 0.67*n
+577,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_tailMap_0_basic.dot,1,1,Constant,1.,1.
+578,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_toComparable_0_basic.dot,1,1,Constant,1.,1.
+579,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_valEquals_0_basic.dot,3,3,Constant,3.,3.
+580,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_values_0_basic.dot,2,2,Constant,2.,2.
+581,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap_writeObject_0_basic.dot,4,4,Exponential,1.8900000000000001*1.62^(0.5*n),1. + 0.17*0.62^(0.5*n) + 1.8900000000000001*1.62^(0.5*n)
+582,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_clear_0_basic.dot,1,1,Constant,1.,1.
+583,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_contains_0_basic.dot,5,5,Constant,5.,5.
+584,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_<init>_0_basic.dot,1,1,Constant,1.,1.
+585,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_iterator_0_basic.dot,1,1,Constant,1.,1.
+586,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_remove_0_basic.dot,2,2,Constant,2.,2.
+587,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_size_0_basic.dot,1,1,Constant,1.,1.
+588,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_clear_0_basic.dot,1,1,Constant,1.,1.
+589,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_contains_0_basic.dot,1,1,Constant,1.,1.
+590,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_<init>_0_basic.dot,1,1,Constant,1.,1.
+591,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_iterator_0_basic.dot,1,1,Constant,1.,1.
+592,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_size_0_basic.dot,1,1,Constant,1.,1.
+593,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_hasNext_0_basic.dot,2,2,Constant,2.,2.
+594,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+595,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_makeNext_0_basic.dot,5,5,Constant,5.,5.
+596,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_remove_0_basic.dot,3,3,Constant,3.,3.
+597,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_comparator_0_basic.dot,1,1,Constant,1.,1.
+598,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_descendingKeyIterator_0_basic.dot,7,30,Constant,30.,30.
+599,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_descendingMap_0_basic.dot,2,2,Constant,2.,2.
+600,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_entrySet_0_basic.dot,2,2,Constant,2.,2.
+601,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_headMap_0_basic.dot,2,2,Constant,2.,2.
+602,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_<init>_0_basic.dot,1,1,Constant,1.,1.
+603,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_keyIterator_0_basic.dot,7,18,Constant,18.,18.
+604,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subCeiling_0_basic.dot,1,1,Constant,1.,1.
+605,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subFloor_0_basic.dot,1,1,Constant,1.,1.
+606,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subHigher_0_basic.dot,1,1,Constant,1.,1.
+607,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subHighest_0_basic.dot,1,1,Constant,1.,1.
+608,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subLower_0_basic.dot,1,1,Constant,1.,1.
+609,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subLowest_0_basic.dot,1,1,Constant,1.,1.
+610,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subMap_0_basic.dot,3,3,Constant,3.,3.
+611,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_tailMap_0_basic.dot,2,2,Constant,2.,2.
+612,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap$AscendingEntrySetView_<init>_0_basic.dot,1,1,Constant,1.,1.
+613,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap$AscendingEntrySetView_iterator_0_basic.dot,7,18,Constant,18.,18.
+614,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+615,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
+616,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+617,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
+618,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+619,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingMapIterator_makeBoundedPrev_0_basic.dot,3,3,Constant,3.,3.
+620,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+621,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
+622,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+623,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
+624,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+625,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
+626,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+627,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedMapIterator_makeBoundedNext_0_basic.dot,3,3,Constant,3.,3.
+628,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+629,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
+630,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+631,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingMapIterator_makePrev_0_basic.dot,5,5,Constant,5.,5.
+632,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingMapIterator_remove_0_basic.dot,3,3,Constant,3.,3.
+633,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_comparator_0_basic.dot,1,1,Constant,1.,1.
+634,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_descendingKeyIterator_0_basic.dot,7,18,Constant,18.,18.
+635,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_descendingMap_0_basic.dot,2,2,Constant,2.,2.
+636,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_entrySet_0_basic.dot,2,2,Constant,2.,2.
+637,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_headMap_0_basic.dot,2,2,Constant,2.,2.
+638,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_<init>_0_basic.dot,1,1,Constant,1.,1.
+639,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_keyIterator_0_basic.dot,7,30,Constant,30.,30.
+640,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subCeiling_0_basic.dot,1,1,Constant,1.,1.
+641,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subFloor_0_basic.dot,1,1,Constant,1.,1.
+642,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subHigher_0_basic.dot,1,1,Constant,1.,1.
+643,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subHighest_0_basic.dot,1,1,Constant,1.,1.
+644,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subLower_0_basic.dot,1,1,Constant,1.,1.
+645,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subLowest_0_basic.dot,1,1,Constant,1.,1.
+646,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subMap_0_basic.dot,3,3,Constant,3.,3.
+647,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_tailMap_0_basic.dot,2,2,Constant,2.,2.
+648,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap$DescendingEntrySetView_<init>_0_basic.dot,1,1,Constant,1.,1.
+649,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap$DescendingEntrySetView_iterator_0_basic.dot,7,30,Constant,30.,30.
+650,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_clone_0_basic.dot,2,2,Constant,2.,2.
+651,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_equals_0_basic.dot,9,12,Constant,12.,12.
+652,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_getKey_0_basic.dot,1,1,Constant,1.,1.
+653,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_getValue_0_basic.dot,3,3,Constant,3.,3.
+654,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_hashCode_0_basic.dot,3,4,Constant,4.,4.
+655,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_<init>_0_basic.dot,1,1,Constant,1.,1.
+656,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_setValue_0_basic.dot,3,3,Constant,3.,3.
+657,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_toString_0_basic.dot,1,1,Constant,1.,1.
+658,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_ceiling_0_basic.dot,1,1,Constant,1.,1.
+659,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_clear_0_basic.dot,1,1,Constant,1.,1.
+660,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_comparator_0_basic.dot,1,1,Constant,1.,1.
+661,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_contains_0_basic.dot,1,1,Constant,1.,1.
+662,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_descendingIterator_0_basic.dot,2,2,Constant,2.,2.
+663,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_descendingSet_0_basic.dot,1,1,Constant,1.,1.
+664,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_first_0_basic.dot,1,1,Constant,1.,1.
+665,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_floor_0_basic.dot,1,1,Constant,1.,1.
+666,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_headSet_0_basic.dot,1,1,Constant,1.,1.
+667,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_higher_0_basic.dot,1,1,Constant,1.,1.
+668,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_<init>_0_basic.dot,1,1,Constant,1.,1.
+669,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_isEmpty_0_basic.dot,1,1,Constant,1.,1.
+670,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_iterator_0_basic.dot,2,2,Constant,2.,2.
+671,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_last_0_basic.dot,1,1,Constant,1.,1.
+672,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_lower_0_basic.dot,1,1,Constant,1.,1.
+673,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_pollFirst_0_basic.dot,2,2,Constant,2.,2.
+674,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_pollLast_0_basic.dot,2,2,Constant,2.,2.
+675,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_remove_0_basic.dot,2,2,Constant,2.,2.
+676,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_size_0_basic.dot,1,1,Constant,1.,1.
+677,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_subSet_0_basic.dot,1,1,Constant,1.,1.
+678,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_tailSet_0_basic.dot,1,1,Constant,1.,1.
+679,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absCeiling_0_basic.dot,4,4,Constant,4.,4.
+680,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absFloor_0_basic.dot,4,4,Constant,4.,4.
+681,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absHigher_0_basic.dot,4,4,Constant,4.,4.
+682,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absHighest_0_basic.dot,5,9,Constant,9.,9.
+683,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absLower_0_basic.dot,4,4,Constant,4.,4.
+684,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absLowest_0_basic.dot,5,9,Constant,9.,9.
+685,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_ceilingEntry_0_basic.dot,1,1,Constant,1.,1.
+686,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_ceilingKey_0_basic.dot,1,1,Constant,1.,1.
+687,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_checkLowerBound_0_basic.dot,9,9,Constant,9.,9.
+688,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_checkUpperBound_0_basic.dot,9,9,Constant,9.,9.
+689,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_containsKey_0_basic.dot,3,3,Constant,3.,3.
+690,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_descendingKeySet_0_basic.dot,1,1,Constant,1.,1.
+691,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_firstEntry_0_basic.dot,1,1,Constant,1.,1.
+692,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_firstKey_0_basic.dot,1,1,Constant,1.,1.
+693,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_floorEntry_0_basic.dot,1,1,Constant,1.,1.
+694,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_floorKey_0_basic.dot,1,1,Constant,1.,1.
+695,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_get_0_basic.dot,2,2,Constant,2.,2.
+696,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_headMap_0_basic.dot,1,1,Constant,1.,1.
+697,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_higherEntry_0_basic.dot,1,1,Constant,1.,1.
+698,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_higherKey_0_basic.dot,1,1,Constant,1.,1.
+699,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_inClosedRange_0_basic.dot,5,7,Constant,7.,7.
+700,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_<init>_0_basic.dot,6,10,Constant,10.,10.
+701,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_inRange_0_basic.dot,2,2,Constant,2.,2.
+702,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_isEmpty_0_basic.dot,4,5,Constant,5.,5.
+703,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_keySet_0_basic.dot,1,1,Constant,1.,1.
+704,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lastEntry_0_basic.dot,1,1,Constant,1.,1.
+705,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lastKey_0_basic.dot,1,1,Constant,1.,1.
+706,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lowerEntry_0_basic.dot,1,1,Constant,1.,1.
+707,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lowerKey_0_basic.dot,1,1,Constant,1.,1.
+708,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_navigableKeySet_0_basic.dot,2,2,Constant,2.,2.
+709,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_pollFirstEntry_0_basic.dot,2,2,Constant,2.,2.
+710,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_pollLastEntry_0_basic.dot,2,2,Constant,2.,2.
+711,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_put_0_basic.dot,2,2,Constant,2.,2.
+712,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_readObject_0_basic.dot,1,1,Constant,1.,1.
+713,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_remove_0_basic.dot,2,2,Constant,2.,2.
+714,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setFirstKey_0_basic.dot,3,3,Constant,3.,3.
+715,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setFirstKeyInclusive_0_basic.dot,13,90,Exponential,3695.06*1.22^n,0. + 1.21*0.98^n + 1.43*1.06^n + 17.650000000000002*1.1500000000000001^n + 2463.66*1.2^n + 3695.06*1.22^n
+716,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setFirstKeyNonInclusive_0_basic.dot,11,72,Exponential,46.1*1.22^n*n,10.34 + 3.73*1.06^n + 598.85*1.22^n + 0.27*1.06^n*n + 46.1*1.22^n*n
+717,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setLastKey_0_basic.dot,3,3,Constant,3.,3.
+718,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setLastKeyInclusive_0_basic.dot,13,90,Exponential,3695.06*1.22^n,0. + 1.21*0.98^n + 1.43*1.06^n + 17.650000000000002*1.1500000000000001^n + 2463.66*1.2^n + 3695.06*1.22^n
+719,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setLastKeyNonInclusive_0_basic.dot,14,108,Exponential,102.37*1.22^n*n,14.66 + 7.68*1.06^n + 2456.86*1.22^n + 0.35000000000000003*1.06^n*n + 102.37*1.22^n*n
+720,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_size_0_basic.dot,11,79,Polynomial,9.*n,154. + 9.*n
+721,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_subMap_0_basic.dot,1,1,Constant,1.,1.
+722,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_tailMap_0_basic.dot,1,1,Constant,1.,1.
+723,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_tooHigh_0_basic.dot,5,5,Constant,5.,5.
+724,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_tooLow_0_basic.dot,5,5,Constant,5.,5.
+725,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_contains_0_basic.dot,5,5,Constant,5.,5.
+726,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_<init>_0_basic.dot,1,1,Constant,1.,1.
+727,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_isEmpty_0_basic.dot,3,3,Constant,3.,3.
+728,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_remove_0_basic.dot,5,5,Constant,5.,5.
+729,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_size_0_basic.dot,6,11,Polynomial,2.*n,12. + 2.*n
+730,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Node_clone_0_basic.dot,3,4,Constant,4.,4.
+731,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$Node_<init>_0_basic.dot,1,1,Constant,1.,1.
+732,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_comparator_0_basic.dot,1,1,Constant,1.,1.
+733,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_entrySet_0_basic.dot,1,1,Constant,1.,1.
+734,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_firstKey_0_basic.dot,1,1,Constant,1.,1.
+735,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_headMap_0_basic.dot,1,1,Constant,1.,1.
+736,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_<init>_0_basic.dot,1,1,Constant,1.,1.
+737,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_lastKey_0_basic.dot,1,1,Constant,1.,1.
+738,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_readResolve_0_basic.dot,1,1,Constant,1.,1.
+739,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_subMap_0_basic.dot,1,1,Constant,1.,1.
+740,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_tailMap_0_basic.dot,1,1,Constant,1.,1.
+741,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+742,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
+743,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+744,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
+745,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+746,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
+747,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+748,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
+749,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
+750,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
+751,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_add_0_basic.dot,5,12,Exponential,17.38*1.22^n,4. + 0.05*0.72^n + 2.0300000000000002*1.06^n + 17.38*1.22^n
+752,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+753,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_cmp_0_basic.dot,12,62,Polynomial,0.,432.53000000000003 + 39.4*n + 0.89*n^2.
+754,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_dataInRangeIsZero_0_basic.dot,3,3,Polynomial,1.*n,3. + 1.*n
+755,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_<init>_0_basic.dot,7,48,Exponential,74.12*1.62^(0.5*n),8. + 0.13*0.62^(0.5*n) + 74.12*1.62^(0.5*n)
+756,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_longValue_0_basic.dot,8,17,Constant,17.,17.
+757,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_lshiftMe_0_basic.dot,9,38,Polynomial,0.06*n^3.,152.24 + 32.5*n + 2.33*n^2. + 0.06*n^3.
+758,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_mult_0_basic.dot,5,9,Exponential,11.41*1.62^(0.5*n),1.6600000000000001 + 0.02*0.62^(0.5*n) + 11.41*1.62^(0.5*n)
+759,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_multaddMe_0_basic.dot,3,4,Polynomial,1.*n,3. + 1.*n
+760,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_normalizeMe_0_basic.dot,9,39,Polynomial,0.,144.04 + 31.830000000000002*n + 2.33*n^2. + 0.06*n^3.
+761,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_quoRemIteration_0_basic.dot,12,101,Exponential,377.56*1.37^n,95.56 + 0.08*1.05^n + 1.07*1.06^n + 377.56*1.37^n + 12.08*n + 0.37*n^2.
+762,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_sub_0_basic.dot,8,35,Exponential,57.34*1.29^n,2.33 + 0.01*0.8300000000000001^n + 0.19*1.09^n + 12.790000000000001*1.25^n + 57.34*1.29^n
+763,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_toString_0_basic.dot,3,4,Polynomial,1.*n,3. + 1.*n
+764,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_appendTo_0_basic.dot,4,4,Constant,4.,4.
+765,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_big5pow_0_basic.dot,11,55,Constant,55.,55.
+766,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+767,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_constructPow52_0_basic.dot,2,2,Constant,2.,2.
+768,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_countBits_0_basic.dot,6,17,Polynomial,0.,16. + 7.12*n + 1.24*n^2. + 0.09*n^3.
+769,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_decimalDigitsExact_0_basic.dot,1,1,Constant,1.,1.
+770,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_developLongDigits_0_basic.dot,11,78,Polynomial,0.,733. + 137.75*n + 8.75*n^2. + 0.19*n^3.
+771,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_digitsRoundedUp_0_basic.dot,1,1,Constant,1.,1.
+772,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_doubleToBigInt_0_basic.dot,5,6,Polynomial,1.*n,7. + 1.*n
+773,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_doubleValue_0_basic.dot,65,Timeout,Exponential,1.1650468598643886*^18*1.32^n,1.22816281*^6 + 129346.69*0.72^n + 60442.72*0.75^n + 25773.57*1.06^n + 8.215311658*^7*1.1500000000000001^n + 2.04195388507*^9*1.18^n + 1.922406655952788*^14*1.22^n + 1.5545502795892621*^13*1.28^n + 8.388476027103144*^15*1.31^n + 1.1650468598643886*^18*1.32^n + 59096.68*n + 39319.39*0.72^n*n + 2145.68*1.06^n*n + 20889.010000000002*1.22^n*n + 7811.82*n^2.
+774,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_dtoa_0_basic.dot,70,Timeout,Exponential,192.12*1.28^n*n,165183.5 + 992353.12*0.97^n + 1.06160961*^6*0.98^n + 2265.2400000000002*1.07^n + 4.030218863*^7*1.16^n + 5.1481757879901*^11*1.17^n + 5.027436655147*^10*1.19^n + 1.51495853281135*^12*1.21^n + 1.0454125113924791*^13*1.23^n + 5.861181810514599*^15*1.27^n + 2.6397759482290547*^17*1.28^n + 29609.58*0.98^n*n + 164.07*1.07^n*n + 107.65*1.17^n*n + 30.17*1.19^n*n + 17.97*1.21^n*n + 192.12*1.28^n*n
+775,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_floatValue_0_basic.dot,26,82,Polynomial,0.25*n^2.,1408. + 41.5*n + 0.25*n^2.
+776,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_getChars_0_basic.dot,16,225,Constant,225.,225.
+777,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_getHexDigit_0_basic.dot,3,3,Constant,3.,3.
+778,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_getHexFloatPattern_0_basic.dot,2,2,Constant,2.,2.
+779,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_<init>_0_basic.dot,7,12,Polynomial,1.*n,18. + 1.*n
+780,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_multPow52_0_basic.dot,4,6,Constant,6.,6.
+781,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_parseHexString_0_basic.dot,62,Timeout,Exponential,5.3817128644991575*^14*1.21^n,6.56438676139*^9 + 224087.48*1.08^n + 2.2080413897670002*^10*1.18^n + 5.3817128644991575*^14*1.21^n + 8.721619192*^7*n
+782,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_readJavaFormatString_0_basic.dot,47,Timeout,Exponential,2.16912476077503*^12*1.4000000000000001^n,2338.41 + 0.06*0.65^n + 0.07*0.84^n + 0.09*0.85^n + 2.41*0.89^n + 448.54*1.1^n + 6.165253281*^7*1.17^n + 365106.33*1.21^n + 6.71103359*^6*1.24^n + 2.16912476077503*^12*1.4000000000000001^n + 32.84*n
+783,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_roundup_0_basic.dot,5,7,Polynomial,1.33*n,7.77 + 1.33*n
+784,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_stickyRound_0_basic.dot,3,3,Constant,3.,3.
+785,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_stripLeadingZeros_0_basic.dot,1,1,Constant,1.,1.
+786,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_toJavaFormatString_0_basic.dot,1,1,Constant,1.,1.
+787,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_toString_0_basic.dot,3,4,Constant,4.,4.
+788,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_ulp_0_basic.dot,7,24,Constant,24.,24.
+789,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal$1_<init>_0_basic.dot,1,1,Constant,1.,1.
+790,/home/fse/PathComplexity/cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal$1_initialValue_0_basic.dot,1,1,Constant,1.,1.
