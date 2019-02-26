@@ -7,9 +7,9 @@ Inside `path-complexity/scripts/cfgextractor` there is a file `main.py` which wi
 
 This will analyze all of the methods in a `.jar` and output their control flow graphs in `.dot` format.
 
-You can run `main.py` this program by telling it the location of a directory of Java `.jar` files. (It should also work on Java `.class` files.) It requires the full path. For example, on my machine I can run
+You can run `main.py` by telling it the location of a directory of Java `.jar` files. (It should also work on Java `.class` files.) It requires the full path. For example, on my machine I can run
 
-`> python main.py -i /home/bang/vlab/projects/PathComplexity/lib_jars/apache_commons/bins/commons-cli-1.2/`
+`> python main.py -i /home/bang/projects/path-complexity/lib_jars/apache_commons/bins/commons-cli-1.2/`
 
 This will generate all of the CFGs for the Apache Commons CLI (command line interface) library methods. 
 
