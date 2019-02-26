@@ -19,7 +19,7 @@ The source code for `cfgextractor.jar` can be extracted by 'unjar-ing' it.
 
 There are some Mathematica files in `path-complexity/src` which compute various complexity metrics on CFGs, read in `.dot` format. 
 
-Rather than running these directly at first, you can try running one of the shel scripts in `path-complexity/scripts` which calls Mathematica's `math` script command, assuming you have `math` installed in `/usr/local/bin/`.
+Rather than running these directly at first, you can try running one of the shell scripts in `path-complexity/scripts` which calls Mathematica's `math` script command, assuming you have `math` installed in `/usr/local/bin/`.
 
 For instance, running `> ./test_run` will analyze 6 CFGs from `/cfgs/simple_test_cfgs` and print out comma-separated stats.
 
