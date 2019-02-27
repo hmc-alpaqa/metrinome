@@ -1,4 +1,4 @@
-from Graph import Graph
+from pydot import Graph
 
 def cyclomaticComplexity(g: Graph):
-    return len(g.edgeRules()) - g.vertexCount() + 2
+    return len(g.get_edge_list()) - len(g.get_nodes()) + 2

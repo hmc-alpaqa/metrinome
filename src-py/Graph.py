@@ -13,6 +13,25 @@ class Graph(object):
     @staticmethod
     def fromFile(self, filename):
         '''
-        Returns a Graph object from a .dot file 
+        Returns a Graph object from a .dot file of format
+
+        digraph {
+            0 [label="START"]
+            2 [label="EXIT"]
+            a_i -> a_j
+            ...
+            a_k  -> a_m
+        }
         '''
+        edges = []
+        vertices = set()
+        with open(filename, "r") as f:
+            content = f.readlines()
+
+            for i in f.readlines()[1:]:
+                if i[0] == "}":
+                    break
+                else:
+                    pass 
+                    
         return Graph() 
