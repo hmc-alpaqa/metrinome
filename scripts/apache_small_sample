@@ -1,1 +1,1 @@
-/usr/local/Wolfram/Mathematica/10.0/Executables/math -script /home/fse/PathComplexity/src/paths.m /home/fse/PathComplexity/cfgs/apache_cfgs/commons-beanutils-1.9.2 Infinity | tee /home/fse/PathComplexity/results/apache_cfgs_small_sample_results.csv
+/usr/local/Wolfram/Mathematica/11.3/Executables/math -script ../src/paths.m ../cfgs/apache_cfgs/commons-beanutils-1.9.2 Infinity | tee ../apache_cfgs_small_sample_results.csv
