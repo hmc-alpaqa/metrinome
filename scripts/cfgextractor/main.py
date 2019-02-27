@@ -27,14 +27,14 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"hci:o:",["inputfile=","output="])
     except getopt.GetoptError:
-        print "test.py -i <inputfile> -o <outputfolder>"
+        print("test.py -i <inputfile> -o <outputfolder>")
       #sys.exit(2)
 
     cmd_option = ""
     ext = "*.jar"
     for opt, arg in opts:
         if opt == '-h':
-            print "test.py -i <inputfile> -o <outputfolder>"
+            print("test.py -i <inputfile> -o <outputfolder>")
             sys.exit()
         elif opt in ("-i", "--input"):
             INPUT_FOLDER = arg

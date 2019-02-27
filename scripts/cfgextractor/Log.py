@@ -13,10 +13,10 @@ class Log:
         self.TAG = TAG
     
     def i(self, msg):
-        print "{} ~~~ {} ~~~".format(self.TAG, msg.upper())
+        print("{} ~~~ {} ~~~".format(self.TAG, msg.upper()))
         
     def v(self, msg):
-        print "{} > {}".format(self.TAG, msg)
+        print("{} > {}".format(self.TAG, msg))
 
     def e(self, msg):
-        print "{} > !!! {} !!!".format(self.TAG, msg)
+        print("{} > !!! {} !!!".format(self.TAG, msg))

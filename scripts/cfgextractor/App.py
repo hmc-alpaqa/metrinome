@@ -71,7 +71,7 @@ class App:
                 
             self.log.v("finished: please check {} folder for the generated CFGs".format(Env.OUTPUT_PATH))
         elif option == "-c":
-            print 'option is not used anymore'            
+            print('option is not used anymore')           
             #output_csv = Env.get_output_path("complexity_result.csv")
             #outfile =  open(output_csv, 'w')
             

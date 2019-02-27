@@ -87,7 +87,7 @@ class Classifier:
                                 line = line.replace("Timeout", asym)
                                 
                             if re.match(r".*,0,.*", line):
-                                print "skipping: " + line                                
+                                print("skipping: " + line)                                
                                 continue
                                 
                             if re.match(r"^1$", asym):
@@ -97,7 +97,7 @@ class Classifier:
                                 cls = ',1gt'
                                 tofile = cgt1file
                             else:
-                                print "fix: " + line
+                                print("fix: " + line)
                                 cls = ',c please fix me'
                                 tofile = fixfile
                                 #raise Exception("check constant extraction")
@@ -117,7 +117,7 @@ class Classifier:
                                 asym = fix_asym
                                 
                             if re.match(r".*,0,.*", line):
-                                print "skipping: " + line                                
+                                print("skipping: " + line)                             
                                 continue
 
                             if re.match(r".*n\^\d{2,}.$", asym):
@@ -136,7 +136,7 @@ class Classifier:
                                 cls = ',p4gte'
                                 tofile = pgte4file
                             else:
-                                print "fix: " + line
+                                print("fix: " + line)
                                 cls = ',p please fix me'
                                 tofile = fixfile
                                 #raise Exception("check polynimal extraction")
@@ -154,11 +154,11 @@ class Classifier:
                                 asym = fix_asym
                             
                             if re.match(r".*,0,.*", line):
-                                print "skipping: " + line                                
+                                print("skipping: " + line)                           
                                 continue
                                       
                             if re.match(r".*[\*,]1\.?\^.*n.*", asym):
-                                print "error: base 1 is not exponential" + line
+                                print("error: base 1 is not exponential" + line)
        
                             if re.match(r".*\*?\d{2,}\.\d*\^.*n.*", asym):
                                 cls = ',e4gte'
@@ -176,14 +176,14 @@ class Classifier:
                                 cls = ',e4gte'
                                 tofile = egte4file
                             else:
-                                print "fix: " + line
+                                print ("fix: " + line)
                                 cls = ',e please fix me'
                                 tofile = fixfile
                                 #raise Exception("check exponential extraction")
                             cls_line = line.strip() + cls
                         
                         else:
-                            print "fix: " + line
+                            print("fix: " + line)
                             cls = 'no class'
                             tofile = fixfile
                             
@@ -209,8 +209,8 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["input=", "output="])
     except getopt.GetoptError:
-        print 'test.py -i <input> -o <output>'
-        print '*input can be a file or folder' 
+        print('test.py -i <input> -o <output>')
+        print('*input can be a file or folder')
       #sys.exit(2)
 
     
@@ -221,7 +221,7 @@ def main(argv):
     ext = "*.csv"
     for opt, arg in opts:
         if opt == '-h':
-            print 'test.py -i <input> -o <output>'          
+            print('test.py -i <input> -o <output>')        
             sys.exit()
         elif opt in ("-i", "--input"):
             arg_input = arg
