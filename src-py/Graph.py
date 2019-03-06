@@ -1,18 +1,33 @@
+import re 
+
 class Graph(object):
-    def __init__(self):
-        self.edges = list()
-        self.vertices = set()
-        self.vertexCount = 0
+    def __init__(self, edges, vertices, startNode, endNode):
+        self.edges = edges
+        self.vertices = vertices
+        self.startNode = startNode
+        self.endNode = endNode
 
     def edgeRules(self):
         return self.edges
     
     def vertexCount(self):
-        return self.vertexCount
+        return len(self.vertices)
+
+    def getVertices(self): 
+        return self.vertices
 
     @staticmethod
-    def fromFile(self, filename):
+    def fromFile(filename):
         '''
+        Returns a Graph object from a .dot file of format
+
+        digraph {
+            0 [label="START"]
+            2 [label="EXIT"]
+            a_i -> a_j
+            ...
+            a_k  -> a_m
+        }
         Returns a Graph object from a .dot file of format
 
         digraph {
@@ -25,13 +40,28 @@ class Graph(object):
         '''
         edges = []
         vertices = set()
+        startNode = None 
+        endNode = None 
+        ".*->.*" # all of the edges 
+        ".*\[label.*\]" # all of the nodes 
         with open(filename, "r") as f:
-            content = f.readlines()
-
-            for i in f.readlines()[1:]:
-                if i[0] == "}":
-                    break
+            for line in f.readlines()[1:]:
+                match = re.search("([0-9]*)\s*->\s*([0-9]*)", line)
+                if match is None:
+                    match = re.search("([0-9]*)\s*\[label=\"(.*)\"\]", line)
+                    if match is not None:
+                        node = int(match.group(1))
+                        node_label = match.group(2) 
+                        vertices.add(node)
+                        if node_label == "START":
+                            startNode = node
+                        elif node_label == "EXIT":
+                            endNode = node
                 else:
-                    pass 
-                    
-        return Graph() 
+                    node1 = int(match.group(1))
+                    node2 = int(match.group(2))
+                    vertices.add(node1)
+                    vertices.add(node2)
+                    edges.append([node1, node2])
+
+        return Graph(edges, vertices, startNode, endNode)

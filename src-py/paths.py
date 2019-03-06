@@ -1,10 +1,11 @@
+from threading import Thread, Event 
 from Graph import Graph
 from sys import argv
-import os, pydot, glob2
+import os, glob2, time
 from pathComplexity import pathComplexity
 from cyclomaticComplexity import cyclomaticComplexity
 from nPathComplexity import nPathComplexity
-from utils import roundExpression, classify
+from utils import roundExpression, classify, timeout
 
 if __name__ == "__main__":
 	filepath = argv[1]
@@ -22,13 +23,15 @@ if __name__ == "__main__":
 
 	for i in range(1, len(filelist) + 1): 
 		filename = filelist[i-1]
-		g = pydot.graph_from_dot_file(filename)[0]
+		g = Graph.fromFile(filename)
 		cycCompl = cyclomaticComplexity(g)
-		# TODO: timeconstrained 
-		nPathCompl = nPathComplexity(g)
+		with timeout(seconds = 10, error_message = "Timeout"):
+			nPathCompl = nPathComplexity(g)
 		pathCompl = pathComplexity(g)
-		p1 = pathCompl[0]
-		p2 = pathCompl[1]
+		p1 = 0
+		p2 = 0
+		#p1 = pathCompl[0]
+		#p2 = pathCompl[1]
 		print(i, 				",", 
 			filename, 			",",
 			cycCompl, 			",", 

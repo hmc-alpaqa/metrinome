@@ -1,4 +1,4 @@
 def pathComplexity(G):
-	A = adjacencyMatrix(G)
-	dimension = len(G.get_nodes())
-	
+	#A = adjacencyMatrix(G)
+	#dimension = len(G.get_nodes())
+	pass
