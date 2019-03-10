@@ -1,0 +1,1 @@
+/usr/local/Wolfram/Mathematica/11.3/Executables/math -script ../src/paths.m $1 Infinity 

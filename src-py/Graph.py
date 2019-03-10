@@ -1,3 +1,4 @@
+import numpy as np 
 import re 
 
 class Graph(object):
@@ -15,6 +16,13 @@ class Graph(object):
 
     def getVertices(self): 
         return self.vertices
+
+    def adjacencyMatrix(self): 
+        adjMat = np.zeros((self.endNode + 1, self.endNode + 1))
+        for edge_one, edge_two in self.edgeRules(): 
+            adjMat[edge_one][edge_two] = 1 
+
+        return adjMat
 
     @staticmethod
     def fromFile(filename):
