@@ -12,6 +12,14 @@ def myRound(num, prec):
 def classify(expr, val):
 	pass
 
+def getTaylorCoeffs(func, n):
+	'''
+	Given an arbitrary rational function
+	''' 
+	L = str(series(generatingFunction, x=t, x0=0, n = size)).split('+')
+	taylorCoeffs = [sympify(f).subs(t, 1) for f in L]
+	return taylorCoeffs
+
 def breadth_first_search(graph,source):
     """
     This function is the Implementation of the breadth_first_search program
