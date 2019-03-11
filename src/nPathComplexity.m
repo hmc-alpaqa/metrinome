@@ -11,8 +11,5 @@ nPathComplexity[G_] := Module[
 	edgeList = Transpose[{edgeRules[[All,1]],edgeRules[[All,2]]}];
 	start = VertexList[G][[1]];
 	exit = VertexList[G][[2]];
-	Print[edgeList]
-	
-	Print[outNeighbors[1, edgeRules]]
 	npath[start, exit, edgeList]
 ];

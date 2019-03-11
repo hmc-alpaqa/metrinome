@@ -5,10 +5,19 @@ from utils import bigO
 from math import factorial as fact 
 from time import time, sleep
 
+def getTaylorCoeffs(func, n):
+	'''
+	Given an arbitrary rational function
+	''' 
+	L = str(series(generatingFunction, x=t, x0=0, n = size)).split('+')
+	taylorCoeffs = [sympify(f).subs(t, 1) for f in L]
+	return taylorCoeffs
+
 def pathComplexity(G):
 	adjMat = G.adjacencyMatrix()
 	adjMat[1][1] = 1
 	A = Matrix(adjMat)
+	
 	t = symbols('t')
 	dimension = adjMat.shape[0]
 	X = eye(dimension) - A*t
@@ -23,14 +32,9 @@ def pathComplexity(G):
 	recurrenceDegree = degree(denominator, gen=t) + 1 
 	recurrenceKernel = denominator.all_coeffs()[::-1]
 
-	# Consider computing numerically 
-	# We want the first 2*dimension + 1 many coefficients.
-	# Possible Optimization: we only need baseCases, which starts 
-	# at 'dimension
 	size = 2*dimension + 1
 
-	L = str(series(generatingFunction, x=t, x0=0, n = size)).split('+')
-	taylorCoeffs = [sympify(f).subs(t, 1) for f in L]
+	
 	
 	baseCases = Matrix(taylorCoeffs[dimension :
 	    				dimension + recurrenceDegree - 1])
