@@ -35,6 +35,7 @@ def pathComplexity(G):
 	nRange = Matrix([n for _ in range(0, recurrenceDegree)])
 	f = Function('f')
 	A = Matrix(list(map(f, nRange - lRange))).dot(Matrix(recurrenceKernel))
+	print(A)
 
 	symbolicSol = str(rsolve(A, f(n)))
 	# Make a list where each is one of [C0, ... CN] terms

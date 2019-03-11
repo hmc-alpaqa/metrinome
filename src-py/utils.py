@@ -1,6 +1,6 @@
 from threading import Thread, Event
 from time import sleep
-from sympy import limit, Abs, sympify
+from sympy import limit, Abs, sympify, series, symbols
 import signal 
 
 def roundExpression(expr, digits):
@@ -12,13 +12,14 @@ def myRound(num, prec):
 def classify(expr, val):
 	pass
 
-def getTaylorCoeffs(func, n):
-	'''
-	Given an arbitrary rational function
-	''' 
-	L = str(series(generatingFunction, x=t, x0=0, n = size)).split('+')
-	taylorCoeffs = [sympify(f).subs(t, 1) for f in L]
-	return taylorCoeffs
+def getTaylorCoeffs(func, numCoeffs):
+    '''
+    Given an arbitrary rational function
+    ''' 
+    t = symbols('t')
+    L = str(series(func, x=t, x0=0, n = numCoeffs)).split('+')
+    taylorCoeffs = [sympify(f).subs(t, 1) for f in L]
+    return taylorCoeffs
 
 def breadth_first_search(graph,source):
     """
