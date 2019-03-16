@@ -28,14 +28,9 @@ if __name__ == "__main__":
 		print("working on " + filename)
 		with timeout(seconds = 10, error_message = "Timeout"):
 			nPathCompl = nPathComplexity(g)
-		try:
-			pathCompl = pathComplexity(g)
-			p1 = pathCompl[0]
-			p2 = pathCompl[1]
-		except Exception as e: 
-			print(e)
-			p1 = 0 
-			p2 = 0
+		pathCompl = pathComplexity(g)
+		p1 = pathCompl[0]
+		p2 = pathCompl[1]
 		print(i, 				",", 
 			filename, 			",",
 			cycCompl, 			",", 

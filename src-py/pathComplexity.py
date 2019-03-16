@@ -1,11 +1,14 @@
 import sympy
 from sympy import Matrix, eye, symbols, degree, Poly, fps, Function, simplify, rsolve, init_printing, solve 
 from sympy import expand, Abs, limit, sympify, series
-from utils import bigO, getTaylorCoeffs
+from utils import bigO, getTaylorCoeffs, getRecurrenceSolution
 from math import factorial as fact 
 from time import time, sleep
+from Graph import Graph 
 
-def pathComplexity(G):
+def pathComplexity(G: Graph):
+	'''
+	'''
 	adjMat = G.adjacencyMatrix()
 	adjMat[1][1] = 1
 	A = Matrix(adjMat)
@@ -33,24 +36,25 @@ def pathComplexity(G):
 	lRange = Matrix(list(range(0, recurrenceDegree)))
 	n = symbols('n')
 	nRange = Matrix([n for _ in range(0, recurrenceDegree)])
+	
+	# Solve the recurrence relation 
 	f = Function('f')
-	A = Matrix(list(map(f, nRange - lRange))).dot(Matrix(recurrenceKernel))
-	print(A)
+	recurrenceRelation = Matrix(list(map(f, nRange - lRange)))
+	recurrenceRelation = recurrenceRelation.dot(Matrix(recurrenceKernel))
+	terms = getRecurrenceSolution(recurrenceRelation)
 
-	symbolicSol = str(rsolve(A, f(n)))
-	# Make a list where each is one of [C0, ... CN] terms
-	terms = [sympify(term) for term in symbolicSol.split("+")]
-
-	numEquations = str(len(terms))
-	coefficients = symbols("C0:" + numEquations) 
+	coefficients = symbols("C0:" + str(len(terms))) 
+	print(coefficients)
 	factors = [i / j for i, j in zip(terms, coefficients)]
 	
+	print(factors)
+
 	invM = Matrix([[fact.replace(n, nval) for fact in factors] for nval in range(1, len(factors)+1)])**-1
 
 	boundingSolutionTerms = (invM * baseCases).dot(Matrix(factors))
 
 	s = str(expand(boundingSolutionTerms))
-	
+
 	# Replace all complex numbers with their absolute values
 
 	# Replace all instances of x^n with abs(x)^n

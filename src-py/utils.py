@@ -1,16 +1,66 @@
 from threading import Thread, Event
 from time import sleep
-from sympy import limit, Abs, sympify, series, symbols
+from sympy import limit, Abs, sympify, series, symbols, Function
 import signal 
+import numpy as np
+from collections import Counter
+from operator import methodcaller
 
 def roundExpression(expr, digits):
-	pass
+    '''
+    '''
+    pass
 
 def myRound(num, prec):
-	pass
+    '''
+    '''
+    pass
 
 def classify(expr, val):
-	pass
+    '''
+    '''
+    pass
+
+def getRecurrenceSolution(recurrenceRelation):
+    '''
+    Returns the coefficients to a homogeneous linear recurrence relation 
+    ''' 
+    # Define symbolic terms 
+    n = symbols('n')
+    f = Function('f')
+
+    # .m in: -f[-3 + n] + f[-2 + n] + f[-1 + n] - f[n]
+    # .m out: (-1.)^n*C[1] + C[2] + n*C[3]
+    # Make a recurrence (equivalent to str(<simpify-expr>))
+    # TODO: make sure str(<simpify-expr>) will parse in the same order!!
+    #recurrence = "-1*f(n) + 1.0*f(n - 1) + 1*f(n - 2) + -1*f(n - 3)"
+    recurrence = str(recurrenceRelation)
+    print(recurrence)
+
+    # Get the coefficients by parsing the string 
+    coeffs = [float(term.strip().split("*")[0]) for term in flatList]
+    coeffs = [coeffs[0]] + coeffs[1:][::-1]
+
+    # Normalize such that leading coefficient is 1
+    leadingCoeff = coeffs[0]
+    coeffs = list(map(lambda coeff: coeff / leadingCoeff, coeffs))
+    print(coeffs)
+
+    # Find the roots of the characteristic equation 
+    roots = np.roots(coeffs)
+    precisionDigits = 5
+    roots = [round(root, precisionDigits) for root in roots]
+
+    # Compute the multiplicy of each root
+    rootsWithMultiplicites = Counter(roots)
+
+    # Compute the coefficients of a_n as a list
+    a_n = []
+    for root in rootsWithMultiplicites.keys():
+        for i in range(0, rootsWithMultiplicites[root]):
+            a_n += [sympify(f"(n**{i})*{root}**n")]
+            
+    return a_n
 
 def getTaylorCoeffs(func, numCoeffs):
     '''
@@ -52,6 +102,8 @@ def breadth_first_search(graph,source):
     return output
 
 def bigO(terms, sym):
+    '''
+    '''
     if len(terms) == 1:
         return terms[0]
     

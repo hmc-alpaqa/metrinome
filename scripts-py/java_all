@@ -1,1 +1,1 @@
-/usr/local/Wolfram/Mathematica/11.3/Executables/math -script ../src/paths.m ../cfgs/java_cfgs Infinity | tee ../results/java_cfg_all_results.csv
+python3 ../src-py/paths.py ../cfgs/java_cfgs inf

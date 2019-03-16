@@ -26,9 +26,10 @@ pathComplexity[G_] := Module[
 	numericSolution = N[symbolicSolution[[1]][[1]][[2]]];
 	
 	terms = Table[numericSolution[[i]], {i,Length[numericSolution]}];
-	Print[terms];
 	coefficients = Table[C[i],{i,Length[numericSolution]}];
 	factors = terms / coefficients;
+
+	Print[factors];
 
 	M = Table[factors, {n,1,Length[factors]}];
 

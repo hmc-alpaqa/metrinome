@@ -1,1 +1,1 @@
-/usr/local/Wolfram/Mathematica/11.3/Executables/math -script ~/Desktop/PathComplexity/src/paths.m ~/Desktop/PathComplexity/cfgs/java_cfgs/alt-rt Infinity | tee /~/Desktop/PathComplexity/results/java_cfg_small_sample_results.csv
+python ../src-py/paths.py ../cfgs/java_cfgs/alt-rt inf
