@@ -5,6 +5,7 @@ import signal
 import numpy as np
 from collections import Counter
 from operator import methodcaller
+import re
 
 def roundExpression(expr, digits):
     '''
@@ -23,8 +24,8 @@ def classify(expr, val):
 
 def getRecurrenceSolution(recurrenceRelation):
     '''
-    Returns the coefficients to a homogeneous linear recurrence relation 
-    ''' 
+    Returns the coefficients to a homogeneous linear recurrence relation
+    '''
     # Define symbolic terms 
     n = symbols('n')
     f = Function('f')
@@ -37,8 +38,15 @@ def getRecurrenceSolution(recurrenceRelation):
     recurrence = str(recurrenceRelation)
     print(recurrence)
 
-    # Get the coefficients by parsing the string 
-    coeffs = [float(term.strip().split("*")[0]) for term in flatList]
+    # Regular expression to parse the recurrence relation expression. 
+    # RE matches a particular term: Coefficient + f(something)
+    matchObj = re.findall('([ +-.0-9]*)(\*)(f\([ a-zA-Z0-9-+]*\))', recurrence)
+    coeffs = []
+    for match in matchObj:
+        coeffs += [float(match[0].replace(" ", ""))]
+
+    # Coefficients are originally in order f(n), f(n - k), f(n - k + 1), ...
+    # Convert to f(n), f(n - 1), f(n - 2), ...
     coeffs = [coeffs[0]] + coeffs[1:][::-1]
 
     # Normalize such that leading coefficient is 1
