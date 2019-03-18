@@ -23,24 +23,26 @@ def pathComplexity(G: Graph):
         Xdet = X.det()
         denominator = Poly(-Xdet)
         generatingFunction = X_sub.det() / denominator
-
-        recurrenceDegree = degree(denominator, gen=t) + 1
+	
+        recurrenceDegree = degree(denominator, gen=t) + 1 
         recurrenceKernel = denominator.all_coeffs()[::-1]
 
         taylorCoeffs = getTaylorCoeffs(generatingFunction, 2 * dimension + 1)
         baseCases = Matrix(taylorCoeffs[dimension :
 	    				dimension + recurrenceDegree - 1])
-
-        # Should have as many things as the recurrenceKernel
+	 
+	
+	# Should have as many things as the recurrenceKernel
         lRange = Matrix(list(range(0, recurrenceDegree)))
         n = symbols('n')
         nRange = Matrix([n for _ in range(0, recurrenceDegree)])
-
+	
 	# Solve the recurrence relation 
         f = Function('f')
         recurrenceRelation = Matrix(list(map(f, nRange - lRange)))
         recurrenceRelation = recurrenceRelation.dot(Matrix(recurrenceKernel))
         terms = getRecurrenceSolution(recurrenceRelation)
+
 
         coefficients = symbols("C0:" + str(len(terms)))
         if len(coefficients) == 1: 
@@ -54,19 +56,21 @@ def pathComplexity(G: Graph):
 
         try: 
                 invM = M**-1      
-                boundingSolutionTerms = (invM * baseCases).dot(Matrix(factors))
+                boundingSolutionTerms = (invM * baseCases)
+                boundingSolutionTerms = boundingSolutionTerms.dot(Matrix(factors))
 
                 print("=== SOLUTION === " + str(boundingSolutionTerms))
                 # s = str(expand(boundingSolutionTerms))
+                # Replace all complex numbers with their absolute values
+
+                # Replace all instances of x^n with abs(x)^n
+
+                # Split terms on '+'
+                terms = [x.strip() for x in s.split("+")]
+
+                return (bigO(terms, 'n'), 0)
+
         except: 
                 print("=== NOT INVERTIBLE ====")
-
-        return (0, 0)
-        # Replace all complex numbers with their absolute values
-
-	# Replace all instances of x^n with abs(x)^n
-
-	# Split terms on '+'
-        terms = [x.strip() for x in s.split("+")]
-
-        return (bigO(terms, 'n'), 0)
+                return (0, 0)
+        

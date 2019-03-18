@@ -1,3 +1,33 @@
+# Running path-complexity in Python
+
+First create a python3 virtual environment and activate it
+
+```
+apt-get install python3-virtualenv
+virtualenv venv 
+source venv/bin/activate 
+```
+
+Install the necessary python modules 
+
+```
+pip install -r requirements.txt 
+```
+
+Run any of the scripts in "scripts-py," e.g. 
+
+```
+./simple_tests
+```
+
+In order to see the jupyter notebook, run 
+
+```
+jupyter notebook 
+```
+
+and open 127.0.0.1:8000 in any browser. 
+
 # path-complexity
 Path Complexity Analysis 
 

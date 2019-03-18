@@ -11,33 +11,28 @@ import re
 def roundExpression(expr, digits):
     '''
     '''
-    pass
+    return 0
 
 def myRound(num, prec):
     '''
     '''
-    pass
+    return 0
 
 def classify(expr, val):
     '''
     '''
-    pass
+    return 0
 
 def getRecurrenceSolution(recurrenceRelation):
     '''
-    Returns the coefficients to a homogeneous linear recurrence relation
-    '''
+    Returns the coefficients to a homogeneous linear recurrence relation 
+    ''' 
     # Define symbolic terms 
     n = symbols('n')
     f = Function('f')
 
-    # .m in: -f[-3 + n] + f[-2 + n] + f[-1 + n] - f[n]
-    # .m out: (-1.)^n*C[1] + C[2] + n*C[3]
-    # Make a recurrence (equivalent to str(<simpify-expr>))
-    # TODO: make sure str(<simpify-expr>) will parse in the same order!!
-    #recurrence = "-1*f(n) + 1.0*f(n - 1) + 1*f(n - 2) + -1*f(n - 3)"
     recurrence = str(recurrenceRelation)
-    
+
     # Regular expression to parse the recurrence relation expression. 
     # RE matches a particular term: Coefficient + f(something)
     matchObj = re.findall('([ +-.0-9]*)(\*)(f\([ a-zA-Z0-9-+]*\))', recurrence)
@@ -45,8 +40,7 @@ def getRecurrenceSolution(recurrenceRelation):
     for match in matchObj:
         coeffs += [float(match[0].replace(" ", ""))]
 
-    # Coefficients are originally in order f(n), f(n - k), f(n - k + 1), ...
-    # Convert to f(n), f(n - 1), f(n - 2), ...
+    # Get the coefficients by parsing the string 
     coeffs = [coeffs[0]] + coeffs[1:][::-1]
 
     # Normalize such that leading coefficient is 1
