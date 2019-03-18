@@ -47,7 +47,7 @@ def pathComplexity(G: Graph):
                 factors = [i / j for i, j in zip(terms, coefficients)]
         else: 
                 factors = terms
-        
+
         print(factors)
 
         M = Matrix([[fact.replace(n, nval) for fact in factors] for nval in range(1, len(factors)+1)])
