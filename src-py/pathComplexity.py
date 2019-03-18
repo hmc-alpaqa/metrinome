@@ -1,10 +1,10 @@
 import sympy
-from sympy import Matrix, eye, symbols, degree, Poly, fps, Function, simplify, rsolve, init_printing, solve 
+from sympy import Matrix, eye, symbols, degree, Poly, fps, Function, simplify, rsolve, init_printing, solve
 from sympy import expand, Abs, limit, sympify, series
 from utils import bigO, getTaylorCoeffs, getRecurrenceSolution
-from math import factorial as fact 
+from math import factorial as fact
 from time import time, sleep
-from Graph import Graph 
+from Graph import Graph
 
 def pathComplexity(G: Graph):
         '''
@@ -12,7 +12,7 @@ def pathComplexity(G: Graph):
         adjMat = G.adjacencyMatrix()
         adjMat[1][1] = 1
         A = Matrix(adjMat)
-	
+
         t = symbols('t')
         dimension = adjMat.shape[0]
         X = eye(dimension) - A*t
@@ -43,28 +43,34 @@ def pathComplexity(G: Graph):
         recurrenceRelation = recurrenceRelation.dot(Matrix(recurrenceKernel))
         terms = getRecurrenceSolution(recurrenceRelation)
 
-        coefficients = symbols("C0:" + str(len(terms))) 
-        factors = [i / j for i, j in zip(terms, coefficients)]
-	
-        try: 
-                M = Matrix([[fact.replace(n, nval) for fact in factors] for nval in range(1, len(factors)+1)])
-                invM = M ** -1
 
+        coefficients = symbols("C0:" + str(len(terms)))
+        if len(coefficients) == 1: 
+                factors = [i / j for i, j in zip(terms, coefficients)]
+        else: 
+                factors = terms
+        
+        print(factors)
+
+        M = Matrix([[fact.replace(n, nval) for fact in factors] for nval in range(1, len(factors)+1)])
+
+        try: 
+                invM = M**-1      
                 boundingSolutionTerms = (invM * baseCases)
                 boundingSolutionTerms = boundingSolutionTerms.dot(Matrix(factors))
 
-                print("S ONE: " + s)
-                s = str(expand(boundingSolutionTerms))
-                print("S TWO: " + s)
-
+                print("=== SOLUTION === " + str(boundingSolutionTerms))
+                # s = str(expand(boundingSolutionTerms))
                 # Replace all complex numbers with their absolute values
 
                 # Replace all instances of x^n with abs(x)^n
 
                 # Split terms on '+'
                 terms = [x.strip() for x in s.split("+")]
-                
-                return (bigO(terms, 'n'), 0)        
-        except:
-                print("COULDNT INVERT")
+
+                return (bigO(terms, 'n'), 0)
+
+        except: 
+                print("=== NOT INVERTIBLE ====")
                 return (0, 0)
+        
