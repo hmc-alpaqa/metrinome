@@ -1,6 +1,7 @@
 from threading import Thread, Event
 from time import sleep
 from sympy import limit, Abs, sympify, series, symbols, Function
+from mpmath import polyroots
 import signal 
 import numpy as np
 from collections import Counter
@@ -36,8 +37,7 @@ def getRecurrenceSolution(recurrenceRelation):
     # TODO: make sure str(<simpify-expr>) will parse in the same order!!
     #recurrence = "-1*f(n) + 1.0*f(n - 1) + 1*f(n - 2) + -1*f(n - 3)"
     recurrence = str(recurrenceRelation)
-    print(recurrence)
-
+    
     # Regular expression to parse the recurrence relation expression. 
     # RE matches a particular term: Coefficient + f(something)
     matchObj = re.findall('([ +-.0-9]*)(\*)(f\([ a-zA-Z0-9-+]*\))', recurrence)
@@ -52,12 +52,13 @@ def getRecurrenceSolution(recurrenceRelation):
     # Normalize such that leading coefficient is 1
     leadingCoeff = coeffs[0]
     coeffs = list(map(lambda coeff: coeff / leadingCoeff, coeffs))
-    print(coeffs)
-
+    
     # Find the roots of the characteristic equation 
-    roots = np.roots(coeffs)
-    precisionDigits = 5
-    roots = [round(root, precisionDigits) for root in roots]
+    # through arbitrary precision root finding function
+    roots = polyroots(coeffs, maxsteps=200, extraprec=200)
+
+    # Round to 4 digits 
+    roots = [complex(round(root.real, 4), round(root.imag, 4)) for root in roots]
 
     # Compute the multiplicy of each root
     rootsWithMultiplicites = Counter(roots)
@@ -66,8 +67,11 @@ def getRecurrenceSolution(recurrenceRelation):
     a_n = []
     for root in rootsWithMultiplicites.keys():
         for i in range(0, rootsWithMultiplicites[root]):
-            a_n += [sympify(f"(n**{i})*{root}**n")]
-            
+            if root == 1: 
+                a_n += [sympify(f"(n**{i})")]
+            else: 
+                a_n += [sympify(f"(n**{i})*{root}**n")]
+
     return a_n
 
 def getTaylorCoeffs(func, numCoeffs):
@@ -112,16 +116,18 @@ def breadth_first_search(graph,source):
 def bigO(terms, sym):
     '''
     '''
+    n = symbols('n')
+
     if len(terms) == 1:
         return terms[0]
-    
+
     termOne = terms[0]
     termTwo = terms[1]
     lim = limit(Abs(sympify(termTwo) / sympify(termOne)), n, float('inf'))
-    
+
     if lim == 0:
         return termOne
-    
+
     return bigO(L[1:], sym)
 
 class timeout:
