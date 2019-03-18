@@ -10,22 +10,22 @@ import re
 def roundExpression(expr, digits):
     '''
     '''
-    pass
+    return 0
 
 def myRound(num, prec):
     '''
     '''
-    pass
+    return 0
 
 def classify(expr, val):
     '''
     '''
-    pass
+    return 0
 
 def getRecurrenceSolution(recurrenceRelation):
     '''
-    Returns the coefficients to a homogeneous linear recurrence relation
-    '''
+    Returns the coefficients to a homogeneous linear recurrence relation 
+    ''' 
     # Define symbolic terms 
     n = symbols('n')
     f = Function('f')
@@ -36,23 +36,17 @@ def getRecurrenceSolution(recurrenceRelation):
     # TODO: make sure str(<simpify-expr>) will parse in the same order!!
     #recurrence = "-1*f(n) + 1.0*f(n - 1) + 1*f(n - 2) + -1*f(n - 3)"
     recurrence = str(recurrenceRelation)
-    print(recurrence)
-
-    # Regular expression to parse the recurrence relation expression. 
-    # RE matches a particular term: Coefficient + f(something)
     matchObj = re.findall('([ +-.0-9]*)(\*)(f\([ a-zA-Z0-9-+]*\))', recurrence)
     coeffs = []
     for match in matchObj:
         coeffs += [float(match[0].replace(" ", ""))]
 
-    # Coefficients are originally in order f(n), f(n - k), f(n - k + 1), ...
-    # Convert to f(n), f(n - 1), f(n - 2), ...
+    # Get the coefficients by parsing the string 
     coeffs = [coeffs[0]] + coeffs[1:][::-1]
 
     # Normalize such that leading coefficient is 1
     leadingCoeff = coeffs[0]
     coeffs = list(map(lambda coeff: coeff / leadingCoeff, coeffs))
-    print(coeffs)
 
     # Find the roots of the characteristic equation 
     roots = np.roots(coeffs)

@@ -7,59 +7,64 @@ from time import time, sleep
 from Graph import Graph 
 
 def pathComplexity(G: Graph):
-	'''
-	'''
-	adjMat = G.adjacencyMatrix()
-	adjMat[1][1] = 1
-	A = Matrix(adjMat)
+        '''
+        '''
+        adjMat = G.adjacencyMatrix()
+        adjMat[1][1] = 1
+        A = Matrix(adjMat)
 	
-	t = symbols('t')
-	dimension = adjMat.shape[0]
-	X = eye(dimension) - A*t
-	X_sub = X.copy()
-	X_sub.col_del(0)
-	X_sub.row_del(1)
+        t = symbols('t')
+        dimension = adjMat.shape[0]
+        X = eye(dimension) - A*t
+        X_sub = X.copy()
+        X_sub.col_del(0)
+        X_sub.row_del(1)
 
-	Xdet = X.det()
-	denominator = Poly(-Xdet)
-	generatingFunction = X_sub.det() / denominator
+        Xdet = X.det()
+        denominator = Poly(-Xdet)
+        generatingFunction = X_sub.det() / denominator
 	
-	recurrenceDegree = degree(denominator, gen=t) + 1 
-	recurrenceKernel = denominator.all_coeffs()[::-1]
+        recurrenceDegree = degree(denominator, gen=t) + 1 
+        recurrenceKernel = denominator.all_coeffs()[::-1]
 
-	taylorCoeffs = getTaylorCoeffs(generatingFunction, 2 * dimension + 1)
-	baseCases = Matrix(taylorCoeffs[dimension :
+        taylorCoeffs = getTaylorCoeffs(generatingFunction, 2 * dimension + 1)
+        baseCases = Matrix(taylorCoeffs[dimension :
 	    				dimension + recurrenceDegree - 1])
 	 
 	
 	# Should have as many things as the recurrenceKernel
-	lRange = Matrix(list(range(0, recurrenceDegree)))
-	n = symbols('n')
-	nRange = Matrix([n for _ in range(0, recurrenceDegree)])
+        lRange = Matrix(list(range(0, recurrenceDegree)))
+        n = symbols('n')
+        nRange = Matrix([n for _ in range(0, recurrenceDegree)])
 	
 	# Solve the recurrence relation 
-	f = Function('f')
-	recurrenceRelation = Matrix(list(map(f, nRange - lRange)))
-	recurrenceRelation = recurrenceRelation.dot(Matrix(recurrenceKernel))
-	terms = getRecurrenceSolution(recurrenceRelation)
+        f = Function('f')
+        recurrenceRelation = Matrix(list(map(f, nRange - lRange)))
+        recurrenceRelation = recurrenceRelation.dot(Matrix(recurrenceKernel))
+        terms = getRecurrenceSolution(recurrenceRelation)
 
-	coefficients = symbols("C0:" + str(len(terms))) 
-	print(coefficients)
-	factors = [i / j for i, j in zip(terms, coefficients)]
+        coefficients = symbols("C0:" + str(len(terms))) 
+        factors = [i / j for i, j in zip(terms, coefficients)]
 	
-	print(factors)
+        try: 
+                M = Matrix([[fact.replace(n, nval) for fact in factors] for nval in range(1, len(factors)+1)])
+                invM = M ** -1
 
-	invM = Matrix([[fact.replace(n, nval) for fact in factors] for nval in range(1, len(factors)+1)])**-1
+                boundingSolutionTerms = (invM * baseCases)
+                boundingSolutionTerms = boundingSolutionTerms.dot(Matrix(factors))
 
-	boundingSolutionTerms = (invM * baseCases).dot(Matrix(factors))
+                print("S ONE: " + s)
+                s = str(expand(boundingSolutionTerms))
+                print("S TWO: " + s)
 
-	s = str(expand(boundingSolutionTerms))
+                # Replace all complex numbers with their absolute values
 
-	# Replace all complex numbers with their absolute values
+                # Replace all instances of x^n with abs(x)^n
 
-	# Replace all instances of x^n with abs(x)^n
-
-	# Split terms on '+'
-	terms = [x.strip() for x in s.split("+")]
-	
-	return (bigO(terms, 'n'), 0)        
+                # Split terms on '+'
+                terms = [x.strip() for x in s.split("+")]
+                
+                return (bigO(terms, 'n'), 0)        
+        except:
+                print("COULDNT INVERT")
+                return (0, 0)
