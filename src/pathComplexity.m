@@ -17,6 +17,7 @@ pathComplexity[G_] := Module[
 
 	numPaths = Table[SeriesCoefficient[generatingFunction,{t,0,i}],
 	                 {i,0,2*dimension}];
+
 	baseCases = numPaths[[ Range[dimension + 1,dimension + recurrenceDegree-1] ]]; 
 
 	recurrence = Total[ recurrenceKernel* Map[ f, Table[n, {recurrenceDegree}] - Range[0,recurrenceDegree-1] ] ];
@@ -30,14 +31,12 @@ pathComplexity[G_] := Module[
 	coefficients = Table[C[i],{i,Length[numericSolution]}];
 	factors = terms / coefficients;
 
-	Print[factors];
-
 	M = Table[factors, {n,1,Length[factors]}];
-
-	Quiet[lf = LinearSolve[M]]; 
+	
+	Print[Det[M]];
+	lf = LinearSolve[M]; 
 
 	boundingSolutionTerms = lf[baseCases]*factors;
-	
 	boundingSolution = Expand[Total[boundingSolutionTerms]];
 
 	boundingSolution = Replace[boundingSolution,

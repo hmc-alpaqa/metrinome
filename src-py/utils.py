@@ -11,7 +11,11 @@ import re
 def roundExpression(expr, digits):
     '''
     '''
-    return 0
+    regexp = "([0-9]*)\.([0-9]*)"
+    def potato(match):
+        return match.groups()[0] + "." + match.groups()[1][0:digits]
+
+    return re.sub(regexp, potato, expr)
 
 def myRound(num, prec):
     '''
@@ -21,7 +25,35 @@ def myRound(num, prec):
 def classify(expr, val):
     '''
     '''
-    return 0
+    # TODO: check if it is a polynomial in VAL (e.g. val = 'x', or 'n')
+    try: 
+        float(str(expr))
+        return "Constant"
+    except:
+        # If we have anything to the power 'n', then it is exponential 
+        if isExponential(expr):
+            return "Exponential"
+        
+        return "Polynomial"
+
+def getSolutionFromRoots(roots):
+    # Round to 4 digits 
+    roots = [complex(round(root.real, 6), round(root.imag, 6)) for root in roots]
+
+    # Compute the multiplicy of each root
+    rootsWithMultiplicites = Counter(roots)
+
+    # Compute the coefficients of a_n as a list
+    a_n = []
+    for root in rootsWithMultiplicites.keys():
+        for i in range(0, rootsWithMultiplicites[root]):
+            if root == 1: 
+                a_n += [sympify(f"(n**{i})")]
+            else: 
+                a_n += [sympify(f"(n**{i})*{root}**n")]
+
+    return a_n
+
 
 def getRecurrenceSolution(recurrenceRelation):
     '''
@@ -52,7 +84,7 @@ def getRecurrenceSolution(recurrenceRelation):
     roots = polyroots(coeffs, maxsteps=200, extraprec=200)
 
     # Round to 4 digits 
-    roots = [complex(round(root.real, 4), round(root.imag, 4)) for root in roots]
+    roots = [complex(round(root.real, 6), round(root.imag, 6)) for root in roots]
 
     # Compute the multiplicy of each root
     rootsWithMultiplicites = Counter(roots)
@@ -74,7 +106,10 @@ def getTaylorCoeffs(func, numCoeffs):
     ''' 
     t = symbols('t')
     L = str(series(func, x=t, x0=0, n = numCoeffs)).split('+')
-    taylorCoeffs = [sympify(f).subs(t, 1) for f in L]
+    firstElement = L[0]
+    firstPower = re.search("\*\*([0-9]*)", str(firstElement))
+    firstPower = int(firstPower.groups()[0])
+    taylorCoeffs = [0] * firstPower + [sympify(f).subs(t, 1) for f in L]
     return taylorCoeffs
 
 def breadth_first_search(graph,source):
@@ -107,7 +142,16 @@ def breadth_first_search(graph,source):
                 output.append(vrtx) # fill the output vector
     return output
 
-def bigO(terms, sym):
+def isExponential(term): 
+    n = symbols('n')
+    # TODO: UPDATE FOR CSV using ^ instead of ** 
+    res = re.match("^n", term)
+    if res: 
+        return True
+    
+    return False 
+
+def bigO(terms):
     '''
     '''
     n = symbols('n')
@@ -122,7 +166,7 @@ def bigO(terms, sym):
     if lim == 0:
         return termOne
 
-    return bigO(L[1:], sym)
+    return bigO(L[1:])
 
 class timeout:
     def __init__(self, seconds=1, error_message='Timeout'):

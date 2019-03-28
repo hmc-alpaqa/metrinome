@@ -19,7 +19,28 @@ class Graph(object):
 
     def adjacencyMatrix(self): 
         adjMat = np.zeros((self.endNode + 1, self.endNode + 1))
+
+        # Output the matrix in the same format as the mathematica code...
+        # First row = START 
+        # Second row = END 
+        # Third, n = 2, ..., END - 1
+
         for edge_one, edge_two in self.edgeRules(): 
+            if edge_one == 0: 
+                edge_one = 0 
+            elif edge_one == self.endNode: 
+                edge_one = 1 
+            else:
+                edge_one += 1 
+
+            if edge_two == 0: 
+                edge_two = 0 
+            elif edge_two == self.endNode: 
+                edge_two = 1 
+            else:
+                edge_two += 1 
+
+
             adjMat[edge_one][edge_two] = 1 
 
         return adjMat

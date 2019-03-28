@@ -1,19 +1,35 @@
 test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class, path_cplxty_asym, path_cplxty
+{C[1]^(-1)}
 1,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_abs_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 2,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_access$000_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 3,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_add_0_basic.dot,4,6,Constant,6.,6.
+{C[1]^(-1)}
 4,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_adjustScale_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 5,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_audit_0_basic.dot,9,11,Constant,11.,11.
+{C[1]^(-1)}
 6,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigDigitLength_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 7,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigMultiplyPowerTen_0_basic.dot,3,3,Constant,3.,3.
+{(-1.)^n, 1, n}
 8,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigTenToThe_0_basic.dot,5,5,Polynomial,0.5*n,6. + 0.5*n
+{C[1]^(-1)}
 9,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_byteValueExact_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 10,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_checkScale_0_basic.dot,5,7,Constant,7.,7.
+{C[1]^(-1)}
 11,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_checkScaleNonZero_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 12,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_<clinit>_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 13,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compactValFor_0_basic.dot,7,11,Constant,11.,11.
+{C[1]^(-1)}
 14,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareMagnitude_0_basic.dot,17,37,Constant,37.,37.
+{C[1]^(-1)}
 15,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareMagnitudeNormalized_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 16,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareTo_0_basic.dot,1,1,Constant,1.,1.
 
                                         5
@@ -21,782 +37,216 @@ General::munfl: (-0.809017 - 0.587785 I)  is too small to represent as a normali
 
                                         5
 General::munfl: (-0.809017 + 0.587785 I)  is too small to represent as a normalized machine number; precision may be lost.
+{(-0.8090169943749475 - 0.5877852522924731*I)^n, (0.30901699437494745 + 0.9510565162951535*I)^n, (0.30901699437494745 - 0.9510565162951535*I)^n, (-0.8090169943749475 + 0.5877852522924731*I)^n, 1, n}
 17,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_createAndStripZerosToMatchScale_0_basic.dot,5,5,Polynomial,0.8*n,6.15 + 0.8*n
+{C[1]^(-1)}
 18,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divide_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 19,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRemainder_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 20,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRound_0_basic.dot,6,10,Constant,10.,10.
+{1.324717957244746^n, 1.324717957244746^n*n, (-0.662358978622373 - 0.5622795120623012*I)^n, (-0.662358978622373 - 0.5622795120623012*I)^n*n, (-0.662358978622373 + 0.5622795120623012*I)^n, (-0.662358978622373 + 0.5622795120623012*I)^n*n, 1}
 21,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRound128_0_basic.dot,19,649,Exponential,27942.61*1.32^n*n,163. + 0.12*0.87^n + 541509.12*1.32^n + 0.01*0.87^n*n + 27942.61*1.32^n*n
+{C[1]^(-1)}
 22,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRoundByTenPow_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 23,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideSmallFastPath_0_basic.dot,17,46,Constant,46.,46.
+{C[1]^(-1)}
 24,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideToIntegralValue_0_basic.dot,8,12,Constant,12.,12.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
 25,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divWord_0_basic.dot,4,5,Polynomial,0.12*n^2.,4. + 1.25*n + 0.12*n^2.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, (-1.)^n, 1, n, n^2}
 26,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doRound_0_basic.dot,7,13,Polynomial,0.17*n^2.,20.439999999999998 + 3.5*n + 0.17*n^2.
+{C[1]^(-1)}
 27,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doRound128_0_basic.dot,4,6,Constant,6.,6.
+{C[1]^(-1)}
 28,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doubleValue_0_basic.dot,11,23,Constant,23.,23.
+{C[1]^(-1)}
 29,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_equals_0_basic.dot,9,10,Constant,10.,10.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
 30,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_expandBigIntegerTenPowers_0_basic.dot,5,6,Polynomial,0.12*n^2.,5. + 1.25*n + 0.12*n^2.
+{C[1]^(-1)}
 31,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_floatValue_0_basic.dot,11,23,Constant,23.,23.
+{(-1.)^n, 1, n}
 32,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_getValueString_0_basic.dot,7,8,Polynomial,1.*n,14. + 1.*n
+{C[1]^(-1)}
 33,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_hashCode_0_basic.dot,4,5,Constant,5.,5.
+{C[1]^(-1)}
 34,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_inflated_0_basic.dot,2,2,Constant,2.,2.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, (-1.)^n, 1, n, n^2}
 35,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_<init>_0_basic.dot,8,26,Polynomial,0.33*n^2.,42.96 + 7.*n + 0.33*n^2.
+{C[1]^(-1)}
 36,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_intValue_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 37,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_intValueExact_0_basic.dot,2,2,Constant,2.,2.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
 38,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_layoutChars_0_basic.dot,23,1095,Polynomial,78.*n,2943. + 78.*n
+{C[1]^(-1)}
 39,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longCompareMagnitude_0_basic.dot,5,12,Constant,12.,12.
+{C[1]^(-1)}
 40,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longDigitLength_0_basic.dot,7,17,Constant,17.,17.
+{C[1]^(-1)}
 41,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longLongCompareMagnitude_0_basic.dot,4,4,Constant,4.,4.
+{C[1]^(-1)}
 42,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longMultiplyPowerTen_0_basic.dot,7,7,Constant,7.,7.
+{C[1]^(-1)}
 43,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longValue_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 44,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longValueExact_0_basic.dot,7,11,Constant,11.,11.
+{C[1]^(-1)}
 45,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_make64_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 46,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_matchScale_0_basic.dot,4,4,Constant,4.,4.
+{C[1]^(-1)}
 47,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_max_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 48,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_min_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 49,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_movePointLeft_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 50,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_movePointRight_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 51,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_mulsub_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 52,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiply_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 53,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiplyAndRound_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 54,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiplyDivideAndRound_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 55,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_needIncrement_0_basic.dot,12,12,Constant,12.,12.
+{C[1]^(-1)}
 56,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_negate_0_basic.dot,1,1,Constant,1.,1.
+{1.2671683045421243^n, (-0.8945480326575175 - 0.5341485461747327*I)^n, (-0.8945480326575175 + 0.5341485461747327*I)^n, (0.2609638803864553 - 1.1772261533941943*I)^n, (0.2609638803864553 + 1.1772261533941943*I)^n, (-0.7244919590005157)^n, 1.2207440846057596^n, (-0.24812606280262192 - 1.0339820609759678*I)^n, (-0.24812606280262192 + 1.0339820609759678*I)^n, 1}
 57,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_parseExp_0_basic.dot,14,390,Exponential,9897.52*1.27^n,42. + 0.93*1.04^n + 1.71*1.06^n + 8.370000000000001*1.21^n + 6238.4800000000005*1.22^n + 9897.52*1.27^n
+{C[1]^(-1)}
 58,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_plus_0_basic.dot,2,2,Constant,2.,2.
+{(-0.6823278038280193)^n, (0.34116390191400964 - 1.161541399997252*I)^n, (0.34116390191400964 + 1.161541399997252*I)^n, 1.324717957244746^n, (-0.662358978622373 - 0.5622795120623012*I)^n, (-0.662358978622373 + 0.5622795120623012*I)^n, 1}
 59,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_pow_0_basic.dot,11,29,Exponential,89.47*1.32^n,2.33 + 0.03*0.87^n + 3.66*1.21^n + 89.47*1.32^n
+{C[1]^(-1)}
 60,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_preAlign_0_basic.dot,6,13,Constant,13.,13.
+{C[1]^(-1)}
 61,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_precision_0_basic.dot,6,6,Constant,6.,6.
+{C[1]^(-1)}
 62,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_print_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 63,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_readObject_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 64,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_remainder_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 65,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_round_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 66,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_roundedTenPower_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 67,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_saturateLong_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 68,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scale_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 69,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scaleByPowerOfTen_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 70,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scaledTenPow_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 71,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setIntCompactVolatile_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 72,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setIntValVolatile_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 73,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setScale_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 74,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_shortValueExact_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 75,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_signum_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 76,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_stripTrailingZeros_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 77,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_stripZerosToMatchScale_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 78,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_subtract_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 79,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toBigInteger_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 80,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toBigIntegerExact_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 81,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toEngineeringString_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, 1, n}
 82,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toPlainString_0_basic.dot,8,9,Polynomial,1.*n,17. + 1.*n
+{C[1]^(-1)}
 83,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toString_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 84,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_ulp_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 85,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unscaledValue_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 86,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unsignedLongCompare_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 87,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unsignedLongCompareEq_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 88,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_valueOf_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 89,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_writeObject_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 90,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_zeroValueOf_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 91,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$1_<init>_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 92,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$1_initialValue_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 93,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_check_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
 94,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_<clinit>_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 95,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_<init>_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 96,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 97,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_getCompactCharArray_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 98,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_getStringBuilder_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 99,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_<init>_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
 100,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_putIntCompact_0_basic.dot,6,17,Polynomial,0.5*n^2.,22. + 6.5*n + 0.5*n^2.
+{C[1]^(-1)}
 101,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_abs_0_basic.dot,2,2,Constant,2.,2.
 
                                       5
 General::munfl: (0.354967 + 1.09248 I)  is too small to represent as a normalized machine number; precision may be lost.
 
 General::stop: Further output of General::munfl will be suppressed during this calculation.
+{(0.35496731310463014 + 1.0924770557774537*I)^n, (-0.9293164906031476 + 0.6751879523998812*I)^n, (-0.9293164906031476 - 0.6751879523998812*I)^n, (0.35496731310463014 - 1.0924770557774537*I)^n, 2.^(0.2*n), (-1.)^n, (-1.)^n*n, 1, n, n^2}
 102,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_add_0_basic.dot,10,192,Exponential,2104.88*2.^(0.2*n),1284. + 16.95*1.1500000000000001^n + 2104.88*2.^(0.2*n) + 98.*n + 2.*n^2.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, 1, n}
 103,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_addOne_0_basic.dot,5,5,Polynomial,1.*n,7. + 1.*n
+{(-1.)^n, 1, n}
 104,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_and_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+{(-1.)^n, 1, n}
 105,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_andNot_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
 106,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitCount_0_basic.dot,5,7,Polynomial,0.12*n^2.,7. + 1.75*n + 0.12*n^2.
+{(0.35496731310463014 + 1.0924770557774537*I)^n, (-0.9293164906031476 + 0.6751879523998812*I)^n, (-0.9293164906031476 - 0.6751879523998812*I)^n, (0.35496731310463014 - 1.0924770557774537*I)^n, 2.^(0.2*n), 1}
 107,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitLength_0_basic.dot,9,19,Exponential,40.25*2.^(0.2*n),5. + 9.49*1.1500000000000001^n + 40.25*2.^(0.2*n)
+{C[1]^(-1)}
 108,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitLengthForInt_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, 1, n}
 109,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_clearBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
 110,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_<clinit>_0_basic.dot,5,9,Polynomial,0.25*n^2.,13. + 3.5*n + 0.25*n^2.
+{C[1]^(-1)}
 111,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_compareMagnitude_0_basic.dot,15,47,Constant,47.,47.
+{C[1]^(-1)}
 112,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_compareTo_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
 113,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_destructiveMulAdd_0_basic.dot,3,4,Polynomial,0.12*n^2.,3. + 1.25*n + 0.12*n^2.
+{C[1]^(-1)}
 114,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_divide_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
 115,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_divideAndRemainder_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
 116,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_doubleValue_0_basic.dot,1,1,Constant,1.,1.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, 1, n}
 117,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_equals_0_basic.dot,7,7,Polynomial,0.67*n,10.05 + 0.67*n
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, 1, n}
 118,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_firstNonzeroIntNum_0_basic.dot,4,4,Polynomial,0.67*n,3.71 + 0.67*n
+{(-1.)^n, 1, n}
 119,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_flipBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+{C[1]^(-1)}
 120,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_floatValue_0_basic.dot,1,1,Constant,1.,1.
-121,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_gcd_0_basic.dot,3,3,Constant,3.,3.
-122,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_getInt_0_basic.dot,5,5,Constant,5.,5.
-123,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_getLowestSetBit_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
-124,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_getSecureRandom_0_basic.dot,2,2,Constant,2.,2.
-125,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_hashCode_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-126,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_<init>_0_basic.dot,3,4,Constant,4.,4.
-127,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_intArrayCmpToLen_0_basic.dot,4,4,Polynomial,0.75*n,5.3500000000000005 + 0.75*n
-128,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_intLength_0_basic.dot,1,1,Constant,1.,1.
-129,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_intValue_0_basic.dot,1,1,Constant,1.,1.
-130,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_isProbablePrime_0_basic.dot,5,5,Constant,5.,5.
-131,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_jacobiSymbol_0_basic.dot,18,1801,Exponential,45021.07*1.43^n,6. + 0.98*1.06^n + 337.69*1.28^n + 45021.07*1.43^n
-132,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_javaIncrement_0_basic.dot,4,6,Polynomial,1.33*n,5.71 + 1.33*n
-133,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_largePrime_0_basic.dot,4,3,Exponential,2.54*1.43^n,0.33 + 0.04*0.71^n + 0.62*1.18^n + 2.54*1.43^n
-134,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_leftShift_0_basic.dot,5,5,Polynomial,1.*n,9. + 1.*n
-135,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_longValue_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-136,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_lucasLehmerSequence_0_basic.dot,6,11,Exponential,10.36*1.3800000000000001^n,0.11 + 0.05*0.86^n + 0.81*1.1500000000000001^n + 1.94*1.25^n + 10.36*1.3800000000000001^n
-137,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_magSerializedForm_0_basic.dot,4,6,Exponential,9.94*2.^(0.25*n),2. + 9.94*2.^(0.25*n)
-138,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_makePositive_0_basic.dot,8,72,Polynomial,0.01*n^4.,150.18 + 54.18000000000001*n + 7.25*n^2. + 0.43*n^3. + 0.01*n^4.
-139,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_max_0_basic.dot,2,2,Constant,2.,2.
-140,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_min_0_basic.dot,2,2,Constant,2.,2.
-141,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_mod_0_basic.dot,3,3,Constant,3.,3.
-142,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_mod2_0_basic.dot,4,5,Polynomial,1.*n,5. + 1.*n
-143,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_modInverse_0_basic.dot,6,8,Constant,8.,8.
-144,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_modPow_0_basic.dot,20,682,Constant,682.,682.
-145,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_modPow2_0_basic.dot,6,15,Exponential,25.23*1.43^n,1. + 0.04*0.71^n + 2.37*1.18^n + 25.23*1.43^n
-146,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_montReduce_0_basic.dot,4,8,Polynomial,0.04*n^3.,5. + 3.08*n + 0.62*n^2. + 0.04*n^3.
-147,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_mulAdd_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-148,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_multiply_0_basic.dot,11,99,Polynomial,2.*n^2.,275. + 46.*n + 2.*n^2.
-149,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_multiplyByInt_0_basic.dot,4,5,Polynomial,1.*n,5. + 1.*n
-150,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_multiplyToLen_0_basic.dot,6,18,Exponential,21.01*1.62^(0.5*n),3. + 0.1*0.62^(0.5*n) + 21.01*1.62^(0.5*n)
-151,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_negate_0_basic.dot,1,1,Constant,1.,1.
-152,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_nextProbablePrime_0_basic.dot,23,67,Exponential,65220.35*1.52^n,28.39 + 0.02*0.86^n + 0.02*0.87^n + 0.19*0.9400000000000001^n + 0.01*0.97^n + 0.17*1.03^n + 9.58*1.11^n + 65220.35*1.52^n + 1.*n
-153,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_not_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-154,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_oddModPow_0_basic.dot,27,Timeout,Exponential,2.27131789293*^9*1.54^n,8.25932008196779*^12 + 3.987933067*^7*0.8300000000000001^n + 98.41*0.87^n + 3757.33*0.93^n + 8.25927336334253*^12*1.03^n + 6.83*1.09^n + 6.37*1.1500000000000001^n + 1.34*1.16^n + 179.65*1.18^n + 1191.32*1.24^n + 193.78*1.25^n + 7.417488903*^7*1.29^n + 2.27131789293*^9*1.54^n + 2.6015390194744*^11*n + 4.09813809832*^9*n^2. + 4.298331061*^7*n^3. + 340638.48*n^4. + 2073.96*n^5. + 12.71*n^6. + 0.03*n^7.
-155,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_or_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-156,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_parseInt_0_basic.dot,4,4,Polynomial,0.67*n,5.05 + 0.67*n
-157,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_passesLucasLehmer_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
-158,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_passesMillerRabin_0_basic.dot,11,62,Exponential,408.48*1.71^n,17.36 + 0.26*0.9500000000000001^n + 5.97*1.1500000000000001^n + 408.48*1.71^n + 1.6400000000000001*n
-159,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_pow_0_basic.dot,9,18,Exponential,103.84*1.43^n,2. + 0.01*0.71^n + 4.51*1.18^n + 103.84*1.43^n
-160,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_primeToCertainty_0_basic.dot,10,32,Constant,32.,32.
-161,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_primitiveLeftShift_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
-162,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_primitiveRightShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-163,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_probablePrime_0_basic.dot,3,3,Constant,3.,3.
-164,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_randomBits_0_basic.dot,3,3,Constant,3.,3.
-165,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_readObject_0_basic.dot,8,16,Constant,16.,16.
-166,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_remainder_0_basic.dot,1,1,Constant,1.,1.
-167,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_setBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
-168,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_shiftLeft_0_basic.dot,5,6,Polynomial,1.5*n,13. + 1.5*n
-169,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_shiftRight_0_basic.dot,18,203,Exponential,6791.71*2.^(0.2*n),755. + 69.89*1.1500000000000001^n + 6791.71*2.^(0.2*n) + 22.5*n
-170,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_signBit_0_basic.dot,2,2,Constant,2.,2.
-171,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_signInt_0_basic.dot,2,2,Constant,2.,2.
-172,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_signum_0_basic.dot,1,1,Constant,1.,1.
-173,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_smallPrime_0_basic.dot,18,16,Exponential,4168.99*1.55^n,0.29 + 0.01*0.9^n + 0.04*0.91^n + 0.1*0.93^n + 0.02*0.9400000000000001^n + 0.02*0.9500000000000001^n + 0.08*0.96^n + 0.09*1.04^n + 25.8*1.2^n + 4168.99*1.55^n
-174,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_square_0_basic.dot,2,2,Constant,2.,2.
-175,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_squareToLen_0_basic.dot,5,12,Polynomial,0.38*n^2.,9. + 3.75*n + 0.38*n^2.
-176,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_stripLeadingZeroBytes_0_basic.dot,5,9,Exponential,9.56*1.62^(0.5*n),1.6600000000000001 + 0.07*0.62^(0.5*n) + 9.56*1.62^(0.5*n)
-177,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_stripLeadingZeroInts_0_basic.dot,3,3,Polynomial,0.67*n,2.71 + 0.67*n
-178,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_subN_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-179,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_subtract_0_basic.dot,7,32,Exponential,298.84000000000003*2.^(0.2*n),224.83 + 1.92*1.1500000000000001^n + 298.84000000000003*2.^(0.2*n) + 20.*n + 0.5*n^2.
-180,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_testBit_0_basic.dot,3,3,Constant,3.,3.
-181,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_toByteArray_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
-182,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_toString_0_basic.dot,1,1,Constant,1.,1.
-183,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_trustedStripLeadingZeroInts_0_basic.dot,4,6,Polynomial,1.33*n,6.77 + 1.33*n
-184,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_valueOf_0_basic.dot,2,2,Constant,2.,2.
-185,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_writeObject_0_basic.dot,1,1,Constant,1.,1.
-186,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_xor_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-187,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_add_0_basic.dot,12,300,Exponential,2919.89*1.32^n,446.62 + 0.14*0.87^n + 2919.89*1.32^n + 41.67*n + 1.*n^2.
-188,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_binaryGcd_0_basic.dot,6,8,Exponential,12.93*2.^(0.33*n),0. + 3.43*1.26^n + 12.93*2.^(0.33*n)
-189,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_binaryGCD_0_basic.dot,14,960,Exponential,10487.16*1.28^n,64. + 0.11*0.97^n + 23.330000000000002*1.16^n + 625.24*1.23^n + 1396.26*1.27^n + 10487.16*1.28^n
-190,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_clear_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-191,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_<clinit>_0_basic.dot,2,2,Constant,2.,2.
-192,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_compare_0_basic.dot,6,6,Polynomial,0.75*n,8.85 + 0.75*n
-193,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_compareHalf_0_basic.dot,11,17,Polynomial,2.67*n,49.77 + 2.67*n
-194,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_copyAndShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-195,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_copyValue_0_basic.dot,2,2,Constant,2.,2.
-196,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_difference_0_basic.dot,5,9,Polynomial,0.25*n^2.,10. + 3.*n + 0.25*n^2.
-197,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divadd_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-198,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divaddLong_0_basic.dot,1,1,Constant,1.,1.
-199,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divide_0_basic.dot,5,6,Constant,6.,6.
-200,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divideLongMagnitude_0_basic.dot,15,720,Exponential,8763.67*1.42^n,0.37 + 0.07*0.9500000000000001^n + 0.05*1.03^n + 34.64*1.16^n + 12.61*1.18^n + 960.98*1.29^n + 8763.67*1.42^n
-201,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divideMagnitude_0_basic.dot,30,Timeout,Exponential,2.24308162084*^9*1.42^n,1792.75 + 0.06*0.9500000000000001^n + 1.81*1.03^n + 3633.48*1.16^n + 3053.27*1.18^n + 8.20628036*^6*1.29^n + 2.24308162084*^9*1.42^n + 34.6*n
-202,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divideOneWord_0_basic.dot,8,26,Exponential,91.87*2.^(0.25*n),6. + 91.87*2.^(0.25*n)
-203,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_divWord_0_basic.dot,4,5,Polynomial,0.12*n^2.,4. + 1.25*n + 0.12*n^2.
-204,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_ensureCapacity_0_basic.dot,2,2,Constant,2.,2.
-205,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_euclidModInverse_0_basic.dot,7,10,Exponential,22.27*2.^(0.22*n),2. + 6.97*1.17^n + 22.27*2.^(0.22*n)
-206,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_fixup_0_basic.dot,4,8,Polynomial,0.25*n^2.,6. + 2.5*n + 0.25*n^2.
-207,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getInt_0_basic.dot,1,1,Constant,1.,1.
-208,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getLong_0_basic.dot,1,1,Constant,1.,1.
-209,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getLowestSetBit_0_basic.dot,5,7,Polynomial,1.33*n,9.1 + 1.33*n
-210,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_getMagnitudeArray_0_basic.dot,3,3,Constant,3.,3.
-211,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_hybridGCD_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
-212,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_<init>_0_basic.dot,1,1,Constant,1.,1.
-213,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_inverseMod32_0_basic.dot,1,1,Constant,1.,1.
-214,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isEven_0_basic.dot,3,3,Constant,3.,3.
-215,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isNormal_0_basic.dot,4,4,Constant,4.,4.
-216,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isOdd_0_basic.dot,3,3,Constant,3.,3.
-217,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isOne_0_basic.dot,3,3,Constant,3.,3.
-218,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_isZero_0_basic.dot,2,2,Constant,2.,2.
-219,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_leftShift_0_basic.dot,12,50,Polynomial,0.,351. + 32.5*n + 0.75*n^2.
-220,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_modInverse_0_basic.dot,7,22,Exponential,47.910000000000004*1.24^n,7.22 + 0.03*0.92^n + 1.18*1.1300000000000001^n + 6.78*1.22^n + 47.910000000000004*1.24^n + 0.33*n
-221,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_modInverseBP2_0_basic.dot,1,1,Constant,1.,1.
-222,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_modInverseMP2_0_basic.dot,7,8,Constant,8.,8.
-223,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mul_0_basic.dot,6,10,Polynomial,2.*n,15. + (-1.)^(1. + n) + 2.*n
-224,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mulsub_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
-225,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mulsubBorrow_0_basic.dot,3,3,Exponential,4.18*2.^(0.25*n),1. + 4.18*2.^(0.25*n)
-226,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mulsubLong_0_basic.dot,3,4,Constant,4.,4.
-227,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_multiply_0_basic.dot,5,12,Exponential,12.98*1.62^(0.5*n),2. + 0.07*0.62^(0.5*n) + 12.98*1.62^(0.5*n)
-228,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_mutableModInverse_0_basic.dot,4,4,Constant,4.,4.
-229,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_normalize_0_basic.dot,6,8,Polynomial,2.*n,12. + 2.*n
-230,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_primitiveLeftShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-231,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_primitiveRightShift_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-232,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_reset_0_basic.dot,1,1,Constant,1.,1.
-233,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_rightShift_0_basic.dot,4,4,Constant,4.,4.
-234,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_setInt_0_basic.dot,1,1,Constant,1.,1.
-235,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_setValue_0_basic.dot,1,1,Constant,1.,1.
-236,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_subtract_0_basic.dot,6,17,Polynomial,0.5*n^2.,22. + 6.5*n + 0.5*n^2.
-237,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toBigDecimal_0_basic.dot,8,12,Constant,12.,12.
-238,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toBigInteger_0_basic.dot,3,3,Constant,3.,3.
-239,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toCompactValue_0_basic.dot,8,12,Constant,12.,12.
-240,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toIntArray_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-241,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toLong_0_basic.dot,5,7,Constant,7.,7.
-242,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_toString_0_basic.dot,1,1,Constant,1.,1.
-243,../cfgs/java_cfgs/alt-rt/java_math_MutableBigInteger_unsignedLongCompare_0_basic.dot,2,2,Constant,2.,2.
-244,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_addAffixes_0_basic.dot,3,4,Constant,4.,4.
-245,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_adjustForCurrencyDefaultFractionDigits_0_basic.dot,6,12,Constant,12.,12.
-246,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_append_0_basic.dot,4,4,Exponential,2.92*1.22^n,0. + 0.02*0.72^n + 0.45*1.06^n + 2.92*1.22^n
-247,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_appendAffix_0_basic.dot,25,320,Exponential,11144.41*1.22^n,0. + 7.98*1.06^n + 11144.41*1.22^n
-248,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_appendSuffix_0_basic.dot,5,6,Constant,6.,6.
-249,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_applyLocalizedPattern_0_basic.dot,1,1,Constant,1.,1.
-250,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_applyPattern_0_basic.dot,76,Timeout,Exponential,7.146242262552534*^25*1.58^n,7.489976406477734*^20 + 3.2929552469466844*^18*0.71^n + 2.3241608832522394*^17*0.9400000000000001^n + 1.891391426763248*^17*1.01^n + 2.965783687971773*^16*1.08^n + 8.233333017206077*^16*1.1300000000000001^n + 1.234868444125318*^16*1.1500000000000001^n + 7.841163922391352*^15*1.17^n + 1.1271691481521834*^16*1.18^n + 5.66012771750613*^15*1.19^n + 4.589115702130472*^15*1.21^n + 1.2142039357503644*^16*1.24^n + 4.127350159741486*^15*1.25^n + 3.0880767009588585*^15*1.27^n + 1.066843980028728*^15*1.28^n + 1.708598605453083*^15*1.29^n + 7.146242262552534*^25*1.58^n
-251,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_checkAndSetFastPathStatus_0_basic.dot,25,3942,Constant,3942.,3942.
-252,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_<clinit>_0_basic.dot,2,2,Constant,2.,2.
-253,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_clone_0_basic.dot,2,2,Constant,2.,2.
-254,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_collectFractionalDigits_0_basic.dot,5,5,Constant,5.,5.
-255,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_collectIntegralDigits_0_basic.dot,4,6,Polynomial,1.5*n,5. + 1.5*n
-256,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_equals_0_basic.dot,32,1782,Constant,1782.,1782.
-257,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_exactRoundUp_0_basic.dot,11,78,Constant,78.,78.
-258,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_expandAffix_0_basic.dot,14,46,Exponential,5195.68*1.57^n,0.1 + 0.72*1.07^n + 58.6*1.28^n + 107.91*1.33^n + 5195.68*1.57^n
-259,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_expandAffixes_0_basic.dot,5,16,Constant,16.,16.
-260,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_fastDoubleFormat_0_basic.dot,9,56,Constant,56.,56.
-261,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_fastFormat_0_basic.dot,8,20,Constant,20.,20.
-262,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_format_0_basic.dot,8,49,Constant,49.,49.
-263,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_formatToCharacterIterator_0_basic.dot,12,12,Constant,12.,12.
-264,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getBigDecimalMultiplier_0_basic.dot,2,2,Constant,2.,2.
-265,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getBigIntegerMultiplier_0_basic.dot,2,2,Constant,2.,2.
-266,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getCurrency_0_basic.dot,1,1,Constant,1.,1.
-267,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getDecimalFormatSymbols_0_basic.dot,2,2,Constant,2.,2.
-268,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getGroupingSize_0_basic.dot,1,1,Constant,1.,1.
-269,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMaximumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
-270,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMaximumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
-271,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMinimumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
-272,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMinimumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
-273,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getMultiplier_0_basic.dot,1,1,Constant,1.,1.
-274,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativePrefix_0_basic.dot,1,1,Constant,1.,1.
-275,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativePrefixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
-276,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativeSuffix_0_basic.dot,1,1,Constant,1.,1.
-277,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getNegativeSuffixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
-278,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositivePrefix_0_basic.dot,1,1,Constant,1.,1.
-279,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositivePrefixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
-280,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositiveSuffix_0_basic.dot,1,1,Constant,1.,1.
-281,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getPositiveSuffixFieldPositions_0_basic.dot,3,3,Constant,3.,3.
-282,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_getRoundingMode_0_basic.dot,1,1,Constant,1.,1.
-283,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_hashCode_0_basic.dot,1,1,Constant,1.,1.
-284,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_<init>_0_basic.dot,1,1,Constant,1.,1.
-285,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_isDecimalSeparatorAlwaysShown_0_basic.dot,1,1,Constant,1.,1.
-286,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_isParseBigDecimal_0_basic.dot,1,1,Constant,1.,1.
-287,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_localizeDigits_0_basic.dot,4,6,Exponential,8.120000000000001*2.^(0.25*n),2. + 8.120000000000001*2.^(0.25*n)
-288,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_parse_0_basic.dot,27,591,Constant,591.,591.
-289,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_prependPrefix_0_basic.dot,5,6,Constant,6.,6.
-290,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_readObject_0_basic.dot,6,12,Constant,12.,12.
-291,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setCurrency_0_basic.dot,3,3,Constant,3.,3.
-292,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setDecimalFormatSymbols_0_basic.dot,2,2,Constant,2.,2.
-293,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setDecimalSeparatorAlwaysShown_0_basic.dot,1,1,Constant,1.,1.
-294,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setGroupingSize_0_basic.dot,1,1,Constant,1.,1.
-295,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setGroupingUsed_0_basic.dot,1,1,Constant,1.,1.
-296,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMaximumFractionDigits_0_basic.dot,4,6,Constant,6.,6.
-297,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMaximumIntegerDigits_0_basic.dot,4,6,Constant,6.,6.
-298,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMinimumFractionDigits_0_basic.dot,4,6,Constant,6.,6.
-299,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMinimumIntegerDigits_0_basic.dot,4,6,Constant,6.,6.
-300,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setMultiplier_0_basic.dot,1,1,Constant,1.,1.
-301,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setNegativePrefix_0_basic.dot,1,1,Constant,1.,1.
-302,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setNegativeSuffix_0_basic.dot,1,1,Constant,1.,1.
-303,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setParseBigDecimal_0_basic.dot,1,1,Constant,1.,1.
-304,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setPositivePrefix_0_basic.dot,1,1,Constant,1.,1.
-305,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setPositiveSuffix_0_basic.dot,1,1,Constant,1.,1.
-306,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_setRoundingMode_0_basic.dot,2,2,Constant,2.,2.
-307,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_subformat_0_basic.dot,52,Timeout,Exponential,1.492929991450648*^17*1.45^n,3.55801564*^6 + 1.2894861*^6*0.8300000000000001^n + 38525.68*0.89^n + 251883.16*0.9^n + 33965.33*0.96^n + 130675.41*0.97^n + 60423.08*1.09^n + 69308.3*1.17^n + 2.04400942683*^9*1.2^n + 3.91673686255*^9*1.25^n + 1.7510637160847*^11*1.26^n + 6.361602767295351*^13*1.29^n + 2.5045321240533475*^14*1.35^n + 1.492929991450648*^17*1.45^n + 3.0792020215867*^11*2.^(0.25*n) + 72379.89*n
-308,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_subparse_0_basic.dot,46,Timeout,Exponential,1.097729208338955*^13*1.41^n,312271.55 + 3.75*0.5^n + 2.39*0.71^n + 0.96*0.77^n + 530261.56*1.07^n + 0.12*1.09^n + 11346.34*1.17^n + 1.1186356173*^9*1.29^n + 8.900727998*^7*1.3^n + 1.097729208338955*^13*1.41^n
-309,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_toLocalizedPattern_0_basic.dot,1,1,Constant,1.,1.
-310,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat_toPattern_0_basic.dot,35,Timeout,Exponential,1.9823351480223*^11*1.51^n,0.07 + 10.15*0.58^n + 10.450000000000001*0.64^n + 1.59*0.7000000000000001^n + 1.86*1.04^n + 1.87*1.09^n + 335.08*1.11^n + 42.65*1.12^n + 16126.5*1.2^n + 26787.7*1.21^n + 81111.1*1.24^n + 512741.59*1.27^n + 3.79654433*^6*1.31^n + 4.67323336*^6*1.32^n + 2.1070773069*^8*1.33^n + 1.4534078790000001*^7*1.35^n + 1.9823351480223*^11*1.51^n
-311,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat$DigitArrays_<clinit>_0_basic.dot,6,13,Exponential,12.52*1.3800000000000001^n,0.09 + 0.13*1.02^n + 0.37*1.11^n + 0.72*1.17^n + 4.73*1.3^n + 12.52*1.3800000000000001^n
-312,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat$DigitArrays_<init>_0_basic.dot,1,1,Constant,1.,1.
-313,../cfgs/java_cfgs/alt-rt/java_text_DecimalFormat$FastPathData_<init>_0_basic.dot,1,1,Constant,1.,1.
-314,../cfgs/java_cfgs/alt-rt/java_text_DigitList_append_0_basic.dot,2,2,Constant,2.,2.
-315,../cfgs/java_cfgs/alt-rt/java_text_DigitList_clear_0_basic.dot,1,1,Constant,1.,1.
-316,../cfgs/java_cfgs/alt-rt/java_text_DigitList_<clinit>_0_basic.dot,2,2,Constant,2.,2.
-317,../cfgs/java_cfgs/alt-rt/java_text_DigitList_clone_0_basic.dot,2,2,Constant,2.,2.
-318,../cfgs/java_cfgs/alt-rt/java_text_DigitList_equals_0_basic.dot,7,7,Polynomial,0.67*n,9.38 + 0.67*n
-319,../cfgs/java_cfgs/alt-rt/java_text_DigitList_extendDigits_0_basic.dot,2,2,Constant,2.,2.
-320,../cfgs/java_cfgs/alt-rt/java_text_DigitList_fitsIntoLong_0_basic.dot,14,42,Polynomial,0.42*n^2.,268.55 + 21.080000000000002*n + 0.42*n^2.
-321,../cfgs/java_cfgs/alt-rt/java_text_DigitList_getBigDecimal_0_basic.dot,4,4,Constant,4.,4.
-322,../cfgs/java_cfgs/alt-rt/java_text_DigitList_getDataChars_0_basic.dot,3,3,Constant,3.,3.
-323,../cfgs/java_cfgs/alt-rt/java_text_DigitList_getDouble_0_basic.dot,2,2,Constant,2.,2.
-324,../cfgs/java_cfgs/alt-rt/java_text_DigitList_getLong_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
-325,../cfgs/java_cfgs/alt-rt/java_text_DigitList_getStringBuffer_0_basic.dot,2,2,Constant,2.,2.
-326,../cfgs/java_cfgs/alt-rt/java_text_DigitList_hashCode_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-327,../cfgs/java_cfgs/alt-rt/java_text_DigitList_<init>_0_basic.dot,1,1,Constant,1.,1.
-328,../cfgs/java_cfgs/alt-rt/java_text_DigitList_isLongMIN_VALUE_0_basic.dot,5,5,Polynomial,0.67*n,6.05 + 0.67*n
-329,../cfgs/java_cfgs/alt-rt/java_text_DigitList_isZero_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
-330,../cfgs/java_cfgs/alt-rt/java_text_DigitList_parseInt_0_basic.dot,7,24,Polynomial,4.5*n,34.08 + 4.5*n
-331,../cfgs/java_cfgs/alt-rt/java_text_DigitList_round_0_basic.dot,8,14,Polynomial,0.33*n^2.,20.03 + 4.67*n + 0.33*n^2.
-332,../cfgs/java_cfgs/alt-rt/java_text_DigitList_set_0_basic.dot,4,6,Polynomial,1.33*n,5.71 + 1.33*n
-333,../cfgs/java_cfgs/alt-rt/java_text_DigitList_setRoundingMode_0_basic.dot,1,1,Constant,1.,1.
-334,../cfgs/java_cfgs/alt-rt/java_text_DigitList_shouldRoundUp_0_basic.dot,39,39,Exponential,0.,308.91 + 4.33*n
-335,../cfgs/java_cfgs/alt-rt/java_text_DigitList_toString_0_basic.dot,2,2,Constant,2.,2.
-336,../cfgs/java_cfgs/alt-rt/java_text_DigitList$1_<clinit>_0_basic.dot,9,9,Constant,9.,9.
-337,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_<clinit>_0_basic.dot,1,1,Constant,1.,1.
-338,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_clone_0_basic.dot,1,1,Constant,1.,1.
-339,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_equals_0_basic.dot,10,10,Constant,10.,10.
-340,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_fastFormat_0_basic.dot,1,1,Constant,1.,1.
-341,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_format_0_basic.dot,1,1,Constant,1.,1.
-342,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getAvailableLocales_0_basic.dot,1,1,Constant,1.,1.
-343,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getCurrency_0_basic.dot,1,1,Constant,1.,1.
-344,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getCurrencyInstance_0_basic.dot,1,1,Constant,1.,1.
-345,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getInstance_0_basic.dot,7,25,Constant,25.,25.
-346,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getIntegerInstance_0_basic.dot,1,1,Constant,1.,1.
-347,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMaximumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
-348,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMaximumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
-349,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMinimumFractionDigits_0_basic.dot,1,1,Constant,1.,1.
-350,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getMinimumIntegerDigits_0_basic.dot,1,1,Constant,1.,1.
-351,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getNumberInstance_0_basic.dot,1,1,Constant,1.,1.
-352,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getPercentInstance_0_basic.dot,1,1,Constant,1.,1.
-353,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getRoundingMode_0_basic.dot,1,1,Constant,1.,1.
-354,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_getScientificInstance_0_basic.dot,1,1,Constant,1.,1.
-355,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_hashCode_0_basic.dot,1,1,Constant,1.,1.
-356,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_<init>_0_basic.dot,1,1,Constant,1.,1.
-357,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_isGroupingUsed_0_basic.dot,1,1,Constant,1.,1.
-358,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_isParseIntegerOnly_0_basic.dot,1,1,Constant,1.,1.
-359,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_parse_0_basic.dot,2,2,Constant,2.,2.
-360,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_parseObject_0_basic.dot,1,1,Constant,1.,1.
-361,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_readObject_0_basic.dot,6,10,Constant,10.,10.
-362,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setCurrency_0_basic.dot,1,1,Constant,1.,1.
-363,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setGroupingUsed_0_basic.dot,1,1,Constant,1.,1.
-364,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMaximumFractionDigits_0_basic.dot,2,2,Constant,2.,2.
-365,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMaximumIntegerDigits_0_basic.dot,2,2,Constant,2.,2.
-366,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMinimumFractionDigits_0_basic.dot,2,2,Constant,2.,2.
-367,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setMinimumIntegerDigits_0_basic.dot,2,2,Constant,2.,2.
-368,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setParseIntegerOnly_0_basic.dot,1,1,Constant,1.,1.
-369,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_setRoundingMode_0_basic.dot,1,1,Constant,1.,1.
-370,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat_writeObject_0_basic.dot,5,16,Constant,16.,16.
-371,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat$Field_<clinit>_0_basic.dot,1,1,Constant,1.,1.
-372,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat$Field_<init>_0_basic.dot,2,2,Constant,2.,2.
-373,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat$Field_readResolve_0_basic.dot,3,3,Constant,3.,3.
-374,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_access$000_0_basic.dot,1,1,Constant,1.,1.
-375,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_<clinit>_0_basic.dot,2,2,Constant,2.,2.
-376,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_getObject_0_basic.dot,1,1,Constant,1.,1.
-377,../cfgs/java_cfgs/alt-rt/java_text_NumberFormat$NumberFormatGetter_<init>_0_basic.dot,1,1,Constant,1.,1.
-378,../cfgs/java_cfgs/alt-rt/java_util_HashMap_addEntry_0_basic.dot,2,2,Constant,2.,2.
-379,../cfgs/java_cfgs/alt-rt/java_util_HashMap_capacity_0_basic.dot,1,1,Constant,1.,1.
-380,../cfgs/java_cfgs/alt-rt/java_util_HashMap_clear_0_basic.dot,2,2,Constant,2.,2.
-381,../cfgs/java_cfgs/alt-rt/java_util_HashMap_clone_0_basic.dot,3,4,Constant,4.,4.
-382,../cfgs/java_cfgs/alt-rt/java_util_HashMap_containsKey_0_basic.dot,2,2,Constant,2.,2.
-383,../cfgs/java_cfgs/alt-rt/java_util_HashMap_containsNullValue_0_basic.dot,4,4,Exponential,5.3*1.22^n,1. + 0.01*0.72^n + 0.54*1.06^n + 5.3*1.22^n
-384,../cfgs/java_cfgs/alt-rt/java_util_HashMap_containsValue_0_basic.dot,5,5,Exponential,6.48*1.22^n,0. + 0.01*0.72^n + 0.5700000000000001*1.06^n + 6.48*1.22^n
-385,../cfgs/java_cfgs/alt-rt/java_util_HashMap_createEntry_0_basic.dot,1,1,Constant,1.,1.
-386,../cfgs/java_cfgs/alt-rt/java_util_HashMap_entrySet0_0_basic.dot,2,2,Constant,2.,2.
-387,../cfgs/java_cfgs/alt-rt/java_util_HashMap_entrySet_0_basic.dot,1,1,Constant,1.,1.
-388,../cfgs/java_cfgs/alt-rt/java_util_HashMap_get_0_basic.dot,8,12,Exponential,27.95*1.19^n,4. + 0.12*0.84^n + 0.67*1.09^n + 27.95*1.19^n
-389,../cfgs/java_cfgs/alt-rt/java_util_HashMap_getEntry_0_basic.dot,7,12,Exponential,23.84*1.28^n,3. + 0.01*0.65^n + 0.15*0.96^n + 0.75*1.1400000000000001^n + 23.84*1.28^n
-390,../cfgs/java_cfgs/alt-rt/java_util_HashMap_getForNullKey_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
-391,../cfgs/java_cfgs/alt-rt/java_util_HashMap_hash_0_basic.dot,1,1,Constant,1.,1.
-392,../cfgs/java_cfgs/alt-rt/java_util_HashMap_indexFor_0_basic.dot,1,1,Constant,1.,1.
-393,../cfgs/java_cfgs/alt-rt/java_util_HashMap_<init>_0_basic.dot,1,1,Constant,1.,1.
-394,../cfgs/java_cfgs/alt-rt/java_util_HashMap_init_0_basic.dot,1,1,Constant,1.,1.
-395,../cfgs/java_cfgs/alt-rt/java_util_HashMap_isEmpty_0_basic.dot,2,2,Constant,2.,2.
-396,../cfgs/java_cfgs/alt-rt/java_util_HashMap_keySet_0_basic.dot,2,2,Constant,2.,2.
-397,../cfgs/java_cfgs/alt-rt/java_util_HashMap_loadFactor_0_basic.dot,1,1,Constant,1.,1.
-398,../cfgs/java_cfgs/alt-rt/java_util_HashMap_newEntryIterator_0_basic.dot,1,1,Constant,1.,1.
-399,../cfgs/java_cfgs/alt-rt/java_util_HashMap_newKeyIterator_0_basic.dot,1,1,Constant,1.,1.
-400,../cfgs/java_cfgs/alt-rt/java_util_HashMap_newValueIterator_0_basic.dot,1,1,Constant,1.,1.
-401,../cfgs/java_cfgs/alt-rt/java_util_HashMap_put_0_basic.dot,7,11,Exponential,23.42*1.19^n,5. + 0.15*0.84^n + 0.61*1.09^n + 23.42*1.19^n
-402,../cfgs/java_cfgs/alt-rt/java_util_HashMap_putAll_0_basic.dot,7,19,Polynomial,0.5*n^2.,27. + 7.*n + 0.5*n^2.
-403,../cfgs/java_cfgs/alt-rt/java_util_HashMap_putAllForCreate_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-404,../cfgs/java_cfgs/alt-rt/java_util_HashMap_putForCreate_0_basic.dot,8,24,Exponential,54.31*1.28^n,6. + 0.25*0.96^n + 0.73*1.1400000000000001^n + 54.31*1.28^n
-405,../cfgs/java_cfgs/alt-rt/java_util_HashMap_putForNullKey_0_basic.dot,3,3,Polynomial,0.67*n,3.38 + 0.67*n
-406,../cfgs/java_cfgs/alt-rt/java_util_HashMap_readObject_0_basic.dot,3,4,Polynomial,1.*n,3. + 1.*n
-407,../cfgs/java_cfgs/alt-rt/java_util_HashMap_remove_0_basic.dot,2,2,Constant,2.,2.
-408,../cfgs/java_cfgs/alt-rt/java_util_HashMap_removeEntryForKey_0_basic.dot,9,24,Exponential,109.96000000000001*1.28^n,9. + 0.01*0.65^n + 0.93*0.96^n + 4.49*1.1400000000000001^n + 109.96000000000001*1.28^n
-409,../cfgs/java_cfgs/alt-rt/java_util_HashMap_removeMapping_0_basic.dot,8,15,Exponential,67.36*1.22^n,9. + 0.02*0.72^n + 1.45*1.06^n + 67.36*1.22^n
-410,../cfgs/java_cfgs/alt-rt/java_util_HashMap_resize_0_basic.dot,3,3,Constant,3.,3.
-411,../cfgs/java_cfgs/alt-rt/java_util_HashMap_size_0_basic.dot,1,1,Constant,1.,1.
-412,../cfgs/java_cfgs/alt-rt/java_util_HashMap_transfer_0_basic.dot,4,4,Exponential,2.3000000000000003*1.4000000000000001^n,0. + 0.1*0.79^n + 0.42*1.06^n + 2.3000000000000003*1.4000000000000001^n
-413,../cfgs/java_cfgs/alt-rt/java_util_HashMap_values_0_basic.dot,2,2,Constant,2.,2.
-414,../cfgs/java_cfgs/alt-rt/java_util_HashMap_writeObject_0_basic.dot,4,6,Polynomial,1.*n,6. + 1.*n
-415,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_equals_0_basic.dot,8,11,Constant,11.,11.
-416,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_getKey_0_basic.dot,1,1,Constant,1.,1.
-417,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_getValue_0_basic.dot,1,1,Constant,1.,1.
-418,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_hashCode_0_basic.dot,3,4,Constant,4.,4.
-419,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_<init>_0_basic.dot,1,1,Constant,1.,1.
-420,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-421,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
-422,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_recordAccess_0_basic.dot,1,1,Constant,1.,1.
-423,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_recordRemoval_0_basic.dot,1,1,Constant,1.,1.
-424,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_clear_0_basic.dot,1,1,Constant,1.,1.
-425,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_contains_0_basic.dot,4,4,Constant,4.,4.
-426,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_<init>_0_basic.dot,1,1,Constant,1.,1.
-427,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_iterator_0_basic.dot,1,1,Constant,1.,1.
-428,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_remove_0_basic.dot,2,2,Constant,2.,2.
-429,../cfgs/java_cfgs/alt-rt/java_util_HashMap$EntrySet_size_0_basic.dot,1,1,Constant,1.,1.
-430,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_setValue_0_basic.dot,2,2,Constant,2.,2.
-431,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Entry_toString_0_basic.dot,1,1,Constant,1.,1.
-432,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$100_0_basic.dot,1,1,Constant,1.,1.
-433,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$200_0_basic.dot,1,1,Constant,1.,1.
-434,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$300_0_basic.dot,1,1,Constant,1.,1.
-435,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$400_0_basic.dot,1,1,Constant,1.,1.
-436,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$500_0_basic.dot,1,1,Constant,1.,1.
-437,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_access$600_0_basic.dot,1,1,Constant,1.,1.
-438,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_clear_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-439,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_get_0_basic.dot,3,3,Constant,3.,3.
-440,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_<init>_0_basic.dot,1,1,Constant,1.,1.
-441,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_inRange_0_basic.dot,2,2,Constant,2.,2.
-442,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_makeBitMask_0_basic.dot,1,1,Constant,1.,1.
-443,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_put_0_basic.dot,3,3,Constant,3.,3.
-444,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_remove_0_basic.dot,3,3,Constant,3.,3.
-445,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_setValue_0_basic.dot,3,3,Constant,3.,3.
-446,../cfgs/java_cfgs/alt-rt/java_util_HashMap$FrontCache_transfer_0_basic.dot,1,1,Constant,1.,1.
-447,../cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_hasNext_0_basic.dot,2,2,Constant,2.,2.
-448,../cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_<init>_0_basic.dot,4,4,Polynomial,0.67*n,3.71 + 0.67*n
-449,../cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_nextEntry_0_basic.dot,6,6,Polynomial,0.67*n,7.05 + 0.67*n
-450,../cfgs/java_cfgs/alt-rt/java_util_HashMap$HashIterator_remove_0_basic.dot,3,3,Constant,3.,3.
-451,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-452,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
-453,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_clear_0_basic.dot,1,1,Constant,1.,1.
-454,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_contains_0_basic.dot,1,1,Constant,1.,1.
-455,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_<init>_0_basic.dot,1,1,Constant,1.,1.
-456,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_iterator_0_basic.dot,1,1,Constant,1.,1.
-457,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_remove_0_basic.dot,2,2,Constant,2.,2.
-458,../cfgs/java_cfgs/alt-rt/java_util_HashMap$KeySet_size_0_basic.dot,1,1,Constant,1.,1.
-459,../cfgs/java_cfgs/alt-rt/java_util_HashMap$ValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-460,../cfgs/java_cfgs/alt-rt/java_util_HashMap$ValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
-461,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_clear_0_basic.dot,1,1,Constant,1.,1.
-462,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_contains_0_basic.dot,1,1,Constant,1.,1.
-463,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_<init>_0_basic.dot,1,1,Constant,1.,1.
-464,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_iterator_0_basic.dot,1,1,Constant,1.,1.
-465,../cfgs/java_cfgs/alt-rt/java_util_HashMap$Values_size_0_basic.dot,1,1,Constant,1.,1.
-466,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_access$000_0_basic.dot,1,1,Constant,1.,1.
-467,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_access$100_0_basic.dot,1,1,Constant,1.,1.
-468,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_addEntry_0_basic.dot,3,3,Constant,3.,3.
-469,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_clear_0_basic.dot,1,1,Constant,1.,1.
-470,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_containsValue_0_basic.dot,6,6,Polynomial,1.33*n,14.69 + 1.33*n
-471,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_createEntry_0_basic.dot,1,1,Constant,1.,1.
-472,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_get_0_basic.dot,2,2,Constant,2.,2.
-473,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_<init>_0_basic.dot,1,1,Constant,1.,1.
-474,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_init_0_basic.dot,1,1,Constant,1.,1.
-475,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_newEntryIterator_0_basic.dot,1,1,Constant,1.,1.
-476,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_newKeyIterator_0_basic.dot,1,1,Constant,1.,1.
-477,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_newValueIterator_0_basic.dot,1,1,Constant,1.,1.
-478,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_removeEldestEntry_0_basic.dot,1,1,Constant,1.,1.
-479,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap_transfer_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-480,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_access$600_0_basic.dot,1,1,Constant,1.,1.
-481,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_addBefore_0_basic.dot,1,1,Constant,1.,1.
-482,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_<init>_0_basic.dot,1,1,Constant,1.,1.
-483,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$EntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-484,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$EntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
-485,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_recordAccess_0_basic.dot,2,2,Constant,2.,2.
-486,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_recordRemoval_0_basic.dot,1,1,Constant,1.,1.
-487,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$Entry_remove_0_basic.dot,1,1,Constant,1.,1.
-488,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$KeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-489,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$KeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
-490,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_hasNext_0_basic.dot,2,2,Constant,2.,2.
-491,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-492,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_nextEntry_0_basic.dot,3,3,Constant,3.,3.
-493,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$LinkedHashIterator_remove_0_basic.dot,3,3,Constant,3.,3.
-494,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$ValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-495,../cfgs/java_cfgs/alt-rt/java_util_LinkedHashMap$ValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
-496,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$000_0_basic.dot,1,1,Constant,1.,1.
-497,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$100_0_basic.dot,1,1,Constant,1.,1.
-498,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$200_0_basic.dot,1,1,Constant,1.,1.
-499,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$300_0_basic.dot,1,1,Constant,1.,1.
-500,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$400_0_basic.dot,1,1,Constant,1.,1.
-501,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$500_0_basic.dot,1,1,Constant,1.,1.
-502,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$600_0_basic.dot,1,1,Constant,1.,1.
-503,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$700_0_basic.dot,1,1,Constant,1.,1.
-504,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_access$800_0_basic.dot,1,1,Constant,1.,1.
-505,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_addAllForTreeSet_0_basic.dot,3,3,Constant,3.,3.
-506,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_addToLast_0_basic.dot,3,3,Constant,3.,3.
-507,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_appendFromLeft_0_basic.dot,2,2,Constant,2.,2.
-508,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_appendFromRight_0_basic.dot,2,2,Constant,2.,2.
-509,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachNullToParent_0_basic.dot,4,5,Constant,5.,5.
-510,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToLeft_0_basic.dot,2,2,Constant,2.,2.
-511,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToParent_0_basic.dot,2,2,Constant,2.,2.
-512,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToParentNoFixup_0_basic.dot,3,3,Constant,3.,3.
-513,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_attachToRight_0_basic.dot,2,2,Constant,2.,2.
-514,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_balance_0_basic.dot,10,12,Exponential,108.68*1.41^n,0.22 + 0.05*1.12^n + 2.59*1.19^n + 42.61*1.36^n + 108.68*1.41^n
-515,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_buildFromSorted_0_basic.dot,5,5,Exponential,8.040000000000001*1.29^n,0.33 + 0.01*0.8300000000000001^n + 0.47000000000000003*1.09^n + 2.71*1.25^n + 8.040000000000001*1.29^n
-516,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_ceilingEntry_0_basic.dot,1,1,Constant,1.,1.
-517,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_ceilingKey_0_basic.dot,1,1,Constant,1.,1.
-518,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_clear_0_basic.dot,1,1,Constant,1.,1.
-519,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_clone_0_basic.dot,4,4,Polynomial,0.5*n,4. + 0.5*n
-520,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_cmp_0_basic.dot,2,2,Constant,2.,2.
-521,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_comparator_0_basic.dot,1,1,Constant,1.,1.
-522,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_compare_0_basic.dot,2,2,Constant,2.,2.
-523,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_containsKey_0_basic.dot,11,30,Exponential,1310.69*1.22^n,0.4 + 0.01*0.81^n + 0.4*0.98^n + 0.71*1.06^n + 2.99*1.1500000000000001^n + 865.5*1.2^n + 1310.69*1.22^n
-524,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_containsValue_0_basic.dot,9,9,Exponential,0.,1. + 1.76*1.06^n + 52.32*1.22^n
-525,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_createNode_0_basic.dot,1,1,Constant,1.,1.
-526,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_deleteNode_0_basic.dot,7,11,Constant,11.,11.
-527,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_descendingKeyIterator_0_basic.dot,1,1,Constant,1.,1.
-528,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_descendingKeySet_0_basic.dot,1,1,Constant,1.,1.
-529,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_descendingMap_0_basic.dot,2,2,Constant,2.,2.
-530,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_entrySet_0_basic.dot,2,2,Constant,2.,2.
-531,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_exportEntry_0_basic.dot,2,2,Constant,2.,2.
-532,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_firstEntry_0_basic.dot,1,1,Constant,1.,1.
-533,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_firstKey_0_basic.dot,2,2,Constant,2.,2.
-534,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_fixNextChain_0_basic.dot,3,4,Constant,4.,4.
-535,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_fixup_0_basic.dot,22,58,Exponential,138452.12*1.51^n,0.04 + 0.07*1.01^n + 0.45*1.05^n + 49.09*1.23^n + 315.49*1.25^n + 2022.19*1.33^n + 138452.12*1.51^n
-536,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_floorEntry_0_basic.dot,1,1,Constant,1.,1.
-537,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_floorKey_0_basic.dot,1,1,Constant,1.,1.
-538,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_get_0_basic.dot,11,30,Exponential,1310.69*1.22^n,0.4 + 0.01*0.81^n + 0.4*0.98^n + 0.71*1.06^n + 2.99*1.1500000000000001^n + 865.5*1.2^n + 1310.69*1.22^n
-539,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_getCeilingEntry_0_basic.dot,16,42,Exponential,5510.55*1.28^n,4.5600000000000005 + 0.01*0.88^n + 0.01*0.9^n + 0.22*1.02^n + 6.46*1.06^n + 11.17*1.1300000000000001^n + 51.550000000000004*1.19^n + 5510.55*1.28^n
-540,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_getEntry_0_basic.dot,11,30,Exponential,1310.69*1.22^n,0.4 + 0.01*0.81^n + 0.4*0.98^n + 0.71*1.06^n + 2.99*1.1500000000000001^n + 865.5*1.2^n + 1310.69*1.22^n
-541,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_getFirstEntry_0_basic.dot,2,2,Constant,2.,2.
-542,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_getFloorEntry_0_basic.dot,16,42,Exponential,5510.55*1.28^n,4.5600000000000005 + 0.01*0.88^n + 0.01*0.9^n + 0.22*1.02^n + 6.46*1.06^n + 11.17*1.1300000000000001^n + 51.550000000000004*1.19^n + 5510.55*1.28^n
-543,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_getHigherEntry_0_basic.dot,14,38,Exponential,4241.76*1.36^n,2. + 0.01*0.8^n + 0.76*1.02^n + 8.63*1.12^n + 6.01*1.1400000000000001^n + 4241.76*1.36^n
-544,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_getLastEntry_0_basic.dot,2,2,Constant,2.,2.
-545,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_getLowerEntry_0_basic.dot,14,38,Exponential,4241.76*1.36^n,2. + 0.01*0.8^n + 0.76*1.02^n + 8.63*1.12^n + 6.01*1.1400000000000001^n + 4241.76*1.36^n
-546,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_headMap_0_basic.dot,1,1,Constant,1.,1.
-547,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_higherEntry_0_basic.dot,1,1,Constant,1.,1.
-548,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_higherKey_0_basic.dot,1,1,Constant,1.,1.
-549,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_<init>_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
-550,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_key_0_basic.dot,2,2,Constant,2.,2.
-551,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_keyIterator_0_basic.dot,1,1,Constant,1.,1.
-552,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_keyOrNull_0_basic.dot,2,2,Constant,2.,2.
-553,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_keySet_0_basic.dot,1,1,Constant,1.,1.
-554,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_lastEntry_0_basic.dot,1,1,Constant,1.,1.
-555,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_lastKey_0_basic.dot,2,2,Constant,2.,2.
-556,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_leftRotate_0_basic.dot,4,6,Constant,6.,6.
-557,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_lowerEntry_0_basic.dot,1,1,Constant,1.,1.
-558,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_lowerKey_0_basic.dot,1,1,Constant,1.,1.
-559,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_maximum_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
-560,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_minimum_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
-561,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_navigableKeySet_0_basic.dot,2,2,Constant,2.,2.
-562,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_pollFirstEntry_0_basic.dot,2,2,Constant,2.,2.
-563,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_pollLastEntry_0_basic.dot,2,2,Constant,2.,2.
-564,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_put_0_basic.dot,35,1951,Exponential,1.9205746355*^8*1.22^n,97.4 + 11.36*0.98^n + 226.96*1.06^n + 23191.41*1.1500000000000001^n + 6.166056182*^7*1.2^n + 1.9205746355*^8*1.22^n
-565,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_putAll_0_basic.dot,9,9,Constant,9.,9.
-566,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_readObject_0_basic.dot,1,1,Constant,1.,1.
-567,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_readTreeSet_0_basic.dot,1,1,Constant,1.,1.
-568,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_remove_0_basic.dot,12,31,Exponential,1600.02*1.22^n,1.4000000000000001 + 0.01*0.81^n + 0.4*0.98^n + 0.76*1.06^n + 3.44*1.1500000000000001^n + 1037.51*1.2^n + 1600.02*1.22^n
-569,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeFromIterator_0_basic.dot,7,7,Constant,7.,7.
-570,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeLeftmost_0_basic.dot,8,16,Constant,16.,16.
-571,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeMiddleElement_0_basic.dot,10,27,Constant,27.,27.
-572,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_removeRightmost_0_basic.dot,8,16,Constant,16.,16.
-573,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_rightRotate_0_basic.dot,4,6,Constant,6.,6.
-574,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_size_0_basic.dot,1,1,Constant,1.,1.
-575,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_subMap_0_basic.dot,1,1,Constant,1.,1.
-576,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_successor_0_basic.dot,4,4,Polynomial,0.67*n,4.38 + 0.67*n
-577,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_tailMap_0_basic.dot,1,1,Constant,1.,1.
-578,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_toComparable_0_basic.dot,1,1,Constant,1.,1.
-579,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_valEquals_0_basic.dot,3,3,Constant,3.,3.
-580,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_values_0_basic.dot,2,2,Constant,2.,2.
-581,../cfgs/java_cfgs/alt-rt/java_util_TreeMap_writeObject_0_basic.dot,4,4,Exponential,1.8900000000000001*1.62^(0.5*n),1. + 0.17*0.62^(0.5*n) + 1.8900000000000001*1.62^(0.5*n)
-582,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_clear_0_basic.dot,1,1,Constant,1.,1.
-583,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_contains_0_basic.dot,5,5,Constant,5.,5.
-584,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_<init>_0_basic.dot,1,1,Constant,1.,1.
-585,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_iterator_0_basic.dot,1,1,Constant,1.,1.
-586,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_remove_0_basic.dot,2,2,Constant,2.,2.
-587,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$1_size_0_basic.dot,1,1,Constant,1.,1.
-588,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_clear_0_basic.dot,1,1,Constant,1.,1.
-589,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_contains_0_basic.dot,1,1,Constant,1.,1.
-590,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_<init>_0_basic.dot,1,1,Constant,1.,1.
-591,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_iterator_0_basic.dot,1,1,Constant,1.,1.
-592,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$2_size_0_basic.dot,1,1,Constant,1.,1.
-593,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_hasNext_0_basic.dot,2,2,Constant,2.,2.
-594,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-595,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_makeNext_0_basic.dot,5,5,Constant,5.,5.
-596,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AbstractMapIterator_remove_0_basic.dot,3,3,Constant,3.,3.
-597,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_comparator_0_basic.dot,1,1,Constant,1.,1.
-598,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_descendingKeyIterator_0_basic.dot,7,30,Constant,30.,30.
-599,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_descendingMap_0_basic.dot,2,2,Constant,2.,2.
-600,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_entrySet_0_basic.dot,2,2,Constant,2.,2.
-601,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_headMap_0_basic.dot,2,2,Constant,2.,2.
-602,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_<init>_0_basic.dot,1,1,Constant,1.,1.
-603,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_keyIterator_0_basic.dot,7,18,Constant,18.,18.
-604,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subCeiling_0_basic.dot,1,1,Constant,1.,1.
-605,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subFloor_0_basic.dot,1,1,Constant,1.,1.
-606,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subHigher_0_basic.dot,1,1,Constant,1.,1.
-607,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subHighest_0_basic.dot,1,1,Constant,1.,1.
-608,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subLower_0_basic.dot,1,1,Constant,1.,1.
-609,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subLowest_0_basic.dot,1,1,Constant,1.,1.
-610,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_subMap_0_basic.dot,3,3,Constant,3.,3.
-611,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap_tailMap_0_basic.dot,2,2,Constant,2.,2.
-612,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap$AscendingEntrySetView_<init>_0_basic.dot,1,1,Constant,1.,1.
-613,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$AscendingSubMap$AscendingEntrySetView_iterator_0_basic.dot,7,18,Constant,18.,18.
-614,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-615,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
-616,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-617,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
-618,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-619,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingMapIterator_makeBoundedPrev_0_basic.dot,3,3,Constant,3.,3.
-620,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-621,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedDescendingValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
-622,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-623,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
-624,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-625,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
-626,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-627,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedMapIterator_makeBoundedNext_0_basic.dot,3,3,Constant,3.,3.
-628,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-629,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$BoundedValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
-630,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingMapIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-631,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingMapIterator_makePrev_0_basic.dot,5,5,Constant,5.,5.
-632,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingMapIterator_remove_0_basic.dot,3,3,Constant,3.,3.
-633,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_comparator_0_basic.dot,1,1,Constant,1.,1.
-634,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_descendingKeyIterator_0_basic.dot,7,18,Constant,18.,18.
-635,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_descendingMap_0_basic.dot,2,2,Constant,2.,2.
-636,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_entrySet_0_basic.dot,2,2,Constant,2.,2.
-637,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_headMap_0_basic.dot,2,2,Constant,2.,2.
-638,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_<init>_0_basic.dot,1,1,Constant,1.,1.
-639,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_keyIterator_0_basic.dot,7,30,Constant,30.,30.
-640,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subCeiling_0_basic.dot,1,1,Constant,1.,1.
-641,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subFloor_0_basic.dot,1,1,Constant,1.,1.
-642,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subHigher_0_basic.dot,1,1,Constant,1.,1.
-643,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subHighest_0_basic.dot,1,1,Constant,1.,1.
-644,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subLower_0_basic.dot,1,1,Constant,1.,1.
-645,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subLowest_0_basic.dot,1,1,Constant,1.,1.
-646,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_subMap_0_basic.dot,3,3,Constant,3.,3.
-647,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap_tailMap_0_basic.dot,2,2,Constant,2.,2.
-648,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap$DescendingEntrySetView_<init>_0_basic.dot,1,1,Constant,1.,1.
-649,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$DescendingSubMap$DescendingEntrySetView_iterator_0_basic.dot,7,30,Constant,30.,30.
-650,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_clone_0_basic.dot,2,2,Constant,2.,2.
-651,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_equals_0_basic.dot,9,12,Constant,12.,12.
-652,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_getKey_0_basic.dot,1,1,Constant,1.,1.
-653,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_getValue_0_basic.dot,3,3,Constant,3.,3.
-654,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_hashCode_0_basic.dot,3,4,Constant,4.,4.
-655,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_<init>_0_basic.dot,1,1,Constant,1.,1.
-656,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_setValue_0_basic.dot,3,3,Constant,3.,3.
-657,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Entry_toString_0_basic.dot,1,1,Constant,1.,1.
-658,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_ceiling_0_basic.dot,1,1,Constant,1.,1.
-659,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_clear_0_basic.dot,1,1,Constant,1.,1.
-660,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_comparator_0_basic.dot,1,1,Constant,1.,1.
-661,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_contains_0_basic.dot,1,1,Constant,1.,1.
-662,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_descendingIterator_0_basic.dot,2,2,Constant,2.,2.
-663,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_descendingSet_0_basic.dot,1,1,Constant,1.,1.
-664,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_first_0_basic.dot,1,1,Constant,1.,1.
-665,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_floor_0_basic.dot,1,1,Constant,1.,1.
-666,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_headSet_0_basic.dot,1,1,Constant,1.,1.
-667,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_higher_0_basic.dot,1,1,Constant,1.,1.
-668,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_<init>_0_basic.dot,1,1,Constant,1.,1.
-669,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_isEmpty_0_basic.dot,1,1,Constant,1.,1.
-670,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_iterator_0_basic.dot,2,2,Constant,2.,2.
-671,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_last_0_basic.dot,1,1,Constant,1.,1.
-672,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_lower_0_basic.dot,1,1,Constant,1.,1.
-673,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_pollFirst_0_basic.dot,2,2,Constant,2.,2.
-674,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_pollLast_0_basic.dot,2,2,Constant,2.,2.
-675,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_remove_0_basic.dot,2,2,Constant,2.,2.
-676,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_size_0_basic.dot,1,1,Constant,1.,1.
-677,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_subSet_0_basic.dot,1,1,Constant,1.,1.
-678,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$KeySet_tailSet_0_basic.dot,1,1,Constant,1.,1.
-679,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absCeiling_0_basic.dot,4,4,Constant,4.,4.
-680,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absFloor_0_basic.dot,4,4,Constant,4.,4.
-681,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absHigher_0_basic.dot,4,4,Constant,4.,4.
-682,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absHighest_0_basic.dot,5,9,Constant,9.,9.
-683,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absLower_0_basic.dot,4,4,Constant,4.,4.
-684,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_absLowest_0_basic.dot,5,9,Constant,9.,9.
-685,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_ceilingEntry_0_basic.dot,1,1,Constant,1.,1.
-686,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_ceilingKey_0_basic.dot,1,1,Constant,1.,1.
-687,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_checkLowerBound_0_basic.dot,9,9,Constant,9.,9.
-688,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_checkUpperBound_0_basic.dot,9,9,Constant,9.,9.
-689,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_containsKey_0_basic.dot,3,3,Constant,3.,3.
-690,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_descendingKeySet_0_basic.dot,1,1,Constant,1.,1.
-691,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_firstEntry_0_basic.dot,1,1,Constant,1.,1.
-692,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_firstKey_0_basic.dot,1,1,Constant,1.,1.
-693,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_floorEntry_0_basic.dot,1,1,Constant,1.,1.
-694,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_floorKey_0_basic.dot,1,1,Constant,1.,1.
-695,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_get_0_basic.dot,2,2,Constant,2.,2.
-696,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_headMap_0_basic.dot,1,1,Constant,1.,1.
-697,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_higherEntry_0_basic.dot,1,1,Constant,1.,1.
-698,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_higherKey_0_basic.dot,1,1,Constant,1.,1.
-699,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_inClosedRange_0_basic.dot,5,7,Constant,7.,7.
-700,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_<init>_0_basic.dot,6,10,Constant,10.,10.
-701,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_inRange_0_basic.dot,2,2,Constant,2.,2.
-702,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_isEmpty_0_basic.dot,4,5,Constant,5.,5.
-703,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_keySet_0_basic.dot,1,1,Constant,1.,1.
-704,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lastEntry_0_basic.dot,1,1,Constant,1.,1.
-705,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lastKey_0_basic.dot,1,1,Constant,1.,1.
-706,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lowerEntry_0_basic.dot,1,1,Constant,1.,1.
-707,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_lowerKey_0_basic.dot,1,1,Constant,1.,1.
-708,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_navigableKeySet_0_basic.dot,2,2,Constant,2.,2.
-709,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_pollFirstEntry_0_basic.dot,2,2,Constant,2.,2.
-710,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_pollLastEntry_0_basic.dot,2,2,Constant,2.,2.
-711,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_put_0_basic.dot,2,2,Constant,2.,2.
-712,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_readObject_0_basic.dot,1,1,Constant,1.,1.
-713,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_remove_0_basic.dot,2,2,Constant,2.,2.
-714,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setFirstKey_0_basic.dot,3,3,Constant,3.,3.
-715,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setFirstKeyInclusive_0_basic.dot,13,90,Exponential,3695.06*1.22^n,0. + 1.21*0.98^n + 1.43*1.06^n + 17.650000000000002*1.1500000000000001^n + 2463.66*1.2^n + 3695.06*1.22^n
-716,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setFirstKeyNonInclusive_0_basic.dot,11,72,Exponential,46.1*1.22^n*n,10.34 + 3.73*1.06^n + 598.85*1.22^n + 0.27*1.06^n*n + 46.1*1.22^n*n
-717,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setLastKey_0_basic.dot,3,3,Constant,3.,3.
-718,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setLastKeyInclusive_0_basic.dot,13,90,Exponential,3695.06*1.22^n,0. + 1.21*0.98^n + 1.43*1.06^n + 17.650000000000002*1.1500000000000001^n + 2463.66*1.2^n + 3695.06*1.22^n
-719,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_setLastKeyNonInclusive_0_basic.dot,14,108,Exponential,102.37*1.22^n*n,14.66 + 7.68*1.06^n + 2456.86*1.22^n + 0.35000000000000003*1.06^n*n + 102.37*1.22^n*n
-720,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_size_0_basic.dot,11,79,Polynomial,9.*n,154. + 9.*n
-721,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_subMap_0_basic.dot,1,1,Constant,1.,1.
-722,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_tailMap_0_basic.dot,1,1,Constant,1.,1.
-723,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_tooHigh_0_basic.dot,5,5,Constant,5.,5.
-724,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap_tooLow_0_basic.dot,5,5,Constant,5.,5.
-725,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_contains_0_basic.dot,5,5,Constant,5.,5.
-726,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_<init>_0_basic.dot,1,1,Constant,1.,1.
-727,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_isEmpty_0_basic.dot,3,3,Constant,3.,3.
-728,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_remove_0_basic.dot,5,5,Constant,5.,5.
-729,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$NavigableSubMap$EntrySetView_size_0_basic.dot,6,11,Polynomial,2.*n,12. + 2.*n
-730,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Node_clone_0_basic.dot,3,4,Constant,4.,4.
-731,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$Node_<init>_0_basic.dot,1,1,Constant,1.,1.
-732,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_comparator_0_basic.dot,1,1,Constant,1.,1.
-733,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_entrySet_0_basic.dot,1,1,Constant,1.,1.
-734,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_firstKey_0_basic.dot,1,1,Constant,1.,1.
-735,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_headMap_0_basic.dot,1,1,Constant,1.,1.
-736,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_<init>_0_basic.dot,1,1,Constant,1.,1.
-737,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_lastKey_0_basic.dot,1,1,Constant,1.,1.
-738,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_readResolve_0_basic.dot,1,1,Constant,1.,1.
-739,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_subMap_0_basic.dot,1,1,Constant,1.,1.
-740,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$SubMap_tailMap_0_basic.dot,1,1,Constant,1.,1.
-741,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-742,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
-743,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-744,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedDescendingKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
-745,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedEntryIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-746,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedEntryIterator_next_0_basic.dot,1,1,Constant,1.,1.
-747,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedKeyIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-748,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedKeyIterator_next_0_basic.dot,1,1,Constant,1.,1.
-749,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedValueIterator_<init>_0_basic.dot,1,1,Constant,1.,1.
-750,../cfgs/java_cfgs/alt-rt/java_util_TreeMap$UnboundedValueIterator_next_0_basic.dot,1,1,Constant,1.,1.
-751,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_add_0_basic.dot,5,12,Exponential,17.38*1.22^n,4. + 0.05*0.72^n + 2.0300000000000002*1.06^n + 17.38*1.22^n
-752,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_<clinit>_0_basic.dot,2,2,Constant,2.,2.
-753,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_cmp_0_basic.dot,12,62,Polynomial,0.,432.53000000000003 + 39.4*n + 0.89*n^2.
-754,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_dataInRangeIsZero_0_basic.dot,3,3,Polynomial,1.*n,3. + 1.*n
-755,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_<init>_0_basic.dot,7,48,Exponential,74.12*1.62^(0.5*n),8. + 0.13*0.62^(0.5*n) + 74.12*1.62^(0.5*n)
-756,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_longValue_0_basic.dot,8,17,Constant,17.,17.
-757,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_lshiftMe_0_basic.dot,9,38,Polynomial,0.06*n^3.,152.24 + 32.5*n + 2.33*n^2. + 0.06*n^3.
-758,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_mult_0_basic.dot,5,9,Exponential,11.41*1.62^(0.5*n),1.6600000000000001 + 0.02*0.62^(0.5*n) + 11.41*1.62^(0.5*n)
-759,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_multaddMe_0_basic.dot,3,4,Polynomial,1.*n,3. + 1.*n
-760,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_normalizeMe_0_basic.dot,9,39,Polynomial,0.,144.04 + 31.830000000000002*n + 2.33*n^2. + 0.06*n^3.
-761,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_quoRemIteration_0_basic.dot,12,101,Exponential,377.56*1.37^n,95.56 + 0.08*1.05^n + 1.07*1.06^n + 377.56*1.37^n + 12.08*n + 0.37*n^2.
-762,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_sub_0_basic.dot,8,35,Exponential,57.34*1.29^n,2.33 + 0.01*0.8300000000000001^n + 0.19*1.09^n + 12.790000000000001*1.25^n + 57.34*1.29^n
-763,../cfgs/java_cfgs/alt-rt/sun_misc_FDBigInt_toString_0_basic.dot,3,4,Polynomial,1.*n,3. + 1.*n
-764,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_appendTo_0_basic.dot,4,4,Constant,4.,4.
-765,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_big5pow_0_basic.dot,11,55,Constant,55.,55.
-766,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_<clinit>_0_basic.dot,2,2,Constant,2.,2.
-767,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_constructPow52_0_basic.dot,2,2,Constant,2.,2.
-768,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_countBits_0_basic.dot,6,17,Polynomial,0.,16. + 7.13*n + 1.24*n^2. + 0.09*n^3.
-769,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_decimalDigitsExact_0_basic.dot,1,1,Constant,1.,1.
-770,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_developLongDigits_0_basic.dot,11,78,Polynomial,0.,733. + 137.75*n + 8.75*n^2. + 0.19*n^3.
-771,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_digitsRoundedUp_0_basic.dot,1,1,Constant,1.,1.
-772,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_doubleToBigInt_0_basic.dot,5,6,Polynomial,1.*n,7. + 1.*n
-773,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_doubleValue_0_basic.dot,65,Timeout,Exponential,1.1650468598643884*^18*1.32^n,1.23139802*^6 + 129390.75*0.72^n + 61783.97*0.75^n + 26489.93*1.06^n + 8.215303575*^7*1.1500000000000001^n + 2.04195394169*^9*1.18^n + 1.922406655940278*^14*1.22^n + 1.5545502795897371*^13*1.28^n + 8.388476027103144*^15*1.31^n + 1.1650468598643884*^18*1.32^n + 59257.94*n + 42998.06*0.72^n*n + 2199.36*1.06^n*n + 20811.93*1.22^n*n + 7788.13*n^2.
-774,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_dtoa_0_basic.dot,70,Timeout,Exponential,209.1*1.28^n*n,165981.03 + 929188.81*0.97^n + 992616.04*0.98^n + 2408.29*1.07^n + 4.03023464*^7*1.16^n + 5.1481757937685004*^11*1.17^n + 5.02743667364*^10*1.19^n + 1.51495853318784*^12*1.21^n + 1.045412511390101*^13*1.23^n + 5.861181810514546*^15*1.27^n + 2.639775948229056*^17*1.28^n + 27610.86*0.98^n*n + 135.23*1.07^n*n + 90.11*1.17^n*n + 15.530000000000001*1.19^n*n + 12.07*1.21^n*n + 209.1*1.28^n*n
-775,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_floatValue_0_basic.dot,26,82,Polynomial,0.25*n^2.,1408. + 41.5*n + 0.25*n^2.
-776,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_getChars_0_basic.dot,16,225,Constant,225.,225.
-777,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_getHexDigit_0_basic.dot,3,3,Constant,3.,3.
-778,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_getHexFloatPattern_0_basic.dot,2,2,Constant,2.,2.
-779,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_<init>_0_basic.dot,7,12,Polynomial,1.*n,18. + 1.*n
-780,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_multPow52_0_basic.dot,4,6,Constant,6.,6.
-781,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_parseHexString_0_basic.dot,62,Timeout,Exponential,5.3817128644991575*^14*1.21^n,6.56438676139*^9 + 224087.48*1.08^n + 2.2080413897670002*^10*1.18^n + 5.3817128644991575*^14*1.21^n + 8.721619192*^7*n
-782,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_readJavaFormatString_0_basic.dot,47,Timeout,Exponential,2.16912476077503*^12*1.4000000000000001^n,2338.51 + 0.15*0.65^n + 0.1*0.84^n + 0.02*0.85^n + 2.2800000000000002*0.89^n + 448.55*1.1^n + 6.1652532800000004*^7*1.17^n + 365106.33*1.21^n + 6.711033600000001*^6*1.24^n + 2.16912476077503*^12*1.4000000000000001^n + 32.83*n
-783,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_roundup_0_basic.dot,5,7,Polynomial,1.33*n,7.77 + 1.33*n
-784,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_stickyRound_0_basic.dot,3,3,Constant,3.,3.
-785,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_stripLeadingZeros_0_basic.dot,1,1,Constant,1.,1.
-786,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_toJavaFormatString_0_basic.dot,1,1,Constant,1.,1.
-787,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_toString_0_basic.dot,3,4,Constant,4.,4.
-788,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal_ulp_0_basic.dot,7,24,Constant,24.,24.
-789,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal$1_<init>_0_basic.dot,1,1,Constant,1.,1.
-790,../cfgs/java_cfgs/alt-rt/sun_misc_FloatingDecimal$1_initialValue_0_basic.dot,1,1,Constant,1.,1.

@@ -1,3 +1,8 @@
+# Creating CFGs from C++ code: 
+
+Obtain clang++ (cppToDot.py uses clang++-6.0).
+Then obtain llvm
+
 # Running path-complexity in Python
 
 First create a python3 virtual environment and activate it
@@ -7,7 +12,7 @@ apt-get install python3-virtualenv
 virtualenv venv 
 source venv/bin/activate 
 ```
-
+apt-get
 Install the necessary python modules 
 
 ```

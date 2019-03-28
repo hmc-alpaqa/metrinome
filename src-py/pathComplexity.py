@@ -1,37 +1,44 @@
-import sympy
+import sympy, re
 from sympy import Matrix, eye, symbols, degree, Poly, fps, Function, simplify, rsolve, init_printing, solve
 from sympy import expand, Abs, limit, sympify, series
-from utils import bigO, getTaylorCoeffs, getRecurrenceSolution
+from utils import bigO, getTaylorCoeffs, getRecurrenceSolution, getSolutionFromRoots
 from math import factorial as fact
 from time import time, sleep
 from Graph import Graph
+from mpmath import polyroots
 
 def pathComplexity(G: Graph):
         '''
         '''
+        st = time() 
+
         adjMat = G.adjacencyMatrix()
         adjMat[1][1] = 1
         A = Matrix(adjMat)
-
+        
         t = symbols('t')
         dimension = adjMat.shape[0]
         X = eye(dimension) - A*t
         X_sub = X.copy()
-        X_sub.col_del(0)
+        X_sub.col_del(0)        
         X_sub.row_del(1)
-
         Xdet = X.det()
         denominator = Poly(-Xdet)
         generatingFunction = X_sub.det() / denominator
-	
+
         recurrenceDegree = degree(denominator, gen=t) + 1 
         recurrenceKernel = denominator.all_coeffs()[::-1]
+
+        test = [round(-x, 2) for x in recurrenceKernel]
+
+        roots = polyroots(test, maxsteps=200, extraprec=200)
+        
 
         taylorCoeffs = getTaylorCoeffs(generatingFunction, 2 * dimension + 1)
         baseCases = Matrix(taylorCoeffs[dimension :
 	    				dimension + recurrenceDegree - 1])
 	 
-	
+        
 	# Should have as many things as the recurrenceKernel
         lRange = Matrix(list(range(0, recurrenceDegree)))
         n = symbols('n')
@@ -39,10 +46,7 @@ def pathComplexity(G: Graph):
 	
 	# Solve the recurrence relation 
         f = Function('f')
-        recurrenceRelation = Matrix(list(map(f, nRange - lRange)))
-        recurrenceRelation = recurrenceRelation.dot(Matrix(recurrenceKernel))
-        terms = getRecurrenceSolution(recurrenceRelation)
-
+        terms = getSolutionFromRoots(roots)
 
         coefficients = symbols("C0:" + str(len(terms)))
         if len(coefficients) == 1: 
@@ -50,27 +54,41 @@ def pathComplexity(G: Graph):
         else: 
                 factors = terms
 
-        print(factors)
-
         M = Matrix([[fact.replace(n, nval) for fact in factors] for nval in range(1, len(factors)+1)])
 
-        try: 
-                invM = M**-1      
-                boundingSolutionTerms = (invM * baseCases)
-                boundingSolutionTerms = boundingSolutionTerms.dot(Matrix(factors))
+        # try: 
+        invM = M**-1  
+        boundingSolutionTerms = (invM * baseCases)
+        boundingSolutionTerms = boundingSolutionTerms.dot(Matrix(factors))
+        s = str(expand(boundingSolutionTerms))
 
-                print("=== SOLUTION === " + str(boundingSolutionTerms))
-                # s = str(expand(boundingSolutionTerms))
-                # Replace all complex numbers with their absolute values
+        # Replace all instances of x^n with abs(x)^n
+        expr = "[*]\(([-][0-9]*)\)\*\*n" 
+        def potato(match):
+            base = abs(float(match.groups()[0]))
+            if base == 1: 
+                return ""
 
-                # Replace all instances of x^n with abs(x)^n
+            return f"{base}**n"
 
-                # Split terms on '+'
-                terms = [x.strip() for x in s.split("+")]
+        s = re.sub(expr, potato, s)
+        s = str(simplify(sympify(s)))
+        
+        # Replace all complex numbers with their absolute values
+        s = s
 
-                return (bigO(terms, 'n'), 0)
+        # Split terms on '+'
+        terms = [x.strip() for x in s.split(" + ")]
+        newTerms = [] 
+        for term in terms: 
+                newTerms += str(term).split(" - ")
+        APC = bigO(newTerms)
 
-        except: 
-                print("=== NOT INVERTIBLE ====")
-                return (0, 0)
+        print("TIME: " + str(time() - st))
+
+        return (APC, s)
+
+        # except: 
+        #         print("=== NOT INVERTIBLE ====")
+        #         return (0, 0)
         
