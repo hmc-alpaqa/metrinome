@@ -153,11 +153,12 @@ class MetricsCalculator():
 		return MetricsCalculator(results)
 
 class Parameters():
-	def __init__(self, filepath, recursive, max_depth, outputFile): 
+	def __init__(self, filepath, recursive, max_depth, outputFile, statsMode): 
 		self.filepath = filepath
 		self.recursive = recursive
 		self.max_depth = max_depth
-		self.outputFile = outputFile
+	        self.outputFile = outputFile
+                self.statsMode = statsMode
 
 	def getRecursive(self): 
 		return self.recursive
@@ -170,6 +171,9 @@ class Parameters():
 
 	def getFilepath(self):
 		return self.filepath
+
+        def getStatsMode(self):
+                return self.statsMode
 
 def writeOutput(msg):
 	print(msg)
@@ -187,30 +191,29 @@ def computeResult(filename):
 
 if __name__ == "__main__":
 
-	# === GET STATISTICS FROM CSV EXAMPLE ===  
-	r = MetricsCalculator.fromCSV("../results/simple_test_results.csv")
-	r.computeMetric()
-	time.sleep(10000)
-
 	# Get all command line arguments 
 	parser = argparse.ArgumentParser(description="")
 	parser.add_argument('--filename', help="Input filename", required=True)
 	parser.add_argument('-r', help="Recursive Mode: look for .dot files in all subfolders", action="store_true", required=False)
 	parser.add_argument('--maxdepth', help="In recursive mode, only look up to the maximum depth specified", type=int, required=False)
 	parser.add_argument('-o', help="Set an output file", required=False)
+        parser.add_argument('--statistics', help="Compute the metric for a given imput file", action="store_true", required=False)
 	args = vars(parser.parse_args())
 
-	params = Parameters(args['filename'], args['r'], args['maxdepth'], args['o'])
+	params = Parameters(args['filename'], args['r'], args['maxdepth'], args['o'], args['statistics'])
 
 	filepath    = params.getFilepath() 
 	recursive   = params.getRecursive()
 	max_depth   = params.getMaxDepth()
 	outputFile  = params.getOutputFile()
+        statsMode   = params.getStatsMode()
 
 	if params is False and max_depth is not None:
 		raise ValueError("Cannot specify max_depth without recursive mode (-r)")
 
 	if os.path.isdir(filepath):
+                if statsMode: 
+                    raise ValueError("StatsComputer takes a CSV file of results.")
 		if recursive:
 			if max_depth is None:
 				# recursive glob '**' operator matches 0 or more subdirectories
@@ -227,15 +230,17 @@ if __name__ == "__main__":
 		filelist = [filepath]
 
 	digits = 2
+        
+        if statsMode:      
+	    metrics = MetricsCalculator.fromCSV(filelist[0])
+	    metrics.computeMetric()
+        else:
+            writeOutput("test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class, path_cplxty_asym, path_cplxty")
 
-	writeOutput("test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class, path_cplxty_asym, path_cplxty")
+	    p = Pool(processes = 4)
+	    results = p.imap_unordered(computeResult, filelist)
+	    p.close()
+	    p.join()
 
-	filelist = filelist
-
-	p = Pool(processes = 1)
-	results = p.imap_unordered(computeResult, filelist)
-	p.close()
-	p.join()
-
-	for r in results: 
+	    for r in results: 
 		print(r)
