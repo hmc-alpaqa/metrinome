@@ -5,24 +5,38 @@ Then obtain llvm
 
 # Running path-complexity in Python
 
-First create a python3 virtual environment and activate it
+First create a python3 virtual environment. This can be done with 
 
 ```
 apt-get install python3-virtualenv
 virtualenv venv 
-source venv/bin/activate 
 ```
-apt-get
-Install the necessary python modules 
+or
+``` 
+sudo apt-get install python3-pip
+pip3 install virtualenv 
+python3 -m virtualenv venv 
+```
+
+Then, activate the virtualenv and install the necessary python modules:
 
 ```
+source venv/bin/activate
 pip install -r requirements.txt 
 ```
 
-Run any of the scripts in "scripts-py," e.g. 
+Note that in this case we use pip instead of pip3 because we are refering to the virtual environment. Verify that 
+```python --version``` 
+refers to python 3 and not 2. If there are any problems relating to a missing TKinter library, try
+``` sudo apt-get install python3-tk ```.
 
+Next, run any of the scripts in "scripts-py," e.g. 
 ```
 ./simple_tests
+```
+or run the python file 
+``` 
+python src-py/paths.py -h
 ```
 
 In order to see the jupyter notebook, run 
@@ -30,8 +44,7 @@ In order to see the jupyter notebook, run
 ```
 jupyter notebook 
 ```
-
-and open 127.0.0.1:8000 in any browser. 
+then open 127.0.0.1:8000 in any browser and then open the jupyter notebook within the 'analysis' directory. 
 
 # path-complexity
 Path Complexity Analysis 
