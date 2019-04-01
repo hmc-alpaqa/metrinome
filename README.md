@@ -12,19 +12,22 @@ apt-get install python3-virtualenv
 virtualenv venv 
 ```
 or
-``` sudo apt-get install python3-pip
-    pip3 install virtualenv 
-    python3 -m virtualenv venv ```.
+``` 
+sudo apt-get install python3-pip
+pip3 install virtualenv 
+python3 -m virtualenv venv 
+```
 
 Then, activate the virtualenv and install the necessary python modules:
 
 ```
-source venv/bin/activate`
+source venv/bin/activate
 pip install -r requirements.txt 
 ```
 
 Note that in this case we use pip instead of pip3 because we are refering to the virtual environment. Verify that 
-```python --version``` refers to python 3 and not 2. If there are any problems relating to a missing TKinter library, try
+```python --version``` 
+refers to python 3 and not 2. If there are any problems relating to a missing TKinter library, try
 ``` sudo apt-get install python3-tk ```.
 
 Next, run any of the scripts in "scripts-py," e.g. 
