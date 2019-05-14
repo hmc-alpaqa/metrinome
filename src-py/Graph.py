@@ -1,47 +1,79 @@
 import numpy as np 
 import re 
 
-class Graph(object):
+class Graph:
+    '''
+    Store a directed graph using an adjacency list. Since 
+    this is used to store Control Flow Graphs, we also store 
+    a start and end node. 
+    Each vertex is represented as a number, such that 
+    
+    self.vertices = [1, 2, 3, 4, 5, ...]
+    
+    Each edge is represented as a list of two nodes, e.g.
+
+    edge = [1, 2]. 
+
+    We store a list of these edges.
+    '''
+    def __str__(self):
+        return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()} \nStart Node: {self.startNode} \nEnd Node: {self.endNode}" 
+
     def __init__(self, edges, vertices, startNode, endNode):
+        '''
+        Create a directed graph from a vertex set, edge list, 
+        and start/end notes. 
+        '''
         self.edges = edges
         self.vertices = vertices
         self.startNode = startNode
         self.endNode = endNode
 
     def edgeRules(self):
+        '''
+        Obtain the edge list
+        '''
         return self.edges
     
     def vertexCount(self):
+        '''
+        Get the number of vertices in the graph  
+        '''
         return len(self.vertices)
 
-    def getVertices(self): 
+    def getVertices(self):
+        '''
+        Get the vertex set for the graph
+        ''' 
         return self.vertices
 
-    def adjacencyMatrix(self): 
+    def adjacencyMatrix(self):
+        '''
+        Obtain the adjacency matrix from the edge list representation
+        
+        We assume the vertices are numbered consecutively, i.e. 
+            0, 1, 2, ..., endNode
+        
+        Due to the way the APC algorithm is implemented, the structure is:
+
+        First  row  -> START 
+        Second row  -> END 
+        Other  rows -> n = 2, ..., END - 1
+        ''' 
+
         adjMat = np.zeros((self.endNode + 1, self.endNode + 1))
-
-        # Output the matrix in the same format as the mathematica code...
-        # First row = START 
-        # Second row = END 
-        # Third, n = 2, ..., END - 1
-
-        for edge_one, edge_two in self.edgeRules(): 
-            if edge_one == 0: 
-                edge_one = 0 
-            elif edge_one == self.endNode: 
-                edge_one = 1 
-            else:
-                edge_one += 1 
-
-            if edge_two == 0: 
-                edge_two = 0 
-            elif edge_two == self.endNode: 
-                edge_two = 1 
-            else:
-                edge_two += 1 
-
-
-            adjMat[edge_one][edge_two] = 1 
+        for edgeOne, edgeTwo in self.edgeRules(): 
+            if edgeOne == self.endNode: 
+                edgeOne = 1 
+            elif edgeOne != 0:
+                edgeOne += 1 
+ 
+            if edgeTwo == self.endNode: 
+                edgeTwo = 1 
+            elif edgeTwo != 0:
+                edgeTwo += 1 
+            
+            adjMat[edgeOne][edgeTwo] = 1 
 
         return adjMat
 
@@ -57,6 +89,7 @@ class Graph(object):
             ...
             a_k  -> a_m
         }
+
         Returns a Graph object from a .dot file of format
 
         digraph {
@@ -71,26 +104,32 @@ class Graph(object):
         vertices = set()
         startNode = None 
         endNode = None 
-        ".*->.*" # all of the edges 
-        ".*\[label.*\]" # all of the nodes 
         with open(filename, "r") as f:
-            for line in f.readlines()[1:]:
+            lines = f.readlines()
+            for line in lines[1:]:
                 match = re.search("([0-9]*)\s*->\s*([0-9]*)", line)
                 if match is None:
+                    # Current line is not an edge - check if it defines a node
                     match = re.search("([0-9]*)\s*\[label=\"(.*)\"\]", line)
                     if match is not None:
                         node = int(match.group(1))
-                        node_label = match.group(2) 
+                        nodeLabel = match.group(2) 
                         vertices.add(node)
-                        if node_label == "START":
+                        if nodeLabel == "START":
                             startNode = node
-                        elif node_label == "EXIT":
+                        elif nodeLabel == "EXIT":
                             endNode = node
+                # The current line in the text file represents an edge 
                 else:
-                    node1 = int(match.group(1))
-                    node2 = int(match.group(2))
-                    vertices.add(node1)
-                    vertices.add(node2)
-                    edges.append([node1, node2])
+                    nodeOne = int(match.group(1))
+                    nodeTwo = int(match.group(2))
+                    vertices.add(nodeOne)
+                    vertices.add(nodeTwo)
+                    edges.append([nodeOne, nodeTwo])
+
+        if startNode is None or endNode is None:
+            errMsg = "Start and end nodes must " \
+                     "both be defined."
+            raise ValueError(errMsg)
 
         return Graph(edges, vertices, startNode, endNode)
