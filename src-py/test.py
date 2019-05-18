@@ -1,7 +1,7 @@
 import unittest, os
 import numpy as np 
 from Graph import Graph 
-import CppToDot, CyclomaticComplexity, NPathComplexity
+import CppToDot, CyclomaticComplexity, NPathComplexity, Utils
 
 PATH_TO_TEST_FILES = "/home/gabe/Documents/repos/path-complexity/src-py"
 PATH_TO_CFGS = "/home/gabe/Documents/repos/path-complexity"
@@ -59,49 +59,70 @@ class TestUtils(unittest.TestCase):
     # RoundExpression
     def testRoundExpressionSimple(self): 
         '''
+        Check an expression with only numbers and binary oeprations
         '''
-        pass 
+        simpleExpression = '1.234567 * 1.123123 + 1.123123 / 1.123123' 
+        result = Utils.roundExpression(simpleExpression, 3)
+        expectedResult = "1.234 * 1.123 + 1.123 / 1.123"
+        self.assertEqual(result, expectedResult)
 
     def testRoundExpressionPolynomial(self): 
         '''
+        Check that a polynomial simplies correctly 
         '''
-        pass 
+        polynomialExpression = '1.123123 * x**1 + x**1.123123'
+        simplifiedExpression = Utils.roundExpression(polynomialExpression, 3)
+        expectedResult = '1.123 * x**1 + x**1.123'
+        self.assertEqual(simplifiedExpression, expectedResult) 
 
     def testRoundExpressionExponential(self): 
         '''
         '''
-        pass 
-
-    def testRoundExpressionSymbolic(self): 
-        '''
-        '''
-        pass 
+        exponentialExpression = '1.12 * e**(1.123123*x)'
+        simplifiedExpression = Utils.roundExpression(exponentialExpression, 3)
+        expectedResult = '1.12 * e**(1.123*x)' 
+        self.assertEqual(expectedResult, simplifiedExpression)
 
     # Classify 
     def testClassifyConstant(self): 
         '''
         '''
-        pass
+        constantExpression = ''
+        classified = Utils.classify(constantExpression)
+        expectedClassification = ''
+        self.assertEqual(classified, expectedClassification)
 
     def testClassifyPolynomial(self): 
         '''
         '''
-        pass
+        constantExpression = ''
+        classified = Utils.classify(constantExpression)
+        expectedClassification = ''
+        self.assertEqual(classified, expectedClassification)
 
     def testClassifyExponential(self): 
         '''
         '''
-        pass
+        constantExpression = ''
+        classified = Utils.classify(constantExpression)
+        expectedClassification = ''
+        self.assertEqual(classified, expectedClassification)
 
     def testClassifyExponentialWithCoeff(self):
         '''
         '''
-        pass
+        constantExpression = ''
+        classified = Utils.classify(constantExpression)
+        expectedClassification = ''
+        self.assertEqual(classified, expectedClassification)
 
     def testClassifyOther(self):
         '''
         '''
-        pass
+        constantExpression = ''
+        classified = Utils.classify(constantExpression)
+        expectedClassification = ''
+        self.assertEqual(classified, expectedClassification)
 
     # Timeout 
     def testNotimeout(self): 
@@ -109,55 +130,55 @@ class TestUtils(unittest.TestCase):
         A function that is done before the timeout 
         limit should behave normally 
         '''
-        pass
+        self.assertEqual('', '1')
 
     def testTimeout(self): 
         '''
         A function that takes too long to execute should
         throw an error
         '''
-        pass 
+        self.assertEqual('', '1')
 
     # Big O 
     def testBigOConstant(self):
         '''
         '''
-        pass
+        self.assertEqual('', '1')
 
     def testBigOPolynomial(self): 
         '''
         '''
-        pass 
+        self.assertEqual('', '1')
 
     # Degree
     def testDegree(self): 
         ''' 
         ''' 
-        pass 
+        self.assertEqual('', '1')
 
     # isExponential
     def testExponential(self):
         '''
         '''
-        pass 
+        self.assertEqual('', '1')
 
     # getTaylorCoeffs 
     def testTaylorCoeffs(self):
         '''
         '''
-        pass
+        self.assertEqual('', '1')
 
     # getRecurrenceSolution
     def testRecurrenceSolution(self): 
         '''
         '''
-        pass
+        self.assertEqual('', '1')
 
     # getSolutionFromRoots
     def test_solutionFromRoots(self): 
         '''
         '''
-        pass 
+        self.assertEqual('', '1')
 
 class TestCPPToDot(unittest.TestCase):
 
@@ -242,24 +263,34 @@ class TestNPATH(unittest.TestCase):
 
     def testNPathSingleNode(self): 
         '''
+        Verify that the NPath complexity code works for a graph with a single node. 
+        The start node is equal to the end node, so there is a single path from the 
+        beginning to the end          
         '''
-        pass 
+        graph = Graph([], set([0]), 0, 0)
+        result = NPathComplexity.nPathComplexity(graph)
+        expectedResult = 1
+        self.assertEqual(result, expectedResult) 
 
     def testNPathNoEdges(self): 
         '''
+        Verify that the NPATH complexity for a graph with different start and end nodes 
+        but no edges is 0, since there are no paths from the beginning to the end 
         '''
-        pass 
-
-    def testNPathNotConnected(self): 
-        '''
-        '''
-        pass 
-
+        graph = Graph([], set([0, 1]), 0, 1)
+        result = NPathComplexity.nPathComplexity(graph)
+        expectedResult = 0
+        self.assertEqual(result, expectedResult) 
+         
 class TestPathComplexity(unittest.TestCase):
-    pass 
+    
+    def test(self): 
+        pass 
 
 class TestPaths(unittest.TestCase): 
-    pass 
+    
+    def test(self): 
+        pass 
 
 if __name__ == '__main__':
     unittest.main()

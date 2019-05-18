@@ -1,6 +1,6 @@
 import subprocess, argparse, glob2, os, re, sys
 
-def parseArguments(args):
+def parseArguments(args) -> str:
     '''
     Obtain the all of the arguments required (filename) from the command line 
     '''
@@ -20,7 +20,7 @@ def convertAllToStandard():
         convertToStandardFormat(file)
 
 
-def convertToStandardFormat(file): 
+def convertToStandardFormat(file: str): 
     '''
     Convert each dot file generated from the .cpp source to the same format 
     as the dot files generated from Java CFGs. 

@@ -61,7 +61,7 @@ class MetricsComparer:
 			self.nPathComplexities += [nPathCompl]
 			self.pathComplexities += [pathCompl]
 
-	def averageClassSize(self, dict, useFrequencies):
+	def averageClassSize(self, dict, useFrequencies: bool):
 		'''
 		Given some dictionary with key-value pairs 
 			(Metric1, Metric2),
@@ -207,7 +207,7 @@ class MetricsComparer:
 		plt.legend()
 		plt.show()
 
-	def adjustedRandIndex(self, functionList):
+	def adjustedRandIndex(self, functionList) -> float:
 		'''
 		Compute the adjusted rand index, used to compare two different
 		clusterings on a set by looking at all oft he possible pairs of
@@ -268,7 +268,7 @@ class MetricsComparer:
 
 		return MetricsComparer(results, location)
 
-	def entropy(self, probabilities):
+	def entropy(self, probabilities) -> float:
 		'''
 		Given some list representing a probability distribution, return the total entropy
 		Input: [p_0, p_1, ..., p_n]
@@ -282,7 +282,9 @@ class MetricsComparer:
 		for probability in probabilities:
 			totalEntropy -= probability * log(probability, 2)
 
-	def clusterEntropy(self, clusterList):
+		return totalEntropy
+
+	def clusterEntropy(self, clusterList) -> float:
 		'''
 		Calculate the entropy H(X) of a given clustering on a set.
 		The input is a dictionary where each entry is a complexity
@@ -303,7 +305,7 @@ class MetricsComparer:
 
 		return totalEntropy
 
-	def jointEntropy(self, clusterListOne, clusterListTwo):
+	def jointEntropy(self, clusterListOne, clusterListTwo) -> float:
 		'''
 		Compute H(X, Y)
 
@@ -325,7 +327,7 @@ class MetricsComparer:
 
 		return jointEntropy
 
-	def conditionalEntropy(self, clusterListOne, clusterListTwo):
+	def conditionalEntropy(self, clusterListOne, clusterListTwo) -> float:
 		'''
 		Calculate H(clusterListOne | clusterListTwo)
 
@@ -362,7 +364,7 @@ class MetricsComparer:
 
 		return condEntropy
 
-	def mutualInformation(self, clusterListOne, clusterListTwo):
+	def mutualInformation(self, clusterListOne, clusterListTwo) -> float:
 		'''
 		Calculate I(clusterListOne, clusterListTwo)
 
@@ -445,7 +447,7 @@ class Main():
 			else:
 				logging.basicConfig(level=logging.INFO)
 
-	def getFileList(self, filePath, recursive):
+	def getFileList(self, filePath: str, recursive: bool) -> List[str]:
 		'''
 		Obtain a list of the paths to all .dot files from an initial file path.
 		Recursive mode will enable searching in subdirectories.
@@ -481,11 +483,11 @@ class Main():
 		fileList = self.getFileList(filePath, recursive)
 
 		if statsMode:
-			self.computeStatistics(fileList)
+			self.computeStatistics(fileList[0])
 		else:
 			self.computeResults(fileList)
 	
-	def computeResult(self, fileName):
+	def computeResult(self, fileName: str):
 		'''
 		Given a single file dot file, compute the APC, Path Complexity,
 		Cyclomatic Complexity, and NPATH. 
@@ -506,13 +508,13 @@ class Main():
 		return (fileName, cyclomaticComplexity(graph), nPathCompl, classify(asymptoticComplexity, "n"), 
 				roundExpression(asymptoticComplexity, digits), roundExpression(fullPathComplexity, digits))
 
-	def computeStatistics(self, filelist):
+	def computeStatistics(self, fileName: str):
 		'''
 		Given a CSV file with all of the results given by 'computeResults,' 
 		calculate the metrics used to compare APC, NPATH, and Cyclomatic 
 		Complexity 
 		'''
-		metrics = MetricsComparer.fromCSV(filelist[0], self.location)
+		metrics = MetricsComparer.fromCSV(fileName, self.location)
 		metrics.computeMetric()
 
 	def computeResults(self, filelist):
@@ -525,7 +527,7 @@ class Main():
 
 		splitFileList = [[] for _ in range(NUM_PROCESSES)]
 		for fileIndex in range(len(filelist)):
-			splitFileList[fileIndex].append(filelist[fileIndex])
+			splitFileList[fileIndex % len(splitFileList)].append(filelist[fileIndex])
 
 		procPool = Pool(processes = NUM_PROCESSES)
 		results = procPool.imap_unordered(lambda fileNames: map(self.computeResult, fileNames), splitFileList)

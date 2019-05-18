@@ -10,7 +10,7 @@ def outNeighbors(start, edges):
 def removeEdge(edgeList, edge):
 	return list(filter(lambda existingEdge: existingEdge != edge, edgeList))
 
-def npath(start, end, edges):
+def npath(start: int, end: int, edges) -> int:
 	'''
 	Helper function used to compute NPath Complexity recursively 
 	'''
@@ -27,7 +27,7 @@ def npath(start, end, edges):
 
 	return total 
 
-def nPathComplexity(g: Graph):
+def nPathComplexity(g: Graph) -> int:
 	'''
 	Compute the NPath complexity of a function given its CFG 
 	'''

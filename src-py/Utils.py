@@ -8,7 +8,7 @@ from collections import Counter
 from operator import methodcaller
 import re
 
-def roundExpression(expr, digits):
+def roundExpression(expr: str, digits: int) -> str:
     '''
     Take some sympy expression represented as a string 
     and round all numbers to the given number of decimal 
@@ -20,7 +20,7 @@ def roundExpression(expr, digits):
 
     return re.sub(regExp, replaceWithRounded, expr)
 
-def classify(expr, var="n"):
+def classify(expr: str, var="n"):
     '''
     Given an arbitrary expression represented as a 
     string, return a value indicating it's 'class' - 
