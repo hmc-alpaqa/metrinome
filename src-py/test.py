@@ -2,6 +2,7 @@ import unittest, os
 import numpy as np 
 from Graph import Graph 
 import CppToDot, CyclomaticComplexity, NPathComplexity, Utils
+from time import sleep 
 
 PATH_TO_TEST_FILES = "/home/gabe/Documents/repos/path-complexity/src-py"
 PATH_TO_CFGS = "/home/gabe/Documents/repos/path-complexity"
@@ -83,46 +84,47 @@ class TestUtils(unittest.TestCase):
         expectedResult = '1.12 * e**(1.123*x)' 
         self.assertEqual(expectedResult, simplifiedExpression)
 
-    # Classify 
+    # Classify
+    def classifyHelper(self, expression, expected): 
+        '''
+        '''
+        classified = Utils.classify(expression)
+        self.assertEqual(classified, expected)
+
     def testClassifyConstant(self): 
         '''
         '''
+        constantExpression = '2'
+        constantExpressionTwo = '2.0'
+        expectedClassification = 'Const:2.0'
+        self.classifyHelper(constantExpression, expectedClassification)
+        self.classifyHelper(constantExpressionTwo, expectedClassification)
+
         constantExpression = ''
-        classified = Utils.classify(constantExpression)
-        expectedClassification = ''
-        self.assertEqual(classified, expectedClassification)
+        expectedClassification = 'Const:0'
+        self.classifyHelper(constantExpression, expectedClassification)         
 
     def testClassifyPolynomial(self): 
         '''
         '''
-        constantExpression = ''
-        classified = Utils.classify(constantExpression)
-        expectedClassification = ''
-        self.assertEqual(classified, expectedClassification)
+        constantExpression = '1 + x + x^2'        
+        expectedClassification = 'PolyDeg:2'
+        self.classifyHelper(constantExpression, expectedClassification)         
+
+        constantExpression = 'x^2 - 1'
+        self.classifyHelper(constantExpression, expectedClassification)         
 
     def testClassifyExponential(self): 
         '''
         '''
-        constantExpression = ''
-        classified = Utils.classify(constantExpression)
-        expectedClassification = ''
-        self.assertEqual(classified, expectedClassification)
+        constantExpression = '1 + x + 2^x'
+        expectedClassification = '' 
+        self.classifyHelper(constantExpression, expectedClassification)         
 
-    def testClassifyExponentialWithCoeff(self):
-        '''
-        '''
-        constantExpression = ''
-        classified = Utils.classify(constantExpression)
-        expectedClassification = ''
-        self.assertEqual(classified, expectedClassification)
 
-    def testClassifyOther(self):
-        '''
-        '''
-        constantExpression = ''
-        classified = Utils.classify(constantExpression)
-        expectedClassification = ''
-        self.assertEqual(classified, expectedClassification)
+        constantExpression = '1 + x + 1.5 * 3.1^(2x)'
+        expectedClassification = '' 
+        self.classifyHelper(constantExpression, expectedClassification)         
 
     # Timeout 
     def testNotimeout(self): 
@@ -130,14 +132,25 @@ class TestUtils(unittest.TestCase):
         A function that is done before the timeout 
         limit should behave normally 
         '''
-        self.assertEqual('', '1')
+        def foo(): 
+            return 7
+
+        result = 0
+        with Utils.Timeout(seconds = 5): 
+            result = foo()
+        self.assertEqual(result, 7)
 
     def testTimeout(self): 
         '''
         A function that takes too long to execute should
         throw an error
         '''
-        self.assertEqual('', '1')
+        def foo(): 
+            sleep(2)
+
+        with self.assertRaises(TimeoutError): 
+            with Utils.Timeout(seconds = 1): 
+                foo() 
 
     # Big O 
     def testBigOConstant(self):
@@ -148,36 +161,61 @@ class TestUtils(unittest.TestCase):
     def testBigOPolynomial(self): 
         '''
         '''
-        self.assertEqual('', '1')
+        polynomialExpression = "1 - x + 6*x^8"
+        polynomialExpressionTwo = "1.2*x^(8.4) - 3.1*x"
+
+        bigOOne = Utils.bigO(polynomialExpression)
+        bigOTwo = Utils.bigO(polynomialExpressionTwo)
+
+        expectedBigOOne = 'x^8'
+        expectedBigOTwo = 'x^8.4'
+        self.assertEqual(expectedBigOOne, bigOOne)
+        self.assertEqual(expectedBigOTwo, bigOTwo)
+
 
     # Degree
     def testDegree(self): 
         ''' 
         ''' 
-        self.assertEqual('', '1')
+        degreeZeroPolynomial = '42'
+        degreeTwoPolynomial = '42 + 1.3*x + 1.341*x^3'
+        degreeResultOne = Utils.getDegree(degreeZeroPolynomial)
+        degreeResultTwo = Utils.getDegree(degreeTwoPolynomial, 'x')
+        
+        self.assertEqual(degreeResultOne, 0)
+        self.assertEqual(degreeResultTwo, 3)
+
 
     # isExponential
     def testExponential(self):
         '''
         '''
-        self.assertEqual('', '1')
+        result = Utils.isExponential('n * 2 + 1.5 - 2^n')
+        resultTwo = Utils.isExponential('n + 1 / 2')
+
+        self.assertEqual(result, True)
+        self.assertEqual(resultTwo, False)
+
 
     # getTaylorCoeffs 
     def testTaylorCoeffs(self):
         '''
         '''
+        Utils.getTaylorCoeffs()
         self.assertEqual('', '1')
 
     # getRecurrenceSolution
     def testRecurrenceSolution(self): 
         '''
         '''
+        Utils.getRecurrenceSolution()
         self.assertEqual('', '1')
 
     # getSolutionFromRoots
     def test_solutionFromRoots(self): 
         '''
         '''
+        Utils.getSolutionFromRoots()
         self.assertEqual('', '1')
 
 class TestCPPToDot(unittest.TestCase):
@@ -211,6 +249,7 @@ class TestCPPToDot(unittest.TestCase):
         Verify that we can convert from .dot files of the original format to
         .dot files of the new format 
         '''     
+        CppToDot.convertToStandardFormat()
         pass
 
 class TestCyclomaticComplexity(unittest.TestCase): 

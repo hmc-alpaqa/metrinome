@@ -12,6 +12,7 @@ from Utils import roundExpression, classify, Timeout, isExponential
 from multiprocessing import Pool, Value
 from collections import defaultdict, Counter
 from math import log 
+from typing import List
 
 NUM_PROCESSES = 4
 
@@ -530,12 +531,16 @@ class Main():
 			splitFileList[fileIndex % len(splitFileList)].append(filelist[fileIndex])
 
 		procPool = Pool(processes = NUM_PROCESSES)
-		results = procPool.imap_unordered(lambda fileNames: map(self.computeResult, fileNames), splitFileList)
-		procPool.close()
+		results = procPool.imap_unordered(self.threadpoolMapper, splitFileList)
+		procPool.close()	
 		procPool.join()
 
 		for result in results:
-			writeOutput(result, self.location)
+			if len(result) != 0: 
+				writeOutput(result, self.location)
+
+	def threadpoolMapper(self, fileNames):
+		return list(map(self.computeResult, fileNames))
 
 def writeOutput(msg, location):
 	'''

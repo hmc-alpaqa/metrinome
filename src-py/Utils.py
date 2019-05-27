@@ -20,15 +20,23 @@ def roundExpression(expr: str, digits: int) -> str:
 
     return re.sub(regExp, replaceWithRounded, expr)
 
-def classify(expr: str, var="n"):
+def classify(expr: str, var="n") -> str:
     '''
     Given an arbitrary expression represented as a 
-    string, return a value indicating it's 'class' - 
+    string, return a value indicating it's 'class'.  
+    
+    Note: the string cannot have other variables (e.g. 
+    we cannot classify '2m' in terms of 'n')
+
+    Exponentiation is represented by '^'
 
     Const: [Value]
     PolyDeg: [Highest Degree of Polynomial]
     ExpBase: [Return the base of expression of the form a^x] 
     '''
+    if expr == '':
+        return "Const:0"
+
     try: 
         val = float(str(expr))
         return f"Const:{val}"
@@ -93,7 +101,7 @@ def getRecurrenceSolution(recurrenceRelation):
 
     return getSolutionFromRoots(roots)
 
-def getTaylorCoeffs(func, numCoeffs):
+def getTaylorCoeffs(func, numCoeffs: int):
     '''
     Given an arbitrary rational function
     ''' 
@@ -105,7 +113,7 @@ def getTaylorCoeffs(func, numCoeffs):
     taylorCoeffs = [0] * firstPower + [sympify(f).subs(t, 1) for f in L]
     return taylorCoeffs
 
-def isExponential(term, var): 
+def isExponential(term, var = 'x') -> bool: 
     '''
     If an expression contains an exponential, return its base. 
     Otherwise, return None
@@ -126,17 +134,17 @@ def isExponential(term, var):
     
     return None
 
-def getDegree(term, var="n"): 
+def getDegree(term: str, var="n") -> int: 
     '''
     If an expression is a polynomial, return the degree.
-    Otherwise, return None 
+    Otherwise, return 0.
     '''
     num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
     res = re.search(f"{var}\^({num})", term)
     if res: 
-        return res.groups()[0]
+        return int(res.groups()[0])
     
-    return None
+    return 0
 
 def bigO(terms):
     '''
