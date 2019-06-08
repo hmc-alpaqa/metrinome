@@ -2,32 +2,32 @@ import subprocess, argparse, glob2, os, re, sys
 
 def parseArguments(args) -> str:
     '''
-    Obtain the all of the arguments required (filename) from the command line 
+    Obtain all of the arguments required (filename) from the command line
     '''
     parser = argparse.ArgumentParser(description="Obtain Control Flow Graphs from an arbitrary .cpp File")
     parser.add_argument('--filename', '-f', help="Input Filename", required=True)
     args = vars(parser.parse_args(args))
     filename = args['filename']
-    return filename 
+    return filename
 
-def convertAllToStandard(): 
+def convertAllToStandard():
     '''
-    Convert all of the dot files to standard format files 
-    ''' 
+    Convert all of the dot files to standard format files
+    '''
     filelist = glob2.glob(os.path.join("ll/", "*.dot"), recursive=False)
-    
-    for file in filelist: 
+
+    for file in filelist:
         convertToStandardFormat(file)
 
 
-def convertToStandardFormat(file: str): 
+def convertToStandardFormat(file: str):
     '''
-    Convert each dot file generated from the .cpp source to the same format 
-    as the dot files generated from Java CFGs. 
+    Convert each dot file generated from the .cpp source to the same format
+    as the dot files generated from Java CFGs.
 
-    Note: this is required for the APC, NPath, and Cyclomatic complexity 
-    algorithms to work, as they assume the dot files hae a particular 
-    format 
+    Note: this is required for the APC, NPath, and Cyclomatic complexity
+    algorithms to work, as they assume the dot files hae a particular
+    format
     '''
     nodes = []
     edges = []
@@ -80,6 +80,8 @@ def createDotFiles(filename):
     Create a dot file representing a control flow graph for 
     each function from a .cpp file
     '''
+    # TODO: check if the file exists before running 
+    #   the commands
     command2 = f"clang++-6.0 -emit-llvm -S ../{filename}.cpp -o {os.path.basename(filename)}.ll"
     command3 = f"opt --dot-cfg {os.path.basename(filename)}.ll"
     command4 = f"rm {os.path.basename(filename)}.ll"
@@ -89,7 +91,7 @@ def createDotFiles(filename):
     
 if __name__ == "__main__":
     '''
-    The files will all be created in the ll directory
+    The .dot files will all be created in the ll directory
     '''
     filename = parseArguments(sys.argv[1:])
     createDotFiles(filename)

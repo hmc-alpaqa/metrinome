@@ -1,7 +1,7 @@
-import os, glob2, time, argparse, logging 
+import os, glob2, time, argparse, logging
 import matplotlib.pyplot as plt
-import numpy as np 
-from threading import Thread, Event 
+import numpy as np
+from threading import Thread, Event
 from Graph import Graph
 from sys import argv
 from PathComplexity import pathComplexity
@@ -11,7 +11,7 @@ from Parameters import Parameters
 from Utils import roundExpression, classify, Timeout, isExponential
 from multiprocessing import Pool, Value
 from collections import defaultdict, Counter
-from math import log 
+from math import log
 from typing import List
 
 NUM_PROCESSES = 4
@@ -64,11 +64,11 @@ class MetricsComparer:
 
 	def averageClassSize(self, dict, useFrequencies: bool):
 		'''
-		Given some dictionary with key-value pairs 
+		Given some dictionary with key-value pairs
 			(Metric1, Metric2),
-		where given some value 'x' for Metric1, the dictionary 
-		will map to all values Metric2 takes on for the set 
-		of functions that took on value 'x' for Metric1 
+		where given some value 'x' for Metric1, the dictionary
+		will map to all values Metric2 takes on for the set
+		of functions that took on value 'x' for Metric1
 		'''
 		numClasses = len(dict.keys())
 		sumAverages = 0
@@ -169,12 +169,12 @@ class MetricsComparer:
 
 	def aggregate(self):
 		'''
-		Iterate through all of the of the dictionaries where each dictionary has 
-		key value pairs of one of the types: 
+		Iterate through all of the of the dictionaries where each dictionary has
+		key value pairs of one of the types:
 
-		(Cyclomatic, APC Complexities), (NPATH, APC Complexities), 
+		(Cyclomatic, APC Complexities), (NPATH, APC Complexities),
 		(APC, Cyclomatic Complexities), (APC, NPATH Complexities)
-		
+
 		and creates a dictionary with the same key that maps to the number of different
 		complexities (e.g. (Cyclomatic, len(APC Complexities)))
 		'''
@@ -185,8 +185,8 @@ class MetricsComparer:
 
 	def showPlot(self):
 		'''
-		Create a histogram for both the distribution of Cyclomatic Complexity and NPATH 
-		over all of the functions. 
+		Create a histogram for both the distribution of Cyclomatic Complexity and NPATH
+		over all of the functions.
 		'''
 		plt.subplot(2, 1, 1)
 
@@ -404,41 +404,47 @@ class MetricsComparer:
 
 class Main():
 	'''
-	Handles obtaining parameters from the user, computing the 
-	Path Complexity, Cyclomatic Complexity, and NPATH metrics for all 
-	.dot files, and calling the MetricsComparer to compare the 3 metrics 
-	if specified. 
+	Handles obtaining parameters from the user, computing the
+	Path Complexity, Cyclomatic Complexity, and NPATH metrics for all
+	.dot files, and calling the MetricsComparer to compare the 3 metrics
+	if specified.
 	'''
 
-	def createArgumentParser(self): 
+	def createArgumentParser(self):
 		'''
-		Create a parser to read command line arguments from the user 
+		Create a parser to read command line arguments from the user
 		'''
 		parser = argparse.ArgumentParser(description="")
-		parser.add_argument('-f', '--filename', help="Input filename", required=True)
-		parser.add_argument('-r', '--recursive', help="Recursive Mode: look for .dot files in all subfolders", action="store_true", required=False)
-		parser.add_argument('-o', '--output', help="Set an output file", required=False)
-		parser.add_argument('-s', '--statistics', help="Compute the metric for a given imput file", action="store_true", required=False)
-		parser.add_argument('-l', '--log', help="Print logging information to STD_OUT", action="store_true", required=False)
-		parser.add_argument('--logfile', help="Specifiy a file that logging information will be written to (instead of STD_OUT)", required=False)
-		return parser 
 
-	def checkArgumentErrors(self, params): 
+		recurDesc = "Recursive Mode: look for .dot files in all subfolders"
+		statsDesc = "Compute the metric for a given input file"
+		logDesc   = "Print logging information to STD_OUT"
+		logfDesc  = "Specify a file that logging information will be written to (instead of STD_OUT)"
+
+		parser.add_argument('-f', '--filename', help="Input filename", required=True)
+		parser.add_argument('-r', '--recursive', help=recurDesc, action="store_true", required=False)
+		parser.add_argument('-o', '--output', help="Set an output file", required=False)
+		parser.add_argument('-s', '--statistics', help=statsDesc, action="store_true", required=False)
+		parser.add_argument('-l', '--log', help=logDesc, action="store_true", required=False)
+		parser.add_argument('--logfile', help=logfDesc, required=False)
+		return parser
+
+	def checkArgumentErrors(self, params):
 		'''
-		Throws a ValueError if the set of command line arguments given by the user 
-		are invalid. 
+		Throws a ValueError if the set of command line arguments given by the user
+		are invalid.
 		'''
 		if os.path.isdir(params.getFilepath()):
 			if params.getStatsMode():
 				raise ValueError("StatsComputer takes a CSV file of results.")
-		else: 
-			# Not a directory, cannot be recursive
-			if params.getRecursive():
-				raise ValueError("Recursive mode only applies to directories")
+			elif params.getRecursive():
+				# Not a directory, cannot be recursive
+				if params.getRecursive():
+					raise ValueError("Recursive mode only applies to directories")
 
-	def setLogging(self, args): 
+	def setLogging(self, args):
 		'''
-		Configure logging according to the parameters specified by user 
+		Configure logging according to the parameters specified by user
 		'''
 		logfile = args['logfile']
 		if args['log']:
@@ -537,7 +543,7 @@ class Main():
 
 		for result in results:
 			if len(result) != 0: 
-				writeOutput(result, self.location)
+				writeOutput("\n".join(list(map(lambda x: str(x)[1:-1], result))), self.location)
 
 	def threadpoolMapper(self, fileNames):
 		return list(map(self.computeResult, fileNames))
