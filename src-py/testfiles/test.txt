@@ -1,6 +1,0 @@
-INFO:root:Generating Function: (-1.0*t**6 - 1.0*t**5 - 1.0*t**4 - 1.0*t**3)/(1.0*t - 1.0)
-INFO:root:Generating Function: (-1.0*t**8 - 3.0*t**7 - 3.0*t**6 - 1.0*t**5)/(1.0*t - 1.0)
-INFO:root:Generating Function: (1.0*t**8 + 1.0*t**6 - 1.0*t**4)/(1.0*t**7 - 1.0*t**6 - 2.0*t**5 + 2.0*t**4 - 1.0*t**3 + 1.0*t**2 + 1.0*t - 1.0)
-INFO:root:Generating Function: -1.0*t**8/(-1.0*t**7 + 1.0*t**6 + 3.0*t**5 - 3.0*t**4 - 3.0*t**3 + 3.0*t**2 + 1.0*t - 1.0)
-INFO:root:Generating Function: (1.0*t**8 + 1.0*t**6 - 1.0*t**4)/(1.0*t**7 - 1.0*t**6 - 2.0*t**5 + 2.0*t**4 - 1.0*t**3 + 1.0*t**2 + 1.0*t - 1.0)
-INFO:root:Generating Function: -1.0*t**8/(-1.0*t**6 + 2.0*t**5 + 1.0*t**4 - 4.0*t**3 + 1.0*t**2 + 2.0*t - 1.0)

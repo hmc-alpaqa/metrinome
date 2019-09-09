@@ -1,1 +1,0 @@
-/usr/local/Wolfram/Mathematica/11.3/Executables/math -script ../src/paths.m ../cfgs/apache_cfgs/commons-beanutils-1.9.2 Infinity | tee ../results/apache_cfgs_small_sample_results.csv

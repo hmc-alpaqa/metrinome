@@ -1,0 +1,9 @@
+digraph {
+0 [label="START"]
+4 [label="EXIT"]
+0 -> 1
+1 -> 2
+1 -> 3
+2 -> 1
+3 -> 4
+}

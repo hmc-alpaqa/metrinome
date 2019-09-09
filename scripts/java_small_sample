@@ -1,1 +1,0 @@
-/usr/local/Wolfram/Mathematica/11.3/Executables/math -script ../src/paths.m ../cfgs/java_cfgs/alt-rt Infinity | tee ../results/java_cfg_small_sample_results.csv

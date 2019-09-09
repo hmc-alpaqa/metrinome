@@ -1,0 +1,27 @@
+SSS Driver ~~~ START ~~~
+SSS Driver > processing ./java_all_results_03_11_2015_17_51.csv
+fix: 684,rt/com_sun_corba_se_impl_activation_ServerTool_run_0_basic.dot,7,5,Exponential,0,14.129999999999999 + 2.*n + 0.08*n^2.
+
+fix: 14301,rt/com_sun_jmx_snmp_SnmpOidTableSupport_loadMib_0_basic.dot,3,1,Exponential,0,1
+
+fix: 15426,rt/com_sun_jndi_ldap_pool_PoolCleaner_run_0_basic.dot,5,1,Exponential,0,1
+
+fix: 60637,rt/java_lang_ref_Reference$ReferenceHandler_run_0_basic.dot,7,1,Exponential,0,1
+
+fix: 70033,rt/java_util_prefs_AbstractPreferences$EventDispatchThread_run_0_basic.dot,9,2,Exponential,0,2
+
+fix: 101469,rt/sun_awt_im_ExecutableInputMethodManager_run_0_basic.dot,7,1,Exponential,0,1
+
+fix: 102647,rt/sun_awt_X11_InfoWindow$Balloon$Displayer_run_0_basic.dot,5,3,Exponential,0,3
+
+fix: 110223,rt/sun_java2d_opengl_OGLRenderQueue$QueueFlusher_run_0_basic.dot,14,2,Exponential,0,2
+
+fix: 123038,rt/sun_print_UnixPrintServiceLookup$PrinterChangeListener_run_0_basic.dot,5,2,Exponential,0,2
+
+fix: 124549,rt/sun_rmi_server_Activation_main_0_basic.dot,25,1,Exponential,0,1
+
+fix: 125228,rt/sun_rmi_transport_tcp_TCPTransport$AcceptLoop_executeAcceptLoop_0_basic.dot,19,69,Exponential,0,69
+
+fix: 127999,rt/sun_security_provider_SeedGenerator$ThreadedSeedGenerator_run_0_basic.dot,11,5,Exponential,0,5
+
+SSS Driver ~~~ END ~~~

@@ -1,0 +1,7 @@
+test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class, path_cplxty_asym, path_cplxty
+1,../cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test1_0_basic.dot,4,8,Constant,8.,8.
+2,../cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test2_0_basic.dot,4,4,Constant,4.,4.
+3,../cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test3_0_basic.dot,4,8,Polynomial,0.04*n^3.,5. + 3.08*n + 0.62*n^2. + 0.04*n^3.
+4,../cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test4_0_basic.dot,4,4,Exponential,1.9000000000000001*1.8^(0.5*n),1. + 0.04*0.45^(0.5*n) + 0.56*1.25^(0.5*n) + 1.9000000000000001*1.8^(0.5*n)
+5,../cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test5_0_basic.dot,4,4,Exponential,1.9000000000000001*1.8^(0.5*n),1. + 0.04*0.45^(0.5*n) + 0.56*1.25^(0.5*n) + 1.9000000000000001*1.8^(0.5*n)
+6,../cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test6_0_basic.dot,4,8,Polynomial,0.02*n^3.,4. + 2.17*n + 0.37*n^2. + 0.02*n^3.

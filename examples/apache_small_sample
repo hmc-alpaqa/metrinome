@@ -1,0 +1,1 @@
+python3 ../src-py/paths.py ../cfgs/apache_cfgs inf 

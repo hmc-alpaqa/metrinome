@@ -1,0 +1,252 @@
+test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class, path_cplxty_asym, path_cplxty
+{C[1]^(-1)}
+1,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_abs_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+2,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_access$000_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+3,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_add_0_basic.dot,4,6,Constant,6.,6.
+{C[1]^(-1)}
+4,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_adjustScale_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+5,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_audit_0_basic.dot,9,11,Constant,11.,11.
+{C[1]^(-1)}
+6,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigDigitLength_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+7,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigMultiplyPowerTen_0_basic.dot,3,3,Constant,3.,3.
+{(-1.)^n, 1, n}
+8,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_bigTenToThe_0_basic.dot,5,5,Polynomial,0.5*n,6. + 0.5*n
+{C[1]^(-1)}
+9,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_byteValueExact_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+10,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_checkScale_0_basic.dot,5,7,Constant,7.,7.
+{C[1]^(-1)}
+11,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_checkScaleNonZero_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+12,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_<clinit>_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+13,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compactValFor_0_basic.dot,7,11,Constant,11.,11.
+{C[1]^(-1)}
+14,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareMagnitude_0_basic.dot,17,37,Constant,37.,37.
+{C[1]^(-1)}
+15,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareMagnitudeNormalized_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+16,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_compareTo_0_basic.dot,1,1,Constant,1.,1.
+
+                                        5
+General::munfl: (-0.809017 - 0.587785 I)  is too small to represent as a normalized machine number; precision may be lost.
+
+                                        5
+General::munfl: (-0.809017 + 0.587785 I)  is too small to represent as a normalized machine number; precision may be lost.
+{(-0.8090169943749475 - 0.5877852522924731*I)^n, (0.30901699437494745 + 0.9510565162951535*I)^n, (0.30901699437494745 - 0.9510565162951535*I)^n, (-0.8090169943749475 + 0.5877852522924731*I)^n, 1, n}
+17,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_createAndStripZerosToMatchScale_0_basic.dot,5,5,Polynomial,0.8*n,6.15 + 0.8*n
+{C[1]^(-1)}
+18,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divide_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+19,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRemainder_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+20,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRound_0_basic.dot,6,10,Constant,10.,10.
+{1.324717957244746^n, 1.324717957244746^n*n, (-0.662358978622373 - 0.5622795120623012*I)^n, (-0.662358978622373 - 0.5622795120623012*I)^n*n, (-0.662358978622373 + 0.5622795120623012*I)^n, (-0.662358978622373 + 0.5622795120623012*I)^n*n, 1}
+21,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRound128_0_basic.dot,19,649,Exponential,27942.61*1.32^n*n,163. + 0.12*0.87^n + 541509.12*1.32^n + 0.01*0.87^n*n + 27942.61*1.32^n*n
+{C[1]^(-1)}
+22,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideAndRoundByTenPow_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+23,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideSmallFastPath_0_basic.dot,17,46,Constant,46.,46.
+{C[1]^(-1)}
+24,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divideToIntegralValue_0_basic.dot,8,12,Constant,12.,12.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
+25,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_divWord_0_basic.dot,4,5,Polynomial,0.12*n^2.,4. + 1.25*n + 0.12*n^2.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, (-1.)^n, 1, n, n^2}
+26,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doRound_0_basic.dot,7,13,Polynomial,0.17*n^2.,20.439999999999998 + 3.5*n + 0.17*n^2.
+{C[1]^(-1)}
+27,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doRound128_0_basic.dot,4,6,Constant,6.,6.
+{C[1]^(-1)}
+28,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_doubleValue_0_basic.dot,11,23,Constant,23.,23.
+{C[1]^(-1)}
+29,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_equals_0_basic.dot,9,10,Constant,10.,10.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
+30,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_expandBigIntegerTenPowers_0_basic.dot,5,6,Polynomial,0.12*n^2.,5. + 1.25*n + 0.12*n^2.
+{C[1]^(-1)}
+31,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_floatValue_0_basic.dot,11,23,Constant,23.,23.
+{(-1.)^n, 1, n}
+32,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_getValueString_0_basic.dot,7,8,Polynomial,1.*n,14. + 1.*n
+{C[1]^(-1)}
+33,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_hashCode_0_basic.dot,4,5,Constant,5.,5.
+{C[1]^(-1)}
+34,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_inflated_0_basic.dot,2,2,Constant,2.,2.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, (-1.)^n, 1, n, n^2}
+35,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_<init>_0_basic.dot,8,26,Polynomial,0.33*n^2.,42.96 + 7.*n + 0.33*n^2.
+{C[1]^(-1)}
+36,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_intValue_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+37,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_intValueExact_0_basic.dot,2,2,Constant,2.,2.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
+38,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_layoutChars_0_basic.dot,23,1095,Polynomial,78.*n,2943. + 78.*n
+{C[1]^(-1)}
+39,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longCompareMagnitude_0_basic.dot,5,12,Constant,12.,12.
+{C[1]^(-1)}
+40,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longDigitLength_0_basic.dot,7,17,Constant,17.,17.
+{C[1]^(-1)}
+41,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longLongCompareMagnitude_0_basic.dot,4,4,Constant,4.,4.
+{C[1]^(-1)}
+42,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longMultiplyPowerTen_0_basic.dot,7,7,Constant,7.,7.
+{C[1]^(-1)}
+43,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longValue_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+44,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_longValueExact_0_basic.dot,7,11,Constant,11.,11.
+{C[1]^(-1)}
+45,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_make64_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+46,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_matchScale_0_basic.dot,4,4,Constant,4.,4.
+{C[1]^(-1)}
+47,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_max_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+48,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_min_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+49,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_movePointLeft_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+50,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_movePointRight_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+51,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_mulsub_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+52,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiply_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+53,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiplyAndRound_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+54,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_multiplyDivideAndRound_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+55,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_needIncrement_0_basic.dot,12,12,Constant,12.,12.
+{C[1]^(-1)}
+56,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_negate_0_basic.dot,1,1,Constant,1.,1.
+{1.2671683045421243^n, (-0.8945480326575175 - 0.5341485461747327*I)^n, (-0.8945480326575175 + 0.5341485461747327*I)^n, (0.2609638803864553 - 1.1772261533941943*I)^n, (0.2609638803864553 + 1.1772261533941943*I)^n, (-0.7244919590005157)^n, 1.2207440846057596^n, (-0.24812606280262192 - 1.0339820609759678*I)^n, (-0.24812606280262192 + 1.0339820609759678*I)^n, 1}
+57,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_parseExp_0_basic.dot,14,390,Exponential,9897.52*1.27^n,42. + 0.93*1.04^n + 1.71*1.06^n + 8.370000000000001*1.21^n + 6238.4800000000005*1.22^n + 9897.52*1.27^n
+{C[1]^(-1)}
+58,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_plus_0_basic.dot,2,2,Constant,2.,2.
+{(-0.6823278038280193)^n, (0.34116390191400964 - 1.161541399997252*I)^n, (0.34116390191400964 + 1.161541399997252*I)^n, 1.324717957244746^n, (-0.662358978622373 - 0.5622795120623012*I)^n, (-0.662358978622373 + 0.5622795120623012*I)^n, 1}
+59,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_pow_0_basic.dot,11,29,Exponential,89.47*1.32^n,2.33 + 0.03*0.87^n + 3.66*1.21^n + 89.47*1.32^n
+{C[1]^(-1)}
+60,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_preAlign_0_basic.dot,6,13,Constant,13.,13.
+{C[1]^(-1)}
+61,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_precision_0_basic.dot,6,6,Constant,6.,6.
+{C[1]^(-1)}
+62,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_print_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+63,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_readObject_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+64,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_remainder_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+65,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_round_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+66,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_roundedTenPower_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+67,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_saturateLong_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+68,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scale_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+69,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scaleByPowerOfTen_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+70,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_scaledTenPow_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+71,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setIntCompactVolatile_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+72,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setIntValVolatile_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+73,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_setScale_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+74,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_shortValueExact_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+75,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_signum_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+76,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_stripTrailingZeros_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+77,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_stripZerosToMatchScale_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+78,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_subtract_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+79,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toBigInteger_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+80,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toBigIntegerExact_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+81,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toEngineeringString_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, 1, n}
+82,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toPlainString_0_basic.dot,8,9,Polynomial,1.*n,17. + 1.*n
+{C[1]^(-1)}
+83,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_toString_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+84,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_ulp_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+85,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unscaledValue_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+86,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unsignedLongCompare_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+87,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_unsignedLongCompareEq_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+88,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_valueOf_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+89,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_writeObject_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+90,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal_zeroValueOf_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+91,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$1_<init>_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+92,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$1_initialValue_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+93,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_check_0_basic.dot,3,3,Constant,3.,3.
+{C[1]^(-1)}
+94,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_<clinit>_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+95,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$LongOverflow_<init>_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+96,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_<clinit>_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+97,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_getCompactCharArray_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+98,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_getStringBuilder_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+99,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_<init>_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
+100,../cfgs/java_cfgs/alt-rt/java_math_BigDecimal$StringBuilderHelper_putIntCompact_0_basic.dot,6,17,Polynomial,0.5*n^2.,22. + 6.5*n + 0.5*n^2.
+{C[1]^(-1)}
+101,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_abs_0_basic.dot,2,2,Constant,2.,2.
+
+                                      5
+General::munfl: (0.354967 + 1.09248 I)  is too small to represent as a normalized machine number; precision may be lost.
+
+General::stop: Further output of General::munfl will be suppressed during this calculation.
+{(0.35496731310463014 + 1.0924770557774537*I)^n, (-0.9293164906031476 + 0.6751879523998812*I)^n, (-0.9293164906031476 - 0.6751879523998812*I)^n, (0.35496731310463014 - 1.0924770557774537*I)^n, 2.^(0.2*n), (-1.)^n, (-1.)^n*n, 1, n, n^2}
+102,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_add_0_basic.dot,10,192,Exponential,2104.88*2.^(0.2*n),1284. + 16.95*1.1500000000000001^n + 2104.88*2.^(0.2*n) + 98.*n + 2.*n^2.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, 1, n}
+103,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_addOne_0_basic.dot,5,5,Polynomial,1.*n,7. + 1.*n
+{(-1.)^n, 1, n}
+104,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_and_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+{(-1.)^n, 1, n}
+105,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_andNot_0_basic.dot,2,2,Polynomial,0.5*n,1. + 0.5*n
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
+106,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitCount_0_basic.dot,5,7,Polynomial,0.12*n^2.,7. + 1.75*n + 0.12*n^2.
+{(0.35496731310463014 + 1.0924770557774537*I)^n, (-0.9293164906031476 + 0.6751879523998812*I)^n, (-0.9293164906031476 - 0.6751879523998812*I)^n, (0.35496731310463014 - 1.0924770557774537*I)^n, 2.^(0.2*n), 1}
+107,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitLength_0_basic.dot,9,19,Exponential,40.25*2.^(0.2*n),5. + 9.49*1.1500000000000001^n + 40.25*2.^(0.2*n)
+{C[1]^(-1)}
+108,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_bitLengthForInt_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, 1, n}
+109,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_clearBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
+110,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_<clinit>_0_basic.dot,5,9,Polynomial,0.25*n^2.,13. + 3.5*n + 0.25*n^2.
+{C[1]^(-1)}
+111,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_compareMagnitude_0_basic.dot,15,47,Constant,47.,47.
+{C[1]^(-1)}
+112,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_compareTo_0_basic.dot,1,1,Constant,1.,1.
+{(-1.)^n, (-1.)^n*n, 1, n, n^2}
+113,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_destructiveMulAdd_0_basic.dot,3,4,Polynomial,0.12*n^2.,3. + 1.25*n + 0.12*n^2.
+{C[1]^(-1)}
+114,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_divide_0_basic.dot,1,1,Constant,1.,1.
+{C[1]^(-1)}
+115,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_divideAndRemainder_0_basic.dot,2,2,Constant,2.,2.
+{C[1]^(-1)}
+116,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_doubleValue_0_basic.dot,1,1,Constant,1.,1.
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, 1, n}
+117,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_equals_0_basic.dot,7,7,Polynomial,0.67*n,10.05 + 0.67*n
+{(-0.5 - 0.8660254037844386*I)^n, (-0.5 + 0.8660254037844386*I)^n, 1, n}
+118,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_firstNonzeroIntNum_0_basic.dot,4,4,Polynomial,0.67*n,3.71 + 0.67*n
+{(-1.)^n, 1, n}
+119,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_flipBit_0_basic.dot,3,3,Polynomial,0.5*n,3. + 0.5*n
+{C[1]^(-1)}
+120,../cfgs/java_cfgs/alt-rt/java_math_BigInteger_floatValue_0_basic.dot,1,1,Constant,1.,1.

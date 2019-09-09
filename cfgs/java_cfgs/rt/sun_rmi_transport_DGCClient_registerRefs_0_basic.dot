@@ -1,8 +1,0 @@
-digraph {
-0 [label="START"]
-3 [label="EXIT"]
-0 -> 1
-1 -> 1
-1 -> 2
-2 -> 3
-}
