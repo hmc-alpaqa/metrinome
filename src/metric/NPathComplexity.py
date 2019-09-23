@@ -1,34 +1,58 @@
 from Graph import Graph
+from typing import List 
 
-def outNeighbors(start:int, edges):
+edge = List[int]
+node = int
+metric = int
+
+class NPathComplexity():
 	'''
-	Return a list of all the nodes we can get to from a
-	given 'start' node
+	NPathComplexity allows us to compute the NPath Complexity of some
+	function from its Control Flow Graph. 
 	'''
-	return [edge[1] for edge in edges if edge[0] == start]
 
-def removeEdge(edgeList, edge):
-	return list(filter(lambda existingEdge: existingEdge != edge, edgeList))
+	def __init__(self) -> None:
+		pass 
 
-def npath(start: int, end: int, edges) -> int:
-	'''
-	Helper function used to compute NPath Complexity recursively
-	'''
-	if start == end:
-		return 1
+	def name(self) -> str:
+		'''
+		Returns the name of the metric computed by this class.
+		'''
+		return "NPath Complexity"
 
-	total = 0
-	for neighbor in outNeighbors(start, edges):
-		# Delete the edge [start, u] from the graph 
-		newEdges = removeEdge(edges, [start, neighbor])
+	def neighbors(self, start: node, edges: List[edge]) -> List[node]:
+		'''
+		Return a list of all the nodes we can get to from a
+		given 'start' node
+		'''
+		return [edge[1] for edge in edges if edge[0] == start]
 
-		# Recursive call from new edge 
-		total += npath(neighbor, end, newEdges)
+	def removeEdge(self, edgeList: List[edge], edge: edge) -> List[edge]:
+		'''
+		Return an edgeList with the specified edge removed.
+		'''
+		return list(filter(lambda existingEdge: existingEdge != edge, edgeList))
 
-	return total
+	def npath(self, start: node, end: node, edges) -> metric:
+		'''
+		Helper function used to compute NPath Complexity recursively
+		'''
+		if start == end:
+			return 1
 
-def nPathComplexity(g: Graph) -> int:
-	'''
-	Compute the NPath complexity of a function given its CFG
-	'''
-	return npath(g.startNode, g.endNode, g.edgeRules())
+		total = 0
+		for neighbor in self.neighbors(start, edges):
+			# Delete the edge [start, u] from the graph 
+			newEdges = self.removeEdge(edges, [start, neighbor])
+
+			# Recursive call from new edge 
+			total += self.npath(neighbor, end, newEdges)
+
+		return total
+
+	def evaluate(self, g: Graph) -> metric:
+		'''
+		Compute the NPath complexity of a function given its CFG
+		'''
+		return self.npath(g.startNode, g.endNode, g.edgeRules())
+

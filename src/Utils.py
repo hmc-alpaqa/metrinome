@@ -181,13 +181,16 @@ class Timeout:
     Allows us to run a function such that an error is thrown if
     it does not finish within a given amount of time
     '''
-    def __init__(self, seconds=1, errorMessage='Timeout'):
+    def __init__(self, seconds=1, errorMessage='Timeout') -> None:
         self.seconds = seconds
         self.errorMessage = errorMessage
+
     def handleTimeout(self, signum, frame):
         raise TimeoutError(self.errorMessage)
+
     def __enter__(self):
         signal.signal(signal.SIGALRM, self.handleTimeout)
         signal.alarm(self.seconds)
+        
     def __exit__(self, type, value, traceback):
         signal.alarm(0)

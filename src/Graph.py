@@ -19,7 +19,7 @@ class Graph:
     def __str__(self):
         return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()} \nStart Node: {self.startNode} \nEnd Node: {self.endNode}"
 
-    def __init__(self, edges, vertices, startNode, endNode):
+    def __init__(self, edges, vertices: int, startNode: int, endNode: int) -> None:
         '''
         Create a directed graph from a vertex set, edge list,
         and start/end notes.
@@ -78,7 +78,7 @@ class Graph:
         return adjMat
 
     @staticmethod
-    def fromFile(filename):
+    def fromFile(filename: str): 
         '''
         Returns a Graph object from a .dot file of format
 
