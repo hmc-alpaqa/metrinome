@@ -98,7 +98,7 @@ class PythonConvert():
         '''
         return 
     
-    def toGraph(self, filename: str): 
+    def toGraph(self, filename: str, file_extension: str) -> Graph: 
         ''' 
         Creates a CFG from a Python source file. 
         ''' 

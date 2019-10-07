@@ -6,7 +6,7 @@ class CPPConvert():
     def __init__(self) -> None: 
         pass 
 
-    def toGraph(self, filename: str) -> Graph: 
+    def toGraph(self, filename: str, file_extension: str) -> Graph: 
         '''
         Creates a CFG from a C++ source file. 
         '''

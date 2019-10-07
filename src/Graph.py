@@ -1,5 +1,6 @@
 import numpy as np
 import re
+from typing import List, Tuple
 
 class Graph:
     '''
@@ -16,7 +17,7 @@ class Graph:
 
     We store a list of these edges.
     '''
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()} \nStart Node: {self.startNode} \nEnd Node: {self.endNode}"
 
     def __init__(self, edges, vertices: int, startNode: int, endNode: int) -> None:
@@ -29,21 +30,21 @@ class Graph:
         self.startNode = startNode
         self.endNode = endNode
 
-    def edgeRules(self):
+    def edgeRules(self) -> List[Tuple[int, int]]:
         '''
-        Obtain the edge list
+        Obtain the edge list.
         '''
         return self.edges
 
-    def vertexCount(self):
+    def vertexCount(self) -> int:
         '''
-        Get the number of vertices in the graph
+        Get the number of vertices in the graph.
         '''
         return len(self.vertices)
 
-    def getVertices(self):
+    def getVertices(self) -> List[int]:
         '''
-        Get the vertex set for the graph
+        Get the vertex set for the graph.
         '''
         return self.vertices
 

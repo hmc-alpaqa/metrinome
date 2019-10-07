@@ -17,12 +17,10 @@ def check_num_args(args, num_args, err1, err2):
 
     return True
 
-def convert_args(args):
-    return args.strip().split()
-
-class MyPrompt(Cmd): 
-
+class Controller: 
     def __init__(self) -> None:
+        '''
+        '''
         cyclomatic = CyclomaticComplexity.CyclomaticComplexity()
         nPathComplexity = NPathComplexity.NPathComplexity() 
         pathComplexity = PathComplexity.PathComplexity() 
@@ -33,14 +31,33 @@ class MyPrompt(Cmd):
         pythonConverter = python.PythonConvert()
         self.graphGenerators = {
             ".cpp": cppConverter, 
-            ".java": javaConverter, 
+            ".jar": javaConverter, 
+            ".class": javaConverter,
+            ".java": javaConverter,
             ".py": pythonConverter, 
         }
+
+    def getGraphGeneratorNames(self):
+        return self.graphGenerators.keys()
+
+    def getGraphGenerator(self, file_extension):
+        return self.graphGenerators[file_extension]
+
+class MyPrompt(Cmd): 
+
+    def __init__(self) -> None:
+        '''
+        '''
+        self.controller = Controller()
         self.metrics = {}
         self.graphs = {}
         self.stats = {} 
-
         super(MyPrompt, self).__init__()
+
+    def convert_args(self, args): 
+        '''
+        '''
+        return args.strip().split()
 
     def do_convert(self, args): 
         """
@@ -49,23 +66,26 @@ class MyPrompt(Cmd):
         Usage: 
         convert <file>
         """
-        args = convert_args(args) 
+        args = self.convert_args(args) 
         ok = check_num_args(args, 1, "Must provide file name.", "Too many arguments provided.")
         if not ok: 
             return 
-        file_name = args[0] 
-        filename, file_extension = os.path.splitext(file_name)
-        if file_extension not in self.graphGenerators.keys():
-            print(f"Cannot convert {file_extension}")
+        full_path = args[0] 
+        filename, file_extension = os.path.splitext(full_path)
+        if file_extension not in self.controller.getGraphGeneratorNames():
+            if file_extension == "":
+                print(f"No file extension found in {full_path}.")
+            else:
+                print(f"Cannot convert {file_extension}")
             return
         
-        converter = self.graphGenerators[file_extension]
-        try: 
-            graph = converter.toGraph(filename)
+        converter = self.controller.getGraphGenerator(file_extension)
+        if os.path.isfile(full_path):
+            graph = converter.toGraph(filename.strip(), file_extension.strip())
             print(graph)
             self.graphs[filename] = graph
-        except FileNotFoundError as e: 
-            print("File not found.")
+        else:
+            print(f"File {full_path} not found.")
 
     def do_list(self, args): 
         """
@@ -74,17 +94,23 @@ class MyPrompt(Cmd):
         Usage: 
         list <metrics/graphs>
         """
-        args = convert_args(args) 
+        args = self.convert_args(args) 
         ok = check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.") 
         if not ok: 
             return
         type = args[0]
         if type == "metrics":
-            print("Metric Names: ")
-            print(" ".join(list(self.metrics.keys())))
+            if len(self.metrics.keys()) == 0:
+                print("No metrics available.")
+            else:
+                print("Metric Names: ")
+                print(" ".join(list(self.metrics.keys())))
         elif type == "graphs":
-            print("Graph Names: ")
-            print(" ".join(list(self.graphs.keys()))) 
+            if len(self.graphs.keys()) == 0:
+                print("No graphs available.")
+            else:
+                print("Graph Names: ")
+                print(" ".join(list(self.graphs.keys()))) 
         else:
             print(f"Type {type} not recognized")
 
@@ -95,18 +121,24 @@ class MyPrompt(Cmd):
         Usage 
         show <metric/graph> <name>
         """
-        args = convert_args(args)
+        args = self.convert_args(args)
         ok = check_num_args(args, 2, "Must specify type (metric/graph) and name.", "Too many arguments provided")
         if not ok: 
             return 
         type = args[0]
         name = args[1] 
         if type == "metric":
-            print(self.metrics[name]) 
+            if name in self.metrics:
+                print(self.metrics[name]) 
+            else:
+                print(f"Metric {name} not found.")
         elif type == "graph":
-            print(self.graphs[name])
+            if name in self.graphs:
+                print(self.graphs[name])
+            else: 
+                print(f"Graphs {name} not found.")
         else: 
-            print(f"Type {type} not recognized")
+            print(f"Type {type} not recognized.")
 
     def do_metrics(self, args): 
         """
