@@ -1,9 +1,11 @@
-from cmd import Cmd
-from metric import CyclomaticComplexity, NPathComplexity, PathComplexity 
-from langToCFG import cpp, python, java
 import os.path
+from os import listdir
+from cmd import Cmd
 
-def check_num_args(args, num_args, err1, err2):
+from langToCFG import cpp, java, python
+from metric import CyclomaticComplexity, NPathComplexity, PathComplexity
+
+def check_num_args(args, num_args, err1, err2) -> bool:
     '''
     check_num_args returns True if the args list has num_elements many elements. 
     Otherwise, print an error message. 
@@ -16,6 +18,21 @@ def check_num_args(args, num_args, err1, err2):
         return False 
 
     return True
+
+def get_files(path):
+    '''
+    get_files returns a list of files from the given path. 
+
+    If the path is a file, it returns a singleton containing the file. 
+    Otherwise, it returns all of the files in the current directory.
+    If it is not a valid path, return no files. 
+    '''
+    if os.path.isfile(path): 
+        return [path]
+    elif os.path.isdir(path): 
+        return [f for f in listdir(path) if os.path.isfile(os.path.join(path, f))] # TODO 
+    else: 
+        return []
 
 class Controller: 
     def __init__(self) -> None:
@@ -71,21 +88,25 @@ class MyPrompt(Cmd):
         if not ok: 
             return 
         full_path = args[0] 
-        filename, file_extension = os.path.splitext(full_path)
-        if file_extension not in self.controller.getGraphGeneratorNames():
-            if file_extension == "":
-                print(f"No file extension found in {full_path}.")
-            else:
-                print(f"Cannot convert {file_extension}")
-            return
+        files = get_files(full_path)
+        if files == []:
+            print(f"Invalid path: {full_path}")
+            return 
+
+        for file in files: 
+            filepath, file_extension = os.path.splitext(file)
+
+            if file_extension not in self.controller.getGraphGeneratorNames():
+                if file_extension == "":
+                    print(f"No file extension found for {file}.")
+                else:
+                    print(f"Cannot convert {file_extension} for {file}.")
+                return
         
-        converter = self.controller.getGraphGenerator(file_extension)
-        if os.path.isfile(full_path):
-            graph = converter.toGraph(filename.strip(), file_extension.strip())
+            converter = self.controller.getGraphGenerator(file_extension)
+            graph = converter.toGraph(filepath.strip(), file_extension.strip())
             print(graph)
-            self.graphs[filename] = graph
-        else:
-            print(f"File {full_path} not found.")
+            self.graphs[filepath] = graph
 
     def do_list(self, args): 
         """
@@ -93,24 +114,34 @@ class MyPrompt(Cmd):
 
         Usage: 
         list <metrics/graphs>
+        list * 
         """
+        def show_metrics():
+            if len(self.metrics.keys()) == 0:
+                print("No metrics available.")
+            else:
+                print("Metric Names: ")
+                print(" ".join(list(self.metrics.keys())))
+
+        def show_graphs():
+            if len(self.graphs.keys()) == 0:
+                print("No graphs available.")
+            else:
+                print("Graph Names: ")
+                print(" ".join(list(self.graphs.keys()))) 
+
         args = self.convert_args(args) 
         ok = check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.") 
         if not ok: 
             return
         type = args[0]
         if type == "metrics":
-            if len(self.metrics.keys()) == 0:
-                print("No metrics available.")
-            else:
-                print("Metric Names: ")
-                print(" ".join(list(self.metrics.keys())))
+            show_metrics()
         elif type == "graphs":
-            if len(self.graphs.keys()) == 0:
-                print("No graphs available.")
-            else:
-                print("Graph Names: ")
-                print(" ".join(list(self.graphs.keys()))) 
+            show_graphs()
+        elif type == "*":
+            show_metrics()
+            show_graphs()
         else:
             print(f"Type {type} not recognized")
 
@@ -120,6 +151,7 @@ class MyPrompt(Cmd):
 
         Usage 
         show <metric/graph> <name>
+        show <metric/graph> * 
         """
         args = self.convert_args(args)
         ok = check_num_args(args, 2, "Must specify type (metric/graph) and name.", "Too many arguments provided")
@@ -127,16 +159,25 @@ class MyPrompt(Cmd):
             return 
         type = args[0]
         name = args[1] 
+        names = [name]
         if type == "metric":
-            if name in self.metrics:
-                print(self.metrics[name]) 
-            else:
-                print(f"Metric {name} not found.")
+            if name == "*": 
+                names = self.metrics.keys()
+
+            for name in names:
+                if name in self.metrics:
+                    print(self.metrics[name]) 
+                else:
+                    print(f"Metric {name} not found.")
         elif type == "graph":
-            if name in self.graphs:
-                print(self.graphs[name])
-            else: 
-                print(f"Graphs {name} not found.")
+            if name == "*": 
+                names = self.graphs.keys()
+            
+            for name in names: 
+                if name in self.graphs:
+                    print(self.graphs[name])
+                else: 
+                    print(f"Graphs {name} not found.")      
         else: 
             print(f"Type {type} not recognized.")
 
@@ -146,6 +187,7 @@ class MyPrompt(Cmd):
 
         Usage: 
         metrics <name>
+        metrics * 
         """
         args = convert_args(args)
         ok = check_num_args(args, 1, "Must provide graph name.", "Too many arguments provided.")
@@ -153,20 +195,24 @@ class MyPrompt(Cmd):
             return 
 
         name = args[0] 
-        if name not in self.graphs: 
+        names = [name]
+        if name == "*":
+            names = self.graphs.keys()
+        elif name not in self.graphs:
             print(f"Error, Graph {name} not found.")
             return
 
-        graph = self.graphs[name]
-        print(f"Computing metrics for {graph}")
-        results = []
-        for metricGenerator in self.metricsGenerators:
-            print(f"Computing {metricGenerator.name()}")
-            result = metricGenerator.evaluate(graph)
-            results.append((metricGenerator.name(), result)) 
-            print(f"Got {result}") 
+        for name in names: 
+            graph = self.graphs[name]
+            print(f"Computing metrics for {graph}")
+            results = []
+            for metricGenerator in self.metricsGenerators:
+                print(f"Computing {metricGenerator.name()}")
+                result = metricGenerator.evaluate(graph)
+                results.append((metricGenerator.name(), result)) 
+                print(f"Got {result}") 
 
-        self.metrics[name] = results 
+            self.metrics[name] = results 
 
     def do_analyze(self, args): 
         """
@@ -186,7 +232,38 @@ class MyPrompt(Cmd):
         
         metric = self.metrics[metric_name]
 
-    def do_save(self, args):
+    def do_delete(self, args): 
+        """
+        Delete an object (type Graph, Metrics, or States) from memory. 
+
+        Usage: 
+        delete <type> <name>
+        """
+        ok = check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
+        if not ok: 
+            return 
+
+        type = args[0]
+        name = args[1]
+        if type == "graphs": 
+            try: 
+                del self.graph[name] 
+            except KeyError: 
+                print(f"Graph {name} not found.")
+        elif type == "metrics": 
+            try:
+                del self.metrics[name]
+            except KeyError:
+                print(f"Metric {name} not found.")
+        elif type == "stats":
+            try:
+                del self.stats[name] 
+            except KeyError:
+                print(f"Statistics {name} not found.")
+        else:
+            print(f"Type {type} not recognized.")
+
+    def do_export(self, args):
         """
         Save an object (type Graph, Metrics, or Stats) to an output file. 
 
@@ -213,7 +290,7 @@ class MyPrompt(Cmd):
                     stat = self.stats[name] 
                     f.write(stat)
             else:
-                print(f"Type {type} not recognized")
+                print(f"Type {type} not recognized.")
 
     def do_quit(self, args): 
         """

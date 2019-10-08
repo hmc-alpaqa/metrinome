@@ -13,6 +13,6 @@ class JavaConvert():
             print("Not yet implemented.")
             return Graph([], [], 0, 1) 
 
-        converter = App((filename + file_extension).strip(), False) 
+        converter = App((filename + file_extension).strip(), export=False) 
         converter.run()
         return Graph([], [], 0, 1) 
