@@ -1,18 +1,19 @@
 import subprocess, argparse, glob2, os, re, sys
 from Graph import Graph
+from typing import List 
 
 class CPPConvert(): 
 
     def __init__(self) -> None: 
         pass 
 
-    def toGraph(self, filename: str, file_extension: str) -> Graph: 
+    def toGraph(self, filename: str, file_extension: str) -> List[Graph]: 
         '''
         Creates a CFG from a C++ source file. 
         '''
         self.createDotFiles(filename)
         self.convertToStandardFormat("test")
-        return Graph.fromFile("test")
+        return {'1': Graph.fromFile("test")}
 
     def convertToStandardFormat(self, file: str):
         '''

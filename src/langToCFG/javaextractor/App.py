@@ -23,8 +23,8 @@ class App:
         self.output_folder = Env.OUTPUT_PATH
         if output_folder != None:
             self.output_folder = output_folder
-        self.export = export 
-
+        self.export = export
+    
     def __jarToClasses(self, jar_file, cwd=Env.TMP_PATH):
         self.log.i("extracting jar file")
         self.shell.clean(cwd)
@@ -34,11 +34,11 @@ class App:
     def __runCFGExtractor(self, main_class, input_classes, project): 
         output_path = Env.get_output_path(project)
         self.shell.clean(output_path)
-        if self.export: 
+        if self.export:
             additional_cmd = f"-i {input_classes} -o {output_path} -p test"
-        else: 
+        else:
             additional_cmd = f"-i {input_classes} -p test"
-        cmd = f"java -jar {CFG_EXTRACTOR} {additional_cmd}"
+        cmd = f"java -jar {Env.CFG_EXTRACTOR} {additional_cmd}"
         
         self.shell.runcmd(cmd)
     
