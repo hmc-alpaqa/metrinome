@@ -21,7 +21,6 @@ class FunctionVisitor(ast.NodeVisitor):
         self.vertices = [0]
         self.edges = [] 
 
-    
     def visit_Expr(self, node):
         print(node.body)
  
