@@ -1,23 +1,11 @@
 import os.path
 from os import listdir
 from cmd import Cmd
+from Log import Log
 
 from langToCFG import cpp, java, python
 from metric import CyclomaticComplexity, NPathComplexity, PathComplexity
 
-def check_num_args(args, num_args, err1, err2) -> bool:
-    '''
-    check_num_args returns True if the args list has num_elements many elements. 
-    Otherwise, print an error message. 
-    '''
-    if len(args) < num_args: 
-        print(err1)
-        return False 
-    elif len(args) > num_args: 
-        print(err2)  
-        return False 
-
-    return True
 
 def get_files(path):
     '''
@@ -53,7 +41,22 @@ class Controller:
             ".java": javaConverter,
             ".py": pythonConverter, 
         }
+        self.logger = Log("Complexity Repl:")
 
+    def check_num_args(self, args, num_args, err1, err2) -> bool:
+        '''
+        check_num_args returns True if the args list has num_elements many elements. 
+        Otherwise, print an error message. 
+        '''
+        if len(args) < num_args: 
+            self.logger.v(err1)
+        elif len(args) > num_args: 
+            self.logger.v(err2)  
+        else: 
+            return True
+
+        return False
+    
     def getGraphGeneratorNames(self):
         return self.graphGenerators.keys()
 
@@ -90,7 +93,7 @@ class MyPrompt(Cmd):
         full_path = args[0] 
         files = get_files(full_path)
         if files == []:
-            print(f"Invalid path: {full_path}")
+            self.logger.v(f"Invalid path: {full_path}")
             return 
 
         for file in files: 
@@ -98,14 +101,14 @@ class MyPrompt(Cmd):
 
             if file_extension not in self.controller.getGraphGeneratorNames():
                 if file_extension == "":
-                    print(f"No file extension found for {file}.")
+                    self.logger.v(f"No file extension found for {file}.")
                 else:
-                    print(f"Cannot convert {file_extension} for {file}.")
+                    self.logger.v(f"Cannot convert {file_extension} for {file}.")
                 return
         
             converter = self.controller.getGraphGenerator(file_extension)
             graph = converter.toGraph(filepath.strip(), file_extension.strip())
-            print(graph)
+            self.logger.v(graph)
             self.graphs[filepath] = graph
 
     def do_list(self, args): 
@@ -118,17 +121,17 @@ class MyPrompt(Cmd):
         """
         def show_metrics():
             if len(self.metrics.keys()) == 0:
-                print("No metrics available.")
+                self.logger.v("No metrics available.")
             else:
-                print("Metric Names: ")
-                print(" ".join(list(self.metrics.keys())))
+                self.logger.v("Metric Names: ")
+                self.logger.v(" ".join(list(self.metrics.keys())))
 
         def show_graphs():
             if len(self.graphs.keys()) == 0:
-                print("No graphs available.")
+                self.logger.v("No graphs available.")
             else:
-                print("Graph Names: ")
-                print(" ".join(list(self.graphs.keys()))) 
+                self.logger.v("Graph Names: ")
+                self.logger.v(" ".join(list(self.graphs.keys()))) 
 
         args = self.convert_args(args) 
         ok = check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.") 
@@ -143,7 +146,7 @@ class MyPrompt(Cmd):
             show_metrics()
             show_graphs()
         else:
-            print(f"Type {type} not recognized")
+            self.logger.v(f"Type {type} not recognized")
 
     def do_show(self, args): 
         """
@@ -166,20 +169,20 @@ class MyPrompt(Cmd):
 
             for name in names:
                 if name in self.metrics:
-                    print(self.metrics[name]) 
+                    self.logger.v(self.metrics[name]) 
                 else:
-                    print(f"Metric {name} not found.")
+                    self.logger.v(f"Metric {name} not found.")
         elif type == "graph":
             if name == "*": 
                 names = self.graphs.keys()
             
             for name in names: 
                 if name in self.graphs:
-                    print(self.graphs[name])
+                    self.logger.v(self.graphs[name])
                 else: 
-                    print(f"Graphs {name} not found.")      
+                    self.logger.v(f"Graphs {name} not found.")      
         else: 
-            print(f"Type {type} not recognized.")
+            self.logger.v(f"Type {type} not recognized.")
 
     def do_metrics(self, args): 
         """
@@ -199,18 +202,18 @@ class MyPrompt(Cmd):
         if name == "*":
             names = self.graphs.keys()
         elif name not in self.graphs:
-            print(f"Error, Graph {name} not found.")
+            self.logger.v(f"Error, Graph {name} not found.")
             return
 
         for name in names: 
             graph = self.graphs[name]
-            print(f"Computing metrics for {graph}")
+            self.logger.v(f"Computing metrics for {graph}")
             results = []
             for metricGenerator in self.metricsGenerators:
-                print(f"Computing {metricGenerator.name()}")
+                self.logger.v(f"Computing {metricGenerator.name()}")
                 result = metricGenerator.evaluate(graph)
                 results.append((metricGenerator.name(), result)) 
-                print(f"Got {result}") 
+                self.logger.v(f"Got {result}") 
 
             self.metrics[name] = results 
 
@@ -227,7 +230,7 @@ class MyPrompt(Cmd):
             return 
         metric_name = args[0]
         if metric_name not in self.metrics.keys():
-            print(f"Could not find metric {metric_name}")
+            self.logger.v(f"Could not find metric {metric_name}")
             return 
         
         metric = self.metrics[metric_name]
@@ -249,19 +252,19 @@ class MyPrompt(Cmd):
             try: 
                 del self.graph[name] 
             except KeyError: 
-                print(f"Graph {name} not found.")
+                self.logger.v(f"Graph {name} not found.")
         elif type == "metrics": 
             try:
                 del self.metrics[name]
             except KeyError:
-                print(f"Metric {name} not found.")
+                self.logger.v(f"Metric {name} not found.")
         elif type == "stats":
             try:
                 del self.stats[name] 
             except KeyError:
-                print(f"Statistics {name} not found.")
+                self.logger.v(f"Statistics {name} not found.")
         else:
-            print(f"Type {type} not recognized.")
+            self.logger.v(f"Type {type} not recognized.")
 
     def do_export(self, args):
         """
@@ -290,7 +293,7 @@ class MyPrompt(Cmd):
                     stat = self.stats[name] 
                     f.write(stat)
             else:
-                print(f"Type {type} not recognized.")
+                self.logger.v(f"Type {type} not recognized.")
 
     def do_quit(self, args): 
         """
