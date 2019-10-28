@@ -23,6 +23,7 @@ class Env:
     SCRIPT_PATH = ROOT_PATH
 
     CFG_EXTRACTOR = os.path.abspath(os.path.join(     PROJECT_PATH, 'langToCFG', 'javaextractor', 'java', 'cfgextractor.jar' ) )
+    CFG_EXTRACTOR_LIVE = os.path.abspath(os.path.join(PROJECT_PATH, 'langToCFG', 'javaextractor', 'cfgextractor_decompiled_source', 'Extractor.java'))
     
     ####### JAVA LIBS
     APACHE_IO_PATH = os.path.abspath(os.path.join(      LIB_PATH, 'commons-io-2.4.jar') )

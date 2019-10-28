@@ -31,6 +31,21 @@ class App:
         cmd = f"jar xf {jar_file}"
         self.shell.runcmd(cmd, cwd=cwd)
         
+    def __runCFGExtractorLive(self, main_class, input_classes, project): 
+        output_path = Env.get_output_path(project)
+        self.shell.clean(output_path)
+        if self.export:
+            # TODO
+            pass 
+        #    additional_cmd = f"-i {input_classes} -o {output_path} -p test"
+        else:
+            pass
+        #     additional_cmd = f"-i {input_classes} -p test"
+        # cmd = f"java -jar {Env.CFG_EXTRACTOR} {additional_cmd}"
+        cmd = f"cat {Env.CFG_EXTRACTOR_LIVE}"
+
+        self.shell.runcmd(cmd)
+
     def __runCFGExtractor(self, main_class, input_classes, project): 
         output_path = Env.get_output_path(project)
         self.shell.clean(output_path)
@@ -66,4 +81,19 @@ class App:
             self.__runCFGExtractor("Extractor", Env.TMP_PATH, Env.get_basename(file_name))
                 
         self.log.v("finished: please check {} folder for the generated CFGs".format(Env.OUTPUT_PATH))
+    
+    def runLive(self, jar=True): 
+        # TODO
+        self.log.i("start")
+        self.shell.clean(Env.TMP_PATH)     
+        for file_name in self.file_list:
+            if file_name.endswith('sources.jar') or file_name.endswith('javadoc.jar')  or file_name.endswith('tests.jar'):
+                continue
+            self.log.v("processing {}".format(file_name))
+            if jar: 
+                self.__jarToClasses(file_name)
             
+            self.__runCFGExtractorLive("Extractor", Env.TMP_PATH, Env.get_basename(file_name))
+                
+        self.log.v("finished: please check {} folder for the generated CFGs".format(Env.OUTPUT_PATH))
+
