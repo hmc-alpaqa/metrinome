@@ -1,14 +1,12 @@
-package javacfg.analysis;
+package com.hmc.analysis;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.io.UnsupportedEncodingException;
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
-import org.objectweb.asm.tree.analysis.AnalyzerException;
-import javacfg.ComOptions;
-import javacfg.db.SqliteJDBC;
+import com.hmc.ComOptions;
+import com.hmc.db.SqliteJDBC;
 import java.io.PrintWriter;
 
 import org.objectweb.asm.tree.analysis.Analyzer;
@@ -22,31 +20,31 @@ import org.objectweb.asm.MethodVisitor;
 public class CFGMethodVisitor extends MethodVisitor
 {
 
-    public String mAccess;
-    public String mOwner;
-    public String mName;
-    public String mDesc;
-    MethodVisitor next;
-    public static Map<String, Integer> mIndexes;
-    public static int keyIndex;
-    public static Map<Frame, Integer> keys;
-    public static int basicKeyIndex;
-    public static Map<BasicBlock, Integer> basicKeys;
+    // private String mAccess;
+    private String mOwner;
+    private String mName;
+    // private String mDesc;
+    private MethodVisitor next;
+    private static Map<String, Integer> mIndexes;
+    // private static int keyIndex;
+    // private static Map<Frame, Integer> keys;
+    private static int basicKeyIndex;
+    private static Map<BasicBlock, Integer> basicKeys;
     
     static {
         CFGMethodVisitor.mIndexes = new HashMap<>();
-        CFGMethodVisitor.keyIndex = 1;
-        CFGMethodVisitor.keys = new HashMap<>();
+        // CFGMethodVisitor.keyIndex = 1;
+        // CFGMethodVisitor.keys = new HashMap<>();
         CFGMethodVisitor.basicKeyIndex = 1;
         CFGMethodVisitor.basicKeys = new HashMap<>();
     }
     
-    public CFGMethodVisitor(final MethodVisitor mv, final int access, final String owner, final String name, final String desc) {
+    CFGMethodVisitor(final MethodVisitor mv, final int access, final String owner, final String name, final String desc) {
         super(327680, new MethodNode(access, name, desc, null, null));
-        this.mAccess = Integer.toString(access);
+        // this.mAccess = Integer.toString(access);
         this.mOwner = owner;
         this.mName = name;
-        this.mDesc = desc;
+        // this.mDesc = desc;
         this.next = mv;
     }
 
@@ -75,27 +73,31 @@ public class CFGMethodVisitor extends MethodVisitor
             a.analyze(this.mOwner, mn);
             final Frame[] frames = a.getFrames();
             final List<BasicBlock> basicBlocks = getBasicBlocks(frames);
-            String outFile2 = String.valueOf(javacfg.ComOptions.OUTPUT_FOLDER_PATH) + "/" +
+            String outFile2 = String.valueOf(ComOptions.OUTPUT_FOLDER_PATH) + "/" +
                     this.mOwner.replace("/", "_") + "_" + this.mName + "_" + getKey(this.mName)
                     + "_basic.dot";
             if (outFile2.length() > 190) {
-                String owner = new StringBuilder().append(this.mOwner.hashCode()).toString();
+                String owner = Integer.toString(this.mOwner.hashCode());
                 if (owner.length() > 15) {
                     owner = String.valueOf(this.mOwner.substring(0, 15).replace("/", "_")) + owner;
                 }
-                outFile2 = String.valueOf(javacfg.ComOptions.OUTPUT_FOLDER_PATH) + "/" + owner + "_" + this.mName + "_" + getKey(this.mName) + "_basic.dot";
+                outFile2 = String.valueOf(ComOptions.OUTPUT_FOLDER_PATH) + "/" + owner + "_" + this.mName + "_" + getKey(this.mName) + "_basic.dot";
             }
 
             // TODO(gbessler): fix this
-            System.out.println(outFile2);
             outFile2 = outFile2.replace("<", "");
             outFile2 = outFile2.replace(">", "");
             File file = new File(outFile2);
-            System.out.println(outFile2);
             // Create all parent directories.
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-            final PrintWriter writer2 = new PrintWriter(outFile2, "UTF-8");
+            boolean ok = file.getParentFile().mkdirs();
+            if (!ok) {
+                System.out.println("Could not create parent dirs.");
+            }
+            ok = file.createNewFile();
+            if (!ok) {
+                System.out.println("Could not create file");
+            }
+            final PrintWriter writer2 = new PrintWriter(outFile2, StandardCharsets.UTF_8);
             writer2.println("digraph {");
             writer2.println("0 [label=\"START\"]");
             final int exitBlock = basicBlocks.size() + 1;
@@ -113,22 +115,10 @@ public class CFGMethodVisitor extends MethodVisitor
             }
             writer2.println("}");
             writer2.close();
-            if (javacfg.ComOptions.DB_MODE)
+            if (ComOptions.DB_MODE)
                 SqliteJDBC.updateMethod(ComOptions.DB_METHOD_ID, "dotfile", outFile2);
 
             System.out.println(String.valueOf(this.mOwner) + "." + this.mName + ": frames --> " + frames.length + ": basic blocks --> " + basicBlocks.size());
-        }
-        catch (AnalyzerException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            System.exit(0);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +128,7 @@ public class CFGMethodVisitor extends MethodVisitor
         mn.accept(this.next);
     }
     
-    public static String getKey(final String s) {
+    private static String getKey(final String s) {
         Integer index = 0;
         if (CFGMethodVisitor.mIndexes.containsKey(s)) {
             index = CFGMethodVisitor.mIndexes.get(s);
@@ -148,7 +138,9 @@ public class CFGMethodVisitor extends MethodVisitor
         }
         return index.toString();
     }
-    
+
+    // TODO
+    /*
     public static String getKey(final Frame f) {
         System.out.println(f + " ---> " + CFGMethodVisitor.keyIndex);
         if (!CFGMethodVisitor.keys.containsKey(f)) {
@@ -156,23 +148,24 @@ public class CFGMethodVisitor extends MethodVisitor
         }
         return CFGMethodVisitor.keys.get(f).toString();
     }
+    */
     
-    public static String getKey(final BasicBlock b) {
+    private static String getKey(final BasicBlock b) {
         if (!CFGMethodVisitor.basicKeys.containsKey(b)) {
             CFGMethodVisitor.basicKeys.put(b, CFGMethodVisitor.basicKeyIndex++);
         }
         return CFGMethodVisitor.basicKeys.get(b).toString();
     }
     
-    public static void resetKeyMap() {
-        CFGMethodVisitor.keys.clear();
-        CFGMethodVisitor.keyIndex = 1;
+    private static void resetKeyMap() {
+        // CFGMethodVisitor.keys.clear();
+        // CFGMethodVisitor.keyIndex = 1;
         CFGMethodVisitor.basicKeys.clear();
         CFGMethodVisitor.basicKeyIndex = 1;
         CFGMethodVisitor.mIndexes.clear();
     }
     
-    public static List<BasicBlock> getBasicBlocks(final Frame[] frames) {
+    private static List<BasicBlock> getBasicBlocks(final Frame[] frames) {
         final List<Node> leaders = new ArrayList<>();
         for (int i = 0; i < frames.length; ++i) {
             if (frames[i] != null) {

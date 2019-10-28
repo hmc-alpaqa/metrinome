@@ -1,6 +1,6 @@
-package javacfg.db;
+package com.hmc.db;
 
-import javacfg.ComOptions;
+import com.hmc.ComOptions;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -49,7 +49,7 @@ public class SqliteJDBC
             stmt.setString(4, name);
             stmt.setString(5, description);
             stmt.setString(6, dotfile);
-            final int result = stmt.executeUpdate();
+            stmt.executeUpdate();
             stmt.close();
         }
         catch (SQLException e) {
@@ -63,37 +63,14 @@ public class SqliteJDBC
             final PreparedStatement stmt = SqliteJDBC.conn.prepareStatement(sql);
             stmt.setString(1, data);
             stmt.setInt(2, Integer.parseInt(id));
-            final int result = stmt.executeUpdate();
+            stmt.executeUpdate();
             stmt.close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
-    public static void select() {
-        try {
-            final Statement stmt = SqliteJDBC.conn.createStatement();
-            final String sql = "SELECT * FROM method;";
-            final ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                final String session = rs.getString("session");
-                final int access = rs.getInt("access");
-                final String owner = rs.getString("owner");
-                final String name = rs.getString("name");
-                final String description = rs.getString("description");
-                final String dotfile = rs.getString("dotfile");
-                System.out.println(String.valueOf(session) + ", " + access + ", " + owner + ", " + name + ", " + description + ", " + dotfile);
-            }
-            rs.close();
-            stmt.close();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public static boolean select(final String id) {
+    public static void select(final String id) {
         try {
             final Statement stmt = SqliteJDBC.conn.createStatement();
             final String sql = "SELECT * FROM method WHERE id=" + id + ";";
@@ -106,20 +83,18 @@ public class SqliteJDBC
                 final String description = rs.getString("description");
                 final String dotfile = rs.getString("dotfile");
                 System.out.println(String.valueOf(session) + ", " + access + ", " + owner + ", " + name + ", " + description + ", " + dotfile);
-                javacfg.ComOptions.USER_SESSION = session;
-                javacfg.ComOptions.M_ACCESS_CODE = access;
-                javacfg.ComOptions.M_OWNER = owner;
-                javacfg.ComOptions.M_NAME = name;
-                javacfg.ComOptions.M_DESCRIPTION = description;
+                ComOptions.USER_SESSION = session;
+                ComOptions.M_ACCESS_CODE = access;
+                ComOptions.M_OWNER = owner;
+                ComOptions.M_NAME = name;
+                ComOptions.M_DESCRIPTION = description;
                 ComOptions.M_DOTFILE = dotfile;
             }
             rs.close();
             stmt.close();
-            return true;
         }
         catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
     }
 }

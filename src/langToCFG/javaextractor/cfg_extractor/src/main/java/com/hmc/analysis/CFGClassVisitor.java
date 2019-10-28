@@ -1,14 +1,14 @@
-package javacfg.analysis;
+package com.hmc.analysis;
 
-import javacfg.ComOptions;
-import javacfg.db.SqliteJDBC;
+import com.hmc.db.SqliteJDBC;
+import com.hmc.ComOptions;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.ClassVisitor;
 
 public class CFGClassVisitor extends ClassVisitor
 {
-    public String klass;
-    public boolean isInterface;
+    private String klass;
+    private boolean isInterface;
     
     public CFGClassVisitor(final ClassVisitor cv) {
         super(327680, cv);
@@ -25,12 +25,12 @@ public class CFGClassVisitor extends ClassVisitor
         final boolean isAbstract = (access & 0x400) != 0x0;
         final boolean isNative = (access & 0x100) != 0x0;
         if (!this.isInterface && !isAbstract && !isNative && mv != null) {
-            if (javacfg.ComOptions.DB_MODE) {
-                if (javacfg.ComOptions.SINGLE_METHOD_MODE && this.filter(access, this.klass, name, desc)) {
+            if (ComOptions.DB_MODE) {
+                if (ComOptions.SINGLE_METHOD_MODE && this.filter(access, this.klass, name, desc)) {
                     mv = new CFGMethodVisitor(mv, access, this.klass, name, desc);
                 }
                 else {
-                    SqliteJDBC.insertMethod(javacfg.ComOptions.USER_SESSION, access, this.klass, name, desc, "");
+                    SqliteJDBC.insertMethod(ComOptions.USER_SESSION, access, this.klass, name, desc, "");
                 }
             }
             else {
@@ -40,7 +40,7 @@ public class CFGClassVisitor extends ClassVisitor
         return mv;
     }
     
-    public boolean filter(final int access, final String owner, final String name, final String desc) {
-        return javacfg.ComOptions.M_NAME.equals(name) && javacfg.ComOptions.M_DESCRIPTION.equals(desc) && javacfg.ComOptions.M_ACCESS_CODE == access && ComOptions.M_OWNER.equals(owner);
+    private boolean filter(final int access, final String owner, final String name, final String desc) {
+        return ComOptions.M_NAME.equals(name) && ComOptions.M_DESCRIPTION.equals(desc) && ComOptions.M_ACCESS_CODE == access && ComOptions.M_OWNER.equals(owner);
     }
 }

@@ -1,23 +1,23 @@
-package javacfg.analysis;
+package com.hmc.analysis;
 
 import java.util.HashSet;
 import java.util.Set;
 import org.objectweb.asm.tree.analysis.Frame;
 
-public class Node extends Frame
+class Node extends Frame
 {
-    public boolean isRoot;
+    boolean isRoot;
     Set<Node> successors;
     Set<Node> predecessors;
     
-    public Node(final int nLocals, final int nStack) {
+    Node(final int nLocals, final int nStack) {
         super(nLocals, nStack);
         this.isRoot = false;
         this.successors = new HashSet<>();
         this.predecessors = new HashSet<>();
     }
     
-    public Node(final Frame src) {
+    Node(final Frame src) {
         super(src);
         this.isRoot = false;
         this.successors = new HashSet<>();

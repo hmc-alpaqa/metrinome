@@ -1,19 +1,19 @@
-package javacfg;
+package com.hmc;
 
+import com.hmc.analysis.CFGClassVisitor;
 import org.apache.commons.cli.HelpFormatter;
 import java.util.Collection;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import java.io.IOException;
 import org.objectweb.asm.ClassVisitor;
-import javacfg.analysis.CFGClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.ClassReader;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import java.io.File;
-import javacfg.db.SqliteJDBC;
+import com.hmc.db.SqliteJDBC;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.cli.Options;
 
@@ -34,10 +34,10 @@ public class Extractor
             com = comParser.parse(comOptions, args);
         }
         catch (Exception e2) {
-            exit(comOptions, "Available command line options");
+            exit(comOptions);
         }
         if (com.hasOption('h')) {
-            exit(comOptions, "Available command line options");
+            exit(comOptions);
         }
         if (com.hasOption('i')) {
             ComOptions.INPUT_CLASS_FOLDER_PATH = com.getOptionValue('i');
@@ -85,7 +85,6 @@ public class Extractor
                             cr.accept(cv, 0);
                             break;
                         }
-                        continue;
                     }
                 }
                 else {
@@ -103,9 +102,9 @@ public class Extractor
         SqliteJDBC.close();
     }
     
-    public static void exit(final Options options, final String message) {
+    private static void exit(final Options options) {
         final HelpFormatter helpFormatter = new HelpFormatter();
-        helpFormatter.printHelp(message, options, true);
+        helpFormatter.printHelp("Available command line options", options, true);
         System.exit(0);
     }
 }

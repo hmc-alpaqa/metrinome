@@ -1,15 +1,15 @@
-package javacfg.analysis;
+package com.hmc.analysis;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.HashSet;
 
-public class BasicBlock
+class BasicBlock
 {
-    public boolean isRoot;
+    boolean isRoot;
     Set<BasicBlock> successors;
     Set<BasicBlock> predecessors;
     
-    public BasicBlock() {
+    BasicBlock() {
         this.isRoot = false;
         this.successors = new HashSet<>();
         this.predecessors = new HashSet<>();

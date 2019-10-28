@@ -1,4 +1,4 @@
-package vlab.cs.javacfg.test;
+package com.hmc;
 
 import org.omg.CORBA.Request;
 
