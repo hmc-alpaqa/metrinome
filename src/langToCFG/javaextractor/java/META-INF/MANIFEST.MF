@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Rsrc-Class-Path: ./ commons-io-2.4.jar commons-lang3-3.3.2-javadoc.jar
-  commons-lang3-3.3.2.jar commons-cli-1.2.jar asm-all-5.0.3.jar sqlite
- -jdbc-3.8.10.1.jar
-Class-Path: .
-Rsrc-Main-Class: Extractor
-Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
-
