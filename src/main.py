@@ -72,6 +72,7 @@ class MyPrompt(Cmd):
         self.metrics = {}
         self.graphs = {}
         self.stats = {} 
+        self.logger = Log() 
         super(MyPrompt, self).__init__()
 
     def convert_args(self, args): 
@@ -87,7 +88,7 @@ class MyPrompt(Cmd):
         convert <file>
         """
         args = self.convert_args(args) 
-        ok = check_num_args(args, 1, "Must provide file name.", "Too many arguments provided.")
+        ok = self.controller.check_num_args(args, 1, "Must provide file name.", "Too many arguments provided.")
         if not ok: 
             return 
         full_path = args[0] 
@@ -119,22 +120,8 @@ class MyPrompt(Cmd):
         list <metrics/graphs>
         list * 
         """
-        def show_metrics():
-            if len(self.metrics.keys()) == 0:
-                self.logger.v("No metrics available.")
-            else:
-                self.logger.v("Metric Names: ")
-                self.logger.v(" ".join(list(self.metrics.keys())))
-
-        def show_graphs():
-            if len(self.graphs.keys()) == 0:
-                self.logger.v("No graphs available.")
-            else:
-                self.logger.v("Graph Names: ")
-                self.logger.v(" ".join(list(self.graphs.keys()))) 
-
         args = self.convert_args(args) 
-        ok = check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.") 
+        ok = self.controller.check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.") 
         if not ok: 
             return
         type = args[0]
@@ -147,6 +134,20 @@ class MyPrompt(Cmd):
             show_graphs()
         else:
             self.logger.v(f"Type {type} not recognized")
+
+    def show_metrics():
+        if len(self.metrics.keys()) == 0:
+            self.logger.v("No metrics available.")
+        else:
+            self.logger.v("Metric Names: ")
+            self.logger.v(" ".join(list(self.metrics.keys())))
+
+    def show_graphs():
+        if len(self.graphs.keys()) == 0:
+            self.logger.v("No graphs available.")
+        else:
+            self.logger.v("Graph Names: ")
+            self.logger.v(" ".join(list(self.graphs.keys()))) 
 
     def do_show(self, args): 
         """
@@ -225,7 +226,7 @@ class MyPrompt(Cmd):
         analyze <metric names>
         """
         args = convert_args(args) 
-        ok = check_num_args(args, 1, "Must provide metric name.", "Too many arguments provided.")
+        ok = self.controller.check_num_args(args, 1, "Must provide metric name.", "Too many arguments provided.")
         if not ok: 
             return 
         metric_name = args[0]
@@ -242,7 +243,7 @@ class MyPrompt(Cmd):
         Usage: 
         delete <type> <name>
         """
-        ok = check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
+        ok = self.controller.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
         if not ok: 
             return 
 
@@ -273,7 +274,7 @@ class MyPrompt(Cmd):
         Usage:
         save <type> <name>
         """
-        ok = check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
+        ok = self.controller.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
         if not ok: 
             return 
 
@@ -300,7 +301,7 @@ class MyPrompt(Cmd):
         Quits the path complexity repl
         """
         args = convert_args(args) 
-        check_num_args(args, 0, "Quitting...", "Too many arguments provided.")
+        self.controller.check_num_args(args, 0, "Quitting...", "Too many arguments provided.")
         raise SystemExit 
 
 if __name__ == "__main__":

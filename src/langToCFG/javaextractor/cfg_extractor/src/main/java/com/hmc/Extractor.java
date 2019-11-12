@@ -2,6 +2,8 @@ package com.hmc;
 
 import com.hmc.analysis.CFGClassVisitor;
 import org.apache.commons.cli.HelpFormatter;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -13,6 +15,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import java.io.File;
+import java.util.List;
+
 import com.hmc.db.SqliteJDBC;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.cli.Options;
@@ -20,6 +24,7 @@ import org.apache.commons.cli.Options;
 public class Extractor
 {
     public static void main(final String[] args) {
+        // Parse command line options
         final Options comOptions = new Options();
         comOptions.addOption("p", "package-name", true, "application package name");
         comOptions.addOption("d", "database", true, "database url");
@@ -61,11 +66,25 @@ public class Extractor
             ComOptions.SINGLE_METHOD_MODE = true;
             SqliteJDBC.select(ComOptions.DB_METHOD_ID);
         }
+
         final File classFolder = new File(ComOptions.INPUT_CLASS_FOLDER_PATH);
         final File instrumentedClassFolder = new File(ComOptions.OUTPUT_FOLDER_PATH);
         ConsoleMessage.info("input classes folder -> " + classFolder);
         ConsoleMessage.info("output folder -> " + instrumentedClassFolder);
-        final Collection<File> classFiles = FileUtils.listFiles(classFolder, new RegexFileFilter("[^\\s]+\\.class$"), DirectoryFileFilter.DIRECTORY);
+
+        // classFolder can either be a single file or a directory
+        System.out.println("Working directory = " + System.getProperty("user.dir"));
+        final Collection<File> classFiles;
+        if (classFolder.isDirectory()) {
+            classFiles = FileUtils.listFiles(
+                    classFolder, new RegexFileFilter("[^\\s]+\\.class$"),
+                    DirectoryFileFilter.DIRECTORY
+            );
+        } else {
+            classFiles = new ArrayList<>();
+            ((ArrayList<File>) classFiles).add(0, classFolder);
+        }
+
         for (final File classFile : classFiles) {
             try {
                 final byte[] inBytes = FileUtils.readFileToByteArray(classFile);

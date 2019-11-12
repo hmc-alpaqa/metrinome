@@ -1,7 +1,9 @@
 package com.hmc.analysis;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -16,6 +18,8 @@ import java.util.HashMap;
 import org.objectweb.asm.tree.analysis.Frame;
 import java.util.Map;
 import org.objectweb.asm.MethodVisitor;
+
+import java.io.OutputStreamWriter;
 
 public class CFGMethodVisitor extends MethodVisitor
 {
@@ -73,9 +77,10 @@ public class CFGMethodVisitor extends MethodVisitor
             a.analyze(this.mOwner, mn);
             final Frame[] frames = a.getFrames();
             final List<BasicBlock> basicBlocks = getBasicBlocks(frames);
-            String outFile2 = String.valueOf(ComOptions.OUTPUT_FOLDER_PATH) + "/" +
+            String outFile2 = Paths.get(String.valueOf(ComOptions.OUTPUT_FOLDER_PATH),
                     this.mOwner.replace("/", "_") + "_" + this.mName + "_" + getKey(this.mName)
-                    + "_basic.dot";
+                    + "_basic.dot").toString();
+            System.out.println("OUTPUT FOLDER PATH: " + String.valueOf(ComOptions.OUTPUT_FOLDER_PATH));
             if (outFile2.length() > 190) {
                 String owner = Integer.toString(this.mOwner.hashCode());
                 if (owner.length() > 15) {
@@ -85,19 +90,30 @@ public class CFGMethodVisitor extends MethodVisitor
             }
 
             // TODO(gbessler): fix this
+            System.out.println("Trying to create file: " + outFile2);
             outFile2 = outFile2.replace("<", "");
             outFile2 = outFile2.replace(">", "");
             File file = new File(outFile2);
             // Create all parent directories.
-            boolean ok = file.getParentFile().mkdirs();
-            if (!ok) {
-                System.out.println("Could not create parent dirs.");
+            System.out.println("Trying to create file: " + outFile2);
+            File directory = file.getParentFile();
+            if (directory.exists()) {
+                System.out.println("Directory already exists... will output to it!");
+            } else {
+                boolean ok = directory.mkdirs();
+                if (!ok) {
+                    System.out.println("Could not create parent dirs.");
+                }
+                ok = file.createNewFile();
+                if (!ok) {
+                    System.out.println("Could not create file");
+                }
             }
-            ok = file.createNewFile();
-            if (!ok) {
-                System.out.println("Could not create file");
-            }
-            final PrintWriter writer2 = new PrintWriter(outFile2, StandardCharsets.UTF_8);
+
+            // final PrintWriter writer2 = new PrintWriter(outFile2, StandardCharsets.UTF_8);
+            final PrintWriter writer2 = new PrintWriter(
+                    new OutputStreamWriter(new FileOutputStream(outFile2), StandardCharsets.UTF_8),true
+            );
             writer2.println("digraph {");
             writer2.println("0 [label=\"START\"]");
             final int exitBlock = basicBlocks.size() + 1;

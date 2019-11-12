@@ -9,7 +9,7 @@ import shlex
 from subprocess import Popen, PIPE
 import shutil
 
-from langToCFG.javaextractor.Log import Log
+from Log import Log
 
 class Shell:
     def __init__(self, TAG=""):
