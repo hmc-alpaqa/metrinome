@@ -73,7 +73,6 @@ class PythonConvert():
         ''' 
         Creates a CFG from a Python source file. 
         ''' 
-        print(os.getcwd())
         path = os.path.join(os.getcwd(), filename) + ".py"
         cfg = None
         visitor = Visitor()

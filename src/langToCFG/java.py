@@ -10,7 +10,6 @@ class JavaConvert():
         Creates a CFG from a Java source file. 
         '''
         if file_extension == ".java" or file_extension == ".class":
-            print(filename, file_extension) 
             converter = App((filename + file_extension).strip(), export=False)
             converter.runLive(jar=False) 
             return Graph([], [], 0, 1) 

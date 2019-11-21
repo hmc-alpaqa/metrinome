@@ -13,13 +13,10 @@ from langToCFG.javaextractor.Shell import Shell
 
 class App:
      
-    def __init__(self, input_folder, output_folder=None, display_log_output=True, ext="*.jar", export=True):
+    def __init__(self, input_file, output_folder=None, display_log_output=True, ext="*.jar", export=True):
         self.log = Log(TAG="APP", display_output=display_log_output)        
         self.shell = Shell()
-        self.file_list = [input_folder]
-        if os.path.isdir(input_folder):
-            self.file_list = sorted(glob2.glob(Env.join_path(input_folder, "**/" + ext)))
-        self.input_folder = input_folder
+        self.input_file = input_file
         self.output_folder = Env.OUTPUT_PATH
         if output_folder != None:
             self.output_folder = output_folder
@@ -72,13 +69,11 @@ class App:
     def runLive(self, jar=True): 
         self.log.i("start")
         self.shell.clean(Env.TMP_PATH)     
-        for file_name in self.file_list:
-            if file_name.endswith('sources.jar') or file_name.endswith('javadoc.jar')  or file_name.endswith('tests.jar'):
-                continue
-            self.log.v("processing {}".format(file_name))
-            if jar: 
-                self.__jarToClasses(file_name)
+        if self.file_name.endswith('sources.jar') or self.file_name.endswith('javadoc.jar')  or self.file_name.endswith('tests.jar'):
+            continue
+        self.log.v("processing {}".format(self.file_name))
+        if jar: 
+            self.__jarToClasses(self.file_name)
             
-            self.__runCFGExtractorLive(file_name)
-                
+        self.__runCFGExtractorLive(self.file_name)        
         self.log.v("finished: please check {} folder for the generated CFGs".format(Env.OUTPUT_PATH))
