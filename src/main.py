@@ -222,7 +222,7 @@ class MyPrompt(Cmd):
         show <metric/graph> * 
         """
         args = self.convert_args(args)
-        ok = check_num_args(args, 2, "Must specify type (metric/graph) and name.", "Too many arguments provided")
+        ok = self.controller.check_num_args(args, 2, "Must specify type (metric/graph) and name.", "Too many arguments provided")
         if not ok: 
             return 
         type = args[0]
@@ -272,7 +272,7 @@ class MyPrompt(Cmd):
         metrics * 
         """
         args = self.convert_args(args)
-        ok = check_num_args(args, 1, "Must provide graph name.", "Too many arguments provided.")
+        ok = self.controller.check_num_args(args, 1, "Must provide graph name.", "Too many arguments provided.")
         if not ok:
             return 
 
