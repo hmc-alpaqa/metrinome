@@ -65,8 +65,56 @@ def get_files(path, recursiveMode, logger, allowedExtensions):
                 return []
             except re.error: 
                 return [] 
+
+class API: 
+    ''' API contains all of the methods exposed to the user. 
+    These are used to create the REPL.'''
+    def __init__(self): 
+        self.controller = Controller()
+        self.metrics = {}
+        self.graphs = {}
+        self.stats = {} 
         
+    def convert(self): 
+        pass 
+
+    def list_objects(self): 
+        pass 
+
+    def metrics(self): 
+        pass 
+
+    def show(self):
+        pass 
+
+    def analyze(self): 
+        pass 
+
+    def export(self): 
+        pass 
+
+    def delete(self): 
+        pass 
+
+    def show_metrics(self):
+        if len(self.metrics.keys()) == 0:
+            self.logger.v("No metrics available.")
+        else:
+            self.logger.v("Metric Names: ")
+            self.logger.v(" ".join(list(self.metrics.keys())))
+
+    def show_graphs(self):
+        if len(self.graphs.keys()) == 0:
+            self.logger.v("No graphs available.")
+        else:
+            self.logger.v("Graph Names: ")
+            self.logger.v(" ".join(list(self.graphs.keys()))) 
+
 class Controller: 
+    '''
+    Controller is the interface used to store which file extension we know
+    how to generate graphs for. 
+    '''
     def __init__(self) -> None:
         '''
         '''
@@ -86,6 +134,24 @@ class Controller:
             ".py": pythonConverter, 
         }
         self.logger = Log("Complexity Repl:")
+    
+    def getGraphGeneratorNames(self):
+        return self.graphGenerators.keys()
+
+    def getGraphGenerator(self, file_extension):
+        return self.graphGenerators[file_extension]
+
+class Command: 
+    def __init__(self):
+        self.api = API()
+        self.logger = Log()
+        self.have_completed = False 
+
+        # TODO: move 
+        self.controller = Controller()
+        self.metrics = {}
+        self.graphs = {}
+        self.stats = {} 
 
     def check_num_args(self, args, num_args, err1, err2) -> bool:
         '''
@@ -100,21 +166,6 @@ class Controller:
             return True
 
         return False
-    
-    def getGraphGeneratorNames(self):
-        return self.graphGenerators.keys()
-
-    def getGraphGenerator(self, file_extension):
-        return self.graphGenerators[file_extension]
-
-class Command: 
-    def __init__(self):
-        self.controller = Controller()
-        self.metrics = {}
-        self.graphs = {}
-        self.stats = {} 
-        self.logger = Log() 
-        self.have_completed = False 
 
     def do_convert(self, args):
         args = self.convert_args(args) 
@@ -159,7 +210,7 @@ class Command:
 
     def do_list(self, args):
         args = self.convert_args(args) 
-        ok = self.controller.check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.") 
+        ok = self.check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.") 
         if not ok: 
             return
         type = args[0]
@@ -175,7 +226,7 @@ class Command:
     
     def do_metrics(self, args):
         args = self.convert_args(args)
-        ok = check_num_args(args, 1, "Must provide graph name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 1, "Must provide graph name.", "Too many arguments provided.")
         if not ok:
             return 
 
@@ -209,7 +260,7 @@ class Command:
 
     def do_show(self, args): 
         args = self.convert_args(args)
-        ok = check_num_args(args, 2, "Must specify type (metric/graph) and name.", "Too many arguments provided")
+        ok = self.check_num_args(args, 2, "Must specify type (metric/graph) and name.", "Too many arguments provided")
         if not ok: 
             return 
         type = args[0]
@@ -252,9 +303,10 @@ class Command:
 
     def do_analyze(self, args): 
         args = self.convert_args(args) 
-        ok = self.controller.check_num_args(args, 1, "Must provide metric name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 1, "Must provide metric name.", "Too many arguments provided.")
         if not ok: 
             return 
+
         metric_name = args[0]
         metric_names = [] 
         if metric_name in self.metrics.keys():
@@ -270,11 +322,11 @@ class Command:
     def do_quit(self, args): 
         readline.write_history_file()
         args = self.convert_args(args) 
-        self.controller.check_num_args(args, 0, "Quitting...", "Too many arguments provided.")
+        self.check_num_args(args, 0, "Quitting...", "Too many arguments provided.")
         raise SystemExit 
 
     def do_export(self, args): 
-        ok = self.controller.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
         if not ok: 
             return 
 
@@ -309,7 +361,7 @@ class Command:
                 self.logger.v(f"Type {type} not recognized.")
 
     def do_delete(self, args):
-        ok = self.controller.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
         if not ok: 
             return 
 
@@ -348,20 +400,6 @@ class Command:
         Obtain a list of arguments from a string. 
         '''
         return args.strip().split()
-
-    def show_metrics(self):
-        if len(self.metrics.keys()) == 0:
-            self.logger.v("No metrics available.")
-        else:
-            self.logger.v("Metric Names: ")
-            self.logger.v(" ".join(list(self.metrics.keys())))
-
-    def show_graphs(self):
-        if len(self.graphs.keys()) == 0:
-            self.logger.v("No graphs available.")
-        else:
-            self.logger.v("Graph Names: ")
-            self.logger.v(" ".join(list(self.graphs.keys()))) 
 
     def complete(self, text, state):
         res = super().complete(text, state)

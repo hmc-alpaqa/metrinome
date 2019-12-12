@@ -56,6 +56,13 @@
 
   <dependencies>
 
+    <!-- https://github.com/Sable/soot -->
+    <dependency>
+      <groupId>ca.mcgill.sable</groupId>
+      <artifactId>soot</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
