@@ -14,6 +14,10 @@ class CPPConvert():
         '''
         self.createDotFiles(filename)
         self.convertToStandardFormat(filename)
+        name = filename.split("/")[-1]
+        
+        filename = filename.strip(name)
+        filename += f"temp/{name}.dot" 
         val =  {f'{filename}': Graph.fromFile(filename)}
         self.cleanTemps()
         return val
