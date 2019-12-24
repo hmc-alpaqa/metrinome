@@ -14,9 +14,9 @@ class CPPConvert():
         '''
         self.createDotFiles(filename)
         self.convertToStandardFormat(filename)
-        val =  {f'{filename}': Graph.fromFile(filename)}
+        g =  {f'{filename}': Graph.fromFile(filename)}
         self.cleanTemps()
-        return val
+        return g
 
     def convertToStandardFormat(self, filename: str):
         '''
