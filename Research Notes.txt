@@ -1,0 +1,35 @@
+docker run -it -v c:/users/gabe/desktop/path-complexity/src:/app/code d3cb9c11dded /bin/bash
+docker build -f c:\users\gabe\desktop\path-complexity\Dockerfile.dev .
+docker container ls 
+docker kill <id>
+
+java -classpath './javacfg/analysis/:commons-cli-1.2.jar:asm-all-5.0.3.jar:commons-io-2.4.jar' ./javacfg/Extractor.java
+
+File -> Project Structure -> Project Settings -> Modules -> "Your Module Name" -> Sources -> Language Level 
+    - Temporarily fixes the compilation issue, but should change this in Maven 
+
+To make the jar, call 'mvn package' 
+
+The class reader ONLY WORKS for .class files 
+
+Look at these lectures: 
+https://www.prismmodelchecker.org/lectures/
+
+Current TODO: 
+
+1. Can we run KLEE on Cpp programs?
+2. Can we collect info: # constraints analyzed, # tests made, amount of memory used.
+    -> things that describe performance.
+3. Then try to correlate path complexity metric and KLEE stuff.
+4. Find some large dataset in C++ (Boost library, other popular libraries) [done]
+    - https://en.cppreference.com/w/cpp/links/libs
+    - Boost
+    - OpenCV 
+    - OpenMP
+5. Ask ishaan how he got those branch conditions (Python probably easiest, maybe look at C++ one to get branch conditions).
+6. Use Python binding for z3.
+7. Memoize / dynamic programming approach for NPATH.
+    -> Is there way to automatically convert recursive thing to dynamic programming.
+8. Write some unit tests + making sure that everything is setup correctly (in the future).
+9. Try to write some things about the tool.
+10. Send ishaan the proposal

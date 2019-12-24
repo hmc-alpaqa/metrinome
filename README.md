@@ -1,76 +1,44 @@
-# Creating CFGs from C++ code: 
+# Developing 
 
-Obtain clang++ (cppToDot.py uses clang++-6.0).
-Then obtain llvm
+The environment necessary to work on this project is included in 
+a docker image. Using docker is highly recommended, as manually 
+setting up the environment would involve installing a variety of tools (KLEE, LLVM, JDK, Python, etc.). 
 
-# Running path-complexity in Python
-
-First create a python3 virtual environment. This can be done with 
-
-```
-apt-get install python3-virtualenv
-virtualenv venv 
-```
-or
-``` 
-sudo apt-get install python3-pip
-pip3 install virtualenv 
-python3 -m virtualenv venv 
-```
-
-Then, activate the virtualenv and install the necessary python modules:
+In order to build the image run 
 
 ```
-source venv/bin/activate
-pip install -r requirements.txt 
+docker build -f <path_to_Dockerfile.dev> .
 ```
 
-Note that in this case we use pip instead of pip3 because we are refering to the virtual environment. Verify that 
-```python --version``` 
-refers to python 3 and not 2. If there are any problems relating to a missing TKinter library, try
-``` sudo apt-get install python3-tk ```.
-
-Next, run any of the scripts in "scripts-py," e.g. 
-```
-./simple_tests
-```
-or run the python file 
-``` 
-python src-py/paths.py -h
-```
-
-In order to see the jupyter notebook, run 
+Now run ```docker images```. Obtain the "IMAGE ID" for the image you just created. This will look something like 'd3cb9c11dded'. 
+Then to run the image use
 
 ```
-jupyter notebook 
+docker run -it -v <path_to path-complexity/src>:/app/code <image_ID> /bin/bash
 ```
-then open 127.0.0.1:8000 in any browser and then open the jupyter notebook within the 'analysis' directory. 
 
-# path-complexity
-Path Complexity Analysis 
+This will put you in a bash shell in the docker image. Not that in this development environment we mount the source code in the host (i.e. the device you are working in) to the docker image. This means that you can modify the code and the changes will me immediately reflected in the docker image. This means it is not necessary to re-build or even re-run the docker image when making code changes.
 
-## Generating Control Flow Graphs
+Running ```python /app/code/main.py``` in the docker image will put you inside the Path Complexity REPL. This is how the user __usually__ interacts with the tool. Refer to the 'Using the REPL' section to obtain more information about how to use this. 
 
-Inside `path-complexity/scripts/cfgextractor` there is a file `main.py` which will run the control flow graph extractor inside of `path-complexity/scripts/cfgextractor/java`.
+# Using the Repl
 
-This will analyze all of the methods in a `.jar` and output their control flow graphs in `.dot` format.
+Note that this is essentially a duplicated version of the output obtained from the 'help' command in the REPL. 
 
-You can run `main.py` by telling it the location of a directory of Java `.jar` files. (It should also work on Java `.class` files.) It requires the full path. For example, on my machine I can run
+### analyze 
 
-`> python main.py -i /home/bang/projects/path-complexity/lib_jars/apache_commons/bins/commons-cli-1.2/`
+### convert 
 
-This will generate all of the CFGs for the Apache Commons CLI (command line interface) library methods. 
+### delete 
 
-The source code for `cfgextractor.jar` can be extracted by 'unjar-ing' it. 
+### export 
+
+### list 
+
+### metrics 
+
+### show
 
 ## Analyzing Control Flow Graphs
 
-We can view CFgs with `xdot <file>` 
-
-There are some Mathematica files in `path-complexity/src` which compute various complexity metrics on CFGs, read in `.dot` format. 
-
-Rather than running these directly at first, you can try running one of the shell scripts in `path-complexity/scripts` which calls Mathematica's `math` script command, assuming you have `math` installed in `/usr/local/bin/`.
-
-For instance, running `> ./test_run` will analyze 6 CFGs from `/cfgs/simple_test_cfgs` and print out comma-separated stats.
-
-Of course, you can look at the `test_run` file to figure out how to analyze a directory of CGFs from the CGF generation step. 
+If you would like a pictorial representation of the graphs, it is possible to use the 'export' command to generate '.dot' files. There are many tools to visualize this type of file such as xdot. Running `xdot <file>` will generate an image that can be opened to see the graph.  

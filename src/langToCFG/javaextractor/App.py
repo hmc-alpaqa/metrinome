@@ -70,7 +70,8 @@ class App:
         self.log.i("start")
         self.shell.clean(Env.TMP_PATH)     
         if self.file_name.endswith('sources.jar') or self.file_name.endswith('javadoc.jar')  or self.file_name.endswith('tests.jar'):
-            return
+            return 
+            
         self.log.v("processing {}".format(self.file_name))
         if jar: 
             self.__jarToClasses(self.file_name)

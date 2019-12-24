@@ -24,11 +24,19 @@ class Graph:
         '''
         Create a directed graph from a vertex set, edge list,
         and start/end notes.
+
+        If the graph is not weighted, the edgeList is 
+        edgeList = [(a, b), (c, d), (e, f), ...]
+
+        If the graph is weighted, the edgeList is 
+        edgeList = [(a, b, weight), (c, d, weight), (e, f, weight), ...]
+
         '''
         self.edges = edges
         self.vertices = vertices
         self.startNode = startNode
         self.endNode = endNode
+        self.weighted = False
 
     def edgeRules(self) -> List[Tuple[int, int]]:
         '''
@@ -63,34 +71,45 @@ class Graph:
         ''' 
 
         adjMat = np.zeros((self.endNode + 1, self.endNode + 1))
-        for edgeOne, edgeTwo in self.edgeRules(): 
-            if edgeOne == self.endNode: 
-                edgeOne = 1 
-            elif edgeOne != 0:
-                edgeOne += 1 
- 
-            if edgeTwo == self.endNode: 
-                edgeTwo = 1 
-            elif edgeTwo != 0:
-                edgeTwo += 1 
+        for edge in self.edgeRules(): 
+            vertexOne = edge[0]
+            vertexTwo = edge[1] 
+            weight = 1 
+            if self.weighted:
+                weight = edge[2] 
             
-            adjMat[edgeOne][edgeTwo] = 1 
+            # Compute the correct index in the matrix 
+            if vertexOne == self.endNode: 
+                vertexOne = 1 
+            elif vertexOne != 0:
+                vertexOne += 1 
+ 
+            if vertexTwo == self.endNode: 
+                vertexTwo = 1 
+            elif vertexTwo != 0:
+                vertexTwo += 1 
+            
+            adjMat[vertexOne][vertexTwo] = weight
 
         return adjMat
 
+    def adjacencyList(self): 
+        adjacencyList = [[] for _ in range(self.vertexCount())]
+
+        for edge in self.edgeRules(): 
+            vertexOne = edge[0]
+            vertexTwo = edge[1] 
+            weight = 1
+            if self.weighted:
+                weight = edge[2]  
+
+            adjacencyList[vertexOne].append((vertexTwo, weight))
+
+        return adjacencyList      
+
     @staticmethod
-    def fromFile(filename: str): 
+    def fromFile(filename: str, weighted = False): 
         '''
-        Returns a Graph object from a .dot file of format
-
-        digraph {
-            0 [label="START"]
-            2 [label="EXIT"]
-            a_i -> a_j
-            ...
-            a_k  -> a_m
-        }
-
         Returns a Graph object from a .dot file of format
 
         digraph {
@@ -133,4 +152,58 @@ class Graph:
                      "both be defined."
             raise ValueError(errMsg)
 
-        return Graph(edges, vertices, startNode, endNode)
+        g = Graph(edges, vertices, startNode, endNode)
+        g.weighted = weighted 
+        return g 
+
+    def toPrism(self):
+        '''
+        Assumes the graph is already in the DTMC correct representation (with 
+        edge weights as probabilities).
+
+        dtmc
+        module die
+
+        	// local state
+        	s : [0..7] init 0;
+        	// value of the die
+        	d : [0..6] init 0;
+            
+        	[] s=0 -> 0.5 : (s'=1) + 0.5 : (s'=2);
+        	[] s=1 -> 0.5 : (s'=3) + 0.5 : (s'=4);
+        	[] s=2 -> 0.5 : (s'=5) + 0.5 : (s'=6);
+        	[] s=3 -> 0.5 : (s'=1) + 0.5 : (s'=7) & (d'=1);
+        	[] s=4 -> 0.5 : (s'=7) & (d'=2) + 0.5 : (s'=7) & (d'=3);
+        	[] s=5 -> 0.5 : (s'=7) & (d'=4) + 0.5 : (s'=7) & (d'=5);
+        	[] s=6 -> 0.5 : (s'=2) + 0.5 : (s'=7) & (d'=6);
+        	[] s=7 -> (s'=7);
+            
+        endmodule
+        '''
+        if not self.weighted:
+            raise ValueError("Graph is not a Discrete Time Markov Chain (no weights available).")
+        
+        prismLines = []
+
+        # Add the header.
+        prismLines.append('dtmc\n') # Discrete Time Markov Chain  
+        prismLines.append('module test\n')
+
+        # Create all of the nodes we'll use.
+        prismLines.append(f'\ts: [0..{self.vertexCount()}] init {self.startNode}\n')
+
+        adjList = self.adjacencyList() 
+        for i in range(len(adjList)): 
+            adjacencies = adjList[i]
+            # We know that the vertex corresponds to the index 'i'.
+            s = ' + '.join([f"{weight} : (s'={other})" for other, weight in adjList[i]])
+            s += ';\n'
+            prismLines.append(f'\t[] s={i} -> {s}') 
+
+        # The terminal node should point to itself.
+        prismLines.append(f"\t[] s={self.endNode} -> (s'={self.endNode});\n")
+
+        # Add the footer.
+        prismLines.append('endmodule')
+
+        return prismLines
