@@ -1,0 +1,9 @@
+# roundExpression 
+# classify 
+# getSolutionFromRoots 
+# getRecurrenceSolution
+# getTaylorCoeffs
+# isExponential 
+# getDegree
+# bigO
+# Timeout
