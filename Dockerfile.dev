@@ -21,8 +21,7 @@ RUN pip install z3-solver
 # Get KLEE 
 RUN git clone https://github.com/klee/klee.git
 RUN mkdir /app/build
-RUN cd build && cmake <CMAKE_OPTIONS> <iKLEE_SRC_DIRECTORY>
-
+# RUN cd build && cmake <CMAKE_OPTIONS> <iKLEE_SRC_DIRECTORY>
 
 ## === Finish Configuring and Testing Everything Below Here === 
 
