@@ -97,7 +97,6 @@ class CPPConvert():
         Create a .dot file representing a control flow graph for 
         each function from a .cpp file
         '''
-        
         subprocess.check_call(["mkdir" , "-p", "temp"])
         self.run(f"clang++-6.0 -emit-llvm -S {filepath}.cpp -o /dev/stdout | opt -dot-cfg")
         files = glob2.glob("*.dot")
