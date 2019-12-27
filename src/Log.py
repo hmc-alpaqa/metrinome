@@ -12,11 +12,11 @@ class Log:
 
     def setTag(self, TAG):
         self.TAG = TAG
-    
+
     def i(self, msg):
         if self.display_output:
             print("{} ~~~ {} ~~~".format(self.TAG, msg.upper()))
-        
+
     def v(self, msg):
         if self.display_output:
             print("{} > {}".format(self.TAG, msg))

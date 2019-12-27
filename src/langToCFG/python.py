@@ -14,93 +14,93 @@ from typing import List
 # return ALL of its leaf nodes that should be connected to the next thing after 
 # the statement returns. 
 
-class Node: 
+class Node:
     def __init__(self):
-        self.children = [] 
+        self.children = []
 
-class FunctionVisitor(ast.NodeVisitor): 
+class FunctionVisitor(ast.NodeVisitor):
 
     def comparatorConverter(self, comparator):
         return ""
 
-    def __init__(self): 
-        self.root = None    
-        self.frontier = None  
+    def __init__(self):
+        self.root = None
+        self.frontier = None
 
     def visit_Expr(self, node):
         print(f"At expr {node}")
-        newNode = Node() 
-        if self.root is None: 
+        newNode = Node()
+        if self.root is None:
             self.root = newNode
-        else: 
-            for node in self.frontier: 
+        else:
+            for node in self.frontier:
                 node.children += [newNode]
 
         self.frontier = [newNode]
- 
+
     def visit_Return(self, node):
         print(f"At return {node}.")
-        newNode = Node() 
-        if self.root is None: 
+        newNode = Node()
+        if self.root is None:
             self.root = newNode
-        else: 
+        else:
             for node in self.frontier:
-                node.children += [newNode]  
-        
+                node.children += [newNode]
+
         self.frontier = [] # Nothing can come after a return 
 
     def visit_Assign(self, node):
         print(f"At assignment {node}.")
-        newNode = Node() 
-        if self.root is None: 
+        newNode = Node()
+        if self.root is None:
             self.root = newNode
-        else: 
-            for node in self.frontier: 
+        else:
+            for node in self.frontier:
                 node.children += [newNode]
 
         self.frontier = [newNode]
- 
+
     def visit_For(self, node):
         print(f"At for {node}")
         newNode = Node()
         # Add the new node representing the beginning of the loop 
-        if self.root is None: 
-            self.root = newNode 
-        else: 
-            for frontierNode in self.frontier: 
-                frontierNode.children += [newNode] 
-            
+        if self.root is None:
+            self.root = newNode
+        else:
+            for frontierNode in self.frontier:
+                frontierNode.children += [newNode]
+
         self.frontier = [newNode]
 
         # Now visit EACH of the things in the loop 
         # This will give us the subgraph. We connect each expression to the next 
         for loopNode in node.body: 
             print(f"At for loop node {loopNode}")
-            
-            visitor = FunctionVisitor() 
+
+            visitor = FunctionVisitor()
             visitor.visit(loopNode)
             for frontierNode in self.frontier:
                 frontierNode.children += [visitor.root]
-            self.frontier = visitor.frontier 
-           
-        for frontierNode in self.frontier:
-            frontierNode.children += [newNode] 
+            self.frontier = visitor.frontier
 
-        self.frontier = [newNode] 
- 
+        for frontierNode in self.frontier:
+            frontierNode.children += [newNode]
+
+        self.frontier = [newNode]
+
     def visit_With(self, node):
         print(f"At with {node}")
- 
+
     def visit_If(self, node):
         print(f"At if {node}")
         newNode = Node()
         # Add the new node representing the beginning of the if statement
-        if self.root is None: 
-            self.root = newNode 
-        else: 
-            for frontierNode in self.frontier: 
-                frontierNode.children += [newNode] 
-            
+        if self.root is None:
+            self.root = newNode
+        else:
+            for frontierNode in self.frontier:
+                frontierNode.children += [newNode]
+
         self.frontier = [newNode]
         print(f"If body: {dir(node)}")
 
@@ -125,18 +125,18 @@ class FunctionVisitor(ast.NodeVisitor):
                 frontierNode.children += [newNode]
 
         self.frontier = [newNode]
-        
+
         # Now visit EACH of the things in the loop 
         # This will give us the subgraph. We connect each expression to the next 
         for loopNode in node.body: 
             print(f"At loop node {loopNode}")
-            
+
             visitor = FunctionVisitor() 
             visitor.visit(loopNode)
             for frontierNode in self.frontier:
                 frontierNode.children += [visitor.root]
             self.frontier = visitor.frontier 
-           
+
         for frontierNode in self.frontier:
             frontierNode.children += [newNode] 
 
@@ -152,7 +152,7 @@ class Visitor(ast.NodeVisitor):
         visitor.visit(node)
 
         # Now take the representation and convert it to a graph.py by doing BFS 
-        
+
         L = [visitor.root] # Keep track of the nodes we still need to visit
         nodes = dict() # Maps node object to node number
         nodes[visitor.root] = 0
@@ -162,59 +162,59 @@ class Visitor(ast.NodeVisitor):
         startNode = 0
         endNode = None 
 
-        visited = set() 
+        visited = set()
 
-        while len(L) != 0: 
+        while len(L) != 0:
             currNode = L[0]
             L = L[1:]
-            if currNode in visited: 
+            if currNode in visited:
                 continue
 
-            visited.add(currNode)  
-            children = currNode.children 
-            
+            visited.add(currNode)
+            children = currNode.children
+
             # Create all of the edges we need to from the current node to its children. 
-            for child in children: 
+            for child in children:
                 # Check if we need to create a new node.
-                if child not in nodes: 
+                if child not in nodes:
                     nodes[child] = len(nodeList)
-                    nodeList.append(len(nodeList)) 
+                    nodeList.append(len(nodeList))
 
                 edgeList.append((nodes[currNode], nodes[child]))
 
             L += children
 
-        endNode = len(nodeList) - 1 
+        endNode = len(nodeList) - 1
         g = Graph(edgeList, nodeList, startNode, endNode)
-        
-        self.graphs[node.name] = g 
-        
-class PythonConvert(): 
-    def __init__(self) -> None: 
-        pass 
 
-    def astToCFG(self, tree): 
+        self.graphs[node.name] = g
+
+class PythonConvert():
+    def __init__(self) -> None:
+        pass
+
+    def astToCFG(self, tree):
         '''
         Convert an AST obtained from the source code to a Control Flow Graph. 
         '''
-        return 
-    
+        return
+
     def toGraph(self, filename: str, file_extension: str) -> List[Graph]: 
-        ''' 
-        Creates a CFG from a Python source file. 
-        ''' 
+        '''
+        Creates a CFG from a Python source file.
+        '''
         path = os.path.join(os.getcwd(), filename) + ".py"
         cfg = None
         visitor = Visitor()
-        graphs = []  
+        graphs = []
         with open(path, "r") as src:
             root = ast.parse(src.read())
-            visitor.visit(root) 
+            visitor.visit(root)
             graphs = visitor.graphs
 
         for key in graphs.keys():
             print(f"==== Graph {key} =====")
             print(graphs[key])
-            pass 
-        
-        return graphs 
+            pass
+
+        return graphs

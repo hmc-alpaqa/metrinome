@@ -18,15 +18,11 @@ from langToCFG.javaextractor.Env import Env
 
 class Classifier:
     def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
-        self.log = Log(TAG=TAG)
-        self.shell = Shell()
-        self.env = Env()        
+        self.log = Log(TAG=TAG)      
         self.input_path = input_path
-        self.output_file = output_path
         self.file_list = [self.input_path]
-        self.peak_values = []
         if os.path.isdir(self.input_path):
-            self.file_list = sorted(glob.glob(Env.join_path(self.input_path, ext)))
+            self.file_list = sorted(glob.glob(os.path.join(self.input_path, ext)))
     
         
     def match_csv_line(self, string):
@@ -208,7 +204,6 @@ def main(argv):
     except getopt.GetoptError:
         print('test.py -i <input> -o <output>')
         print('*input can be a file or folder')
-      #sys.exit(2)
     
     arg_input = None
     arg_output= None
