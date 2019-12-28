@@ -40,4 +40,6 @@ class TestPythonConvert(unittest.TestCase):
     # PythonConvert::toGraph
     def testToGraph(self): 
         pass 
-        
+
+if __name__ == '__main__':
+    unittest.main()

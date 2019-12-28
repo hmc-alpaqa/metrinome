@@ -58,8 +58,20 @@ class TestCommand(unittest.TestCase):
     def testDoConvert(self): 
         pass 
 
-    # do_list 
-    def testDoList(self): 
+    # === do_list ===   
+    def testDoList_TooManyArguments(self): 
+        pass 
+
+    def testDoList_InvalidType(self): 
+        pass 
+    
+    def testDoList_Metrics(self): 
+        pass 
+
+    def testDoList_Graphs(self): 
+        pass 
+
+    def testDoList_AllTypes(self): 
         pass 
 
     # do_metrics 
@@ -74,12 +86,30 @@ class TestCommand(unittest.TestCase):
     def testDoAnalyze(self): 
         pass 
 
-    # do_quit 
-    def testDoQuit(self): 
+    # === do_quit ===
+    def testDoQuit_TooManyArguments(self): 
         pass 
 
-    # do_export 
-    def testDoExport(self): 
+    def testDoQuit_Valid(self): 
+        pass 
+
+    # === do_export ===
+    def testDoExport_Metrics(self): 
+        pass 
+
+    def testDoExport_Graphs(self): 
+        pass
+    
+    def testDoExport_Stats(self): 
+        pass 
+
+    def testDoExport_Wildcard(self):
+        pass 
+
+    def testDoExport_UnrecognizedType(self): 
+        pass 
+
+    def testDoExport_InvalidName(self): 
         pass 
 
     # do_delete 
@@ -93,3 +123,6 @@ class TestCommand(unittest.TestCase):
     # complete 
     def testComplete(self): 
         pass
+
+if __name__ == '__main__':
+    unittest.main()

@@ -178,10 +178,6 @@ class Command:
             recursiveMode = True
             args = args[1:]
 
-        if len(args) == 0:
-            self.logger.v("Must provide file name(s).")
-            return
-
         # Iterate through all file-like objects
         allFiles = []
         allowedExtensions = list(self.controller.graphGenerators.keys())

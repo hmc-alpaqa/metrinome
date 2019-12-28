@@ -16,3 +16,5 @@ class TestCPPConvert(unittest.TestCase):
     def testCleanTemps(self):
         pass 
         
+if __name__ == '__main__':
+    unittest.main()
