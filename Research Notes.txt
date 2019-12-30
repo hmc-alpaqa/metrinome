@@ -1,4 +1,11 @@
-docker run -it -v c:/users/gabe/desktop/path-complexity/src:/app/code d3cb9c11dded /bin/bash
+docker run -it -v /home/gabe/Documents/repos/path-complexity/src:/app/code 0
+5f0e7a90b2c /bin/bash
+
+OR 
+
+docker run -it -v /home/gabe/Documents/repos/path-complexity/src:/app/code 0
+5f0e7a90b2c /usr/bin/zsh 
+
 docker build -f c:\users\gabe\desktop\path-complexity\Dockerfile.dev .
 docker container ls 
 docker kill <id>
@@ -15,21 +22,47 @@ The class reader ONLY WORKS for .class files
 Look at these lectures: 
 https://www.prismmodelchecker.org/lectures/
 
+KLEE Tutorial: 
+https://klee.github.io/tutorials/testing-function/
+(1) Make the variables symbolic 
+    --> klee_make_symbolic(&a, sizeof(a), "a");
+(2) Include KLEE: #include <klee/klee.h>
+(3) clang-6.0 -I /app/klee/include -emit-llvm -c -g -O0 -Xclang -disable-O0-optnone get_sign.c
+(4) Take the .bc file 
+(5) Execute klee on this file. 
+(6) It puts the result in klee-out-<number> where number starts at 0 and increases. Sample stdout 
+result: 
+
+KLEE: output directory is "/app/examples/src/klee-out-0"
+KLEE: Using Z3 solver backend
+
+KLEE: done: total instructions = 33 
+KLEE: done: completed paths = 3 
+KLEE: done: generated tests = 3 
+
+
+
 Current TODO: 
 
-1. Can we run KLEE on Cpp programs?
+1. Can we run KLEE on Cpp programs? [DONE]
 2. Can we collect info: # constraints analyzed, # tests made, amount of memory used.
     -> things that describe performance.
 3. Then try to correlate path complexity metric and KLEE stuff.
 4. Find some large dataset in C++ (Boost library, other popular libraries) [done]
-    - https://en.cppreference.com/w/cpp/links/libs
+    Start with: 
     - Boost
-    - OpenCV 
+    - OpenCV [https://opencv.org/releases/]
     - OpenMP
-5. Ask ishaan how he got those branch conditions (Python probably easiest, maybe look at C++ one to get branch conditions).
-6. Use Python binding for z3.
-7. Memoize / dynamic programming approach for NPATH.
+    More Available At: https://en.cppreference.com/w/cpp/links/libs
+5. Ask ishaan how he got those branch conditions (Python probably easiest, 
+    maybe look at C++ one to get branch conditions).
+6. Memoize / dynamic programming approach for NPATH.
     -> Is there way to automatically convert recursive thing to dynamic programming.
-8. Write some unit tests + making sure that everything is setup correctly (in the future).
-9. Try to write some things about the tool.
-10. Send ishaan the proposal
+7. Write some unit tests + making sure that everything is setup correctly [WIP].
+8. Try to write some things about the tool [WIP].
+9. Refer to [https://klee.github.io/build-llvm60/]
+to configure additional parameters (like getting support
+for POSIX runtime as given by the previous steps).
+
+Other Notes:     
+1. Use Python binding for z3.
