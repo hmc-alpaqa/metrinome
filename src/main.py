@@ -16,6 +16,21 @@ class MyPrompt(Cmd):
             
         super(MyPrompt, self).__init__()
 
+    def do_to_klee_format(self, args): 
+        '''
+        '''
+        self.command.do_to_klee_format()(args)
+
+    def do_klee(self, args): 
+        '''
+        '''
+        self.command.do_klee(args)
+
+    def do_clean_klee(self, args): 
+        '''
+        '''
+        self.command.do_clean_klee_files(args)
+
     def do_convert(self, args): 
         """
         Convert a file containing source code to a Graph object. 

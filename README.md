@@ -10,6 +10,9 @@ In order to build the image run
 docker build -f <path_to_Dockerfile.dev> .
 ```
 
+Building the image takes a while, so it is also possible to pull an image that is __already build__ from Dockerhub here: 
+https://hub.docker.com/repository/docker/gbessler/path_complexity.  
+
 Now run ```docker images```. Obtain the "IMAGE ID" for the image you just created. This will look something like 'd3cb9c11dded'. 
 Then to run the image use
 

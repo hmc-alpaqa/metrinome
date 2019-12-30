@@ -6,10 +6,13 @@ from pathlib import Path
 import re
 import logging
 import importlib
+from collections import namedtuple
 
 from langToCFG import cpp, java, python
 from metric import CyclomaticComplexity, NPathComplexity, PathComplexity
 
+
+MISSING_FILENAME_ERR = "Must provide file name."
 
 def get_files(path, recursiveMode, logger, allowedExtensions):
     '''
@@ -67,8 +70,10 @@ def get_files(path, recursiveMode, logger, allowedExtensions):
                 return [] 
 
 class API:
-    ''' API contains all of the methods exposed to the user.
-    These are used to create the REPL.'''
+    ''' 
+    API contains all of the methods exposed to the user.
+    These are used to create the REPL.
+    '''
     def __init__(self):
         self.controller = Controller()
         self.metrics = {}
@@ -110,7 +115,7 @@ class API:
             self.logger.v("Graph Names: ")
             self.logger.v(" ".join(list(self.graphs.keys())))
 
-class Controller:
+class Controller:   
     '''
     Controller is the interface used to store which file extension we know
     how to generate graphs for.
@@ -142,6 +147,9 @@ class Controller:
         return self.graphGenerators[file_extension]
 
 class Command:
+    '''
+    Command is the implementation of the REPL commands. 
+    '''
     def __init__(self):
         self.api = API()
         self.logger = Log()
@@ -152,8 +160,11 @@ class Command:
         self.metrics = {}
         self.graphs = {}
         self.stats = {}
+        self.klee_stats = {}
 
-    def check_num_args(self, args, num_args, err1, err2) -> bool:
+        self.klee_stat = namedtuple("KleeStat", "tests paths instructions")
+
+    def check_num_args(self, args, num_args, err1, err2="Too many arguments provided.") -> bool:
         '''
         check_num_args returns True if the args list has num_elements many elements.
         Otherwise, print an error message.
@@ -206,7 +217,7 @@ class Command:
 
     def do_list(self, args):
         args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, "Must specify object type to list (metrics or graphs).", "Too many arguments provided.")
+        ok = self.check_num_args(args, 1, "Must specify object type to list (metrics or graphs).")
         if not ok:
             return
         type = args[0]
@@ -222,7 +233,7 @@ class Command:
 
     def do_metrics(self, args):
         args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, "Must provide graph name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 1, "Must provide graph name.")
         if not ok:
             return
 
@@ -256,7 +267,7 @@ class Command:
 
     def do_show(self, args):
         args = self.convert_args(args)
-        ok = self.check_num_args(args, 2, "Must specify type (metric/graph) and name.", "Too many arguments provided")
+        ok = self.check_num_args(args, 2, "Must specify type (metric/graph) and name.")
         if not ok:
             return
         type = args[0]
@@ -299,7 +310,7 @@ class Command:
 
     def do_analyze(self, args):
         args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, "Must provide metric name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 1, "Must provide metric name.")
         if not ok:
             return
 
@@ -315,14 +326,73 @@ class Command:
 
         metric = self.metrics[metric_name]
 
+    def do_to_klee_format(self, args): 
+        # TODO: how do we actually do this? 
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        if not ok: 
+            return 
+
+        file = args[0]
+        filepath, file_extension = os.path.splitext(file) 
+        if file_extension == "":
+            self.logger.v(f"No file extension found for {file}.")
+            return
+        elif file_extension.strip() != ".c":
+            self.logger.v(f"File extension must be .c, not {file_extension}.")
+            return
+
+        with open(file) as f: 
+            s= f.readlines()
+            with open("tmp.c", "w") as new_file: 
+                new_file.write("#include <klee/klee.h>")
+                for line in lines: 
+                    new_file.write(line)
+
+    def do_clean_klee_files(self, args): 
+        pass
+
+    def do_klee(self, args): 
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        if not ok: 
+            return 
+
+        file = args[0]
+        filepath, file_extension = os.path.splitext(file)
+        if file_extension == "":
+            self.logger.v(f"No file extension found for {file}.")
+            return
+        elif file_extension.strip() != ".bc":
+            self.logger.v(f"File extension must be bc, not {file_extension}.")
+            return
+
+        _, output, _ = cpp.CPPConvert.run(f"/app/build/bin/klee {file}") 
+        
+        s1 = "generated tests = "
+        s2 = "completed paths = "
+        s3 = "total instructions = "
+
+        generated_tests_index    = output.index(s1) + len(s1) 
+        completed_paths_index    = output.index(s2) + len(s2)
+        total_instructions_index = output.index(s3) + len(s3)
+
+        p = re.compile("[0-9]+")
+
+        tests = int(p.match(output[generated_tests_index:]).group())
+        paths = int(p.match(output[completed_paths_index:]).group())
+        insts = int(p.match(output[total_instructions_index:]).group())
+
+        self.klee_stats[file] = self.klee_stat(tests=tests, paths=paths, instructions=insts)
+
     def do_quit(self, args):
         readline.write_history_file()
         args = self.convert_args(args)
-        self.check_num_args(args, 0, "Quitting...", "Too many arguments provided.")
+        self.check_num_args(args, 0, "Quitting...")
         raise SystemExit
 
     def do_export(self, args):
-        ok = self.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 2, "Must specify type and name.")
         if not ok:
             return
 
@@ -357,7 +427,7 @@ class Command:
                 self.logger.v(f"Type {type} not recognized.")
 
     def do_delete(self, args):
-        ok = self.check_num_args(args, 2, "Must specify type and name.", "Too many arguments provided.")
+        ok = self.check_num_args(args, 2, "Must specify type and name.")
         if not ok:
             return
 

@@ -56,3 +56,4 @@ class NPathComplexity():
 		'''
 		return self.npath(g.startNode, g.endNode, g.edgeRules())
 
+	

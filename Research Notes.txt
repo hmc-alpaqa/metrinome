@@ -1,3 +1,5 @@
+klee /app/examples/src/get_sign.bc
+
 docker run -it -v /home/gabe/Documents/repos/path-complexity/src:/app/code 0
 5f0e7a90b2c /bin/bash
 
@@ -40,13 +42,14 @@ KLEE: done: total instructions = 33
 KLEE: done: completed paths = 3 
 KLEE: done: generated tests = 3 
 
-
-
 Current TODO: 
 
 1. Can we run KLEE on Cpp programs? [DONE]
 2. Can we collect info: # constraints analyzed, # tests made, amount of memory used.
     -> things that describe performance.
+    
+    Can currently collect number of tests made from .bc file. 
+
 3. Then try to correlate path complexity metric and KLEE stuff.
 4. Find some large dataset in C++ (Boost library, other popular libraries) [done]
     Start with: 
@@ -63,6 +66,8 @@ Current TODO:
 9. Refer to [https://klee.github.io/build-llvm60/]
 to configure additional parameters (like getting support
 for POSIX runtime as given by the previous steps).
+10. Would be cool to use Github actions (one is currently set up on Pull requests) to run the Unit 
+tests automatically and give the result.
 
 Other Notes:     
 1. Use Python binding for z3.

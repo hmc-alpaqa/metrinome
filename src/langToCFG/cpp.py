@@ -98,14 +98,14 @@ class CPPConvert():
         each function from a .cpp file
         '''
         subprocess.check_call(["mkdir" , "-p", "temp"])
-        self.run(f"clang++-6.0 -emit-llvm -S {filepath}.cpp -o /dev/stdout | opt -dot-cfg")
+        CPPConvert.run(f"clang++-6.0 -emit-llvm -S {filepath}.cpp -o /dev/stdout | opt -dot-cfg")
         files = glob2.glob("*.dot")
         for f in files:
             subprocess.call(["mv", f"{f}", "temp"])
         
         
-
-    def run(self, cmd):
+    @staticmethod
+    def run(cmd):
         """Runs the given command locally and returns the output, err and exit_code."""
         if "|" in cmd:
             cmd_parts = cmd.split('|')
@@ -117,9 +117,9 @@ class CPPConvert():
         for cmd_part in cmd_parts:
             cmd_part = cmd_part.strip()
             if i == 0:
-                p[i]=subprocess.Popen(shlex.split(cmd_part),stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False)
+                p[i]=subprocess.Popen(shlex.split(cmd_part), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False)
             else:
-                p[i]=subprocess.Popen(shlex.split(cmd_part),stdin=p[i-1].stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False)
+                p[i]=subprocess.Popen(shlex.split(cmd_part), stdin=p[i-1].stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False)
             i += 1
         (output, err) = p[i-1].communicate()
         exit_code = p[0].wait()
