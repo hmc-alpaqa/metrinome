@@ -75,6 +75,9 @@ class API:
     These are used to create the REPL.
     '''
     def __init__(self):
+        '''
+        Create a new instance of the API.
+        '''
         self.controller = Controller()
         self.metrics = {}
         self.graphs = {}
@@ -122,6 +125,8 @@ class Controller:
     '''
     def __init__(self) -> None:
         '''
+        Create a new instance of Controller, initializing all of the converters 
+        required to turn known file types into CFGS.
         '''
         cyclomatic = CyclomaticComplexity.CyclomaticComplexity()
         nPathComplexity = NPathComplexity.NPathComplexity()
@@ -141,9 +146,17 @@ class Controller:
         self.logger = Log("Complexity Repl:")
 
     def getGraphGeneratorNames(self):
+        '''
+        Get the names of all file extensions we know how to generate 
+        CFGs for. 
+        '''
         return self.graphGenerators.keys()
 
     def getGraphGenerator(self, file_extension):
+        '''
+        Given a file extension as a string, return the CFG generator for that 
+        file extension. 
+        '''
         return self.graphGenerators[file_extension]
 
 class Command:
@@ -155,7 +168,6 @@ class Command:
         self.logger = Log()
         self.have_completed = False
 
-        # TODO: move 
         self.controller = Controller()
         self.metrics = {}
         self.graphs = {}
@@ -177,6 +189,30 @@ class Command:
             return True
 
         return False
+
+    def verify_file_type(self, args, target_type):
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        if not ok: 
+            return 
+
+        file = args[0]
+        filepath, file_extension = os.path.splitext(file)
+        if file_extension == "":
+            self.logger.v(f"No file extension found for {file}.")
+            return 0
+        elif file_extension.strip() != f".{target_type}":
+            self.logger.v(f"File extension must be {target_type}, not {file_extension}.")
+            return 0
+
+        return file
+
+    def do_klee_replay(self, args): 
+        result = verify_file_type(args, "ktest")
+
+        path_to_klee_build_dir = '/app/build'
+        s = 'export LD_LIBRARY_PATH={path_to_klee_build_dir}/lib/:$LD_LIBRARY_PATH'
+        s2 = "gcc -I ../../include -L path-to-klee-build-dir/lib/ get_sign.c -lkleeRuntest"
 
     def do_convert(self, args):
         args = self.convert_args(args)
@@ -326,6 +362,10 @@ class Command:
 
         metric = self.metrics[metric_name]
 
+    def do_klee_to_bc(self, args): 
+        print("NOT IMPLEMENTED")
+        return  
+
     def do_to_klee_format(self, args): 
         # TODO: how do we actually do this? 
         args = self.convert_args(args)
@@ -353,21 +393,11 @@ class Command:
         pass
 
     def do_klee(self, args): 
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
-        if not ok: 
+        result = self.verify_file_type(args, "bc")
+        if result is 0: 
             return 
-
-        file = args[0]
-        filepath, file_extension = os.path.splitext(file)
-        if file_extension == "":
-            self.logger.v(f"No file extension found for {file}.")
-            return
-        elif file_extension.strip() != ".bc":
-            self.logger.v(f"File extension must be bc, not {file_extension}.")
-            return
-
-        _, output, _ = cpp.CPPConvert.run(f"/app/build/bin/klee {file}") 
+        
+        _, output, _ = cpp.CPPConvert.run(f"/app/build/bin/klee {result}") 
         
         s1 = "generated tests = "
         s2 = "completed paths = "

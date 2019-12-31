@@ -3,3 +3,4 @@ venv/
 .vscode/
 .idea/*
 .idea/
+*.log
