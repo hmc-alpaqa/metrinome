@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 import logging
 import importlib
+import subprocess
 from collections import namedtuple
 
 from langToCFG import cpp, java, python
@@ -249,7 +250,10 @@ class Command:
             converter = self.controller.getGraphGenerator(file_extension)
             graph = converter.toGraph(filepath.strip(), file_extension.strip())
             self.logger.v(graph)
-            self.graphs[filepath] = graph
+            if isinstance(graph, dict):
+                self.graphs.update(graph)
+            else:
+                self.graphs[filepath] = graph
 
     def do_list(self, args):
         args = self.convert_args(args)
@@ -260,7 +264,7 @@ class Command:
         if type == "metrics":
             self.show_metrics()
         elif type == "graphs":
-            self.how_graphs()
+            self.show_graphs()
         elif type == "*":
             self.show_metrics()
             self.show_graphs()
@@ -422,39 +426,54 @@ class Command:
         raise SystemExit
 
     def do_export(self, args):
+        args = self.convert_args(args)
         ok = self.check_num_args(args, 2, "Must specify type and name.")
         if not ok:
             return
 
-        type = args[0]
+        exportType = args[0]
         name = args[1]
-        with open(name, "w+") as f:
-            if type == "graphs":
-                if name in self.graphs:
+        subprocess.check_call(["mkdir" , "-p", "exports"])
+        newName = name.split("/")[-1]
+
+        if exportType == "graphs":    
+            if name in self.graphs:
+                with open(f"/app/code/exports/{newName}", "w+") as f:
                     graph = self.graphs[name]
-                    f.write(graph)
-                elif name == "*":
-                    for graphName in self.graphs.keys():
-                        graph = self.graphs[name]
-                        f.write(graph)
-            elif type == "metrics":
-                if name in self.metrics:
+                    f.write(graph.dot())
+            elif name == "*":
+                for graphName in self.graphs.keys():
+                    fName = graphName.split("/")[-1]
+                    with open(f"/app/code/exports/{fName}", "w+") as f: 
+                        graph = self.graphs[graphName]
+                        f.write(graph.dot())
+
+        elif exportType == "metrics":
+            if name in self.metrics:
+                with open(f"/app/code/exports/{newName}_metrics", "w+") as f:
                     metric = self.metrics[name]
                     f.write(metric)
-                elif name == "*":
-                    for graphName in self.metrics.keys():
-                        metric = self.metrics[name]
+            elif name == "*":
+                for mName in self.metrics.keys():
+                    fName = mName.split("/")[-1]
+                    with open(f"/app/code/exports/{fName}_metrics", "w+") as f: 
+                        metric = self.metrics[mName]
                         f.write(metric)
-            elif type == "stats":
-                if name in self.stats:
+
+        elif exportType == "stats":
+            if name in self.stats:
+                with open(f"/app/code/exports/{newName}_stats", "w+") as f:
                     stat = self.stats[name]
                     f.write(stat)
-                elif name == "*":
-                    for graphName in self.stats.keys():
-                        stat = self.stats[name]
+
+            elif name == "*":
+                for sName in self.stats.keys():
+                    fName = sName.split("/")[-1]
+                    with open(f"/app/code/exports/{fName}_stats", "w+") as f: 
+                        stat = self.metrics[sName]
                         f.write(stat)
-            else:
-                self.logger.v(f"Type {type} not recognized.")
+        else:
+            self.logger.v(f"Type {exportType} not recognized.")
 
     def do_delete(self, args):
         ok = self.check_num_args(args, 2, "Must specify type and name.")
