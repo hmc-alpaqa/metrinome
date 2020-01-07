@@ -17,9 +17,23 @@ class Graph:
 
     We store a list of these edges.
     '''
+    def dot(self) -> str:
+        out = "digraph {\n"
+        for node in self.getVertices():
+            out += f"{node}"
+            if node == self.startNode:
+                out += " [label=\"START\"]"
+            elif node == self.endNode:
+                out += " [label=\"EXIT\"]"
+            out +=";\n"
+        for edgePair in self.edgeRules():
+            out += f"{edgePair[0]} -> {edgePair[1]};\n"
+        out += "}"
+        return out
+
     def __str__(self) -> str:
         return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()} \nStart Node: {self.startNode} \nEnd Node: {self.endNode}"
-
+    
     def __init__(self, edges, vertices: int, startNode: int, endNode: int) -> None:
         '''
         Create a directed graph from a vertex set, edge list,
@@ -55,6 +69,18 @@ class Graph:
         Get the vertex set for the graph.
         '''
         return self.vertices
+
+    def getStart(self) -> int:
+        '''
+        Get the start node for the graph
+        '''
+        return self.startNode
+
+    def getEnd(self) -> int:
+        '''
+        Get the exit node for the graph
+        '''
+        return self.endNode
 
     def adjacencyMatrix(self):
         '''
@@ -207,3 +233,8 @@ class Graph:
         prismLines.append('endmodule')
 
         return prismLines
+
+    def __eq__(self, other):
+        setsEqual = (self.edges == other.edgeRules() and self.vertices == other.getVertices())
+        labelsEqual = (self.startNode == other.getStart() and self.endNode == other.getEnd())
+        return setsEqual and labelsEqual

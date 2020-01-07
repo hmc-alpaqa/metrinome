@@ -434,17 +434,17 @@ class Command:
         exportType = args[0]
         name = args[1]
         subprocess.check_call(["mkdir" , "-p", "exports"])
-        newName = name.split("/")[-1]
+        newName = os.path.split(name)[1]
 
         if exportType == "graphs":    
             if name in self.graphs:
-                with open(f"/app/code/exports/{newName}", "w+") as f:
+                with open(f"/app/code/exports/{newName}.dot", "w+") as f:
                     graph = self.graphs[name]
                     f.write(graph.dot())
             elif name == "*":
                 for graphName in self.graphs.keys():
-                    fName = graphName.split("/")[-1]
-                    with open(f"/app/code/exports/{fName}", "w+") as f: 
+                    fName = os.path.split(graphName)[1]
+                    with open(f"/app/code/exports/{fName}.dot", "w+") as f: 
                         graph = self.graphs[graphName]
                         f.write(graph.dot())
 
@@ -455,7 +455,7 @@ class Command:
                     f.write(metric)
             elif name == "*":
                 for mName in self.metrics.keys():
-                    fName = mName.split("/")[-1]
+                    fName = os.path.split(mName)[1]
                     with open(f"/app/code/exports/{fName}_metrics", "w+") as f: 
                         metric = self.metrics[mName]
                         f.write(metric)
@@ -468,7 +468,7 @@ class Command:
 
             elif name == "*":
                 for sName in self.stats.keys():
-                    fName = sName.split("/")[-1]
+                    fName = os.path.split(sName)[1]
                     with open(f"/app/code/exports/{fName}_stats", "w+") as f: 
                         stat = self.metrics[sName]
                         f.write(stat)

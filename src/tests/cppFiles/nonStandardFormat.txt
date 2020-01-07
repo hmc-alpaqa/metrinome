@@ -1,0 +1,21 @@
+digraph "CFG for 'main' function" {
+	label="CFG for 'main' function";
+
+	Node0x1d0fe00 [shape=record,label="{%0:\l  %1 = alloca i32, align 4\l  %2 = alloca %class.Jar, align 8\l  %3 = alloca %\"class.std::__cxx11::basic_string\", align 8\l  %4 = alloca i8*\l  %5 = alloca i32\l  store i32 0, i32* %1, align 4\l  call void @_ZN3JarC2Ev(%class.Jar* %2)\l  invoke void @_ZN3Jar4pullB5cxx11Ei(%\"class.std::__cxx11::basic_string\"* sret\l... %3, %class.Jar* %2, i32 1)\l          to label %6 unwind label %12\l}"];
+	Node0x1d0fe00 -> Node0x1d103b0;
+	Node0x1d0fe00 -> Node0x1d10400;
+	Node0x1d103b0 [shape=record,label="{%6:\l\l  %7 = invoke dereferenceable(272) %\"class.std::basic_ostream\"*\l... @_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKNSt7__cxx1112ba\l...sic_stringIS4_S5_T1_EE(%\"class.std::basic_ostream\"* dereferenceable(272)\l... @_ZSt4cout, %\"class.std::__cxx11::basic_string\"* dereferenceable(32) %3)\l          to label %8 unwind label %16\l}"];
+	Node0x1d103b0 -> Node0x1d10790;
+	Node0x1d103b0 -> Node0x1d107e0;
+	Node0x1d10790 [shape=record,label="{%8:\l\l  %9 = invoke dereferenceable(272) %\"class.std::basic_ostream\"*\l... @_ZNSolsEPFRSoS_E(%\"class.std::basic_ostream\"* %7,\l... %\"class.std::basic_ostream\"* (%\"class.std::basic_ostream\"*)*\l... @_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_)\l          to label %10 unwind label %16\l}"];
+	Node0x1d10790 -> Node0x1d10030;
+	Node0x1d10790 -> Node0x1d107e0;
+	Node0x1d10030 [shape=record,label="{%10:\l\l  call void\l... @_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev(%\"class.std::__cxx1\l...1::basic_string\"* %3) #3\l  store i32 4, i32* %1, align 4\l  call void @_ZN3JarD2Ev(%class.Jar* %2) #3\l  %11 = load i32, i32* %1, align 4\l  ret i32 %11\l}"];
+	Node0x1d10400 [shape=record,label="{%12:\l\l  %13 = landingpad \{ i8*, i32 \}\l          cleanup\l  %14 = extractvalue \{ i8*, i32 \} %13, 0\l  store i8* %14, i8** %4, align 8\l  %15 = extractvalue \{ i8*, i32 \} %13, 1\l  store i32 %15, i32* %5, align 4\l  br label %20\l}"];
+	Node0x1d10400 -> Node0x1d119e0;
+	Node0x1d107e0 [shape=record,label="{%16:\l\l  %17 = landingpad \{ i8*, i32 \}\l          cleanup\l  %18 = extractvalue \{ i8*, i32 \} %17, 0\l  store i8* %18, i8** %4, align 8\l  %19 = extractvalue \{ i8*, i32 \} %17, 1\l  store i32 %19, i32* %5, align 4\l  call void\l... @_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev(%\"class.std::__cxx1\l...1::basic_string\"* %3) #3\l  br label %20\l}"];
+	Node0x1d107e0 -> Node0x1d119e0;
+	Node0x1d119e0 [shape=record,label="{%20:\l\l  call void @_ZN3JarD2Ev(%class.Jar* %2) #3\l  br label %21\l}"];
+	Node0x1d119e0 -> Node0x1d11f60;
+	Node0x1d11f60 [shape=record,label="{%21:\l\l  %22 = load i8*, i8** %4, align 8\l  %23 = load i32, i32* %5, align 4\l  %24 = insertvalue \{ i8*, i32 \} undef, i8* %22, 0\l  %25 = insertvalue \{ i8*, i32 \} %24, i32 %23, 1\l  resume \{ i8*, i32 \} %25\l}"];
+}

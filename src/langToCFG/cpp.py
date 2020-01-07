@@ -1,4 +1,4 @@
-import subprocess, argparse, glob2, os, re, sys, shlex
+import subprocess, argparse, glob2, os, re, sys, shlex, signal
 sys.path.append("/app/code/")
 from Graph import Graph
 from typing import List
@@ -14,13 +14,15 @@ class CPPConvert():
         '''
         self.createDotFiles(filename)
         fileCount = self.convertToStandardFormat(filename)
-        name = filename.split("/")[-1]
+        name = os.path.split(filename)[1]
         graphs = {}
         filename = filename.strip(name)
-        filename += f"temp/{name}"
+        filename += f"cppConverterTemps/{name}"
         for i in range(fileCount):
             fName = filename + (str(i) + ".dot")
-            graphs[fName] = Graph.fromFile(fName) 
+            graphName = os.path.splitext(fName)[0]
+            graphName = os.path.split(graphName)[1]
+            graphs[graphName] = Graph.fromFile(fName) 
         self.cleanTemps()
         return graphs
 
@@ -30,7 +32,9 @@ class CPPConvert():
         as the dot files generated from Java CFGs.
         '''
         fNum = 0
-        files = glob2.glob("/app/code/temp/*.dot")
+        path = os.path.split(filename)[0]
+        filename = os.path.split(filename)[1]
+        files = glob2.glob(f"{path}/cppConverterTemps/*.dot")
         for name in files:
             if "global" in name.lower():
                 os.remove(name)
@@ -42,8 +46,7 @@ class CPPConvert():
             counter = 0
             
             # Make a temporary file (with the new content)
-            filename = filename.split("/")[-1]
-            with open(f'temp/{filename}{fNum}.dot', 'w') as newFile:
+            with open(f'cppConverterTemps/{filename}{fNum}.dot', 'w') as newFile:
                 with open(f'{f}', "r") as oldFile:
                     content = oldFile.readlines()
                     newFile.write("digraph { \n")
@@ -73,11 +76,15 @@ class CPPConvert():
                             counter += 1
                         else: 
                             edges += [line]
-                
+                # Covers case of leaf CFGs
+                if len(nodes) == 1:
+                    nodes.append("1")
+                    nodes.append("2")
+                    counter += 2
                 # Create the nodes and then the edges 
                 for i, node in enumerate(nodes):
                     if i == counter - 2: 
-                        node += " [label=\"EXIT\"]"
+                        node += "[label=\"EXIT\"]"
                     newFile.write(node + ";" + "\n")
                 
                 for edge in edges:
@@ -97,40 +104,30 @@ class CPPConvert():
         Create a .dot file representing a control flow graph for
         each function from a .cpp file
         '''
-        subprocess.check_call(["mkdir" , "-p", "temp"])
-        CPPConvert.run(f"clang++-6.0 -emit-llvm -S {filepath}.cpp -o /dev/stdout | opt -dot-cfg")
+        os.chdir(os.path.split(filepath)[0])
+        subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
+
+        cmd = f"clang++-6.0 -emit-llvm -S {filepath}.cpp -o /dev/stdout | opt -dot-cfg"
+        cmd_parts = cmd.split('|')
+
+        c1 = cmd_parts[0].strip()
+        c2 = cmd_parts[1].strip()
+    
+        with subprocess.Popen(shlex.split(c1), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line1:
+            command = line1.stdout
+            with subprocess.Popen(shlex.split(c2), stdin=command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line2: 
+                line2.communicate()
+                
         files = glob2.glob("*.dot")
         for f in files:
-            subprocess.call(["mv", f"{f}", "temp"])
+            subprocess.call(["mv", f"{f}", "cppConverterTemps"])
         
         
-    @staticmethod
-    def run(cmd):
-        """Runs the given command locally and returns the output, err and exit_code."""
-        if "|" in cmd:
-            cmd_parts = cmd.split('|')
-        else:
-            cmd_parts = []
-            cmd_parts.append(cmd)
-        i = 0
-        p = {}
-        for cmd_part in cmd_parts:
-            cmd_part = cmd_part.strip()
-            if i == 0:
-                p[i]=subprocess.Popen(shlex.split(cmd_part), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False)
-            else:
-                p[i]=subprocess.Popen(shlex.split(cmd_part), stdin=p[i-1].stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False)
-            i += 1
-        (output, err) = p[i-1].communicate()
-        exit_code = p[0].wait()
-        return str(output), str(err), exit_code
-
-
     def cleanTemps(self):
         """removes temp files and directories """
-        subprocess.call(["rm", "-r", "temp"])
+        subprocess.call(["rm", "-r", "cppConverterTemps"])
         
         
 if __name__ == "__main__":
-    c = CPPConvert()
-    c.toGraph("hello", "cpp")
+    pass
+    
