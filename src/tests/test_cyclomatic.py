@@ -1,5 +1,6 @@
 import unittest
-# from ..Graph import Graph
+from Graph import Graph
+from metric.CyclomaticComplexity import CyclomaticComplexity
 
 class TestCyclomaticComplexity(unittest.TestCase):
     def testCyclomaticComplexity(self):
@@ -8,7 +9,10 @@ class TestCyclomaticComplexity(unittest.TestCase):
         startNode = 0
         endNode = 4
         graph = Graph(edges, vertices, startNode, endNode)
-        result = CyclomaticComplexity.cyclomaticComplexity(graph)
-        # edges - nodes + 2
-        expectedResult = 3 - 5 + 2
+        self.assertTrue(True)
+        result = CyclomaticComplexity().evaluate(graph)
+        expectedResult = 3 - 5 + 2  # edges - nodes + 2
         self.assertEqual(result, expectedResult)
+
+if __name__ == '__main__':
+    unittest.main()

@@ -3,7 +3,7 @@ from Graph import Graph
 
 class CyclomaticComplexity(): 
     '''
-    CyclomaticComplexity aloows us to compute the Cyclomatic Complexity 
+    CyclomaticComplexity allows us to compute the Cyclomatic Complexity 
     given some control flow graph.
     '''
 
