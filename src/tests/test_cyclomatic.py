@@ -9,7 +9,6 @@ class TestCyclomaticComplexity(unittest.TestCase):
         startNode = 0
         endNode = 4
         graph = Graph(edges, vertices, startNode, endNode)
-        self.assertTrue(True)
         result = CyclomaticComplexity().evaluate(graph)
         expectedResult = 3 - 5 + 2  # edges - nodes + 2
         self.assertEqual(result, expectedResult)
