@@ -6,6 +6,7 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 RUN mkdir -p /usr/share/man/man1 && apt-get update && apt install -y build-essential wget software-properties-common openjdk-11-jdk-headless
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - 
 RUN apt-get update
+RUN pip install -e /src
 
 # Get KLEE dependencies (LLVM 6.0) [http://klee.github.io/build-llvm60/]
 RUN apt install -y curl libcap-dev git unzip doxygen libsqlite3-dev libgoogle-perftools-dev libtcmalloc-minimal4 cmake libncurses5-dev
