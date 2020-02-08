@@ -58,7 +58,8 @@ class MyPrompt(Cmd):
     def do_convert(self, args): 
         '''
         Convert a file containing source code to a Graph object. 
-        The recursive flag (-r) 
+        The recursive flag (-r) can also be used. 
+        
         Usage: 
         convert <file-like>
         convert -r <file-like>

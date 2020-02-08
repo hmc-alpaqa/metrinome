@@ -20,7 +20,7 @@ Then to run the image use
 docker run -it -v <path_to path-complexity/src>:/app/code <image_ID> /bin/bash
 ```
 
-This will put you in a bash shell in the docker image. Not that in this development environment we mount the source code in the host (i.e. the device you are working in) to the docker image. This means that you can modify the code and the changes will me immediately reflected in the docker image. This means it is not necessary to re-build or even re-run the docker image when making code changes.
+This will put you in a bash shell in the docker image. Not that in this development environment we mount the source code in the host (i.e. the device you are working in) to the docker image. This means that you can modify the code and the changes will me immediately reflected in the docker image. This means it is not necessary to re-build or even re-run the docker image when making code changes. We recommend replacing "/bin/bash" with "/bin/zsh". 
 
 Running ```python /app/code/main.py``` in the docker image will put you inside the Path Complexity REPL. This is how the user __usually__ interacts with the tool. Refer to the 'Using the REPL' section to obtain more information about how to use this. 
 
@@ -30,17 +30,62 @@ Note that this is essentially a duplicated version of the output obtained from t
 
 ### analyze 
 
+Perform statistical analysis on a set of generated metrics. 
+
+Usage: 
+analyze <metric names>
+
 ### convert 
+
+Convert a file containing source code to a Graph object. 
+The recursive flag (-r) can also be used. 
+
+Usage: 
+convert <file-like>
+convert -r <file-like>
+convert <file-like-1> <file-like-2> ... <file-like-n>
 
 ### delete 
 
+Delete an object (type Graph, Metrics, or States) from memory. 
+
+Usage: 
+delete <type> <name>
+
 ### export 
+
+Save an object (type Graph, Metrics, or Stats) to an output file. 
+
+Usage:
+save <type> <name>
 
 ### list 
 
+List all of the objects of a specific type (either metrics or graphs). 
+
+Usage: 
+list <metrics/graphs>
+list * 
+
 ### metrics 
 
+Compute all of the complexity matrics for a Graph object. 
+
+Usage: 
+metrics <name>
+metrics * 
+
 ### show
+
+Show an object of some type (either metric or graph).
+
+Usage 
+show <metric/graph> <name>
+show <metric/graph> * 
+
+### quit
+
+Quits the path complexity repl.
 
 ## Analyzing Control Flow Graphs
 

@@ -8,12 +8,29 @@ import logging
 import importlib
 import subprocess
 from collections import namedtuple
+from enum import Enum, auto
 
 from langToCFG import cpp, java, python
 from metric import CyclomaticComplexity, NPathComplexity, PathComplexity
 
+MISSING_FILENAME_ERR      = "Must provide file name."
+MISSING_TYPE_AND_NAME_ERR = "Must specify type and name."
+NO_FILE_EXT_ERR           = lambda fname: f"No file extension found for {fname}."
+NOT_IMPLEMENTED_ERR       = "Not implemened."
+EXTENSION_ERR             = lambda target_type, file_extension: f"File extension must be {target_type}, not {file_extension}."
 
-MISSING_FILENAME_ERR = "Must provide file name."
+class OBJ_TYPES(Enum): 
+    GRAPH  = "graph" 
+    METRIC = "metric"
+    STAT   = "stat"
+    ALL    = "*"
+
+    def __str__(self):
+        return str(self.value)
+
+class KNOWN_EXTENSIONS(Enum): 
+    C      = ".c"
+    Python = ".py"
 
 def get_files(path, recursiveMode, logger, allowedExtensions):
     '''
@@ -75,7 +92,7 @@ class API:
     API contains all of the methods exposed to the user.
     These are used to create the REPL.
     '''
-    def __init__(self):
+    def __init__(self, logger):
         '''
         Create a new instance of the API.
         '''
@@ -84,26 +101,7 @@ class API:
         self.graphs = {}
         self.stats = {}
 
-    def convert(self):
-        pass
-
-    def list_objects(self):
-        pass
-
-    def metrics(self):
-        pass
-
-    def show(self):
-        pass
-
-    def analyze(self):
-        pass
-
-    def export(self):
-        pass
-
-    def delete(self):
-        pass
+        self.logger = logger 
 
     def show_metrics(self):
         if len(self.metrics.keys()) == 0:
@@ -165,8 +163,8 @@ class Command:
     Command is the implementation of the REPL commands. 
     '''
     def __init__(self):
-        self.api = API()
         self.logger = Log()
+        self.api = API(self.logger)
         self.have_completed = False
 
         self.controller = Controller()
@@ -192,24 +190,26 @@ class Command:
         return False
 
     def verify_file_type(self, args, target_type):
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
-        if not ok: 
-            return 
-
         file = args[0]
         filepath, file_extension = os.path.splitext(file)
         if file_extension == "":
-            self.logger.v(f"No file extension found for {file}.")
+            self.logger.v(NO_FILE_EXT_ERR(file))
             return 0
         elif file_extension.strip() != f".{target_type}":
-            self.logger.v(f"File extension must be {target_type}, not {file_extension}.")
+            self.logger.v(EXTENSION_ERR(target_type, file_extension))
             return 0
 
         return file
 
     def do_klee_replay(self, args): 
-        result = verify_file_type(args, "ktest")
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        if not ok:
+            return
+
+        result = self.verify_file_type(args, "ktest")
+        if result == 0:
+            return
 
         path_to_klee_build_dir = '/app/build'
         s = 'export LD_LIBRARY_PATH={path_to_klee_build_dir}/lib/:$LD_LIBRARY_PATH'
@@ -218,7 +218,7 @@ class Command:
     def do_convert(self, args):
         args = self.convert_args(args)
         if len(args) == 0:
-            self.logger.v("Must provide file name(s).")
+            self.logger.v(MISSING_FILENAME_ERR)
             return
 
         recursiveMode = False
@@ -242,7 +242,7 @@ class Command:
             filepath, file_extension = os.path.splitext(file)
             if file_extension not in self.controller.getGraphGeneratorNames():
                 if file_extension == "":
-                    self.logger.v(f"No file extension found for {file}.")
+                    self.logger.v(NO_FILE_EXT_ERR(file))
                 else:
                     self.logger.v(f"Cannot convert {file_extension} for {file}.")
                 return
@@ -260,14 +260,15 @@ class Command:
         ok = self.check_num_args(args, 1, "Must specify object type to list (metrics or graphs).")
         if not ok:
             return
+
         type = args[0]
         if type == "metrics":
-            self.show_metrics()
+            self.api.show_metrics()
         elif type == "graphs":
-            self.show_graphs()
+            self.api.show_graphs()
         elif type == "*":
-            self.show_metrics()
-            self.show_graphs()
+            self.api.show_metrics()
+            self.api.show_graphs()
         else:
             self.logger.v(f"Type {type} not recognized")
 
@@ -364,11 +365,14 @@ class Command:
             self.logger.v(f"Could not find metric {metric_name}")
             return
 
-        metric = self.metrics[metric_name]
+        for metric_name in metric_names: 
+            metric = self.metrics[metric_name]
 
     def do_klee_to_bc(self, args): 
-        print("NOT IMPLEMENTED")
-        return  
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 0, NOT_IMPLEMENTED_ERR)
+        if not ok:
+            return
 
     def do_to_klee_format(self, args): 
         # TODO: how do we actually do this? 
@@ -380,10 +384,10 @@ class Command:
         file = args[0]
         filepath, file_extension = os.path.splitext(file) 
         if file_extension == "":
-            self.logger.v(f"No file extension found for {file}.")
+            self.logger.v(NO_FILE_EXT_ERR(file))
             return
         elif file_extension.strip() != ".c":
-            self.logger.v(f"File extension must be .c, not {file_extension}.")
+            self.logger.v(EXTENSION_ERR(KNOWN_EXTENSIONS.C, file_extension))
             return
 
         with open(file) as f: 
@@ -394,9 +398,17 @@ class Command:
                     new_file.write(line)
 
     def do_clean_klee_files(self, args): 
-        pass
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 0, NOT_IMPLEMENTED_ERR)
+        if not ok:
+            return
 
     def do_klee(self, args): 
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        if not ok:
+            return
+
         result = self.verify_file_type(args, "bc")
         if result is 0: 
             return 
@@ -427,7 +439,7 @@ class Command:
 
     def do_export(self, args):
         args = self.convert_args(args)
-        ok = self.check_num_args(args, 2, "Must specify type and name.")
+        ok = self.check_num_args(args, 2, MISSING_TYPE_AND_NAME_ERR)
         if not ok:
             return
 
@@ -475,31 +487,32 @@ class Command:
         else:
             self.logger.v(f"Type {exportType} not recognized.")
 
-    def do_delete(self, args):
-        ok = self.check_num_args(args, 2, "Must specify type and name.")
+    def do_delete(self, args): 
+        args = self.convert_args(args)
+        ok = self.check_num_args(args, 2, MISSING_TYPE_AND_NAME_ERR)
         if not ok:
             return
 
         type = args[0]
         name = args[1]
-        if type == "graphs":
+        if type == OBJ_TYPES.GRAPH.value:
             try:
-                del self.graph[name]
+                del self.graphs[name]
             except KeyError:
-                self.logger.v(f"Graph {name} not found.")
-        elif type == "metrics":
+                self.logger.v(f"{OBJ_TYPES.GRAPH.value.capitalize()} {name} not found.")
+        elif type == OBJ_TYPES.METRIC.value:
             try:
                 del self.metrics[name]
             except KeyError:
-                self.logger.v(f"Metric {name} not found.")
-        elif type == "stats":
+                self.logger.v(f"{OBJ_TYPES.METRIC.value.capitalize()} {name} not found.")
+        elif type == OBJ_TYPES.STAT.value:
             try:
                 del self.stats[name]
             except KeyError:
-                self.logger.v(f"Statistics {name} not found.")
+                self.logger.v(f"{OBJ_TYPES.STAT.value.capitalize()} {name} not found.")
         elif type == "*":
             found = False
-            for dict in [self.graph, self.metrics, self.stats]:
+            for dict in [self.graphs, self.metrics, self.stats]:
                 try:
                     del dict[name]
                     found = True
