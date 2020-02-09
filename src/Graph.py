@@ -32,7 +32,7 @@ class Graph:
         return out
 
     def __str__(self) -> str:
-        return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()} \nStart Node: {self.startNode} \nEnd Node: {self.endNode}"
+        return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()}\nStart Node: {self.startNode}\nEnd Node: {self.endNode}"
     
     def __init__(self, edges, vertices: int, startNode: int, endNode: int) -> None:
         '''
