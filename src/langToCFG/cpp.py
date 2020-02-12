@@ -5,15 +5,18 @@ from typing import List
 
 class CPPConvert():
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, logger) -> None:
+        self.logger = logger
 
     def toGraph(self, filename: str, file_extension: str) -> List[Graph]:
         '''
         Creates a CFG from a C++ source file.
         '''
-        self.createDotFiles(filename)
+        self.logger.d("Creating dot files")
+        self.createDotFiles(filename, file_extension)
+        self.logger.d("Converting to standard format")
         fileCount = self.convertToStandardFormat(filename)
+        self.logger.d(f"File count is: {fileCount}")
         name = os.path.split(filename)[1]
         graphs = {}
         filename = filename.strip(name)
@@ -23,8 +26,8 @@ class CPPConvert():
             graphName = os.path.splitext(fName)[0]
             graphName = os.path.split(graphName)[1]
             graphs[graphName] = Graph.fromFile(fName) 
-        self.cleanTemps()
-        return graphs
+        # self.cleanTemps()
+        return graphs 
 
     def convertToStandardFormat(self, filename: str) -> int:
         '''
@@ -98,30 +101,36 @@ class CPPConvert():
                 fNum += 1
         return fNum
         
-
-    def createDotFiles(self, filepath: str) -> Graph:
+    def createDotFiles(self, filepath: str, file_extension: str) -> Graph:
         '''
         Create a .dot file representing a control flow graph for
         each function from a .cpp file
         '''
+        self.logger.d(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
-        subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
+        res = subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
 
-        cmd = f"clang++-6.0 -emit-llvm -S {filepath}.cpp -o /dev/stdout | opt -dot-cfg"
-        cmd_parts = cmd.split('|')
+        # c1 = "clang++-6.0 -emit-llvm -S /app/examples/src/c/example.cpp -o /dev/stdout"
+        c1 = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
+        c2 = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
+        
+        c1 = shlex.split(c1)
+        c2 = shlex.split(c2) 
 
-        c1 = cmd_parts[0].strip()
-        c2 = cmd_parts[1].strip()
-    
-        with subprocess.Popen(shlex.split(c1), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line1:
+        self.logger.d(f"C1: {c1}")
+        self.logger.d(f"C2: {c2}")
+
+        with subprocess.Popen(c1, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line1:
             command = line1.stdout
-            with subprocess.Popen(shlex.split(c2), stdin=command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line2: 
-                line2.communicate()
+            errMsg = line1.stderr
+            with subprocess.Popen(c2, stdin=command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line2: 
+               out, err = line2.communicate() 
                 
         files = glob2.glob("*.dot")
+        self.logger.d(f"Here are the files: {files}")
         for f in files:
             subprocess.call(["mv", f"{f}", "cppConverterTemps"])
-        
+
         
     def cleanTemps(self):
         """removes temp files and directories """
