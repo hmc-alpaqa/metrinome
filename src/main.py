@@ -1,5 +1,6 @@
 import readline
 import logging
+import argparse
 import Command
 import importlib
 from cmd import Cmd
@@ -7,11 +8,11 @@ from cmd import Cmd
 TESTING_MODE = True
 class MyPrompt(Cmd): 
 
-    def __init__(self) -> None:
+    def __init__(self, debug_mode) -> None:
         '''
         Create a new instance of the REPL. 
         '''
-        self.command = Command.Command()
+        self.command = Command.Command(debug_mode)
         if TESTING_MODE: 
             setattr(self, "do_reload", self.reload)
             
@@ -58,7 +59,8 @@ class MyPrompt(Cmd):
     def do_convert(self, args): 
         '''
         Convert a file containing source code to a Graph object. 
-        The recursive flag (-r) 
+        The recursive flag (-r) can also be used. 
+        
         Usage: 
         convert <file-like>
         convert -r <file-like>
@@ -137,11 +139,17 @@ class MyPrompt(Cmd):
         self.command = Command.Command()
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Arguments for APC REPL.')
+    parser.add_argument('--debug', dest='debug_mode',
+                        action='store_true', default=False, 
+                        help='Turn on debugging mode for more verbose output')
+    args = parser.parse_args()
+
     logging.basicConfig(filename='repl_log.log',level=logging.DEBUG)
     try: 
         readline.read_history_file()
     except FileNotFoundError: 
         pass 
-    prompt = MyPrompt()
+    prompt = MyPrompt(args.debug_mode)
     prompt.prompt = '> '
     prompt.cmdloop('Starting path complexity repl...')

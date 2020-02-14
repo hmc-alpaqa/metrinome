@@ -3,15 +3,14 @@ WORKDIR /app
 COPY requirements.txt /app/ 
 COPY ./examples /app/examples/
 RUN pip install --trusted-host pypi.python.org -r requirements.txt 
-RUN mkdir -p /usr/share/man/man1 && apt-get update && apt install -y build-essential wget software-properties-common openjdk-11-jdk-headless
+RUN mkdir -p /usr/share/man/man1 && apt-get update && apt-get install -y build-essential wget software-properties-common openjdk-11-jdk-headless
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - 
 RUN apt-get update
-RUN pip install -e /src
 
 # Get KLEE dependencies (LLVM 6.0) [http://klee.github.io/build-llvm60/]
-RUN apt install -y curl libcap-dev git unzip doxygen libsqlite3-dev libgoogle-perftools-dev libtcmalloc-minimal4 cmake libncurses5-dev
+RUN apt-get install -y curl libcap-dev git unzip doxygen libsqlite3-dev libgoogle-perftools-dev libtcmalloc-minimal4 cmake libncurses5-dev
 RUN pip install tabulate
-RUN apt install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
+RUN apt-get install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
 
 # Install z3 
 RUN git clone https://github.com/Z3Prover/z3/ 
@@ -29,8 +28,9 @@ RUN alias llvm-config=llvm-config-6.0
 RUN CC=/usr/bin/clang-6.0 /app/klee-uclibc/configure --make-llvm-lib
 
 # Get KLEE
+RUN mkdir /app/build
 RUN git clone https://github.com/klee/klee.git
-RUN apt install zlib1g-dev
+RUN apt-get install zlib1g-dev
 RUN cd /app/build && cmake -DENABLE_SOLVER_STP=OFF -DENABLE_POSIX_RUNTIME=OFF -DENABLE_KLEE_UCLIBC=OFF -DENABLE_UNIT_TESTS=OFF -DLLVMCC=/usr/bin/clang-6.0 -ENABLE_ZLIB=OFF -DLLVMCXX=/usr/bin/clang++-6.0 /app/klee
 RUN cd /app/build && make
 
@@ -41,9 +41,6 @@ RUN LLVM_VERSION=6.0 SANITIZER_BUILD= BASE=/app/libcxx /app/klee/scripts/build/b
 # Get Google test sources
 RUN curl -OL https://github.com/google/googletest/archive/release-1.7.0.zip
 RUN unzip /app/release-1.7.0.zip
-
-# Install KLEE
-RUN mkdir /app/build
 
 ## === Finish Configuring and Testing Everything Below Here === 
 

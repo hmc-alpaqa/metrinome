@@ -1,9 +1,17 @@
 import unittest
+import sys
+sys.path.append("/app/code/")
 from Graph import Graph
 import numpy as np
 
 class TestGraph(unittest.TestCase):
     # Graph(edges, vertices, startNode, endNode)
+
+    # === Graph::__str__ === 
+    def testToStr(self): 
+        g = Graph([1, 2], [1, 2, 3], 1, 3)
+        expected = "Edges: [1, 2]\nVertices: [1, 2, 3]\nStart Node: 1\nEnd Node: 3"
+        self.assertEqual(expected, str(g))
 
     # === Graph::edgeRules ===
     def testEdgeRules_NoEdges(self):
