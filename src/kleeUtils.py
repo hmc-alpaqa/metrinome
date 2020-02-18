@@ -30,9 +30,16 @@ class KleeUtils:
         self.logger = logger
     
     def show_func_defs(self, filename: str):
-        ast = parse_file(filename, use_cpp=True)
-        v = FuncVisitor(self.logger)
-        v.visit(ast)
+        self.logger.d(f"Going to parse file {filename}")
+        try:
+            ast = parse_file(filename, use_cpp=True, cpp_path='gcc', cpp_args=['-E', r'-Iutils/fake_libc_include'])
+            self.logger.d(f"Going to visit functions.")
+            v = FuncVisitor(self.logger)
+            v.visit(ast)
+        except Exception as e:
+            self.logger.i(f"Here is the error {e}.") 
+            self.logger.i(f"Could not parse file {filename}")
+            return None
 
         UUIDS = set()
         kleeFormattedFiles = dict()
@@ -42,6 +49,7 @@ class KleeUtils:
 
             f = ""
             f += "#include <klee/klee.h>\n"
+            f += f"#include <{filename}>\n"
             f += "int main() {\n"
             for var in variables:
                 f += "\n"

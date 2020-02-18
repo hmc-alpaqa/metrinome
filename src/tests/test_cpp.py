@@ -58,8 +58,6 @@ class TestCPPConvert(unittest.TestCase):
                 self.assertEquals(standardFormat.readlines(), convertedFormat.readlines())
         c.cleanTemps()
 
-         
-
     @ignore_warnings
     def testCleanTemps(self):
         # Tests that cleanTemps() deletes the temp directory

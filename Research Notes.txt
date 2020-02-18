@@ -1,5 +1,3 @@
-klee /app/examples/src/get_sign.bc
-
 docker run -it -v /home/gabe/Documents/repos/path-complexity/src:/app/code 0
 5f0e7a90b2c /bin/bash
 
@@ -44,29 +42,29 @@ KLEE: done: generated tests = 3
 
 Current TODO: 
 
-1. Can we run KLEE on Cpp programs? [DONE]
-2. Can we collect info: # constraints analyzed, # tests made, amount of memory used.
+1. Can we collect info: # constraints analyzed, # tests made, amount of memory used.
     -> things that describe performance.
     
     Can currently collect number of tests made from .bc file. 
 
-3. Then try to correlate path complexity metric and KLEE stuff.
-4. Find some large dataset in C++ (Boost library, other popular libraries) [done]
+2. Then try to correlate path complexity metric and KLEE stuff.
+3. Find some large dataset in C++ (Boost library, other popular libraries) [done]
     Start with: 
     - Boost
     - OpenCV [https://opencv.org/releases/]
     - OpenMP
     More Available At: https://en.cppreference.com/w/cpp/links/libs
-5. Ask ishaan how he got those branch conditions (Python probably easiest, 
+    Good source for C repos: https://github.com/trending/c
+
+4. Ask ishaan how he got those branch conditions (Python probably easiest, 
     maybe look at C++ one to get branch conditions).
-6. Memoize / dynamic programming approach for NPATH.
+5. Memoize / dynamic programming approach for NPATH.
     -> Is there way to automatically convert recursive thing to dynamic programming.
-7. Write some unit tests + making sure that everything is setup correctly [WIP].
-8. Try to write some things about the tool [WIP].
-9. Refer to [https://klee.github.io/build-llvm60/]
-to configure additional parameters (like getting support
+6. Write some unit tests + making sure that everything is setup correctly [WIP].
+7. Try to write some things about the tool [WIP].
+8. configure additional parameters (like getting support
 for POSIX runtime as given by the previous steps).
-10. Would be cool to use Github actions (one is currently set up on Pull requests) to run the Unit 
+9. Would be cool to use Github actions (one is currently set up on Pull requests) to run the Unit 
 tests automatically and give the result.
 
 Other Notes:     

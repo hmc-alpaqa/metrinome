@@ -42,6 +42,13 @@ RUN LLVM_VERSION=6.0 SANITIZER_BUILD= BASE=/app/libcxx /app/klee/scripts/build/b
 RUN curl -OL https://github.com/google/googletest/archive/release-1.7.0.zip
 RUN unzip /app/release-1.7.0.zip
 
+# C Parser written in python 
+RUN pip install pycparser
+RUN https://github.com/eliben/pycparser
+
+# TODO: verify that this lets us do 'klee' in the command line 
+RUN export PATH=$PATH:/app/build/bin/ 
+
 ## === Finish Configuring and Testing Everything Below Here === 
 
 # AFL (Dependency for Kelinci) 

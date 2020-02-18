@@ -24,7 +24,7 @@ class TestCommand(unittest.TestCase):
         }
 
     def setUp(self):
-        self.command = Command.Command()
+        self.command = Command.Command(False, None)
         
     def testNumArgsInvalid(self): 
         with captured_output() as (out, err):
@@ -171,7 +171,7 @@ class TestCommand(unittest.TestCase):
             res = self.command.do_delete(str(objType) + " " + str(objName))
 
     def testDeleteStatValid(self): 
-        with captured_output() as (out, err):
+        with captured_output() as (_, _):
             objType = Command.OBJ_TYPES.STAT
             objName = "sample_stat"
             self.command.stats['sample_stat'] = 'foo'
