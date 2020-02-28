@@ -1,6 +1,7 @@
 import numpy as np
 import re
 from typing import List, Tuple
+from collections import defaultdict
 
 class Graph:
     '''
@@ -26,15 +27,18 @@ class Graph:
             elif node == self.endNode:
                 out += " [label=\"EXIT\"]"
             out +=";\n"
-        for edgePair in self.edgeRules():
-            out += f"{edgePair[0]} -> {edgePair[1]};\n"
-        out += "}"
+        if USING_LIST == True:
+            for edgePair in self.edgeRules():
+                out += f"{edgePair[0]} -> {edgePair[1]};\n"
+            out += "}"
+        else:
+            out+=0
         return out
 
     def __str__(self) -> str:
         return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()}\nStart Node: {self.startNode}\nEnd Node: {self.endNode}"
     
-    def __init__(self, edges, vertices: int, startNode: int, endNode: int) -> None:
+    def __init__(self, edges, vertices: int, startNode: int, endNode: int, fromList: bool = False) -> None:
         '''
         Create a directed graph from a vertex set, edge list,
         and start/end notes.
@@ -52,15 +56,17 @@ class Graph:
         self.endNode = endNode
         self.weighted = False
 
+        self.fromList = fromList
+
     def edgeRules(self) -> List[Tuple[int, int]]:
         '''
-        Obtain the edge list.
+        Obtain the edge list (ADD CHANGES IF edge dictionary).
         '''
         return self.edges
 
     def vertexCount(self) -> int:
         '''
-        Get the number of vertices in the graph.
+        Get the number of vertices in the graph (ADD CHANGES IF vertex-edge dictionary).
         '''
         return len(self.vertices)
 
@@ -134,7 +140,7 @@ class Graph:
         return adjacencyList
 
     @staticmethod
-    def fromFile(filename: str, weighted = False):
+    def fromFile(filename: str, weighted: bool = False, USING_LIST: bool = True):
         '''
         Returns a Graph object from a .dot file of format
 
@@ -146,40 +152,74 @@ class Graph:
             a_k  -> a_m
         }
         '''
-        edges = []
-        vertices = set()
-        startNode = None
-        endNode = None
-        with open(filename, "r") as f:
-            lines = f.readlines()
-            for line in lines[1:]:
-                match = re.search("([0-9]*)\s*->\s*([0-9]*)", line)
-                if match is None:
-                    # Current line is not an edge - check if it defines a node
-                    match = re.search("([0-9]*)\s*\[label=\"(.*)\"\]", line)
-                    if match is not None:
-                        node = int(match.group(1))
-                        nodeLabel = match.group(2)
-                        vertices.add(node)
-                        if nodeLabel == "START":
-                            startNode = node
-                        elif nodeLabel == "EXIT":
-                            endNode = node
-                # The current line in the text file represents an edge 
-                else:
-                    nodeOne = int(match.group(1))
-                    nodeTwo = int(match.group(2))
-                    vertices.add(nodeOne)
-                    vertices.add(nodeTwo)
-                    edges.append([nodeOne, nodeTwo])
+        if USING_LIST == True:
+            edges = []
+            vertices = set()
+            startNode = None
+            endNode = None
+            with open(filename, "r") as f:
+                lines = f.readlines()
+                for line in lines[1:]:
+                    match = re.search("([0-9]*)\s*->\s*([0-9]*)", line)
+                    if match is None:
+                        # Current line is not an edge - check if it defines a node
+                        match = re.search("([0-9]*)\s*\[label=\"(.*)\"\]", line)
+                        if match is not None:
+                            node = int(match.group(1))
+                            nodeLabel = match.group(2)
+                            vertices.add(node)
+                            if nodeLabel == "START":
+                                startNode = node
+                            elif nodeLabel == "EXIT":
+                                endNode = node
+                    # The current line in the text file represents an edge 
+                    else:
+                        nodeOne = int(match.group(1))
+                        nodeTwo = int(match.group(2))
+                        vertices.add(nodeOne)
+                        vertices.add(nodeTwo)
+                        edges.append([nodeOne, nodeTwo])
 
-        if startNode is None or endNode is None:
-            errMsg = "Start and end nodes must " \
-                     "both be defined."
-            raise ValueError(errMsg)
+            if startNode is None or endNode is None:
+                errMsg = "Start and end nodes must " \
+                        "both be defined."
+                raise ValueError(errMsg)
+            g = Graph(edges, vertices, startNode, endNode, USING_LIST)
+            g.weighted = weighted
 
-        g = Graph(edges, vertices, startNode, endNode)
-        g.weighted = weighted
+        else:
+            V_E_Dict = defaultdict(set)
+            startNode = None
+            endNode = None
+            with open(filename, "r") as f:
+                lines = f.readlines()
+                for line in lines[1:]:
+                    match = re.search("([0-9]*)\s*->\s*([0-9]*)", line)
+                    if match is None:
+                        # Current line is not an edge - check if it defines a node
+                        match = re.search("([0-9]*)\s*\[label=\"(.*)\"\]", line)
+                        if match is not None:
+                            node = int(match.group(1))
+                            nodeLabel = match.group(2)
+                            V_E_Dict[node]
+                            if nodeLabel == "START":
+                                startNode = node
+                            elif nodeLabel == "EXIT":
+                                endNode = node
+                     # The current line in the text file represents an edge 
+                    else:
+                        nodeOne = int(match.group(1))
+                        nodeTwo = int(match.group(2))
+                        V_E_Dict[nodeOne].add(nodeTwo)
+                        V_E_Dict[nodeTwo]                      
+
+            if startNode is None or endNode is None:
+                errMsg = "Start and end nodes must " \
+                        "both be defined."
+                raise ValueError(errMsg)
+            g = Graph(V_E_Dict, V_E_Dict.keys(), startNode, endNode, USING_LIST)
+            g.weighted = weighted
+        
         return g
 
     def toPrism(self):
