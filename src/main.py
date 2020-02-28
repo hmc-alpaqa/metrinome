@@ -12,9 +12,10 @@ class MyPrompt(Cmd):
         '''
         Create a new instance of the REPL. 
         '''
-        self.command = Command.Command(debug_mode)
+        self.command = Command.Command(debug_mode, self)
         if TESTING_MODE: 
             setattr(self, "do_reload", self.reload)
+            setattr(self, "do_run", self.run)
             
         super(MyPrompt, self).__init__()
 
@@ -136,7 +137,16 @@ class MyPrompt(Cmd):
         This will reload the modules.
         '''
         importlib.reload(Command)
-        self.command = Command.Command()
+        self.command = Command.Command(True, self)
+
+    def complete(self, text, state):
+        return super().complete(text, state)
+
+    def run(self, args): 
+        try:
+            eval(args)
+        except Exception as e:
+            print(e)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Arguments for APC REPL.')
