@@ -35,7 +35,7 @@ class NPathComplexity():
 		Return a list of all the nodes we can get to from a
 		given 'start' node
 		'''
-		return edges[node]
+		return edges[start]
 
 	def removeEdge(self, edgeList: List[edge], edge: edge) -> List[edge]:
 		'''
@@ -74,20 +74,14 @@ class NPathComplexity():
 		'''
 		Helper function used to compute NPath Complexity recursively
 		'''
-		print(edges)
-
 		if start == end:
 			return 1
 
 		total = 0
-		edges = self.neighbors_DICT(start, edges)
-		print(edges)
-		for neighbor in self.neighbors_DICT(start, edges):
+		neighbors = self.neighbors_DICT(start, edges)
+		for neighbor in neighbors:
 			# Delete the edge [start, u] from the graph 
 			newEdges = self.removeEdge_DICT(edges, start, neighbor)
-
-			print(newEdges)
-
 			# Recursive call from new edge 
 			total += self.npath_DICT(neighbor, end, newEdges)
 
