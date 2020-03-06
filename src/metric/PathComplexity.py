@@ -18,7 +18,7 @@ class PathComplexity():
                 '''
                 return "Path Complexity"
      
-        def adjacencyMatrix(self, g: Graph) -> Matrix:
+        def adjacencyMatrix(self, G: Graph) -> Matrix:
                 '''
                 Generates the adjacency matrix used in the path complexity algorith
                 from a Graph, adding a loop at the correct position.

@@ -1,3 +1,4 @@
+from typing import List
 from threading import Thread, Event
 from time import sleep
 from sympy import limit, Abs, sympify, series, symbols, Function
@@ -88,7 +89,7 @@ def getRecurrenceSolution(recurrence: str):
     # RE matches a particular term: Coefficient + f(something)
     matchFunction = 'f\([ a-zA-Z0-9-+]*\)'
     matchObj = re.findall(f'([ +-.0-9]*)(\*)({matchFunction})', recurrence)
-    coeffs = []
+    coeffs: List[float] = []
     for match in matchObj:
         coeffs += [float(match[0].replace(" ", ""))]
 
@@ -152,7 +153,7 @@ def getDegree(term: str, var="n") -> int:
         foundDeg = max(map(lambda x: float(x[0]), res))
 
     if foundDeg == 0 and re.search(var, term) is not None:
-        return 1.0
+        return 1
 
     return foundDeg
 

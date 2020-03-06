@@ -107,7 +107,7 @@ class MetricsComparer:
 
 		return sumAverages / numClasses
 
-	def logDicts(self):
+	def logDicts(self) -> None:
 		'''
 		Log the dictionaries mapping between complexity metrics to the log 
 		file 
@@ -117,7 +117,7 @@ class MetricsComparer:
 		logging.info("APC to C: ------ " + str(self.dicts[2]))
 		logging.info("APC to NPATH: ------ " + str(self.dicts[3]) + "\n")
 
-	def logClassSizes(self, cycToAPC, APCToCyc, npathToAPC, apcToNPATH): 
+	def logClassSizes(self, cycToAPC, APCToCyc, npathToAPC, apcToNPATH) -> None: 
 		'''
 		Writes the average class size for each metric to the log file 
 		'''
@@ -126,7 +126,7 @@ class MetricsComparer:
 		logging.info(f"NPATHToAPC: {str(npathToAPC)}")
 		logging.info(f"APCToNPATH: {str(apcToNPATH)}\n")
 
-	def computeMetric(self, useFrequencies = True):
+	def computeMetric(self, useFrequencies: bool = True) -> None:
 		'''
 		Calculate the metrics used to compare APC to Cyclomatic Complexity 
 		and NPATH 
@@ -187,7 +187,7 @@ class MetricsComparer:
 			for key in dictionary.keys():
 				dictionary[key] = Counter(dictionary[key])
 
-	def showPlot(self):
+	def showPlot(self) -> None:
 		'''
 		Create a histogram for both the distribution of Cyclomatic Complexity and NPATH
 		over all of the functions.
@@ -446,7 +446,7 @@ class Main():
 				if params.getRecursive():
 					raise ValueError("Recursive mode only applies to directories")
 
-	def setLogging(self, args):
+	def setLogging(self, args) -> None:
 		'''
 		Configure logging according to the parameters specified by user
 		'''
@@ -474,7 +474,7 @@ class Main():
 
 		return fileList
 
-	def __init__(self):
+	def __init__(self) -> None:
 		'''
 		Get the command line arguments from the user and verify that they are valid
 		'''
@@ -519,7 +519,7 @@ class Main():
 		return (fileName, cyclomaticComplexity(graph), nPathCompl, classify(asymptoticComplexity, "n"), 
 				roundExpression(asymptoticComplexity, digits), roundExpression(fullPathComplexity, digits))
 
-	def computeStatistics(self, fileName: str):
+	def computeStatistics(self, fileName: str) -> None:
 		'''
 		Given a CSV file with all of the results given by 'computeResults,' 
 		calculate the metrics used to compare APC, NPATH, and Cyclomatic 
@@ -528,7 +528,7 @@ class Main():
 		metrics = MetricsComparer.fromCSV(fileName, self.location)
 		metrics.computeMetric()
 
-	def computeResults(self, filelist):
+	def computeResults(self, filelist) -> None:
 		'''
 		Given a list of .dot files, compute the Cyclomatic Complexity, NPATH Complexity, and Path Complexity 
 		for all of the files, and write the output to a file/STDOUT

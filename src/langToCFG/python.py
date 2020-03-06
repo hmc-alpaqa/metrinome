@@ -2,7 +2,7 @@ from Graph import Graph
 import os, ast 
 from _ast import Expr, Return, Assign, For, With, If, Raise, Try, While, Break, Continue 
 from pprintast import pprintast as ppast
-from typing import List
+from typing import List, Union
 
 # We will convert AST to CFG recursively.
 # The idea is to iterate line by line. 
@@ -15,19 +15,19 @@ from typing import List
 # the statement returns. 
 
 class Node:
-    def __init__(self):
+    def __init__(self) -> None:
         self.children = []
 
 class FunctionVisitor(ast.NodeVisitor):
 
-    def comparatorConverter(self, comparator):
+    def comparatorConverter(self, comparator) -> str:
         return ""
 
-    def __init__(self):
-        self.root = None
+    def __init__(self) -> None:
+        self.root: Union[None, Node] = None
         self.frontier = None
 
-    def visit_Expr(self, node):
+    def visit_Expr(self, node) -> None:
         print(f"At expr {node}")
         newNode = Node()
         if self.root is None:
@@ -38,7 +38,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = [newNode]
 
-    def visit_Return(self, node):
+    def visit_Return(self, node) -> None:
         print(f"At return {node}.")
         newNode = Node()
         if self.root is None:
@@ -49,7 +49,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = [] # Nothing can come after a return 
 
-    def visit_Assign(self, node):
+    def visit_Assign(self, node) -> None:
         print(f"At assignment {node}.")
         newNode = Node()
         if self.root is None:
@@ -60,7 +60,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = [newNode]
 
-    def visit_For(self, node):
+    def visit_For(self, node) -> None:
         print(f"At for {node}")
         newNode = Node()
         # Add the new node representing the beginning of the loop 
@@ -88,10 +88,10 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = [newNode]
 
-    def visit_With(self, node):
+    def visit_With(self, node) -> None:
         print(f"At with {node}")
 
-    def visit_If(self, node):
+    def visit_If(self, node) -> None:
         print(f"At if {node}")
         newNode = Node()
         # Add the new node representing the beginning of the if statement
@@ -108,13 +108,13 @@ class FunctionVisitor(ast.NodeVisitor):
         print(f"{dir(node.test)}")
         # print(f"If test: {test.col_offset} {test.left} {test.comparators} {test.left} {test.ops}")
 
-    def visit_Raise(self, node):
+    def visit_Raise(self, node) -> None:
         print(f"At raise {node}")
 
-    def visit_Try(self, node):
+    def visit_Try(self, node) -> None:
         print(f"At try {node}")
  
-    def visit_While(self, node):
+    def visit_While(self, node) -> None:
         print(f"At while {node}")
         newNode = Node() 
         # Add the new node representing the beginning of the loop
@@ -146,7 +146,7 @@ class Visitor(ast.NodeVisitor):
     def __init__(self) -> None: 
         self.graphs = {}
 
-    def visit_FunctionDef(self, node):
+    def visit_FunctionDef(self, node) -> None:
         visitor = FunctionVisitor()
         print(f"Visiting {node.name}")
         visitor.visit(node)

@@ -110,12 +110,11 @@ class CPPConvert():
         os.chdir(os.path.split(filepath)[0])
         res = subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
 
-        # c1 = "clang++-6.0 -emit-llvm -S /app/examples/src/c/example.cpp -o /dev/stdout"
-        c1 = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
-        c2 = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
+        c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
+        c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
         
-        c1 = shlex.split(c1)
-        c2 = shlex.split(c2) 
+        c1 = shlex.split(c1_str)
+        c2 = shlex.split(c2_str) 
 
         self.logger.d(f"C1: {c1}")
         self.logger.d(f"C2: {c2}")

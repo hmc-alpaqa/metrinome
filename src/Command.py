@@ -1,3 +1,4 @@
+from typing import List, Dict, Any, Callable
 import os.path
 from os import listdir
 from Log import Log, LOG_LEVEL
@@ -16,12 +17,19 @@ from langToCFG import cpp, java, python
 from metric import CyclomaticComplexity, NPathComplexity, PathComplexity
 from kleeUtils import KleeUtils
 
-MISSING_FILENAME_ERR      = "Must provide file name."
-MISSING_TYPE_AND_NAME_ERR = "Must specify type and name."
-MISSING_NAME_ERR          = "Must specify name."
-NO_FILE_EXT_ERR           = lambda fname: f"No file extension found for {fname}."
-NOT_IMPLEMENTED_ERR       = "Not implemened."
-EXTENSION_ERR             = lambda target_type, file_extension: f"File extension must be {target_type}, not {file_extension}."
+'''
+List of all the error messages the REPL can throw. 
+Use these for maintaining consistency, rather than putting strings directly in the 
+log messages. 
+'''
+MISSING_FILENAME_ERR: str       = "Must provide file name."
+MISSING_TYPE_AND_NAME_ERR: str  = "Must specify type and name."
+MISSING_NAME_ERR: str           = "Must specify name."
+NO_FILE_EXT_ERR: Callable[[str], str] = lambda fname: \
+    f"No file extension found for {fname}."
+NOT_IMPLEMENTED_ERR: str        = "Not implemened."
+EXTENSION_ERR: Callable[[str, str], str]   = lambda target_type, file_extension: \
+    f"File extension must be {target_type}, not {file_extension}."
 
 class OBJ_TYPES(Enum): 
     GRAPH  = "graph" 
@@ -30,11 +38,11 @@ class OBJ_TYPES(Enum):
     KLEE   = "klee"
     ALL    = "*"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.value)
 
     @staticmethod
-    def getType(objType): 
+    def getType(objType: str): 
         for i in OBJ_TYPES:
             if str(i) == objType or str(i) + "s" == objType: 
                 return i
@@ -44,7 +52,7 @@ class KNOWN_EXTENSIONS(Enum):
     Python = ".py"
     BC     = ".bc"
 
-def get_files(path, recursiveMode, logger, allowedExtensions):
+def get_files(path: str, recursiveMode: bool, logger, allowedExtensions: List[str]):
     '''
     get_files returns a list of files from the given path.
 
@@ -114,25 +122,25 @@ class API:
     API contains all of the methods exposed to the user.
     These are used to create the REPL.
     '''
-    def __init__(self, logger):
+    def __init__(self, logger) -> None:
         '''
         Create a new instance of the API.
         '''
         self.controller = Controller(logger)
-        self.metrics = {}
-        self.graphs = {}
-        self.stats = {}
+        self.metrics: Dict[Any, Any] = {}
+        self.graphs: Dict[Any, Any] = {}
+        self.stats: Dict[Any, Any] = {}
 
         self.logger = logger 
 
-    def show_metrics(self):
+    def show_metrics(self) -> None:
         if len(self.metrics.keys()) == 0:
             self.logger.v("No metrics available.")
         else:
             self.logger.v("Metric Names: ")
             self.logger.v(" ".join(list(self.metrics.keys())))
 
-    def show_graphs(self):
+    def show_graphs(self) -> None:
         if len(self.graphs.keys()) == 0:
             self.logger.v("No graphs available.")
         else:
@@ -175,7 +183,7 @@ class Controller:
         '''
         return self.graphGenerators.keys()
 
-    def getGraphGenerator(self, file_extension):
+    def getGraphGenerator(self, file_extension: str):
         '''
         Given a file extension as a string, return the CFG generator for that 
         file extension. 
@@ -186,7 +194,7 @@ class Command:
     '''
     Command is the implementation of the REPL commands. 
     '''
-    def __init__(self, debug_mode, replWrapper):
+    def __init__(self, debug_mode: bool, replWrapper) -> None:
         if debug_mode: 
             self.logger = Log(log_level=LOG_LEVEL.DEBUG)
         else: 
@@ -198,10 +206,10 @@ class Command:
         self.have_completed = False
 
         self.controller = Controller(self.logger)
-        self.metrics = {}
-        self.graphs = {}
-        self.stats = {}
-        self.klee_stats = {}
+        self.metrics: Dict[Any, Any] = {}
+        self.graphs: Dict[Any, Any] = {}
+        self.stats: Dict[Any, Any] = {}
+        self.klee_stats: Dict[Any, Any] = {}
         
         self.klee_stat = namedtuple("KleeStat", "tests paths instructions delta_t")
         self.kleeUtils = KleeUtils(self.logger)
@@ -210,7 +218,9 @@ class Command:
 
         self.replWrapper = replWrapper
 
-    def check_num_args(self, args, num_args, err1, err2="Too many arguments provided.") -> bool:
+    def check_num_args(self, args: List[str], num_args: int,
+                       err1: str, 
+                       err2: str="Too many arguments provided.") -> bool:
         '''
         check_num_args returns True if the args list has num_elements many elements.
         Otherwise, print an error message.
@@ -224,7 +234,7 @@ class Command:
 
         return False
 
-    def verify_file_type(self, args, target_type):
+    def verify_file_type(self, args, target_type: str):
         file = args[0]
         filepath, file_extension = os.path.splitext(file)
         if file_extension == "":
@@ -236,7 +246,7 @@ class Command:
 
         return file
 
-    def do_klee_replay(self, args): 
+    def do_klee_replay(self, args: str): 
         args = self.convert_args(args)
         ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
         if not ok:
@@ -250,7 +260,7 @@ class Command:
         s = 'export LD_LIBRARY_PATH={path_to_klee_build_dir}/lib/:$LD_LIBRARY_PATH'
         s2 = "gcc -I ../../include -L path-to-klee-build-dir/lib/ get_sign.c -lkleeRuntest"
 
-    def do_convert(self, args):
+    def do_convert(self, args: str):
         args = self.convert_args(args)
         if len(args) == 0:
             self.logger.v(MISSING_FILENAME_ERR)
@@ -291,7 +301,7 @@ class Command:
             else:
                 self.graphs[filepath] = graph
 
-    def do_list(self, args):
+    def do_list(self, args: str):
         args = self.convert_args(args)
         ok = self.check_num_args(args, 1, "Must specify object type to list (metrics, graphs, or klee).")
         if not ok:
@@ -323,7 +333,7 @@ class Command:
         else:
             self.logger.v(f"Type {type} not recognized")
 
-    def do_metrics(self, args):
+    def do_metrics(self, args: str):
         args = self.convert_args(args)
         ok = self.check_num_args(args, 1, "Must provide graph name.")
         if not ok:
@@ -337,7 +347,7 @@ class Command:
             pass
         else:
             try:
-                self.d(f"Trying to compile {name} to regexp")
+                self.logger.d(f"Trying to compile {name} to regexp")
                 pattern = re.compile(name)
                 for graphName in self.graphs.keys():
                     if pattern.match(graphName):
@@ -350,7 +360,7 @@ class Command:
             graph = self.graphs[name]
             self.logger.v(f"Computing metrics for {graph}")
             results = []
-            for metricGenerator in self.metricsGenerators:
+            for metricGenerator in self.controller.metricsGenerators:
                 self.logger.v(f"Computing {metricGenerator.name()}")
                 result = metricGenerator.evaluate(graph)
                 results.append((metricGenerator.name(), result))
@@ -358,7 +368,7 @@ class Command:
 
             self.metrics[name] = results
 
-    def do_show(self, args):
+    def do_show(self, args: str):
         args = self.convert_args(args)
         ok = self.check_num_args(args, 2, "Must specify type (metric/graph) and name.")
         if not ok:
@@ -411,7 +421,7 @@ class Command:
         else:
             self.logger.v(f"Type {type} not recognized.")
 
-    def do_analyze(self, args):
+    def do_analyze(self, args: str):
         args = self.convert_args(args)
         ok = self.check_num_args(args, 1, "Must provide metric name.")
         if not ok:
@@ -430,7 +440,7 @@ class Command:
         for metric_name in metric_names: 
             metric = self.metrics[metric_name]
 
-    def do_klee_to_bc(self, args): 
+    def do_klee_to_bc(self, args: str): 
         args = self.convert_args(args)
         ok = self.check_num_args(args, 1, "Must provide KLEE formatted name.")
         if not ok:
@@ -460,7 +470,7 @@ class Command:
                 res = subprocess.run(cmd, shell=True, capture_output=True)  
                 self.bcFiles[name] = res.stdout
 
-    def do_to_klee_format(self, args): 
+    def do_to_klee_format(self, args: str): 
         args = self.convert_args(args)
         ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
         recursiveMode = False
@@ -491,13 +501,13 @@ class Command:
                 return 
             self.kleeFormattedFiles = {**self.kleeFormattedFiles, **kleeFormattedFiles}
 
-    def do_clean_klee_files(self, args): 
+    def do_clean_klee_files(self, args: str): 
         args = self.convert_args(args)
         ok = self.check_num_args(args, 0, NOT_IMPLEMENTED_ERR)
         if not ok:
             return
 
-    def update_klee_stats(self, klee_output, name, delta_t):
+    def update_klee_stats(self, klee_output, name: str, delta_t):
         s1 = "generated tests = "
         s2 = "completed paths = "
         s3 = "total instructions = "
@@ -515,7 +525,7 @@ class Command:
         self.klee_stats[name] = self.klee_stat(tests=tests, paths=paths, instructions=insts, delta_t=delta_t)
         self.logger.i("Updated!")
 
-    def do_klee(self, args): 
+    def do_klee(self, args: str): 
         args = self.convert_args(args)
         ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
         if not ok:
@@ -572,13 +582,13 @@ class Command:
                 self.logger.d(output.decode())
                 self.update_klee_stats(output.decode(), args[0])
                 
-    def do_quit(self, args):
+    def do_quit(self, args: str):
         readline.write_history_file()
-        args = self.convert_args(args)
-        self.check_num_args(args, 0, "Quitting...")
+        convertedArgs = self.convert_args(args)
+        self.check_num_args(convertedArgs, 0, "Quitting...")
         raise SystemExit
 
-    def do_export(self, args):
+    def do_export(self, args: str):
         args = self.convert_args(args)
         ok = self.check_num_args(args, 2, MISSING_TYPE_AND_NAME_ERR)
         if not ok:
@@ -647,7 +657,7 @@ class Command:
         else:
             self.logger.v(f"Type {exportType} not recognized.")
 
-    def do_delete(self, args): 
+    def do_delete(self, args: str): 
         args = self.convert_args(args)
         ok = self.check_num_args(args, 2, MISSING_TYPE_AND_NAME_ERR)
         if not ok:
@@ -683,7 +693,7 @@ class Command:
         else:
             self.logger.v(f"Type {type} not recognized.")
 
-    def convert_args(self, args):
+    def convert_args(self, args: str):
         '''
         Obtain a list of arguments from a string.
         '''

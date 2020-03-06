@@ -1,12 +1,14 @@
+from typing import Dict, Set, Any
+
 from pycparser import c_parser, c_ast, parse_file, c_generator
 from collections import defaultdict
 import uuid 
 
 class FuncVisitor(c_ast.NodeVisitor): 
-    def __init__(self, logger): 
+    def __init__(self, logger) -> None: 
         self.logger = logger
         self.generator = c_generator.CGenerator()
-        self.vars = defaultdict(list)
+        self.vars: Dict[str, list] = defaultdict(list)
         super().__init__() 
 
     def define_var(self, name: str, declaration: str, varname: str): 
@@ -26,7 +28,7 @@ class FuncVisitor(c_ast.NodeVisitor):
             self.logger.d(f"\t{node.decl.name} has no parameters.")
 
 class KleeUtils:
-    def __init__(self, logger): 
+    def __init__(self, logger) -> None: 
         self.logger = logger
     
     def show_func_defs(self, filename: str):
@@ -41,7 +43,7 @@ class KleeUtils:
             self.logger.i(f"Could not parse file {filename}")
             return None
 
-        UUIDS = set()
+        UUIDS: Set[Any] = set() # TODO: change type
         kleeFormattedFiles = dict()
         for funcName in v.vars.keys():
             variables = v.vars[funcName]

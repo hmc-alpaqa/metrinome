@@ -27,18 +27,19 @@ class Graph:
             elif node == self.endNode:
                 out += " [label=\"EXIT\"]"
             out +=";\n"
-        if USING_LIST == True:
+        if USING_LIST:
             for edgePair in self.edgeRules():
                 out += f"{edgePair[0]} -> {edgePair[1]};\n"
             out += "}"
         else:
-            out+=0
+            out += 0
         return out
 
     def __str__(self) -> str:
         return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()}\nStart Node: {self.startNode}\nEnd Node: {self.endNode}"
     
-    def __init__(self, edges, vertices: int, startNode: int, endNode: int, fromList: bool = False) -> None:
+    def __init__(self, edges, vertices: Any, startNode: int,
+                 endNode: int, fromList: bool = False) -> None:
         '''
         Create a directed graph from a vertex set, edge list,
         and start/end notes.
@@ -152,7 +153,7 @@ class Graph:
             a_k  -> a_m
         }
         '''
-        if USING_LIST == True:
+        if USING_LIST:
             edges = []
             vertices = set()
             startNode = None
@@ -222,7 +223,7 @@ class Graph:
         
         return g
 
-    def toPrism(self):
+    def toPrism(self) -> List[str]:
         '''
         Assumes the graph is already in the DTMC correct representation (with
         edge weights as probabilities).
@@ -274,7 +275,7 @@ class Graph:
 
         return prismLines
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         setsEqual = (self.edges == other.edgeRules() and self.vertices == other.getVertices())
         labelsEqual = (self.startNode == other.getStart() and self.endNode == other.getEnd())
         return setsEqual and labelsEqual

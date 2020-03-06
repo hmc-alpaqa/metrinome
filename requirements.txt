@@ -10,3 +10,5 @@ six==1.12.0
 sympy==1.3
 pprintast
 coverage
+mypy 
+pycparser

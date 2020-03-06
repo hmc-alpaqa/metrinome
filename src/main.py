@@ -8,7 +8,7 @@ from cmd import Cmd
 TESTING_MODE = True
 class MyPrompt(Cmd): 
 
-    def __init__(self, debug_mode) -> None:
+    def __init__(self, debug_mode: bool) -> None:
         '''
         Create a new instance of the REPL. 
         '''
