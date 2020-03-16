@@ -13,9 +13,12 @@ import time
 from collections import namedtuple
 from enum import Enum, auto
 
+
 from langToCFG import cpp, java, python
-from metric import CyclomaticComplexity, NPathComplexity, PathComplexity
+from metric import CyclomaticComplexity, NPathComplexity, PathComplexity, Metric
 from kleeUtils import KleeUtils
+
+klee_stat = namedtuple("KleeStat", "tests paths instructions delta_t")
 
 '''
 List of all the error messages the REPL can throw. 
@@ -71,7 +74,7 @@ def get_files(path: str, recursiveMode: bool, logger, allowedExtensions: List[st
     elif os.path.isdir(path):
         logger.d("This is a directory")
         if recursiveMode:   
-            allFiles = []
+            allFiles: List[Any] = []
             for extension in allowedExtensions:
                 allFiles += Path(path).rglob(f"*{extension}")
             for file in allFiles:
@@ -162,7 +165,7 @@ class Controller:
         cyclomatic = CyclomaticComplexity.CyclomaticComplexity()
         nPathComplexity = NPathComplexity.NPathComplexity()
         pathComplexity = PathComplexity.PathComplexity()
-        self.metricsGenerators = [cyclomatic, nPathComplexity, pathComplexity]
+        self.metricsGenerators: List[Metric.Metric] = [cyclomatic, nPathComplexity, pathComplexity]
 
         cppConverter = cpp.CPPConvert(self.logger)
         javaConverter = java.JavaConvert()
@@ -210,11 +213,11 @@ class Command:
         self.graphs: Dict[Any, Any] = {}
         self.stats: Dict[Any, Any] = {}
         self.klee_stats: Dict[Any, Any] = {}
+        self.klee_stat = klee_stat
         
-        self.klee_stat = namedtuple("KleeStat", "tests paths instructions delta_t")
         self.kleeUtils = KleeUtils(self.logger)
-        self.kleeFormattedFiles = dict()
-        self.bcFiles = dict()
+        self.kleeFormattedFiles: Dict[str, str] = dict()
+        self.bcFiles: Dict[str, Any] = dict()
 
         self.replWrapper = replWrapper
 
@@ -247,8 +250,8 @@ class Command:
         return file
 
     def do_klee_replay(self, args: str): 
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        convertedArgs = self.convert_args(args)
+        ok = self.check_num_args(convertedArgs, 1, MISSING_FILENAME_ERR)
         if not ok:
             return
 
@@ -302,8 +305,9 @@ class Command:
                 self.graphs[filepath] = graph
 
     def do_list(self, args: str):
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, "Must specify object type to list (metrics, graphs, or klee).")
+        convertedArgs = self.convert_args(args)
+        ok = self.check_num_args(convertedArgs, 1, 
+            "Must specify object type to list (metrics, graphs, or klee).")
         if not ok:
             return
 
@@ -334,15 +338,15 @@ class Command:
             self.logger.v(f"Type {type} not recognized")
 
     def do_metrics(self, args: str):
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, "Must provide graph name.")
+        argsList = self.convert_args(args)
+        ok = self.check_num_args(argsList, 1, "Must provide graph name.")
         if not ok:
             return
 
-        name = args[0]
+        name = argsList[0]
         names = [name]
         if name == "*":
-            names = self.graphs.keys()
+            names = list(self.graphs.keys())
         elif name in self.graphs:
             pass
         else:
@@ -369,8 +373,8 @@ class Command:
             self.metrics[name] = results
 
     def do_show(self, args: str):
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 2, "Must specify type (metric/graph) and name.")
+        argsList = self.convert_args(args)
+        ok = self.check_num_args(argsList, 2, "Must specify type (metric/graph) and name.")
         if not ok:
             return
         type = args[0]
@@ -379,7 +383,7 @@ class Command:
         type = OBJ_TYPES.getType(type)
         if type == OBJ_TYPES.METRIC:
             if name == "*":
-                names = self.metrics.keys()
+                names = list(self.metrics.keys())
 
             for name in names:
                 if name in self.metrics:
@@ -388,7 +392,7 @@ class Command:
                     self.logger.v(f"Metric {name} not found.")
         elif type == OBJ_TYPES.GRAPH:
             if name == "*":
-                names = self.graphs.keys()
+                names = list(self.graphs.keys())
 
             for name in names:
                 if name in self.graphs:
@@ -397,7 +401,7 @@ class Command:
                     self.logger.v(f"Graph {name} not found.")
         elif type == "*":
             if name == "*":
-                names = self.metrics.keys() + [self.graphs.keys()]
+                names = list(self.metrics.keys()) + [self.graphs.keys()]
 
             for name in names:
                 found = False
@@ -417,22 +421,22 @@ class Command:
 
                 if name in self.kleeFormattedFiles:
                     self.logger.v("KLEE FORMATTED FILES:")
-                    self.logger.v(self.kleeFormattedFiles) 
+                    self.logger.v(str(self.kleeFormattedFiles)) 
         else:
             self.logger.v(f"Type {type} not recognized.")
 
     def do_analyze(self, args: str):
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, "Must provide metric name.")
+        argsList = self.convert_args(args)
+        ok = self.check_num_args(argsList, 1, "Must provide metric name.")
         if not ok:
             return
 
-        metric_name = args[0]
+        metric_name = argsList[0]
         metric_names = []
         if metric_name in self.metrics.keys():
             metric_names.append(metric_name)
         elif metric_name == "*":
-            metric_names = self.metrics.keys()
+            metric_names = list(self.metrics.keys())
         else:
             self.logger.v(f"Could not find metric {metric_name}")
             return
@@ -441,8 +445,8 @@ class Command:
             metric = self.metrics[metric_name]
 
     def do_klee_to_bc(self, args: str): 
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, "Must provide KLEE formatted name.")
+        argsList = self.convert_args(args)
+        ok = self.check_num_args(argsList, 1, "Must provide KLEE formatted name.")
         if not ok:
             return
 
@@ -454,7 +458,7 @@ class Command:
             return
         
         if name == "*": 
-            keys = self.kleeFormattedFiles.keys()
+            keys = list(self.kleeFormattedFiles.keys())
 
         for key in keys: 
             with tempfile.NamedTemporaryFile(delete = True, suffix=".c") as fp:
@@ -471,11 +475,11 @@ class Command:
                 self.bcFiles[name] = res.stdout
 
     def do_to_klee_format(self, args: str): 
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        argsList = self.convert_args(args)
+        ok = self.check_num_args(argsList, 1, MISSING_FILENAME_ERR)
         recursiveMode = False
         if not ok: 
-            ok = self.check_num_args(args, 2, "", "")
+            ok = self.check_num_args(argsList, 2, "", "")
             if not ok : 
                 return 
             
@@ -489,7 +493,7 @@ class Command:
             
 
         self.logger.d(f"Recursive Mode is {recursiveMode}")
-        files = get_files(filePath, recursiveMode, self.logger, KNOWN_EXTENSIONS.C)
+        files = get_files(filePath, recursiveMode, self.logger, [str(KNOWN_EXTENSIONS.C)])
         if len(files) == 0:
             self.logger.v(f"Could not find any files for {filePath}") 
             return
@@ -502,8 +506,8 @@ class Command:
             self.kleeFormattedFiles = {**self.kleeFormattedFiles, **kleeFormattedFiles}
 
     def do_clean_klee_files(self, args: str): 
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 0, NOT_IMPLEMENTED_ERR)
+        convertedArgs = self.convert_args(args)
+        ok = self.check_num_args(convertedArgs, 0, NOT_IMPLEMENTED_ERR)
         if not ok:
             return
 
@@ -518,16 +522,23 @@ class Command:
 
         p = re.compile("[0-9]+")
 
-        tests = int(p.match(klee_output[generated_tests_index:]).group())
-        paths = int(p.match(klee_output[completed_paths_index:]).group())
-        insts = int(p.match(klee_output[total_instructions_index:]).group())
+        testsMatch = p.match(klee_output[generated_tests_index:])
+        pathsMatch = p.match(klee_output[completed_paths_index:])
+        instsMatch = p.match(klee_output[total_instructions_index:])
+
+        if testsMatch is not None:
+            tests = int(testsMatch.group())
+        if pathsMatch is not None:
+            paths = int(pathsMatch.group())
+        if instsMatch is not None:
+            insts = int(instsMatch.group())
 
         self.klee_stats[name] = self.klee_stat(tests=tests, paths=paths, instructions=insts, delta_t=delta_t)
         self.logger.i("Updated!")
 
     def do_klee(self, args: str): 
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 1, MISSING_FILENAME_ERR)
+        argsList = self.convert_args(args)
+        ok = self.check_num_args(argsList, 1, MISSING_FILENAME_ERR)
         if not ok:
             return
 
@@ -535,7 +546,7 @@ class Command:
         
         if args[0] in self.bcFiles or args[0] == "*":
             if args[0] == "*": 
-                keys = self.bcFiles.keys()
+                keys = list(self.bcFiles.keys())
             else:
                 keys = [name]
 
@@ -547,10 +558,7 @@ class Command:
                     thingToWrite = self.bcFiles[key]
                     self.logger.d(f"Writing {thingToWrite}")
                     fp.write(thingToWrite)
-
                     fp.seek(0)
-                    self.logger.d(f"Here are the contents: {fp.read()}") 
-
                     
                     cmd = f"/app/build/bin/klee {fileName}"
                     self.logger.d(f"Going to execute {cmd}")
@@ -566,7 +574,7 @@ class Command:
             if result is 0: 
                 return 
             
-            files = get_files(result, False, self.logger, KNOWN_EXTENSIONS.BC)
+            files = get_files(result, False, self.logger, [str(KNOWN_EXTENSIONS.BC)])
             if len(files) == 0: 
                 self.logger.e(f"Could not find any files matching {result}")
                 return
@@ -576,11 +584,13 @@ class Command:
             for file in files:
                 cmd = f"/app/build/bin/klee {result}"
                 self.logger.d(cmd)
+                st = time.time() 
                 res = subprocess.run(cmd, shell=True, capture_output=True) 
+                delta_t = time.time() - st
                 output = res.stderr
                 self.logger.d("OUTOUT:") 
                 self.logger.d(output.decode())
-                self.update_klee_stats(output.decode(), args[0])
+                self.update_klee_stats(output.decode(), args[0], delta_t)
                 
     def do_quit(self, args: str):
         readline.write_history_file()
@@ -589,8 +599,8 @@ class Command:
         raise SystemExit
 
     def do_export(self, args: str):
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 2, MISSING_TYPE_AND_NAME_ERR)
+        convertedArgs = self.convert_args(args)
+        ok = self.check_num_args(convertedArgs, 2, MISSING_TYPE_AND_NAME_ERR)
         if not ok:
             return
 
@@ -658,8 +668,8 @@ class Command:
             self.logger.v(f"Type {exportType} not recognized.")
 
     def do_delete(self, args: str): 
-        args = self.convert_args(args)
-        ok = self.check_num_args(args, 2, MISSING_TYPE_AND_NAME_ERR)
+        argsList = self.convert_args(args)
+        ok = self.check_num_args(argsList, 2, MISSING_TYPE_AND_NAME_ERR)
         if not ok:
             return
 

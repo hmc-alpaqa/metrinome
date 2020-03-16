@@ -1,8 +1,8 @@
 from Graph import Graph
 import os, ast 
 from _ast import Expr, Return, Assign, For, With, If, Raise, Try, While, Break, Continue 
-from pprintast import pprintast as ppast
-from typing import List, Union
+from pprintast import pprintast as ppast # type: ignore
+from typing import List, Union, Optional, Dict, cast
 
 # We will convert AST to CFG recursively.
 # The idea is to iterate line by line. 
@@ -16,7 +16,7 @@ from typing import List, Union
 
 class Node:
     def __init__(self) -> None:
-        self.children = []
+        self.children: List[Node] = []
 
 class FunctionVisitor(ast.NodeVisitor):
 
@@ -24,8 +24,8 @@ class FunctionVisitor(ast.NodeVisitor):
         return ""
 
     def __init__(self) -> None:
-        self.root: Union[None, Node] = None
-        self.frontier = None
+        self.root: Optional[Node] = None
+        self.frontier: List[Node] = []
 
     def visit_Expr(self, node) -> None:
         print(f"At expr {node}")
@@ -80,6 +80,7 @@ class FunctionVisitor(ast.NodeVisitor):
             visitor = FunctionVisitor()
             visitor.visit(loopNode)
             for frontierNode in self.frontier:
+                visitor.root = cast(Node, visitor.root)
                 frontierNode.children += [visitor.root]
             self.frontier = visitor.frontier
 
@@ -134,6 +135,7 @@ class FunctionVisitor(ast.NodeVisitor):
             visitor = FunctionVisitor() 
             visitor.visit(loopNode)
             for frontierNode in self.frontier:
+                visitor.root = cast(Node, visitor.root)
                 frontierNode.children += [visitor.root]
             self.frontier = visitor.frontier 
 
@@ -144,7 +146,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
 class Visitor(ast.NodeVisitor): 
     def __init__(self) -> None: 
-        self.graphs = {}
+        self.graphs: Dict[str, Graph] = {}
 
     def visit_FunctionDef(self, node) -> None:
         visitor = FunctionVisitor()
@@ -171,6 +173,7 @@ class Visitor(ast.NodeVisitor):
                 continue
 
             visited.add(currNode)
+            currNode = cast(Node, currNode)
             children = currNode.children
 
             # Create all of the edges we need to from the current node to its children. 
@@ -199,14 +202,14 @@ class PythonConvert():
         '''
         return
 
-    def toGraph(self, filename: str, file_extension: str) -> List[Graph]: 
+    def toGraph(self, filename: str, file_extension: str) -> Dict[str, Graph]: 
         '''
         Creates a CFG from a Python source file.
         '''
         path = os.path.join(os.getcwd(), filename) + ".py"
         cfg = None
         visitor = Visitor()
-        graphs = []
+        graphs: Dict[str, Graph]
         with open(path, "r") as src:
             root = ast.parse(src.read())
             visitor.visit(root)

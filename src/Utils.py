@@ -1,10 +1,10 @@
-from typing import List
+from typing import List 
 from threading import Thread, Event
 from time import sleep
-from sympy import limit, Abs, sympify, series, symbols, Function
-from mpmath import polyroots
+from sympy import limit, Abs, sympify, series, symbols, Function # type: ignore
+from mpmath import polyroots # type: ignore
 import signal
-import numpy as np
+import numpy as np # type: ignore
 from collections import Counter
 from operator import methodcaller
 import re
@@ -111,9 +111,12 @@ def getTaylorCoeffs(func, numCoeffs: int):
     L = str(series(func, x=t, x0=0, n = numCoeffs)).split('+')
     firstElement = L[0]
     firstPower = re.search("\*\*([0-9]*)", str(firstElement))
-    firstPower = int(firstPower.groups()[0])
-    taylorCoeffs = [0] * firstPower + [sympify(f).subs(t, 1) for f in L]
-    return taylorCoeffs
+    if firstPower is not None: 
+        firstPowerInt = int(firstPower.groups()[0])
+        taylorCoeffs = [0] * firstPowerInt + [sympify(f).subs(t, 1) for f in L]
+        return taylorCoeffs
+    
+    return None
 
 def isExponential(term: str, var = 'n'):
     '''
@@ -141,19 +144,19 @@ def isExponential(term: str, var = 'n'):
 
     return maxBase
 
-def getDegree(term: str, var="n") -> int:
+def getDegree(term: str, var="n") -> float:
     '''
     If an expression is a polynomial, return the degree.
     Otherwise, return 0.
     '''
     num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
     res = re.findall(f"{var}\^({num})", term)
-    foundDeg = 0
+    foundDeg = 0.
     if res:
         foundDeg = max(map(lambda x: float(x[0]), res))
 
-    if foundDeg == 0 and re.search(var, term) is not None:
-        return 1
+    if foundDeg == 0. and re.search(var, term) is not None:
+        return 1.
 
     return foundDeg
 

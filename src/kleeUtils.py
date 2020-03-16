@@ -1,6 +1,6 @@
 from typing import Dict, Set, Any
 
-from pycparser import c_parser, c_ast, parse_file, c_generator
+from pycparser import c_parser, c_ast, parse_file, c_generator # type: ignore 
 from collections import defaultdict
 import uuid 
 

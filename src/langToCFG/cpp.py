@@ -1,14 +1,14 @@
-import subprocess, argparse, glob2, os, re, sys, shlex, signal
+import subprocess, argparse, glob2, os, re, sys, shlex, signal # type: ignore
 sys.path.append("/app/code/")
 from Graph import Graph
-from typing import List
+from typing import List, Dict, Any, cast
 
 class CPPConvert():
 
     def __init__(self, logger) -> None:
         self.logger = logger
 
-    def toGraph(self, filename: str, file_extension: str) -> List[Graph]:
+    def toGraph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
         '''
         Creates a CFG from a C++ source file.
         '''
@@ -45,7 +45,7 @@ class CPPConvert():
         for f in files:
             nodes = []
             edges = []
-            nodeMap = {}
+            nodeMap: Dict[str, str] = {}
             counter = 0
             
             # Make a temporary file (with the new content)
@@ -68,8 +68,9 @@ class CPPConvert():
                             nodeName = re.match(namePattern, line.lstrip())
                             if nodeName is None:
                                 continue 
-                            nodeName = nodeName.groups()[0].strip()
-                            nodeMap[nodeName] = str(counter)
+                            
+                            nodeNameStr = nodeName.groups()[0].strip()
+                            nodeMap[nodeNameStr] = str(counter)
                             nodeToAdd = str(counter)
                             if counter == 0:
                                 nodeToAdd += " [label=\"START\"]" 
@@ -91,8 +92,8 @@ class CPPConvert():
                     newFile.write(node + ";" + "\n")
                 
                 for edge in edges:
-                    for nodeName in nodeMap.keys():
-                        edge = edge.replace(nodeName, nodeMap[nodeName]) 
+                    for name in nodeMap.keys():
+                        edge = edge.replace(name, nodeMap[name]) 
                         edge = edge.replace(":s0", "")
                         edge = edge.replace(":s1", "")
 
@@ -101,7 +102,7 @@ class CPPConvert():
                 fNum += 1
         return fNum
         
-    def createDotFiles(self, filepath: str, file_extension: str) -> Graph:
+    def createDotFiles(self, filepath: str, file_extension: str) -> None:
         '''
         Create a .dot file representing a control flow graph for
         each function from a .cpp file

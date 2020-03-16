@@ -1,14 +1,15 @@
-import sympy, re
+import sympy, re # type: ignore
 from sympy import Matrix, eye, symbols, degree, Poly, fps, Function, simplify, rsolve, init_printing, solve
 from sympy import expand, Abs, limit, sympify, series
 from Utils import bigO, getTaylorCoeffs, getSolutionFromRoots
 from math import factorial as fact
 from time import time, sleep
 from Graph import Graph
-from mpmath import polyroots
+from mpmath import polyroots # type: ignore
 import logging
+from Metric import Metric # type: ignore
 
-class PathComplexity():
+class PathComplexity(Metric):
         def __init__(self) -> None: 
                 pass
 

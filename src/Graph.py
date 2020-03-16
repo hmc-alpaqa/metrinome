@@ -1,4 +1,5 @@
-import numpy as np
+from typing import Any, DefaultDict
+import numpy as np # type: ignore 
 import re
 from typing import List, Tuple
 from collections import defaultdict
@@ -18,7 +19,7 @@ class Graph:
 
     We store a list of these edges.
     '''
-    def dot(self) -> str:
+    def dot(self, USING_LIST: bool) -> str:
         out = "digraph {\n"
         for node in self.getVertices():
             out += f"{node}"
@@ -32,7 +33,7 @@ class Graph:
                 out += f"{edgePair[0]} -> {edgePair[1]};\n"
             out += "}"
         else:
-            out += 0
+            out += '0'
         return out
 
     def __str__(self) -> str:
@@ -189,7 +190,7 @@ class Graph:
             g.weighted = weighted
 
         else:
-            V_E_Dict = defaultdict(set)
+            V_E_Dict: DefaultDict[int, Any] = defaultdict(set)
             startNode = None
             endNode = None
             with open(filename, "r") as f:

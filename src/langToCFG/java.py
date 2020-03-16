@@ -1,5 +1,5 @@
 from Graph import Graph
-from langToCFG.javaextractor.App import App
+from langToCFG.javaextractor.App import App # type: ignore
 
 class JavaConvert():
     def __init__(self) -> None:
