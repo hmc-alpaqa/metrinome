@@ -1,7 +1,7 @@
 from Graph import Graph
-from Metric import Metric # type: ignore
+from metric import Metric # type: ignore
 
-class CyclomaticComplexity(Metric): 
+class CyclomaticComplexity(Metric.Metric): 
     '''
     CyclomaticComplexity allows us to compute the Cyclomatic Complexity 
     given some control flow graph.

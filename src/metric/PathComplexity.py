@@ -7,9 +7,9 @@ from time import time, sleep
 from Graph import Graph
 from mpmath import polyroots # type: ignore
 import logging
-from Metric import Metric # type: ignore
+from metric import Metric # type: ignore
 
-class PathComplexity(Metric):
+class PathComplexity(Metric.Metric):
         def __init__(self) -> None: 
                 pass
 

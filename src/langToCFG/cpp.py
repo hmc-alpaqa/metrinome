@@ -107,6 +107,10 @@ class CPPConvert():
         Create a .dot file representing a control flow graph for
         each function from a .cpp file
         '''
+        # Make sure the file extension begins with a '.'
+        if file_extension[0] != '.':
+            file_extension = f".{file_extension}"
+
         self.logger.d(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
         res = subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
@@ -117,26 +121,24 @@ class CPPConvert():
         c1 = shlex.split(c1_str)
         c2 = shlex.split(c2_str) 
 
-        self.logger.d(f"C1: {c1}")
-        self.logger.d(f"C2: {c2}")
+        self.logger.d(f"Command One: {c1}")
+        self.logger.d(f"Command Two: {c2}")
 
         with subprocess.Popen(c1, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line1:
             command = line1.stdout
-            errMsg = line1.stderr
+            if line1.stderr is not None: 
+                errMsg = line1.stderr.read()
+                if len(errMsg) == 0: 
+                    self.logger.d(f"Got the following error msg: {str(errMsg)}") 
+
             with subprocess.Popen(c2, stdin=command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line2: 
                out, err = line2.communicate() 
                 
         files = glob2.glob("*.dot")
-        self.logger.d(f"Here are the files: {files}")
+        self.logger.d(f"Found the following .dot files: {files}")
         for f in files:
             subprocess.call(["mv", f"{f}", "cppConverterTemps"])
-
         
     def cleanTemps(self):
-        """removes temp files and directories """
-        subprocess.call(["rm", "-r", "cppConverterTemps"])
-        
-        
-if __name__ == "__main__":
-    pass
-    
+        """removes temp files and directories"""
+        subprocess.call(["rm", "-r", "cppConverterTemps"]) 

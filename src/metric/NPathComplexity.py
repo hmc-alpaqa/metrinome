@@ -1,13 +1,13 @@
 from Graph import Graph
 from typing import List 
-from Metric import Metric # type: ignore 
+from metric import Metric # type: ignore 
 import copy
 
 edge = List[int]
 node = int
 metric = int
 
-class NPathComplexity(Metric):
+class NPathComplexity(Metric.Metric):
 	'''
 	NPathComplexity allows us to compute the NPath Complexity of some
 	function from its Control Flow Graph. 

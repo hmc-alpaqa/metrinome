@@ -1,4 +1,6 @@
 import unittest
+import sys
+sys.path.append("/app/code/")
 from Graph import Graph
 from metric.CyclomaticComplexity import CyclomaticComplexity
 

@@ -13,7 +13,6 @@ import time
 from collections import namedtuple
 from enum import Enum, auto
 
-
 from langToCFG import cpp, java, python
 from metric import CyclomaticComplexity, NPathComplexity, PathComplexity, Metric
 from kleeUtils import KleeUtils
@@ -304,7 +303,7 @@ class Command:
             else:
                 self.graphs[filepath] = graph
 
-    def do_list(self, args: str):
+    def do_list(self, args: str) -> None:
         convertedArgs = self.convert_args(args)
         ok = self.check_num_args(convertedArgs, 1, 
             "Must specify object type to list (metrics, graphs, or klee).")
@@ -337,7 +336,7 @@ class Command:
         else:
             self.logger.v(f"Type {type} not recognized")
 
-    def do_metrics(self, args: str):
+    def do_metrics(self, args: str) -> None:
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, "Must provide graph name.")
         if not ok:
@@ -372,7 +371,7 @@ class Command:
 
             self.metrics[name] = results
 
-    def do_show(self, args: str):
+    def do_show(self, args: str) -> None:
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 2, "Must specify type (metric/graph) and name.")
         if not ok:
@@ -425,7 +424,7 @@ class Command:
         else:
             self.logger.v(f"Type {type} not recognized.")
 
-    def do_analyze(self, args: str):
+    def do_analyze(self, args: str) -> None:
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, "Must provide metric name.")
         if not ok:
@@ -444,7 +443,7 @@ class Command:
         for metric_name in metric_names: 
             metric = self.metrics[metric_name]
 
-    def do_klee_to_bc(self, args: str): 
+    def do_klee_to_bc(self, args: str) -> None: 
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, "Must provide KLEE formatted name.")
         if not ok:
@@ -474,7 +473,7 @@ class Command:
                 res = subprocess.run(cmd, shell=True, capture_output=True)  
                 self.bcFiles[name] = res.stdout
 
-    def do_to_klee_format(self, args: str): 
+    def do_to_klee_format(self, args: str) -> None: 
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, MISSING_FILENAME_ERR)
         recursiveMode = False
@@ -505,7 +504,7 @@ class Command:
                 return 
             self.kleeFormattedFiles = {**self.kleeFormattedFiles, **kleeFormattedFiles}
 
-    def do_clean_klee_files(self, args: str): 
+    def do_clean_klee_files(self, args: str) -> None: 
         convertedArgs = self.convert_args(args)
         ok = self.check_num_args(convertedArgs, 0, NOT_IMPLEMENTED_ERR)
         if not ok:
@@ -536,7 +535,7 @@ class Command:
         self.klee_stats[name] = self.klee_stat(tests=tests, paths=paths, instructions=insts, delta_t=delta_t)
         self.logger.i("Updated!")
 
-    def do_klee(self, args: str): 
+    def do_klee(self, args: str) -> None: 
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, MISSING_FILENAME_ERR)
         if not ok:
