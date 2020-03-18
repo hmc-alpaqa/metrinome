@@ -1,45 +1,45 @@
-import unittest 
+import unittest
 
-class TestPythonConvert(unittest.TestCase): 
-    # Expr 
-    def testExpr(self): 
+class TestPythonConvert(unittest.TestCase):
+    # Expr
+    def testExpr(self):
         pass
 
-    # Return 
-    def testReturn(self): 
-        pass 
+    # Return
+    def testReturn(self):
+        pass
 
-    # Assign 
-    def testAssign(self): 
-        pass 
+    # Assign
+    def testAssign(self):
+        pass
 
-    # For 
-    def testFor(self): 
-        pass 
+    # For
+    def testFor(self):
+        pass
 
-    # With 
-    def testWith(self): 
-        pass 
+    # With
+    def testWith(self):
+        pass
 
-    # If 
-    def testIf(self): 
-        pass 
+    # If
+    def testIf(self):
+        pass
 
-    # Raise 
-    def testRaise(self): 
-        pass 
+    # Raise
+    def testRaise(self):
+        pass
 
-    # Try 
-    def testTry(self): 
-        pass 
+    # Try
+    def testTry(self):
+        pass
 
-    # While 
-    def testWhile(self): 
-        pass 
+    # While
+    def testWhile(self):
+        pass
 
     # PythonConvert::toGraph
-    def testToGraph(self): 
-        pass 
+    def testToGraph(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()

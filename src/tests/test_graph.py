@@ -7,8 +7,8 @@ import numpy as np
 class TestGraph(unittest.TestCase):
     # Graph(edges, vertices, startNode, endNode)
 
-    # === Graph::__str__ === 
-    def testToStr(self): 
+    # === Graph::__str__ ===
+    def testToStr(self):
         g = Graph([1, 2], [1, 2, 3], 1, 3)
         expected = "Edges: [1, 2]\nVertices: [1, 2, 3]\nStart Node: 1\nEnd Node: 3"
         self.assertEqual(expected, str(g))
@@ -25,7 +25,7 @@ class TestGraph(unittest.TestCase):
         vertex_count = g.vertexCount()
         self.assertEqual(vertex_count, 1)
 
-    def testVertexCount_ManyVertices(self): 
+    def testVertexCount_ManyVertices(self):
         g = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4)
         vertex_count = g.vertexCount()
         self.assertEqual(vertex_count, 4)
@@ -36,7 +36,7 @@ class TestGraph(unittest.TestCase):
         vertices = g.getVertices()
         self.assertEqual(vertices, [1])
 
-    def testVertices_ManyVertices(self): 
+    def testVertices_ManyVertices(self):
         g = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4)
         vertices = g.getVertices()
         self.assertEqual(vertices, [1, 2, 3, 4])
@@ -47,7 +47,7 @@ class TestGraph(unittest.TestCase):
         adj_mat = g.adjacencyMatrix()
         empty_arr = np.zeros((4, 4))
         self.assertTrue((adj_mat == empty_arr).all())
-        
+
     def testAdjacencyList_NormalGraph(self):
         g = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4)
         adj_mat = g.adjacencyMatrix()
@@ -68,17 +68,17 @@ class TestGraph(unittest.TestCase):
     def testFromFile_OneVertex(self):
         # Graph.fromFile(None)
         pass
-    
-    def testFromFile_NormalGraph(self): 
+
+    def testFromFile_NormalGraph(self):
         # Graph.fromFile(None)
-        pass 
+        pass
 
     # === Graph::toPrism ===
     def testToPrism_OneVertex(self):
         pass
 
-    def testToPrism_NormalGraph(self): 
-        pass 
+    def testToPrism_NormalGraph(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()

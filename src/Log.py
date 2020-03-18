@@ -7,7 +7,7 @@ Created on Tue Sep 16 23:47:44 2014
 
 from enum import Enum, auto
 
-class LOG_LEVEL(Enum): 
+class LOG_LEVEL(Enum):
     DEBUG   = auto()
     REGULAR = auto()
 
@@ -24,8 +24,8 @@ class Log:
         '''
         d is used for DEBUGGING, and messages are only displayed if LOG_LEVEL is 'DEBUG'
         '''
-        if self.display_output and self.log_level is LOG_LEVEL.DEBUG: 
-            print(f"=== DEBUG ===: {msg}") 
+        if self.display_output and self.log_level is LOG_LEVEL.DEBUG:
+            print(f"=== DEBUG ===: {msg}")
 
     def i(self, msg: str) -> None:
         if self.display_output:

@@ -20,9 +20,9 @@ from kleeUtils import KleeUtils
 klee_stat = namedtuple("KleeStat", "tests paths instructions delta_t")
 
 '''
-List of all the error messages the REPL can throw. 
-Use these for maintaining consistency, rather than putting strings directly in the 
-log messages. 
+List of all the error messages the REPL can throw.
+Use these for maintaining consistency, rather than putting strings directly in the
+log messages.
 '''
 MISSING_FILENAME_ERR: str       = "Must provide file name."
 MISSING_TYPE_AND_NAME_ERR: str  = "Must specify type and name."
@@ -33,8 +33,8 @@ NOT_IMPLEMENTED_ERR: str        = "Not implemened."
 EXTENSION_ERR: Callable[[str, str], str]   = lambda target_type, file_extension: \
     f"File extension must be {target_type}, not {file_extension}."
 
-class OBJ_TYPES(Enum): 
-    GRAPH  = "graph" 
+class OBJ_TYPES(Enum):
+    GRAPH  = "graph"
     METRIC = "metric"
     STAT   = "stat"
     KLEE   = "klee"
@@ -44,12 +44,12 @@ class OBJ_TYPES(Enum):
         return str(self.value)
 
     @staticmethod
-    def getType(objType: str): 
+    def getType(objType: str):
         for i in OBJ_TYPES:
-            if str(i) == objType or str(i) + "s" == objType: 
+            if str(i) == objType or str(i) + "s" == objType:
                 return i
 
-class KNOWN_EXTENSIONS(Enum): 
+class KNOWN_EXTENSIONS(Enum):
     C      = ".c"
     Python = ".py"
     BC     = ".bc"
@@ -63,7 +63,7 @@ def get_files(path: str, recursiveMode: bool, logger, allowedExtensions: List[st
     If it is not a valid path, return no files.
     '''
     logger.d(f"Looking for files given path {path}")
-    if os.path.isfile(path): 
+    if os.path.isfile(path):
         logger.d("This is a file.")
         if recursiveMode:
             logger.v("Cannot use recursive mode with filename.")
@@ -72,7 +72,7 @@ def get_files(path: str, recursiveMode: bool, logger, allowedExtensions: List[st
         return [path]
     elif os.path.isdir(path):
         logger.d("This is a directory")
-        if recursiveMode:   
+        if recursiveMode:
             allFiles: List[Any] = []
             for extension in allowedExtensions:
                 allFiles += Path(path).rglob(f"*{extension}")
@@ -93,7 +93,7 @@ def get_files(path: str, recursiveMode: bool, logger, allowedExtensions: List[st
             allFiles  = []
             if os.path.exists(base):
                 if recursiveMode:
-                    allFiles += Path(base).rglob("*") # Get all files in all subdirectories 
+                    allFiles += Path(base).rglob("*") # Get all files in all subdirectories
                 else:
                     allFiles = [f for f in listdir(base) if os.path.isfile(os.path.join(base, f))]
 
@@ -104,23 +104,23 @@ def get_files(path: str, recursiveMode: bool, logger, allowedExtensions: List[st
                         matchedFiles.append(file)
 
                 return matchedFiles
-            
+
             return []
 
         except (re.error):
-            # Try checking for just wildcard operators 
+            # Try checking for just wildcard operators
             logger.d("Checking for wildcard operators")
             file.replace(".", "\.")
             file.replace("*", ".*")
             try:
                 regexp = re.compile(file)
-                # TODO 
+                # TODO
                 return []
             except re.error:
-                return [] 
+                return []
 
 class API:
-    ''' 
+    '''
     API contains all of the methods exposed to the user.
     These are used to create the REPL.
     '''
@@ -133,7 +133,7 @@ class API:
         self.graphs: Dict[Any, Any] = {}
         self.stats: Dict[Any, Any] = {}
 
-        self.logger = logger 
+        self.logger = logger
 
     def show_metrics(self) -> None:
         if len(self.metrics.keys()) == 0:
@@ -149,14 +149,14 @@ class API:
             self.logger.v("Graph Names: ")
             self.logger.v(" ".join(list(self.graphs.keys())))
 
-class Controller:   
+class Controller:
     '''
     Controller is the interface used to store which file extension we know
     how to generate graphs for.
     '''
     def __init__(self, logger) -> None:
         '''
-        Create a new instance of Controller, initializing all of the converters 
+        Create a new instance of Controller, initializing all of the converters
         required to turn known file types into CFGS.
         '''
         self.logger = logger
@@ -171,7 +171,7 @@ class Controller:
         pythonConverter = python.PythonConvert()
         self.graphGenerators = {
             ".cpp": cppConverter,
-            ".c": cppConverter, 
+            ".c": cppConverter,
             ".jar": javaConverter,
             ".class": javaConverter,
             ".java": javaConverter,
@@ -180,31 +180,31 @@ class Controller:
 
     def getGraphGeneratorNames(self):
         '''
-        Get the names of all file extensions we know how to generate 
-        CFGs for. 
+        Get the names of all file extensions we know how to generate
+        CFGs for.
         '''
         return self.graphGenerators.keys()
 
     def getGraphGenerator(self, file_extension: str):
         '''
-        Given a file extension as a string, return the CFG generator for that 
-        file extension. 
+        Given a file extension as a string, return the CFG generator for that
+        file extension.
         '''
         return self.graphGenerators[file_extension]
 
-class Command:  
+class Command:
     '''
-    Command is the implementation of the REPL commands. 
+    Command is the implementation of the REPL commands.
     '''
     def __init__(self, debug_mode: bool, replWrapper) -> None:
-        if debug_mode: 
+        if debug_mode:
             self.logger = Log(log_level=LOG_LEVEL.DEBUG)
-        else: 
+        else:
             self.logger = Log(log_level=LOG_LEVEL.REGULAR)
 
         self.logger.d("Debug Mode Enabled")
         self.api = API(self.logger)
-        
+
         self.have_completed = False
 
         self.controller = Controller(self.logger)
@@ -213,7 +213,7 @@ class Command:
         self.stats: Dict[Any, Any] = {}
         self.klee_stats: Dict[Any, Any] = {}
         self.klee_stat = klee_stat
-        
+
         self.kleeUtils = KleeUtils(self.logger)
         self.kleeFormattedFiles: Dict[str, str] = dict()
         self.bcFiles: Dict[str, Any] = dict()
@@ -221,7 +221,7 @@ class Command:
         self.replWrapper = replWrapper
 
     def check_num_args(self, args: List[str], num_args: int,
-                       err1: str, 
+                       err1: str,
                        err2: str="Too many arguments provided.") -> bool:
         '''
         check_num_args returns True if the args list has num_elements many elements.
@@ -248,7 +248,7 @@ class Command:
 
         return file
 
-    def do_klee_replay(self, args: str): 
+    def do_klee_replay(self, args: str):
         convertedArgs = self.convert_args(args)
         ok = self.check_num_args(convertedArgs, 1, MISSING_FILENAME_ERR)
         if not ok:
@@ -285,7 +285,7 @@ class Command:
             allFiles += files
 
         self.logger.d(f"Convert files {allFiles}")
-        # Make sure files are valid (if using recursive mode this is done automatically in the previous step). 
+        # Make sure files are valid (if using recursive mode this is done automatically in the previous step).
         for file in allFiles:
             filepath, file_extension = os.path.splitext(file)
             if file_extension not in self.controller.getGraphGeneratorNames():
@@ -305,7 +305,7 @@ class Command:
 
     def do_list(self, args: str) -> None:
         convertedArgs = self.convert_args(args)
-        ok = self.check_num_args(convertedArgs, 1, 
+        ok = self.check_num_args(convertedArgs, 1,
             "Must specify object type to list (metrics, graphs, or klee).")
         if not ok:
             return
@@ -413,14 +413,14 @@ class Command:
                 if not found:
                     self.logger.v(f"Metric or Graph {name} not found.")
         elif type == OBJ_TYPES.KLEE:
-            for name in names: 
+            for name in names:
                 if name in self.bcFiles:
                     self.logger.v("BC FILE:")
                     self.logger.v(self.bcFiles[name])
 
                 if name in self.kleeFormattedFiles:
                     self.logger.v("KLEE FORMATTED FILES:")
-                    self.logger.v(str(self.kleeFormattedFiles)) 
+                    self.logger.v(str(self.kleeFormattedFiles))
         else:
             self.logger.v(f"Type {type} not recognized.")
 
@@ -440,10 +440,10 @@ class Command:
             self.logger.v(f"Could not find metric {metric_name}")
             return
 
-        for metric_name in metric_names: 
+        for metric_name in metric_names:
             metric = self.metrics[metric_name]
 
-    def do_klee_to_bc(self, args: str) -> None: 
+    def do_klee_to_bc(self, args: str) -> None:
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, "Must provide KLEE formatted name.")
         if not ok:
@@ -452,59 +452,59 @@ class Command:
         name = args[0]
         keys = [name]
 
-        if name not in self.kleeFormattedFiles: 
-            self.logger.v(f"Could not find {name}.") 
+        if name not in self.kleeFormattedFiles:
+            self.logger.v(f"Could not find {name}.")
             return
-        
-        if name == "*": 
+
+        if name == "*":
             keys = list(self.kleeFormattedFiles.keys())
 
-        for key in keys: 
+        for key in keys:
             with tempfile.NamedTemporaryFile(delete = True, suffix=".c") as fp:
                 self.logger.d(f"Created temporary file {fp.name}")
-                self.logger.d(f"Going to write {self.kleeFormattedFiles[name]}") 
+                self.logger.d(f"Going to write {self.kleeFormattedFiles[name]}")
                 fp.write(self.kleeFormattedFiles[name].encode())
-                
+
                 fp.seek(0)
                 self.logger.d("FILE CONTENTS")
                 self.logger.d(fp.read().decode())
 
                 cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {fp.name}"
-                res = subprocess.run(cmd, shell=True, capture_output=True)  
+                res = subprocess.run(cmd, shell=True, capture_output=True)
                 self.bcFiles[name] = res.stdout
 
-    def do_to_klee_format(self, args: str) -> None: 
+    def do_to_klee_format(self, args: str) -> None:
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, MISSING_FILENAME_ERR)
         recursiveMode = False
-        if not ok: 
+        if not ok:
             ok = self.check_num_args(argsList, 2, "", "")
-            if not ok : 
-                return 
-            
-            if args[0] is "-r": 
+            if not ok :
+                return
+
+            if args[0] is "-r":
                 recursiveMode = True
-                filePath = args[1] 
-            else: 
-                return 
-        else: 
+                filePath = args[1]
+            else:
+                return
+        else:
             filePath = args[0]
-            
+
 
         self.logger.d(f"Recursive Mode is {recursiveMode}")
         files = get_files(filePath, recursiveMode, self.logger, [str(KNOWN_EXTENSIONS.C)])
         if len(files) == 0:
-            self.logger.v(f"Could not find any files for {filePath}") 
+            self.logger.v(f"Could not find any files for {filePath}")
             return
 
         self.logger.d(f"Got files {files}")
-        for file in files: 
+        for file in files:
             kleeFormattedFiles = self.kleeUtils.show_func_defs(file)
-            if kleeFormattedFiles is None: 
-                return 
+            if kleeFormattedFiles is None:
+                return
             self.kleeFormattedFiles = {**self.kleeFormattedFiles, **kleeFormattedFiles}
 
-    def do_clean_klee_files(self, args: str) -> None: 
+    def do_clean_klee_files(self, args: str) -> None:
         convertedArgs = self.convert_args(args)
         ok = self.check_num_args(convertedArgs, 0, NOT_IMPLEMENTED_ERR)
         if not ok:
@@ -515,7 +515,7 @@ class Command:
         s2 = "completed paths = "
         s3 = "total instructions = "
 
-        generated_tests_index    = klee_output.index(s1) + len(s1) 
+        generated_tests_index    = klee_output.index(s1) + len(s1)
         completed_paths_index    = klee_output.index(s2) + len(s2)
         total_instructions_index = klee_output.index(s3) + len(s3)
 
@@ -535,33 +535,33 @@ class Command:
         self.klee_stats[name] = self.klee_stat(tests=tests, paths=paths, instructions=insts, delta_t=delta_t)
         self.logger.i("Updated!")
 
-    def do_klee(self, args: str) -> None: 
+    def do_klee(self, args: str) -> None:
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 1, MISSING_FILENAME_ERR)
         if not ok:
             return
 
-        name = args[0] 
-        
+        name = args[0]
+
         if args[0] in self.bcFiles or args[0] == "*":
-            if args[0] == "*": 
+            if args[0] == "*":
                 keys = list(self.bcFiles.keys())
             else:
                 keys = [name]
 
-            for key in keys: 
+            for key in keys:
                 with tempfile.NamedTemporaryFile(delete = True, suffix=".bc") as fp:
                     fileName = fp.name
                     self.logger.d(f"Created temporary file {fileName}")
-                
+
                     thingToWrite = self.bcFiles[key]
                     self.logger.d(f"Writing {thingToWrite}")
                     fp.write(thingToWrite)
                     fp.seek(0)
-                    
+
                     cmd = f"/app/build/bin/klee {fileName}"
                     self.logger.d(f"Going to execute {cmd}")
-                    st = time.time() 
+                    st = time.time()
                     res = subprocess.run(cmd, shell=True, capture_output=True)
                     delta_t = time.time() - st
                     output = res.stderr
@@ -570,11 +570,11 @@ class Command:
                     self.update_klee_stats(output.decode(), key, delta_t)
         else:
             result = self.verify_file_type(args, "bc")
-            if result is 0: 
-                return 
-            
+            if result is 0:
+                return
+
             files = get_files(result, False, self.logger, [str(KNOWN_EXTENSIONS.BC)])
-            if len(files) == 0: 
+            if len(files) == 0:
                 self.logger.e(f"Could not find any files matching {result}")
                 return
 
@@ -583,14 +583,14 @@ class Command:
             for file in files:
                 cmd = f"/app/build/bin/klee {result}"
                 self.logger.d(cmd)
-                st = time.time() 
-                res = subprocess.run(cmd, shell=True, capture_output=True) 
+                st = time.time()
+                res = subprocess.run(cmd, shell=True, capture_output=True)
                 delta_t = time.time() - st
                 output = res.stderr
-                self.logger.d("OUTOUT:") 
+                self.logger.d("OUTOUT:")
                 self.logger.d(output.decode())
                 self.update_klee_stats(output.decode(), args[0], delta_t)
-                
+
     def do_quit(self, args: str):
         readline.write_history_file()
         convertedArgs = self.convert_args(args)
@@ -608,7 +608,7 @@ class Command:
         subprocess.check_call(["mkdir" , "-p", "exports"])
         newName = os.path.split(name)[1]
         exportType = OBJ_TYPES.getType(exportType)
-        if exportType == OBJ_TYPES.GRAPH:    
+        if exportType == OBJ_TYPES.GRAPH:
             if name in self.graphs:
                 with open(f"/app/code/exports/{newName}.dot", "w+") as f:
                     graph = self.graphs[name]
@@ -617,11 +617,11 @@ class Command:
             elif name == "*":
                 for graphName in self.graphs.keys():
                     fName = os.path.split(graphName)[1]
-                    with open(f"/app/code/exports/{fName}.dot", "w+") as f: 
+                    with open(f"/app/code/exports/{fName}.dot", "w+") as f:
                         graph = self.graphs[graphName]
                         f.write(graph.dot())
                         self.logger.i(f"Made file {fName}.dot in /app/code/exports/")
-            else: 
+            else:
                 self.logger.e(f"{str(exportType).capitalize()} {name} not found.")
 
         elif exportType == OBJ_TYPES.METRIC:
@@ -633,11 +633,11 @@ class Command:
             elif name == "*":
                 for mName in self.metrics.keys():
                     fName = os.path.split(mName)[1]
-                    with open(f"/app/code/exports/{fName}_metrics", "w+") as f: 
+                    with open(f"/app/code/exports/{fName}_metrics", "w+") as f:
                         metric = self.metrics[mName]
                         f.write(metric)
                         self.logger.i(f"Made file {fName}_metrics in /app/code/exports/")
-            else: 
+            else:
                 self.logger.e(f"{str(exportType).capitalize()} {name} not found.")
 
         elif exportType == OBJ_TYPES.STAT:
@@ -650,13 +650,13 @@ class Command:
             elif name == "*":
                 for sName in self.stats.keys():
                     fName = os.path.split(sName)[1]
-                    with open(f"/app/code/exports/{fName}_stats", "w+") as f: 
+                    with open(f"/app/code/exports/{fName}_stats", "w+") as f:
                         stat = self.metrics[sName]
                         f.write(stat)
                         self.logger.i(f"Made file {fName}s_stats in /app/code/exports/.")
             else:
                 self.logger.e(f"{str(exportType).capitalize()} {name} not found.")
-        
+
         elif exportType == OBJ_TYPES.KLEE:
             if name in self.kleeFormattedFiles:
                 with open(f"/app/code/exports/{newName}_klee.c", "w+") as f:
@@ -666,7 +666,7 @@ class Command:
         else:
             self.logger.v(f"Type {exportType} not recognized.")
 
-    def do_delete(self, args: str): 
+    def do_delete(self, args: str):
         argsList = self.convert_args(args)
         ok = self.check_num_args(argsList, 2, MISSING_TYPE_AND_NAME_ERR)
         if not ok:

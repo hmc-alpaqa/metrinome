@@ -18,23 +18,23 @@ from langToCFG.javaextractor.Env import Env
 
 class Classifier:
     def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
-        self.log = Log(TAG=TAG)      
+        self.log = Log(TAG=TAG)
         self.input_path = input_path
         self.file_list = [self.input_path]
         if os.path.isdir(self.input_path):
             self.file_list = sorted(glob.glob(os.path.join(self.input_path, ext)))
-    
-        
+
+
     def match_csv_line(self, string):
-        self.result = re.match(r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*,\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*,(?P<type>.+),\s*(?P<asym>.+)\s*,\s*(?P<func>.*)", string, re.IGNORECASE)        
+        self.result = re.match(r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*,\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*,(?P<type>.+),\s*(?P<asym>.+)\s*,\s*(?P<func>.*)", string, re.IGNORECASE)
         return self.result
-        
+
     def match_const_large_number(self, string):
         self.result = re.match(r".*(?P<num>\d+)\.(?P<dec>\d+)\*\^(?P<exp>\d+).*", string)
         return self.result
-        
+
     def run(self, options=""):
-        self.log.i("start")        
+        self.log.i("start")
         for file_name in self.file_list:
             self.log.v("processing {}".format(file_name))
             file_base = Env.get_base_filename(self.input_path)
@@ -50,7 +50,7 @@ class Classifier:
             e3file = open(file_base + '_e3.csv', 'w')
             egte4file = open(file_base + '_egte4.csv', 'w')
             fixfile = open(file_base + '_fixes_required.csv', 'w')
-            
+
             with open(file_name, 'r') as f:
                 for line in f:
                     tofile = None
@@ -64,25 +64,25 @@ class Classifier:
                         _type = self.result.group('type')
                         asym = self.result.group('asym')
                         func = self.result.group('func')
-                        
+
                         if _type == 'Constant':
-                            
+
                             if self.match_const_large_number(asym):
                                 num = int(self.result.group('num'))
                                 dec = int(self.result.group('dec'))
                                 exp = int(self.result.group('exp'))
                                 value = str(num * math.pow(10, exp) + dec)
-                                line = line.replace("," + asym + ",", "," + value + ",")                                
+                                line = line.replace("," + asym + ",", "," + value + ",")
                                 asym = value
-                                
-                            
+
+
                             if npath == "Timeout":
                                 line = line.replace("Timeout", asym)
-                                
+
                             if re.match(r".*,0,.*", line):
-                                print("skipping: " + line)                                
+                                print("skipping: " + line)
                                 continue
-                                
+
                             if re.match(r"^1$", asym):
                                 cls = ',1'
                                 tofile = c1file
@@ -94,28 +94,28 @@ class Classifier:
                                 cls = ',c please fix me'
                                 tofile = fixfile
                                 #raise Exception("check constant extraction")
-                                
+
                             cls_line = line.strip() + cls
-                            
+
                         elif _type == 'Polynomial':
-                            
+
                             if asym == "0." or asym == "0":
                                 terms = func.split('+')
                                 fix_asym = terms[-1].strip()
-                                
+
                                 if asym == "0.":
                                     line = line.replace("Polynomial,0.,", "Polynomial," + fix_asym + ",")
                                 else:
                                     line = line.replace("Polynomial,0,", "Polynomial," + fix_asym + ",")
                                 asym = fix_asym
-                                
+
                             if re.match(r".*,0,.*", line):
-                                print("skipping: " + line)                             
+                                print("skipping: " + line)
                                 continue
 
                             if re.match(r".*n\^\d{2,}.$", asym):
                                 cls = ',p4gte'
-                                tofile = pgte4file                              
+                                tofile = pgte4file
                             elif re.match(r".*n$", asym):
                                 cls = ',p1'
                                 tofile = p1file
@@ -133,29 +133,29 @@ class Classifier:
                                 cls = ',p please fix me'
                                 tofile = fixfile
                                 #raise Exception("check polynimal extraction")
-                                
+
                             cls_line = line.strip() + cls
-                            
+
                         elif _type == 'Exponential':
                             if asym == "0." or asym == "0":
                                 terms = func.split('+')
                                 fix_asym = terms[-1].strip()
                                 if asym == "0.":
-                                    line = line.replace("Exponential,0.,", "Exponential," + fix_asym + ",")                            
+                                    line = line.replace("Exponential,0.,", "Exponential," + fix_asym + ",")
                                 else:
-                                    line = line.replace("Exponential,0,", "Exponential," + fix_asym + ",") 
+                                    line = line.replace("Exponential,0,", "Exponential," + fix_asym + ",")
                                 asym = fix_asym
-                            
+
                             if re.match(r".*,0,.*", line):
-                                print("skipping: " + line)                           
+                                print("skipping: " + line)
                                 continue
-                                      
+
                             if re.match(r".*[\*,]1\.?\^.*n.*", asym):
                                 print("error: base 1 is not exponential" + line)
-       
+
                             if re.match(r".*\*?\d{2,}\.\d*\^.*n.*", asym):
                                 cls = ',e4gte'
-                                tofile = egte4file                    
+                                tofile = egte4file
                             elif re.match(r".*\*?1\.\d*\^.*n.*", asym):
                                 cls = ',e1_2'
                                 tofile = e1file
@@ -174,16 +174,16 @@ class Classifier:
                                 tofile = fixfile
                                 #raise Exception("check exponential extraction")
                             cls_line = line.strip() + cls
-                        
+
                         else:
                             print("fix: " + line)
                             cls = 'no class'
                             tofile = fixfile
-                            
-                        tofile.write(cls_line + '\n')    
+
+                        tofile.write(cls_line + '\n')
                         outfile.write(cls_line + '\n')
-                        
-            
+
+
             outfile.close()
             c1file.close()
             cgt1file.close()
@@ -196,7 +196,7 @@ class Classifier:
             e3file.close()
             egte4file.close()
             fixfile.close()
-        self.log.i("end")    
+        self.log.i("end")
 
 def main(argv):
     try:
@@ -204,20 +204,20 @@ def main(argv):
     except getopt.GetoptError:
         print('test.py -i <input> -o <output>')
         print('*input can be a file or folder')
-    
+
     arg_input = None
     arg_output= None
     cmd_option = ""
     ext = "*.csv"
     for opt, arg in opts:
         if opt == '-h':
-            print('test.py -i <input> -o <output>')        
+            print('test.py -i <input> -o <output>')
             sys.exit()
         elif opt in ("-i", "--input"):
             arg_input = arg
         elif opt in ("-o", "--output"):
             arg_output = arg
-            
+
     classifier = Classifier(input_path=arg_input, output_path=arg_output, ext=ext, TAG="Classifier")
     classifier.run(options=cmd_option)
 

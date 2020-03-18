@@ -55,7 +55,7 @@ class Env:
     @staticmethod
     def get_basename(name):
         return os.path.basename(name)
-        
+
     @staticmethod
     def get_base_filename(name):
         return os.path.basename(name)[:-4]

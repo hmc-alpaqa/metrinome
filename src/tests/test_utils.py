@@ -3,7 +3,7 @@ import unittest
 class TestUtils(unittest.TestCase):
 
     # === roundExpression ===
-    def testRoundExpression_Simple(self): 
+    def testRoundExpression_Simple(self):
         '''
         Check an expression with only numbers and binary oeprations
         '''
@@ -28,19 +28,19 @@ class TestUtils(unittest.TestCase):
         Coefficients in an exponential expression should be rounded to
         the appropriate numebr of decimal places
         '''
-        pass 
+        pass
         # exponentialExpression = '1.12 * e**(1.123123*x)'
         # simplifiedExpression = Utils.roundExpression(exponentialExpression, 3)
         # expectedResult = '1.12 * e**(1.123*x)'
         # self.assertEqual(expectedResult, simplifiedExpression)
 
-    # === classify ===  
+    # === classify ===
     def classifyHelper(self, expression, expected):
         '''
         Given some expression an expected classification, verify that
         classify() returns the correct classification
         '''
-        pass    
+        pass
         # classified = Utils.classify(expression)
         # self.assertEqual(classified, expected)
 
@@ -49,7 +49,7 @@ class TestUtils(unittest.TestCase):
         Constants should always return 'Const:<val>' where value is the
         contanst itself. Empty expressions should given us a constant of 0.
         '''
-        pass 
+        pass
         # constantExpression = '2'
         # constantExpressionTwo = '2.0'
         # expectedClassification = 'Const:2.0'
@@ -64,7 +64,7 @@ class TestUtils(unittest.TestCase):
         '''
         Check that classify returns the degree of polynomial expressions
         '''
-        pass 
+        pass
         # polynomialExpression = '1 + n + n^2'
         # expectedClassification = 'PolyDeg:2.0'
         # self.classifyHelper(polynomialExpression, expectedClassification)
@@ -105,7 +105,7 @@ class TestUtils(unittest.TestCase):
         Returns the solution to an arbitrary linear homogeneous recurrence
         relation
         '''
-        pass 
+        pass
         # Utils.getRecurrenceSolution()
         # self.assertEqual('1', '1')
 
@@ -116,7 +116,7 @@ class TestUtils(unittest.TestCase):
         rational function (p(x) / q(x) where p and q are polynomials),
         up to a specified degree.
         '''
-        pass 
+        pass
         # Utils.getTaylorCoeffs()
         # self.assertEqual('1', '1')
 
@@ -201,7 +201,7 @@ class TestUtils(unittest.TestCase):
         #     result = foo()
         # self.assertEqual(result, 7)
 
-    def testTimeout_Timeout(self): 
+    def testTimeout_Timeout(self):
         '''
         A function that takes too long to execute should
         throw an error
@@ -213,6 +213,6 @@ class TestUtils(unittest.TestCase):
         # with self.assertRaises(TimeoutError):
         #     with Utils.Timeout(seconds = 1):
         #         foo()
-        
+
 if __name__ == '__main__':
     unittest.main()

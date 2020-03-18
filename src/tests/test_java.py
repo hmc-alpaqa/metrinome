@@ -1,9 +1,9 @@
-import unittest 
+import unittest
 
-# JavaConvert::toGraph() 
+# JavaConvert::toGraph()
 class TestJavaConvert(unittest.TestCase):
     def testToGraph(self):
-        pass 
+        pass
 
 if __name__ == '__main__':
     unittest.main()

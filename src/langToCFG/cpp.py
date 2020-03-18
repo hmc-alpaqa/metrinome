@@ -25,9 +25,9 @@ class CPPConvert():
             fName = filename + (str(i) + ".dot")
             graphName = os.path.splitext(fName)[0]
             graphName = os.path.split(graphName)[1]
-            graphs[graphName] = Graph.fromFile(fName) 
+            graphs[graphName] = Graph.fromFile(fName)
         # self.cleanTemps()
-        return graphs 
+        return graphs
 
     def convertToStandardFormat(self, filename: str) -> int:
         '''
@@ -47,7 +47,7 @@ class CPPConvert():
             edges = []
             nodeMap: Dict[str, str] = {}
             counter = 0
-            
+
             # Make a temporary file (with the new content)
             with open(f'cppConverterTemps/{filename}{fNum}.dot', 'w') as newFile:
                 with open(f'{f}', "r") as oldFile:
@@ -58,7 +58,7 @@ class CPPConvert():
 
                         # Throw out the label (e.g. label="CFG for 'main' function") for the graph and remove whitespace
                         if line.startswith("label") or line == "":
-                            continue 
+                            continue
 
                         # If it contains a label (denoted by '[]'), it is a vertex
                         edgePattern = "->"
@@ -67,33 +67,33 @@ class CPPConvert():
                         if isEdge is None:
                             nodeName = re.match(namePattern, line.lstrip())
                             if nodeName is None:
-                                continue 
-                            
+                                continue
+
                             nodeNameStr = nodeName.groups()[0].strip()
                             nodeMap[nodeNameStr] = str(counter)
                             nodeToAdd = str(counter)
                             if counter == 0:
-                                nodeToAdd += " [label=\"START\"]" 
+                                nodeToAdd += " [label=\"START\"]"
 
                             nodes.append(nodeToAdd)
-                        
+
                             counter += 1
-                        else: 
+                        else:
                             edges += [line]
                 # Covers case of leaf CFGs
                 if len(nodes) == 1:
                     nodes.append("1")
                     nodes.append("2")
                     counter += 2
-                # Create the nodes and then the edges 
+                # Create the nodes and then the edges
                 for i, node in enumerate(nodes):
-                    if i == counter - 2: 
+                    if i == counter - 2:
                         node += "[label=\"EXIT\"]"
                     newFile.write(node + ";" + "\n")
-                
+
                 for edge in edges:
                     for name in nodeMap.keys():
-                        edge = edge.replace(name, nodeMap[name]) 
+                        edge = edge.replace(name, nodeMap[name])
                         edge = edge.replace(":s0", "")
                         edge = edge.replace(":s1", "")
 
@@ -101,7 +101,7 @@ class CPPConvert():
                 newFile.write("}")
                 fNum += 1
         return fNum
-        
+
     def createDotFiles(self, filepath: str, file_extension: str) -> None:
         '''
         Create a .dot file representing a control flow graph for
@@ -117,28 +117,28 @@ class CPPConvert():
 
         c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
-        
+
         c1 = shlex.split(c1_str)
-        c2 = shlex.split(c2_str) 
+        c2 = shlex.split(c2_str)
 
         self.logger.d(f"Command One: {c1}")
         self.logger.d(f"Command Two: {c2}")
 
         with subprocess.Popen(c1, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line1:
             command = line1.stdout
-            if line1.stderr is not None: 
+            if line1.stderr is not None:
                 errMsg = line1.stderr.read()
-                if len(errMsg) == 0: 
-                    self.logger.d(f"Got the following error msg: {str(errMsg)}") 
+                if len(errMsg) == 0:
+                    self.logger.d(f"Got the following error msg: {str(errMsg)}")
 
-            with subprocess.Popen(c2, stdin=command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line2: 
-               out, err = line2.communicate() 
-                
+            with subprocess.Popen(c2, stdin=command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = False) as line2:
+               out, err = line2.communicate()
+
         files = glob2.glob("*.dot")
         self.logger.d(f"Found the following .dot files: {files}")
         for f in files:
             subprocess.call(["mv", f"{f}", "cppConverterTemps"])
-        
+
     def cleanTemps(self):
         """removes temp files and directories"""
-        subprocess.call(["rm", "-r", "cppConverterTemps"]) 
+        subprocess.call(["rm", "-r", "cppConverterTemps"])

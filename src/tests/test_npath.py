@@ -54,5 +54,5 @@ class TestNPATH(unittest.TestCase):
         result = NPathComplexity.nPathComplexity(graph)
         expectedResult = 0
         self.assertEqual(result, expectedResult)
-            
+
 

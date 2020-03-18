@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from io import StringIO
-import sys 
+import sys
 
 @contextmanager
 def captured_output():

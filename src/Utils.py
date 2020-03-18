@@ -1,4 +1,4 @@
-from typing import List 
+from typing import List
 from threading import Thread, Event
 from time import sleep
 from sympy import limit, Abs, sympify, series, symbols, Function # type: ignore
@@ -42,7 +42,7 @@ def classify(expr: str, var="n") -> str:
         val = float(str(expr))
         return f"Const:{val}"
     except:
-        # If we have anything to the power 'n', then it is exponential 
+        # If we have anything to the power 'n', then it is exponential
         val = isExponential(expr, var)
         if val is None:
             degree = getDegree(expr, var)
@@ -55,7 +55,7 @@ def getSolutionFromRoots(roots):
     Return the solution to a recurrence relation given the roots of the characteristic
     equation
     '''
-    # Round to 4 digits 
+    # Round to 4 digits
     roots = [complex(round(root.real, 6), round(root.imag, 6)) for root in roots]
 
     # Compute the multiplicy of each root
@@ -75,17 +75,17 @@ def getSolutionFromRoots(roots):
 def getRecurrenceSolution(recurrence: str):
     '''
     Returns the coefficients to a homogeneous linear recurrence relation
-    represented as a string of the format 
+    represented as a string of the format
 
     c_0*f(n) + c_1*f(n-1) + ... + c_k*f(n-k)
 
     by finding the roots of the characteristic equation
     '''
-    # Define symbolic terms 
+    # Define symbolic terms
     n = symbols('n')
     f = Function('f')
 
-    # Regular expression to parse the recurrence relation expression. 
+    # Regular expression to parse the recurrence relation expression.
     # RE matches a particular term: Coefficient + f(something)
     matchFunction = 'f\([ a-zA-Z0-9-+]*\)'
     matchObj = re.findall(f'([ +-.0-9]*)(\*)({matchFunction})', recurrence)
@@ -97,7 +97,7 @@ def getRecurrenceSolution(recurrence: str):
     leadingCoeff = coeffs[0]
     coeffs = list(map(lambda coeff: coeff / leadingCoeff, coeffs))
 
-    # Find the roots of the characteristic equation 
+    # Find the roots of the characteristic equation
     # through arbitrary precision root finding function
     roots = polyroots(coeffs, maxsteps=200, extraprec=200)
 
@@ -111,11 +111,11 @@ def getTaylorCoeffs(func, numCoeffs: int):
     L = str(series(func, x=t, x0=0, n = numCoeffs)).split('+')
     firstElement = L[0]
     firstPower = re.search("\*\*([0-9]*)", str(firstElement))
-    if firstPower is not None: 
+    if firstPower is not None:
         firstPowerInt = int(firstPower.groups()[0])
         taylorCoeffs = [0] * firstPowerInt + [sympify(f).subs(t, 1) for f in L]
         return taylorCoeffs
-    
+
     return None
 
 def isExponential(term: str, var = 'n'):

@@ -1,5 +1,5 @@
 from typing import Any, DefaultDict
-import numpy as np # type: ignore 
+import numpy as np # type: ignore
 import re
 from typing import List, Tuple
 from collections import defaultdict
@@ -38,7 +38,7 @@ class Graph:
 
     def __str__(self) -> str:
         return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()}\nStart Node: {self.startNode}\nEnd Node: {self.endNode}"
-    
+
     def __init__(self, edges, vertices: Any, startNode: int,
                  endNode: int, fromList: bool = False) -> None:
         '''
@@ -112,7 +112,7 @@ class Graph:
             if self.weighted:
                 weight = edge[2]
 
-            # Compute the correct index in the matrix 
+            # Compute the correct index in the matrix
             if vertexOne == self.endNode:
                 vertexOne = 1
             elif vertexOne != 0:
@@ -174,7 +174,7 @@ class Graph:
                                 startNode = node
                             elif nodeLabel == "EXIT":
                                 endNode = node
-                    # The current line in the text file represents an edge 
+                    # The current line in the text file represents an edge
                     else:
                         nodeOne = int(match.group(1))
                         nodeTwo = int(match.group(2))
@@ -208,12 +208,12 @@ class Graph:
                                 startNode = node
                             elif nodeLabel == "EXIT":
                                 endNode = node
-                     # The current line in the text file represents an edge 
+                     # The current line in the text file represents an edge
                     else:
                         nodeOne = int(match.group(1))
                         nodeTwo = int(match.group(2))
                         V_E_Dict[nodeOne].add(nodeTwo)
-                        V_E_Dict[nodeTwo]                      
+                        V_E_Dict[nodeTwo]
 
             if startNode is None or endNode is None:
                 errMsg = "Start and end nodes must " \
@@ -221,7 +221,7 @@ class Graph:
                 raise ValueError(errMsg)
             g = Graph(V_E_Dict, V_E_Dict.keys(), startNode, endNode, USING_LIST)
             g.weighted = weighted
-        
+
         return g
 
     def toPrism(self) -> List[str]:
@@ -254,7 +254,7 @@ class Graph:
         prismLines = []
 
         # Add the header.
-        prismLines.append('dtmc\n') # Discrete Time Markov Chain  
+        prismLines.append('dtmc\n') # Discrete Time Markov Chain
         prismLines.append('module test\n')
 
         # Create all of the nodes we'll use.

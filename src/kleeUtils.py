@@ -1,17 +1,17 @@
 from typing import Dict, Set, Any
 
-from pycparser import c_parser, c_ast, parse_file, c_generator # type: ignore 
+from pycparser import c_parser, c_ast, parse_file, c_generator # type: ignore
 from collections import defaultdict
-import uuid 
+import uuid
 
-class FuncVisitor(c_ast.NodeVisitor): 
-    def __init__(self, logger) -> None: 
+class FuncVisitor(c_ast.NodeVisitor):
+    def __init__(self, logger) -> None:
         self.logger = logger
         self.generator = c_generator.CGenerator()
         self.vars: Dict[str, list] = defaultdict(list)
-        super().__init__() 
+        super().__init__()
 
-    def define_var(self, name: str, declaration: str, varname: str): 
+    def define_var(self, name: str, declaration: str, varname: str):
         self.vars[name].append((f"{declaration};\n", varname))
 
     def visit_FuncDef(self, node):
@@ -19,18 +19,18 @@ class FuncVisitor(c_ast.NodeVisitor):
         args = node.decl.type.args # type ParamList
         self.logger.i(f"Looking at {node.decl.name}()")
         if args is not None:
-            params = args.params # List of TypeDecl 
-            for i, param in enumerate(params): 
+            params = args.params # List of TypeDecl
+            for i, param in enumerate(params):
                 self.logger.d(f"\tParameter {i}: Name: {param.name}")
                 print(f"HERE IS THE PARAM: {param.name}")
-                self.define_var(node.decl.name, self.generator.visit(param), param.name)            
-        else: 
+                self.define_var(node.decl.name, self.generator.visit(param), param.name)
+        else:
             self.logger.d(f"\t{node.decl.name} has no parameters.")
 
 class KleeUtils:
-    def __init__(self, logger) -> None: 
+    def __init__(self, logger) -> None:
         self.logger = logger
-    
+
     def show_func_defs(self, filename: str):
         self.logger.d(f"Going to parse file {filename}")
         try:
@@ -39,7 +39,7 @@ class KleeUtils:
             v = FuncVisitor(self.logger)
             v.visit(ast)
         except Exception as e:
-            self.logger.i(f"Here is the error {e}.") 
+            self.logger.i(f"Here is the error {e}.")
             self.logger.i(f"Could not parse file {filename}")
             return None
 

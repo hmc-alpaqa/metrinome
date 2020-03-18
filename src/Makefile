@@ -17,10 +17,11 @@ tests:
 	python tests/test_python.py
 	python tests/test_utils.py
 
-test:   lint tests
+test:   whitespace lint tests
 
+# Remove trailing whitespace
 whitespace:
-	find . -type f -name "*.py" sed -i 's/\s*$//' 
+	find . -type f -name "*.py" | xargs sed -i '' -e "s/[[:space:]]*$$//g"
 
 clean:
 	# nothing

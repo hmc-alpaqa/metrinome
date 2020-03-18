@@ -1,6 +1,6 @@
 from Graph import Graph
-from typing import List 
-from metric import Metric # type: ignore 
+from typing import List
+from metric import Metric # type: ignore
 import copy
 
 edge = List[int]
@@ -10,11 +10,11 @@ metric = int
 class NPathComplexity(Metric.Metric):
 	'''
 	NPathComplexity allows us to compute the NPath Complexity of some
-	function from its Control Flow Graph. 
+	function from its Control Flow Graph.
 	'''
 
 	def __init__(self) -> None:
-		pass 
+		pass
 
 	def name(self) -> str:
 		'''
@@ -63,10 +63,10 @@ class NPathComplexity(Metric.Metric):
 
 		total = 0
 		for neighbor in self.neighbors(start, edges):
-			# Delete the edge [start, u] from the graph 
+			# Delete the edge [start, u] from the graph
 			newEdges = self.removeEdge(edges, [start, neighbor])
 
-			# Recursive call from new edge 
+			# Recursive call from new edge
 			total += self.npath(neighbor, end, newEdges)
 
 		return total
@@ -81,9 +81,9 @@ class NPathComplexity(Metric.Metric):
 		total = 0
 		neighbors = self.neighbors_DICT(start, edges)
 		for neighbor in neighbors:
-			# Delete the edge [start, u] from the graph 
+			# Delete the edge [start, u] from the graph
 			newEdges = self.removeEdge_DICT(edges, start, neighbor)
-			# Recursive call from new edge 
+			# Recursive call from new edge
 			total += self.npath_DICT(neighbor, end, newEdges)
 
 		return total

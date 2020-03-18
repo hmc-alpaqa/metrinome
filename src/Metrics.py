@@ -18,9 +18,9 @@ NUM_PROCESSES = 4
 
 class MetricsComparer:
 
-	def computeMetrics(self): 
+	def computeMetrics(self):
 		return "not yet implemented"
-	
+
 	def __init__(self, results, location) -> None:
 		'''
 		Input results list of tuples, each being:
@@ -39,7 +39,7 @@ class MetricsComparer:
 		# Classify by cyclomatic complexity -> path complexity
 		d1 = defaultdict(list)
 
-		# Classify by npath complexity -> path complexity 
+		# Classify by npath complexity -> path complexity
 		d2 = defaultdict(list)
 
 		# Classify by path complexity -> cyclomatic complexity
@@ -86,7 +86,7 @@ class MetricsComparer:
 			for countIndex in dict[key]:
 				totalCounts += dict[key][countIndex]
 
-			# Computing the shannon entropy 
+			# Computing the shannon entropy
 			for countIndex in dict[key]:
 				count = dict[key][countIndex]
 				p = count / totalCounts
@@ -109,17 +109,17 @@ class MetricsComparer:
 
 	def logDicts(self) -> None:
 		'''
-		Log the dictionaries mapping between complexity metrics to the log 
-		file 
+		Log the dictionaries mapping between complexity metrics to the log
+		file
 		'''
 		logging.info("C to APC: ----- " + str(self.dicts[0]))
 		logging.info("NPATH to APC: ----- " + str(self.dicts[1]))
 		logging.info("APC to C: ------ " + str(self.dicts[2]))
 		logging.info("APC to NPATH: ------ " + str(self.dicts[3]) + "\n")
 
-	def logClassSizes(self, cycToAPC, APCToCyc, npathToAPC, apcToNPATH) -> None: 
+	def logClassSizes(self, cycToAPC, APCToCyc, npathToAPC, apcToNPATH) -> None:
 		'''
-		Writes the average class size for each metric to the log file 
+		Writes the average class size for each metric to the log file
 		'''
 		logging.info(f"cycToAPC: {str(cycToAPC)}")
 		logging.info(f"APCToCyc: {str(APCToCyc)}")
@@ -128,12 +128,12 @@ class MetricsComparer:
 
 	def computeMetric(self, useFrequencies: bool = True) -> None:
 		'''
-		Calculate the metrics used to compare APC to Cyclomatic Complexity 
-		and NPATH 
+		Calculate the metrics used to compare APC to Cyclomatic Complexity
+		and NPATH
 		'''
 		self.logDicts()
 
-		# Convert APCs to correct complexity classes 
+		# Convert APCs to correct complexity classes
 		tempDict = dict()
 		for i in range(0, 2):
 			for key in self.dicts[i].keys():
@@ -141,7 +141,7 @@ class MetricsComparer:
 			self.dicts[i] = tempDict
 
 		tempDict = dict()
-		for i in range(2, 4): 
+		for i in range(2, 4):
 			for key in self.dicts[i].keys():
 				tempDict[classify(key)] = self.dicts[i][key]
 			self.dicts[i] = tempDict
@@ -150,7 +150,7 @@ class MetricsComparer:
 		self.aggregate()
 		self.logDicts()
 
-		averageClassSizes = [0] * 4 
+		averageClassSizes = [0] * 4
 		for i in range(0, 4):
 			averageClassSizes[i] = self.averageClassSize(self.dictCounter[i], useFrequencies)
 		cycToAPC, apcToCyc, npathToAPC, apcToNPATH = averageClassSizes
@@ -218,19 +218,19 @@ class MetricsComparer:
 		clusterings on a set by looking at all oft he possible pairs of
 		points in the set.
 		'''
-		n_00 = 0 # In different clusters in both clusterings 
+		n_00 = 0 # In different clusters in both clusterings
 		n_11 = 0 # In the same cluster in both clusterings
 		n_01 = 0 # Different in the first clustering but not in the second
-		n_10 = 0 # Same in the first clustering but not in the second 
-		# Iterate through all of the (N choose 2) possible pairs  
+		n_10 = 0 # Same in the first clustering but not in the second
+		# Iterate through all of the (N choose 2) possible pairs
 		for funcOneIndex in range(len(functionList)):
 			for funcTwoIndex in range(funcOneIndex, len(functionList)):
 				pair = (functionList[funcOneIndex], functionList[funcTwoIndex])
-				pointOneAPC = pair[0] # TODO  
-				pointTwoAPC = pair[1] # TODO 
+				pointOneAPC = pair[0] # TODO
+				pointTwoAPC = pair[1] # TODO
 
-				pointOneNPATH = pair[0] # TODO 
-				pointTwoNPATH = pair[1] # TODO 
+				pointOneNPATH = pair[0] # TODO
+				pointTwoNPATH = pair[1] # TODO
 
 				if pointOneAPC == pointTwoAPC:
 					if pointOneNPATH == pointTwoNPATH:
@@ -264,7 +264,7 @@ class MetricsComparer:
 			for line in content:
 				try:
 					filepath = line.strip().split(",")[1]
-					# Don't need ID  
+					# Don't need ID
 					result = line.strip().split(",")[2:]
 					result = [filepath] + [float(result[0])] + [float(result[1])] + result[2:]
 					results.append(result)
@@ -279,7 +279,7 @@ class MetricsComparer:
 		Input: [p_0, p_1, ..., p_n]
 		Output: H(p)
 		'''
-		# Check that it is a valid probability distribution 
+		# Check that it is a valid probability distribution
 		if sum(probabilities) != 1:
 			raise ValueError("Not a valid probability distribution - does not sum to one")
 
@@ -298,7 +298,7 @@ class MetricsComparer:
 		'''
 		totalEntropy = 0
 		totalSize = 0
-		# Obtain the total size 
+		# Obtain the total size
 		for cluster in clusterList.keys():
 			totalSize += len(clusterList[cluster])
 
@@ -320,13 +320,13 @@ class MetricsComparer:
 		(representing a cluster) with a set of functions.
 		'''
 		jointEntropy = 0
-		# Obtain the total size 
+		# Obtain the total size
 		for cluster in clusterListOne.keys():
 			totalSize += len(clusterListOne[cluster])
 
 		for clusterOne in clusterListOne:
 			for clusterTwo in clusterListTwo:
-				# Calculate the elements in common between both clusters 
+				# Calculate the elements in common between both clusters
 				clusterOverlap = len(clusterOne.intersection(clusterTwo))
 				jointEntropy -= (clusterOverlap / totalSize) * log((clusterOverlap / totalSize), 2)
 
@@ -339,11 +339,11 @@ class MetricsComparer:
 		@see https://en.wikipedia.org/wiki/Conditional_entropy
 		'''
 		condEntropy = 0
-		# Obtain the total size 
+		# Obtain the total size
 		for cluster in clusterListOne.keys():
 			totalSize += len(clusterListOne[cluster])
 
-		# Create a table of all the overlaps 
+		# Create a table of all the overlaps
 		overlaps = [[[0] for i in range(len(clusterListOne))] for j in range(len(clusterListTwo))]
 		for i in range(len(clusterListOne)):
 			for j in range(len(clusterListTwo)):
@@ -353,13 +353,13 @@ class MetricsComparer:
 				overlaps[i][j] = clusterOverlap
 
 		for i in range(len(clusterListTwo)):
-			# Compute the marginal overlap 	
+			# Compute the marginal overlap
 			marginalOverlap = 0
 			for j in range(len(clusterListOne)):
 				marginalOverlap += clusterOverlap[j][i]
 
 			for j in range(len(clusterListOne)):
-				# Calculate the elements in common between both clusters 
+				# Calculate the elements in common between both clusters
 				clusterOne = clusterListOne[i]
 				clusterTwo = clusterListTwo[j]
 				numerator = overlaps[i][j] / totalSize
@@ -376,11 +376,11 @@ class MetricsComparer:
 		@see https://en.wikipedia.org/wiki/Mutual_information
 		'''
 		condEntropy = 0
-		# Obtain the total size 
+		# Obtain the total size
 		for cluster in clusterListOne.keys(): #TODO: is this supposed to be clusterListOne?
 			totalSize += len(clusterListOne[cluster])
 
-		# Create a table of all the overlaps 
+		# Create a table of all the overlaps
 		overlaps = [[[0] for i in range(len(clusterListOne))] for j in range(len(clusterListTwo))]
 		for i in range(len(clusterListOne)):
 			for j in range(len(clusterListTwo)):
@@ -390,13 +390,13 @@ class MetricsComparer:
 				overlaps[i][j] = clusterOverlap
 
 		for i in range(len(clusterListTwo)):
-			# Compute the marginal overlap 	
+			# Compute the marginal overlap
 			marginalOverlap = 0
 			for j in range(len(clusterListOne)):
 				marginalOverlap += clusterOverlap[j][i]
 
 			for j in range(len(clusterListOne)):
-				# Calculate the elements in common between both clusters 
+				# Calculate the elements in common between both clusters
 				clusterOne = clusterListOne[i]
 				clusterTwo = clusterListTwo[j]
 				numerator = overlaps[i][j] / totalSize
@@ -462,7 +462,7 @@ class Main():
 		'''
 		Obtain a list of the paths to all .dot files from an initial file path.
 		Recursive mode will enable searching in subdirectories.
-		''' 
+		'''
 		if os.path.isdir(filePath):
 			if recursive:
 				# recursive glob '**' operator matches 0 or more subdirectories
@@ -478,7 +478,7 @@ class Main():
 		'''
 		Get the command line arguments from the user and verify that they are valid
 		'''
-		# Get command line arguments 
+		# Get command line arguments
 		parser = self.createArgumentParser()
 		args = vars(parser.parse_args())
 
@@ -497,40 +497,40 @@ class Main():
 			self.computeStatistics(fileList[0])
 		else:
 			self.computeResults(fileList)
-	
+
 	def computeResult(self, fileName: str):
 		'''
 		Given a single file dot file, compute the APC, Path Complexity,
-		Cyclomatic Complexity, and NPATH. 
+		Cyclomatic Complexity, and NPATH.
 		'''
 		digits = 2
 		graph = Graph.fromFile(fileName)
 		writeOutput(f"Working on {fileName}", self.location)
 		with Timeout(seconds = 10, errorMessage = "Timeout"):
 			nPathCompl = nPathComplexity(graph)
-	
-		try: 
+
+		try:
 			pathComplexityResult = pathComplexity(graph)
-		except: 
+		except:
 			pathComplexityResult = "ERR"
 
 		asymptoticComplexity = pathComplexityResult[0]
 		fullPathComplexity = pathComplexityResult[1]
-		return (fileName, cyclomaticComplexity(graph), nPathCompl, classify(asymptoticComplexity, "n"), 
+		return (fileName, cyclomaticComplexity(graph), nPathCompl, classify(asymptoticComplexity, "n"),
 				roundExpression(asymptoticComplexity, digits), roundExpression(fullPathComplexity, digits))
 
 	def computeStatistics(self, fileName: str) -> None:
 		'''
-		Given a CSV file with all of the results given by 'computeResults,' 
-		calculate the metrics used to compare APC, NPATH, and Cyclomatic 
-		Complexity 
+		Given a CSV file with all of the results given by 'computeResults,'
+		calculate the metrics used to compare APC, NPATH, and Cyclomatic
+		Complexity
 		'''
 		metrics = MetricsComparer.fromCSV(fileName, self.location)
 		metrics.computeMetric()
 
 	def computeResults(self, filelist) -> None:
 		'''
-		Given a list of .dot files, compute the Cyclomatic Complexity, NPATH Complexity, and Path Complexity 
+		Given a list of .dot files, compute the Cyclomatic Complexity, NPATH Complexity, and Path Complexity
 		for all of the files, and write the output to a file/STDOUT
 		'''
 		writeOutput("test_number, cfg_file, cyclomatic_complexity, npath_complexity, \
@@ -542,11 +542,11 @@ class Main():
 
 		procPool = Pool(processes = NUM_PROCESSES)
 		results = procPool.imap_unordered(self.threadpoolMapper, splitFileList)
-		procPool.close()	
+		procPool.close()
 		procPool.join()
 
 		for result in results:
-			if len(result) != 0: 
+			if len(result) != 0:
 				writeOutput("\n".join(list(map(lambda x: str(x)[1:-1], result))), self.location)
 
 	def threadpoolMapper(self, fileNames):
@@ -556,12 +556,12 @@ def writeOutput(msg, location):
 	'''
 	Write a String to STDOUT or a file if specified
 	'''
-	if location is None: 
+	if location is None:
 		print(msg)
 	else:
-		if os.path.isfile(location): 
-			with open(location, 'w') as file: 
+		if os.path.isfile(location):
+			with open(location, 'w') as file:
 				file.write(msg)
 
 if __name__ == "__main__":
-	main = Main() 
+	main = Main()
