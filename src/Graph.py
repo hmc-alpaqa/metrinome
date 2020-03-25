@@ -168,69 +168,53 @@ class Graph:
             a_k  -> a_m
         }
         '''
+        start_node = None
+        end_node = None
+
         if using_list:
             edges = []
             vertices = set()
-            start_node = None
-            end_node = None
-            with open(filename, "r") as file:
-                lines = file.readlines()
-                for line in lines[1:]:
-                    match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)
-                    if match is None:
-                        # Current line is not an edge - check if it defines a node
-                        match = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", line)
-                        if match is not None:
-                            node = int(match.group(1))
-                            node_label = match.group(2)
+        else:
+            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+
+        with open(filename, "r") as file:
+            for line in file.readlines()[1:]:
+                match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)
+                if match is None:
+                    # Current line is not an edge - check if it defines a node
+                    match = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", line)
+                    if match is not None:
+                        node = int(match.group(1))
+                        node_label = match.group(2)
+                        if node_label == "START":
+                            start_node = node
+                        elif node_label == "EXIT":
+                            end_node = node
+
+                        if using_list:
                             vertices.add(node)
-                            if node_label == "START":
-                                start_node = node
-                            elif node_label == "EXIT":
-                                end_node = node
-                    # The current line in the text file represents an edge
-                    else:
-                        node_one = int(match.group(1))
-                        node_two = int(match.group(2))
+
+                # The current line in the text file represents an edge
+                else:
+                    node_one = int(match.group(1))
+                    node_two = int(match.group(2))
+                    if using_list:
                         vertices.add(node_one)
                         vertices.add(node_two)
                         edges.append([node_one, node_two])
-
-            if start_node is None or end_node is None:
-                err_msg = "Start and end nodes must " \
-                        "both be defined."
-                raise ValueError(err_msg)
-            graph = Graph(edges, vertices, start_node, end_node, using_list)
-            graph.weighted = weighted
-
-        else:
-            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
-            start_node = None
-            end_node = None
-            with open(filename, "r") as file:
-                lines = file.readlines()
-                for line in lines[1:]:
-                    match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)
-                    if match is None:
-                        # Current line is not an edge - check if it defines a node
-                        match = re.search(r"([0-9]*)\s*\[label=\"(P.*)\"\]", line)
-                        if match is not None:
-                            node = int(match.group(1))
-                            node_label = match.group(2)
-                            if node_label == "START":
-                                start_node = node
-                            elif node_label == "EXIT":
-                                end_node = node
-                     # The current line in the text file represents an edge
                     else:
-                        node_one = int(match.group(1))
-                        node_two = int(match.group(2))
                         v_e_dict[node_one].add(node_two)
 
+                if start_node is None or end_node is None:
+                    raise ValueError("Start and end nodes must \
+                                     b  oth be defined.")
+                graph = Graph(edges, vertices, start_node, end_node, using_list)
+                graph.weighted = weighted
+
             if start_node is None or end_node is None:
-                err_msg = "Start and end nodes must " \
-                        "both be defined."
-                raise ValueError(err_msg)
+                raise ValueError("Start and end nodes must \
+                                 both be defined.")
+
             graph = Graph(v_e_dict, v_e_dict.keys(), start_node, end_node, using_list)
             graph.weighted = weighted
 

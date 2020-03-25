@@ -382,6 +382,7 @@ class Command:
 
     def do_metrics(self, args: str) -> None:
         '''
+        Compute of one of the known objects for a stored Graph object.
         '''
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, "Must provide graph name.")
@@ -401,7 +402,7 @@ class Command:
                 for graph_name in self.graphs:
                     if pattern.match(graph_name):
                         names.append(graph_name)
-            except:
+            except re.error:
                 self.logger.v_msg(f"Error, Graph {name} not found.")
                 return
 
@@ -476,6 +477,9 @@ class Command:
 
     def do_analyze(self, args: str) -> None:
         '''
+        Analyze some set of metrics we have already computed. This is currently
+        not implemented, but will likely involve computing some aggregate
+        statistics.
         '''
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, "Must provide metric name.")
@@ -497,6 +501,8 @@ class Command:
 
     def do_klee_to_bc(self, args: str) -> None:
         '''
+        Convert a file that is already in a klee-compatible format
+        to a .bc file that KLEE can be called on.
         '''
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, "Must provide KLEE formatted name.")
@@ -525,11 +531,12 @@ class Command:
 
                 cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
                         -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {file.name}"
-                res = subprocess.run(cmd, shell=True, capture_output=True)
+                res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
                 self.bc_files[name] = res.stdout
 
     def do_to_klee_format(self, args: str) -> None:
         '''
+        Convert a file with C source code to a format compatible with klee.
         '''
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, MISSING_FILENAME_ERR)
@@ -539,7 +546,7 @@ class Command:
             if not valid_args:
                 return
 
-            if args[0] is "-r":
+            if args[0] == "-r":
                 recursive_mode = True
                 file_path = args[1]
             else:
@@ -562,6 +569,7 @@ class Command:
 
     def do_clean_klee_files(self, args: str) -> None:
         '''
+        Remove all KLEE-related files created by the REPL.
         '''
         converted_args = self.convert_args(args)
         valid_args = self.check_num_args(converted_args, 0, NOT_IMPLEMENTED_ERR)
@@ -570,6 +578,7 @@ class Command:
 
     def update_klee_stats(self, klee_output, name: str, delta_t):
         '''
+        Parse and store the results of running klee on some .bc file.
         '''
         string_one = "generated tests = "
         string_two = "completed paths = "
@@ -626,7 +635,7 @@ class Command:
                     cmd = f"/app/build/bin/klee {file_name}"
                     self.logger.d_msg(f"Going to execute {cmd}")
                     start_time = time.time()
-                    res = subprocess.run(cmd, shell=True, capture_output=True)
+                    res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
                     delta_t = time.time() - start_time
                     output = res.stderr
                     self.logger.d_msg(output.decode())
@@ -648,7 +657,7 @@ class Command:
                 cmd = f"/app/build/bin/klee {result}"
                 self.logger.d_msg(cmd)
                 start_time = time.time()
-                res = subprocess.run(cmd, shell=True, capture_output=True)
+                res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
                 delta_t = time.time() - start_time
                 output = res.stderr
                 self.logger.d_msg("OUTOUT:")
@@ -657,6 +666,7 @@ class Command:
 
     def do_quit(self, args: str):
         '''
+        Quit the repl.
         '''
         readline.write_history_file()
         converted_args = self.convert_args(args)
@@ -665,6 +675,8 @@ class Command:
 
     def do_export(self, args: str):
         '''
+        Save some object the REPL knows about to an external file. The format it is
+        stored as depends on the object we are storing.
         '''
         converted_args = self.convert_args(args)
         valid_args = self.check_num_args(converted_args, 2, MISSING_TYPE_AND_NAME_ERR)
@@ -736,6 +748,7 @@ class Command:
 
     def do_delete(self, args: str):
         '''
+        Remove some object the REPL is storing from memory.
         '''
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 2, MISSING_TYPE_AND_NAME_ERR)
@@ -780,6 +793,7 @@ class Command:
 
     def complete(self, text, state):
         '''
+        Enhanced auto-completion for the REPL.
         '''
         res = self.repl_wrapper.complete(text, state)
         # Try to do tab completion on a directory. Text contains the latest paremeter

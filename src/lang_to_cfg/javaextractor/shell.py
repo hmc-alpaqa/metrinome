@@ -11,6 +11,9 @@ from subprocess import Popen, PIPE
 from log import Log
 
 class Shell:
+    '''
+    Functions like a basic bash shell.
+    '''
     def __init__(self, TAG=""):
         '''
         Create a new instance of Shell.
@@ -27,6 +30,7 @@ class Shell:
 
     def runcmd(self, cmd, cwd=None, shell=False):
         '''
+        Run a command in the shell.
         '''
         self.log.v_msg("cmd: {}\n  with params: cwd={}, shell={}".format(cmd, cwd, shell))
         args = shlex.split(cmd)
@@ -39,8 +43,9 @@ class Shell:
 
         return out, err
 
-    def runcmdBgrnd(self, cmd, out=PIPE, cwd=None, shell=False):
+    def runcmd_bgrnd(self, cmd, out=PIPE, cwd=None, shell=False):
         '''
+        Run a command in a new process to prevent blocking.
         '''
         cmd_to_log = "cmd: {}\n  with params: out={}, cwd={}, shell={}".format(
                         cmd, out, cwd, shell)
@@ -57,21 +62,21 @@ class Shell:
 
     def kill(self, process=None):
         '''
+        Kill the specificed process (or current process if not specified).
         '''
         if process is None:
             process = self.current_process
-        process and process.kill()
-        self.process_output and self.process_output.close()
+
+        # Assign to _ to avoid linter issues.
+        _ = process and process.kill()
+        _ = self.process_output and self.process_output.close()
         self.current_process = None
 
     def terminate(self, process=None):
         '''
+        An alias for self.kill
         '''
-        if process is None:
-            process = self.current_process
-        process and process.terminate()
-        self.process_output and self.process_output.close()
-        self.current_process = None
+        self.kill(process)
 
     def run_grep(self, search, subject, options):
         '''

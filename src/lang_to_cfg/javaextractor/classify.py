@@ -17,9 +17,11 @@ from env import Env
 
 class Classifier:
     '''
+    This helps parse the output fromt the Java CFG generator.
     '''
     def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
         '''
+        Create a new Classifier.
         '''
         self.log = Log(tag=TAG)
         self.input_path = input_path
@@ -45,7 +47,7 @@ class Classifier:
         self.result = re.match(expr, string)
         return self.result
 
-    def run(self, options=""):
+    def run(self):
         '''
         '''
         self.log.i_msg("start")
@@ -65,15 +67,15 @@ class Classifier:
             egte4file = open(file_base + '_egte4.csv', 'w')
             fixfile = open(file_base + '_fixes_required.csv', 'w')
 
-            with open(file_name, 'r') as f:
-                for line in f:
+            with open(file_name, 'r') as file:
+                for line in file:
                     tofile = None
                     cls = ''
                     cls_line = ''
                     if self.match_csv_line(line):
                         _id = self.result.group('id')
-                        name = self.result.group('name')
-                        cyclo = self.result.group('cyclo')
+                        # name = self.result.group('name')
+                        # cyclo = self.result.group('cyclo')
                         npath = self.result.group('npath')
                         _type = self.result.group('type')
                         asym = self.result.group('asym')
@@ -218,16 +220,17 @@ class Classifier:
 
 def main(argv):
     '''
+    Run the classifier with the set of command line arguments passed it.
     '''
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["input=", "output="])
+        print(args)
     except getopt.GetoptError:
         print('test.py -i <input> -o <output>')
         print('*input can be a file or folder')
 
     arg_input = None
-    arg_output= None
-    cmd_option = ""
+    arg_output = None
     ext = "*.csv"
     for opt, arg in opts:
         if opt == '-h':
@@ -239,7 +242,7 @@ def main(argv):
             arg_output = arg
 
     classifier = Classifier(input_path=arg_input, output_path=arg_output, ext=ext, TAG="Classifier")
-    classifier.run(options=cmd_option)
+    classifier.run()
 
 if __name__ == "__main__":
     main(sys.argv[1:])

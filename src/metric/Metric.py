@@ -4,6 +4,7 @@ inherit from.
 '''
 
 from abc import ABC, abstractmethod
+from typing import Any
 from graph import Graph
 
 class MetricAbstract(ABC):
@@ -23,7 +24,7 @@ class MetricAbstract(ABC):
         '''
 
     @abstractmethod
-    def evaluate(self, graph: Graph):
+    def evaluate(self, graph: Graph) -> Any:
         '''
         Given a graph, compute the metric.
         '''

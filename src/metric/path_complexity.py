@@ -1,17 +1,26 @@
 '''
+Compute the path complexity and asymptotic path complexity metrics.
 '''
 
 import re # type: ignore
 import logging
+from typing import Any
 from sympy import Matrix, eye, symbols, degree, Poly, simplify, expand, sympify # type: ignore
 from mpmath import polyroots # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
 from metric import metric # type: ignore
 
+# pylint: disable=W0231
+# disable super-init-not-called since metric.MetricAbstract is an abstract class and therefore
+# __init__ should be implemented.
+
 class PathComplexity(metric.MetricAbstract):
     '''
+    PathComplexity can be used to compute the path complexity and
+    asymtotic path complexity metrics for arbitrary Graph objects.
     '''
+
     def __init__(self) -> None:
         '''
         Create a new instance of PathComplexity.
@@ -32,13 +41,13 @@ class PathComplexity(metric.MetricAbstract):
         adj_mat[1][1] = 1
         return Matrix(adj_mat)
 
-    def evaluate(self, G: Graph):
+    def evaluate(self, graph: Graph) -> Any:
         '''
         Computes the path complexity given the CFG of some function.
 
         returns both the path complexity and the asymptotic path complexity
         '''
-        adj_mat = G.adjacency_matrix()
+        adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
         new_adjacency = Matrix(adj_mat)
 

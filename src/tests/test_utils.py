@@ -1,6 +1,14 @@
+'''
+This is used to test the utils that are primarily used in computing APC and
+path complexity.
+'''
+
 import unittest
 
 class TestUtils(unittest.TestCase):
+    '''
+    Test all of the utils methods.
+    '''
 
     # === roundExpression ===
     def test_round_expression_simple(self):

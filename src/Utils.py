@@ -1,4 +1,7 @@
 '''
+This module contains utilities for computing asymptotic path complexity.
+It also allows us to execute a block of code such that an error will be thrown
+if the execution takes too long by using the Timeout class.
 '''
 
 from typing import List
@@ -40,7 +43,7 @@ def classify(expr: str, var="n") -> str:
     try:
         val = float(str(expr))
         return f"Const:{val}"
-    except:
+    except ValueError:
         # If we have anything to the power 'n', then it is exponential
         val = is_exponential(expr, var)
         if val is None:
@@ -107,17 +110,17 @@ def get_taylor_coeffs(func, num_coeffs: int):
     Given an arbitrary rational function
     '''
     t_var = symbols('t')
-    L = str(series(func, x=t_var, x0=0, n = num_coeffs)).split('+')
-    first_element = L[0]
+    series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')
+    first_element = series_list[0]
     first_power = re.search(r"\*\*([0-9]*)", str(first_element))
     if first_power is not None:
         first_power_int = int(first_power.groups()[0])
-        taylor_coeffs = [0] * first_power_int + [sympify(f).subs(t_var, 1) for f in L]
+        taylor_coeffs = [0] * first_power_int + [sympify(f).subs(t_var, 1) for f in series_list]
         return taylor_coeffs
 
     return None
 
-def is_exponential(term: str, var = 'n'):
+def is_exponential(term: str, var='n'):
     '''
     If an expression contains an exponential, return its base.
     Otherwise, return None
@@ -135,8 +138,8 @@ def is_exponential(term: str, var = 'n'):
     results = re.findall(search_string_with_parens, term)
     if results:
         # a^(bn) should be classified as a^b
-        f = lambda res: float(res[0])**float(res[4])
-        new_base = max(map(f, results))
+        func = lambda res: float(res[0])**float(res[4])
+        new_base = max(map(func, results))
         if new_base is not None:
             if max_base is None or new_base > max_base:
                 max_base = new_base

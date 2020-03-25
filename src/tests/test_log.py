@@ -1,13 +1,19 @@
 '''
+Test the logging object, which lets us control how much information is displayed in the REPL
+and how this information is displayed.
 '''
 
 import unittest
 import sys
-from test.utils import captured_output
-sys.path.append("/app/code/")
+sys.path.append("/app/code")
+from tests.utils import captured_output
 from log import Log
 
 class TestLog(unittest.TestCase):
+    '''
+    Test all of the logger functionality.
+    '''
+
     def test_set_tag(self):
         '''
         Test that set_tag works correctly.

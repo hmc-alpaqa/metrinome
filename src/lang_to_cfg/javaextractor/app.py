@@ -18,6 +18,7 @@ class App:
     def __init__(self, input_file, output_folder=None, display_log_output=True,
                  ext="*.jar", export=True):
         '''
+        Create a new instance of the App.
         '''
         self.log = Log(tag="APP", display_output=display_log_output)
         self.shell = Shell()
@@ -55,7 +56,9 @@ class App:
 
     def __run_cfg_extractor(self, main_class, input_classes, project):
         '''
+        Run the java program that will extract the CFG from Java classes.
         '''
+        print(f"Got main_class: {main_class}, but not used.")
         output_path = Env.get_output_path(project)
         self.shell.clean_cmd(output_path)
         if self.export:
@@ -68,6 +71,7 @@ class App:
 
     def get_result_line(self, output):
         '''
+        Parse results obtained by the App of a specific format.
         '''
         columns = output.strip(' \t\n\r,').split(',')
         results = []
@@ -83,6 +87,8 @@ class App:
 
     def run_live(self, jar=True):
         '''
+        A wrapper around __run_cfg_extractor_live. This is what should actually be called by
+        the REPL as it does additional checks and logging.
         '''
         self.log.i_msg("start")
         self.shell.clean_cmd(Env.TMP_PATH)

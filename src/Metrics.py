@@ -49,9 +49,7 @@ def adjusted_rand_index(function_list) -> float:
                     n_00 += 1
 
     numerator = 2*(n_00 * n_11 - n_01 * n_10)
-    denominator_one = (n_00 + n_01) * (n_01 + n_11)
-    denominator_two =  (n_00 + n_10) * (n_10 + n_11)
-    denominator = denominator_one + denominator_two
+    denominator = ((n_00 + n_01) * (n_01 + n_11)) + (n_00 + n_10) * (n_10 + n_11)
     return numerator / denominator
 
 def average_class_size(input_dict, use_frequencies: bool):
@@ -540,11 +538,9 @@ class Main():
             # npath_compl = n_path_complexity(graph)
             pass
 
-        try:
-            path_complexity_result = path_complexity(graph)
-        except:
-            path_complexity_result = "ERR"
-
+        # TODO
+        # path_complexity_result = path_complexity(graph)
+        path_complexity_result = (0, 0)
         asymptotic_complexity = path_complexity_result[0]
         full_path_complexity = path_complexity_result[1]
 

@@ -28,6 +28,8 @@ class FuncVisitor(c_ast.NodeVisitor):
         '''
         self.vars[name].append((f"{declaration};\n", varname))
 
+    # pylint: disable=C0103
+    # disable invalid-name as this name is required by the library.
     def visit_FuncDef(self, node):
         '''
         This function is called once for each function in the C source code.
@@ -62,16 +64,11 @@ class KleeUtils:
         formatted properly to work with klee.
         '''
         self.logger.d(f"Going to parse file {filename}")
-        try:
-            ast = parse_file(filename, use_cpp=True, cpp_path='gcc',
-                             cpp_args=['-E', r'-Iutils/fake_libc_include'])
-            self.logger.d(f"Going to visit functions.")
-            func_visitor = FuncVisitor(self.logger)
-            func_visitor.visit(ast)
-        except Exception as exception:
-            self.logger.i(f"Here is the error {exception}.")
-            self.logger.i(f"Could not parse file {filename}")
-            return None
+        ast = parse_file(filename, use_cpp=True, cpp_path='gcc',
+                         cpp_args=['-E', r'-Iutils/fake_libc_include'])
+        self.logger.d(f"Going to visit functions.")
+        func_visitor = FuncVisitor(self.logger)
+        func_visitor.visit(ast)
 
         uuids: Set[Any] = set() # TODO: change type
         klee_formatted_files = dict()

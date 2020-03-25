@@ -44,12 +44,72 @@ class CPPConvert():
         # self.cleanTemps()
         return graphs
 
+    def convert_file_to_standard(self, f_num, filename, file):
+        nodes = []
+        edges = []
+        node_map: Dict[str, str] = {}
+        counter = 0
+
+        # Make a temporary file (with the new content)
+        with open(f'cppConverterTemps/{filename}{f_num}.dot', 'w') as new_file:
+            with open(f'{file}', "r") as old_file:
+                content = old_file.readlines()
+                new_file.write("digraph { \n")
+                for line in content[1:]:
+                    line = line.strip()
+
+                    # Throw out the label (e.g. label="CFG for 'main' function")
+                    # for the graph and remove whitespace.
+                    if line.startswith("label") or line == "":
+                        continue
+
+                    # If it contains a label (denoted by '[]'), it is a vertex
+                    edge_pattern = "->"
+                    name_pattern = "([a-zA-Z0-9]+ )"
+                    is_edge = re.search(edge_pattern, line)
+                    if is_edge is None:
+                        node_name = re.match(name_pattern, line.lstrip())
+                        if node_name is None:
+                            continue
+
+                        node_name_str = node_name.groups()[0].strip()
+                        node_map[node_name_str] = str(counter)
+                        node_to_add = str(counter)
+                        if counter == 0:
+                            node_to_add += " [label=\"START\"]"
+
+                        nodes.append(node_to_add)
+
+                        counter += 1
+                    else:
+                        edges += [line]
+
+            # Covers case of leaf CFGs
+            if len(nodes) == 1:
+                nodes.append("1")
+                nodes.append("2")
+                counter += 2
+
+            # Create the nodes and then the edges
+            for i, node in enumerate(nodes):
+                if i == counter - 2:
+                    node += "[label=\"EXIT\"]"
+                new_file.write(node + ";" + "\n")
+
+            for edge in edges:
+                for name in node_map:
+                    edge = edge.replace(name, node_map[name])
+                    edge = edge.replace(":s0", "")
+                    edge = edge.replace(":s1", "")
+
+                new_file.write(edge + "\n")
+            new_file.write("}")
+
     def convert_to_standard_format(self, filename: str) -> int:
         '''
         Convert each dot file generated from the .cpp source to the same format
         as the dot files generated from Java CFGs.
         '''
-        f_num = 0
         path = os.path.split(filename)[0]
         filename = os.path.split(filename)[1]
         files = glob2.glob(f"{path}/cppConverterTemps/*.dot")
@@ -58,68 +118,10 @@ class CPPConvert():
                 os.remove(name)
                 files.remove(name)
 
-        for file in files:
-            nodes = []
-            edges = []
-            node_map: Dict[str, str] = {}
-            counter = 0
+        for f_num, file in enumerate(files):
+            self.convert_file_to_standard(f_num, filename, file)
 
-            # Make a temporary file (with the new content)
-            with open(f'cppConverterTemps/{filename}{f_num}.dot', 'w') as new_file:
-                with open(f'{file}', "r") as old_file:
-                    content = old_file.readlines()
-                    new_file.write("digraph { \n")
-                    for line in content[1:]:
-                        line = line.strip()
-
-                        # Throw out the label (e.g. label="CFG for 'main' function")
-                        # for the graph and remove whitespace.
-                        if line.startswith("label") or line == "":
-                            continue
-
-                        # If it contains a label (denoted by '[]'), it is a vertex
-                        edge_pattern = "->"
-                        name_pattern = "([a-zA-Z0-9]+ )"
-                        is_edge = re.search(edge_pattern, line)
-                        if is_edge is None:
-                            node_name = re.match(name_pattern, line.lstrip())
-                            if node_name is None:
-                                continue
-
-                            node_name_str = node_name.groups()[0].strip()
-                            node_map[node_name_str] = str(counter)
-                            node_to_add = str(counter)
-                            if counter == 0:
-                                node_to_add += " [label=\"START\"]"
-
-                            nodes.append(node_to_add)
-
-                            counter += 1
-                        else:
-                            edges += [line]
-                # Covers case of leaf CFGs
-                if len(nodes) == 1:
-                    nodes.append("1")
-                    nodes.append("2")
-                    counter += 2
-
-                # Create the nodes and then the edges
-                for i, node in enumerate(nodes):
-                    if i == counter - 2:
-                        node += "[label=\"EXIT\"]"
-                    new_file.write(node + ";" + "\n")
-
-                for edge in edges:
-                    for name in node_map:
-                        edge = edge.replace(name, node_map[name])
-                        edge = edge.replace(":s0", "")
-                        edge = edge.replace(":s1", "")
-
-                    new_file.write(edge + "\n")
-                new_file.write("}")
-                f_num += 1
-
-        return f_num
+        return len(files) - 1
 
     def create_dot_files(self, filepath: str, file_extension: str) -> None:
         '''
