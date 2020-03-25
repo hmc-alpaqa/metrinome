@@ -1,18 +1,18 @@
-'''
+"""
 Test all methods associated with computing NPath complexity.
-'''
+"""
 
 import unittest
 from graph import Graph
 
 class TestNPATH(unittest.TestCase):
-    '''
+    """
     Test the implementation of the class able to compute the
     NPath metric for an arbitrary graph.
-    '''
+    """
 
     def test_npath(self):
-        '''
+        """
         Expected Results:
 
         test_number, cfg_file, cyclomatic_complexity, npath_complexity,
@@ -29,7 +29,7 @@ class TestNPATH(unittest.TestCase):
             0.56*1.25^(0.5*n) + 1.9000000000000001*1.8^(0.5*n)
         6,/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test6_0_basic.dot,4,8,
             Polynomial,0.02*n^3.,4. + 2.17*n + 0.38*n^2. + 0.02*n^3.
-        '''
+        """
         path_to_cfgs = "todo"
         base_path = f"{path_to_cfgs}/cfgs/simple_test_cfgs/"
         prefix = "vlab_cs_ucsb_test_SimpleExample_test"
@@ -47,11 +47,11 @@ class TestNPATH(unittest.TestCase):
         self.assertEqual(results, expected_results)
 
     def test_npath_single_node(self):
-        '''
+        """
         Verify that the NPath complexity code works for a graph with a
         single node. The start node is equal to the end node,
         so there is a single path from the beginning to the end
-        '''
+        """
         graph = Graph([], set([0]), 0, 0)
         result = "todo"
         print(graph)
@@ -60,11 +60,11 @@ class TestNPATH(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     def test_npath_no_edges(self):
-        '''
+        """
         Verify that the NPATH complexity for a graph with different start
         and end nodes but no edges is 0, since there are no paths from the
         beginning to the end
-        '''
+        """
         graph = Graph([], set([0, 1]), 0, 1)
         result = "todo"
         print(graph)

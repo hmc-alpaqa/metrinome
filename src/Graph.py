@@ -1,7 +1,7 @@
-'''
+"""
 Graph object allows us to store an interact with Graphs in a
 variety of ways.
-'''
+"""
 
 from collections import defaultdict
 from typing import List, Tuple, Any, DefaultDict
@@ -9,7 +9,7 @@ import re
 import numpy as np # type: ignore
 
 class Graph:
-    '''
+    """
     Store a directed graph using an adjacency list. Since
     this is used to store Control Flow Graphs, we also store
     a start and end node.
@@ -22,11 +22,11 @@ class Graph:
     edge = [1, 2].
 
     We store a list of these edges.
-    '''
+    """
     def dot(self, using_list: bool) -> str:
-        '''
+        """
         Convert a Graph object to a .dot file.
-        '''
+        """
         out = "digraph {\n"
         for node in self.get_vertices():
             out += f"{node}"
@@ -44,15 +44,15 @@ class Graph:
         return out
 
     def __str__(self) -> str:
-        '''
-        '''
+        """
+        """
         return f"Edges: {self.edge_rules()}\nVertices: " + \
                f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
                f"\nEnd Node: {self.end_node}"
 
     def __init__(self, edges, vertices: Any, start_node: int,
                  end_node: int, from_list: bool = False) -> None:
-        '''
+        """
         Create a directed graph from a vertex set, edge list,
         and start/end notes.
 
@@ -62,7 +62,7 @@ class Graph:
         If the graph is weighted, the edgeList is
         edgeList = [(a, b, weight), (c, d, weight), (e, f, weight), ...]
 
-        '''
+        """
         self.edges = edges
         self.vertices = vertices
         self.start_node = start_node
@@ -72,37 +72,37 @@ class Graph:
         self.from_list = from_list
 
     def edge_rules(self) -> List[Tuple[int, int]]:
-        '''
+        """
         Obtain the edge list (ADD CHANGES IF edge dictionary).
-        '''
+        """
         return self.edges
 
     def vertex_count(self) -> int:
-        '''
+        """
         Get the number of vertices in the graph (ADD CHANGES IF vertex-edge dictionary).
-        '''
+        """
         return len(self.vertices)
 
     def get_vertices(self) -> List[int]:
-        '''
+        """
         Get the vertex set for the graph.
-        '''
+        """
         return self.vertices
 
     def get_start(self) -> int:
-        '''
+        """
         Get the start node for the graph
-        '''
+        """
         return self.start_node
 
     def get_end(self) -> int:
-        '''
+        """
         Get the exit node for the graph
-        '''
+        """
         return self.end_node
 
     def adjacency_matrix(self):
-        '''
+        """
         Obtain the adjacency matrix from the edge list representation
 
         We assume the vertices are numbered consecutively, i.e.
@@ -113,7 +113,7 @@ class Graph:
         First  row  -> START
         Second row  -> END
         Other  rows -> n = 2, ..., END - 1
-        '''
+        """
 
         adj_mat = np.zeros((self.end_node + 1, self.end_node + 1))
         for edge in self.edge_rules():
@@ -139,9 +139,9 @@ class Graph:
         return adj_mat
 
     def adjacency_list(self):
-        '''
+        """
         Compute the adjacency list for a Graph from its set of edges.
-        '''
+        """
         adjacency_list = [[] for _ in range(self.vertex_count())]
 
         for edge in self.edge_rules():
@@ -157,7 +157,7 @@ class Graph:
 
     @staticmethod
     def from_file(filename: str, weighted: bool = False, using_list: bool = True):
-        '''
+        """
         Returns a Graph object from a .dot file of format
 
         digraph {
@@ -167,7 +167,7 @@ class Graph:
             ...
             a_k  -> a_m
         }
-        '''
+        """
         start_node = None
         end_node = None
 
@@ -221,7 +221,7 @@ class Graph:
         return graph
 
     def to_prism(self) -> List[str]:
-        '''
+        """
         Assumes the graph is already in the DTMC correct representation (with
         edge weights as probabilities).
 
@@ -243,7 +243,7 @@ class Graph:
             [] s=7 -> (s'=7);
 
         endmodule
-        '''
+        """
         if not self.weighted:
             raise ValueError("Graph is not a Discrete Time Markov Chain (no weights available).")
 

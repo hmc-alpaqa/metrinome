@@ -1,9 +1,9 @@
-'''
+"""
 This file allows us to compare different implementations of the npath
 computation algorithm. For example, we could use any of the representations
 of graphs (adjacency list / matrix) and compute npath recursively, recursively
 using memoization, or iteratively through dynamic programming.
-'''
+"""
 
 from statistics import mean, median, stdev, variance
 import sys
@@ -16,10 +16,10 @@ from graph import Graph
 from metric import npath_complexity
 
 def npath_runtim():
-    '''
+    """
     Tests the amount of time (seconds) it takes to run NPath analysis on
     different sized graphs
-    '''
+    """
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
     metric_collection = []
     #list of tuples for all cfgs in all folders (seconds, folder, cfg)
@@ -73,10 +73,10 @@ def npath_runtim():
     print(npath_outlier(overall_time_list))
 
 def npath_runtime_metrics(time_list):
-    '''
+    """
     Given a list of run times compute a series of statistics,
     (max, min, mean, median, stddev, variance).
-    '''
+    """
     times = [x[0] for x in time_list]
     max_val = max(times)
     min_val = min(times)
@@ -89,10 +89,10 @@ def npath_runtime_metrics(time_list):
             ("median", median_val), ("stdev", stdev_val), ("variance", variance_val)]
 
 def npath_outlier(time_list):
-    '''
+    """
     Takes a list of tuples (runtime, Graph) and returns
     the elements of that list that are outliers.
-    '''
+    """
     print("OUTLIERS ")
     times = [x[0] for x in time_list]
     average = mean(times)
@@ -104,9 +104,9 @@ def npath_outlier(time_list):
     return outliers
 
 def main():
-    '''
+    """
     Execute the tests.
-    '''
+    """
     #create instance of the npath class
     converter = npath_complexity.NPathComplexity()
     graph_zero = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-net-3.3/\

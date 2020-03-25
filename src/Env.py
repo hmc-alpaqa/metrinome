@@ -7,10 +7,10 @@ Created on Sat Aug  2 20:21:33 2014
 import os
 
 class Env:
-    '''
+    """
     Env stores many of the environment variables for the REPL.
     It also includes useful utility functions relating to environment management.
-    '''
+    """
 
     ######################################################################################
     ####### PROJECT FOLDER PATHS #########################################################
@@ -48,47 +48,47 @@ class Env:
 
     @staticmethod
     def __get_path(folder='', prefix='', name='', ext=''):
-        '''
+        """
         Given a folder, prefix, file name, and file extension,
         join all of them and return an absolute path.
-        '''
+        """
         return os.path.abspath(os.path.join(folder, prefix + os.path.basename(name))) + ext
 
     @staticmethod
     def get_output_path(name, ext=''):
-        '''
+        """
         For a given .jar file, determine what the output path should be
         for that file.
-        '''
+        """
         if name.endswith('.jar'):
             name = name[:-4]
         return Env.__get_path(folder=Env.OUTPUT_PATH, name=name, ext=ext)
 
     @staticmethod
     def get_tmp_path(name, ext=''):
-        '''
+        """
         Given a file name and extension, get the path to it in the
         temporary folder.
-        '''
+        """
         return Env.__get_path(folder=Env.TMP_PATH, name=name, ext=ext)
 
     @staticmethod
     def get_basename(name):
-        '''
+        """
         Get the path to a file without the file name.
-        '''
+        """
         return os.path.basename(name)
 
     @staticmethod
     def get_base_filename(name):
-        '''
+        """
         Given a path, get the file name.
-        '''
+        """
         return os.path.basename(name)[:-4]
 
     @staticmethod
     def get_dirname(name):
-        '''
+        """
         Given a path, get the directory.
-        '''
+        """
         return os.path.dirname(name)

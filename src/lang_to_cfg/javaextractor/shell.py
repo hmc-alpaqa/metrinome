@@ -11,27 +11,27 @@ from subprocess import Popen, PIPE
 from log import Log
 
 class Shell:
-    '''
+    """
     Functions like a basic bash shell.
-    '''
+    """
     def __init__(self, TAG=""):
-        '''
+        """
         Create a new instance of Shell.
-        '''
+        """
         self.log = Log(tag=TAG)
         self.current_process = None
         self.process_output = None
 
     def set_tag(self, tag):
-        '''
+        """
         Set the logger tag.
-        '''
+        """
         self.log.set_tag(tag)
 
     def runcmd(self, cmd, cwd=None, shell=False):
-        '''
+        """
         Run a command in the shell.
-        '''
+        """
         self.log.v_msg("cmd: {}\n  with params: cwd={}, shell={}".format(cmd, cwd, shell))
         args = shlex.split(cmd)
         process = Popen(args, stdout=PIPE, stderr=PIPE, cwd=cwd, shell=shell)
@@ -44,9 +44,9 @@ class Shell:
         return out, err
 
     def runcmd_bgrnd(self, cmd, out=PIPE, cwd=None, shell=False):
-        '''
+        """
         Run a command in a new process to prevent blocking.
-        '''
+        """
         cmd_to_log = "cmd: {}\n  with params: out={}, cwd={}, shell={}".format(
                         cmd, out, cwd, shell)
         self.log.v_msg(cmd_to_log)
@@ -61,9 +61,9 @@ class Shell:
         return process
 
     def kill(self, process=None):
-        '''
+        """
         Kill the specificed process (or current process if not specified).
-        '''
+        """
         if process is None:
             process = self.current_process
 
@@ -73,63 +73,63 @@ class Shell:
         self.current_process = None
 
     def terminate(self, process=None):
-        '''
+        """
         An alias for self.kill
-        '''
+        """
         self.kill(process)
 
     def run_grep(self, search, subject, options):
-        '''
+        """
         Execute a grep search.
-        '''
+        """
         cmd = "grep {} \"{}\" {}".format(options, search, subject)
         return self.runcmd(cmd)
 
     def rm_cmd(self, name):
-        '''
+        """
         Remove a file.
-        '''
+        """
         cmd = "rm {}".format(name)
         return self.runcmd(cmd)
 
     def rmdir_cmd(self, name):
-        '''
+        """
         Remove a directory non-recursively.
-        '''
+        """
         cmd = "rmdir {}".format(name)
         return self.runcmd(cmd)
 
     def rmrdir_cmd(self, name):
-        '''
+        """
         Remove a directory recursively.
-        '''
+        """
         cmd = "rm -r {}".format(name)
         return self.runcmd(cmd)
 
     def mv_cmd(self, src, dst):
-        '''
+        """
         Move a directory.
-        '''
+        """
         cmd = "mv {} {}".format(src, dst)
         return self.runcmd(cmd)
 
     def cp_cmd(self, src, dst):
-        '''
+        """
         Copy a file or file-like object to another location.
-        '''
+        """
         cmd = "cp -r {} {}".format(src, dst)
         return self.runcmd(cmd)
 
     def mkdir_cmd(self, name):
-        '''
+        """
         Move a file or file-like object to another location.
-        '''
+        """
         cmd = "mkdir {} -p".format(name)
         return self.runcmd(cmd)
 
     def clean_cmd(self, name):
-        '''
+        """
         Remove everything from an existing directory.
-        '''
+        """
         self.rmrdir_cmd(name)
         self.mkdir_cmd(name)

@@ -1,7 +1,7 @@
-'''
+"""
 This module converts C++ source code into Graph objects representing
 the CFG for the code.
-'''
+"""
 
 from typing import Dict
 import subprocess
@@ -16,17 +16,17 @@ sys.path.append("/app/code/")
 # pylint: disable=R0201
 
 class CPPConvert():
-    '''
+    """
     Creates Graph objects from files.
-    '''
+    """
 
     def __init__(self, logger) -> None:
         self.logger = logger
 
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
-        '''
+        """
         Creates a CFG from a C++ source file.
-        '''
+        """
         self.logger.d("Creating dot files")
         self.create_dot_files(filename, file_extension)
         self.logger.d("Converting to standard format")
@@ -106,10 +106,10 @@ class CPPConvert():
             new_file.write("}")
 
     def convert_to_standard_format(self, filename: str) -> int:
-        '''
+        """
         Convert each dot file generated from the .cpp source to the same format
         as the dot files generated from Java CFGs.
-        '''
+        """
         path = os.path.split(filename)[0]
         filename = os.path.split(filename)[1]
         files = glob2.glob(f"{path}/cppConverterTemps/*.dot")
@@ -124,10 +124,10 @@ class CPPConvert():
         return len(files) - 1
 
     def create_dot_files(self, filepath: str, file_extension: str) -> None:
-        '''
+        """
         Create a .dot file representing a control flow graph for
         each function from a .cpp file
-        '''
+        """
         # Make sure the file extension begins with a '.'
         if file_extension[0] != '.':
             file_extension = f".{file_extension}"
