@@ -7,34 +7,59 @@ Created on Tue Sep 16 23:47:44 2014
 
 from enum import Enum, auto
 
-class LOG_LEVEL(Enum):
+class LogLevel(Enum):
+    '''
+    Allows different levels to be set in the logger, indicating
+    which messages will actually be displayed.
+    '''
     DEBUG   = auto()
     REGULAR = auto()
 
 class Log:
-    def __init__(self, TAG: str="", display_output: bool=True, log_level=LOG_LEVEL.REGULAR) -> None:
-        self.TAG = TAG
+    '''
+    Log is used to print messages to standard out with additional formatting.
+    '''
+
+    def __init__(self, tag: str = "", display_output: bool = True,
+                 log_level=LogLevel.REGULAR) -> None:
+        '''
+        Creates a new logger.
+        '''
+        self.tag = tag
         self.display_output = display_output
         self.log_level = log_level
 
-    def setTag(self, TAG: str) -> None:
-        self.TAG = TAG
+    def set_tag(self, tag: str) -> None:
+        '''
+        Set the tag for the logger.
+        This tag will be prepended to all messages.
+        '''
+        self.tag = tag
 
-    def d(self, msg: str) -> None:
+    def d_msg(self, msg: str) -> None:
         '''
         d is used for DEBUGGING, and messages are only displayed if LOG_LEVEL is 'DEBUG'
         '''
-        if self.display_output and self.log_level is LOG_LEVEL.DEBUG:
+        if self.display_output and self.log_level is LogLevel.DEBUG:
             print(f"=== DEBUG ===: {msg}")
 
-    def i(self, msg: str) -> None:
+    def i_msg(self, msg: str) -> None:
+        '''
+        Log an information-level message.
+        '''
         if self.display_output:
-            print(f"{self.TAG} ~~~ {msg.upper()} ~~~")
+            print(f"{self.tag} ~~~ {msg.upper()} ~~~")
 
-    def v(self, msg: str) -> None:
+    def v_msg(self, msg: str) -> None:
+        '''
+        Log a verbose-level message.
+        '''
         if self.display_output:
-            print(f"{self.TAG} > {msg}")
+            print(f"{self.tag} > {msg}")
 
-    def e(self, msg: str) -> None:
+    def e_msg(self, msg: str) -> None:
+        '''
+        Log an error-level message.
+        '''
         if self.display_output:
-            print(f"{self.TAG} > !!! {msg} !!!")
+            print(f"{self.tag} > !!! {msg} !!!")

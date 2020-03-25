@@ -1,25 +1,24 @@
-from typing import List
-from threading import Thread, Event
-from time import sleep
-from sympy import limit, Abs, sympify, series, symbols, Function # type: ignore
-from mpmath import polyroots # type: ignore
-import signal
-import numpy as np # type: ignore
-from collections import Counter
-from operator import methodcaller
-import re
+'''
+'''
 
-def roundExpression(expr: str, digits: int) -> str:
+from typing import List
+import re
+from collections import Counter
+import signal
+from sympy import limit, Abs, sympify, series, symbols # type: ignore
+from mpmath import polyroots # type: ignore
+
+def round_expression(expr: str, digits: int) -> str:
     '''
     Take some sympy expression represented as a string
     and round all numbers to the given number of decimal
     places
     '''
-    regExp = "([0-9]*)\.([0-9]*)"
-    def replaceWithRounded(match):
+    reg_exp = r"([0-9]*)\.([0-9]*)"
+    def replace_with_rounded(match):
         return match.groups()[0] + "." + match.groups()[1][0:digits]
 
-    return re.sub(regExp, replaceWithRounded, expr)
+    return re.sub(reg_exp, replace_with_rounded, expr)
 
 def classify(expr: str, var="n") -> str:
     '''
@@ -43,14 +42,14 @@ def classify(expr: str, var="n") -> str:
         return f"Const:{val}"
     except:
         # If we have anything to the power 'n', then it is exponential
-        val = isExponential(expr, var)
+        val = is_exponential(expr, var)
         if val is None:
-            degree = getDegree(expr, var)
+            degree = get_degree(expr, var)
             return f"PolyDeg:{degree}"
 
         return f"ExpBase:{val}"
 
-def getSolutionFromRoots(roots):
+def get_solution_from_roots(roots):
     '''
     Return the solution to a recurrence relation given the roots of the characteristic
     equation
@@ -59,12 +58,12 @@ def getSolutionFromRoots(roots):
     roots = [complex(round(root.real, 6), round(root.imag, 6)) for root in roots]
 
     # Compute the multiplicy of each root
-    rootsWithMultiplicites = Counter(roots)
+    roots_with_multiplicities = Counter(roots)
 
     # Compute the coefficients of a_n as a list
     solution = []
-    for root in rootsWithMultiplicites.keys():
-        for i in range(0, rootsWithMultiplicites[root]):
+    for root in roots_with_multiplicities.keys():
+        for i in range(0, roots_with_multiplicities[root]):
             if root == 1:
                 solution += [sympify(f"(n**{i})")]
             else:
@@ -72,7 +71,7 @@ def getSolutionFromRoots(roots):
 
     return solution
 
-def getRecurrenceSolution(recurrence: str):
+def get_recurrence_solution(recurrence: str):
     '''
     Returns the coefficients to a homogeneous linear recurrence relation
     represented as a string of the format
@@ -82,43 +81,43 @@ def getRecurrenceSolution(recurrence: str):
     by finding the roots of the characteristic equation
     '''
     # Define symbolic terms
-    n = symbols('n')
-    f = Function('f')
+    # n = symbols('n')
+    # f = Function('f')
 
     # Regular expression to parse the recurrence relation expression.
     # RE matches a particular term: Coefficient + f(something)
-    matchFunction = 'f\([ a-zA-Z0-9-+]*\)'
-    matchObj = re.findall(f'([ +-.0-9]*)(\*)({matchFunction})', recurrence)
+    match_function = r'f\([ a-zA-Z0-9-+]*\)'
+    match_obj = re.findall(rf'([ +-.0-9]*)(\*)({match_function})', recurrence)
     coeffs: List[float] = []
-    for match in matchObj:
+    for match in match_obj:
         coeffs += [float(match[0].replace(" ", ""))]
 
     # Normalize such that leading coefficient is 1
-    leadingCoeff = coeffs[0]
-    coeffs = list(map(lambda coeff: coeff / leadingCoeff, coeffs))
+    leading_coeff = coeffs[0]
+    coeffs = list(map(lambda coeff: coeff / leading_coeff, coeffs))
 
     # Find the roots of the characteristic equation
     # through arbitrary precision root finding function
     roots = polyroots(coeffs, maxsteps=200, extraprec=200)
 
-    return getSolutionFromRoots(roots)
+    return get_solution_from_roots(roots)
 
-def getTaylorCoeffs(func, numCoeffs: int):
+def get_taylor_coeffs(func, num_coeffs: int):
     '''
     Given an arbitrary rational function
     '''
-    t = symbols('t')
-    L = str(series(func, x=t, x0=0, n = numCoeffs)).split('+')
-    firstElement = L[0]
-    firstPower = re.search("\*\*([0-9]*)", str(firstElement))
-    if firstPower is not None:
-        firstPowerInt = int(firstPower.groups()[0])
-        taylorCoeffs = [0] * firstPowerInt + [sympify(f).subs(t, 1) for f in L]
-        return taylorCoeffs
+    t_var = symbols('t')
+    L = str(series(func, x=t_var, x0=0, n = num_coeffs)).split('+')
+    first_element = L[0]
+    first_power = re.search(r"\*\*([0-9]*)", str(first_element))
+    if first_power is not None:
+        first_power_int = int(first_power.groups()[0])
+        taylor_coeffs = [0] * first_power_int + [sympify(f).subs(t_var, 1) for f in L]
+        return taylor_coeffs
 
     return None
 
-def isExponential(term: str, var = 'n'):
+def is_exponential(term: str, var = 'n'):
     '''
     If an expression contains an exponential, return its base.
     Otherwise, return None
@@ -126,75 +125,80 @@ def isExponential(term: str, var = 'n'):
 
     # either ^n or ^(num*n)
     num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
-    searchString = f"({num})\^{var}"
-    results = re.findall(searchString, term)
-    maxBase = None
+    search_string = rf"({num})\^{var}"
+    results = re.findall(search_string, term)
+    max_base = None
     if results:
-        maxBase = max(map(lambda res: float(res[0]), results))
+        max_base = max(map(lambda res: float(res[0]), results))
 
-    searchStringWithParens = f"({num})\^\(({num})?\*{var}\)"
-    results = re.findall(searchStringWithParens, term)
+    search_string_with_parens = rf"({num})\^\(({num})?\*{var}\)"
+    results = re.findall(search_string_with_parens, term)
     if results:
         # a^(bn) should be classified as a^b
         f = lambda res: float(res[0])**float(res[4])
-        newBase = max(map(f, results))
-        if newBase is not None:
-            if maxBase is None or newBase > maxBase:
-                maxBase = newBase
+        new_base = max(map(f, results))
+        if new_base is not None:
+            if max_base is None or new_base > max_base:
+                max_base = new_base
 
-    return maxBase
+    return max_base
 
-def getDegree(term: str, var="n") -> float:
+def get_degree(term: str, var="n") -> float:
     '''
     If an expression is a polynomial, return the degree.
     Otherwise, return 0.
     '''
     num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
-    res = re.findall(f"{var}\^({num})", term)
-    foundDeg = 0.
+    regexp = rf"{var}\^({num})"
+    res = re.findall(regexp, term)
+    found_deg = 0.
     if res:
-        foundDeg = max(map(lambda x: float(x[0]), res))
+        found_deg = max(map(lambda x: float(x[0]), res))
 
-    if foundDeg == 0. and re.search(var, term) is not None:
+    if found_deg == 0. and re.search(var, term) is not None:
         return 1.
 
-    return foundDeg
+    return found_deg
 
-def bigO(terms):
+def big_o(terms):
     '''
     Compute the big O of some expression in terms of 'n'
 
     The terms should be a list of expressions represented as strings
     '''
-    n = symbols('n')
+    n_var = symbols('n')
 
     if len(terms) == 1:
         return terms[0]
 
-    termOne = terms[0]
-    termTwo = terms[1]
-    lim = limit(Abs(sympify(termTwo) / sympify(termOne)), n, float('inf'))
+    term_one = terms[0]
+    term_two = terms[1]
+    lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
 
     if lim == 0:
-        return termOne
+        return term_one
 
-    return bigO(terms[1:])
+    return big_o(terms[1:])
 
 class Timeout:
     '''
     Allows us to run a function such that an error is thrown if
     it does not finish within a given amount of time
     '''
-    def __init__(self, seconds=1, errorMessage='Timeout') -> None:
+    def __init__(self, seconds=1, error_message='Timeout') -> None:
         self.seconds = seconds
-        self.errorMessage = errorMessage
+        self.error_message = error_message
 
-    def handleTimeout(self, signum, frame):
-        raise TimeoutError(self.errorMessage)
+    def handle_timeout(self, signum, frame):
+        '''
+        handle_timeout is executed after self.seconds have
+        passed if the block within it is not done.
+        '''
+        raise TimeoutError(self.error_message)
 
     def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handleTimeout)
+        signal.signal(signal.SIGALRM, self.handle_timeout)
         signal.alarm(self.seconds)
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, err_type, value, traceback):
         signal.alarm(0)

@@ -1,45 +1,76 @@
+'''
+Test that we can convert Python files to CFGs.
+'''
+
 import unittest
 
 class TestPythonConvert(unittest.TestCase):
+    '''
+    Create python source file containing each of the
+    basic building blocks that affect CFGs and verify
+    that we can parse all of them correctly.
+    '''
+
     # Expr
-    def testExpr(self):
-        pass
+    def test_expr(self):
+        '''
+        Test that we can correctly parse expressions
+        (e.g. y + x > 0)
+        '''
 
     # Return
-    def testReturn(self):
-        pass
+    def test_return(self):
+        '''
+        Test that we can correctly parse return statements.
+        '''
 
     # Assign
-    def testAssign(self):
-        pass
+    def test_assign(self):
+        '''
+        Test that we can correct parse assignment of variables.
+        '''
 
     # For
-    def testFor(self):
-        pass
+    def test_for(self):
+        '''
+        Test that we can correctly parse for loops.
+        '''
 
     # With
-    def testWith(self):
-        pass
+    def test_with(self):
+        '''
+        Test that we can correct parse with blocks.
+        '''
 
     # If
-    def testIf(self):
-        pass
+    def test_if(self):
+        '''
+        Test that we can correctly parse if statements.
+        '''
 
     # Raise
-    def testRaise(self):
-        pass
+    def test_raise(self):
+        '''
+        Test that we can correctly parse raise expressions.
+        '''
 
     # Try
-    def testTry(self):
-        pass
+    def test_try(self):
+        '''
+        Test that we can correctly parse try-except blocks.
+        '''
 
     # While
-    def testWhile(self):
-        pass
+    def test_while(self):
+        '''
+        Test that we can correctly parse while loops.
+        '''
 
-    # PythonConvert::toGraph
-    def testToGraph(self):
-        pass
+    # PythonConvert::to_graph
+    def test_to_graph(self):
+        '''
+        Test that we can correctly convert a file to Graph objects.
+        '''
 
 if __name__ == '__main__':
     unittest.main()

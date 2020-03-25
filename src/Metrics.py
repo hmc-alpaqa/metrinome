@@ -1,30 +1,330 @@
-import os, glob2, time, argparse, logging
+'''
+Metrics is used to compute aggregate metrics and compare them.
+'''
+
+from typing import List, Dict, Any
+from math import log
+import os
+import argparse
+import logging
+from collections import defaultdict, Counter
+from multiprocessing import Pool
 import matplotlib.pyplot as plt
 import numpy as np
-from threading import Thread, Event
+import glob2
 from Graph import Graph
-from sys import argv
-from PathComplexity import pathComplexity
-from CyclomaticComplexity import cyclomaticComplexity
-from NPathComplexity import nPathComplexity
-from Parameters import Parameters
-from Utils import roundExpression, classify, Timeout, isExponential
-from multiprocessing import Pool, Value
-from collections import defaultdict, Counter
-from math import log
-from typing import List
+from utils import round_expression, classify, Timeout
 
 NUM_PROCESSES = 4
 
-class MetricsComparer:
+def adjusted_rand_index(function_list) -> float:
+    '''
+    Compute the adjusted rand index, used to compare two different
+    clusterings on a set by looking at all oft he possible pairs of
+    points in the set.
+    '''
+    n_00 = 0 # In different clusters in both clusterings
+    n_11 = 0 # In the same cluster in both clusterings
+    n_01 = 0 # Different in the first clustering but not in the second
+    n_10 = 0 # Same in the first clustering but not in the second
+    # Iterate through all of the (N choose 2) possible pairs
+    for func_one, func_one_index in enumerate(function_list):
+        for func_two_index in range(func_one_index, len(function_list)):
+            pair = (func_one, function_list[func_two_index])
+            point_one_apc = pair[0] # TODO
+            point_two_apc = pair[1] # TODO
 
-    def computeMetrics(self):
-        return "not yet implemented"
+            point_one_npath = pair[0] # TODO
+            point_two_npath = pair[1] # TODO
+
+            if point_one_apc == point_two_apc:
+                if point_one_npath == point_two_npath:
+                    n_11 += 1
+                else:
+                    n_10 += 1
+            else:
+                if point_one_npath == point_two_npath:
+                    n_01 += 1
+                else:
+                    n_00 += 1
+
+    numerator = 2*(n_00 * n_11 - n_01 * n_10)
+    denominator_one = (n_00 + n_01) * (n_01 + n_11)
+    denominator_two =  (n_00 + n_10) * (n_10 + n_11)
+    denominator = denominator_one + denominator_two
+    return numerator / denominator
+
+def average_class_size(input_dict, use_frequencies: bool):
+    '''
+    Given some dictionary with key-value pairs
+        (Metric1, Metric2),
+    where given some value 'x' for Metric1, the dictionary
+    will map to all values Metric2 takes on for the set
+    of functions that took on value 'x' for Metric1
+    '''
+    print(use_frequencies)
+
+    num_classes = len(input_dict.keys())
+    sum_averages = 0
+
+    logging.info("Working with: " + str(input_dict))
+    logging.info(f"Number of Classes: {num_classes}")
+    for key in input_dict.keys():
+        total_counts = 0
+        entropy_value = 0
+
+        for count_index in input_dict[key]:
+            total_counts += input_dict[key][count_index]
+
+        # Computing the shannon entropy
+        for count_index in input_dict[key]:
+            count = input_dict[key][count_index]
+            prob = count / total_counts
+            entropy_value += prob * log(prob)
+
+        entropy_value *= -1
+
+        # If we only have a single value, then the disbrituion is perfectly uniform
+        if len(input_dict[key]) == 1:
+            sum_averages += 1
+        # Ratio between entropy of our distribution and uniform (ideal) distribution
+        else:
+            entropy_ratio = entropy_value / log(len(input_dict[key]))
+            logging.info(f"Found {total_counts} many counts for key {key}, \
+                            obtaining entropy {entropy_value} \
+                            and entropy ratio {entropy_ratio}")
+            total = entropy_ratio * len(input_dict[key])
+            sum_averages += entropy_ratio * len(input_dict[key])
+
+            print(total)
+
+    return sum_averages / num_classes
+
+def mutual_information(cluster_list_one, cluster_list_two) -> float:
+    '''
+    Calculate I(cluster_list_one, cluster_list_two)
+
+    @see https://en.wikipedia.org/wiki/Mutual_information
+    '''
+    cond_entropy = 0
+    # Obtain the total size
+    #TODO: is this supposed to be cluster_list_one?
+    total_size = get_total_size(cluster_list_one)
+
+    # Create a table of all the overlaps
+    overlaps = [[[0] for i in range(len(cluster_list_one))] \
+                for j in range(len(cluster_list_two))]
+    for i, cluster_one in enumerate(cluster_list_one):
+        for j, cluster_two in enumerate(cluster_list_two):
+            cluster_overlap = len(cluster_one.intersection(cluster_two))
+            overlaps[i][j] = cluster_overlap
+
+    for i in range(len(cluster_list_two)):
+        # Compute the marginal overlap
+        marginal_overlap = 0
+        for j in range(len(cluster_list_one)):
+            marginal_overlap += cluster_overlap[j][i]
+
+        for j in range(len(cluster_list_one)):
+            # Calculate the elements in common between both clusters
+            cluster_one = cluster_list_one[i]
+            cluster_two = cluster_list_two[j]
+            numerator = overlaps[i][j] / total_size
+            denominator = marginal_overlap / total_size
+            log_param = numerator / denominator
+            cond_entropy -= (cluster_overlap / total_size) * log(log_param, 2)
+
+    return cond_entropy
+
+def get_total_size(dictionary: Dict[Any]):
+    '''
+    Given a dictionary that maps to something that has
+    a 'length', sum up all of the lengths in the dictionary.
+    '''
+    total_size = 0
+    for cluster in dictionary:
+        total_size += len(dictionary[cluster])
+
+    return total_size
+
+def cluster_entropy(cluster_list) -> float:
+    '''
+    Calculate the entropy H(X) of a given clustering on a set.
+    The input is a dictionary where each entry is a complexity
+    class (representing a cluster) with a count (the number of
+    things in the cluster)
+    '''
+    total_entropy = 0
+    total_size = 0
+    # Obtain the total size
+    for cluster in cluster_list.keys():
+        total_size += len(cluster_list[cluster])
+
+    # Iterate through the clusters
+    for cluster in cluster_list.keys():
+        cluster_size = len(cluster_list[cluster])
+        probability_list = [1 / cluster_size] * cluster_size
+        total_entropy += entropy(probability_list) * (cluster_size / total_size)
+
+    return total_entropy
+
+def entropy(probabilities) -> float:
+    '''
+    Given some list representing a probability distribution, return the total entropy
+    Input: [p_0, p_1, ..., p_n]
+    Output: H(p)
+    '''
+    # Check that it is a valid probability distribution
+    if sum(probabilities) != 1:
+        raise ValueError("Not a valid probability distribution - does not sum to one")
+
+    total_entropy = 0
+    for probability in probabilities:
+        total_entropy -= probability * log(probability, 2)
+
+    return total_entropy
+
+def check_argument_errors(params):
+    '''
+    Throws a ValueError if the set of command line arguments given by the user
+    are invalid.
+    '''
+    if os.path.isdir(params.getFilepath()):
+        if params.getStatsMode():
+            raise ValueError("StatsComputer takes a CSV file of results.")
+
+        if params.getRecursive():
+            raise ValueError("Recursive mode only applies to directories")
+
+def set_logging(args) -> None:
+    '''
+    Configure logging according to the parameters specified by user
+    '''
+    logfile = args['logfile']
+    if args['log']:
+        if logfile is not None:
+            # Will append to existing file by default
+            logging.basicConfig(filename=logfile, level=logging.INFO)
+        else:
+            logging.basicConfig(level=logging.INFO)
+
+def get_file_list(file_path: str, recursive: bool) -> List[str]:
+    '''
+    Obtain a list of the paths to all .dot files from an initial file path.
+    Recursive mode will enable searching in subdirectories.
+    '''
+    if os.path.isdir(file_path):
+        if recursive:
+            # recursive glob '**' operator matches 0 or more subdirectories
+            file_list = glob2.glob(os.path.join(file_path, "**/*.dot"), recursive=True)
+        else:
+            file_list = glob2.glob(os.path.join(file_path, "*.dot"), recursive=False)
+    else:
+        file_list = [file_path]
+
+    return file_list
+
+def log_class_sizes(cyc_to_aoc, apc_to_cyc, npath_to_apc, apc_to_npath) -> None:
+    '''
+    Writes the average class size for each metric to the log file
+    '''
+    logging.info(f"cyc_to_aoc: {str(cyc_to_aoc)}")
+    logging.info(f"apc_to_cyc: {str(apc_to_cyc)}")
+    logging.info(f"npath_to_apc: {str(npath_to_apc)}")
+    logging.info(f"apc_to_npath: {str(apc_to_npath)}\n")
+
+def create_argument_parser():
+    '''
+    Create a parser to read command line arguments from the user
+    '''
+    parser = argparse.ArgumentParser(description="")
+
+    recur_desc = "Recursive Mode: look for .dot files in all subfolders"
+    stats_desc = "Compute the metric for a given input file"
+    log_desc   = "Print logging information to STD_OUT"
+    logf_desc  = "Specify a file that logging information \
+                will be written to (instead of STD_OUT)"
+
+    parser.add_argument('-f', '--filename', help="Input filename", required=True)
+    parser.add_argument('-r', '--recursive', help=recur_desc,
+                        action="store_true", required=False)
+    parser.add_argument('-o', '--output', help="Set an output file", required=False)
+    parser.add_argument('-s', '--statistics', help=stats_desc,
+                        action="store_true", required=False)
+    parser.add_argument('-l', '--log', help=log_desc, action="store_true", required=False)
+    parser.add_argument('--logfile', help=logf_desc, required=False)
+    return parser
+
+def joint_entropy(cluster_list_one, cluster_list_two) -> float:
+    '''
+    Compute H(X, Y)
+
+    @see https://en.wikipedia.org/wiki/Joint_entropy
+
+    The input is two dictionaries where each entry is a complexity class
+    (representing a cluster) with a set of functions.
+    '''
+    result = 0
+    # Obtain the total size
+    for cluster in cluster_list_one.keys():
+        total_size += len(cluster_list_one[cluster])
+
+    for cluster_one in cluster_list_one:
+        for cluster_two in cluster_list_two:
+            # Calculate the elements in common between both clusters
+            cluster_overlap = len(cluster_one.intersection(cluster_two))
+            result -= (cluster_overlap / total_size) * \
+                                log((cluster_overlap / total_size), 2)
+
+    return result
+
+def conditional_entropy(cluster_list_one, cluster_list_two) -> float:
+    '''
+    Calculate H(cluster_list_one | cluster_list_two)
+
+    @see https://en.wikipedia.org/wiki/Conditional_entropy
+    '''
+    cond_entropy = 0
+    # Obtain the total size
+    for cluster in cluster_list_one.keys():
+        total_size += len(cluster_list_one[cluster])
+
+    # Create a table of all the overlaps
+    overlaps = [[[0] for i in range(len(cluster_list_one))] \
+                for j in range(len(cluster_list_two))]
+    for i, cluster_one in enumerate(cluster_list_one):
+        for j, cluster_two in enumerate(cluster_list_two):
+            cluster_overlap = len(cluster_one.intersection(cluster_two))
+            overlaps[i][j] = cluster_overlap
+
+    for i in range(len(cluster_list_two)):
+        # Compute the marginal overlap
+        marginal_overlap = 0
+        for j in range(len(cluster_list_one)):
+            marginal_overlap += cluster_overlap[j][i]
+
+        for j in range(len(cluster_list_one)):
+            # Calculate the elements in common between both clusters
+            cluster_one = cluster_list_one[i]
+            cluster_two = cluster_list_two[j]
+            numerator = overlaps[i][j] / total_size
+            denominator = marginal_overlap / total_size
+            log_param = numerator / denominator
+            cond_entropy -= (cluster_overlap / total_size) * log(log_param, 2)
+
+    return cond_entropy
+
+class MetricsComparer:
+    '''
+    Allows the comparison between different metrics
+    such as NPath, Cyclomatic Complexity, and APC.
+    '''
 
     def __init__(self, results, location) -> None:
         '''
         Input results list of tuples, each being:
-            (Cyclomatic Complexity, NPATH Complexity, APC Class, Largest Big-O APC term, APC Expression)
+            (Cyclomatic Complexity, NPATH Complexity,
+            APC Class, Largest Big-O APC term, APC Expression)
 
         Creates a new MetricsComparer object from a list of results, creating dictionaries
         with (key, value) pairs given by
@@ -37,77 +337,37 @@ class MetricsComparer:
         self.results = results
 
         # Classify by cyclomatic complexity -> path complexity
-        d1 = defaultdict(list)
+        dict_one = defaultdict(list)
 
         # Classify by npath complexity -> path complexity
-        d2 = defaultdict(list)
+        dict_two = defaultdict(list)
 
         # Classify by path complexity -> cyclomatic complexity
-        d3 = defaultdict(list)
+        dict_three = defaultdict(list)
 
         # Classify by path complexity -> npath
-        d4 = defaultdict(list)
+        dict_four = defaultdict(list)
 
-        self.cyclomaticComplexities = []
-        self.nPathComplexities = []
-        self.pathComplexities = []
+        self.cyclomatic_complexities = []
+        self.npath_complexities = []
+        self.path_complexities = []
 
-        self.dicts = [d1, d2, d3, d4]
+        self.dicts = [dict_one, dict_two, dict_three, dict_four]
+        self.dict_counter = None
 
         for res in results:
-            cycCompl       = res[1]
-            nPathCompl     = res[2]
-            pathCompl      = res[4]
-            d1[cycCompl]   += [pathCompl]
-            d2[nPathCompl] += [pathCompl]
-            d3[pathCompl]  += [cycCompl]
-            d4[pathCompl]  += [nPathCompl]
-            self.cyclomaticComplexities += [cycCompl]
-            self.nPathComplexities += [nPathCompl]
-            self.pathComplexities += [pathCompl]
+            cyc_compl       = res[1]
+            npath_compl     = res[2]
+            path_compl      = res[4]
+            dict_one[cyc_compl]   += [path_compl]
+            dict_two[npath_compl] += [path_compl]
+            dict_three[path_compl]  += [cyc_compl]
+            dict_four[path_compl]  += [npath_compl]
+            self.cyclomatic_complexities += [cyc_compl]
+            self.npath_complexities += [npath_compl]
+            self.path_complexities += [npath_compl]
 
-    def averageClassSize(self, dict, useFrequencies: bool):
-        '''
-        Given some dictionary with key-value pairs
-            (Metric1, Metric2),
-        where given some value 'x' for Metric1, the dictionary
-        will map to all values Metric2 takes on for the set
-        of functions that took on value 'x' for Metric1
-        '''
-        numClasses = len(dict.keys())
-        sumAverages = 0
-
-        logging.info("Working with: " + str(dict))
-        logging.info(f"Number of Classes: {numClasses}")
-        for key in dict.keys():
-            totalCounts = 0
-            entropy = 0
-
-            for countIndex in dict[key]:
-                totalCounts += dict[key][countIndex]
-
-            # Computing the shannon entropy
-            for countIndex in dict[key]:
-                count = dict[key][countIndex]
-                p = count / totalCounts
-                entropy += p * log(p)
-
-            entropy *= -1
-
-            # If we only have a single value, then the disbrituion is perfectly uniform
-            if len(dict[key]) == 1:
-                sumAverages += 1
-            # Ratio between entropy of our distribution and uniform (ideal) distribution
-            else:
-                entropyRatio = entropy / log(len(dict[key]))
-                logging.info(f"Found {totalCounts} many counts for key {key}, obtaining entropy {entropy} \
-                               and entropy ratio {entropyRatio}")
-                total = entropyRatio * len(dict[key])
-                sumAverages += entropyRatio * len(dict[key])
-
-        return sumAverages / numClasses
-
-    def logDicts(self) -> None:
+    def log_dicts(self) -> None:
         '''
         Log the dictionaries mapping between complexity metrics to the log
         file
@@ -117,59 +377,53 @@ class MetricsComparer:
         logging.info("APC to C: ------ " + str(self.dicts[2]))
         logging.info("APC to NPATH: ------ " + str(self.dicts[3]) + "\n")
 
-    def logClassSizes(self, cycToAPC, APCToCyc, npathToAPC, apcToNPATH) -> None:
-        '''
-        Writes the average class size for each metric to the log file
-        '''
-        logging.info(f"cycToAPC: {str(cycToAPC)}")
-        logging.info(f"APCToCyc: {str(APCToCyc)}")
-        logging.info(f"NPATHToAPC: {str(npathToAPC)}")
-        logging.info(f"APCToNPATH: {str(apcToNPATH)}\n")
-
-    def computeMetric(self, useFrequencies: bool = True) -> None:
+    def compute_metric(self, use_frequencies: bool = True) -> None:
         '''
         Calculate the metrics used to compare APC to Cyclomatic Complexity
         and NPATH
         '''
-        self.logDicts()
+        self.log_dicts()
 
         # Convert APCs to correct complexity classes
-        tempDict = dict()
+        temp_dict = dict()
         for i in range(0, 2):
             for key in self.dicts[i].keys():
-                tempDict[key] = list(map(classify, self.dicts[i][key]))
-            self.dicts[i] = tempDict
+                temp_dict[key] = list(map(classify, self.dicts[i][key]))
+            self.dicts[i] = temp_dict
 
-        tempDict = dict()
+        temp_dict = dict()
         for i in range(2, 4):
             for key in self.dicts[i].keys():
-                tempDict[classify(key)] = self.dicts[i][key]
-            self.dicts[i] = tempDict
+                temp_dict[classify(key)] = self.dicts[i][key]
+            self.dicts[i] = temp_dict
 
-        self.logDicts()
+        self.log_dicts()
         self.aggregate()
-        self.logDicts()
+        self.log_dicts()
 
-        averageClassSizes = [0] * 4
+        average_class_sizes = [0] * 4
         for i in range(0, 4):
-            averageClassSizes[i] = self.averageClassSize(self.dictCounter[i], useFrequencies)
-        cycToAPC, apcToCyc, npathToAPC, apcToNPATH = averageClassSizes
+            average_class_sizes[i] = average_class_size(self.dict_counter[i], use_frequencies)
+        cyc_to_aoc, apc_to_cyc, npath_to_apc, apc_to_npath = average_class_sizes
 
-        self.logClassSizes(*averageClassSizes)
+        log_class_sizes(*average_class_sizes)
 
-        if cycToAPC == apcToCyc:
-            rOne = 0
+        if cyc_to_aoc == apc_to_cyc:
+            r_one = 0
         else:
-            rOne = (cycToAPC + apcToCyc) / (cycToAPC - apcToCyc)
+            r_one = (cyc_to_aoc + apc_to_cyc) / (cyc_to_aoc - apc_to_cyc)
 
-        if npathToAPC == apcToNPATH:
-            rTwo = 0
+        if npath_to_apc == apc_to_npath:
+            r_two = 0
         else:
-            rTwo = (npathToAPC + apcToNPATH) / (npathToAPC - apcToNPATH)
+            r_two = (npath_to_apc + apc_to_npath) / (npath_to_apc - apc_to_npath)
 
-        writeOutput(f"APC to Cyclomatic: {cycToAPC}, APCToCyc: {apcToCyc}", self.location)
-        writeOutput(f"APC to Cyclomatic: {npathToAPC}, APCToNPATH: {apcToNPATH}", self.location)
-        writeOutput(f"APC to Cyclomatic: {rOne}, APC vs NPATH: {rTwo}", self.location)
+        write_output(f"APC to Cyclomatic: {cyc_to_aoc}, \
+                    apc_to_cyc: {apc_to_cyc}", self.location)
+        write_output(f"APC to Cyclomatic: {npath_to_apc}, \
+                    apc_to_npath: {apc_to_npath}", self.location)
+        write_output(f"APC to Cyclomatic: {r_one}, \
+                    APC vs NPATH: {r_two}", self.location)
 
     def aggregate(self):
         '''
@@ -182,229 +436,60 @@ class MetricsComparer:
         and creates a dictionary with the same key that maps to the number of different
         complexities (e.g. (Cyclomatic, len(APC Complexities)))
         '''
-        self.dictCounter = self.dicts
-        for dictionary in self.dictCounter:
+        self.dict_counter = self.dicts
+        for dictionary in self.dict_counter:
             for key in dictionary.keys():
                 dictionary[key] = Counter(dictionary[key])
 
-    def showPlot(self) -> None:
+    def show_plot(self) -> None:
         '''
         Create a histogram for both the distribution of Cyclomatic Complexity and NPATH
         over all of the functions.
         '''
         plt.subplot(2, 1, 1)
 
-        mean = np.mean(self.cyclomaticComplexities)
-        std  = np.std(self.cyclomaticComplexities)
-        plt.hist(self.cyclomaticComplexities, bins=100, label=f"Mean: {mean}\n StdDev: {std}")
+        mean = np.mean(self.cyclomatic_complexities)
+        std  = np.std(self.cyclomatic_complexities)
+        plt.hist(self.cyclomatic_complexities, bins=100, label=f"Mean: {mean}\n StdDev: {std}")
         plt.title("Cyclomatic Complexity Distribution")
         plt.ylabel("Counts")
         plt.xlabel("Cyclomatic Complexity")
         plt.legend(loc='upper left')
 
         plt.subplot(2,1,2)
-        mean = np.mean(self.nPathComplexities)
-        std  = np.std(self.nPathComplexities)
-        plt.hist(self.nPathComplexities, bins=100, label=f"Mean: {mean}\n StdDev: {std}")
+        mean = np.mean(self.npath_complexities)
+        std  = np.std(self.npath_complexities)
+        plt.hist(self.npath_complexities, bins=100, label=f"Mean: {mean}\n StdDev: {std}")
         plt.title("NPath Distribution")
         plt.ylabel("Counts")
         plt.xlabel("NPath Complexity")
         plt.legend()
         plt.show()
 
-    def adjustedRandIndex(self, functionList) -> float:
-        '''
-        Compute the adjusted rand index, used to compare two different
-        clusterings on a set by looking at all oft he possible pairs of
-        points in the set.
-        '''
-        n_00 = 0 # In different clusters in both clusterings
-        n_11 = 0 # In the same cluster in both clusterings
-        n_01 = 0 # Different in the first clustering but not in the second
-        n_10 = 0 # Same in the first clustering but not in the second
-        # Iterate through all of the (N choose 2) possible pairs
-        for funcOneIndex in range(len(functionList)):
-            for funcTwoIndex in range(funcOneIndex, len(functionList)):
-                pair = (functionList[funcOneIndex], functionList[funcTwoIndex])
-                pointOneAPC = pair[0] # TODO
-                pointTwoAPC = pair[1] # TODO
-
-                pointOneNPATH = pair[0] # TODO
-                pointTwoNPATH = pair[1] # TODO
-
-                if pointOneAPC == pointTwoAPC:
-                    if pointOneNPATH == pointTwoNPATH:
-                        n_11 += 1
-                    else:
-                        n_10 += 1
-                else:
-                    if pointOneNPATH == pointTwoNPATH:
-                        n_01 += 1
-                    else:
-                        n_00 += 1
-
-        numerator = 2*(n_00 * n_11 - n_01 * n_10)
-        denominatorOne = (n_00 + n_01) * (n_01 + n_11)
-        denominatorTwo =  (n_00 + n_10) * (n_10 + n_11)
-        denominator = denominatorOne + denominatorTwo
-        return (numerator / denominator)
-
     @staticmethod
-    def fromCSV(filename, location):
+    def from_csv(file_name, location):
         '''
         Create a MetricsComparer object from a results CSV file by
         obtaining the relevant entries from each line.
         Expected file format:
 
-        test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class, path_cplxty_asym, path_cplxty
+        test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class,
+            path_cplxty_asym, path_cplxty
         '''
         results = []
-        with open(filename, "r") as f:
-            content = f.readlines()[1:]
+        with open(file_name, "r") as file:
+            content = file.readlines()[1:]
             for line in content:
                 try:
-                    filepath = line.strip().split(",")[1]
+                    file_path = line.strip().split(",")[1]
                     # Don't need ID
                     result = line.strip().split(",")[2:]
-                    result = [filepath] + [float(result[0])] + [float(result[1])] + result[2:]
+                    result = [file_path] + [float(result[0])] + [float(result[1])] + result[2:]
                     results.append(result)
-                except (IndexError, ValueError) as e:
-                    pass #TODO - log?
+                except (IndexError, ValueError) as _:
+                    pass
 
         return MetricsComparer(results, location)
-
-    def entropy(self, probabilities) -> float:
-        '''
-        Given some list representing a probability distribution, return the total entropy
-        Input: [p_0, p_1, ..., p_n]
-        Output: H(p)
-        '''
-        # Check that it is a valid probability distribution
-        if sum(probabilities) != 1:
-            raise ValueError("Not a valid probability distribution - does not sum to one")
-
-        totalEntropy = 0
-        for probability in probabilities:
-            totalEntropy -= probability * log(probability, 2)
-
-        return totalEntropy
-
-    def clusterEntropy(self, clusterList) -> float:
-        '''
-        Calculate the entropy H(X) of a given clustering on a set.
-        The input is a dictionary where each entry is a complexity
-        class (representing a cluster) with a count (the number of
-        things in the cluster)
-        '''
-        totalEntropy = 0
-        totalSize = 0
-        # Obtain the total size
-        for cluster in clusterList.keys():
-            totalSize += len(clusterList[cluster])
-
-        # Iterate through the clusters
-        for cluster in clusterList.keys():
-            clusterSize = len(clusterList[cluster])
-            probabilityList = [1 / clusterSize] * clusterSize
-            totalEntropy += self.entropy(probabilityList) * (clusterSize / totalSize)
-
-        return totalEntropy
-
-    def jointEntropy(self, clusterListOne, clusterListTwo) -> float:
-        '''
-        Compute H(X, Y)
-
-        @see https://en.wikipedia.org/wiki/Joint_entropy
-
-        The input is two dictionaries where each entry is a complexity class
-        (representing a cluster) with a set of functions.
-        '''
-        jointEntropy = 0
-        # Obtain the total size
-        for cluster in clusterListOne.keys():
-            totalSize += len(clusterListOne[cluster])
-
-        for clusterOne in clusterListOne:
-            for clusterTwo in clusterListTwo:
-                # Calculate the elements in common between both clusters
-                clusterOverlap = len(clusterOne.intersection(clusterTwo))
-                jointEntropy -= (clusterOverlap / totalSize) * log((clusterOverlap / totalSize), 2)
-
-        return jointEntropy
-
-    def conditionalEntropy(self, clusterListOne, clusterListTwo) -> float:
-        '''
-        Calculate H(clusterListOne | clusterListTwo)
-
-        @see https://en.wikipedia.org/wiki/Conditional_entropy
-        '''
-        condEntropy = 0
-        # Obtain the total size
-        for cluster in clusterListOne.keys():
-            totalSize += len(clusterListOne[cluster])
-
-        # Create a table of all the overlaps
-        overlaps = [[[0] for i in range(len(clusterListOne))] for j in range(len(clusterListTwo))]
-        for i in range(len(clusterListOne)):
-            for j in range(len(clusterListTwo)):
-                clusterOne = clusterListOne[i]
-                clusterTwo = clusterListTwo[j]
-                clusterOverlap = len(clusterOne.intersection(clusterTwo))
-                overlaps[i][j] = clusterOverlap
-
-        for i in range(len(clusterListTwo)):
-            # Compute the marginal overlap
-            marginalOverlap = 0
-            for j in range(len(clusterListOne)):
-                marginalOverlap += clusterOverlap[j][i]
-
-            for j in range(len(clusterListOne)):
-                # Calculate the elements in common between both clusters
-                clusterOne = clusterListOne[i]
-                clusterTwo = clusterListTwo[j]
-                numerator = overlaps[i][j] / totalSize
-                denominator = marginalOverlap / totalSize
-                logParam = numerator / denominator
-                condEntropy -= (clusterOverlap / totalSize) * log(logParam, 2)
-
-        return condEntropy
-
-    def mutualInformation(self, clusterListOne, clusterListTwo) -> float:
-        '''
-        Calculate I(clusterListOne, clusterListTwo)
-
-        @see https://en.wikipedia.org/wiki/Mutual_information
-        '''
-        condEntropy = 0
-        # Obtain the total size
-        for cluster in clusterListOne.keys(): #TODO: is this supposed to be clusterListOne?
-            totalSize += len(clusterListOne[cluster])
-
-        # Create a table of all the overlaps
-        overlaps = [[[0] for i in range(len(clusterListOne))] for j in range(len(clusterListTwo))]
-        for i in range(len(clusterListOne)):
-            for j in range(len(clusterListTwo)):
-                clusterOne = clusterListOne[i]
-                clusterTwo = clusterListTwo[j]
-                clusterOverlap = len(clusterOne.intersection(clusterTwo))
-                overlaps[i][j] = clusterOverlap
-
-        for i in range(len(clusterListTwo)):
-            # Compute the marginal overlap
-            marginalOverlap = 0
-            for j in range(len(clusterListOne)):
-                marginalOverlap += clusterOverlap[j][i]
-
-            for j in range(len(clusterListOne)):
-                # Calculate the elements in common between both clusters
-                clusterOne = clusterListOne[i]
-                clusterTwo = clusterListTwo[j]
-                numerator = overlaps[i][j] / totalSize
-                denominator = marginalOverlap / totalSize
-                logParam = numerator / denominator
-                condEntropy -= (clusterOverlap / totalSize) * log(logParam, 2)
-
-        return condEntropy
 
 class Main():
     '''
@@ -413,146 +498,101 @@ class Main():
     .dot files, and calling the MetricsComparer to compare the 3 metrics
     if specified.
     '''
-
-    def createArgumentParser(self):
-        '''
-        Create a parser to read command line arguments from the user
-        '''
-        parser = argparse.ArgumentParser(description="")
-
-        recurDesc = "Recursive Mode: look for .dot files in all subfolders"
-        statsDesc = "Compute the metric for a given input file"
-        logDesc   = "Print logging information to STD_OUT"
-        logfDesc  = "Specify a file that logging information will be written to (instead of STD_OUT)"
-
-        parser.add_argument('-f', '--filename', help="Input filename", required=True)
-        parser.add_argument('-r', '--recursive', help=recurDesc, action="store_true", required=False)
-        parser.add_argument('-o', '--output', help="Set an output file", required=False)
-        parser.add_argument('-s', '--statistics', help=statsDesc, action="store_true", required=False)
-        parser.add_argument('-l', '--log', help=logDesc, action="store_true", required=False)
-        parser.add_argument('--logfile', help=logfDesc, required=False)
-        return parser
-
-    def checkArgumentErrors(self, params):
-        '''
-        Throws a ValueError if the set of command line arguments given by the user
-        are invalid.
-        '''
-        if os.path.isdir(params.getFilepath()):
-            if params.getStatsMode():
-                raise ValueError("StatsComputer takes a CSV file of results.")
-            elif params.getRecursive():
-                # Not a directory, cannot be recursive
-                if params.getRecursive():
-                    raise ValueError("Recursive mode only applies to directories")
-
-    def setLogging(self, args) -> None:
-        '''
-        Configure logging according to the parameters specified by user
-        '''
-        logfile = args['logfile']
-        if args['log']:
-            if logfile is not None:
-                # Will append to existing file by default
-                logging.basicConfig(filename=logfile, level=logging.INFO)
-            else:
-                logging.basicConfig(level=logging.INFO)
-
-    def getFileList(self, filePath: str, recursive: bool) -> List[str]:
-        '''
-        Obtain a list of the paths to all .dot files from an initial file path.
-        Recursive mode will enable searching in subdirectories.
-        '''
-        if os.path.isdir(filePath):
-            if recursive:
-                # recursive glob '**' operator matches 0 or more subdirectories
-                fileList = glob2.glob(os.path.join(filePath, "**/*.dot"), recursive=True)
-            else:
-                fileList = glob2.glob(os.path.join(filePath, "*.dot"), recursive=False)
-        else:
-            fileList = [filePath]
-
-        return fileList
-
     def __init__(self) -> None:
         '''
         Get the command line arguments from the user and verify that they are valid
         '''
         # Get command line arguments
-        parser = self.createArgumentParser()
+        parser = create_argument_parser()
         args = vars(parser.parse_args())
 
-        params = Parameters(args['filename'], args['recursive'], args['output'], args['statistics'])
+        # params = Parameters(args['filename'], args['recursive'],
+        #  args['output'], args['statistics'])
 
-        filePath    = params.getFilepath()
-        recursive   = params.getRecursive()
-        self.location  = params.getOutputFile()
-        statsMode   = params.getStatsMode()
+        # file_path     = params.getFilepath()
+        # recursive     = params.getRecursive()
+        # self.location = params.getOutputFile()
+        # stats_mode    = params.getStatsMode()
 
-        self.setLogging(args)
-        self.checkArgumentErrors(params)
-        fileList = self.getFileList(filePath, recursive)
+        file_path = "tmp"
+        recursive = "tmp"
+        self.location = "tmp"
+        stats_mode = "tmp"
 
-        if statsMode:
-            self.computeStatistics(fileList[0])
+        set_logging(args)
+        # self.check_argument_errors(params)
+        file_list = get_file_list(file_path, recursive)
+
+        if stats_mode:
+            self.compute_statistics(file_list[0])
         else:
-            self.computeResults(fileList)
+            self.compute_results(file_list)
 
-    def computeResult(self, fileName: str):
+    def compute_result(self, file_name: str):
         '''
         Given a single file dot file, compute the APC, Path Complexity,
         Cyclomatic Complexity, and NPATH.
         '''
         digits = 2
-        graph = Graph.fromFile(fileName)
-        writeOutput(f"Working on {fileName}", self.location)
-        with Timeout(seconds = 10, errorMessage = "Timeout"):
-            nPathCompl = nPathComplexity(graph)
+        graph = Graph.from_file(file_name)
+        write_output(f"Working on {file_name}", self.location)
+        with Timeout(seconds=10, error_message="Timeout"):
+            # npath_compl = n_path_complexity(graph)
+            pass
 
         try:
-            pathComplexityResult = pathComplexity(graph)
+            path_complexity_result = path_complexity(graph)
         except:
-            pathComplexityResult = "ERR"
+            path_complexity_result = "ERR"
 
-        asymptoticComplexity = pathComplexityResult[0]
-        fullPathComplexity = pathComplexityResult[1]
-        return (fileName, cyclomaticComplexity(graph), nPathCompl, classify(asymptoticComplexity, "n"),
-                roundExpression(asymptoticComplexity, digits), roundExpression(fullPathComplexity, digits))
+        asymptotic_complexity = path_complexity_result[0]
+        full_path_complexity = path_complexity_result[1]
 
-    def computeStatistics(self, fileName: str) -> None:
+        cyclomatic_complexity = lambda tmp: 0
+        n_path_compl = "tmp"
+        return (file_name, cyclomatic_complexity(graph), n_path_compl,
+                classify(asymptotic_complexity, "n"),
+                round_expression(asymptotic_complexity, digits),
+                round_expression(full_path_complexity, digits))
+
+    def compute_statistics(self, file_name: str) -> None:
         '''
-        Given a CSV file with all of the results given by 'computeResults,'
+        Given a CSV file with all of the results given by 'compute_results,'
         calculate the metrics used to compare APC, NPATH, and Cyclomatic
         Complexity
         '''
-        metrics = MetricsComparer.fromCSV(fileName, self.location)
-        metrics.computeMetric()
+        metrics = MetricsComparer.from_csv(file_name, self.location)
+        metrics.compute_metric()
 
-    def computeResults(self, filelist) -> None:
+    def compute_results(self, filelist) -> None:
         '''
-        Given a list of .dot files, compute the Cyclomatic Complexity, NPATH Complexity, and Path Complexity
+        Given a list of .dot files, compute the Cyclomatic Complexity,
+        NPATH Complexity, and Path Complexity
         for all of the files, and write the output to a file/STDOUT
         '''
-        writeOutput("test_number, cfg_file, cyclomatic_complexity, npath_complexity, \
+        write_output("test_number, cfg_file, cyclomatic_complexity, npath_complexity, \
                      path_cplxty_class, path_cplxty_asym, path_cplxty", self.location)
 
-        splitFileList = [[] for _ in range(NUM_PROCESSES)]
-        for fileIndex in range(len(filelist)):
-            splitFileList[fileIndex % len(splitFileList)].append(filelist[fileIndex])
+        split_file_list = [[] for _ in range(NUM_PROCESSES)]
+        for file_index, file in enumerate(filelist):
+            split_file_list[file_index % len(split_file_list)].append(file)
 
-        procPool = Pool(processes = NUM_PROCESSES)
-        results = procPool.imap_unordered(self.threadpoolMapper, splitFileList)
-        procPool.close()
-        procPool.join()
+        proc_pool = Pool(processes=NUM_PROCESSES)
+        results = proc_pool.imap_unordered(self.threadpool_mapper, split_file_list)
+        proc_pool.close()
+        proc_pool.join()
 
         for result in results:
             if len(result) != 0:
-                writeOutput("\n".join(list(map(lambda x: str(x)[1:-1], result))), self.location)
+                write_output("\n".join(list(map(lambda x: str(x)[1:-1], result))), self.location)
 
-    def threadpoolMapper(self, fileNames):
-        return list(map(self.computeResult, fileNames))
+    def threadpool_mapper(self, file_names):
+        '''
+        Maps compute_result over a set of file names.
+        '''
+        return list(map(self.compute_result, file_names))
 
-def writeOutput(msg, location):
+def write_output(msg, location):
     '''
     Write a String to STDOUT or a file if specified
     '''
@@ -562,6 +602,3 @@ def writeOutput(msg, location):
         if os.path.isfile(location):
             with open(location, 'w') as file:
                 file.write(msg)
-
-if __name__ == "__main__":
-    main = Main()

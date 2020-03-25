@@ -60,7 +60,17 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
-disable=print-statement,
+disable=C0326, # disable space before bracket
+	W0511, # TODOs
+	W1202, # % for lazy evaluation in logging
+	W1201, # % for lazy evluation in logging
+	R0903, # too few public methods
+	W0235, # useless super() delegation
+	R0201, # method could be a function
+	C0413, # import should be at the top of the file (this should probably be
+	       # re-enabled later, but currently we use sys.path.append to get
+	       # the imports to work properly, which causes this error.
+	print-statement,
         parameter-unpacking,
         unpacking-in-except,
         old-raise-syntax,

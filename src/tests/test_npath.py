@@ -1,8 +1,17 @@
+'''
+Test all methods associated with computing NPath complexity.
+'''
+
 import unittest
+from graph import Graph
 
 class TestNPATH(unittest.TestCase):
+    '''
+    Test the implementation of the class able to compute the
+    NPath metric for an arbitrary graph.
+    '''
 
-    def testNPath(self):
+    def test_npath(self):
         '''
         Expected Results:
 
@@ -13,46 +22,52 @@ class TestNPATH(unittest.TestCase):
         3,/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test3_0_basic.dot,4,8,
             Polynomial,0.04*n^3.,5. + 3.08*n + 0.62*n^2. + 0.04*n^3.
         4,/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test4_0_basic.dot,4,4,
-            Exponential,1.9000000000000001*1.8^(0.5*n),1. + 0.04*0.45^(0.5*n) + 0.56*1.25^(0.5*n) + 1.9000000000000001*1.8^(0.5*n)
+            Exponential,1.9000000000000001*1.8^(0.5*n),1. + 0.04*0.45^(0.5*n) +
+            0.56*1.25^(0.5*n) + 1.9000000000000001*1.8^(0.5*n)
         5,/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test5_0_basic.dot,4,4,
-            Exponential,1.9000000000000001*1.8^(0.5*n),1. + 0.04*0.45^(0.5*n) + 0.56*1.25^(0.5*n) + 1.9000000000000001*1.8^(0.5*n)
+            Exponential,1.9000000000000001*1.8^(0.5*n),1. + 0.04*0.45^(0.5*n) +
+            0.56*1.25^(0.5*n) + 1.9000000000000001*1.8^(0.5*n)
         6,/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test6_0_basic.dot,4,8,
             Polynomial,0.02*n^3.,4. + 2.17*n + 0.38*n^2. + 0.02*n^3.
         '''
-        basePath = f"{PATH_TO_CFGS}/cfgs/simple_test_cfgs/"
+        path_to_cfgs = "todo"
+        base_path = f"{path_to_cfgs}/cfgs/simple_test_cfgs/"
         prefix = "vlab_cs_ucsb_test_SimpleExample_test"
 
         results = []
         for file_index in range(1, 7):
-            file = basePath + prefix + str(file_index) + "_0_basic.dot"
-            graph = Graph.fromFile(file)
+            file = base_path + prefix + str(file_index) + "_0_basic.dot"
+            graph = Graph.from_file(file)
             print("The Graph is: " + str(graph))
-            res = NPathComplexity.nPathComplexity(graph)
+            res = "todo"
+            # res = NPathComplexity.nPathComplexity(graph)
             results.append(res)
 
-        expectedResults = [8, 4, 8, 4, 4, 8]
-        self.assertEqual(results, expectedResults)
+        expected_results = [8, 4, 8, 4, 4, 8]
+        self.assertEqual(results, expected_results)
 
-    def testNPathSingleNode(self):
+    def test_npath_single_node(self):
         '''
         Verify that the NPath complexity code works for a graph with a
         single node. The start node is equal to the end node,
         so there is a single path from the beginning to the end
         '''
         graph = Graph([], set([0]), 0, 0)
-        result = NPathComplexity.nPathComplexity(graph)
-        expectedResult = 1
-        self.assertEqual(result, expectedResult)
+        result = "todo"
+        print(graph)
+        # result = NPathComplexity.nPathComplexity(graph)
+        expected_result = 1
+        self.assertEqual(result, expected_result)
 
-    def testNPathNoEdges(self):
+    def test_npath_no_edges(self):
         '''
         Verify that the NPATH complexity for a graph with different start
         and end nodes but no edges is 0, since there are no paths from the
         beginning to the end
         '''
         graph = Graph([], set([0, 1]), 0, 1)
-        result = NPathComplexity.nPathComplexity(graph)
-        expectedResult = 0
-        self.assertEqual(result, expectedResult)
-
-
+        result = "todo"
+        print(graph)
+        # result = NPathComplexity.nPathComplexity(graph)
+        expected_result = 0
+        self.assertEqual(result, expected_result)

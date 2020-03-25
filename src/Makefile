@@ -4,6 +4,10 @@ lint:
 	find . -type f -name "*.py" | xargs pydocstyle # Enforce docstring formatting
 	find . -type f -name "*.py" | xargs pycodestyle # Enforce PEP8
 
+lint_score_only:
+	mypy main.py # Type checking
+	find . -type f -name "*.py" | xargs pylint --rcfile=.pylintrc -r n -f parseable | grep "code"
+
 tests:
 	python tests/test_command.py
 	python tests/test_cpp.py
@@ -19,6 +23,14 @@ tests:
 
 test:   formatting lint tests
 
+build: 
+	# pass 
+
+run:
+	# pass
+
+# Tested on MacOS (will likely not work on linux due to slight differences in 
+# the 'sed' command.
 formatting:
 	# Remove trailing whitespace
 	find . -type f -name "*.py" | xargs sed -i '' -e "s/[[:space:]]*$$//g"
@@ -28,5 +40,5 @@ formatting:
 clean:
 	# nothing
 
-.PHONY: lint tests clean formatting test
+.PHONY: lint tests clean formatting test build run
 	

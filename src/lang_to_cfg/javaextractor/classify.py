@@ -12,31 +12,45 @@ import glob
 import re
 import math
 
-from langToCFG.javaextractor.Log import Log
-from langToCFG.javaextractor.Shell import Shell
-from langToCFG.javaextractor.Env import Env
+from log import Log
+from env import Env
 
 class Classifier:
+    '''
+    '''
     def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
-        self.log = Log(TAG=TAG)
+        '''
+        '''
+        self.log = Log(tag=TAG)
         self.input_path = input_path
         self.file_list = [self.input_path]
         if os.path.isdir(self.input_path):
             self.file_list = sorted(glob.glob(os.path.join(self.input_path, ext)))
 
+        self.result = None
 
     def match_csv_line(self, string):
-        self.result = re.match(r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*,\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*,(?P<type>.+),\s*(?P<asym>.+)\s*,\s*(?P<func>.*)", string, re.IGNORECASE)
+        '''
+        '''
+        expr = r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*," + \
+               r"\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*," + \
+               r"(?P<type>.+),\s*(?P<asym>.+)\s*,\s*(?P<func>.*)"
+        self.result = re.match(expr, string, re.IGNORECASE)
         return self.result
 
     def match_const_large_number(self, string):
-        self.result = re.match(r".*(?P<num>\d+)\.(?P<dec>\d+)\*\^(?P<exp>\d+).*", string)
+        '''
+        '''
+        expr = r".*(?P<num>\d+)\.(?P<dec>\d+)\*\^(?P<exp>\d+).*"
+        self.result = re.match(expr, string)
         return self.result
 
     def run(self, options=""):
-        self.log.i("start")
+        '''
+        '''
+        self.log.i_msg("start")
         for file_name in self.file_list:
-            self.log.v("processing {}".format(file_name))
+            self.log.v_msg("processing {}".format(file_name))
             file_base = Env.get_base_filename(self.input_path)
             outfile =  open(file_base + '_classified_all.csv', 'w')
             c1file = open(file_base + '_c1.csv', 'w')
@@ -99,14 +113,16 @@ class Classifier:
 
                         elif _type == 'Polynomial':
 
-                            if asym == "0." or asym == "0":
+                            if asym in ("0.", "0"):
                                 terms = func.split('+')
                                 fix_asym = terms[-1].strip()
 
                                 if asym == "0.":
-                                    line = line.replace("Polynomial,0.,", "Polynomial," + fix_asym + ",")
+                                    line = line.replace("Polynomial,0.,", "Polynomial,"
+                                                        + fix_asym + ",")
                                 else:
-                                    line = line.replace("Polynomial,0,", "Polynomial," + fix_asym + ",")
+                                    line = line.replace("Polynomial,0,", "Polynomial,"
+                                                        + fix_asym + ",")
                                 asym = fix_asym
 
                             if re.match(r".*,0,.*", line):
@@ -137,13 +153,15 @@ class Classifier:
                             cls_line = line.strip() + cls
 
                         elif _type == 'Exponential':
-                            if asym == "0." or asym == "0":
+                            if asym in ("0.", "0"):
                                 terms = func.split('+')
                                 fix_asym = terms[-1].strip()
                                 if asym == "0.":
-                                    line = line.replace("Exponential,0.,", "Exponential," + fix_asym + ",")
+                                    line = line.replace("Exponential,0.,",
+                                                        "Exponential," + fix_asym + ",")
                                 else:
-                                    line = line.replace("Exponential,0,", "Exponential," + fix_asym + ",")
+                                    line = line.replace("Exponential,0,", "Exponential,"
+                                                        + fix_asym + ",")
                                 asym = fix_asym
 
                             if re.match(r".*,0,.*", line):
@@ -196,9 +214,11 @@ class Classifier:
             e3file.close()
             egte4file.close()
             fixfile.close()
-        self.log.i("end")
+        self.log.i_msg("end")
 
 def main(argv):
+    '''
+    '''
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["input=", "output="])
     except getopt.GetoptError:
@@ -222,4 +242,4 @@ def main(argv):
     classifier.run(options=cmd_option)
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+    main(sys.argv[1:])

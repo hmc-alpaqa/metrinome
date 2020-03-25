@@ -12,3 +12,4 @@ pprintast
 coverage
 mypy 
 pycparser
+pylint 

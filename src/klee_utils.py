@@ -1,0 +1,104 @@
+'''
+Handles work with klee, which does
+symbollic execution and test generation
+of C code.
+'''
+
+from typing import Dict, Set, Any
+from collections import defaultdict
+import uuid
+from pycparser import c_ast, parse_file, c_generator # type: ignore
+
+class FuncVisitor(c_ast.NodeVisitor):
+    '''
+    Responsible for looking at a single function
+    and determining all of the inputs and their types.
+    '''
+    def __init__(self, logger) -> None:
+        '''
+        '''
+        self.logger = logger
+        self.generator = c_generator.CGenerator()
+        self.vars: Dict[str, list] = defaultdict(list)
+        super().__init__()
+
+    def define_var(self, name: str, declaration: str, varname: str):
+        '''
+        Look at a single variable declaration in the C code.
+        '''
+        self.vars[name].append((f"{declaration};\n", varname))
+
+    def visit_FuncDef(self, node):
+        '''
+        This function is called once for each function in the C source code.
+        It determines all of the argument types needed to call the function.
+        '''
+        # Node is a pycparser.c_ast.funcdef
+        args = node.decl.type.args # type ParamList
+        self.logger.i(f"Looking at {node.decl.name}()")
+        if args is not None:
+            params = args.params # List of TypeDecl
+            for i, param in enumerate(params):
+                self.logger.d(f"\tParameter {i}: Name: {param.name}")
+                print(f"HERE IS THE PARAM: {param.name}")
+                self.define_var(node.decl.name, self.generator.visit(param), param.name)
+        else:
+            self.logger.d(f"\t{node.decl.name} has no parameters.")
+
+class KleeUtils:
+    '''
+    KleeUtils is used to parse C code and generate new Klee-compatible
+    source code in order to make static analysis much easier.
+    '''
+    def __init__(self, logger) -> None:
+        '''
+        Create a new instance of KleeUtils.
+        '''
+        self.logger = logger
+
+    def show_func_defs(self, filename: str):
+        '''
+        Create a new set of files based on an existing file that are
+        formatted properly to work with klee.
+        '''
+        self.logger.d(f"Going to parse file {filename}")
+        try:
+            ast = parse_file(filename, use_cpp=True, cpp_path='gcc',
+                             cpp_args=['-E', r'-Iutils/fake_libc_include'])
+            self.logger.d(f"Going to visit functions.")
+            func_visitor = FuncVisitor(self.logger)
+            func_visitor.visit(ast)
+        except Exception as exception:
+            self.logger.i(f"Here is the error {exception}.")
+            self.logger.i(f"Could not parse file {filename}")
+            return None
+
+        uuids: Set[Any] = set() # TODO: change type
+        klee_formatted_files = dict()
+        for func_name in func_visitor.vars.keys():
+            variables = func_visitor.vars[func_name]
+            var_names = []
+
+            file_str = ""
+            file_str += "#include <klee/klee.h>\n"
+            file_str += f"#include <{filename}>\n"
+            file_str += "int main() {\n"
+            for var in variables:
+                file_str += "\n"
+
+                file_str += f"\t{var[0]}"
+
+                name = uuid.uuid4()
+                while name in uuids:
+                    name = uuid.uuid4()
+                uuids.add(name)
+
+                file_str += f"\tklee_make_symbolic(&{var[1]}," + \
+                            f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
+
+                var_names.append(var[1])
+
+            file_str += f"\treturn {func_name}({', '.join(var_names)});\n"
+            file_str += "}\n"
+            klee_formatted_files[func_name] = file_str
+        return klee_formatted_files

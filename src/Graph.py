@@ -1,8 +1,12 @@
-from typing import Any, DefaultDict
-import numpy as np # type: ignore
-import re
-from typing import List, Tuple
+'''
+Graph object allows us to store an interact with Graphs in a
+variety of ways.
+'''
+
 from collections import defaultdict
+from typing import List, Tuple, Any, DefaultDict
+import re
+import numpy as np # type: ignore
 
 class Graph:
     '''
@@ -19,28 +23,35 @@ class Graph:
 
     We store a list of these edges.
     '''
-    def dot(self, USING_LIST: bool) -> str:
+    def dot(self, using_list: bool) -> str:
+        '''
+        Convert a Graph object to a .dot file.
+        '''
         out = "digraph {\n"
-        for node in self.getVertices():
+        for node in self.get_vertices():
             out += f"{node}"
-            if node == self.startNode:
+            if node == self.start_node:
                 out += " [label=\"START\"]"
-            elif node == self.endNode:
+            elif node == self.end_node:
                 out += " [label=\"EXIT\"]"
             out +=";\n"
-        if USING_LIST:
-            for edgePair in self.edgeRules():
-                out += f"{edgePair[0]} -> {edgePair[1]};\n"
+        if using_list:
+            for edge_pair in self.edge_rules():
+                out += f"{edge_pair[0]} -> {edge_pair[1]};\n"
             out += "}"
         else:
             out += '0'
         return out
 
     def __str__(self) -> str:
-        return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()}\nStart Node: {self.startNode}\nEnd Node: {self.endNode}"
+        '''
+        '''
+        return f"Edges: {self.edge_rules()}\nVertices: " + \
+               f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
+               f"\nEnd Node: {self.end_node}"
 
-    def __init__(self, edges, vertices: Any, startNode: int,
-                 endNode: int, fromList: bool = False) -> None:
+    def __init__(self, edges, vertices: Any, start_node: int,
+                 end_node: int, from_list: bool = False) -> None:
         '''
         Create a directed graph from a vertex set, edge list,
         and start/end notes.
@@ -54,48 +65,48 @@ class Graph:
         '''
         self.edges = edges
         self.vertices = vertices
-        self.startNode = startNode
-        self.endNode = endNode
+        self.start_node = start_node
+        self.end_node = end_node
         self.weighted = False
 
-        self.fromList = fromList
+        self.from_list = from_list
 
-    def edgeRules(self) -> List[Tuple[int, int]]:
+    def edge_rules(self) -> List[Tuple[int, int]]:
         '''
         Obtain the edge list (ADD CHANGES IF edge dictionary).
         '''
         return self.edges
 
-    def vertexCount(self) -> int:
+    def vertex_count(self) -> int:
         '''
         Get the number of vertices in the graph (ADD CHANGES IF vertex-edge dictionary).
         '''
         return len(self.vertices)
 
-    def getVertices(self) -> List[int]:
+    def get_vertices(self) -> List[int]:
         '''
         Get the vertex set for the graph.
         '''
         return self.vertices
 
-    def getStart(self) -> int:
+    def get_start(self) -> int:
         '''
         Get the start node for the graph
         '''
-        return self.startNode
+        return self.start_node
 
-    def getEnd(self) -> int:
+    def get_end(self) -> int:
         '''
         Get the exit node for the graph
         '''
-        return self.endNode
+        return self.end_node
 
-    def adjacencyMatrix(self):
+    def adjacency_matrix(self):
         '''
         Obtain the adjacency matrix from the edge list representation
 
         We assume the vertices are numbered consecutively, i.e.
-            0, 1, 2, ..., endNode
+            0, 1, 2, ..., end_node
 
         Due to the way the APC algorithm is implemented, the structure is:
 
@@ -104,45 +115,48 @@ class Graph:
         Other  rows -> n = 2, ..., END - 1
         '''
 
-        adjMat = np.zeros((self.endNode + 1, self.endNode + 1))
-        for edge in self.edgeRules():
-            vertexOne = edge[0]
-            vertexTwo = edge[1]
+        adj_mat = np.zeros((self.end_node + 1, self.end_node + 1))
+        for edge in self.edge_rules():
+            vertex_one = edge[0]
+            vertex_two = edge[1]
             weight = 1
             if self.weighted:
                 weight = edge[2]
 
             # Compute the correct index in the matrix
-            if vertexOne == self.endNode:
-                vertexOne = 1
-            elif vertexOne != 0:
-                vertexOne += 1
+            if vertex_one == self.end_node:
+                vertex_one = 1
+            elif vertex_one != 0:
+                vertex_one += 1
 
-            if vertexTwo == self.endNode:
-                vertexTwo = 1
-            elif vertexTwo != 0:
-                vertexTwo += 1
+            if vertex_two == self.end_node:
+                vertex_two = 1
+            elif vertex_two != 0:
+                vertex_two += 1
 
-            adjMat[vertexOne][vertexTwo] = weight
+            adj_mat[vertex_one][vertex_two] = weight
 
-        return adjMat
+        return adj_mat
 
-    def adjacencyList(self):
-        adjacencyList = [[] for _ in range(self.vertexCount())]
+    def adjacency_list(self):
+        '''
+        Compute the adjacency list for a Graph from its set of edges.
+        '''
+        adjacency_list = [[] for _ in range(self.vertex_count())]
 
-        for edge in self.edgeRules():
-            vertexOne = edge[0]
-            vertexTwo = edge[1]
+        for edge in self.edge_rules():
+            vertex_one = edge[0]
+            vertex_two = edge[1]
             weight = 1
             if self.weighted:
                 weight = edge[2]
 
-            adjacencyList[vertexOne].append((vertexTwo, weight))
+            adjacency_list[vertex_one].append((vertex_two, weight))
 
-        return adjacencyList
+        return adjacency_list
 
     @staticmethod
-    def fromFile(filename: str, weighted: bool = False, USING_LIST: bool = True):
+    def from_file(filename: str, weighted: bool = False, using_list: bool = True):
         '''
         Returns a Graph object from a .dot file of format
 
@@ -154,77 +168,75 @@ class Graph:
             a_k  -> a_m
         }
         '''
-        if USING_LIST:
+        if using_list:
             edges = []
             vertices = set()
-            startNode = None
-            endNode = None
-            with open(filename, "r") as f:
-                lines = f.readlines()
+            start_node = None
+            end_node = None
+            with open(filename, "r") as file:
+                lines = file.readlines()
                 for line in lines[1:]:
-                    match = re.search("([0-9]*)\s*->\s*([0-9]*)", line)
+                    match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)
                     if match is None:
                         # Current line is not an edge - check if it defines a node
-                        match = re.search("([0-9]*)\s*\[label=\"(.*)\"\]", line)
+                        match = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", line)
                         if match is not None:
                             node = int(match.group(1))
-                            nodeLabel = match.group(2)
+                            node_label = match.group(2)
                             vertices.add(node)
-                            if nodeLabel == "START":
-                                startNode = node
-                            elif nodeLabel == "EXIT":
-                                endNode = node
+                            if node_label == "START":
+                                start_node = node
+                            elif node_label == "EXIT":
+                                end_node = node
                     # The current line in the text file represents an edge
                     else:
-                        nodeOne = int(match.group(1))
-                        nodeTwo = int(match.group(2))
-                        vertices.add(nodeOne)
-                        vertices.add(nodeTwo)
-                        edges.append([nodeOne, nodeTwo])
+                        node_one = int(match.group(1))
+                        node_two = int(match.group(2))
+                        vertices.add(node_one)
+                        vertices.add(node_two)
+                        edges.append([node_one, node_two])
 
-            if startNode is None or endNode is None:
-                errMsg = "Start and end nodes must " \
+            if start_node is None or end_node is None:
+                err_msg = "Start and end nodes must " \
                         "both be defined."
-                raise ValueError(errMsg)
-            g = Graph(edges, vertices, startNode, endNode, USING_LIST)
-            g.weighted = weighted
+                raise ValueError(err_msg)
+            graph = Graph(edges, vertices, start_node, end_node, using_list)
+            graph.weighted = weighted
 
         else:
-            V_E_Dict: DefaultDict[int, Any] = defaultdict(set)
-            startNode = None
-            endNode = None
-            with open(filename, "r") as f:
-                lines = f.readlines()
+            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+            start_node = None
+            end_node = None
+            with open(filename, "r") as file:
+                lines = file.readlines()
                 for line in lines[1:]:
-                    match = re.search("([0-9]*)\s*->\s*([0-9]*)", line)
+                    match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)
                     if match is None:
                         # Current line is not an edge - check if it defines a node
-                        match = re.search("([0-9]*)\s*\[label=\"(.*)\"\]", line)
+                        match = re.search(r"([0-9]*)\s*\[label=\"(P.*)\"\]", line)
                         if match is not None:
                             node = int(match.group(1))
-                            nodeLabel = match.group(2)
-                            V_E_Dict[node]
-                            if nodeLabel == "START":
-                                startNode = node
-                            elif nodeLabel == "EXIT":
-                                endNode = node
+                            node_label = match.group(2)
+                            if node_label == "START":
+                                start_node = node
+                            elif node_label == "EXIT":
+                                end_node = node
                      # The current line in the text file represents an edge
                     else:
-                        nodeOne = int(match.group(1))
-                        nodeTwo = int(match.group(2))
-                        V_E_Dict[nodeOne].add(nodeTwo)
-                        V_E_Dict[nodeTwo]
+                        node_one = int(match.group(1))
+                        node_two = int(match.group(2))
+                        v_e_dict[node_one].add(node_two)
 
-            if startNode is None or endNode is None:
-                errMsg = "Start and end nodes must " \
+            if start_node is None or end_node is None:
+                err_msg = "Start and end nodes must " \
                         "both be defined."
-                raise ValueError(errMsg)
-            g = Graph(V_E_Dict, V_E_Dict.keys(), startNode, endNode, USING_LIST)
-            g.weighted = weighted
+                raise ValueError(err_msg)
+            graph = Graph(v_e_dict, v_e_dict.keys(), start_node, end_node, using_list)
+            graph.weighted = weighted
 
-        return g
+        return graph
 
-    def toPrism(self) -> List[str]:
+    def to_prism(self) -> List[str]:
         '''
         Assumes the graph is already in the DTMC correct representation (with
         edge weights as probabilities).
@@ -251,32 +263,31 @@ class Graph:
         if not self.weighted:
             raise ValueError("Graph is not a Discrete Time Markov Chain (no weights available).")
 
-        prismLines = []
+        prism_lines = []
 
         # Add the header.
-        prismLines.append('dtmc\n') # Discrete Time Markov Chain
-        prismLines.append('module test\n')
+        prism_lines.append('dtmc\n') # Discrete Time Markov Chain
+        prism_lines.append('module test\n')
 
         # Create all of the nodes we'll use.
-        prismLines.append(f'\ts: [0..{self.vertexCount()}] init {self.startNode}\n')
+        prism_lines.append(f'\ts: [0..{self.vertex_count()}] init {self.start_node}\n')
 
-        adjList = self.adjacencyList()
-        for i in range(len(adjList)):
-            adjacencies = adjList[i]
+        adj_list = self.adjacency_list()
+        for i in range(len(adj_list)):
             # We know that the vertex corresponds to the index 'i'.
-            s = ' + '.join([f"{weight} : (s'={other})" for other, weight in adjList[i]])
-            s += ';\n'
-            prismLines.append(f'\t[] s={i} -> {s}')
+            prism_line = ' + '.join([f"{weight} : (s'={other})" for other, weight in adj_list[i]])
+            prism_line += ';\n'
+            prism_lines.append(f'\t[] s={i} -> {prism_line}')
 
         # The terminal node should point to itself.
-        prismLines.append(f"\t[] s={self.endNode} -> (s'={self.endNode});\n")
+        prism_lines.append(f"\t[] s={self.end_node} -> (s'={self.end_node});\n")
 
         # Add the footer.
-        prismLines.append('endmodule')
+        prism_lines.append('endmodule')
 
-        return prismLines
+        return prism_lines
 
     def __eq__(self, other) -> bool:
-        setsEqual = (self.edges == other.edgeRules() and self.vertices == other.getVertices())
-        labelsEqual = (self.startNode == other.getStart() and self.endNode == other.getEnd())
-        return setsEqual and labelsEqual
+        sets_equal = (self.edges == other.edge_rules() and self.vertices == other.get_vertices())
+        labels_equal = (self.start_node == other.get_start() and self.end_node == other.get_end())
+        return sets_equal and labels_equal
