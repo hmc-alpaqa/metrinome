@@ -9,6 +9,7 @@ sys.path.append("/app/code/")
 from graph import Graph
 from metric.cyclomatic_complexity import CyclomaticComplexity
 
+
 class TestCyclomaticComplexity(unittest.TestCase):
     """
     All of the tests for the object that computes Cyclomatic
@@ -30,6 +31,7 @@ class TestCyclomaticComplexity(unittest.TestCase):
         result = CyclomaticComplexity().evaluate(graph)
         expected_result = 3 - 5 + 2  # edges - nodes + 2
         self.assertEqual(result, expected_result)
+
 
 if __name__ == '__main__':
     unittest.main()

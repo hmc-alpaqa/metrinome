@@ -6,7 +6,8 @@ variety of ways.
 from collections import defaultdict
 from typing import List, Tuple, Any, DefaultDict
 import re
-import numpy as np # type: ignore
+import numpy as np  # type: ignore
+
 
 class Graph:
     """
@@ -34,7 +35,7 @@ class Graph:
                 out += " [label=\"START\"]"
             elif node == self.end_node:
                 out += " [label=\"EXIT\"]"
-            out +=";\n"
+            out += ";\n"
         if using_list:
             for edge_pair in self.edge_rules():
                 out += f"{edge_pair[0]} -> {edge_pair[1]};\n"
@@ -250,7 +251,7 @@ class Graph:
         prism_lines = []
 
         # Add the header.
-        prism_lines.append('dtmc\n') # Discrete Time Markov Chain
+        prism_lines.append('dtmc\n')  # Discrete Time Markov Chain
         prism_lines.append('module test\n')
 
         # Create all of the nodes we'll use.

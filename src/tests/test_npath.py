@@ -5,6 +5,7 @@ Test all methods associated with computing NPath complexity.
 import unittest
 from graph import Graph
 
+
 class TestNPATH(unittest.TestCase):
     """
     Test the implementation of the class able to compute the

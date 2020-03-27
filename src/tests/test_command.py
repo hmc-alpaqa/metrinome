@@ -7,6 +7,7 @@ sys.path.append("/app/code/")
 import command
 from tests.utils import captured_output
 
+
 class TestCommandInvalid(unittest.TestCase):
     """
     Test each command with invalid inputs.
@@ -106,6 +107,7 @@ class TestCommandInvalid(unittest.TestCase):
             self.command.do_list("Somerandomtype")
             print(out, err)
 
+
 class TestCommandKlee(unittest.TestCase):
     """
     This class is used to test all klee-related commands given
@@ -146,6 +148,7 @@ class TestCommandKlee(unittest.TestCase):
         with captured_output() as (out, err):
             self.command.do_klee_replay("samplefile.ktest")
             print(out, err)
+
 
 class TestCommand(unittest.TestCase):
     """
@@ -194,11 +197,11 @@ class TestCommand(unittest.TestCase):
                 min_num_args = self.valid_commands[valid_command][0]
                 max_num_args = self.valid_commands[valid_command][1]
                 if min_num_args > 0:
-                    #res = method("")
+                    # res = method("")
                     print(method)
                     # TODO: assert that result is none
                 if max_num_args != float('inf'):
-                    #res = method("a " * (max_num_args + 1))
+                    # res = method("a " * (max_num_args + 1))
                     pass
                     # TODO: assert that the result is none
             print(out, err)
@@ -354,13 +357,13 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.ALL
             obj_name = "sample_name"
-            self.command.graphs['sample_name']  = 'foo'
+            self.command.graphs['sample_name'] = 'foo'
             self.command.metrics['sample_name'] = 'foo'
-            self.command.stats['sample_name']   = 'foo'
+            self.command.stats['sample_name'] = 'foo'
 
-            self.command.graphs['sample_name']  = 'a'
+            self.command.graphs['sample_name'] = 'a'
             self.command.metrics['sample_name'] = 'b'
-            self.command.stats['sample_name']   = 'c'
+            self.command.stats['sample_name'] = 'c'
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
 
@@ -372,19 +375,18 @@ class TestCommand(unittest.TestCase):
             # Delete * name
             obj_type = command.ObjTypes.GRAPH
             obj_name = "*"
-            self.command.graphs['sample_name']  = 'a'
+            self.command.graphs['sample_name'] = 'a'
             self.command.graphs['sample_name'] = 'b'
-            self.command.graphs['sample_name']   = 'c'
+            self.command.graphs['sample_name'] = 'c'
 
             self.command.metrics['sample_name'] = 'b'
-            self.command.stats['sample_name']   = 'c'
+            self.command.stats['sample_name'] = 'c'
 
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
 
-    #TODO: test invalid
+    # TODO: test invalid
 
-    # ====
 
 if __name__ == '__main__':
     unittest.main()

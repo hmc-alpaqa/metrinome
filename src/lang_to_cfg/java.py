@@ -3,7 +3,8 @@ This class knows how to convert from java source code to graph objects.
 """
 
 from graph import Graph
-from lang_to_cfg.javaextractor.app import App # type: ignore
+from lang_to_cfg.javaextractor.app import App  # type: ignore
+
 
 class JavaConvert():
     """

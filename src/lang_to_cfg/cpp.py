@@ -5,15 +5,16 @@ the CFG for the code.
 
 from typing import Dict
 import subprocess
-import shlex # type: ignore
+import shlex  # type: ignore
 import sys
 import os
 import re
-import glob2 # type: ignore
+import glob2  # type: ignore
 from graph import Graph
 sys.path.append("/app/code/")
 
 # pylint: disable=R0201
+
 
 class CPPConvert():
     """
@@ -134,7 +135,7 @@ class CPPConvert():
 
         self.logger.d(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
-        res = subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
+        res = subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
         print(res)
 
         c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
@@ -146,7 +147,7 @@ class CPPConvert():
         self.logger.d(f"Command Two: {commands[1]}")
 
         with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE, shell = False) as line1:
+                              stderr=subprocess.PIPE, shell=False) as line1:
             command = line1.stdout
             if line1.stderr is not None:
                 err_msg = line1.stderr.read()

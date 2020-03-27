@@ -18,12 +18,14 @@ import os
 # from pprintast import pprintast as ppast
 from graph import Graph
 
+
 class Node:
     """
     A single node in the graph we convert the code to.
     """
     def __init__(self) -> None:
         self.children: List[Node] = []
+
 
 class FunctionVisitor(ast.NodeVisitor):
     """
@@ -65,7 +67,7 @@ class FunctionVisitor(ast.NodeVisitor):
             for frontier_node in self.frontier:
                 frontier_node.children += [new_node]
 
-        self.frontier = [] # Nothing can come after a return
+        self.frontier = []  # Nothing can come after a return
 
     def visit_Assign(self, node) -> None:
         """
@@ -184,6 +186,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = [new_node]
 
+
 class Visitor(ast.NodeVisitor):
     """
     Visitor is used to look at Python source code. It then creates a
@@ -204,8 +207,8 @@ class Visitor(ast.NodeVisitor):
 
         # Now take the representation and convert it to a graph.py by doing BFS
 
-        L = [visitor.root] # Keep track of the nodes we still need to visit
-        nodes = dict() # Maps node object to node number
+        L = [visitor.root]  # Keep track of the nodes we still need to visit
+        nodes = dict()  # Maps node object to node number
         nodes[visitor.root] = 0
 
         edge_list = []
@@ -240,6 +243,7 @@ class Visitor(ast.NodeVisitor):
         graph = Graph(edge_list, node_list, start_node, end_node)
 
         self.graphs[node.name] = graph
+
 
 class PythonConvert():
     """

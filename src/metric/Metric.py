@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 from graph import Graph
 
+
 class MetricAbstract(ABC):
     """
     The interface that all metric computers should follow.

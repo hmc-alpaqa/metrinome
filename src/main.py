@@ -11,6 +11,7 @@ import command
 
 TESTING_MODE = True
 
+
 class MyPrompt(Cmd):
     """
     A wrapper for the REPL that allows us to create
@@ -147,6 +148,7 @@ class MyPrompt(Cmd):
         importlib.reload(command)
         self.command = command.Command(True, self)
 
+
 def main():
     """
     Parse command line arguments and initialize the REPL.
@@ -157,7 +159,7 @@ def main():
                         help='Turn on debugging mode for more verbose output')
     parsed_args = parser.parse_args()
 
-    logging.basicConfig(filename='repl_log.log',level=logging.DEBUG)
+    logging.basicConfig(filename='repl_log.log', level=logging.DEBUG)
     try:
         readline.read_history_file()
     except FileNotFoundError:
@@ -165,6 +167,7 @@ def main():
     prompt = MyPrompt(parsed_args.debug_mode)
     prompt.prompt = '> '
     prompt.cmdloop('Starting path complexity repl...')
+
 
 if __name__ == "__main__":
     main()

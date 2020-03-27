@@ -5,12 +5,15 @@ Handles work with klee, which does symbollic execution and test generation of C 
 from typing import Dict, Set, Any
 from collections import defaultdict
 import uuid
-from pycparser import c_ast, parse_file, c_generator # type: ignore
+from pycparser import c_ast, parse_file, c_generator  # type: ignore
+
 
 class FuncVisitor(c_ast.NodeVisitor):
     """
-    Responsible for looking at a single function
-    and determining all of the inputs and their types.
+    Look at a single C function an gather the information for Klee.
+
+    The FuncVisitor visits each function once and then visits all of the variable
+    definitions in the function definition in order to get their names and types.
     """
     def __init__(self, logger) -> None:
         """
@@ -35,16 +38,17 @@ class FuncVisitor(c_ast.NodeVisitor):
         It determines all of the argument types needed to call the function.
         """
         # Node is a pycparser.c_ast.funcdef
-        args = node.decl.type.args # type ParamList
+        args = node.decl.type.args  # type ParamList
         self.logger.i(f"Looking at {node.decl.name}()")
         if args is not None:
-            params = args.params # List of TypeDecl
+            params = args.params  # List of TypeDecl
             for i, param in enumerate(params):
                 self.logger.d(f"\tParameter {i}: Name: {param.name}")
-                print(f"HERE IS THE PARAM: {param.name}")
+                print(f"Here is the parameter: {param.name}")
                 self.define_var(node.decl.name, self.generator.visit(param), param.name)
         else:
             self.logger.d(f"\t{node.decl.name} has no parameters.")
+
 
 class KleeUtils:
     """
@@ -69,7 +73,7 @@ class KleeUtils:
         func_visitor = FuncVisitor(self.logger)
         func_visitor.visit(ast)
 
-        uuids: Set[Any] = set() # TODO: change type
+        uuids: Set[Any] = set()  # TODO: change type
         klee_formatted_files = dict()
         for func_name in func_visitor.vars.keys():
             variables = func_visitor.vars[func_name]

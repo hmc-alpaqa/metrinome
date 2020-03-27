@@ -8,11 +8,12 @@ import sys
 import warnings
 import subprocess
 import os
-import glob2
+import glob2  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph
 from lang_to_cfg.cpp import CPPConvert
 from log import Log, LogLevel
+
 
 def ignore_warnings(test_func):
     """
@@ -24,13 +25,14 @@ def ignore_warnings(test_func):
             test_func(self, *args, **kwargs)
     return do_test
 
+
 class TestCPPConvert(unittest.TestCase):
     """
     All tests for the object that converts arbitrary C++ code to
     Graph objects.
     """
 
-    @ignore_warnings # glob regex deprecation warnings
+    @ignore_warnings  # glob regex deprecation warnings
     def test_create_dot_files(self):
         """
         Test that it creates a folder for the files.
@@ -50,14 +52,14 @@ class TestCPPConvert(unittest.TestCase):
         self.assertNotEqual(len(temp_contents), 0)
         converter.clean_temps()
 
-    @ignore_warnings # glob2 regex use is deprecated
+    @ignore_warnings  # glob2 regex use is deprecated
     def test_to_graph(self):
         """
         Check that it returns the correct graphs.
         """
         converter = CPPConvert(Log(log_level=LogLevel.DEBUG))
 
-        graph1 = Graph([], set([0,1]), 0, 1)
+        graph1 = Graph([], set([0, 1]), 0, 1)
         graph2 = converter.to_graph("/app/code/tests/cppFiles/blank", ".cpp")
         self.assertTrue('blank0' in graph2.keys())
         graph2 = graph2['blank0']
@@ -76,8 +78,8 @@ class TestCPPConvert(unittest.TestCase):
         converter = CPPConvert(Log())
         os.chdir("cppFiles")
         with open("standardFormat.txt", "r") as standard_format:
-            subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
-            subprocess.call(["cp","nonStandardFormat.txt",
+            subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
+            subprocess.call(["cp", "nonStandardFormat.txt",
                              "cppConverterTemps/nonStandardFormat.dot"])
             converter.convert_to_standard_format("/app/code/tests/cppFiles/nonStandardFormat")
             with open("cppConverterTemps/nonStandardFormat0.dot", "r") as converted_format:
@@ -91,13 +93,14 @@ class TestCPPConvert(unittest.TestCase):
         """
         converter = CPPConvert(None)
         # Create temp directory
-        subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
+        subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
         temp_folder = "/app/code/tests/cppConverterTemps"
         orig_dir = glob2.glob("/app/code/tests/*")
         self.assertIn(temp_folder, orig_dir)
         converter.clean_temps()
         orig_dir = glob2.glob("/app/code/tests/*")
         self.assertNotIn(temp_folder, orig_dir)
+
 
 if __name__ == '__main__':
     unittest.main()

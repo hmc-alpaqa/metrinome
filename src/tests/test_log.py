@@ -9,6 +9,7 @@ sys.path.append("/app/code")
 from tests.utils import captured_output
 from log import Log
 
+
 class TestLog(unittest.TestCase):
     """
     Test all of the logger functionality.
@@ -62,6 +63,7 @@ class TestLog(unittest.TestCase):
         self.assertEqual(expected_msg, out.getvalue().rstrip())
 
         print(err)
+
 
 if __name__ == '__main__':
     unittest.main()

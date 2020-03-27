@@ -5,6 +5,7 @@ path complexity.
 
 import unittest
 
+
 class TestUtils(unittest.TestCase):
     """
     Test all of the utils methods.
@@ -159,7 +160,7 @@ class TestUtils(unittest.TestCase):
         # bigoTwo = Utils.bigo(constantExpressionTwo)
 
         # self.assertEqual(bigoOne, '1')
-        #self.assertEqual(bigoTwo, '1')
+        # self.assertEqual(bigoTwo, '1')
 
     def test_bigo_polynomial(self):
         """
@@ -205,6 +206,7 @@ class TestUtils(unittest.TestCase):
         # with self.assertRaises(TimeoutError):
         #     with Utils.Timeout(seconds = 1):
         #         foo()
+
 
 if __name__ == '__main__':
     unittest.main()

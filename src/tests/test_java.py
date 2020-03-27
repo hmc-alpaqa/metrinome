@@ -4,6 +4,7 @@ objects representing the control flow graphs of the code.
 """
 import unittest
 
+
 # JavaConvert::to_graph()
 class TestJavaConvert(unittest.TestCase):
     """
@@ -15,6 +16,7 @@ class TestJavaConvert(unittest.TestCase):
         Test that converting a file with code to a Graph results in the
         correct Graph.
         """
+
 
 if __name__ == '__main__':
     unittest.main()

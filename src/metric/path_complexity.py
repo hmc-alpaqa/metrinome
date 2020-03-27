@@ -2,18 +2,19 @@
 Compute the path complexity and asymptotic path complexity metrics.
 """
 
-import re # type: ignore
+import re  # type: ignore
 import logging
 from typing import Any
-from sympy import Matrix, eye, symbols, degree, Poly, simplify, expand, sympify # type: ignore
-from mpmath import polyroots # type: ignore
+from sympy import Matrix, eye, symbols, degree, Poly, simplify, expand, sympify  # type: ignore
+from mpmath import polyroots  # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
-from metric import metric # type: ignore
+from metric import metric  # type: ignore
 
 # pylint: disable=W0231
 # disable super-init-not-called since metric.MetricAbstract is an abstract class and therefore
 # __init__ should be implemented.
+
 
 class PathComplexity(metric.MetricAbstract):
     """
@@ -70,7 +71,7 @@ class PathComplexity(metric.MetricAbstract):
 
         logging.info(f"Generating Function: {generating_function}")
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
-        base_cases = Matrix(taylor_coeffs[dimension : dimension + recurrence_degree - 1])
+        base_cases = Matrix(taylor_coeffs[dimension: dimension + recurrence_degree - 1])
 
         # Should have as many things as the recurrenceKernel
         # l_range = Matrix(list(range(0, recurrence_degree)))
@@ -87,7 +88,7 @@ class PathComplexity(metric.MetricAbstract):
             factors = terms
 
         matrix = Matrix([[fact.replace(n_var, nval) for fact in factors]
-                         for nval in range(1, len(factors)+1)])
+                         for nval in range(1, len(factors) + 1)])
 
         # try:
         inv_m = matrix**-1
@@ -97,6 +98,7 @@ class PathComplexity(metric.MetricAbstract):
 
         # Replace all instances of x^n with abs(x)^n
         expr = r"[*]\(([-][0-9]*)\)\*\*n"
+
         def replace_with_absolute_val(match):
             base = abs(float(match.groups()[0]))
             if base == 1:

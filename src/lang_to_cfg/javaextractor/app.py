@@ -7,7 +7,8 @@ Created on Sat Sep 20 00:27:11 2014
 
 from log import Log
 from env import Env
-from lang_to_cfg.javaextractor.shell import Shell
+from lang_to_cfg.javaextractor.shell import Shell  # type: ignore
+
 
 class App:
     """

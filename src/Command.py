@@ -27,14 +27,15 @@ List of all the error messages the REPL can throw.
 Use these for maintaining consistency, rather than putting strings directly in the
 log messages.
 """
-MISSING_FILENAME_ERR: str       = "Must provide file name."
-MISSING_TYPE_AND_NAME_ERR: str  = "Must specify type and name."
-MISSING_NAME_ERR: str           = "Must specify name."
+MISSING_FILENAME_ERR: str = "Must provide file name."
+MISSING_TYPE_AND_NAME_ERR: str = "Must specify type and name."
+MISSING_NAME_ERR: str = "Must specify name."
 NO_FILE_EXT_ERR: Callable[[str], str] = lambda f_name: \
     f"No file extension found for {f_name}."
 NOT_IMPLEMENTED_ERR: str        = "Not implemened."
 EXTENSION_ERR: Callable[[str, str], str]   = lambda target_type, file_extension: \
     f"File extension must be {target_type}, not {file_extension}."
+
 
 class ObjTypes(Enum):
     """
@@ -65,6 +66,7 @@ class ObjTypes(Enum):
 
         return None
 
+
 class KnownExtensions(Enum):
     """
     A list of all the file extensions we know how to work with.
@@ -72,6 +74,7 @@ class KnownExtensions(Enum):
     C      = ".c"
     Python = ".py"
     BC     = ".bc"
+
 
 def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[str]):
     """
@@ -110,10 +113,10 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
     try:
         regexp = re.compile(file)
         logger.d_msg(f"Successfully compiled as a regular expression")
-        all_files  = []
+        all_files = []
         if os.path.exists(base):
             if recursive_mode:
-                all_files += Path(base).rglob("*") # Get all files in all subdirectories
+                all_files += Path(base).rglob("*")  # Get all files in all subdirectories
             else:
                 all_files = [f for f in listdir(base) if os.path.isfile(os.path.join(base, f))]
 
@@ -138,6 +141,7 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
             return []
         except re.error:
             return []
+
 
 class API:
     """
@@ -174,6 +178,7 @@ class API:
         else:
             self.logger.v_msg("Graph Names: ")
             self.logger.v_msg(" ".join(list(self.graphs.keys())))
+
 
 class Controller:
     """
@@ -218,6 +223,7 @@ class Controller:
         """
         return self.graph_generators[file_extension]
 
+
 class Command:
     """
     Command is the implementation of the REPL commands.
@@ -248,7 +254,7 @@ class Command:
 
     def check_num_args(self, args: List[str], num_args: int,
                        err1: str,
-                       err2: str="Too many arguments provided.") -> bool:
+                       err2: str = "Too many arguments provided.") -> bool:
         """
         check_num_args returns True if the args list has num_elements many elements.
         Otherwise, print an error message.
@@ -520,7 +526,7 @@ class Command:
             keys = list(self.klee_formatted_files.keys())
 
         for _ in keys:
-            with tempfile.NamedTemporaryFile(delete = True, suffix=".c") as file:
+            with tempfile.NamedTemporaryFile(delete=True, suffix=".c") as file:
                 self.logger.d_msg(f"Created temporary file {file.name}")
                 self.logger.d_msg(f"Going to write {self.klee_formatted_files[name]}")
                 file.write(self.klee_formatted_files[name].encode())
@@ -623,7 +629,7 @@ class Command:
                 keys = [name]
 
             for key in keys:
-                with tempfile.NamedTemporaryFile(delete = True, suffix=".bc") as file:
+                with tempfile.NamedTemporaryFile(delete=True, suffix=".bc") as file:
                     file_name = file.name
                     self.logger.d_msg(f"Created temporary file {file_name}")
 
@@ -685,7 +691,7 @@ class Command:
 
         export_type = args[0]
         name = args[1]
-        subprocess.check_call(["mkdir" , "-p", "exports"])
+        subprocess.check_call(["mkdir", "-p", "exports"])
         new_name = os.path.split(name)[1]
         export_type = ObjTypes.get_type(export_type)
         if export_type == ObjTypes.GRAPH:

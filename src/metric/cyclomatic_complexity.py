@@ -7,7 +7,8 @@ Computes Cyclomatic Complexity from any fraph object.
 # this inherits from an abstract class.
 
 from graph import Graph
-from metric import metric # type: ignore
+from metric import metric  # type: ignore
+
 
 class CyclomaticComplexity(metric.MetricAbstract):
     """

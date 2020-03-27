@@ -5,9 +5,10 @@ Graph objects and their conversion to Prism files.
 
 import unittest
 import sys
-import numpy as np
+import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph
+
 
 class TestGraph(unittest.TestCase):
     """
@@ -131,6 +132,7 @@ class TestGraph(unittest.TestCase):
         Test if we can convert a Graph with many vertices
         and many edges to a PRISM file.
         """
+
 
 if __name__ == '__main__':
     unittest.main()

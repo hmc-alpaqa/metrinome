@@ -12,6 +12,7 @@ from metric import metric
 EdgeType = List[int]
 NodeType = int
 
+
 class NPathComplexity(metric.MetricAbstract):
     """
     NPathComplexity allows us to compute the NPath Complexity of some

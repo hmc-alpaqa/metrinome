@@ -4,6 +4,7 @@ Test that we can convert Python files to CFGs.
 
 import unittest
 
+
 class TestPythonConvert(unittest.TestCase):
     """
     Create python source file containing each of the
@@ -71,6 +72,7 @@ class TestPythonConvert(unittest.TestCase):
         """
         Test that we can correctly convert a file to Graph objects.
         """
+
 
 if __name__ == '__main__':
     unittest.main()

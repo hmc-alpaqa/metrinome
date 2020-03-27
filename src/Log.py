@@ -7,6 +7,7 @@ Created on Tue Sep 16 23:47:44 2014
 
 from enum import Enum, auto
 
+
 class LogLevel(Enum):
     """
     Allow different levels to be set in the logger, indicating
@@ -14,6 +15,7 @@ class LogLevel(Enum):
     """
     DEBUG   = auto()
     REGULAR = auto()
+
 
 class Log:
     """

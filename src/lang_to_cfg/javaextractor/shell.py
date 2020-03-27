@@ -10,6 +10,7 @@ from subprocess import Popen, PIPE
 
 from log import Log
 
+
 class Shell:
     """
     Functions like a basic bash shell.
@@ -48,7 +49,7 @@ class Shell:
         Run a command in a new process to prevent blocking.
         """
         cmd_to_log = "cmd: {}\n  with params: out={}, cwd={}, shell={}".format(
-                        cmd, out, cwd, shell)
+                     cmd, out, cwd, shell)
         self.log.v_msg(cmd_to_log)
         redirect_to = out
         if out is not PIPE:
