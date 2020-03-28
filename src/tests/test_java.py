@@ -12,10 +12,7 @@ class TestJavaConvert(unittest.TestCase):
     convert Java source code to Graph objects.
     """
     def test_to_graph(self):
-        """
-        Test that converting a file with code to a Graph results in the
-        correct Graph.
-        """
+        """Test that converting a file with code to a Graph results in the correct Graph."""
 
 
 if __name__ == '__main__':

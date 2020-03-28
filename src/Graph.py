@@ -1,6 +1,5 @@
 """
-Graph object allows us to store an interact with Graphs in a
-variety of ways.
+Graph object allows us to store an interact with Graphs in a variety of ways.
 """
 
 from collections import defaultdict
@@ -25,9 +24,7 @@ class Graph:
     We store a list of these edges.
     """
     def dot(self, using_list: bool) -> str:
-        """
-        Convert a Graph object to a .dot file.
-        """
+        """Convert a Graph object to a .dot file."""
         out = "digraph {\n"
         for node in self.get_vertices():
             out += f"{node}"
@@ -73,33 +70,23 @@ class Graph:
         self.from_list = from_list
 
     def edge_rules(self) -> List[Tuple[int, int]]:
-        """
-        Obtain the edge list (ADD CHANGES IF edge dictionary).
-        """
+        """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
         return self.edges
 
     def vertex_count(self) -> int:
-        """
-        Get the number of vertices in the graph (ADD CHANGES IF vertex-edge dictionary).
-        """
+        """Get the number of vertices in the graph (ADD CHANGES IF vertex-edge dictionary)."""
         return len(self.vertices)
 
     def get_vertices(self) -> List[int]:
-        """
-        Get the vertex set for the graph.
-        """
+        """Get the vertex set for the graph."""
         return self.vertices
 
     def get_start(self) -> int:
-        """
-        Get the start node for the graph
-        """
+        """Get the start node for the graph."""
         return self.start_node
 
     def get_end(self) -> int:
-        """
-        Get the exit node for the graph
-        """
+        """Get the exit node for the graph."""
         return self.end_node
 
     def adjacency_matrix(self):
@@ -140,9 +127,7 @@ class Graph:
         return adj_mat
 
     def adjacency_list(self):
-        """
-        Compute the adjacency list for a Graph from its set of edges.
-        """
+        """Compute the adjacency list for a Graph from its set of edges."""
         adjacency_list = [[] for _ in range(self.vertex_count())]
 
         for edge in self.edge_rules():
@@ -159,7 +144,7 @@ class Graph:
     @staticmethod
     def from_file(filename: str, weighted: bool = False, using_list: bool = True):
         """
-        Returns a Graph object from a .dot file of format
+        Return a Graph object from a .dot file of format
 
         digraph {
             0 [label="START"]
@@ -273,6 +258,8 @@ class Graph:
         return prism_lines
 
     def __eq__(self, other) -> bool:
+        """
+        """
         sets_equal = (self.edges == other.edge_rules() and self.vertices == other.get_vertices())
         labels_equal = (self.start_node == other.get_start() and self.end_node == other.get_end())
         return sets_equal and labels_equal

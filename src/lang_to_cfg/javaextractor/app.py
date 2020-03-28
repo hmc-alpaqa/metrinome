@@ -11,16 +11,11 @@ from lang_to_cfg.javaextractor.shell import Shell  # type: ignore
 
 
 class App:
-    """
-    App interacts with the java program that extracts CFGs
-    from Java source code.
-    """
+    """App interacts with the java program that extracts CFGs from Java source code."""
 
     def __init__(self, input_file, output_folder=None, display_log_output=True,
                  ext="*.jar", export=True):
-        """
-        Create a new instance of the App.
-        """
+        """Create a new instance of the App."""
         self.log = Log(tag="APP", display_output=display_log_output)
         self.shell = Shell()
         self.input_file = input_file
@@ -56,9 +51,7 @@ class App:
         self.shell.runcmd(cmd)
 
     def __run_cfg_extractor(self, main_class, input_classes, project):
-        """
-        Run the java program that will extract the CFG from Java classes.
-        """
+        """Run the java program that will extract the CFG from Java classes."""
         print(f"Got main_class: {main_class}, but not used.")
         output_path = Env.get_output_path(project)
         self.shell.clean_cmd(output_path)
@@ -71,9 +64,7 @@ class App:
         self.shell.runcmd(cmd)
 
     def get_result_line(self, output):
-        """
-        Parse results obtained by the App of a specific format.
-        """
+        """Parse results obtained by the App of a specific format."""
         columns = output.strip(' \t\n\r,').split(',')
         results = []
         for col in columns:
@@ -88,7 +79,7 @@ class App:
 
     def run_live(self, jar=True):
         """
-        A wrapper around __run_cfg_extractor_live. This is what should actually be called by
+        Wrapper for __run_cfg_extractor_live. This is what should actually be called by
         the REPL as it does additional checks and logging.
         """
         self.log.i_msg("start")

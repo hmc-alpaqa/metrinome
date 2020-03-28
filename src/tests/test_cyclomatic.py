@@ -1,7 +1,4 @@
-"""
-This module tests that we can compute cyclomatic complexity for
-any Graph.
-"""
+"""This module tests that we can compute cyclomatic complexity for any Graph."""
 
 import unittest
 import sys
@@ -11,13 +8,12 @@ from metric.cyclomatic_complexity import CyclomaticComplexity
 
 
 class TestCyclomaticComplexity(unittest.TestCase):
-    """
-    All of the tests for the object that computes Cyclomatic
-    Complexity for an arbitrary Graph.
-    """
+    """Tests for the object that computes Cyclomatic Complexity for an arbitrary Graph."""
 
     def test_cyclomatic_complexity(self):
         """
+        Verify cyclomatic complexity value for regular graph.
+
         Compute the cyclomatic complexity for a graph with a
         non-zero number of vertices (where the start node is
         not the same as the end node) and non-zero number of

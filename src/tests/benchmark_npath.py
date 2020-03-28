@@ -17,24 +17,21 @@ from metric import npath_complexity
 
 
 def npath_runtim():
-    """
-    Tests the amount of time (seconds) it takes to run NPath analysis on
-    different sized graphs
-    """
+    """Tests the amount of time it takes to run NPath analysis on different sized graphs."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
     metric_collection = []
-    # list of tuples for all cfgs in all folders (seconds, folder, cfg)
+    # list of tuples for all cfgs in all folders (seconds, folder, cfg).
     overall_time_list = []
 
-    # test the metrics for each folder in apache_cfgs
+    # test the metrics for each folder in apache_cfgs.
     for folder in folders:
         graph_list = (glob.glob(folder + "*.dot"))
-        # list of tuples for each cfg in folder(seconds, cfg)
+        # list of tuples for each cfg in folder(seconds, cfg).
         folder_time_list = []
-        # create instance of the npath class
+        # create instance of the npath clas.
         converter = npath_complexity.NPathComplexity()
         print(folder)
-        # loop through each cfg in each folder
+        # loop through each cfg in each folder.
         for i, graph in enumerate(graph_list):
             print(os.path.splitext(graph)[0].split("/")[-1],
                   f"{round(100*(i / len(graph_list)))}% done")
@@ -55,29 +52,30 @@ def npath_runtim():
         folder_metrics = npath_runtime_metrics(folder_time_list)
         folder_outliers = npath_outlier(folder_time_list)
         print("METRICS: ")
-        # print metrics at 100% completion of folder
+        # print metrics at 100% completion of folder.
         print(folder_metrics)
         print("OUTLIERS: ")
-        # print list of cfgs at above +1 stdev away
+        # print list of cfgs at above +1 stdev away.
         print(folder_outliers)
         print(" ")
         print(" ")
         print(" ")
         metric_collection.append((folder, folder_metrics, folder_outliers))
         print("COLLECTED METRICS: ")
-        # print overall metrics for all folders so far
+        # print overall metrics for all folders so far.
         print(metric_collection)
 
-    # print overall metrics for all cfgs
+    # print overall metrics for all cfgs.
     print(npath_runtime_metrics(overall_time_list))
-    # print cfgs at above +1 stdev away
+    # print cfgs at above +1 stdev away.
     print(npath_outlier(overall_time_list))
 
 
 def npath_runtime_metrics(time_list):
     """
-    Given a list of run times compute a series of statistics,
-    (max, min, mean, median, stddev, variance).
+    Given a list of run times compute a series of statistics.
+
+    These include: max, min, mean, median, stddev, variance.
     """
     times = [x[0] for x in time_list]
     max_val = max(times)
@@ -93,7 +91,7 @@ def npath_runtime_metrics(time_list):
 
 def npath_outlier(time_list):
     """
-    Takes a list of tuples (runtime, Graph) and returns
+    Take a list of tuples (runtime, Graph) and returns
     the elements of that list that are outliers.
     """
     print("OUTLIERS ")
@@ -108,9 +106,7 @@ def npath_outlier(time_list):
 
 
 def main():
-    """
-    Execute the tests.
-    """
+    """Execute the tests."""
     # create instance of the npath class
     converter = npath_complexity.NPathComplexity()
     graph_zero = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-net-3.3/\

@@ -13,18 +13,14 @@ class TestUtils(unittest.TestCase):
 
     # === roundExpression ===
     def test_round_expression_simple(self):
-        """
-        Check an expression with only numbers and binary oeprations
-        """
+        """Check an expression with only numbers and binary operations."""
         # simpleExpression = '1.234567 * 1.123123 + 1.123123 / 1.123123'
         # result = Utils.roundExpression(simpleExpression, 3)
         # expectedResult = "1.234 * 1.123 + 1.123 / 1.123"
         # self.assertEqual(result, expectedResult)
 
     def test_round_expression_polynomial(self):
-        """
-        Check that a polynomial simplies correctly
-        """
+        """Check that a polynomial simplies correctly."""
         # polynomialExpression = '1.123123 * x**1 + x**1.123123'
         # simplifiedExpression = Utils.roundExpression(polynomialExpression, 3)
         # expectedResult = '1.123 * x**1 + x**1.123'
@@ -65,9 +61,7 @@ class TestUtils(unittest.TestCase):
         # self.classifyHelper(emptyExpression, expectedClassification)
 
     def test_classify_polynomial(self):
-        """
-        Check that classify returns the degree of polynomial expressions
-        """
+        """Check that classify returns the degree of polynomial expressions."""
         # polynomialExpression = '1 + n + n^2'
         # expectedClassification = 'PolyDeg:2.0'
         # self.classifyHelper(polynomialExpression, expectedClassification)
@@ -102,10 +96,7 @@ class TestUtils(unittest.TestCase):
 
     # === getRecurrenceSolution ===
     def test_recurrence_solution(self):
-        """
-        Returns the solution to an arbitrary linear homogeneous recurrence
-        relation
-        """
+        """Returns the solution to an arbitrary linear homogeneous recurrence relation."""
         # Utils.getRecurrenceSolution()
         # self.assertEqual('1', '1')
 
@@ -150,9 +141,7 @@ class TestUtils(unittest.TestCase):
 
     # === bigo ===
     def test_bigo_constant(self):
-        """
-        The bigo of a constant should be O(1).
-        """
+        """The bigo of a constant should be O(1)."""
         # constantExpression = ['1', '2', '3']
         # constantExpressionTwo = ['3', '2', '1']
 
@@ -164,9 +153,7 @@ class TestUtils(unittest.TestCase):
 
     def test_bigo_polynomial(self):
         """
-        The bigo of a polynomial should be O(x^n) where
-        n is the degree of the polynomial
-        """
+        The bigo of a polynomial should be O(x^n) where n is the degree of the polynomial."""
         # Expression One: "1 - x + 6*x^8"
         # Expression Two: = "1.2*x^(8.4) - 3.1*x"
 
@@ -183,10 +170,7 @@ class TestUtils(unittest.TestCase):
 
     # === Timeout ===
     def test_timeout_notimetout(self):
-        """
-        A function that is done before the timeout
-        limit should behave normally
-        """
+        """A function that is done before the timeout limit should behave normally."""
         # def foo():
         #     return 7
 
@@ -196,10 +180,7 @@ class TestUtils(unittest.TestCase):
         # self.assertEqual(result, 7)
 
     def test_timeout_timeout(self):
-        """
-        A function that takes too long to execute should
-        throw an error
-        """
+        """A function that takes too long to execute should throw an error."""
         # def foo():
         #     sleep(2)
 

@@ -57,39 +57,27 @@ class Env:
 
     @staticmethod
     def get_output_path(name, ext=''):
-        """
-        For a given .jar file, determine what the output path should be
-        for that file.
-        """
+        """For a given .jar file, determine what the output path should be for that file."""
         if name.endswith('.jar'):
             name = name[:-4]
         return Env.__get_path(folder=Env.OUTPUT_PATH, name=name, ext=ext)
 
     @staticmethod
     def get_tmp_path(name, ext=''):
-        """
-        Given a file name and extension, get the path to it in the
-        temporary folder.
-        """
+        """Given a file name and extension, get the path to it in the temporary folder."""
         return Env.__get_path(folder=Env.TMP_PATH, name=name, ext=ext)
 
     @staticmethod
     def get_basename(name):
-        """
-        Get the path to a file without the file name.
-        """
+        """Get the path to a file without the file name."""
         return os.path.basename(name)
 
     @staticmethod
     def get_base_filename(name):
-        """
-        Given a path, get the file name.
-        """
+        """Given a path, get the file name."""
         return os.path.basename(name)[:-4]
 
     @staticmethod
     def get_dirname(name):
-        """
-        Given a path, get the directory.
-        """
+        """Given a path, get the directory."""
         return os.path.dirname(name)

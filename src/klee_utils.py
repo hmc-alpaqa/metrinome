@@ -1,6 +1,4 @@
-"""
-Handles work with klee, which does symbollic execution and test generation of C code.
-"""
+"""Handles work with klee, which does symbollic execution and test generation of C code."""
 
 from typing import Dict, Set, Any
 from collections import defaultdict
@@ -56,9 +54,7 @@ class KleeUtils:
     source code in order to make static analysis much easier.
     """
     def __init__(self, logger) -> None:
-        """
-        Create a new instance of KleeUtils.
-        """
+        """Create a new instance of KleeUtils."""
         self.logger = logger
 
     def show_func_defs(self, filename: str):

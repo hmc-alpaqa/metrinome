@@ -9,9 +9,7 @@ from tests.utils import captured_output
 
 
 class TestCommandInvalid(unittest.TestCase):
-    """
-    Test each command with invalid inputs.
-    """
+    """Test each command with invalid inputs."""
     def setUp(self):
         """
         Create a new instance of the Command object
@@ -62,8 +60,7 @@ class TestCommandInvalid(unittest.TestCase):
 
     def test_klee_replay_nonexistant_file(self):
         """
-        Test that if we call klee_replay on a file that does not
-        exist, we get the correct error.
+        Test that if we call klee_replay on a file that does not exist, we get the correct error.
         """
         with captured_output() as (out, err):
             self.command.do_klee_replay("nonexistantFile.ktest")
@@ -109,10 +106,7 @@ class TestCommandInvalid(unittest.TestCase):
 
 
 class TestCommandKlee(unittest.TestCase):
-    """
-    This class is used to test all klee-related commands given
-    valid inputs.
-    """
+    """This class is used to test all klee-related commands given valid inputs."""
     def setUp(self):
         """
         Create a new instance of the Command object
@@ -123,10 +117,7 @@ class TestCommandKlee(unittest.TestCase):
 
     # ==== do_to_klee_format =====
     def test_to_klee_format_valid(self):
-        """
-        Verify that we can convert a valid file to a KLEE-compatible
-        format.
-        """
+        """Verify that we can convert a valid file to a KLEE-compatible format."""
         with captured_output() as (out, err):
             # self.command.do_to_klee_format("examplefile.c")
             print(out, err)
@@ -151,9 +142,7 @@ class TestCommandKlee(unittest.TestCase):
 
 
 class TestCommand(unittest.TestCase):
-    """
-    Test each command with valid inputs
-    """
+    """Test each command with valid inputs."""
 
     @classmethod
     def setUpClass(cls):
@@ -337,9 +326,7 @@ class TestCommand(unittest.TestCase):
             print(out, err)
 
     def test_delete_stat_valid(self):
-        """
-        Verify that we can delete statistics in the REPL.
-        """
+        """Verify that we can delete statistics in the REPL."""
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.STAT
             obj_name = "sample_stat"

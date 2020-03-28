@@ -23,19 +23,15 @@ class PathComplexity(metric.MetricAbstract):
     """
 
     def __init__(self) -> None:
-        """
-        Create a new instance of PathComplexity.
-        """
+        """Create a new instance of PathComplexity."""
 
     def name(self) -> str:
-        """
-        Return the name of the metric computed by this class.
-        """
+        """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
     def adjacency_matrix(self, graph: Graph) -> Matrix:
         """
-        Generates the adjacency matrix used in the path complexity algorithm
+        Generate the adjacency matrix used in the path complexity algorithm
         from a Graph, adding a loop at the correct position.
         """
         adj_mat = graph.adjacency_matrix()

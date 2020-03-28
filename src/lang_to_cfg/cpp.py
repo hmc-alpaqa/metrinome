@@ -17,17 +17,15 @@ sys.path.append("/app/code/")
 
 
 class CPPConvert():
-    """
-    Creates Graph objects from files.
-    """
+    """Create Graph objects from files."""
 
     def __init__(self, logger) -> None:
+        """
+        """
         self.logger = logger
 
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
-        """
-        Creates a CFG from a C++ source file.
-        """
+        """Create a CFG from a C++ source file."""
         self.logger.d("Creating dot files")
         self.create_dot_files(filename, file_extension)
         self.logger.d("Converting to standard format")
@@ -46,6 +44,8 @@ class CPPConvert():
         return graphs
 
     def convert_file_to_standard(self, f_num, filename, file):
+        """
+        """
         nodes = []
         edges = []
         node_map: Dict[str, str] = {}
@@ -165,5 +165,5 @@ class CPPConvert():
             subprocess.call(["mv", f"{file}", "cppConverterTemps"])
 
     def clean_temps(self):
-        """removes temp files and directories"""
+        """Remove temp files and directories."""
         subprocess.call(["rm", "-r", "cppConverterTemps"])

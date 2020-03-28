@@ -12,20 +12,15 @@ from metric import metric  # type: ignore
 
 class CyclomaticComplexity(metric.MetricAbstract):
     """
-    CyclomaticComplexity allows us to compute the Cyclomatic Complexity
-    given some control flow graph.
+    Compute the Cyclomatic Complexity given some control flow graph.
     """
 
     def __init__(self) -> None:
-        """
-        Initialize an object used to compute the cyclomatic complexity of graphs.
-        """
+        """Initialize an object used to compute the cyclomatic complexity of graphs."""
         super(CyclomaticComplexity, self).__init__()
 
     def name(self) -> str:
-        """
-        Returns the name of the metric computed by this class.
-        """
+        """Return the name of the metric computed by this class."""
         return "Cyclomatic Complexity"
 
     def evaluate(self, graph: Graph):

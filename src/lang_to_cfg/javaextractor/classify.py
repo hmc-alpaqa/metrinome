@@ -17,13 +17,9 @@ from env import Env
 
 
 class Classifier:
-    """
-    This helps parse the output fromt the Java CFG generator.
-    """
+    """This helps parse the output fromt the Java CFG generator."""
     def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
-        """
-        Create a new Classifier.
-        """
+        """Create a new Classifier."""
         self.log = Log(tag=TAG)
         self.input_path = input_path
         self.file_list = [self.input_path]
@@ -217,9 +213,7 @@ class Classifier:
 
 
 def main(argv):
-    """
-    Run the classifier with the set of command line arguments passed it.
-    """
+    """Run the classifier with the set of command line arguments passed it."""
     try:
         opts, args = getopt.getopt(argv, "hi:o:", ["input=", "output="])
         print(args)

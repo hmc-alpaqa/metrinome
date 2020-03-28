@@ -1,6 +1,4 @@
-"""
-The main implementation of the REPL.
-"""
+"""The main implementation of the REPL."""
 
 from typing import List, Dict, Any, Callable
 import os.path
@@ -38,10 +36,7 @@ EXTENSION_ERR: Callable[[str, str], str]   = lambda target_type, file_extension:
 
 
 class ObjTypes(Enum):
-    """
-    All of the object types that are stored by the REPL
-    while it is running.
-    """
+    """All of the object types that are stored by the REPL while it is running."""
     GRAPH  = "graph"
     METRIC = "metric"
     STAT   = "stat"
@@ -49,17 +44,12 @@ class ObjTypes(Enum):
     ALL    = "*"
 
     def __str__(self) -> str:
-        """
-        Convert one of the enum objects to a string.
-        """
+        """Convert one of the enum objects to a string."""
         return str(self.value)
 
     @staticmethod
     def get_type(obj_type: str):
-        """
-        Given an input string, see if there is an enum type that
-        matches it.
-        """
+        """Given an input string, see if there is an enum type that matches it."""
         for i in ObjTypes:
             if str(i) == obj_type or str(i) + "s" == obj_type:
                 return i
@@ -68,9 +58,7 @@ class ObjTypes(Enum):
 
 
 class KnownExtensions(Enum):
-    """
-    A list of all the file extensions we know how to work with.
-    """
+    """A list of all the file extensions we know how to work with."""
     C      = ".c"
     Python = ".py"
     BC     = ".bc"
@@ -144,14 +132,9 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
 
 
 class API:
-    """
-    API contains all of the methods exposed to the user.
-    These are used to create the REPL.
-    """
+    """API contains all of the methods exposed to the user. These are used to create the REPL."""
     def __init__(self, logger) -> None:
-        """
-        Create a new instance of the API.
-        """
+        """Create a new instance of the API."""
         self.controller = Controller(logger)
         self.metrics: Dict[Any, Any] = {}
         self.graphs: Dict[Any, Any] = {}
@@ -160,9 +143,7 @@ class API:
         self.logger = logger
 
     def show_metrics(self) -> None:
-        """
-        Display all of the metrics the REPL knows about.
-        """
+        """Display all of the metrics the REPL knows about."""
         if len(self.metrics.keys()) == 0:
             self.logger.v_msg("No metrics available.")
         else:
@@ -170,9 +151,7 @@ class API:
             self.logger.v_msg(" ".join(list(self.metrics.keys())))
 
     def show_graphs(self) -> None:
-        """
-        Display the names of all of the graphs we
-        """
+        """Display the names of all of the graphs we know about."""
         if len(self.graphs.keys()) == 0:
             self.logger.v_msg("No graphs available.")
         else:
@@ -210,24 +189,16 @@ class Controller:
         }
 
     def get_graph_generator_names(self):
-        """
-        Get the names of all file extensions we know how to generate
-        CFGs for.
-        """
+        """Get the names of all file extensions we know how to generate CFGs for."""
         return self.graph_generators.keys()
 
     def get_graph_generator(self, file_extension: str):
-        """
-        Given a file extension as a string, return the CFG generator for that
-        file extension.
-        """
+        """Given a file extension as a string, return the CFG generator for that file extension."""
         return self.graph_generators[file_extension]
 
 
 class Command:
-    """
-    Command is the implementation of the REPL commands.
-    """
+    """Command is the implementation of the REPL commands."""
     def __init__(self, debug_mode: bool, repl_wrapper) -> None:
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
@@ -306,9 +277,7 @@ class Command:
         print(path_to_klee_build_dir, command_one, command_two)
 
     def do_convert(self, args: str):
-        """
-        Convert source code into CFGs.
-        """
+        """Convert source code into CFGs."""
         args = self.convert_args(args)
         if len(args) == 0:
             self.logger.v_msg(MISSING_FILENAME_ERR)
@@ -350,9 +319,7 @@ class Command:
                 self.graphs[filepath] = graph
 
     def do_list(self, args: str) -> None:
-        """
-        List objects the REPL knows about.
-        """
+        """List objects the REPL knows about."""
         converted_args = self.convert_args(args)
         valid_args = self.check_num_args(converted_args, 1,
                                          "Must specify object type to list\
@@ -387,9 +354,7 @@ class Command:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
     def do_metrics(self, args: str) -> None:
-        """
-        Compute of one of the known objects for a stored Graph object.
-        """
+        """Compute of one of the known objects for a stored Graph object."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, "Must provide graph name.")
         if not valid_args:
@@ -425,9 +390,7 @@ class Command:
             self.metrics[name] = results
 
     def do_show(self, args: str) -> None:
-        """
-        Display objects the REPL knows about.
-        """
+        """Display objects the REPL knows about."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 2, "Must specify type (metric/graph) and name.")
         if not valid_args:
@@ -541,9 +504,7 @@ class Command:
                 self.bc_files[name] = res.stdout
 
     def do_to_klee_format(self, args: str) -> None:
-        """
-        Convert a file with C source code to a format compatible with klee.
-        """
+        """Convert a file with C source code to a format compatible with klee."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, MISSING_FILENAME_ERR)
         recursive_mode = False
@@ -574,18 +535,14 @@ class Command:
             self.klee_formatted_files = {**self.klee_formatted_files, **klee_formatted_files}
 
     def do_clean_klee_files(self, args: str) -> None:
-        """
-        Remove all KLEE-related files created by the REPL.
-        """
+        """Remove all KLEE-related files created by the REPL."""
         converted_args = self.convert_args(args)
         valid_args = self.check_num_args(converted_args, 0, NOT_IMPLEMENTED_ERR)
         if not valid_args:
             return
 
     def update_klee_stats(self, klee_output, name: str, delta_t):
-        """
-        Parse and store the results of running klee on some .bc file.
-        """
+        """Parse and store the results of running klee on some .bc file."""
         string_one = "generated tests = "
         string_two = "completed paths = "
         string_three = "total instructions = "
@@ -612,9 +569,7 @@ class Command:
         self.logger.i_msg("Updated!")
 
     def do_klee(self, args: str) -> None:
-        """
-        Execute klee on a .bc file stored as an object in the REPL.
-        """
+        """Execute klee on a .bc file stored as an object in the REPL."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, MISSING_FILENAME_ERR)
         if not valid_args:
@@ -671,9 +626,7 @@ class Command:
                 self.update_klee_stats(output.decode(), args[0], delta_t)
 
     def do_quit(self, args: str):
-        """
-        Quit the repl.
-        """
+        """Quit the repl."""
         readline.write_history_file()
         converted_args = self.convert_args(args)
         self.check_num_args(converted_args, 0, "Quitting...")
@@ -753,9 +706,7 @@ class Command:
             self.logger.v_msg(f"Type {export_type} not recognized.")
 
     def do_delete(self, args: str):
-        """
-        Remove some object the REPL is storing from memory.
-        """
+        """Remove some object the REPL is storing from memory."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 2, MISSING_TYPE_AND_NAME_ERR)
         if not valid_args:
@@ -792,15 +743,11 @@ class Command:
             self.logger.v_msg(f"Type {type} not recognized.")
 
     def convert_args(self, args: str):
-        """
-        Obtain a list of arguments from a string.
-        """
+        """Obtain a list of arguments from a string."""
         return args.strip().split()
 
     def complete(self, text, state):
-        """
-        Enhanced auto-completion for the REPL.
-        """
+        """Enhanced auto-completion for the REPL."""
         res = self.repl_wrapper.complete(text, state)
         # Try to do tab completion on a directory. Text contains the latest paremeter
         # text only contains the latest segment, which splits on / (and other characters)

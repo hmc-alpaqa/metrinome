@@ -20,9 +20,7 @@ from graph import Graph
 
 
 class Node:
-    """
-    A single node in the graph we convert the code to.
-    """
+    """A single node in the graph we convert the code to."""
     def __init__(self) -> None:
         self.children: List[Node] = []
 
@@ -35,16 +33,12 @@ class FunctionVisitor(ast.NodeVisitor):
     """
 
     def __init__(self) -> None:
-        """
-        Create a new instance of the function visitor.
-        """
+        """Create a new instance of the function visitor."""
         self.root: Optional[Node] = None
         self.frontier: List[Node] = []
 
     def visit_Expr(self, node) -> None:
-        """
-        Visit a python expression.
-        """
+        """Visit a python expression."""
         print(f"At expr {node}")
         new_node = Node()
         if self.root is None:
@@ -56,9 +50,7 @@ class FunctionVisitor(ast.NodeVisitor):
         self.frontier = [new_node]
 
     def visit_Return(self, node) -> None:
-        """
-        Visit a python return statement.
-        """
+        """Visit a python return statement."""
         print(f"At return {node}.")
         new_node = Node()
         if self.root is None:
@@ -70,9 +62,7 @@ class FunctionVisitor(ast.NodeVisitor):
         self.frontier = []  # Nothing can come after a return
 
     def visit_Assign(self, node) -> None:
-        """
-        Visit a python assign statement.
-        """
+        """Visit a python assign statement."""
         print(f"At assignment {node}.")
         new_node = Node()
         if self.root is None:
@@ -84,9 +74,7 @@ class FunctionVisitor(ast.NodeVisitor):
         self.frontier = [new_node]
 
     def visit_For(self, node) -> None:
-        """
-        Visit a python for loop.
-        """
+        """Visit a python for loop."""
         print(f"At for {node}")
         new_node = Node()
         # Add the new node representing the beginning of the loop
@@ -117,15 +105,11 @@ class FunctionVisitor(ast.NodeVisitor):
 
     # pylint: disable=R0201
     def visit_With(self, node) -> None:
-        """
-        Visit a python with statement.
-        """
+        """Visit a python with statement."""
         print(f"At with {node}")
 
     def visit_If(self, node) -> None:
-        """
-        Visit a python if statement.
-        """
+        """Visit a python if statement."""
         print(f"At if {node}")
         new_node = Node()
         # Add the new node representing the beginning of the if statement
@@ -142,22 +126,16 @@ class FunctionVisitor(ast.NodeVisitor):
 
     # pylint: disable=R0201
     def visit_Raise(self, node) -> None:
-        """
-        Visit a python raise.
-        """
+        """Visit a python raise."""
         print(f"At raise {node}")
 
     # pylint: disable=R0201
     def visit_Try(self, node) -> None:
-        """
-        Visit a python try statement.
-        """
+        """Visit a python try statement."""
         print(f"At try {node}")
 
     def visit_While(self, node) -> None:
-        """
-        Visit a python while loop.
-        """
+        """Visit a python while loop."""
         print(f"At while {node}")
         new_node = Node()
         # Add the new node representing the beginning of the loop
@@ -198,9 +176,7 @@ class Visitor(ast.NodeVisitor):
         self.graphs: Dict[str, Graph] = {}
 
     def visit_FunctionDef(self, node) -> None:
-        """
-        This function is called for each function in the python source file.
-        """
+        """Call this for each function in the python source file."""
         visitor = FunctionVisitor()
         print(f"Visiting {node.name}")
         visitor.visit(node)
@@ -246,21 +222,14 @@ class Visitor(ast.NodeVisitor):
 
 
 class PythonConvert():
-    """
-    PythonConvert is able to convert from Python source
-    files to graph objects.
-    """
+    """PythonConvert is able to convert from Python source files to graph objects."""
 
     def __init__(self) -> None:
-        """
-        Create a new instance of the python converter.
-        """
+        """Create a new instance of the python converter."""
 
     # pylint: disable=R0201
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
-        """
-        Creates a CFG from a Python source file.
-        """
+        """Create a CFG from a Python source file."""
         print(file_extension)
 
         path = os.path.join(os.getcwd(), filename) + ".py"

@@ -1,6 +1,4 @@
-"""
-Metrics is used to compute aggregate metrics and compare them.
-"""
+"""Metrics is used to compute aggregate metrics and compare them."""
 
 from typing import List, Dict, Any
 from math import log
@@ -103,7 +101,7 @@ def average_class_size(input_dict, use_frequencies: bool):
 
 def mutual_information(cluster_list_one, cluster_list_two) -> float:
     """
-    Calculate I(cluster_list_one, cluster_list_two)
+    Calculate I(cluster_list_one, cluster_list_two).
 
     @see https://en.wikipedia.org/wiki/Mutual_information
     """
@@ -174,7 +172,8 @@ def cluster_entropy(cluster_list) -> float:
 
 def entropy(probabilities) -> float:
     """
-    Given some list representing a probability distribution, return the total entropy
+    Given some list representing a probability distribution, return the total entropy.
+
     Input: [p_0, p_1, ..., p_n]
     Output: H(p)
     """
@@ -592,16 +591,12 @@ class Main():
                 write_output("\n".join(list(map(lambda x: str(x)[1:-1], result))), self.location)
 
     def threadpool_mapper(self, file_names):
-        """
-        Maps compute_result over a set of file names.
-        """
+        """Map compute_result over a set of file names."""
         return list(map(self.compute_result, file_names))
 
 
 def write_output(msg, location=None):
-    """
-    Write a String to STDOUT or a file if specified
-    """
+    """Write a String to STDOUT or a file if specified."""
     if location is None:
         print(msg)
     else:

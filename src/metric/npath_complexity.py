@@ -16,7 +16,7 @@ NodeType = int
 class NPathComplexity(metric.MetricAbstract):
     """
     NPathComplexity allows us to compute the NPath Complexity of some
-    function from its Control Flow Graph.
+function from its Control Flow Graph.
     """
 
     def __init__(self, using_list=True) -> None:
@@ -34,7 +34,6 @@ class NPathComplexity(metric.MetricAbstract):
 
     def neighbors(self, start: NodeType, edges: List[EdgeType]) -> List[NodeType]:
         """
-        LIST METHOD
         Return a list of all the nodes we can get to from a
         given 'start' node.
         """
@@ -48,23 +47,17 @@ class NPathComplexity(metric.MetricAbstract):
         return edges[start]
 
     def remove_edge(self, edge_list: List[EdgeType], edge: EdgeType) -> List[EdgeType]:
-        """
-        Return an edgeList with the specified edge removed.
-        """
+        """Return an edgeList with the specified edge removed."""
         return list(filter(lambda existing_edge: existing_edge != edge, edge_list))
 
     def remove_edge_dict(self, edges, node, edge):
-        """
-        Return an edgeDictionary with the specified edge removed.
-        """
+        """Return an edgeDictionary with the specified edge removed."""
         edge_copy = copy.deepcopy(edges)
         edge_copy[node].remove(edge)
         return edge_copy
 
     def npath(self, start: NodeType, end: NodeType, edges) -> float:
-        """
-        Helper function used to compute NPath Complexity recursively.
-        """
+        """Compute NPath Complexity recursively."""
         if start == end:
             return 1.
 
@@ -79,9 +72,7 @@ class NPathComplexity(metric.MetricAbstract):
         return total
 
     def npath_dict(self, start: NodeType, end: NodeType, edges) -> float:
-        """
-        Helper function used to compute NPath Complexity recursively.
-        """
+        """Compute NPath Complexity recursively."""
         if start == end:
             return 1.
 
@@ -96,9 +87,7 @@ class NPathComplexity(metric.MetricAbstract):
         return total
 
     def evaluate(self, graph: Graph) -> float:
-        """
-        Compute the NPath complexity of a function given its CFG.
-        """
+        """Compute the NPath complexity of a function given its CFG."""
         if self.using_list:
             return self.npath(graph.start_node, graph.end_node, graph.edge_rules())
         else:
