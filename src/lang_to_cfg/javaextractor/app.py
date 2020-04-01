@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Sep 20 00:27:11 2014
+Created on Sat Sep 20 00:27:11 2014.
 
 @author: baki
 """
@@ -26,16 +26,14 @@ class App:
         self.export = export
 
     def __jar_to_classes(self, jar_file, cwd=Env.TMP_PATH):
-        """
-        """
+        """Extract a jar file to obtain the Java classes."""
         self.log.i_msg("extracting jar file")
         self.shell.clean_cmd(cwd)
         cmd = f"jar xf {jar_file}"
         self.shell.runcmd(cmd, cwd=cwd)
 
     def __run_cfg_extractor_live(self, input_class):
-        """
-        """
+        """Run the java program that will extract the CFG from Java classes."""
         project = Env.get_basename(input_class)
         output_path = Env.get_output_path(project)
         self.shell.clean_cmd(output_path)
@@ -79,8 +77,10 @@ class App:
 
     def run_live(self, jar=True):
         """
-        Wrapper for __run_cfg_extractor_live. This is what should actually be called by
-        the REPL as it does additional checks and logging.
+        Call __run_cfg_extractor_live.
+
+        This is what should actually be called by the REPL as it does additional checks
+        and logging.
         """
         self.log.i_msg("start")
         self.shell.clean_cmd(Env.TMP_PATH)

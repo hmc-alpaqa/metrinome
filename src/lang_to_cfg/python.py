@@ -1,13 +1,12 @@
 """
-We will convert AST to CFG recursively.
-The idea is to iterate line by line.
-Lines can be EITHER control-flow relevant or not.
+Convert AST to CFG recursively.
+
+The idea is to iterate line by line. Lines can be either control-flow relevant or not.
 If they are not relevant to control flow, we simply ignore them.
-Otherwise, we will call the function recursively. Essentially, when we see
-a new control-flow breaking node, we connect it to the previous node, then
-call it recursively, and it should make all of the connections. It will
-return ALL of its leaf nodes that should be connected to the next thing after
-the statement returns.
+Otherwise, we will call the function recursively. Essentially, when we see a new control-flow
+breaking node, we connect it to the previous node, then call it recursively, and it should make
+all of the connections. It will return ALL of its leaf nodes that should be connected to the next
+thing after the statement returns.
 """
 
 # pylint: disable=C0103
@@ -21,15 +20,17 @@ from graph import Graph
 
 class Node:
     """A single node in the graph we convert the code to."""
+
     def __init__(self) -> None:
+        """Create a new instance of the Graph node."""
         self.children: List[Node] = []
 
 
 class FunctionVisitor(ast.NodeVisitor):
     """
-    FunctionVisitor handles the traversal through the AST
-    for a single function. It includes visitor functions
-    for each type of statement we are interested in.
+    FunctionVisitor handles the traversal through the AST for a single function.
+
+    It includes visitor functions for each type of statement we are interested in.
     """
 
     def __init__(self) -> None:
@@ -167,12 +168,13 @@ class FunctionVisitor(ast.NodeVisitor):
 
 class Visitor(ast.NodeVisitor):
     """
-    Visitor is used to look at Python source code. It then creates a
-    FunctionVisitor for each function in the class.
+    Visitor is used to look at Python source code.
+
+    It creates a FunctionVisitor for each function in the class.
     """
+
     def __init__(self) -> None:
-        """
-        """
+        """Create a new instance of the Python source code parser."""
         self.graphs: Dict[str, Graph] = {}
 
     def visit_FunctionDef(self, node) -> None:

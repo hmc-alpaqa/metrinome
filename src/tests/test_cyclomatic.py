@@ -14,10 +14,8 @@ class TestCyclomaticComplexity(unittest.TestCase):
         """
         Verify cyclomatic complexity value for regular graph.
 
-        Compute the cyclomatic complexity for a graph with a
-        non-zero number of vertices (where the start node is
-        not the same as the end node) and non-zero number of
-        edges.
+        Compute the cyclomatic complexity for a graph with a non-zero number of vertices
+        (where the start node is not the same as the end node) and non-zero number of edges.
         """
         edges = [[0, 1], [1, 2], [3, 4]]
         vertices = set([0, 1, 2, 3, 4])

@@ -1,8 +1,9 @@
 """
-This file allows us to compare different implementations of the npath
-computation algorithm. For example, we could use any of the representations
-of graphs (adjacency list / matrix) and compute npath recursively, recursively
-using memoization, or iteratively through dynamic programming.
+This file allows us to compare different implementations of the npath computation algorithm.
+
+For example, we could use any of the representations of graphs (adjacency list / matrix) and
+compute npath recursively, recursively using memoization, or iteratively through dynamic
+programming.
 """
 
 from statistics import mean, median, stdev, variance
@@ -16,8 +17,8 @@ from graph import Graph
 from metric import npath_complexity
 
 
-def npath_runtim():
-    """Tests the amount of time it takes to run NPath analysis on different sized graphs."""
+def npath_runtime():
+    """Test the amount of time it takes to run NPath analysis on different sized graphs."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
     metric_collection = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
@@ -37,7 +38,7 @@ def npath_runtim():
                   f"{round(100*(i / len(graph_list)))}% done")
             graph_zero = Graph.from_file(graph)
             start_time = time.time()
-            converter.evaluate_dict(graph_zero)
+            converter.evaluate(graph_zero)
             # Calculate the run time.
             runtime = time.time() - start_time
             # Add runtime to folder-specific list
@@ -91,8 +92,9 @@ def npath_runtime_metrics(time_list):
 
 def npath_outlier(time_list):
     """
-    Take a list of tuples (runtime, Graph) and returns
-    the elements of that list that are outliers.
+    Return all outlier elements.
+
+    Given a list of tuples (runtime, Graph), return the elements of that list that are outliers.
     """
     print("OUTLIERS ")
     times = [x[0] for x in time_list]
@@ -118,7 +120,7 @@ def main():
                                 org_apache_commons_net_nntp_Threader_buildContainer_0_basic.dot",
                                 False, False)
     print("dict version:")
-    print(converter.evaluate_dict(graph_one))
+    print(converter.evaluate(graph_one))
 # npath_runtime()
 
 # LIST VERSION

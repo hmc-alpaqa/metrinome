@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Mar 13 09:04:16 2015
+Created on Fri Mar 13 09:04:16 2015.
 
 @author: baki
 """
@@ -18,10 +18,12 @@ from env import Env
 
 class Classifier:
     """This helps parse the output fromt the Java CFG generator."""
+
     def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
         """Create a new Classifier."""
         self.log = Log(tag=TAG)
         self.input_path = input_path
+        self.output_path = output_path
         self.file_list = [self.input_path]
         if os.path.isdir(self.input_path):
             self.file_list = sorted(glob.glob(os.path.join(self.input_path, ext)))
@@ -29,8 +31,7 @@ class Classifier:
         self.result = None
 
     def match_csv_line(self, string):
-        """
-        """
+        """Extract the individual values from a single line of output using a regex."""
         expr = r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*," + \
                r"\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*," + \
                r"(?P<type>.+),\s*(?P<asym>.+)\s*,\s*(?P<func>.*)"
@@ -38,15 +39,13 @@ class Classifier:
         return self.result
 
     def match_const_large_number(self, string):
-        """
-        """
+        """Use a regex to get a number to some power."""
         expr = r".*(?P<num>\d+)\.(?P<dec>\d+)\*\^(?P<exp>\d+).*"
         self.result = re.match(expr, string)
         return self.result
 
     def run(self):
-        """
-        """
+        """Clean up the results obtained by computing path complexity."""
         self.log.i_msg("start")
         for file_name in self.file_list:
             self.log.v_msg("processing {}".format(file_name))

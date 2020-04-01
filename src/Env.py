@@ -1,5 +1,5 @@
 """
-Created on Sat Aug  2 20:21:33 2014
+Created on Sat Aug  2 20:21:33 2014.
 
 @author: baki
 """
@@ -10,6 +10,7 @@ import os
 class Env:
     """
     Env stores many of the environment variables for the REPL.
+
     It also includes useful utility functions relating to environment management.
     """
 
@@ -50,6 +51,8 @@ class Env:
     @staticmethod
     def __get_path(folder='', prefix='', name='', ext=''):
         """
+        Create an absolute path based on path information.
+
         Given a folder, prefix, file name, and file extension,
         join all of them and return an absolute path.
         """

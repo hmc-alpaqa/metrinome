@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Aug 18 22:20:01 2014
+Created on Mon Aug 18 22:20:01 2014.
 
 @author: baki
 """
@@ -13,6 +13,7 @@ from log import Log
 
 class Shell:
     """Functions like a basic bash shell."""
+
     def __init__(self, TAG=""):
         """Create a new instance of Shell."""
         self.log = Log(tag=TAG)
@@ -39,7 +40,7 @@ class Shell:
     def runcmd_bgrnd(self, cmd, out=PIPE, cwd=None, shell=False):
         """Run a command in a new process to prevent blocking."""
         cmd_to_log = "cmd: {}\n  with params: out={}, cwd={}, shell={}".format(
-                     cmd, out, cwd, shell)
+            cmd, out, cwd, shell)
         self.log.v_msg(cmd_to_log)
         redirect_to = out
         if out is not PIPE:
@@ -62,7 +63,7 @@ class Shell:
         self.current_process = None
 
     def terminate(self, process=None):
-        """Alias for self.kill"""
+        """Alias for self.kill."""
         self.kill(process)
 
     def run_grep(self, search, subject, options):

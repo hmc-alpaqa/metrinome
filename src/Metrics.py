@@ -1,4 +1,4 @@
-"""Metrics is used to compute aggregate metrics and compare them."""
+"""Compute aggregate metrics and compare them."""
 
 from typing import List, Dict, Any
 from math import log
@@ -18,9 +18,10 @@ NUM_PROCESSES = 4
 
 def adjusted_rand_index(function_list) -> float:
     """
-    Compute the adjusted rand index, used to compare two different
-    clusterings on a set by looking at all oft he possible pairs of
-    points in the set.
+    Compute the adjusted rand index.
+
+    The rand index is used to compare two different clusterings on a set by looking at all of the
+    possible pairs of points in the set.
     """
     n_00 = 0  # In different clusters in both clusterings
     n_11 = 0  # In the same cluster in both clusterings
@@ -54,11 +55,12 @@ def adjusted_rand_index(function_list) -> float:
 
 def average_class_size(input_dict, use_frequencies: bool):
     """
+    Compute the average class size for a dictionary.
+
     Given some dictionary with key-value pairs
         (Metric1, Metric2),
-    where given some value 'x' for Metric1, the dictionary
-    will map to all values Metric2 takes on for the set
-    of functions that took on value 'x' for Metric1
+    where given some value 'x' for Metric1, the dictionary will map to all values
+    Metric2 takes on for the set of functions that took on value 'x' for Metric1
     """
     print(use_frequencies)
 
@@ -137,10 +139,7 @@ def mutual_information(cluster_list_one, cluster_list_two) -> float:
 
 
 def get_total_size(dictionary: Dict[Any, Any]):
-    """
-    Given a dictionary that maps to something that has
-    a 'length', sum up all of the lengths in the dictionary.
-    """
+    """Get the sum of lengths of all values in a dictionary."""
     total_size = 0
     for cluster in dictionary:
         total_size += len(dictionary[cluster])
@@ -151,6 +150,7 @@ def get_total_size(dictionary: Dict[Any, Any]):
 def cluster_entropy(cluster_list) -> float:
     """
     Calculate the entropy H(X) of a given clustering on a set.
+
     The input is a dictionary where each entry is a complexity
     class (representing a cluster) with a count (the number of
     things in the cluster)
@@ -172,7 +172,7 @@ def cluster_entropy(cluster_list) -> float:
 
 def entropy(probabilities) -> float:
     """
-    Given some list representing a probability distribution, return the total entropy.
+    Return the total entropy of a list representing probability distributions.
 
     Input: [p_0, p_1, ..., p_n]
     Output: H(p)
@@ -212,6 +212,7 @@ def set_logging(args) -> None:
 def get_file_list(file_path: str, recursive: bool) -> List[str]:
     """
     Obtain a list of the paths to all .dot files from an initial file path.
+
     Recursive mode will enable searching in subdirectories.
     """
     if os.path.isdir(file_path):
@@ -325,12 +326,13 @@ class MetricsComparer:
 
     def __init__(self, results, location) -> None:
         """
+        Create a new MetricsComparer object from a list of results.
+
         Input results list of tuples, each being:
             (Cyclomatic Complexity, NPATH Complexity,
             APC Class, Largest Big-O APC term, APC Expression)
 
-        Creates a new MetricsComparer object from a list of results, creating dictionaries
-        with (key, value) pairs given by
+        then, create dictionaries with (key, value) pairs given by
             1. (cyclomatic complexity, path complexity)
             2. (npath complexity, path complexity)
             3. (path complexity, cyclomatic complexity)
@@ -428,6 +430,8 @@ class MetricsComparer:
 
     def aggregate(self):
         """
+        Count the number of differences between different metrics.
+
         Iterate through all of the of the dictionaries where each dictionary has
         key value pairs of one of the types:
 
@@ -443,10 +447,7 @@ class MetricsComparer:
                 dictionary[key] = Counter(dictionary[key])
 
     def show_plot(self) -> None:
-        """
-        Create a histogram for both the distribution of Cyclomatic Complexity and NPATH
-        over all of the functions.
-        """
+        """Create a histogram for distributions of Cyc. Complexity and NPath over all functions."""
         plt.subplot(2, 1, 1)
 
         mean = np.mean(self.cyclomatic_complexities)
@@ -470,8 +471,9 @@ class MetricsComparer:
     @staticmethod
     def from_csv(file_name, location):
         """
-        Create a MetricsComparer object from a results CSV file by
-        obtaining the relevant entries from each line.
+        Create a MetricsComparer object from a results CSV file.
+
+        Tihs generates the MetricsComparer by obtaining the relevant entries from each line.
         Expected file format:
 
         test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class,
@@ -495,15 +497,15 @@ class MetricsComparer:
 
 class Main():
     """
-    Handles obtaining parameters from the user, computing the
-    Path Complexity, Cyclomatic Complexity, and NPATH metrics for all
-    .dot files, and calling the MetricsComparer to compare the 3 metrics
+    Obtains parameters from the user, computes the metrics, and compares them.
+
+    The metrics used are Path Complexity, Cyclomatic Complexity, and NPATH metrics.
+    Graphs are loaded from .dot files, and the MetricsComparer compares the three metrics.
     if specified.
     """
+
     def __init__(self) -> None:
-        """
-        Get the command line arguments from the user and verify that they are valid
-        """
+        """Get the command line arguments from the user and verify that they are valid."""
         # Get command line arguments
         parser = create_argument_parser()
         args = vars(parser.parse_args())
@@ -549,7 +551,7 @@ class Main():
         asymptotic_complexity = path_complexity_result[0]
         full_path_complexity = path_complexity_result[1]
 
-        def cyclomatic_complexity(tmp):
+        def cyclomatic_complexity(_):
             return 0
 
         n_path_compl = "tmp"
@@ -560,9 +562,9 @@ class Main():
 
     def compute_statistics(self, file_name: str) -> None:
         """
-        Given a CSV file with all of the results given by 'compute_results,'
-        calculate the metrics used to compare APC, NPATH, and Cyclomatic
-        Complexity.
+        Calculate the metrics used to compare APC, NPATH, and Cyclomatic Complexity.
+
+        This uses a CSV file with all of the results given by 'compute_results.'
         """
         metrics = MetricsComparer.from_csv(file_name, self.location)
         metrics.compute_metric()

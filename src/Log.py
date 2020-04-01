@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 16 23:47:44 2014
+Created on Tue Sep 16 23:47:44 2014.
 
 @author: baki
 """
@@ -9,10 +9,8 @@ from enum import Enum, auto
 
 
 class LogLevel(Enum):
-    """
-    Allow different levels to be set in the logger, indicating
-which messages will actually be displayed.
-    """
+    """Set levels in the logger to decide which messages will be displayed."""
+
     DEBUG   = auto()
     REGULAR = auto()
 
@@ -32,9 +30,7 @@ class Log:
         self.tag = tag
 
     def d_msg(self, msg: str) -> None:
-        """
-        d is used for DEBUGGING, and messages are only displayed if LOG_LEVEL is 'DEBUG'
-        """
+        """Use for debugging. Messages are only displayed if LOG_LEVEL is 'DEBUG'."""
         if self.display_output and self.log_level is LogLevel.DEBUG:
             print(f"=== DEBUG ===: {msg}")
 

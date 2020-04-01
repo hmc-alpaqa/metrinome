@@ -1,5 +1,7 @@
 """
-Test the logging object, which lets us control how much information is displayed in the REPL
+Test the logging methods.
+
+The logger lets us control how much information is displayed in the REPL
 and how this information is displayed.
 """
 

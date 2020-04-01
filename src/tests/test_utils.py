@@ -1,15 +1,10 @@
-"""
-This is used to test the utils that are primarily used in computing APC and
-path complexity.
-"""
+"""This is used to test the utils that are primarily used in computing APC and path complexity."""
 
 import unittest
 
 
 class TestUtils(unittest.TestCase):
-    """
-    Test all of the utils methods.
-    """
+    """Test all of the utils methods."""
 
     # === roundExpression ===
     def test_round_expression_simple(self):
@@ -28,6 +23,8 @@ class TestUtils(unittest.TestCase):
 
     def test_round_expression_exponential(self):
         """
+        Check that we can round numbers in an expression.
+
         Coefficients in an exponential expression should be rounded to
         the appropriate numebr of decimal places
         """
@@ -39,7 +36,9 @@ class TestUtils(unittest.TestCase):
     # === classify ===
     def classify_helper(self, expression, expected):
         """
-        Given some expression an expected classification, verify that
+        Check that the expression is classified correctly.
+
+        Given some expression and expected classification, verify that
         classify() returns the correct classification
         """
         # classified = Utils.classify(expression)
@@ -47,6 +46,8 @@ class TestUtils(unittest.TestCase):
 
     def test_classify_constant(self):
         """
+        Verify that constant expressions are classified correctly.
+
         Constants should always return 'Const:<val>' where value is the
         contanst itself. Empty expressions should given us a constant of 0.
         """
@@ -72,10 +73,7 @@ class TestUtils(unittest.TestCase):
         # self.classifyHelper('n', 'PolyDeg:1.0')
 
     def test_classify_exponential(self):
-        """
-        Check that classify returns the base of an exponential in the case
-        of exponential expressions
-        """
+        """Check that classify returns the base of an exponential for exponential expressions."""
         # exponentialExpression = '1 + n + 2^n'
         # expectedClassification = 'ExpBase:2.0'
         # self.classifyHelper(exponentialExpression, expectedClassification)
@@ -88,7 +86,9 @@ class TestUtils(unittest.TestCase):
     # === getSolutionFromRoots ===
     def test_solution_from_roots(self):
         """
-        Return the solution to a linear homogeneous recurrence relation
+        Verify that we get the correct solution to recurrence solution.
+
+        The method should return the solution to a linear homogeneous recurrence relation
         from the roots of the charactersic equation.
         """
         # Utils.getSolutionFromRoots()
@@ -103,6 +103,8 @@ class TestUtils(unittest.TestCase):
     # === getTaylorCoeffs ===
     def test_taylor_coeffs(self):
         """
+        Verify that we get the correct coefficients of a Taylor series.
+
         This should return the coefficients of the Taylor series of a
         rational function (p(x) / q(x) where p and q are polynomials),
         up to a specified degree.
@@ -113,8 +115,9 @@ class TestUtils(unittest.TestCase):
     # === isExponential ===
     def test_is_exponential(self):
         """
-        Test exponential should return True if the expression contains any
-        a^n (or any variant of a^n).
+        Test exponential should return True if the expression contains any a^n.
+
+        This should also return True if it includes variants of a^n.
         """
         # result = Utils.isExponential('n * 2 + 1.5 - 2^n')
         # resultTwo = Utils.isExponential('n + 1 / 2')
@@ -125,7 +128,9 @@ class TestUtils(unittest.TestCase):
     # === getDegree ===
     def test_get_degree(self):
         """
-        For an arbitrary expression, getDegree should return the maximum
+        Test the get_degree function.
+
+        For an arbitrary expression, get_egree should return the maximum
         value that 'x'is raised to. Expression with no 'x' have a degree
         of 0. Expressions with other variables, such as (x^2) + n, should
         only return the degree with respect to 'x'.
@@ -152,8 +157,7 @@ class TestUtils(unittest.TestCase):
         # self.assertEqual(bigoTwo, '1')
 
     def test_bigo_polynomial(self):
-        """
-        The bigo of a polynomial should be O(x^n) where n is the degree of the polynomial."""
+        """The bigo of a polynomial should be O(x^n) where n is the degree of the polynomial."""
         # Expression One: "1 - x + 6*x^8"
         # Expression Two: = "1.2*x^(8.4) - 3.1*x"
 

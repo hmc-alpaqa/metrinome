@@ -1,6 +1,4 @@
-"""
-Graph object allows us to store an interact with Graphs in a variety of ways.
-"""
+"""Graph object allows us to store an interact with Graphs in a variety of ways."""
 
 from collections import defaultdict
 from typing import List, Tuple, Any, DefaultDict
@@ -10,9 +8,9 @@ import numpy as np  # type: ignore
 
 class Graph:
     """
-    Store a directed graph using an adjacency list. Since
-    this is used to store Control Flow Graphs, we also store
-    a start and end node.
+    Store a directed graph using an adjacency list.
+
+    Since this is used to store Control Flow Graphs, we also store a start and end node.
     Each vertex is represented as a number, such that
 
     self.vertices = [1, 2, 3, 4, 5, ...]
@@ -23,6 +21,7 @@ class Graph:
 
     We store a list of these edges.
     """
+
     def dot(self, using_list: bool) -> str:
         """Convert a Graph object to a .dot file."""
         out = "digraph {\n"
@@ -42,8 +41,7 @@ class Graph:
         return out
 
     def __str__(self) -> str:
-        """
-        """
+        """Return a string representation of the Graph."""
         return f"Edges: {self.edge_rules()}\nVertices: " + \
                f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
                f"\nEnd Node: {self.end_node}"
@@ -51,8 +49,7 @@ class Graph:
     def __init__(self, edges, vertices: Any, start_node: int,
                  end_node: int, from_list: bool = False) -> None:
         """
-        Create a directed graph from a vertex set, edge list,
-        and start/end notes.
+        Create a directed graph from a vertex set, edge list, and start/end notes.
 
         If the graph is not weighted, the edgeList is
         edgeList = [(a, b), (c, d), (e, f), ...]
@@ -91,7 +88,7 @@ class Graph:
 
     def adjacency_matrix(self):
         """
-        Obtain the adjacency matrix from the edge list representation
+        Obtain the adjacency matrix from the edge list representation.
 
         We assume the vertices are numbered consecutively, i.e.
             0, 1, 2, ..., end_node
@@ -102,7 +99,6 @@ class Graph:
         Second row  -> END
         Other  rows -> n = 2, ..., END - 1
         """
-
         adj_mat = np.zeros((self.end_node + 1, self.end_node + 1))
         for edge in self.edge_rules():
             vertex_one = edge[0]
@@ -144,7 +140,7 @@ class Graph:
     @staticmethod
     def from_file(filename: str, weighted: bool = False, using_list: bool = True):
         """
-        Return a Graph object from a .dot file of format
+        Return a Graph object from a .dot file of format.
 
         digraph {
             0 [label="START"]
@@ -208,9 +204,12 @@ class Graph:
 
     def to_prism(self) -> List[str]:
         """
+        Create a PRISM file based on an existing Graph.
+
         Assumes the graph is already in the DTMC correct representation (with
         edge weights as probabilities).
 
+        e.g.:
         dtmc
         module die
 
@@ -258,8 +257,7 @@ class Graph:
         return prism_lines
 
     def __eq__(self, other) -> bool:
-        """
-        """
+        """Check that two Graphs are equal by checking their vertices and edges."""
         sets_equal = (self.edges == other.edge_rules() and self.vertices == other.get_vertices())
         labels_equal = (self.start_node == other.get_start() and self.end_node == other.get_end())
         return sets_equal and labels_equal

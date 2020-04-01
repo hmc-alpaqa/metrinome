@@ -1,4 +1,6 @@
 """
+Various utilities for the REPL.
+
 This module contains utilities for computing asymptotic path complexity.
 It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
@@ -14,9 +16,10 @@ from mpmath import polyroots  # type: ignore
 
 def round_expression(expr: str, digits: int) -> str:
     """
+    Round all of the numbers in an expression to a given number of decimal places.
+
     Take some sympy expression represented as a string
-    and round all numbers to the given number of decimal
-    places.
+    and round all numbers to the given number of decimal places.
     """
     reg_exp = r"([0-9]*)\.([0-9]*)"
 
@@ -76,8 +79,9 @@ def get_solution_from_roots(roots):
 
 def get_recurrence_solution(recurrence: str):
     """
-    Returns the coefficients to a homogeneous linear recurrence relation
-    represented as a string of the format
+    Return the coefficients to a homogeneous linear recurrence relation.
+
+    This is represented as a string of the format
 
     c_0*f(n) + c_1*f(n-1) + ... + c_k*f(n-k)
 
@@ -107,9 +111,7 @@ def get_recurrence_solution(recurrence: str):
 
 
 def get_taylor_coeffs(func, num_coeffs: int):
-    """
-    Given an arbitrary rational function
-    """
+    """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
     series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')
     first_element = series_list[0]
@@ -123,11 +125,7 @@ def get_taylor_coeffs(func, num_coeffs: int):
 
 
 def is_exponential(term: str, var='n'):
-    """
-    If an expression contains an exponential, return its base.
-    Otherwise, return None.
-    """
-
+    """If an expression contains an exponential, return its base. Otherwise, return None."""
     # either ^n or ^(num*n)
     num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
     search_string = rf"({num})\^{var}"
@@ -153,10 +151,7 @@ def is_exponential(term: str, var='n'):
 
 
 def get_degree(term: str, var="n") -> float:
-    """
-    If an expression is a polynomial, return the degree.
-    Otherwise, return 0.
-    """
+    """If an expression is a polynomial, return the degree. Otherwise, return 0."""
     num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
     regexp = rf"{var}\^({num})"
     res = re.findall(regexp, term)
@@ -198,7 +193,9 @@ class Timeout:
     Allows us to run a block of code such that a TimeoutError is thrown if
     it does not finish within a given amount of time.
     """
+
     def __init__(self, seconds=1, error_message='Timeout') -> None:
+        """Create a new instance of Timeout."""
         self.seconds = seconds
         self.error_message = error_message
 
@@ -212,6 +209,5 @@ class Timeout:
         signal.alarm(self.seconds)
 
     def __exit__(self, err_type, value, traceback) -> None:
-        """
-        """
+        """Stop the timer once the code block is done executing."""
         signal.alarm(0)

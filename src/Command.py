@@ -1,6 +1,6 @@
 """The main implementation of the REPL."""
 
-from typing import List, Dict, Any, Callable
+from typing import List, Dict, Any, Callable, Optional
 import os.path
 from os import listdir
 import readline
@@ -37,6 +37,7 @@ EXTENSION_ERR: Callable[[str, str], str]   = lambda target_type, file_extension:
 
 class ObjTypes(Enum):
     """All of the object types that are stored by the REPL while it is running."""
+
     GRAPH  = "graph"
     METRIC = "metric"
     STAT   = "stat"
@@ -59,6 +60,7 @@ class ObjTypes(Enum):
 
 class KnownExtensions(Enum):
     """A list of all the file extensions we know how to work with."""
+
     C      = ".c"
     Python = ".py"
     BC     = ".bc"
@@ -126,13 +128,15 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
         try:
             regexp = re.compile(file)
             # TODO
-            return []
         except re.error:
-            return []
+            pass
+
+        return []
 
 
 class API:
     """API contains all of the methods exposed to the user. These are used to create the REPL."""
+
     def __init__(self, logger) -> None:
         """Create a new instance of the API."""
         self.controller = Controller(logger)
@@ -160,14 +164,13 @@ class API:
 
 
 class Controller:
-    """
-    Controller is the interface used to store which file extension we know
-    how to generate graphs for.
-    """
+    """Store the file extension we know how to generate graphs for and the generators."""
+
     def __init__(self, logger) -> None:
         """
-        Create a new instance of Controller, initializing all of the converters
-        required to turn known file types into CFGS.
+        Create a new instance of Controller by initializing all of the converters.
+
+        The converters turn known file types into CFGS.
         """
         self.logger = logger
 
@@ -197,9 +200,93 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
+class Data:
+    """Stores all of objects created during the use of the REPL."""
+
+    def __init__(self, logger):
+        """Create a new instance of the REPL data."""
+        self.metrics: Dict[Any, Any] = {}
+        self.graphs: Dict[Any, Any] = {}
+        self.stats: Dict[Any, Any] = {}
+        self.klee_stats: Dict[Any, Any] = {}
+        self.klee_stat = KleeStat
+        self.klee_formatted_files: Dict[str, str] = dict()
+        self.bc_files: Dict[str, Any] = dict()
+        self.logger = logger
+
+    def export_metrics(self, name, new_name):
+        """Save a metric  the REPL knows about to an external file."""
+        if name in self.metrics:
+            with open(f"/app/code/exports/{new_name}_metrics", "w+") as file:
+                metric_value = self.metrics[name]
+                file.write(metric_value)
+                self.logger.i_msg(f"Made file {new_name}_metrics in /app/code/exports/")
+        elif name == "*":
+            for m_name in self.metrics:
+                f_name = os.path.split(m_name)[1]
+                with open(f"/app/code/exports/{f_name}_metrics", "w+") as file:
+                    metric_value = self.metrics[m_name]
+                    file.write(metric_value)
+                    self.logger.i_msg(f"Made file {f_name}_metrics in /app/code/exports/")
+        else:
+            self.logger.e_msg(f"{str(ObjTypes.METRIC).capitalize()} {name} not found.")
+
+    def export_graph(self, name, new_name) -> None:
+        """Save a Graph the REPL knows about to an external file."""
+        if name in self.graphs:
+            with open(f"/app/code/exports/{new_name}.dot", "w+") as file:
+                graph = self.graphs[name]
+                file.write(graph.dot())
+                self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
+        elif name == "*":
+            for graph_name in self.graphs:
+                f_name = os.path.split(graph_name)[1]
+                with open(f"/app/code/exports/{f_name}.dot", "w+") as file:
+                    graph = self.graphs[graph_name]
+                    file.write(graph.dot())
+                    self.logger.i_msg(f"Made file {f_name}.dot in /app/code/exports/")
+        else:
+            self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
+
+    def show_graphs(self, name, names):
+        """Display a Graph we know about to the REPL."""
+        if name == "*":
+            names = list(self.graphs.keys())
+
+        for graph_name in names:
+            if graph_name in self.graphs:
+                self.logger.v_msg(self.graphs[graph_name])
+            else:
+                self.logger.v_msg(f"Graph {graph_name} not found.")
+
+    def show_metric(self, name, names):
+        """Display a metric we know about to the REPL."""
+        if name == "*":
+            names = list(self.metrics.keys())
+
+        for metric_name in names:
+            if metric_name in self.metrics:
+                self.logger.v_msg(self.metrics[metric_name])
+            else:
+                self.logger.v_msg(f"Metric {metric_name} not found.")
+
+    def show_klee(self, names):
+        """Display Klee files or .bc files we know about to the REPL."""
+        for klee_name in names:
+            if klee_name in self.bc_files:
+                self.logger.v_msg("BC FILE:")
+                self.logger.v_msg(self.bc_files[klee_name])
+
+            if klee_name in self.klee_formatted_files:
+                self.logger.v_msg("KLEE FORMATTED FILES:")
+                self.logger.v_msg(str(self.klee_formatted_files[klee_name]))
+
+
 class Command:
     """Command is the implementation of the REPL commands."""
+
     def __init__(self, debug_mode: bool, repl_wrapper) -> None:
+        """Create a new instance of the REPL implementation."""
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
         else:
@@ -207,27 +294,19 @@ class Command:
 
         self.logger.d_msg("Debug Mode Enabled")
         self.api = API(self.logger)
-
-        self.have_completed = False
-
         self.controller = Controller(self.logger)
-        self.metrics: Dict[Any, Any] = {}
-        self.graphs: Dict[Any, Any] = {}
-        self.stats: Dict[Any, Any] = {}
-        self.klee_stats: Dict[Any, Any] = {}
-        self.klee_stat = KleeStat
-
         self.klee_utils = KleeUtils(self.logger)
-        self.klee_formatted_files: Dict[str, str] = dict()
-        self.bc_files: Dict[str, Any] = dict()
-
+        self.data = Data(self.logger)
+        self.have_completed = False
         self.repl_wrapper = repl_wrapper
 
     def check_num_args(self, args: List[str], num_args: int,
                        err1: str,
                        err2: str = "Too many arguments provided.") -> bool:
         """
-        check_num_args returns True if the args list has num_elements many elements.
+        Check that the number of input arguments in the list is correct.
+
+        This returns True if the args list has num_elements many elements.
         Otherwise, print an error message.
         """
         if len(args) < num_args:
@@ -241,8 +320,10 @@ class Command:
 
     def verify_file_type(self, args, target_type: str):
         """
-        Given a set of arguments from the user, verify that the file extension
-        for the file passed in matches the expected file type.
+        Verify that the file extension for the file passed in matches the expected file type.
+
+        The input is the set of arguments passed in to the REPL by the user converted into a
+        list.
         """
         file = args[0]
         _, file_extension = os.path.splitext(file)
@@ -257,10 +338,7 @@ class Command:
         return file
 
     def do_klee_replay(self, args: str):
-        """
-        Klee replay allows us to run one of the generated unit tests against
-        the C source code by providing a ktest file.
-        """
+        """Run a generated unit tests against the C source code by providing a ktest file."""
         converted_args = self.convert_args(args)
         valid_args = self.check_num_args(converted_args, 1, MISSING_FILENAME_ERR)
         if not valid_args:
@@ -314,9 +392,9 @@ class Command:
             graph = converter.to_graph(filepath.strip(), file_extension.strip())
             self.logger.v_msg(graph)
             if isinstance(graph, dict):
-                self.graphs.update(graph)
+                self.data.graphs.update(graph)
             else:
-                self.graphs[filepath] = graph
+                self.data.graphs[filepath] = graph
 
     def do_list(self, args: str) -> None:
         """List objects the REPL knows about."""
@@ -334,14 +412,14 @@ class Command:
         elif list_type == ObjTypes.GRAPH:
             self.api.show_graphs()
         elif list_type == ObjTypes.KLEE:
-            keys = self.klee_formatted_files.keys()
+            keys = self.data.klee_formatted_files.keys()
             if len(keys) == 0:
                 self.logger.v_msg("No KLEE formatted files available.")
             else:
                 self.logger.v_msg("KLEE-Formatted file names: ")
                 self.logger.v_msg(" ".join(list(keys)))
 
-            keys = self.bc_files.keys()
+            keys = self.data.bc_files.keys()
             if len(keys) == 0:
                 self.logger.v_msg("No BC files available.")
             else:
@@ -363,14 +441,14 @@ class Command:
         name = args_list[0]
         names = [name]
         if name == "*":
-            names = list(self.graphs.keys())
-        elif name in self.graphs:
+            names = list(self.data.graphs.keys())
+        elif name in self.data.graphs:
             pass
         else:
             try:
                 self.logger.d_msg(f"Trying to compile {name} to regexp")
                 pattern = re.compile(name)
-                for graph_name in self.graphs:
+                for graph_name in self.data.graphs:
                     if pattern.match(graph_name):
                         names.append(graph_name)
             except re.error:
@@ -378,7 +456,7 @@ class Command:
                 return
 
         for name in names:
-            graph = self.graphs[name]
+            graph = self.data.graphs[name]
             self.logger.v_msg(f"Computing metrics for {graph}")
             results = []
             for metric_generator in self.controller.metrics_generators:
@@ -387,7 +465,7 @@ class Command:
                 results.append((metric_generator.name(), result))
                 self.logger.v_msg(f"Got {result}")
 
-            self.metrics[name] = results
+            self.data.metrics[name] = results
 
     def do_show(self, args: str) -> None:
         """Display objects the REPL knows about."""
@@ -401,53 +479,33 @@ class Command:
         names = [name]
         obj_type = ObjTypes.get_type(obj_type)
         if obj_type == ObjTypes.METRIC:
-            if name == "*":
-                names = list(self.metrics.keys())
-
-            for name in names:
-                if name in self.metrics:
-                    self.logger.v_msg(self.metrics[name])
-                else:
-                    self.logger.v_msg(f"Metric {name} not found.")
+            self.data.show_metric(name, names)
         elif obj_type == ObjTypes.GRAPH:
-            if name == "*":
-                names = list(self.graphs.keys())
-
-            for name in names:
-                if name in self.graphs:
-                    self.logger.v_msg(self.graphs[name])
-                else:
-                    self.logger.v_msg(f"Graph {name} not found.")
+            self.data.show_graphs(name, names)
         elif obj_type == "*":
             if name == "*":
-                names = list(self.metrics.keys()) + [self.graphs.keys()]
+                names = list(self.data.metrics.keys()) + [self.data.graphs.keys()]
 
             for name in names:
                 found = False
-                if name in self.graphs:
-                    self.logger.v_msg(self.graphs[name])
+                if name in self.data.graphs:
+                    self.logger.v_msg(self.data.graphs[name])
                     found = True
-                if name in self.metrics:
-                    self.logger.v_msg(self.metrics[name])
+                if name in self.data.metrics:
+                    self.logger.v_msg(self.data.metrics[name])
                     found = True
                 if not found:
                     self.logger.v_msg(f"Metric or Graph {name} not found.")
         elif obj_type == ObjTypes.KLEE:
-            for name in names:
-                if name in self.bc_files:
-                    self.logger.v_msg("BC FILE:")
-                    self.logger.v_msg(self.bc_files[name])
-
-                if name in self.klee_formatted_files:
-                    self.logger.v_msg("KLEE FORMATTED FILES:")
-                    self.logger.v_msg(str(self.klee_formatted_files))
+            self.data.show_klee(names)
         else:
             self.logger.v_msg(f"Type {obj_type} not recognized.")
 
     def do_analyze(self, args: str) -> None:
         """
-        Analyze some set of metrics we have already computed. This is currently
-        not implemented, but will likely involve computing some aggregate
+        Analyze some set of metrics we have already computed.
+
+        This is currently not implemented, but will likely involve computing some aggregate
         statistics.
         """
         args_list = self.convert_args(args)
@@ -457,21 +515,22 @@ class Command:
 
         metric_name = args_list[0]
         metric_names = []
-        if metric_name in self.metrics.keys():
+        if metric_name in self.data.metrics.keys():
             metric_names.append(metric_name)
         elif metric_name == "*":
-            metric_names = list(self.metrics.keys())
+            metric_names = list(self.data.metrics.keys())
         else:
             self.logger.v_msg(f"Could not find metric {metric_name}")
             return
 
         for metric_name in metric_names:
-            _ = self.metrics[metric_name]
+            _ = self.data.metrics[metric_name]
 
     def do_klee_to_bc(self, args: str) -> None:
         """
-        Convert a file that is already in a klee-compatible format
-        to a .bc file that KLEE can be called on.
+        Convert a file that is already in a klee-compatible format to a file KLEE can be called on.
+
+        KLEE is called on .bc files which we generate using clang.
         """
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, "Must provide KLEE formatted name.")
@@ -481,18 +540,18 @@ class Command:
         name = args[0]
         keys = [name]
 
-        if name not in self.klee_formatted_files:
+        if name not in self.data.klee_formatted_files:
             self.logger.v_msg(f"Could not find {name}.")
             return
 
         if name == "*":
-            keys = list(self.klee_formatted_files.keys())
+            keys = list(self.data.klee_formatted_files.keys())
 
         for _ in keys:
             with tempfile.NamedTemporaryFile(delete=True, suffix=".c") as file:
                 self.logger.d_msg(f"Created temporary file {file.name}")
-                self.logger.d_msg(f"Going to write {self.klee_formatted_files[name]}")
-                file.write(self.klee_formatted_files[name].encode())
+                self.logger.d_msg(f"Going to write {self.data.klee_formatted_files[name]}")
+                file.write(self.data.klee_formatted_files[name].encode())
 
                 file.seek(0)
                 self.logger.d_msg("FILE CONTENTS")
@@ -501,7 +560,7 @@ class Command:
                 cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
                         -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {file.name}"
                 res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
-                self.bc_files[name] = res.stdout
+                self.data.bc_files[name] = res.stdout
 
     def do_to_klee_format(self, args: str) -> None:
         """Convert a file with C source code to a format compatible with klee."""
@@ -532,7 +591,8 @@ class Command:
             klee_formatted_files = self.klee_utils.show_func_defs(file)
             if klee_formatted_files is None:
                 return
-            self.klee_formatted_files = {**self.klee_formatted_files, **klee_formatted_files}
+            self.data.klee_formatted_files = {**self.data.klee_formatted_files,
+                                              **klee_formatted_files}
 
     def do_clean_klee_files(self, args: str) -> None:
         """Remove all KLEE-related files created by the REPL."""
@@ -541,8 +601,8 @@ class Command:
         if not valid_args:
             return
 
-    def update_klee_stats(self, klee_output, name: str, delta_t):
-        """Parse and store the results of running klee on some .bc file."""
+    def klee_output_indices(self, klee_output):
+        """Get the indicies of statistics we care about in the Klee output string."""
         string_one = "generated tests = "
         string_two = "completed paths = "
         string_three = "total instructions = "
@@ -550,6 +610,15 @@ class Command:
         generated_tests_index    = klee_output.index(string_one) + len(string_one)
         completed_paths_index    = klee_output.index(string_two) + len(string_two)
         total_instructions_index = klee_output.index(string_three) + len(string_three)
+
+        return generated_tests_index, completed_paths_index, total_instructions_index
+
+    def update_klee_stats(self, klee_output, name: str, delta_t):
+        """Parse and store the results of running klee on some .bc file."""
+        indices = self.klee_output_indices(klee_output)
+        generated_tests_index    = indices[0]
+        completed_paths_index    = indices[1]
+        total_instructions_index = indices[2]
 
         number_regex = re.compile("[0-9]+")
 
@@ -564,22 +633,28 @@ class Command:
         if insts_match is not None:
             insts = int(insts_match.group())
 
-        self.klee_stats[name] = self.klee_stat(tests=tests, paths=paths,
-                                               instructions=insts, delta_t=delta_t)
+        self.data.klee_stats[name] = self.data.klee_stat(tests=tests, paths=paths,
+                                                         instructions=insts, delta_t=delta_t)
         self.logger.i_msg("Updated!")
 
-    def do_klee(self, args: str) -> None:
-        """Execute klee on a .bc file stored as an object in the REPL."""
+    def get_klee_file_name(self, args: str) -> Optional[str]:
+        """Return the name of the .bc file given a command line argument string."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, MISSING_FILENAME_ERR)
         if not valid_args:
+            return None
+
+        return args[0]
+
+    def do_klee(self, args: str) -> None:
+        """Execute klee on a .bc file stored as an object in the REPL."""
+        name = self.get_klee_file_name(args)
+        if name is None:
             return
 
-        name = args[0]
-
-        if args[0] in self.bc_files or args[0] == "*":
-            if args[0] == "*":
-                keys = list(self.bc_files.keys())
+        if name in self.data.bc_files or name == "*":
+            if name == "*":
+                keys = list(self.data.bc_files.keys())
             else:
                 keys = [name]
 
@@ -588,7 +663,7 @@ class Command:
                     file_name = file.name
                     self.logger.d_msg(f"Created temporary file {file_name}")
 
-                    thing_to_write = self.bc_files[key]
+                    thing_to_write = self.data.bc_files[key]
                     self.logger.d_msg(f"Writing {thing_to_write}")
                     file.write(thing_to_write)
                     file.seek(0)
@@ -623,7 +698,7 @@ class Command:
                 output = res.stderr
                 self.logger.d_msg("OUTOUT:")
                 self.logger.d_msg(output.decode())
-                self.update_klee_stats(output.decode(), args[0], delta_t)
+                self.update_klee_stats(output.decode(), name, delta_t)
 
     def do_quit(self, args: str):
         """Quit the repl."""
@@ -634,8 +709,9 @@ class Command:
 
     def do_export(self, args: str):
         """
-        Save some object the REPL knows about to an external file. The format it is
-        stored as depends on the object we are storing.
+        Save some object the REPL knows about to an external file.
+
+        The format it is stored as depends on the object we are storing.
         """
         converted_args = self.convert_args(args)
         valid_args = self.check_num_args(converted_args, 2, MISSING_TYPE_AND_NAME_ERR)
@@ -648,58 +724,31 @@ class Command:
         new_name = os.path.split(name)[1]
         export_type = ObjTypes.get_type(export_type)
         if export_type == ObjTypes.GRAPH:
-            if name in self.graphs:
-                with open(f"/app/code/exports/{new_name}.dot", "w+") as file:
-                    graph = self.graphs[name]
-                    file.write(graph.dot())
-                    self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
-            elif name == "*":
-                for graph_name in self.graphs:
-                    f_name = os.path.split(graph_name)[1]
-                    with open(f"/app/code/exports/{f_name}.dot", "w+") as file:
-                        graph = self.graphs[graph_name]
-                        file.write(graph.dot())
-                        self.logger.i_msg(f"Made file {f_name}.dot in /app/code/exports/")
-            else:
-                self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
-
+            self.data.export_graph(name, new_name)
         elif export_type == ObjTypes.METRIC:
-            if name in self.metrics:
-                with open(f"/app/code/exports/{new_name}_metrics", "w+") as file:
-                    metric_value = self.metrics[name]
-                    file.write(metric_value)
-                    self.logger.i_msg(f"Made file {new_name}_metrics in /app/code/exports/")
-            elif name == "*":
-                for m_name in self.metrics:
-                    f_name = os.path.split(m_name)[1]
-                    with open(f"/app/code/exports/{f_name}_metrics", "w+") as file:
-                        metric_value = self.metrics[m_name]
-                        file.write(metric_value)
-                        self.logger.i_msg(f"Made file {f_name}_metrics in /app/code/exports/")
-            else:
-                self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
+            self.data.export_metrics(name, new_name)
 
         elif export_type == ObjTypes.STAT:
-            if name in self.stats:
+            if name in self.data.stats:
                 with open(f"/app/code/exports/{new_name}_stats", "w+") as file:
-                    stat = self.stats[name]
+                    stat = self.data.stats[name]
                     file.write(stat)
                     self.logger.i_msg(f"Made file {new_name}_stats in /app/code/exports/")
 
             elif name == "*":
-                for s_name in self.stats:
+                for s_name in self.data.stats:
                     f_name = os.path.split(s_name)[1]
                     with open(f"/app/code/exports/{f_name}_stats", "w+") as file:
-                        stat = self.metrics[s_name]
+                        stat = self.data.metrics[s_name]
                         file.write(stat)
                         self.logger.i_msg(f"Made file {f_name}s_stats in /app/code/exports/.")
             else:
                 self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
 
         elif export_type == ObjTypes.KLEE:
-            if name in self.klee_formatted_files:
+            if name in self.data.klee_formatted_files:
                 with open(f"/app/code/exports/{new_name}_klee.c", "w+") as file:
-                    klee_file = self.klee_formatted_files[name]
+                    klee_file = self.data.klee_formatted_files[name]
                     file.write(klee_file)
                     self.logger.i_msg(f"Made file {new_name}_klee.c in /app/code/exports/.")
         else:
@@ -716,22 +765,22 @@ class Command:
         name = args[1]
         if obj_type == ObjTypes.GRAPH.value:
             try:
-                del self.graphs[name]
+                del self.data.graphs[name]
             except KeyError:
                 self.logger.v_msg(f"{ObjTypes.GRAPH.value.capitalize()} {name} not found.")
         elif obj_type == ObjTypes.METRIC.value:
             try:
-                del self.metrics[name]
+                del self.data.metrics[name]
             except KeyError:
                 self.logger.v_msg(f"{ObjTypes.METRIC.value.capitalize()} {name} not found.")
         elif obj_type == ObjTypes.STAT.value:
             try:
-                del self.stats[name]
+                del self.data.stats[name]
             except KeyError:
                 self.logger.v_msg(f"{ObjTypes.STAT.value.capitalize()} {name} not found.")
         elif obj_type == "*":
             found = False
-            for dictionary in [self.graphs, self.metrics, self.stats]:
+            for dictionary in [self.data.graphs, self.data.metrics, self.data.stats]:
                 try:
                     del dictionary[name]
                     found = True

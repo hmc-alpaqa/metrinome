@@ -1,7 +1,4 @@
-"""
-Test all of the methods associated with the construction of
-Graph objects and their conversion to Prism files.
-"""
+"""Test methods associated with Graph objects and their conversion to Prism files."""
 
 import unittest
 import sys
@@ -12,6 +9,7 @@ from graph import Graph
 
 class TestGraph(unittest.TestCase):
     """Test Graph objects."""
+
     # === Graph::__str__ ===
     def test_to_str(self):
         """Test if we can correctly convert a Graph to a string."""
@@ -28,37 +26,26 @@ class TestGraph(unittest.TestCase):
 
     # === Graph::vertex_count ===
     def test_vertex_count_one_vertex(self):
-        """
-        Test if we can obtain the number of vertices from a Graph for a Graph with a single vertex.
-        """
+        """Test obtaining the number of vertices from a Graph for a Graph with a single vertex."""
         graph = Graph([], [1], 1, 1)
         vertex_count = graph.vertex_count()
         self.assertEqual(vertex_count, 1)
 
     def test_vertex_count_many_vertices(self):
-        """
-        Test if we can obtain the number of vertices from a Graph
-        for a Graph with many vertices.
-        """
+        """Test obtaining the number of vertices from a Graph for a multiple-vertex Graph."""
         graph = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4)
         vertex_count = graph.vertex_count()
         self.assertEqual(vertex_count, 4)
 
     # === Graph::get_vertices ===
     def test_get_vertices_one_vertex(self):
-        """
-        Test if we can get all of the vertices from a Graph with a
-        single vertex.
-        """
+        """Test if we can get all of the vertices from a Graph with a single vertex."""
         graph = Graph([], [1], 1, 1)
         vertices = graph.get_vertices()
         self.assertEqual(vertices, [1])
 
     def test_vertices_many_vertices(self):
-        """
-        Test if we can get all of the vertices from a Graph with a
-        many vertices.
-        """
+        """Test if we can get all of the vertices from a Graph with a many vertices."""
         graph = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4)
         vertices = graph.get_vertices()
         self.assertEqual(vertices, [1, 2, 3, 4])

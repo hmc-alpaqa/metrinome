@@ -1,6 +1,4 @@
-"""
-Computes Cyclomatic Complexity from any fraph object.
-"""
+"""Computes Cyclomatic Complexity from any Graph object."""
 
 # pylint: disable=W0235
 # Disable 'useless super delegation of __init__' because
@@ -11,9 +9,7 @@ from metric import metric  # type: ignore
 
 
 class CyclomaticComplexity(metric.MetricAbstract):
-    """
-    Compute the Cyclomatic Complexity given some control flow graph.
-    """
+    """Compute the Cyclomatic Complexity given some control flow graph."""
 
     def __init__(self) -> None:
         """Initialize an object used to compute the cyclomatic complexity of graphs."""
@@ -25,9 +21,9 @@ class CyclomaticComplexity(metric.MetricAbstract):
 
     def evaluate(self, graph: Graph):
         """
-        Assuming that G represents the CFG of a function,
-        computes the cyclomatic complexity of the function
+        Compute the cyclomatic complexity of the function.
 
-        Refer to https://en.wikipedia.org/wiki/Cyclomatic_complexity
+        The input graph is the CFG of some function.
+        Refer to https://en.wikipedia.org/wiki/Cyclomatic_complexity.
         """
         return len(graph.edge_rules()) - graph.vertex_count() + 2

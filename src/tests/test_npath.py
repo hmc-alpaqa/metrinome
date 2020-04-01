@@ -1,19 +1,16 @@
-"""
-Test all methods associated with computing NPath complexity.
-"""
+"""Test all methods associated with computing NPath complexity."""
 
 import unittest
 from graph import Graph
 
 
 class TestNPATH(unittest.TestCase):
-    """
-    Test the implementation of the class able to compute the
-    NPath metric for an arbitrary graph.
-    """
+    """Test the the class able to compute the NPath metric for an arbitrary graph."""
 
     def test_npath(self):
         """
+        Check NPath with actual CFGs obtained from Java code.
+
         Expected Results:
 
         test_number, cfg_file, cyclomatic_complexity, npath_complexity,
@@ -49,9 +46,11 @@ class TestNPATH(unittest.TestCase):
 
     def test_npath_single_node(self):
         """
+        Check NPath for single-node Graph.
+
         Verify that the NPath complexity code works for a graph with a
         single node. The start node is equal to the end node,
-        so there is a single path from the beginning to the end
+        so there is a single path from the beginning to the end.
         """
         graph = Graph([], set([0]), 0, 0)
         result = "todo"
@@ -62,9 +61,11 @@ class TestNPATH(unittest.TestCase):
 
     def test_npath_no_edges(self):
         """
+        Check NPath in the case with no edges.
+
         Verify that the NPATH complexity for a graph with different start
         and end nodes but no edges is 0, since there are no paths from the
-        beginning to the end
+        beginning to the end.
         """
         graph = Graph([], set([0, 1]), 0, 1)
         result = "todo"

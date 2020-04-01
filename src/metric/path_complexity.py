@@ -1,6 +1,4 @@
-"""
-Compute the path complexity and asymptotic path complexity metrics.
-"""
+"""Compute the path complexity and asymptotic path complexity metrics."""
 
 import re  # type: ignore
 import logging
@@ -17,10 +15,7 @@ from metric import metric  # type: ignore
 
 
 class PathComplexity(metric.MetricAbstract):
-    """
-    PathComplexity can be used to compute the path complexity and
-    asymtotic path complexity metrics for arbitrary Graph objects.
-    """
+    """Compute the path complexity and APC metrics for arbitrary Graph objects."""
 
     def __init__(self) -> None:
         """Create a new instance of PathComplexity."""
@@ -31,8 +26,9 @@ class PathComplexity(metric.MetricAbstract):
 
     def adjacency_matrix(self, graph: Graph) -> Matrix:
         """
-        Generate the adjacency matrix used in the path complexity algorithm
-        from a Graph, adding a loop at the correct position.
+        Generate the adjacency matrix used in the path complexity algorithm from a Graph.
+
+        This adds a loop at the correct position required for the algorithm to work.
         """
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1

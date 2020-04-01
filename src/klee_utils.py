@@ -13,25 +13,24 @@ class FuncVisitor(c_ast.NodeVisitor):
     The FuncVisitor visits each function once and then visits all of the variable
     definitions in the function definition in order to get their names and types.
     """
+
     def __init__(self, logger) -> None:
-        """
-        Create a new instance of FuncVisitor.
-        """
+        """Create a new instance of FuncVisitor."""
         self.logger = logger
         self.generator = c_generator.CGenerator()
         self.vars: Dict[str, list] = defaultdict(list)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str):
-        """
-        Look at a single variable declaration in the C code.
-        """
+        """Look at a single variable declaration in the C code."""
         self.vars[name].append((f"{declaration};\n", varname))
 
     # pylint: disable=C0103
     # disable invalid-name as this name is required by the library.
     def visit_FuncDef(self, node):
         """
+        Determine all of the arguments to functions.
+
         This function is called once for each function in the C source code.
         It determines all of the argument types needed to call the function.
         """
@@ -50,17 +49,22 @@ class FuncVisitor(c_ast.NodeVisitor):
 
 class KleeUtils:
     """
-    KleeUtils is used to parse C code and generate new Klee-compatible
+    KleeUtils is used to make working with KLEE much easier in the REPL.
+
+    This is used to parse C code and generate new Klee-compatible
     source code in order to make static analysis much easier.
     """
+
     def __init__(self, logger) -> None:
         """Create a new instance of KleeUtils."""
         self.logger = logger
 
     def show_func_defs(self, filename: str):
         """
-        Create a new set of files based on an existing file that are
-        formatted properly to work with klee.
+        Generate the set of klee-compatible files.
+
+        Create a new set of files based on an existing file that are formatted properly
+        to work with klee.
         """
         self.logger.d(f"Going to parse file {filename}")
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc',

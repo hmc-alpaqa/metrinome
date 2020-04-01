@@ -1,12 +1,12 @@
-"""
-Test that we can convert Python files to CFGs.
-"""
+"""Test that we can convert Python files to CFGs."""
 
 import unittest
 
 
 class TestPythonConvert(unittest.TestCase):
     """
+    Test the conversion of Python code to CFgs.
+
     Create python source file containing each of the
     basic building blocks that affect CFGs and verify
     that we can parse all of them correctly.
