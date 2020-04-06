@@ -167,7 +167,8 @@ def big_o(terms):
     The terms should be a list of expressions represented as strings
     '''
     n_var = symbols('n')
-
+    if len(terms) == 0:
+        return 0.0
     if len(terms) == 1:
         return terms[0]
 

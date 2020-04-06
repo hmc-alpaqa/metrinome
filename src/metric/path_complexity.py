@@ -3,13 +3,15 @@
 
 import re # type: ignore
 import logging
-from sympy import Matrix, eye, symbols, degree, Poly, simplify, expand, sympify # type: ignore
+import numpy as np
+import sympy
+from sympy import refine, preorder_traversal, Add, Float, Matrix, eye, symbols, degree, Poly, simplify, expand, sympify, collect, Abs, Q # type: ignore
 from mpmath import polyroots # type: ignore
-from utils import big_o, get_taylor_coeffs, get_solution_from_roots
-from graph import Graph
-from metric import metric # type: ignore
+from Utils import big_o, get_taylor_coeffs, get_solution_from_roots
+from Graph import Graph
+from metric import Metric # type: ignore
 
-class PathComplexity(metric.MetricAbstract):
+class PathComplexity(Metric.MetricAbstract):
     '''
     '''
     def __init__(self) -> None:
@@ -49,6 +51,8 @@ class PathComplexity(metric.MetricAbstract):
         x_sub.col_del(0)
         x_sub.row_del(1)
         x_det = x_mat.det()
+
+        
         denominator = Poly(-x_det)
         generating_function = x_sub.det() / denominator
 
@@ -61,51 +65,67 @@ class PathComplexity(metric.MetricAbstract):
 
         logging.info(f"Generating Function: {generating_function}")
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
-        base_cases = Matrix(taylor_coeffs[dimension : dimension + recurrence_degree - 1])
-
+        if taylor_coeffs != None:
+            base_cases = np.matrix(taylor_coeffs[dimension : dimension + recurrence_degree - 1], dtype='complex')
+        else:
+            return (0.0,0.0)
         # Should have as many things as the recurrenceKernel
         # l_range = Matrix(list(range(0, recurrence_degree)))
         n_var = symbols('n')
+     
         # n_range = Matrix([n for _ in range(0, recurrence_degree)])
 
         # Solve the recurrence relation
         terms = get_solution_from_roots(roots)
 
-        coefficients = symbols("C0:" + str(len(terms)))
-        if len(coefficients) == 1:
+        coefficients = str(len(terms))
+        if len(coefficients) > 1:
             factors = [i / j for i, j in zip(terms, coefficients)]
         else:
             factors = terms
-
-        matrix = Matrix([[fact.replace(n_var, nval) for fact in factors]
-                         for nval in range(1, len(factors)+1)])
+        matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
+                         for nval in range(1, len(factors)+1)], dtype = 'complex')
 
         # try:
-        inv_m = matrix**-1
-        bounding_solution_terms = (inv_m * base_cases)
-        bounding_solution_terms = bounding_solution_terms.dot(Matrix(factors))
-        expr_with_abs = str(expand(bounding_solution_terms))
-
+        base_cases = base_cases.transpose()
+        bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
+    
+        bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(factors))
+        expr_without_abs = bounding_solution_terms[0][0]
         # Replace all instances of x^n with abs(x)^n
-        expr = r"[*]\(([-][0-9]*)\)\*\*n"
-        def replace_with_absolute_val(match):
-            base = abs(float(match.groups()[0]))
-            if base == 1:
-                return ""
+        
 
-            return f"{base}**n"
+        expr_without_abs = str(expr_without_abs)[2:-2]
+        
+        expr_without_abs = simplify(sympify(expr_without_abs))
+        expr_with_abs = expr_without_abs
+        for a in preorder_traversal(expr_without_abs):
+            if isinstance(a, Float):
+                expr_with_abs = expr_with_abs.subs(a, round(a, 2))
+       
+        
+        exp_terms = ([str(Abs(k)) for k in list(expr_with_abs.args)])
+        for i in range(len(exp_terms)):
+            sv = exp_terms[i]
+            sv = sv.replace("Abs(n)", 'n')
+            sv = sv.replace("re(n)", 'n')
+            sv = sv.replace("im(n)", '0')
+            sv = sv.replace("exp", "0*")
+            exp_terms[i] = sv
 
-        expr_with_abs = re.sub(expr, replace_with_absolute_val, expr_with_abs)
-        expr_with_abs = str(simplify(sympify(expr_with_abs)))
+    
+        exp_terms = [simplify(sympify(arg)) for arg in exp_terms]
+        exp_terms = [refine(term, Q.real(n_var)) for term in exp_terms]
+        exp_terms = list(filter(lambda a: a != 0, exp_terms))
+        
+        apc = big_o(exp_terms)
+        def convert(list): 
+            return (*list, )
+        exp_terms = convert(exp_terms)
 
-        # Replace all complex numbers with their absolute values
-        # expr_with_abs = expr_with_abs
-
-        # Split terms on '+'
-        terms = [x.strip() for x in expr_with_abs.split(" + ")]
-        new_terms = []
-        for term in terms:
-            new_terms += str(term).split(" - ")
-        apc = big_o(new_terms)
-
-        return (apc, expr_with_abs)
+        exp_terms = sympify(exp_terms)
+        exp_terms = sum(exp_terms)
+        if apc != 0.0:
+            return (sympy.LM(apc), exp_terms)
+        else:
+            return(expr_with_abs, expr_with_abs)
