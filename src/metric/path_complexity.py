@@ -120,8 +120,8 @@ class PathComplexity(Metric.MetricAbstract):
         exp_terms = convert(exp_terms)
 
         exp_terms = sympify(exp_terms)
-        exp_terms = sum(exp_terms)
+        terms = str(sum(exp_terms))
         if apc != 0.0:
-            return (sympy.LM(apc), exp_terms)
+            return (sympy.LM(apc), terms)
         else:
             return(expr_with_abs, expr_with_abs)
