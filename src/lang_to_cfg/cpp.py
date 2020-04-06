@@ -1,32 +1,29 @@
-'''
-This module converts C++ source code into Graph objects representing
-the CFG for the code.
-'''
+"""This module converts C++ source code into Graph objects representing the CFG for the code."""
 
 from typing import Dict
 import subprocess
-import shlex # type: ignore
+import shlex  # type: ignore
 import sys
 import os
 import re
-import glob2 # type: ignore
+import glob2  # type: ignore
 from graph import Graph
 sys.path.append("/app/code/")
 
 # pylint: disable=R0201
 
+
 class CPPConvert():
-    '''
-    Creates Graph objects from files.
-    '''
+    """Create Graph objects from files."""
 
     def __init__(self, logger) -> None:
+        """Create a new instance of the C++ converter."""
         self.logger = logger
+        self.edge_pattern = "->"
+        self.name_pattern = "([a-zA-Z0-9]+ )"
 
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
-        '''
-        Creates a CFG from a C++ source file.
-        '''
+        """Create a CFG from a C++ source file."""
         self.logger.d("Creating dot files")
         self.create_dot_files(filename, file_extension)
         self.logger.d("Converting to standard format")
@@ -44,12 +41,81 @@ class CPPConvert():
         # self.cleanTemps()
         return graphs
 
+    def parse_original(self, file):
+        """Obtain all of the Graph information from an existing dot file in the original format."""
+        # Read the original files.
+        nodes = []
+        edges = []
+        node_map: Dict[str, str] = {}
+        counter = 0
+
+        with open(f'{file}', "r") as old_file:
+            content = old_file.readlines()
+            for line in content[1:]:
+                line = line.strip()
+
+                # Throw out the label (e.g. label="CFG for 'main' function")
+                # for the graph and remove whitespace.
+                if line.startswith("label") or line == "":
+                    continue
+
+                # If it contains a label (denoted by '[]'), it is a vertex.
+                is_edge = re.search(self.edge_pattern, line)
+                if is_edge is None:
+                    node_name = re.match(self.name_pattern, line.lstrip())
+                    if node_name is None:
+                        continue
+
+                    node_name_str = node_name.groups()[0].strip()
+                    node_map[node_name_str] = str(counter)
+                    node_to_add = str(counter)
+                    if counter == 0:
+                        node_to_add += " [label=\"START\"]"
+
+                    nodes.append(node_to_add)
+
+                    counter += 1
+                else:
+                    edges += [line]
+
+        return nodes, edges, node_map, counter
+
+    def convert_file_to_standard(self, f_num, filename, file):
+        """Convert a single file to the standard format."""
+        nodes, edges, node_map, counter = self.parse_original(file)
+
+        # Covers case of leaf CFGs.
+        if len(nodes) == 1:
+            nodes.append("1")
+            nodes.append("2")
+            counter += 2
+
+        # Make a temporary file (with the new content).
+        with open(f'cppConverterTemps/{filename}{f_num}.dot', 'w') as new_file:
+            new_file.write("digraph { \n")
+
+            # Create the nodes and then the edges.
+            for i, node in enumerate(nodes):
+                if i == counter - 2:
+                    node += "[label=\"EXIT\"]"
+                new_file.write(node + ";" + "\n")
+
+            for edge in edges:
+                for name in node_map:
+                    edge = edge.replace(name, node_map[name])
+                    edge = edge.replace(":s0", "")
+                    edge = edge.replace(":s1", "")
+
+                new_file.write(edge + "\n")
+            new_file.write("}")
+
     def convert_to_standard_format(self, filename: str) -> int:
-        '''
-        Convert each dot file generated from the .cpp source to the same format
+        """
+        Convert the generated .dot files to a common format.
+
+        Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
-        '''
-        f_num = 0
+        """
         path = os.path.split(filename)[0]
         filename = os.path.split(filename)[1]
         files = glob2.glob(f"{path}/cppConverterTemps/*.dot")
@@ -58,81 +124,20 @@ class CPPConvert():
                 os.remove(name)
                 files.remove(name)
 
-        for file in files:
-            nodes = []
-            edges = []
-            node_map: Dict[str, str] = {}
-            counter = 0
+        for f_num, file in enumerate(files):
+            self.convert_file_to_standard(f_num, filename, file)
 
-            # Make a temporary file (with the new content)
-            with open(f'cppConverterTemps/{filename}{f_num}.dot', 'w') as new_file:
-                with open(f'{file}', "r") as old_file:
-                    content = old_file.readlines()
-                    new_file.write("digraph { \n")
-                    for line in content[1:]:
-                        line = line.strip()
-
-                        # Throw out the label (e.g. label="CFG for 'main' function")
-                        # for the graph and remove whitespace.
-                        if line.startswith("label") or line == "":
-                            continue
-
-                        # If it contains a label (denoted by '[]'), it is a vertex
-                        edge_pattern = "->"
-                        name_pattern = "([a-zA-Z0-9]+ )"
-                        is_edge = re.search(edge_pattern, line)
-                        if is_edge is None:
-                            node_name = re.match(name_pattern, line.lstrip())
-                            if node_name is None:
-                                continue
-
-                            node_name_str = node_name.groups()[0].strip()
-                            node_map[node_name_str] = str(counter)
-                            node_to_add = str(counter)
-                            if counter == 0:
-                                node_to_add += " [label=\"START\"]"
-
-                            nodes.append(node_to_add)
-
-                            counter += 1
-                        else:
-                            edges += [line]
-                # Covers case of leaf CFGs
-                if len(nodes) == 1:
-                    nodes.append("1")
-                    nodes.append("2")
-                    counter += 2
-
-                # Create the nodes and then the edges
-                for i, node in enumerate(nodes):
-                    if i == counter - 2:
-                        node += "[label=\"EXIT\"]"
-                    new_file.write(node + ";" + "\n")
-
-                for edge in edges:
-                    for name in node_map:
-                        edge = edge.replace(name, node_map[name])
-                        edge = edge.replace(":s0", "")
-                        edge = edge.replace(":s1", "")
-
-                    new_file.write(edge + "\n")
-                new_file.write("}")
-                f_num += 1
-
-        return f_num
+        return len(files) - 1
 
     def create_dot_files(self, filepath: str, file_extension: str) -> None:
-        '''
-        Create a .dot file representing a control flow graph for
-        each function from a .cpp file
-        '''
+        """Create a .dot file representing a CFG for each function from a .cpp file."""
         # Make sure the file extension begins with a '.'
         if file_extension[0] != '.':
             file_extension = f".{file_extension}"
 
         self.logger.d(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
-        res = subprocess.check_call(["mkdir" , "-p", "cppConverterTemps"])
+        res = subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
         print(res)
 
         c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
@@ -144,7 +149,7 @@ class CPPConvert():
         self.logger.d(f"Command Two: {commands[1]}")
 
         with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE, shell = False) as line1:
+                              stderr=subprocess.PIPE, shell=False) as line1:
             command = line1.stdout
             if line1.stderr is not None:
                 err_msg = line1.stderr.read()
@@ -162,5 +167,5 @@ class CPPConvert():
             subprocess.call(["mv", f"{file}", "cppConverterTemps"])
 
     def clean_temps(self):
-        """removes temp files and directories"""
+        """Remove temp files and directories."""
         subprocess.call(["rm", "-r", "cppConverterTemps"])

@@ -1,7 +1,6 @@
-'''
-'''
+"""Compute the path complexity and asymptotic path complexity metrics."""
 
-import re # type: ignore
+import re  # type: ignore
 import logging
 import numpy as np
 import sympy
@@ -15,32 +14,29 @@ class PathComplexity(Metric.MetricAbstract):
     '''
     '''
     def __init__(self) -> None:
-        '''
-        Create a new instance of PathComplexity.
-        '''
+        """Create a new instance of PathComplexity."""
 
     def name(self) -> str:
-        '''
-        Returns the name of the metric computed by this class.
-        '''
+        """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
     def adjacency_matrix(self, graph: Graph) -> Matrix:
-        '''
-        Generates the adjacency matrix used in the path complexity algorith
-        from a Graph, adding a loop at the correct position.
-        '''
+        """
+        Generate the adjacency matrix used in the path complexity algorithm from a Graph.
+
+        This adds a loop at the correct position required for the algorithm to work.
+        """
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
         return Matrix(adj_mat)
 
-    def evaluate(self, G: Graph):
-        '''
-        Computes the path complexity given the CFG of some function.
+    def evaluate(self, graph: Graph) -> Any:
+        """
+        Compute the path complexity given the CFG of some function.
 
-        returns both the path complexity and the asymptotic path complexity
-        '''
-        adj_mat = G.adjacency_matrix()
+        Return both the path complexity and the asymptotic path complexity.
+        """
+        adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
         new_adjacency = Matrix(adj_mat)
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Mar 13 09:04:16 2015
+Created on Fri Mar 13 09:04:16 2015.
 
 @author: baki
 """
@@ -15,14 +15,15 @@ import math
 from log import Log
 from env import Env
 
+
 class Classifier:
-    '''
-    '''
+    """This helps parse the output fromt the Java CFG generator."""
+
     def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
-        '''
-        '''
+        """Create a new Classifier."""
         self.log = Log(tag=TAG)
         self.input_path = input_path
+        self.output_path = output_path
         self.file_list = [self.input_path]
         if os.path.isdir(self.input_path):
             self.file_list = sorted(glob.glob(os.path.join(self.input_path, ext)))
@@ -30,8 +31,7 @@ class Classifier:
         self.result = None
 
     def match_csv_line(self, string):
-        '''
-        '''
+        """Extract the individual values from a single line of output using a regex."""
         expr = r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*," + \
                r"\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*," + \
                r"(?P<type>.+),\s*(?P<asym>.+)\s*,\s*(?P<func>.*)"
@@ -39,20 +39,18 @@ class Classifier:
         return self.result
 
     def match_const_large_number(self, string):
-        '''
-        '''
+        """Use a regex to get a number to some power."""
         expr = r".*(?P<num>\d+)\.(?P<dec>\d+)\*\^(?P<exp>\d+).*"
         self.result = re.match(expr, string)
         return self.result
 
-    def run(self, options=""):
-        '''
-        '''
+    def run(self):
+        """Clean up the results obtained by computing path complexity."""
         self.log.i_msg("start")
         for file_name in self.file_list:
             self.log.v_msg("processing {}".format(file_name))
             file_base = Env.get_base_filename(self.input_path)
-            outfile =  open(file_base + '_classified_all.csv', 'w')
+            outfile = open(file_base + '_classified_all.csv', 'w')
             c1file = open(file_base + '_c1.csv', 'w')
             cgt1file = open(file_base + '_cgt1.csv', 'w')
             p1file = open(file_base + '_p1.csv', 'w')
@@ -65,15 +63,15 @@ class Classifier:
             egte4file = open(file_base + '_egte4.csv', 'w')
             fixfile = open(file_base + '_fixes_required.csv', 'w')
 
-            with open(file_name, 'r') as f:
-                for line in f:
+            with open(file_name, 'r') as file:
+                for line in file:
                     tofile = None
                     cls = ''
                     cls_line = ''
                     if self.match_csv_line(line):
                         _id = self.result.group('id')
-                        name = self.result.group('name')
-                        cyclo = self.result.group('cyclo')
+                        # name = self.result.group('name')
+                        # cyclo = self.result.group('cyclo')
                         npath = self.result.group('npath')
                         _type = self.result.group('type')
                         asym = self.result.group('asym')
@@ -88,7 +86,6 @@ class Classifier:
                                 value = str(num * math.pow(10, exp) + dec)
                                 line = line.replace("," + asym + ",", "," + value + ",")
                                 asym = value
-
 
                             if npath == "Timeout":
                                 line = line.replace("Timeout", asym)
@@ -107,7 +104,7 @@ class Classifier:
                                 print("fix: " + line)
                                 cls = ',c please fix me'
                                 tofile = fixfile
-                                #raise Exception("check constant extraction")
+                                # raise Exception("check constant extraction")
 
                             cls_line = line.strip() + cls
 
@@ -118,11 +115,9 @@ class Classifier:
                                 fix_asym = terms[-1].strip()
 
                                 if asym == "0.":
-                                    line = line.replace("Polynomial,0.,", "Polynomial,"
-                                                        + fix_asym + ",")
+                                    line = line.replace("Polynomial,0.,", f"Polynomial,{fix_asym},")
                                 else:
-                                    line = line.replace("Polynomial,0,", "Polynomial,"
-                                                        + fix_asym + ",")
+                                    line = line.replace("Polynomial,0,", f"Polynomial,{fix_asym},")
                                 asym = fix_asym
 
                             if re.match(r".*,0,.*", line):
@@ -148,7 +143,7 @@ class Classifier:
                                 print("fix: " + line)
                                 cls = ',p please fix me'
                                 tofile = fixfile
-                                #raise Exception("check polynimal extraction")
+                                # raise Exception("check polynimal extraction")
 
                             cls_line = line.strip() + cls
 
@@ -158,10 +153,10 @@ class Classifier:
                                 fix_asym = terms[-1].strip()
                                 if asym == "0.":
                                     line = line.replace("Exponential,0.,",
-                                                        "Exponential," + fix_asym + ",")
+                                                        f"Exponential,{fix_asym},")
                                 else:
-                                    line = line.replace("Exponential,0,", "Exponential,"
-                                                        + fix_asym + ",")
+                                    line = line.replace("Exponential,0,",
+                                                        f"Exponential,{fix_asym},")
                                 asym = fix_asym
 
                             if re.match(r".*,0,.*", line):
@@ -187,10 +182,10 @@ class Classifier:
                                 cls = ',e4gte'
                                 tofile = egte4file
                             else:
-                                print ("fix: " + line)
+                                print("fix: " + line)
                                 cls = ',e please fix me'
                                 tofile = fixfile
-                                #raise Exception("check exponential extraction")
+                                # raise Exception("check exponential extraction")
                             cls_line = line.strip() + cls
 
                         else:
@@ -200,7 +195,6 @@ class Classifier:
 
                         tofile.write(cls_line + '\n')
                         outfile.write(cls_line + '\n')
-
 
             outfile.close()
             c1file.close()
@@ -216,18 +210,18 @@ class Classifier:
             fixfile.close()
         self.log.i_msg("end")
 
+
 def main(argv):
-    '''
-    '''
+    """Run the classifier with the set of command line arguments passed it."""
     try:
-        opts, args = getopt.getopt(argv,"hi:o:",["input=", "output="])
+        opts, args = getopt.getopt(argv, "hi:o:", ["input=", "output="])
+        print(args)
     except getopt.GetoptError:
         print('test.py -i <input> -o <output>')
         print('*input can be a file or folder')
 
     arg_input = None
-    arg_output= None
-    cmd_option = ""
+    arg_output = None
     ext = "*.csv"
     for opt, arg in opts:
         if opt == '-h':
@@ -239,7 +233,8 @@ def main(argv):
             arg_output = arg
 
     classifier = Classifier(input_path=arg_input, output_path=arg_output, ext=ext, TAG="Classifier")
-    classifier.run(options=cmd_option)
+    classifier.run()
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

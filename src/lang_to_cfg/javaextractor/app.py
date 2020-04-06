@@ -1,24 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Sep 20 00:27:11 2014
+Created on Sat Sep 20 00:27:11 2014.
 
 @author: baki
 """
 
 from log import Log
 from env import Env
-from lang_to_cfg.javaextractor.shell import Shell
+from lang_to_cfg.javaextractor.shell import Shell  # type: ignore
+
 
 class App:
-    '''
-    App interacts with the java program that extracts CFGs
-    from Java source code.
-    '''
+    """App interacts with the java program that extracts CFGs from Java source code."""
 
     def __init__(self, input_file, output_folder=None, display_log_output=True,
                  ext="*.jar", export=True):
-        '''
-        '''
+        """Create a new instance of the App."""
         self.log = Log(tag="APP", display_output=display_log_output)
         self.shell = Shell()
         self.input_file = input_file
@@ -29,16 +26,14 @@ class App:
         self.export = export
 
     def __jar_to_classes(self, jar_file, cwd=Env.TMP_PATH):
-        '''
-        '''
+        """Extract a jar file to obtain the Java classes."""
         self.log.i_msg("extracting jar file")
         self.shell.clean_cmd(cwd)
         cmd = f"jar xf {jar_file}"
         self.shell.runcmd(cmd, cwd=cwd)
 
     def __run_cfg_extractor_live(self, input_class):
-        '''
-        '''
+        """Run the java program that will extract the CFG from Java classes."""
         project = Env.get_basename(input_class)
         output_path = Env.get_output_path(project)
         self.shell.clean_cmd(output_path)
@@ -54,8 +49,8 @@ class App:
         self.shell.runcmd(cmd)
 
     def __run_cfg_extractor(self, main_class, input_classes, project):
-        '''
-        '''
+        """Run the java program that will extract the CFG from Java classes."""
+        print(f"Got main_class: {main_class}, but not used.")
         output_path = Env.get_output_path(project)
         self.shell.clean_cmd(output_path)
         if self.export:
@@ -67,8 +62,7 @@ class App:
         self.shell.runcmd(cmd)
 
     def get_result_line(self, output):
-        '''
-        '''
+        """Parse results obtained by the App of a specific format."""
         columns = output.strip(' \t\n\r,').split(',')
         results = []
         for col in columns:
@@ -82,8 +76,12 @@ class App:
         return ",".join(results)
 
     def run_live(self, jar=True):
-        '''
-        '''
+        """
+        Call __run_cfg_extractor_live.
+
+        This is what should actually be called by the REPL as it does additional checks
+        and logging.
+        """
         self.log.i_msg("start")
         self.shell.clean_cmd(Env.TMP_PATH)
         if self.input_file.endswith('sources.jar') or self.input_file.endswith('javadoc.jar') \
