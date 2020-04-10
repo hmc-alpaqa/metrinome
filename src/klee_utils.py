@@ -35,16 +35,16 @@ class FuncVisitor(c_ast.NodeVisitor):
         It determines all of the argument types needed to call the function.
         """
         # Node is a pycparser.c_ast.funcdef
-        args = node.decl.type.args  # type ParamList
+        args = node.decl.type.args  # type ParamList.
         self.logger.i(f"Looking at {node.decl.name}()")
         if args is not None:
-            params = args.params  # List of TypeDecl
+            params = args.params  # List of TypeDecl.
             for i, param in enumerate(params):
                 self.logger.d(f"\tParameter {i}: Name: {param.name}")
                 print(f"Here is the parameter: {param.name}")
                 self.define_var(node.decl.name, self.generator.visit(param), param.name)
         else:
-            self.logger.d(f"\t{node.decl.name} has no parameters.")
+            self.logger.d_msg(f"\t{node.decl.name} has no parameters.")
 
 
 class KleeUtils:
@@ -66,10 +66,10 @@ class KleeUtils:
         Create a new set of files based on an existing file that are formatted properly
         to work with klee.
         """
-        self.logger.d(f"Going to parse file {filename}")
+        self.logger.d_msg(f"Going to parse file {filename}")
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc',
                          cpp_args=['-E', r'-Iutils/fake_libc_include'])
-        self.logger.d(f"Going to visit functions.")
+        self.logger.d_msg(f"Going to visit functions.")
         func_visitor = FuncVisitor(self.logger)
         func_visitor.visit(ast)
 

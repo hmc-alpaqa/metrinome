@@ -366,7 +366,7 @@ class Command:
             recursive_mode = True
             args = args[1:]
 
-        # Iterate through all file-like objects
+        # Iterate through all file-like objects.
         all_files = []
         allowed_extensions = list(self.controller.graph_generators.keys())
         for full_path in args:
