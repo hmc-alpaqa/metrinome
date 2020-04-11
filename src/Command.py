@@ -243,7 +243,7 @@ class Data:
                 f_name = os.path.split(graph_name)[1]
                 with open(f"/app/code/exports/{f_name}.dot", "w+") as file:
                     graph = self.graphs[graph_name]
-                    file.write(graph.dot())
+                    file.write(graph.dot(True))
                     self.logger.i_msg(f"Made file {f_name}.dot in /app/code/exports/")
         else:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
@@ -344,7 +344,7 @@ class Command:
         if not valid_args:
             return
 
-        result = self.verify_file_type(args, "ktest")
+        result = self.verify_file_type(converted_args, "ktest")
         if result == 0:
             return
 
@@ -405,7 +405,7 @@ class Command:
         if not valid_args:
             return
 
-        list_type = args[0]
+        list_type = converted_args[0]
         list_type = ObjTypes.get_type(list_type)
         if list_type == ObjTypes.METRIC:
             self.api.show_metrics()
@@ -474,8 +474,8 @@ class Command:
         if not valid_args:
             return
 
-        obj_type = args[0]
-        name = args[1]
+        obj_type = args_list[0]
+        name = args_list[1]
         names = [name]
         obj_type = ObjTypes.get_type(obj_type)
         if obj_type == ObjTypes.METRIC:
@@ -537,7 +537,7 @@ class Command:
         if not valid_args:
             return
 
-        name = args[0]
+        name = args_list[0]
         keys = [name]
 
         if name not in self.data.klee_formatted_files:
@@ -574,11 +574,11 @@ class Command:
 
             if args[0] == "-r":
                 recursive_mode = True
-                file_path = args[1]
+                file_path = args_list[1]
             else:
                 return
         else:
-            file_path = args[0]
+            file_path = args_list[0]
 
         self.logger.d_msg(f"Recursive Mode is {recursive_mode}")
         files = get_files(file_path, recursive_mode, self.logger, [str(KnownExtensions.C)])
@@ -644,7 +644,7 @@ class Command:
         if not valid_args:
             return None
 
-        return args[0]
+        return args_list[0]
 
     def do_klee(self, args: str) -> None:
         """Execute klee on a .bc file stored as an object in the REPL."""
@@ -718,16 +718,14 @@ class Command:
         if not valid_args:
             return
 
-        export_type = args[0]
-        name = args[1]
+        export_type = converted_args[0]
+        name = converted_args[1]
         subprocess.check_call(["mkdir", "-p", "exports"])
-        new_name = os.path.split(name)[1]
         export_type = ObjTypes.get_type(export_type)
         if export_type == ObjTypes.GRAPH:
             self.data.export_graph(name, new_name)
         elif export_type == ObjTypes.METRIC:
             self.data.export_metrics(name, new_name)
-
         elif export_type == ObjTypes.STAT:
             if name in self.data.stats:
                 with open(f"/app/code/exports/{new_name}_stats", "w+") as file:

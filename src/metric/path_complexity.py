@@ -7,7 +7,7 @@ import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Add, Float, Matrix, eye, symbols, degree, Poly, \
     simplify, expand, sympify, collect, Abs, Q  # type: ignore
 from mpmath import polyroots  # type: ignore
-from utils import big_o, get_taylor_coeffs, get_solution_from_roots
+from Utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
 from metric import metric  # type: ignore
 from typing import Any

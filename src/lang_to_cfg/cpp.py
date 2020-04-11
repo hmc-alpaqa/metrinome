@@ -24,11 +24,11 @@ class CPPConvert():
 
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
         """Create a CFG from a C++ source file."""
-        self.logger.d("Creating dot files")
+        self.logger.d_msg("Creating dot files")
         self.create_dot_files(filename, file_extension)
-        self.logger.d("Converting to standard format")
+        self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
-        self.logger.d(f"File count is: {file_count}")
+        self.logger.d_msg(f"File count is: {file_count}")
         name = os.path.split(filename)[1]
         graphs = {}
         filename = filename.strip(name)
@@ -38,7 +38,7 @@ class CPPConvert():
             graph_name = os.path.splitext(f_name)[0]
             graph_name = os.path.split(graph_name)[1]
             graphs[graph_name] = Graph.from_file(f_name)
-        # self.cleanTemps()
+        self.clean_temps()
         return graphs
 
     def parse_original(self, file):
@@ -96,7 +96,7 @@ class CPPConvert():
 
             # Create the nodes and then the edges.
             for i, node in enumerate(nodes):
-                if i == counter - 2:
+                if i == counter - 1:
                     node += "[label=\"EXIT\"]"
                 new_file.write(node + ";" + "\n")
 
@@ -127,7 +127,7 @@ class CPPConvert():
         for f_num, file in enumerate(files):
             self.convert_file_to_standard(f_num, filename, file)
 
-        return len(files) - 1
+        return len(files)
 
     def create_dot_files(self, filepath: str, file_extension: str) -> None:
         """Create a .dot file representing a CFG for each function from a .cpp file."""
@@ -135,18 +135,19 @@ class CPPConvert():
         if file_extension[0] != '.':
             file_extension = f".{file_extension}"
 
-        self.logger.d(f"Going to dir: {os.path.split(filepath)[0]}")
+        self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
-        res = subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
-        print(res)
+        subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
+        self.logger.d_msg("Made directory")
+        
 
         c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
 
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
 
-        self.logger.d(f"Command One: {commands[0]}")
-        self.logger.d(f"Command Two: {commands[1]}")
+        self.logger.d_msg(f"Command One: {commands[0]}")
+        self.logger.d_msg(f"Command Two: {commands[1]}")
 
         with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, shell=False) as line1:
@@ -154,15 +155,15 @@ class CPPConvert():
             if line1.stderr is not None:
                 err_msg = line1.stderr.read()
                 if len(err_msg) == 0:
-                    self.logger.d(f"Got the following error msg: {str(err_msg)}")
+                    self.logger.d_msg(f"Got the following error msg: {str(err_msg)}")
 
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
                 out, err = line2.communicate()
-                print(out, err)
+            
 
         files = glob2.glob("*.dot")
-        self.logger.d(f"Found the following .dot files: {files}")
+        self.logger.d_msg(f"Found the following .dot files: {files}")
         for file in files:
             subprocess.call(["mv", f"{file}", "cppConverterTemps"])
 

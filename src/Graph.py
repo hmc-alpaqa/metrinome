@@ -168,6 +168,7 @@ class Graph:
                     if match is not None:
                         node = int(match.group(1))
                         node_label = match.group(2)
+                    
                         if node_label == "START":
                             start_node = node
                         elif node_label == "EXIT":
@@ -187,17 +188,15 @@ class Graph:
                     else:
                         v_e_dict[node_one].add(node_two)
 
-                if start_node is None or end_node is None:
-                    raise ValueError("Start and end nodes must \
-                                     b  oth be defined.")
-                graph = Graph(edges, vertices, start_node, end_node, using_list)
-                graph.weighted = weighted
 
             if start_node is None or end_node is None:
                 raise ValueError("Start and end nodes must \
                                  both be defined.")
 
-            graph = Graph(v_e_dict, v_e_dict.keys(), start_node, end_node, using_list)
+            if using_list:
+                graph = Graph(edges, vertices, start_node, end_node, using_list)
+            else:
+                graph = Graph(v_e_dict, v_e_dict.keys(), start_node, end_node, using_list)
             graph.weighted = weighted
 
         return graph
