@@ -36,17 +36,39 @@ class FunctionVisitor(ast.NodeVisitor):
     def __init__(self) -> None:
         """Create a new instance of the function visitor."""
         self.root: Optional[Node] = None
+        self.end_node: Optional[Node] = None
         self.frontier: List[Node] = []
+
+    def update_root(self, node) -> None:
+        """Given a new node, set it as the root if a root does not exist."""
+        if self.root is None:
+            self.root = node 
+            self.end_node = node 
+            return True
+        
+        return False
+
+    def update_frontier(self, node) -> None:
+        """Given a next node, set it as the child of all nodes in the frontier."""
+        for frontier_node in self.frontier:
+            frontier_node.children += [node]
+            if frontier_node == self.end_node:
+                self.end_node = node 
 
     def visit_Expr(self, node) -> None:
         """Visit a python expression."""
         print(f"At expr {node}")
         new_node = Node()
-        if self.root is None:
-            self.root = new_node
-        else:
-            for frontier_node in self.frontier:
-                frontier_node.children += [new_node]
+        if not self.update_root(new_node):
+            self.update_frontier(new_node)
+
+        self.frontier = [new_node]
+
+    def visit_Pass(self, node) -> None:
+        print("At pass {node}")
+        new_node = Node() 
+        if not self.update_root(new_node): 
+            self.update_frontier(new_node)
 
         self.frontier = [new_node]
 
@@ -54,11 +76,8 @@ class FunctionVisitor(ast.NodeVisitor):
         """Visit a python return statement."""
         print(f"At return {node}.")
         new_node = Node()
-        if self.root is None:
-            self.root = new_node
-        else:
-            for frontier_node in self.frontier:
-                frontier_node.children += [new_node]
+        if not self.update_root(new_node):
+            self.update_frontier(new_node)
 
         self.frontier = []  # Nothing can come after a return
 
@@ -66,11 +85,8 @@ class FunctionVisitor(ast.NodeVisitor):
         """Visit a python assign statement."""
         print(f"At assignment {node}.")
         new_node = Node()
-        if self.root is None:
-            self.root = new_node
-        else:
-            for frontier_node in self.frontier:
-                frontier_node.children += [new_node]
+        if not self.update_root(new_node):
+            self.update_frontier(new_node)
 
         self.frontier = [new_node]
 
@@ -78,12 +94,8 @@ class FunctionVisitor(ast.NodeVisitor):
         """Visit a python for loop."""
         print(f"At for {node}")
         new_node = Node()
-        # Add the new node representing the beginning of the loop
-        if self.root is None:
-            self.root = new_node
-        else:
-            for frontier_node in self.frontier:
-                frontier_node.children += [new_node]
+        if not self.update_root(new_node):
+            self.update_frontier(new_node)
 
         self.frontier = [new_node]
 
@@ -113,12 +125,8 @@ class FunctionVisitor(ast.NodeVisitor):
         """Visit a python if statement."""
         print(f"At if {node}")
         new_node = Node()
-        # Add the new node representing the beginning of the if statement
-        if self.root is None:
-            self.root = new_node
-        else:
-            for frontier_node in self.frontier:
-                frontier_node.children += [new_node]
+        if not self.update_root(new_node):
+            self.update_frontier(new_node)
 
         self.frontier = [new_node]
         print(f"If body: {dir(node)}")
@@ -139,12 +147,8 @@ class FunctionVisitor(ast.NodeVisitor):
         """Visit a python while loop."""
         print(f"At while {node}")
         new_node = Node()
-        # Add the new node representing the beginning of the loop
-        if self.root is None:
-            self.root = new_node
-        else:
-            for frontier_node in self.frontier:
-                frontier_node.children += [new_node]
+        if not self.update_root(new_node):
+            self.update_frontier(new_node)
 
         self.frontier = [new_node]
 
@@ -191,8 +195,6 @@ class Visitor(ast.NodeVisitor):
 
         edge_list = []
         node_list = [0]
-        start_node = 0
-        end_node = None
 
         visited = set()
 
@@ -217,8 +219,7 @@ class Visitor(ast.NodeVisitor):
 
             L += children
 
-        end_node = len(node_list) - 1
-        graph = Graph(edge_list, node_list, start_node, end_node)
+        graph = Graph(edge_list, node_list, nodes[visitor.root], nodes[visitor.end_node])
 
         self.graphs[node.name] = graph
 
@@ -235,6 +236,7 @@ class PythonConvert():
         print(file_extension)
 
         path = os.path.join(os.getcwd(), filename) + ".py"
+        print(path)
         visitor = Visitor()
         graphs: Dict[str, Graph]
         with open(path, "r") as src:
