@@ -2,17 +2,19 @@
 
 import re  # type: ignore
 import logging
-import numpy as np
-import sympy
-from sympy import refine, preorder_traversal, Add, Float, Matrix, eye, symbols, degree, Poly, simplify, expand, sympify, collect, Abs, Q # type: ignore
-from mpmath import polyroots # type: ignore
-from Utils import big_o, get_taylor_coeffs, get_solution_from_roots
-from Graph import Graph
-from metric import Metric # type: ignore
+import numpy as np  # type: ignore
+import sympy  # type: ignore
+from sympy import refine, preorder_traversal, Add, Float, Matrix, eye, symbols, degree, Poly, \
+    simplify, expand, sympify, collect, Abs, Q  # type: ignore
+from mpmath import polyroots  # type: ignore
+from utils import big_o, get_taylor_coeffs, get_solution_from_roots
+from graph import Graph
+from metric import metric  # type: ignore
+from typing import Any
 
-class PathComplexity(Metric.MetricAbstract):
-    '''
-    '''
+
+class PathComplexity(metric.MetricAbstract):
+    """Compute the path complexity and asymptotic path complexity metrics."""
     def __init__(self) -> None:
         """Create a new instance of PathComplexity."""
 
@@ -48,7 +50,6 @@ class PathComplexity(Metric.MetricAbstract):
         x_sub.row_del(1)
         x_det = x_mat.det()
 
-        
         denominator = Poly(-x_det)
         generating_function = x_sub.det() / denominator
 
@@ -61,14 +62,15 @@ class PathComplexity(Metric.MetricAbstract):
 
         logging.info(f"Generating Function: {generating_function}")
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
-        if taylor_coeffs != None:
-            base_cases = np.matrix(taylor_coeffs[dimension : dimension + recurrence_degree - 1], dtype='complex')
+        if taylor_coeffs is not None:
+            base_cases = np.matrix(taylor_coeffs[dimension:dimension + recurrence_degree - 1],
+                                   dtype='complex')
         else:
-            return (0.0,0.0)
+            return (0.0, 0.0)
         # Should have as many things as the recurrenceKernel
         # l_range = Matrix(list(range(0, recurrence_degree)))
         n_var = symbols('n')
-     
+
         # n_range = Matrix([n for _ in range(0, recurrence_degree)])
 
         # Solve the recurrence relation
@@ -80,26 +82,24 @@ class PathComplexity(Metric.MetricAbstract):
         else:
             factors = terms
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
-                         for nval in range(1, len(factors)+1)], dtype = 'complex')
+                           for nval in range(1, len(factors) + 1)], dtype='complex')
 
         # try:
         base_cases = base_cases.transpose()
         bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
-    
+
         bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(factors))
         expr_without_abs = bounding_solution_terms[0][0]
         # Replace all instances of x^n with abs(x)^n
-        
 
         expr_without_abs = str(expr_without_abs)[2:-2]
-        
+
         expr_without_abs = simplify(sympify(expr_without_abs))
         expr_with_abs = expr_without_abs
         for a in preorder_traversal(expr_without_abs):
             if isinstance(a, Float):
                 expr_with_abs = expr_with_abs.subs(a, round(a, 2))
-       
-        
+
         exp_terms = ([str(Abs(k)) for k in list(expr_with_abs.args)])
         for i in range(len(exp_terms)):
             sv = exp_terms[i]
@@ -109,13 +109,13 @@ class PathComplexity(Metric.MetricAbstract):
             sv = sv.replace("exp", "0*")
             exp_terms[i] = sv
 
-    
         exp_terms = [simplify(sympify(arg)) for arg in exp_terms]
         exp_terms = [refine(term, Q.real(n_var)) for term in exp_terms]
         exp_terms = list(filter(lambda a: a != 0, exp_terms))
-        
+
         apc = big_o(exp_terms)
-        def convert(list): 
+
+        def convert(list):
             return (*list, )
         exp_terms = convert(exp_terms)
 
