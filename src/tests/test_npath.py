@@ -1,7 +1,10 @@
 """Test all methods associated with computing NPath complexity."""
 
 import unittest
+import sys
+sys.path.append('/app/code')
 from graph import Graph
+from metric import npath_complexity
 
 
 class TestNPATH(unittest.TestCase):
@@ -28,7 +31,7 @@ class TestNPATH(unittest.TestCase):
         6,/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test6_0_basic.dot,4,8,
             Polynomial,0.02*n^3.,4. + 2.17*n + 0.38*n^2. + 0.02*n^3.
         """
-        path_to_cfgs = "todo"
+        path_to_cfgs = "/app/examples"
         base_path = f"{path_to_cfgs}/cfgs/simple_test_cfgs/"
         prefix = "vlab_cs_ucsb_test_SimpleExample_test"
 
@@ -38,7 +41,7 @@ class TestNPATH(unittest.TestCase):
             graph = Graph.from_file(file)
             print("The Graph is: " + str(graph))
             res = "todo"
-            # res = NPathComplexity.nPathComplexity(graph)
+            res = npath_complexity.NPathComplexity().evaluate(graph)
             results.append(res)
 
         expected_results = [8, 4, 8, 4, 4, 8]
@@ -53,9 +56,7 @@ class TestNPATH(unittest.TestCase):
         so there is a single path from the beginning to the end.
         """
         graph = Graph([], set([0]), 0, 0)
-        result = "todo"
-        print(graph)
-        # result = NPathComplexity.nPathComplexity(graph)
+        result = npath_complexity.NPathComplexity().evaluate(graph)
         expected_result = 1
         self.assertEqual(result, expected_result)
 
@@ -68,8 +69,9 @@ class TestNPATH(unittest.TestCase):
         beginning to the end.
         """
         graph = Graph([], set([0, 1]), 0, 1)
-        result = "todo"
-        print(graph)
-        # result = NPathComplexity.nPathComplexity(graph)
+        result = npath_complexity.NPathComplexity().evaluate(graph)
         expected_result = 0
         self.assertEqual(result, expected_result)
+
+if __name__ == '__main__':
+    unittest.main()
