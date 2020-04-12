@@ -76,11 +76,8 @@ class PathComplexity(metric.MetricAbstract):
         # Solve the recurrence relation
         terms = get_solution_from_roots(roots)
 
-        coefficients = str(len(terms))
-        if len(coefficients) > 1:
-            factors = [i / j for i, j in zip(terms, coefficients)]
-        else:
-            factors = terms
+        
+        factors = terms
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
                            for nval in range(1, len(factors) + 1)], dtype='complex')
 

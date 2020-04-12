@@ -280,6 +280,10 @@ class Data:
             if klee_name in self.klee_formatted_files:
                 self.logger.v_msg("KLEE FORMATTED FILES:")
                 self.logger.v_msg(str(self.klee_formatted_files[klee_name]))
+            
+            if klee_name in self.data.klee_stats:
+                self.logger.v_msg("KLEE STATS:")
+                self.logger.v_msg(str(self.data.klee_stats[klee_name]))
 
 
 class Command:
@@ -572,7 +576,7 @@ class Command:
             if not valid_args:
                 return
 
-            if args[0] == "-r":
+            if args_list[0] == "-r":
                 recursive_mode = True
                 file_path = args_list[1]
             else:
@@ -664,7 +668,7 @@ class Command:
                     self.logger.d_msg(f"Created temporary file {file_name}")
 
                     thing_to_write = self.data.bc_files[key]
-                    self.logger.d_msg(f"Writing {thing_to_write}")
+                    self.logger.d_msg(f"Writing")
                     file.write(thing_to_write)
                     file.seek(0)
 

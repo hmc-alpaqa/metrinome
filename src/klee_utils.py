@@ -36,11 +36,11 @@ class FuncVisitor(c_ast.NodeVisitor):
         """
         # Node is a pycparser.c_ast.funcdef
         args = node.decl.type.args  # type ParamList.
-        self.logger.i(f"Looking at {node.decl.name}()")
+        self.logger.i_msg(f"Looking at {node.decl.name}()")
         if args is not None:
             params = args.params  # List of TypeDecl.
             for i, param in enumerate(params):
-                self.logger.d(f"\tParameter {i}: Name: {param.name}")
+                self.logger.d_msg(f"\tParameter {i}: Name: {param.name}")
                 print(f"Here is the parameter: {param.name}")
                 self.define_var(node.decl.name, self.generator.visit(param), param.name)
         else:
