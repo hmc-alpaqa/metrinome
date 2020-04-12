@@ -42,10 +42,10 @@ class FunctionVisitor(ast.NodeVisitor):
     def update_root(self, node) -> None:
         """Given a new node, set it as the root if a root does not exist."""
         if self.root is None:
-            self.root = node 
-            self.end_node = node 
+            self.root = node
+            self.end_node = node
             return True
-        
+
         return False
 
     def update_frontier(self, node) -> None:
@@ -53,7 +53,7 @@ class FunctionVisitor(ast.NodeVisitor):
         for frontier_node in self.frontier:
             frontier_node.children += [node]
             if frontier_node == self.end_node:
-                self.end_node = node 
+                self.end_node = node
 
     def visit_Expr(self, node) -> None:
         """Visit a python expression."""
@@ -66,8 +66,8 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def visit_Pass(self, node) -> None:
         print("At pass {node}")
-        new_node = Node() 
-        if not self.update_root(new_node): 
+        new_node = Node()
+        if not self.update_root(new_node):
             self.update_frontier(new_node)
 
         self.frontier = [new_node]
@@ -129,9 +129,48 @@ class FunctionVisitor(ast.NodeVisitor):
             self.update_frontier(new_node)
 
         self.frontier = [new_node]
-        print(f"If body: {dir(node)}")
 
+        # Keep track of elements that will become the new frontier once we have looked
+        # at ALL the if statements
+        new_frontier = []
+
+        # This is the comparison in the if statement
         print(f"{dir(node.test)}")
+
+        # Visit the body of the first if block
+        visitor = FunctionVisitor()
+        visitor.visit(node.body[0])
+        for frontier_node in self.frontier:
+            frontier_node.children += [visitor.root]
+            new_frontier += [visitor.end_node]
+
+        i = 0
+        # Check that there is another elif (or else statement)
+        # Then, check that it is actually of type 'If', as the orself for an
+        # else statement will actually get the body of the else
+        # (see visit_If @ https://github.com/python/cpython/blob/master/Lib/ast.py)
+        while len(node.orelse) != 0 and isinstance(node.orelse[0], ast.If):
+            node = node.orelse[0]
+            print(f"At the {i}th elif: {node}")
+            # Visit the body of this elif block
+            visitor = FunctionVisitor()
+            visitor.visit(node.body[0])
+            for frontier_node in self.frontier:
+                frontier_node.children += [visitor.root]
+            new_frontier += [visitor.end_node]
+            i += 1
+
+        # Check if there is an else statement
+        if len(node.orelse) != 0:
+            # Get the body of the else
+            node = node.orelse
+            visitor = FunctionVisitor()
+            visitor.visit(node[0])
+            for frontier_node in self.frontier:
+                frontier_node.children += [visitor.root]
+            new_frontier += [visitor.end_node]
+
+        self.frontier = new_frontier
 
     # pylint: disable=R0201
     def visit_Raise(self, node) -> None:
