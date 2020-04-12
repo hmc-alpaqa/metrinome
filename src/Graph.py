@@ -168,7 +168,7 @@ class Graph:
                     if match is not None:
                         node = int(match.group(1))
                         node_label = match.group(2)
-                    
+
                         if node_label == "START":
                             start_node = node
                         elif node_label == "EXIT":
@@ -187,7 +187,6 @@ class Graph:
                         edges.append([node_one, node_two])
                     else:
                         v_e_dict[node_one].add(node_two)
-
 
             if start_node is None or end_node is None:
                 raise ValueError("Start and end nodes must \
