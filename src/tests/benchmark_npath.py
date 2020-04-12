@@ -15,6 +15,7 @@ sys.path.append("/app/code/")
 sys.path.append("/app/code/metric")
 from graph import Graph
 from metric import npath_complexity
+from tests import utils
 
 
 def npath_runtime():
@@ -48,10 +49,10 @@ def npath_runtime():
             print(f"Runtime {runtime}")
             # Print metrics at 50% completion of folder
             if round(100 * (i / len(graph_list))) == 50:
-                print(npath_runtime_metrics(folder_time_list))
+                print(utils.runtime_metrics(folder_time_list))
 
-        folder_metrics = npath_runtime_metrics(folder_time_list)
-        folder_outliers = npath_outlier(folder_time_list)
+        folder_metrics = utils.runtime_metrics(folder_time_list)
+        folder_outliers = utils.runtime_outlier(folder_time_list)
         print("METRICS: ")
         # print metrics at 100% completion of folder.
         print(folder_metrics)
@@ -67,44 +68,9 @@ def npath_runtime():
         print(metric_collection)
 
     # print overall metrics for all cfgs.
-    print(npath_runtime_metrics(overall_time_list))
+    print(utils.runtime_metrics(overall_time_list))
     # print cfgs at above +1 stdev away.
-    print(npath_outlier(overall_time_list))
-
-
-def npath_runtime_metrics(time_list):
-    """
-    Given a list of run times compute a series of statistics.
-
-    These include: max, min, mean, median, stddev, variance.
-    """
-    times = [x[0] for x in time_list]
-    max_val = max(times)
-    min_val = min(times)
-    average = mean(times)
-    median_val = median(times)
-    stdev_val = stdev(times)
-    variance_val = variance(times)
-    print("\n \n")
-    return [("maximum", max_val), ("minimum", min_val), ("mean", average),
-            ("median", median_val), ("stdev", stdev_val), ("variance", variance_val)]
-
-
-def npath_outlier(time_list):
-    """
-    Return all outlier elements.
-
-    Given a list of tuples (runtime, Graph), return the elements of that list that are outliers.
-    """
-    print("OUTLIERS ")
-    times = [x[0] for x in time_list]
-    average = mean(times)
-    stdev_val = stdev(times)
-    outliers = []
-    for time_tuple in time_list:
-        if time_tuple[0] > (average + (2 * stdev_val)):
-            outliers.append(time_tuple)
-    return outliers
+    print(utils.runtime_outlier(overall_time_list))
 
 
 def main():

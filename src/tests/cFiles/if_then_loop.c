@@ -1,7 +1,7 @@
-int main () {
+int yeah (int i) {
 
    int n[ 10 ]; 
-   int i,j;
+   int j;
  
            
    for ( i = 0; i < 10; i++ ) {
@@ -16,5 +16,5 @@ int main () {
          return 43;
       }
    }
-   return 0;
+   return i;
 }
