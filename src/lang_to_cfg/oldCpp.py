@@ -3,7 +3,7 @@ import re
 from typing import List, Tuple
 
 class Graph:
-    '''
+    """
     Store a directed graph using an adjacency list. Since
     this is used to store Control Flow Graphs, we also store
     a start and end node.
@@ -16,7 +16,7 @@ class Graph:
     edge = [1, 2].
 
     We store a list of these edges.
-    '''
+    """
     def dot(self) -> str:
         out = "digraph {\n"
         for node in self.getVertices():
@@ -33,9 +33,9 @@ class Graph:
 
     def __str__(self) -> str:
         return f"Edges: {self.edgeRules()}\nVertices: {self.getVertices()} \nStart Node: {self.startNode} \nEnd Node: {self.endNode}"
-    
+
     def __init__(self, edges, vertices: int, startNode: int, endNode: int) -> None:
-        '''
+        """
         Create a directed graph from a vertex set, edge list,
         and start/end notes.
 
@@ -45,7 +45,7 @@ class Graph:
         If the graph is weighted, the edgeList is
         edgeList = [(a, b, weight), (c, d, weight), (e, f, weight), ...]
 
-        '''
+        """
         self.edges = edges
         self.vertices = vertices
         self.startNode = startNode
@@ -53,37 +53,37 @@ class Graph:
         self.weighted = False
 
     def edgeRules(self) -> List[Tuple[int, int]]:
-        '''
+        """
         Obtain the edge list.
-        '''
+        """
         return self.edges
 
     def vertexCount(self) -> int:
-        '''
+        """
         Get the number of vertices in the graph.
-        '''
+        """
         return len(self.vertices)
 
     def getVertices(self) -> List[int]:
-        '''
+        """
         Get the vertex set for the graph.
-        '''
+        """
         return self.vertices
 
     def getStart(self) -> int:
-        '''
+        """
         Get the start node for the graph
-        '''
+        """
         return self.startNode
 
     def getEnd(self) -> int:
-        '''
+        """
         Get the exit node for the graph
-        '''
+        """
         return self.endNode
 
     def adjacencyMatrix(self):
-        '''
+        """
         Obtain the adjacency matrix from the edge list representation
 
         We assume the vertices are numbered consecutively, i.e.
@@ -94,7 +94,7 @@ class Graph:
         First  row  -> START
         Second row  -> END
         Other  rows -> n = 2, ..., END - 1
-        '''
+        """
 
         adjMat = np.zeros((self.endNode + 1, self.endNode + 1))
         for edge in self.edgeRules():
@@ -104,7 +104,7 @@ class Graph:
             if self.weighted:
                 weight = edge[2]
 
-            # Compute the correct index in the matrix 
+            # Compute the correct index in the matrix
             if vertexOne == self.endNode:
                 vertexOne = 1
             elif vertexOne != 0:
@@ -135,7 +135,7 @@ class Graph:
 
     @staticmethod
     def fromFile(filename: str, weighted = False):
-        '''
+        """
         Returns a Graph object from a .dot file of format
 
         digraph {
@@ -145,7 +145,7 @@ class Graph:
             ...
             a_k  -> a_m
         }
-        '''
+        """
         edges = []
         vertices = set()
         startNode = None
@@ -165,7 +165,7 @@ class Graph:
                             startNode = node
                         elif nodeLabel == "EXIT":
                             endNode = node
-                # The current line in the text file represents an edge 
+                # The current line in the text file represents an edge
                 else:
                     nodeOne = int(match.group(1))
                     nodeTwo = int(match.group(2))
@@ -183,36 +183,36 @@ class Graph:
         return g
 
     def toPrism(self):
-        '''
+        """
         Assumes the graph is already in the DTMC correct representation (with
         edge weights as probabilities).
 
         dtmc
         module die
 
-        	// local state
-        	s : [0..7] init 0;
-        	// value of the die
-        	d : [0..6] init 0;
+            // local state
+            s : [0..7] init 0;
+            // value of the die
+            d : [0..6] init 0;
 
-        	[] s=0 -> 0.5 : (s'=1) + 0.5 : (s'=2);
-        	[] s=1 -> 0.5 : (s'=3) + 0.5 : (s'=4);
-        	[] s=2 -> 0.5 : (s'=5) + 0.5 : (s'=6);
-        	[] s=3 -> 0.5 : (s'=1) + 0.5 : (s'=7) & (d'=1);
-        	[] s=4 -> 0.5 : (s'=7) & (d'=2) + 0.5 : (s'=7) & (d'=3);
-        	[] s=5 -> 0.5 : (s'=7) & (d'=4) + 0.5 : (s'=7) & (d'=5);
-        	[] s=6 -> 0.5 : (s'=2) + 0.5 : (s'=7) & (d'=6);
-        	[] s=7 -> (s'=7);
+            [] s=0 -> 0.5 : (s'=1) + 0.5 : (s'=2);
+            [] s=1 -> 0.5 : (s'=3) + 0.5 : (s'=4);
+            [] s=2 -> 0.5 : (s'=5) + 0.5 : (s'=6);
+            [] s=3 -> 0.5 : (s'=1) + 0.5 : (s'=7) & (d'=1);
+            [] s=4 -> 0.5 : (s'=7) & (d'=2) + 0.5 : (s'=7) & (d'=3);
+            [] s=5 -> 0.5 : (s'=7) & (d'=4) + 0.5 : (s'=7) & (d'=5);
+            [] s=6 -> 0.5 : (s'=2) + 0.5 : (s'=7) & (d'=6);
+            [] s=7 -> (s'=7);
 
         endmodule
-        '''
+        """
         if not self.weighted:
             raise ValueError("Graph is not a Discrete Time Markov Chain (no weights available).")
 
         prismLines = []
 
         # Add the header.
-        prismLines.append('dtmc\n') # Discrete Time Markov Chain  
+        prismLines.append('dtmc\n') # Discrete Time Markov Chain
         prismLines.append('module test\n')
 
         # Create all of the nodes we'll use.

@@ -6,6 +6,7 @@ sys.path.append("/app/code/")
 from lang_to_cfg.python import PythonConvert
 from graph import Graph
 
+
 class TestPythonConvert(unittest.TestCase):
     """
     Test the conversion of Python code to CFgs.
@@ -19,7 +20,6 @@ class TestPythonConvert(unittest.TestCase):
         """Create an instance of the python converter for each test."""
         self.converter = PythonConvert()
 
-    '''
     def test_expr(self):
         """
         Test that we can correctly parse expressions.
@@ -54,16 +54,21 @@ class TestPythonConvert(unittest.TestCase):
         expected = Graph([(0, 1), (1, 2), (2, 1)], [0, 1, 2], 0, 1)
         print(res['while_func'])
         self.assertTrue(expected == res['while_func'])
-    '''
 
     def test_if(self):
         """Test that we can correctly parse if statements."""
         res = self.converter.to_graph("pythonFiles/if", ".py")
-        expected = Graph([], [], 0, 0) 
+        expected = Graph([(0, 1), (1, 2), (1, 3), (1, 4)], [0, 1, 2, 3, 4], 0, 1)
+        self.assertTrue(res['if_func'] == expected)
+
+    def test_else(self):
+        """Test that we can correctly parse if statements."""
+        res = self.converter.to_graph("pythonFiles/else", ".py")
+        expected = Graph([(0, 1), (1, 2), (1, 3), (1, 4), (1, 5)], [0, 1, 2, 3, 4, 5], 0, 1)
         print(res['if_func'])
         self.assertTrue(res['if_func'] == expected)
 
-    '''
+    # --> Have implemented all above this line <--
     def test_with(self):
         """Test that we can correct parse with blocks."""
         self.converter.to_graph("pythonFiles/with", ".py")
@@ -80,6 +85,7 @@ class TestPythonConvert(unittest.TestCase):
     def test_to_graph(self):
         """Test that we can correctly convert a file to Graph objects."""
         self.converter.to_graph("pythonFiles/graph", ".py")
-    '''
+
+
 if __name__ == '__main__':
     unittest.main()

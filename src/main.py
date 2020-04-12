@@ -84,7 +84,7 @@ class MyPrompt(Cmd):
 
     def do_show(self, arguments):
         """
-        Show an object of some type (either metric or graph).
+        Show an object of some type (either metric, graph, or klee).
 
         Usage
         show <metric/graph> <name>

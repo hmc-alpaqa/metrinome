@@ -1,5 +1,5 @@
 def try_func():
     try:
         pass
-    except:
+    except ValueError:
         pass
