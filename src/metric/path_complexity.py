@@ -7,30 +7,24 @@ import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Add, Float, Matrix, eye, symbols, degree, Poly, \
     simplify, expand, sympify, collect, Abs, Q  # type: ignore
 from mpmath import polyroots  # type: ignore
+import sys
+sys.path.append("/app/code/")
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
 from metric import metric  # type: ignore
 from typing import Any
+from time import time
 
 
 class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
-    def __init__(self) -> None:
+    def __init__(self, logger=None) -> None:
         """Create a new instance of PathComplexity."""
+        self.logger = logger
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
-
-    def adjacency_matrix(self, graph: Graph) -> Matrix:
-        """
-        Generate the adjacency matrix used in the path complexity algorithm from a Graph.
-
-        This adds a loop at the correct position required for the algorithm to work.
-        """
-        adj_mat = graph.adjacency_matrix()
-        adj_mat[1][1] = 1
-        return Matrix(adj_mat)
 
     def evaluate(self, graph: Graph) -> Any:
         """
@@ -38,6 +32,7 @@ class PathComplexity(metric.MetricAbstract):
 
         Return both the path complexity and the asymptotic path complexity.
         """
+
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
         new_adjacency = Matrix(adj_mat)
@@ -46,27 +41,39 @@ class PathComplexity(metric.MetricAbstract):
         dimension = adj_mat.shape[0]
         x_mat = eye(dimension) - new_adjacency * t_var
         x_sub = x_mat.copy()
+
         x_sub.col_del(0)
         x_sub.row_del(1)
-        x_det = x_mat.det()
+
+        self.logger.d_msg(f"Matrix shape: {x_mat.shape}")
+
+        x_det = x_mat.det(method="det_LU")
+        # x_det = x_mat.det()
 
         denominator = Poly(-x_det)
-        generating_function = x_sub.det() / denominator
+        
+        # generating_function = x_sub.det() / denominator
+        generating_function = x_sub.det(method="det_LU") / denominator
 
         recurrence_degree = degree(denominator, gen=t_var) + 1
+
+        self.logger.d_msg(denominator)
         recurrence_kernel = denominator.all_coeffs()[::-1]
 
         test = [round(-x, 2) for x in recurrence_kernel]
 
-        roots = polyroots(test, maxsteps=200, extraprec=200)
+        roots = polyroots(test, maxsteps=150, extraprec=150)
 
-        logging.info(f"Generating Function: {generating_function}")
+        self.logger.d_msg(f"Generating Function: {generating_function}")
+
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
+
         if taylor_coeffs is not None:
-            base_cases = np.matrix(taylor_coeffs[dimension:dimension + recurrence_degree - 1],
+            base_cases = np.matrix(taylor_coeffs[dimension : dimension + recurrence_degree - 1],
                                    dtype='complex')
         else:
             return (0.0, 0.0)
+
         # Should have as many things as the recurrenceKernel
         # l_range = Matrix(list(range(0, recurrence_degree)))
         n_var = symbols('n')
@@ -76,21 +83,16 @@ class PathComplexity(metric.MetricAbstract):
         # Solve the recurrence relation
         terms = get_solution_from_roots(roots)
 
-        
         factors = terms
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
                            for nval in range(1, len(factors) + 1)], dtype='complex')
 
-        # try:
         base_cases = base_cases.transpose()
         bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
 
         bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(factors))
         expr_without_abs = bounding_solution_terms[0][0]
-        # Replace all instances of x^n with abs(x)^n
-
         expr_without_abs = str(expr_without_abs)[2:-2]
-
         expr_without_abs = simplify(sympify(expr_without_abs))
         expr_with_abs = expr_without_abs
         for a in preorder_traversal(expr_without_abs):
@@ -112,12 +114,11 @@ class PathComplexity(metric.MetricAbstract):
 
         apc = big_o(exp_terms)
 
-        def convert(list):
-            return (*list, )
-        exp_terms = convert(exp_terms)
+        exp_terms = (*exp_terms, )
 
         exp_terms = sympify(exp_terms)
         terms = str(sum(exp_terms))
+
         if apc != 0.0:
             return (sympy.LM(apc), terms)
         else:

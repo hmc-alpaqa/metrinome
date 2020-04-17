@@ -5,7 +5,6 @@ from typing import List, Tuple, Any, DefaultDict
 import re
 import numpy as np  # type: ignore
 
-
 class Graph:
     """
     Store a directed graph using an adjacency list.
@@ -47,7 +46,8 @@ class Graph:
                f"\nEnd Node: {self.end_node}"
 
     def __init__(self, edges, vertices: Any, start_node: int,
-                 end_node: int, from_list: bool = False) -> None:
+                 end_node: int, from_list: bool = False,
+                 from_matrix: bool = True) -> None:
         """
         Create a directed graph from a vertex set, edge list, and start/end notes.
 
@@ -65,6 +65,7 @@ class Graph:
         self.weighted = False
 
         self.from_list = from_list
+        self.from_matrix = from_matrix
 
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
@@ -138,7 +139,7 @@ class Graph:
         return adjacency_list
 
     @staticmethod
-    def from_file(filename: str, weighted: bool = False, using_list: bool = True):
+    def from_file(filename: str, weighted: bool = False, using_list: bool = True, using_matrix: bool = False):
         """
         Return a Graph object from a .dot file of format.
 
@@ -156,6 +157,8 @@ class Graph:
         if using_list:
             edges = []
             vertices = set()
+        elif using_matrix:
+            pass
         else:
             v_e_dict: DefaultDict[int, Any] = defaultdict(set)
 

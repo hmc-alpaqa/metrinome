@@ -3,6 +3,7 @@
 from contextlib import contextmanager
 from io import StringIO
 import sys
+from numpy import mean, std, median
 
 
 @contextmanager
@@ -34,11 +35,10 @@ def runtime_metrics(time_list):
     min_val = min(times)
     average = mean(times)
     median_val = median(times)
-    stdev_val = stdev(times)
-    variance_val = variance(times)
+    stdev_val = std(times)
     print("\n \n")
     return [("maximum", max_val), ("minimum", min_val), ("mean", average),
-            ("median", median_val), ("stdev", stdev_val), ("variance", variance_val)]
+            ("median", median_val), ("stdev", stdev_val)]
 
 
 def runtime_outlier(time_list):
@@ -50,7 +50,7 @@ def runtime_outlier(time_list):
     print("OUTLIERS ")
     times = [x[0] for x in time_list]
     average = mean(times)
-    stdev_val = stdev(times)
+    stdev_val = std(times)
     outliers = []
     for time_tuple in time_list:
         if time_tuple[0] > (average + (2 * stdev_val)):

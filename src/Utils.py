@@ -60,7 +60,7 @@ def classify(expr: str, var="n") -> str:
 def get_solution_from_roots(roots):
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
-    roots = [complex(round(root.real, 6), round(root.imag, 6)) for root in roots]
+    roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
 
     # Compute the multiplicy of each root.
     roots_with_multiplicities = Counter(roots)
@@ -68,7 +68,7 @@ def get_solution_from_roots(roots):
     # Compute the coefficients of a_n as a list.
     solution = []
     for root in roots_with_multiplicities.keys():
-        for i in range(0, roots_with_multiplicities[root]):
+        for i in range(roots_with_multiplicities[root]):
             if root == 1:
                 solution += [sympify(f"(n**{i})")]
             else:
@@ -174,6 +174,7 @@ def big_o(terms):
     n_var = symbols('n')
     if len(terms) == 0:
         return 0.0
+
     if len(terms) == 1:
         return terms[0]
 
