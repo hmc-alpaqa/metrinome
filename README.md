@@ -1,4 +1,6 @@
-![Lint](https://github.com/hmc-alpaqa/path-complexity/workflows/Lint/badge.svg?branch=develop)
+# Status
+
+![Linting and Unit Tests](https://github.com/hmc-alpaqa/path-complexity/workflows/Lint/badge.svg?branch=develop)
 
 # Developing 
 
@@ -9,20 +11,19 @@ setting up the environment would involve installing a variety of tools (KLEE, LL
 In order to build the image run 
 
 ```
-docker build -f <path_to_Dockerfile> .
+make build
 ```
 
-Building the image takes a while, so it is also possible to pull an image that is __already built__ from Dockerhub here: 
+inside the 'src' directory. Building the image takes a while, so it is also possible to pull an image that is __already built__ from Dockerhub here: 
 https://hub.docker.com/repository/docker/gbessler/path_complexity.  
 
-Now run ```docker images```. Obtain the "IMAGE ID" for the image you just created. This will look something like 'd3cb9c11dded'. 
-Then to run the image use
+To run the image, do
 
 ```
-docker run -it -v <path_to path-complexity/src>:/app/code <image_ID> /bin/bash
+make run
 ```
 
-This will put you in a bash shell in the docker image. Not that in this development environment we mount the source code in the host (i.e. the device you are working in) to the docker image. This means that you can modify the code and the changes will me immediately reflected in the docker image. This means it is not necessary to re-build or even re-run the docker image when making code changes. We recommend replacing "/bin/bash" with "/bin/zsh". 
+inside the 'src' directory. This will put you in a bash shell in the docker image. Note that in this development environment we mount the source code in the host (i.e. the device you are working in) to the docker image. This means that you can modify the code and the changes will me immediately reflected in the docker image. This means it is not necessary to re-build or even re-run the docker image when making code changes. 
 
 Running ```python /app/code/main.py``` in the docker image will put you inside the Path Complexity REPL. This is how the user __usually__ interacts with the tool. Refer to the 'Using the REPL' section to obtain more information about how to use this. 
 
