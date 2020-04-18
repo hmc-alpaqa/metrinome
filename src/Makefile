@@ -25,6 +25,10 @@ build:
 run:
 	docker run -it -v $(shell pwd):/app/code gbessler/pathrepl:latest /bin/zsh
 
+run-detached:
+	docker run --name detached_repl -d -t -v $(shell pwd):/app/code gbessler/pathrepl:latest
+
+
 # Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command.
 formatting:
 	# Remove trailing whitespace

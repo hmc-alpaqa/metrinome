@@ -1,0 +1,15 @@
+name: Lint
+on:
+  push:
+    branches:
+      - master
+jobs:
+  lint-job:
+    name: Linting Job
+    runs-on: self-hosted
+    steps:
+    - id: step1
+      run: docker exec -w /app/code detached_repl make lint
+    - id: step2
+      run: docker exec -w /app/code detached_repl make tests
+        
