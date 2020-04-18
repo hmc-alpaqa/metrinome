@@ -20,10 +20,10 @@ tests:
 test:   formatting lint tests
 
 build: 
-	docker build --tag pathrepl:latest -f ../Dockerfile ../
+	docker build --tag gbessler/pathrepl:latest -f ../Dockerfile ../
 
 run:
-	docker run -it -v $(shell pwd):/app/code pathrepl:latest /bin/zsh
+	docker run -it -v $(shell pwd):/app/code gbessler/pathrepl:latest /bin/zsh
 
 # Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command.
 formatting:
