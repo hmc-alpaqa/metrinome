@@ -1,3 +1,5 @@
+![Lint](https://github.com/hmc-alpaqa/path-complexity/workflows/Lint/badge.svg?branch=develop)
+
 # Developing 
 
 The environment necessary to work on this project is included in 

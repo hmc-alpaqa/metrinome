@@ -10,6 +10,10 @@ jobs:
     steps:
     - id: step1
       run: docker exec -w /app/code detached_repl make lint
-    - id: step2
+  test-job:
+    name: Unit Tests Job
+    runs-on: self-hosted
+    steps:
+    - id: step1
       run: docker exec -w /app/code detached_repl make tests
         
