@@ -1,4 +1,9 @@
+# pylint: disable-all
+"""Used for testing the python converter."""
+
+
 def return_func():
-    x = 5
-    return x
-    a = 5
+    """Contains a return."""
+    var_one = 5
+    return var_one
+    var_two = 5

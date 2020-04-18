@@ -39,7 +39,7 @@ class FunctionVisitor(ast.NodeVisitor):
         self.end_node: Optional[Node] = None
         self.frontier: List[Node] = []
 
-    def update_root(self, node) -> None:
+    def update_root(self, node) -> bool:
         """Given a new node, set it as the root if a root does not exist."""
         if self.root is None:
             self.root = node
@@ -65,7 +65,8 @@ class FunctionVisitor(ast.NodeVisitor):
         self.frontier = [new_node]
 
     def visit_Pass(self, node) -> None:
-        print("At pass {node}")
+        """Visits a pass statement."""
+        print(f"At pass {node}")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -141,8 +142,11 @@ class FunctionVisitor(ast.NodeVisitor):
         visitor = FunctionVisitor()
         visitor.visit(node.body[0])
         for frontier_node in self.frontier:
-            frontier_node.children += [visitor.root]
-            new_frontier += [visitor.end_node]
+            if visitor.root is not None:
+                frontier_node.children += [visitor.root]
+
+            if visitor.end_node is not None:
+                new_frontier += [visitor.end_node]
 
         i = 0
         # Check that there is another elif (or else statement)
@@ -156,8 +160,10 @@ class FunctionVisitor(ast.NodeVisitor):
             visitor = FunctionVisitor()
             visitor.visit(node.body[0])
             for frontier_node in self.frontier:
-                frontier_node.children += [visitor.root]
-            new_frontier += [visitor.end_node]
+                if visitor.root is not None:
+                    frontier_node.children += [visitor.root]
+            if visitor.end_node is not None:
+                new_frontier += [visitor.end_node]
             i += 1
 
         # Check if there is an else statement
@@ -167,8 +173,10 @@ class FunctionVisitor(ast.NodeVisitor):
             visitor = FunctionVisitor()
             visitor.visit(node[0])
             for frontier_node in self.frontier:
-                frontier_node.children += [visitor.root]
-            new_frontier += [visitor.end_node]
+                if visitor.root is not None:
+                    frontier_node.children += [visitor.root]
+            if visitor.end_node is not None:
+                new_frontier += [visitor.end_node]
 
         self.frontier = new_frontier
 

@@ -16,10 +16,11 @@ NodeType = int
 class NPathComplexity(metric.MetricAbstract):
     """NPathComplexity allows us to compute the NPath Complexity of functions from their CFGs."""
 
-    def __init__(self, using_list=True) -> None:
+    def __init__(self, log=None, using_list=True) -> None:
         """Create a new NPathComplexity to compute NPath for arbitrary Graph objects."""
         super(NPathComplexity, self).__init__()
         self.using_list = using_list
+        self.log = log
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""

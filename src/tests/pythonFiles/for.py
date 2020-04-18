@@ -1,5 +1,10 @@
+# pylint: disable-all
+"""Used for testing the python converter."""
+
+
 def for_func():
+    """Contains a for loop."""
     for i in range(5):
-        x = 5
+        var_one = 5
         pass
-    x = 6
+    var_one = 6

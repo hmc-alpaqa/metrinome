@@ -1,3 +1,4 @@
+# pylint: disable-all
 # -*- coding: utf-8 -*-
 """
 Created on Fri Mar 13 09:04:16 2015.

@@ -2,8 +2,18 @@
 
 from collections import defaultdict
 from typing import List, Tuple, Any, DefaultDict
+from enum import Enum
 import re
 import numpy as np  # type: ignore
+
+
+class GraphType(Enum):
+    """All of the different ways to represent the graph."""
+
+    ADJACENCY_LIST = "list"
+    ADJACENCY_MATRIX = "matrix"
+    EDGE_LIST = "edges"
+
 
 class Graph:
     """
@@ -46,8 +56,8 @@ class Graph:
                f"\nEnd Node: {self.end_node}"
 
     def __init__(self, edges, vertices: Any, start_node: int,
-                 end_node: int, from_list: bool = False,
-                 from_matrix: bool = True) -> None:
+                 end_node: int,
+                 graph_type: GraphType = GraphType.ADJACENCY_LIST) -> None:
         """
         Create a directed graph from a vertex set, edge list, and start/end notes.
 
@@ -64,8 +74,10 @@ class Graph:
         self.end_node = end_node
         self.weighted = False
 
-        self.from_list = from_list
-        self.from_matrix = from_matrix
+        if graph_type is GraphType.ADJACENCY_LIST:
+            self.from_list = True
+        elif graph_type is GraphType.ADJACENCY_MATRIX:
+            self.from_matrix = True
 
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
@@ -139,7 +151,8 @@ class Graph:
         return adjacency_list
 
     @staticmethod
-    def from_file(filename: str, weighted: bool = False, using_list: bool = True, using_matrix: bool = False):
+    def from_file(filename: str, weighted: bool = False,
+                  graph_type: GraphType = GraphType.ADJACENCY_LIST):
         """
         Return a Graph object from a .dot file of format.
 
@@ -154,10 +167,10 @@ class Graph:
         start_node = None
         end_node = None
 
-        if using_list:
-            edges = []
+        if graph_type is GraphType.ADJACENCY_LIST:
+            edges: List[List[int]] = []
             vertices = set()
-        elif using_matrix:
+        elif graph_type is GraphType.ADJACENCY_MATRIX:
             pass
         else:
             v_e_dict: DefaultDict[int, Any] = defaultdict(set)
@@ -177,31 +190,38 @@ class Graph:
                         elif node_label == "EXIT":
                             end_node = node
 
-                        if using_list:
+                        if graph_type is GraphType.ADJACENCY_LIST:
                             vertices.add(node)
 
                 # The current line in the text file represents an edge
                 else:
-                    node_one = int(match.group(1))
-                    node_two = int(match.group(2))
-                    if using_list:
-                        vertices.add(node_one)
-                        vertices.add(node_two)
-                        edges.append([node_one, node_two])
-                    else:
-                        v_e_dict[node_one].add(node_two)
+                    Graph.update_graph_with_edge(match, graph_type, vertices, edges, v_e_dict)
 
             if start_node is None or end_node is None:
                 raise ValueError("Start and end nodes must \
                                  both be defined.")
 
-            if using_list:
-                graph = Graph(edges, vertices, start_node, end_node, using_list)
+            if graph_type is GraphType.ADJACENCY_LIST:
+                graph = Graph(edges, vertices, start_node, end_node,
+                              GraphType.ADJACENCY_LIST)
             else:
-                graph = Graph(v_e_dict, v_e_dict.keys(), start_node, end_node, using_list)
+                graph = Graph(v_e_dict, v_e_dict.keys(), start_node,
+                              end_node, GraphType.ADJACENCY_LIST)
             graph.weighted = weighted
 
         return graph
+
+    @staticmethod
+    def update_graph_with_edge(match, graph_type, vertices, edges, v_e_dict):
+        """Create new vertices and edges when the current line in the dot file is an edge."""
+        node_one = int(match.group(1))
+        node_two = int(match.group(2))
+        if graph_type is GraphType.ADJACENCY_LIST:
+            vertices.add(node_one)
+            vertices.add(node_two)
+            edges.append([node_one, node_two])
+        else:
+            v_e_dict[node_one].add(node_two)
 
     def to_prism(self) -> List[str]:
         """

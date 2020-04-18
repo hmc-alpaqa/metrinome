@@ -1,3 +1,8 @@
+# pylint: disable-all
+"""Used for testing the python converter."""
+
+
 def expr_func():
-    a = 5
-    b = a + 5
+    """Contains an expression."""
+    var_one = 5
+    var_two = var_one + 5

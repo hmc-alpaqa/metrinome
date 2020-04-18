@@ -280,10 +280,10 @@ class Data:
             if klee_name in self.klee_formatted_files:
                 self.logger.v_msg("KLEE FORMATTED FILES:")
                 self.logger.v_msg(str(self.klee_formatted_files[klee_name]))
-            
-            if klee_name in self.data.klee_stats:
+
+            if klee_name in self.klee_stats:
                 self.logger.v_msg("KLEE STATS:")
-                self.logger.v_msg(str(self.data.klee_stats[klee_name]))
+                self.logger.v_msg(str(self.klee_stats[klee_name]))
 
 
 class Command:
@@ -726,6 +726,9 @@ class Command:
         name = converted_args[1]
         subprocess.check_call(["mkdir", "-p", "exports"])
         export_type = ObjTypes.get_type(export_type)
+
+        new_name = name + "_export"
+
         if export_type == ObjTypes.GRAPH:
             self.data.export_graph(name, new_name)
         elif export_type == ObjTypes.METRIC:

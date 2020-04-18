@@ -1,9 +1,14 @@
+# pylint: disable-all
+"""Used for testing the python converter."""
+
+
 def if_func():
-    foo = False
-    if foo == 2:
-        x = 5
-        x = 6
-    elif foo == 77:
-        x = 6
-    elif foo == 78:
-        x = 7
+    """Contains an if statement."""
+    var_one = False
+    if var_one == 2:
+        var_two = 5
+        var_two = 6
+    elif var_one == 77:
+        var_two = 6
+    elif var_one == 78:
+        var_two = 7

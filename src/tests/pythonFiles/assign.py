@@ -1,4 +1,9 @@
+# pylint: disable-all
+"""Used for testing the python converter."""
+
+
 def assign_func():
-    a = 77
-    b = 66
-    c = a
+    """Contains an assignment."""
+    var_one = 77
+    var_two = 66
+    var_three = var_one

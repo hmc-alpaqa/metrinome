@@ -3,7 +3,7 @@ import unittest
 import sys
 sys.path.append("/app/code/")
 import command
-from tests.utils import captured_output
+from tests.unit_utils import captured_output
 
 
 class TestCommandInvalid(unittest.TestCase):

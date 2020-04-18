@@ -159,6 +159,7 @@ class CPPConvert():
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
                 out, err = line2.communicate()
+                print(out, err)
 
         files = glob2.glob("*.dot")
         self.logger.d_msg(f"Found the following .dot files: {files}")
