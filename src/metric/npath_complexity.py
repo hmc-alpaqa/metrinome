@@ -57,6 +57,7 @@ class NPathComplexity(metric.MetricAbstract):
                 adjacency_matrix[node+1][1] = 0
             else:
                 adjacency_matrix[node+1][edge+1] = 0
+        return adjacency_matrix
 
     def npath(self, start: NodeType, end: NodeType, edges) -> float:
         """Compute NPath Complexity recursively."""
