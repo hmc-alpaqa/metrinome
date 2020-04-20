@@ -22,7 +22,8 @@ def run_benchmark(converter):
 
     graph_frac = 5
     folders_frac = len(folders)
-
+    graph_list = []
+    
     # test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {floor(len(folders) / folders_frac)}")
     for folder in folders[0:floor(len(folders) / folders_frac)]:
