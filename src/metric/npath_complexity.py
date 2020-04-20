@@ -43,6 +43,20 @@ class NPathComplexity(metric.MetricAbstract):
         edge_copy = copy.deepcopy(edges)
         edge_copy[node].remove(edge)
         return edge_copy
+    
+    def remove_edge_adj(self, matrix, start: NodeType, end: NodeType, node: NodeType, edge: NodeType) -> List[EdgeType]:
+        """Return copy of matrix with the specified edge removed."""
+        adjacency_matrix = copy.deepcopy(matrix)
+        if node == start:
+            if edge == end:
+                adjacency_matrix[0][1] = 0
+            else:
+                adjacency_matrix[0][edge+1] = 0
+        else:
+            if edge == end:
+                adjacency_matrix[node+1][1] = 0
+            else:
+                adjacency_matrix[node+1][edge+1] = 0
 
     def npath(self, start: NodeType, end: NodeType, edges) -> float:
         """Compute NPath Complexity recursively."""
