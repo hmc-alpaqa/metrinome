@@ -26,11 +26,11 @@ def run_benchmark(converter):
     # test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {floor(len(folders) / folders_frac)}")
     for folder in folders[0:floor(len(folders) / folders_frac)]:
-        graph_list = (glob.glob(folder + "*.dot"))[0:floor(len(graph_list) / graph_frac)]
+        graph_list = (glob.glob(folder + "*.dot"))
+        graph_list = graph_list[0:floor(len(graph_list) / graph_frac)]
         # list of tuples for each cfg in folder(seconds, cfg).
         folder_time_list = []
-        # create instance of the npath clas.
-        print(folder)
+        # create instance of the npath class.
 
         folder_time_list, overall_time_list = get_converter_time(graph_list,
                                                                  converter, folder)

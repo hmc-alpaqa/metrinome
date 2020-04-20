@@ -190,7 +190,10 @@ class Graph:
 
                 # The current line in the text file represents an edge
                 else:
-                    Graph.update_graph_with_edge(match, graph_type, vertices, edges, v_e_dict)
+                    if graph_type is GraphType.ADJACENCY_LIST:
+                        Graph.update_graph_with_edge(match, graph_type, vertices, edges)
+                    else:
+                        Graph.update_graph_with_edge(match, graph_type, vertices, v_e_dict)
 
             if start_node is None or end_node is None:
                 raise ValueError("Start and end nodes must \
@@ -207,7 +210,7 @@ class Graph:
         return graph
 
     @staticmethod
-    def update_graph_with_edge(match, graph_type, vertices, edges, v_e_dict):
+    def update_graph_with_edge(match, graph_type, vertices, edges):
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
@@ -216,7 +219,7 @@ class Graph:
             vertices.add(node_two)
             edges.append([node_one, node_two])
         else:
-            v_e_dict[node_one].add(node_two)
+            edges[node_one].add(node_two)
 
     def to_prism(self) -> List[str]:
         """
