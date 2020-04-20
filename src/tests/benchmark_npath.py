@@ -36,7 +36,7 @@ def main():
                                 False, False)
     print("dict version:")
     print(converter.evaluate(graph_one))
-npath_runtime()
+# npath_runtime()
 
 # LIST VERSION
 # takes 769 seconds to run commons-scxml-0.9/\
