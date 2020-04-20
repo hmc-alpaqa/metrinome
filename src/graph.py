@@ -171,7 +171,8 @@ class Graph:
             edges: List[List[int]] = []
             vertices = set()
         elif graph_type is GraphType.ADJACENCY_MATRIX:
-            pass
+            edges: List[List[int]] = []
+            vertices = set()
         else:
             v_e_dict: DefaultDict[int, Any] = defaultdict(set)
 
@@ -195,7 +196,7 @@ class Graph:
 
                 # The current line in the text file represents an edge
                 else:
-                    if graph_type is GraphType.ADJACENCY_LIST:
+                    if graph_type is GraphType.ADJACENCY_LIST or GraphType.ADJACENCY_MATRIX:
                         Graph.update_graph_with_edge(match, graph_type, vertices, edges)
                     else:
                         Graph.update_graph_with_edge(match, graph_type, vertices, v_e_dict)

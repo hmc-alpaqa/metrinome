@@ -9,10 +9,11 @@ import glob
 from math import floor
 from numpy import mean, std, median  # type: ignore
 from graph import Graph
+from graph import GraphType
 from utils import Timeout
 
 
-def run_benchmark(converter):
+def run_benchmark(converter, graph_type):
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
 
@@ -33,7 +34,7 @@ def run_benchmark(converter):
         # create instance of the npath class.
 
         folder_time_list, overall_time_list = get_converter_time(graph_list,
-                                                                 converter, folder)
+                                                                 converter, folder, graph_type)
 
         metric_collection = print_results(folder_time_list,
                                           folder, metric_collection)
@@ -49,7 +50,7 @@ def print_overall_results(overall_time_list):
     print(runtime_outlier(overall_time_list))
 
 
-def get_converter_time(graph_list, converter, folder):
+def get_converter_time(graph_list, converter, folder, graph_type):
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -58,7 +59,7 @@ def get_converter_time(graph_list, converter, folder):
     for i, graph in enumerate(graph_list):
         print(os.path.splitext(graph)[0].split("/")[-1],
               f"{round(100*(i / len(graph_list)))}% done")
-        graph_zero = Graph.from_file(graph)
+        graph_zero = Graph.from_file(graph, graph_type)
         start_time = time.time()
         try:
             with Timeout(5, 'Path-Complexity took too long'):

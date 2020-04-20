@@ -13,13 +13,14 @@ from log import Log
 from metric import npath_complexity
 from tests import unit_utils
 from graph import Graph
+from graph import GraphType
 
 
-def npath_runtime():
+def npath_runtime(graph_type):
     """Test the amount of time it takes to run NPath analysis on different sized graphs."""
     log = Log()
     converter = npath_complexity.NPathComplexity(log)
-    unit_utils.run_benchmark(converter)
+    unit_utils.run_benchmark(converter, graph_type)
 
 
 def main():
@@ -36,7 +37,8 @@ def main():
                                 False, False)
     print("dict version:")
     print(converter.evaluate(graph_one))
-# npath_runtime()
+npath_runtime(GraphType.ADJACENCY_MATRIX)
+
 
 # LIST VERSION
 # takes 769 seconds to run commons-scxml-0.9/\
