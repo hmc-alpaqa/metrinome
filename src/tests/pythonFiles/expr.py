@@ -4,5 +4,5 @@
 
 def expr_func():
     """Contains an expression."""
-    var_one = 5
-    var_two = var_one + 5
+    5 + 6
+    var_two = 1 + 5

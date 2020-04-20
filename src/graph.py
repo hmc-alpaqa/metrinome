@@ -166,14 +166,9 @@ class Graph:
         """
         start_node = None
         end_node = None
-
-        if graph_type is GraphType.ADJACENCY_LIST:
-            edges: List[List[int]] = []
-            vertices = set()
-        elif graph_type is GraphType.ADJACENCY_MATRIX:
-            pass
-        else:
-            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+        vertices = set()
+        v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+        edges: List[List[int]] = []
 
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:
