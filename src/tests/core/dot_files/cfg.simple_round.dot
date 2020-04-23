@@ -1,0 +1,26 @@
+digraph "CFG for 'simple_round' function" {
+	label="CFG for 'simple_round' function";
+
+	Node0xb003e0 [shape=record,label="{%2:\l  %3 = alloca x86_fp80, align 16\l  %4 = alloca x86_fp80, align 16\l  %5 = alloca i32, align 4\l  %6 = alloca i64, align 8\l  %7 = alloca i64, align 8\l  %8 = alloca i32, align 4\l  store x86_fp80 %0, x86_fp80* %4, align 16, !tbaa !847\l  call void @llvm.dbg.declare(metadata x86_fp80* %4, metadata !841, metadata\l... !DIExpression()), !dbg !851\l  store i32 %1, i32* %5, align 4, !tbaa !852\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !842, metadata\l... !DIExpression()), !dbg !853\l  %9 = bitcast i64* %6 to i8*, !dbg !854\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #13, !dbg !854\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !843, metadata\l... !DIExpression()), !dbg !855\l  %10 = bitcast i64* %7 to i8*, !dbg !856\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %10) #13, !dbg !856\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !846, metadata\l... !DIExpression()), !dbg !857\l  %11 = load x86_fp80, x86_fp80* %4, align 16, !dbg !858, !tbaa !847\l  %12 = fdiv x86_fp80 %11, 0xK403DFFFFFFFFFFFFFFFE, !dbg !859\l  %13 = fptosi x86_fp80 %12 to i64, !dbg !858\l  store i64 %13, i64* %7, align 8, !dbg !857, !tbaa !860\l  %14 = load i64, i64* %7, align 8, !dbg !862, !tbaa !860\l  %15 = sitofp i64 %14 to x86_fp80, !dbg !862\l  %16 = fmul x86_fp80 0xK403DFFFFFFFFFFFFFFFE, %15, !dbg !863\l  %17 = load x86_fp80, x86_fp80* %4, align 16, !dbg !864, !tbaa !847\l  %18 = fsub x86_fp80 %17, %16, !dbg !864\l  store x86_fp80 %18, x86_fp80* %4, align 16, !dbg !864, !tbaa !847\l  %19 = load i32, i32* %5, align 4, !dbg !865, !tbaa !852\l  switch i32 %19, label %35 [\l    i32 0, label %20\l    i32 1, label %23\l    i32 2, label %26\l    i32 3, label %29\l    i32 4, label %32\l  ], !dbg !866\l|{<s0>def|<s1>0|<s2>1|<s3>2|<s4>3|<s5>4}}"];
+	Node0xb003e0:s0 -> Node0xb005c0;
+	Node0xb003e0:s1 -> Node0xb00430;
+	Node0xb003e0:s2 -> Node0xb00480;
+	Node0xb003e0:s3 -> Node0xb004d0;
+	Node0xb003e0:s4 -> Node0xb00520;
+	Node0xb003e0:s5 -> Node0xb00570;
+	Node0xb00430 [shape=record,label="{%20:\l\l  %21 = load x86_fp80, x86_fp80* %4, align 16, !dbg !867, !tbaa !847\l  %22 = call i64 @simple_round_ceiling(x86_fp80 %21), !dbg !869\l  store i64 %22, i64* %6, align 8, !dbg !870, !tbaa !860\l  br label %36, !dbg !871\l}"];
+	Node0xb00430 -> Node0xb00610;
+	Node0xb00480 [shape=record,label="{%23:\l\l  %24 = load x86_fp80, x86_fp80* %4, align 16, !dbg !872, !tbaa !847\l  %25 = call i64 @simple_round_floor(x86_fp80 %24), !dbg !873\l  store i64 %25, i64* %6, align 8, !dbg !874, !tbaa !860\l  br label %36, !dbg !875\l}"];
+	Node0xb00480 -> Node0xb00610;
+	Node0xb004d0 [shape=record,label="{%26:\l\l  %27 = load x86_fp80, x86_fp80* %4, align 16, !dbg !876, !tbaa !847\l  %28 = call i64 @simple_round_from_zero(x86_fp80 %27), !dbg !877\l  store i64 %28, i64* %6, align 8, !dbg !878, !tbaa !860\l  br label %36, !dbg !879\l}"];
+	Node0xb004d0 -> Node0xb00610;
+	Node0xb00520 [shape=record,label="{%29:\l\l  %30 = load x86_fp80, x86_fp80* %4, align 16, !dbg !880, !tbaa !847\l  %31 = call i64 @simple_round_to_zero(x86_fp80 %30), !dbg !881\l  store i64 %31, i64* %6, align 8, !dbg !882, !tbaa !860\l  br label %36, !dbg !883\l}"];
+	Node0xb00520 -> Node0xb00610;
+	Node0xb00570 [shape=record,label="{%32:\l\l  %33 = load x86_fp80, x86_fp80* %4, align 16, !dbg !884, !tbaa !847\l  %34 = call i64 @simple_round_nearest(x86_fp80 %33), !dbg !885\l  store i64 %34, i64* %6, align 8, !dbg !886, !tbaa !860\l  br label %36, !dbg !887\l}"];
+	Node0xb00570 -> Node0xb00610;
+	Node0xb005c0 [shape=record,label="{%35:\l\l  store x86_fp80 0xK00000000000000000000, x86_fp80* %3, align 16, !dbg !888\l  store i32 1, i32* %8, align 4\l  br label %43, !dbg !888\l}"];
+	Node0xb005c0 -> Node0xb00660;
+	Node0xb00610 [shape=record,label="{%36:\l\l  %37 = load i64, i64* %7, align 8, !dbg !889, !tbaa !860\l  %38 = sitofp i64 %37 to x86_fp80, !dbg !889\l  %39 = fmul x86_fp80 0xK403DFFFFFFFFFFFFFFFE, %38, !dbg !890\l  %40 = load i64, i64* %6, align 8, !dbg !891, !tbaa !860\l  %41 = sitofp i64 %40 to x86_fp80, !dbg !891\l  %42 = fadd x86_fp80 %39, %41, !dbg !892\l  store x86_fp80 %42, x86_fp80* %3, align 16, !dbg !893\l  store i32 1, i32* %8, align 4\l  br label %43, !dbg !893\l}"];
+	Node0xb00610 -> Node0xb00660;
+	Node0xb00660 [shape=record,label="{%43:\l\l  %44 = bitcast i64* %7 to i8*, !dbg !894\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %44) #13, !dbg !894\l  %45 = bitcast i64* %6 to i8*, !dbg !894\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %45) #13, !dbg !894\l  %46 = load x86_fp80, x86_fp80* %3, align 16, !dbg !894\l  ret x86_fp80 %46, !dbg !894\l}"];
+}

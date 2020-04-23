@@ -1,0 +1,12 @@
+digraph "CFG for 'get_first_line_in_buffer' function" {
+	label="CFG for 'get_first_line_in_buffer' function";
+
+	Node0x1376bf0 [shape=record,label="{%0:\l  %1 = load %struct.buffer_record*, %struct.buffer_record** @head, align 8,\l... !dbg !1341, !tbaa !1343\l  %2 = icmp eq %struct.buffer_record* %1, null, !dbg !1347\l  br i1 %2, label %3, label %8, !dbg !1348\l|{<s0>T|<s1>F}}"];
+	Node0x1376bf0:s0 -> Node0x1378770;
+	Node0x1376bf0:s1 -> Node0x1378810;
+	Node0x1378770 [shape=record,label="{%3:\l\l  %4 = call zeroext i1 @load_buffer(), !dbg !1349\l  br i1 %4, label %8, label %5, !dbg !1350\l|{<s0>T|<s1>F}}"];
+	Node0x1378770:s0 -> Node0x1378810;
+	Node0x1378770:s1 -> Node0x13787c0;
+	Node0x13787c0 [shape=record,label="{%5:\l\l  %6 = call i32* @__errno_location() #12, !dbg !1351\l  %7 = load i32, i32* %6, align 4, !dbg !1351, !tbaa !1352\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 %7, i8* getelementptr\l... inbounds ([18 x i8], [18 x i8]* @.str.60, i32 0, i32 0)), !dbg !1351\l  unreachable, !dbg !1351\l}"];
+	Node0x1378810 [shape=record,label="{%8:\l\l  %9 = load %struct.buffer_record*, %struct.buffer_record** @head, align 8,\l... !dbg !1354, !tbaa !1343\l  %10 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %9, i32 0, i32 3, !dbg !1355\l  %11 = load i64, i64* %10, align 8, !dbg !1355, !tbaa !1356\l  ret i64 %11, !dbg !1359\l}"];
+}

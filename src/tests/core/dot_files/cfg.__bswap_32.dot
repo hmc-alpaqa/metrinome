@@ -1,0 +1,5 @@
+digraph "CFG for '__bswap_32' function" {
+	label="CFG for '__bswap_32' function";
+
+	Node0xdf5eb0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !786\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !785, metadata\l... !DIExpression()), !dbg !790\l  %3 = load i32, i32* %2, align 4, !dbg !791, !tbaa !786\l  %4 = and i32 %3, -16777216, !dbg !791\l  %5 = lshr i32 %4, 24, !dbg !791\l  %6 = load i32, i32* %2, align 4, !dbg !791, !tbaa !786\l  %7 = and i32 %6, 16711680, !dbg !791\l  %8 = lshr i32 %7, 8, !dbg !791\l  %9 = or i32 %5, %8, !dbg !791\l  %10 = load i32, i32* %2, align 4, !dbg !791, !tbaa !786\l  %11 = and i32 %10, 65280, !dbg !791\l  %12 = shl i32 %11, 8, !dbg !791\l  %13 = or i32 %9, %12, !dbg !791\l  %14 = load i32, i32* %2, align 4, !dbg !791, !tbaa !786\l  %15 = and i32 %14, 255, !dbg !791\l  %16 = shl i32 %15, 24, !dbg !791\l  %17 = or i32 %13, %16, !dbg !791\l  ret i32 %17, !dbg !792\l}"];
+}

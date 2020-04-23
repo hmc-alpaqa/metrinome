@@ -1,0 +1,5 @@
+digraph "CFG for 'simple_round_to_zero' function" {
+	label="CFG for 'simple_round_to_zero' function";
+
+	Node0xad7b00 [shape=record,label="{%1:\l  %2 = alloca x86_fp80, align 16\l  store x86_fp80 %0, x86_fp80* %2, align 16, !tbaa !844\l  call void @llvm.dbg.declare(metadata x86_fp80* %2, metadata !843, metadata\l... !DIExpression()), !dbg !848\l  %3 = load x86_fp80, x86_fp80* %2, align 16, !dbg !849, !tbaa !844\l  %4 = fptosi x86_fp80 %3 to i64, !dbg !849\l  ret i64 %4, !dbg !850\l}"];
+}

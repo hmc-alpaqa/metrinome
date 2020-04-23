@@ -1,0 +1,27 @@
+digraph "CFG for 'print_stats' function" {
+	label="CFG for 'print_stats' function";
+
+	Node0x24a7140 [shape=record,label="{%0:\l  %1 = load i32, i32* @status_level, align 4, !dbg !368, !tbaa !370\l  %2 = icmp eq i32 %1, 1, !dbg !374\l  br i1 %2, label %3, label %4, !dbg !375\l|{<s0>T|<s1>F}}"];
+	Node0x24a7140:s0 -> Node0x24a7ea0;
+	Node0x24a7140:s1 -> Node0x24a7ef0;
+	Node0x24a7ea0 [shape=record,label="{%3:\l\l  br label %33, !dbg !376\l}"];
+	Node0x24a7ea0 -> Node0x24a8120;
+	Node0x24a7ef0 [shape=record,label="{%4:\l\l  %5 = load i32, i32* @progress_len, align 4, !dbg !377, !tbaa !370\l  %6 = icmp slt i32 0, %5, !dbg !379\l  br i1 %6, label %7, label %10, !dbg !380\l|{<s0>T|<s1>F}}"];
+	Node0x24a7ef0:s0 -> Node0x24a7f40;
+	Node0x24a7ef0:s1 -> Node0x24a7f90;
+	Node0x24a7f40 [shape=record,label="{%7:\l\l  %8 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg !381,\l... !tbaa !383\l  %9 = call i32 @fputc_unlocked(i32 10, %struct._IO_FILE* %8), !dbg !381\l  store i32 0, i32* @progress_len, align 4, !dbg !385, !tbaa !370\l  br label %10, !dbg !386\l}"];
+	Node0x24a7f40 -> Node0x24a7f90;
+	Node0x24a7f90 [shape=record,label="{%10:\l\l  %11 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg\l... !387, !tbaa !383\l  %12 = load i64, i64* @r_full, align 8, !dbg !388, !tbaa !389\l  %13 = load i64, i64* @r_partial, align 8, !dbg !391, !tbaa !389\l  %14 = load i64, i64* @w_full, align 8, !dbg !392, !tbaa !389\l  %15 = load i64, i64* @w_partial, align 8, !dbg !393, !tbaa !389\l  %16 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %11,\l... i8* getelementptr inbounds ([40 x i8], [40 x i8]* @.str.92, i32 0, i32 0),\l... i64 %12, i64 %13, i64 %14, i64 %15), !dbg !394\l  %17 = load i64, i64* @r_truncate, align 8, !dbg !395, !tbaa !389\l  %18 = icmp ne i64 %17, 0, !dbg !397\l  br i1 %18, label %19, label %28, !dbg !398\l|{<s0>T|<s1>F}}"];
+	Node0x24a7f90:s0 -> Node0x24a7fe0;
+	Node0x24a7f90:s1 -> Node0x24a8030;
+	Node0x24a7fe0 [shape=record,label="{%19:\l\l  %20 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg\l... !399, !tbaa !383\l  %21 = load i64, i64* @r_truncate, align 8, !dbg !400, !tbaa !389\l  %22 = call i64 @select_plural(i64 %21), !dbg !400\l  %23 = icmp eq i64 %22, 1, !dbg !400\l  %24 = zext i1 %23 to i64, !dbg !400\l  %25 = select i1 %23, i8* getelementptr inbounds ([22 x i8], [22 x i8]*\l... @.str.94, i32 0, i32 0), i8* getelementptr inbounds ([23 x i8], [23 x i8]*\l... @.str.93, i32 0, i32 0), !dbg !400\l  %26 = load i64, i64* @r_truncate, align 8, !dbg !401, !tbaa !389\l  %27 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %20,\l... i8* %25, i64 %26), !dbg !402\l  br label %28, !dbg !402\l}"];
+	Node0x24a7fe0 -> Node0x24a8030;
+	Node0x24a8030 [shape=record,label="{%28:\l\l  %29 = load i32, i32* @status_level, align 4, !dbg !403, !tbaa !370\l  %30 = icmp eq i32 %29, 2, !dbg !405\l  br i1 %30, label %31, label %32, !dbg !406\l|{<s0>T|<s1>F}}"];
+	Node0x24a8030:s0 -> Node0x24a8080;
+	Node0x24a8030:s1 -> Node0x24a80d0;
+	Node0x24a8080 [shape=record,label="{%31:\l\l  br label %33, !dbg !407\l}"];
+	Node0x24a8080 -> Node0x24a8120;
+	Node0x24a80d0 [shape=record,label="{%32:\l\l  call void @print_xfer_stats(i64 0), !dbg !408\l  br label %33, !dbg !409\l}"];
+	Node0x24a80d0 -> Node0x24a8120;
+	Node0x24a8120 [shape=record,label="{%33:\l\l  ret void, !dbg !409\l}"];
+}

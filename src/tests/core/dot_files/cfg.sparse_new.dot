@@ -1,0 +1,5 @@
+digraph "CFG for 'sparse_new' function" {
+	label="CFG for 'sparse_new' function";
+
+	Node0x1e37f40 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !750\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !749, metadata\l... !DIExpression()), !dbg !754\l  %3 = load i64, i64* %2, align 8, !dbg !755, !tbaa !750\l  %4 = call %struct.hash_table* @hash_initialize(i64 %3, %struct.hash_tuning*\l... null, i64 (i8*, i64)* @sparse_hash_, i1 (i8*, i8*)* @sparse_cmp_, void (i8*)*\l... @free), !dbg !756\l  ret %struct.hash_table* %4, !dbg !757\l}"];
+}

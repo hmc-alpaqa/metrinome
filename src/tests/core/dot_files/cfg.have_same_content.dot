@@ -1,0 +1,24 @@
+digraph "CFG for 'have_same_content' function" {
+	label="CFG for 'have_same_content' function";
+
+	Node0x926180 [shape=record,label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  %6 = alloca i64, align 8\l  %7 = alloca i32, align 4\l  store i32 %0, i32* %4, align 4, !tbaa !257\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !191, metadata\l... !DIExpression()), !dbg !261\l  store i32 %1, i32* %5, align 4, !tbaa !257\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !192, metadata\l... !DIExpression()), !dbg !262\l  %8 = bitcast i64* %6 to i8*, !dbg !263\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #11, !dbg !263\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !193, metadata\l... !DIExpression()), !dbg !264\l  br label %9, !dbg !265\l}"];
+	Node0x926180 -> Node0x9261d0;
+	Node0x9261d0 [shape=record,label="{%9:\l\l  %10 = load i32, i32* %4, align 4, !dbg !266, !tbaa !257\l  %11 = call i64 @full_read(i32 %10, i8* getelementptr inbounds ([4096 x i8],\l... [4096 x i8]* @have_same_content.a_buff, i32 0, i32 0), i64 4096), !dbg !267\l  store i64 %11, i64* %6, align 8, !dbg !268, !tbaa !269\l  %12 = icmp ult i64 0, %11, !dbg !271\l  br i1 %12, label %13, label %25, !dbg !265\l|{<s0>T|<s1>F}}"];
+	Node0x9261d0:s0 -> Node0x926220;
+	Node0x9261d0:s1 -> Node0x9263b0;
+	Node0x926220 [shape=record,label="{%13:\l\l  %14 = load i64, i64* %6, align 8, !dbg !272, !tbaa !269\l  %15 = load i32, i32* %5, align 4, !dbg !275, !tbaa !257\l  %16 = call i64 @full_read(i32 %15, i8* getelementptr inbounds ([4096 x i8],\l... [4096 x i8]* @have_same_content.b_buff, i32 0, i32 0), i64 4096), !dbg !276\l  %17 = icmp ne i64 %14, %16, !dbg !277\l  br i1 %17, label %18, label %19, !dbg !278\l|{<s0>T|<s1>F}}"];
+	Node0x926220:s0 -> Node0x926270;
+	Node0x926220:s1 -> Node0x9262c0;
+	Node0x926270 [shape=record,label="{%18:\l\l  store i1 false, i1* %3, align 1, !dbg !279\l  store i32 1, i32* %7, align 4\l  br label %28, !dbg !279\l}"];
+	Node0x926270 -> Node0x926400;
+	Node0x9262c0 [shape=record,label="{%19:\l\l  %20 = load i64, i64* %6, align 8, !dbg !280, !tbaa !269\l  %21 = call i32 @memcmp(i8* getelementptr inbounds ([4096 x i8], [4096 x i8]*\l... @have_same_content.a_buff, i32 0, i32 0), i8* getelementptr inbounds ([4096 x\l... i8], [4096 x i8]* @have_same_content.b_buff, i32 0, i32 0), i64 %20) #12,\l... !dbg !282\l  %22 = icmp ne i32 %21, 0, !dbg !283\l  br i1 %22, label %23, label %24, !dbg !284\l|{<s0>T|<s1>F}}"];
+	Node0x9262c0:s0 -> Node0x926310;
+	Node0x9262c0:s1 -> Node0x926360;
+	Node0x926310 [shape=record,label="{%23:\l\l  store i1 false, i1* %3, align 1, !dbg !285\l  store i32 1, i32* %7, align 4\l  br label %28, !dbg !285\l}"];
+	Node0x926310 -> Node0x926400;
+	Node0x926360 [shape=record,label="{%24:\l\l  br label %9, !dbg !265, !llvm.loop !286\l}"];
+	Node0x926360 -> Node0x9261d0;
+	Node0x9263b0 [shape=record,label="{%25:\l\l  %26 = load i64, i64* %6, align 8, !dbg !288, !tbaa !269\l  %27 = icmp eq i64 %26, 0, !dbg !289\l  store i1 %27, i1* %3, align 1, !dbg !290\l  store i32 1, i32* %7, align 4\l  br label %28, !dbg !290\l}"];
+	Node0x9263b0 -> Node0x926400;
+	Node0x926400 [shape=record,label="{%28:\l\l  %29 = bitcast i64* %6 to i8*, !dbg !291\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %29) #11, !dbg !291\l  %30 = load i1, i1* %3, align 1, !dbg !291\l  ret i1 %30, !dbg !291\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'security_compute_create' function" {
+	label="CFG for 'security_compute_create' function";
+
+	Node0xae0640 [shape=record,label="{%4:\l  %5 = alloca i8*, align 8\l  %6 = alloca i8*, align 8\l  %7 = alloca i16, align 2\l  %8 = alloca i8**, align 8\l  store i8* %0, i8** %5, align 8, !tbaa !600\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !596, metadata\l... !DIExpression()), !dbg !604\l  store i8* %1, i8** %6, align 8, !tbaa !600\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !597, metadata\l... !DIExpression()), !dbg !605\l  store i16 %2, i16* %7, align 2, !tbaa !606\l  call void @llvm.dbg.declare(metadata i16* %7, metadata !598, metadata\l... !DIExpression()), !dbg !608\l  store i8** %3, i8*** %8, align 8, !tbaa !600\l  call void @llvm.dbg.declare(metadata i8*** %8, metadata !599, metadata\l... !DIExpression()), !dbg !609\l  %9 = call i32* @__errno_location() #13, !dbg !610\l  store i32 95, i32* %9, align 4, !dbg !611, !tbaa !612\l  ret i32 -1, !dbg !614\l}"];
+}

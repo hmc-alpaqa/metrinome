@@ -1,0 +1,5 @@
+digraph "CFG for 'free_permission_context' function" {
+	label="CFG for 'free_permission_context' function";
+
+	Node0x2c46160 [shape=record,label="{%1:\l  %2 = alloca %struct.permission_context*, align 8\l  store %struct.permission_context* %0, %struct.permission_context** %2, align\l... 8, !tbaa !1545\l  call void @llvm.dbg.declare(metadata %struct.permission_context** %2,\l... metadata !1544, metadata !DIExpression()), !dbg !1549\l  ret void, !dbg !1550\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'try_dir' function" {
+	label="CFG for 'try_dir' function";
+
+	Node0x25b32a0 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !947\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !945, metadata\l... !DIExpression()), !dbg !951\l  store i8* %1, i8** %4, align 8, !tbaa !947\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !946, metadata\l... !DIExpression()), !dbg !952\l  %5 = load i8*, i8** %3, align 8, !dbg !953, !tbaa !947\l  %6 = call i32 @mkdir(i8* %5, i32 448) #13, !dbg !954\l  ret i32 %6, !dbg !955\l}"];
+}

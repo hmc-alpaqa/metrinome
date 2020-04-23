@@ -1,0 +1,22 @@
+digraph "CFG for 'xrealloc' function" {
+	label="CFG for 'xrealloc' function";
+
+	Node0x148b270 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca i64, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !617\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !615, metadata\l... !DIExpression()), !dbg !621\l  store i64 %1, i64* %5, align 8, !tbaa !622\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !616, metadata\l... !DIExpression()), !dbg !624\l  %6 = load i64, i64* %5, align 8, !dbg !625, !tbaa !622\l  %7 = icmp ne i64 %6, 0, !dbg !625\l  br i1 %7, label %13, label %8, !dbg !627\l|{<s0>T|<s1>F}}"];
+	Node0x148b270:s0 -> Node0x148b360;
+	Node0x148b270:s1 -> Node0x148b2c0;
+	Node0x148b2c0 [shape=record,label="{%8:\l\l  %9 = load i8*, i8** %4, align 8, !dbg !628, !tbaa !617\l  %10 = icmp ne i8* %9, null, !dbg !628\l  br i1 %10, label %11, label %13, !dbg !629\l|{<s0>T|<s1>F}}"];
+	Node0x148b2c0:s0 -> Node0x148b310;
+	Node0x148b2c0:s1 -> Node0x148b360;
+	Node0x148b310 [shape=record,label="{%11:\l\l  %12 = load i8*, i8** %4, align 8, !dbg !630, !tbaa !617\l  call void @free(i8* %12) #11, !dbg !632\l  store i8* null, i8** %3, align 8, !dbg !633\l  br label %25, !dbg !633\l}"];
+	Node0x148b310 -> Node0x148b4a0;
+	Node0x148b360 [shape=record,label="{%13:\l\l  %14 = load i8*, i8** %4, align 8, !dbg !634, !tbaa !617\l  %15 = load i64, i64* %5, align 8, !dbg !635, !tbaa !622\l  %16 = call i8* @realloc(i8* %14, i64 %15) #11, !dbg !636\l  store i8* %16, i8** %4, align 8, !dbg !637, !tbaa !617\l  %17 = load i8*, i8** %4, align 8, !dbg !638, !tbaa !617\l  %18 = icmp ne i8* %17, null, !dbg !638\l  br i1 %18, label %23, label %19, !dbg !640\l|{<s0>T|<s1>F}}"];
+	Node0x148b360:s0 -> Node0x148b450;
+	Node0x148b360:s1 -> Node0x148b3b0;
+	Node0x148b3b0 [shape=record,label="{%19:\l\l  %20 = load i64, i64* %5, align 8, !dbg !641, !tbaa !622\l  %21 = icmp ne i64 %20, 0, !dbg !641\l  br i1 %21, label %22, label %23, !dbg !642\l|{<s0>T|<s1>F}}"];
+	Node0x148b3b0:s0 -> Node0x148b400;
+	Node0x148b3b0:s1 -> Node0x148b450;
+	Node0x148b400 [shape=record,label="{%22:\l\l  call void @xalloc_die() #13, !dbg !643\l  unreachable, !dbg !643\l}"];
+	Node0x148b450 [shape=record,label="{%23:\l\l  %24 = load i8*, i8** %4, align 8, !dbg !644, !tbaa !617\l  store i8* %24, i8** %3, align 8, !dbg !645\l  br label %25, !dbg !645\l}"];
+	Node0x148b450 -> Node0x148b4a0;
+	Node0x148b4a0 [shape=record,label="{%25:\l\l  %26 = load i8*, i8** %3, align 8, !dbg !646\l  ret i8* %26, !dbg !646\l}"];
+}

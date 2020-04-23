@@ -1,0 +1,19 @@
+digraph "CFG for 'gethrxtime' function" {
+	label="CFG for 'gethrxtime' function";
+
+	Node0x1900070 [shape=record,label="{%0:\l  %1 = alloca i64, align 8\l  %2 = alloca %struct.timespec, align 8\l  %3 = alloca i32, align 4\l  %4 = alloca %struct.timespec, align 8\l  %5 = bitcast %struct.timespec* %2 to i8*, !dbg !1002\l  call void @llvm.lifetime.start.p0i8(i64 16, i8* %5) #12, !dbg !1002\l  call void @llvm.dbg.declare(metadata %struct.timespec* %2, metadata !991,\l... metadata !DIExpression()), !dbg !1003\l  %6 = call i32 @clock_gettime(i32 1, %struct.timespec* %2) #12, !dbg !1004\l  %7 = icmp eq i32 %6, 0, !dbg !1006\l  br i1 %7, label %8, label %14, !dbg !1007\l|{<s0>T|<s1>F}}"];
+	Node0x1900070:s0 -> Node0x19030c0;
+	Node0x1900070:s1 -> Node0x1903110;
+	Node0x19030c0 [shape=record,label="{%8:\l\l  %9 = getelementptr inbounds %struct.timespec, %struct.timespec* %2, i32 0,\l... i32 0, !dbg !1008\l  %10 = load i64, i64* %9, align 8, !dbg !1008, !tbaa !1009\l  %11 = getelementptr inbounds %struct.timespec, %struct.timespec* %2, i32 0,\l... i32 1, !dbg !1014\l  %12 = load i64, i64* %11, align 8, !dbg !1014, !tbaa !1015\l  %13 = call i64 @xtime_make(i64 %10, i64 %12), !dbg !1016\l  store i64 %13, i64* %1, align 8, !dbg !1017\l  store i32 1, i32* %3, align 4\l  br label %15, !dbg !1017\l}"];
+	Node0x19030c0 -> Node0x1903160;
+	Node0x1903110 [shape=record,label="{%14:\l\l  store i32 0, i32* %3, align 4, !dbg !1018\l  br label %15, !dbg !1018\l}"];
+	Node0x1903110 -> Node0x1903160;
+	Node0x1903160 [shape=record,label="{%15:\l\l  %16 = bitcast %struct.timespec* %2 to i8*, !dbg !1018\l  call void @llvm.lifetime.end.p0i8(i64 16, i8* %16) #12, !dbg !1018\l  %17 = load i32, i32* %3, align 4\l  switch i32 %17, label %28 [\l    i32 0, label %18\l    i32 1, label %26\l  ]\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x1903160:s0 -> Node0x1903250;
+	Node0x1903160:s1 -> Node0x19031b0;
+	Node0x1903160:s2 -> Node0x1903200;
+	Node0x19031b0 [shape=record,label="{%18:\l\l  %19 = bitcast %struct.timespec* %4 to i8*, !dbg !1019\l  call void @llvm.lifetime.start.p0i8(i64 16, i8* %19) #12, !dbg !1019\l  call void @llvm.dbg.declare(metadata %struct.timespec* %4, metadata !1000,\l... metadata !DIExpression()), !dbg !1020\l  call void @gettime(%struct.timespec* %4), !dbg !1021\l  %20 = getelementptr inbounds %struct.timespec, %struct.timespec* %4, i32 0,\l... i32 0, !dbg !1022\l  %21 = load i64, i64* %20, align 8, !dbg !1022, !tbaa !1009\l  %22 = getelementptr inbounds %struct.timespec, %struct.timespec* %4, i32 0,\l... i32 1, !dbg !1023\l  %23 = load i64, i64* %22, align 8, !dbg !1023, !tbaa !1015\l  %24 = call i64 @xtime_make(i64 %21, i64 %23), !dbg !1024\l  store i64 %24, i64* %1, align 8, !dbg !1025\l  store i32 1, i32* %3, align 4\l  %25 = bitcast %struct.timespec* %4 to i8*, !dbg !1026\l  call void @llvm.lifetime.end.p0i8(i64 16, i8* %25) #12, !dbg !1026\l  br label %26\l}"];
+	Node0x19031b0 -> Node0x1903200;
+	Node0x1903200 [shape=record,label="{%26:\l\l  %27 = load i64, i64* %1, align 8, !dbg !1027\l  ret i64 %27, !dbg !1027\l}"];
+	Node0x1903250 [shape=record,label="{%28:\l\l  unreachable\l}"];
+}

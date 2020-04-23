@@ -1,0 +1,5 @@
+digraph "CFG for 'errno_fail' function" {
+	label="CFG for 'errno_fail' function";
+
+	Node0x14718f0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !807\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !806, metadata\l... !DIExpression()), !dbg !811\l  %3 = load i32, i32* %2, align 4, !dbg !812, !tbaa !807\l  %4 = call i32* @__errno_location() #13, !dbg !813\l  store i32 %3, i32* %4, align 4, !dbg !814, !tbaa !807\l  ret i32 -1, !dbg !815\l}"];
+}

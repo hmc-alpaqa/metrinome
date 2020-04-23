@@ -1,0 +1,16 @@
+digraph "CFG for 'initialize_signals' function" {
+	label="CFG for 'initialize_signals' function";
+
+	Node0x21120d0 [shape=record,label="{%0:\l  %1 = alloca i32, align 4\l  %2 = call noalias i8* @xmalloc(i64 260), !dbg !167\l  %3 = bitcast i8* %2 to i32*, !dbg !167\l  store i32* %3, i32** @signals, align 8, !dbg !168, !tbaa !169\l  %4 = bitcast i32* %1 to i8*, !dbg !173\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %4) #12, !dbg !173\l  call void @llvm.dbg.declare(metadata i32* %1, metadata !165, metadata\l... !DIExpression()), !dbg !174\l  store i32 0, i32* %1, align 4, !dbg !174, !tbaa !175\l  br label %5, !dbg !173\l}"];
+	Node0x21120d0 -> Node0x2112980;
+	Node0x2112980 [shape=record,label="{%5:\l\l  %6 = load i32, i32* %1, align 4, !dbg !177, !tbaa !175\l  %7 = icmp sle i32 %6, 64, !dbg !179\l  br i1 %7, label %10, label %8, !dbg !180\l|{<s0>T|<s1>F}}"];
+	Node0x2112980:s0 -> Node0x2112a20;
+	Node0x2112980:s1 -> Node0x21129d0;
+	Node0x21129d0 [shape=record,label="{%8:\l\l  %9 = bitcast i32* %1 to i8*, !dbg !181\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %9) #12, !dbg !181\l  br label %18\l}"];
+	Node0x21129d0 -> Node0x2112ac0;
+	Node0x2112a20 [shape=record,label="{%10:\l\l  %11 = load i32*, i32** @signals, align 8, !dbg !182, !tbaa !169\l  %12 = load i32, i32* %1, align 4, !dbg !183, !tbaa !175\l  %13 = sext i32 %12 to i64, !dbg !182\l  %14 = getelementptr inbounds i32, i32* %11, i64 %13, !dbg !182\l  store i32 0, i32* %14, align 4, !dbg !184, !tbaa !185\l  br label %15, !dbg !182\l}"];
+	Node0x2112a20 -> Node0x2112a70;
+	Node0x2112a70 [shape=record,label="{%15:\l\l  %16 = load i32, i32* %1, align 4, !dbg !186, !tbaa !175\l  %17 = add nsw i32 %16, 1, !dbg !186\l  store i32 %17, i32* %1, align 4, !dbg !186, !tbaa !175\l  br label %5, !dbg !181, !llvm.loop !187\l}"];
+	Node0x2112a70 -> Node0x2112980;
+	Node0x2112ac0 [shape=record,label="{%18:\l\l  ret void, !dbg !189\l}"];
+}

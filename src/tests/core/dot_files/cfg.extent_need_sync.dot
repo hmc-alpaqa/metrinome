@@ -1,0 +1,5 @@
+digraph "CFG for 'extent_need_sync' function" {
+	label="CFG for 'extent_need_sync' function";
+
+	Node0x102c790 [shape=record,label="{%0:\l  ret i1 true, !dbg !107\l}"];
+}

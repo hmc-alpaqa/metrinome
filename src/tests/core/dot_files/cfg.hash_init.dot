@@ -1,0 +1,9 @@
+digraph "CFG for 'hash_init' function" {
+	label="CFG for 'hash_init' function";
+
+	Node0x28b0c10 [shape=record,label="{%0:\l  %1 = call %struct.hash_table* @hash_initialize(i64 103, %struct.hash_tuning*\l... null, i64 (i8*, i64)* @src_to_dest_hash, i1 (i8*, i8*)* @src_to_dest_compare,\l... void (i8*)* @src_to_dest_free), !dbg !1536\l  store %struct.hash_table* %1, %struct.hash_table** @src_to_dest, align 8,\l... !dbg !1537, !tbaa !1538\l  %2 = load %struct.hash_table*, %struct.hash_table** @src_to_dest, align 8,\l... !dbg !1542, !tbaa !1538\l  %3 = icmp eq %struct.hash_table* %2, null, !dbg !1544\l  br i1 %3, label %4, label %5, !dbg !1545\l|{<s0>T|<s1>F}}"];
+	Node0x28b0c10:s0 -> Node0x28b3c30;
+	Node0x28b0c10:s1 -> Node0x28b3c80;
+	Node0x28b3c30 [shape=record,label="{%4:\l\l  call void @xalloc_die() #16, !dbg !1546\l  unreachable, !dbg !1546\l}"];
+	Node0x28b3c80 [shape=record,label="{%5:\l\l  ret void, !dbg !1547\l}"];
+}

@@ -1,0 +1,9 @@
+digraph "CFG for 'isdir' function" {
+	label="CFG for 'isdir' function";
+
+	Node0x24303e0 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca %struct.stat, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !730\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !691, metadata\l... !DIExpression()), !dbg !734\l  %4 = bitcast %struct.stat* %3 to i8*, !dbg !735\l  call void @llvm.lifetime.start.p0i8(i64 144, i8* %4) #13, !dbg !735\l  call void @llvm.dbg.declare(metadata %struct.stat* %3, metadata !692,\l... metadata !DIExpression()), !dbg !736\l  %5 = load i8*, i8** %2, align 8, !dbg !737, !tbaa !730\l  %6 = call i32 @stat(i8* %5, %struct.stat* %3) #13, !dbg !739\l  %7 = icmp ne i32 %6, 0, !dbg !740\l  br i1 %7, label %8, label %13, !dbg !741\l|{<s0>T|<s1>F}}"];
+	Node0x24303e0:s0 -> Node0x24454b0;
+	Node0x24303e0:s1 -> Node0x2445500;
+	Node0x24454b0 [shape=record,label="{%8:\l\l  %9 = call i32* @__errno_location() #14, !dbg !742\l  %10 = load i32, i32* %9, align 4, !dbg !742, !tbaa !743\l  %11 = load i8*, i8** %2, align 8, !dbg !742, !tbaa !730\l  %12 = call i8* @quotearg_style(i32 4, i8* %11), !dbg !742\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 %10, i8* getelementptr\l... inbounds ([15 x i8], [15 x i8]* @.str.41, i32 0, i32 0), i8* %12), !dbg !742\l  unreachable, !dbg !742\l}"];
+	Node0x2445500 [shape=record,label="{%13:\l\l  %14 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 3,\l... !dbg !745\l  %15 = load i32, i32* %14, align 8, !dbg !745, !tbaa !746\l  %16 = and i32 %15, 61440, !dbg !745\l  %17 = icmp eq i32 %16, 16384, !dbg !745\l  %18 = bitcast %struct.stat* %3 to i8*, !dbg !750\l  call void @llvm.lifetime.end.p0i8(i64 144, i8* %18) #13, !dbg !750\l  ret i1 %17, !dbg !751\l}"];
+}

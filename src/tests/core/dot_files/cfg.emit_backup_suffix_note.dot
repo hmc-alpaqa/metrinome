@@ -1,0 +1,5 @@
+digraph "CFG for 'emit_backup_suffix_note' function" {
+	label="CFG for 'emit_backup_suffix_note' function";
+
+	Node0x8a4890 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !262,\l... !tbaa !263\l  %2 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([221 x i8], [221 x\l... i8]* @.str.34, i32 0, i32 0), %struct._IO_FILE* %1), !dbg !262\l  %3 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !267,\l... !tbaa !263\l  %4 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([222 x i8], [222 x\l... i8]* @.str.35, i32 0, i32 0), %struct._IO_FILE* %3), !dbg !267\l  ret void, !dbg !268\l}"];
+}

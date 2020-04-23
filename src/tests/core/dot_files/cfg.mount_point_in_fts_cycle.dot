@@ -1,0 +1,33 @@
+digraph "CFG for 'mount_point_in_fts_cycle' function" {
+	label="CFG for 'mount_point_in_fts_cycle' function";
+
+	Node0x12afbf0 [shape=record,label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca %struct._ftsent*, align 8\l  %4 = alloca %struct._ftsent*, align 8\l  %5 = alloca i32, align 4\l  store %struct._ftsent* %0, %struct._ftsent** %3, align 8, !tbaa !421\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %3, metadata !419,\l... metadata !DIExpression()), !dbg !425\l  %6 = bitcast %struct._ftsent** %4 to i8*, !dbg !426\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #12, !dbg !426\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %4, metadata !420,\l... metadata !DIExpression()), !dbg !427\l  %7 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !428, !tbaa\l... !421\l  %8 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %7, i32 0, i32\l... 0, !dbg !429\l  %9 = load %struct._ftsent*, %struct._ftsent** %8, align 8, !dbg !429, !tbaa\l... !421\l  store %struct._ftsent* %9, %struct._ftsent** %4, align 8, !dbg !427, !tbaa\l... !421\l  %10 = load %struct.di_set*, %struct.di_set** @di_mnt, align 8, !dbg !430,\l... !tbaa !421\l  %11 = icmp ne %struct.di_set* %10, null, !dbg !430\l  br i1 %11, label %18, label %12, !dbg !432\l|{<s0>T|<s1>F}}"];
+	Node0x12afbf0:s0 -> Node0x12b1530;
+	Node0x12afbf0:s1 -> Node0x12b1440;
+	Node0x12b1440 [shape=record,label="{%12:\l\l  %13 = call %struct.di_set* @di_set_alloc(), !dbg !433\l  store %struct.di_set* %13, %struct.di_set** @di_mnt, align 8, !dbg !435,\l... !tbaa !421\l  %14 = load %struct.di_set*, %struct.di_set** @di_mnt, align 8, !dbg !436,\l... !tbaa !421\l  %15 = icmp ne %struct.di_set* %14, null, !dbg !436\l  br i1 %15, label %17, label %16, !dbg !438\l|{<s0>T|<s1>F}}"];
+	Node0x12b1440:s0 -> Node0x12b14e0;
+	Node0x12b1440:s1 -> Node0x12b1490;
+	Node0x12b1490 [shape=record,label="{%16:\l\l  call void @xalloc_die() #13, !dbg !439\l  unreachable, !dbg !439\l}"];
+	Node0x12b14e0 [shape=record,label="{%17:\l\l  call void @fill_mount_table(), !dbg !440\l  br label %18, !dbg !441\l}"];
+	Node0x12b14e0 -> Node0x12b1530;
+	Node0x12b1530 [shape=record,label="{%18:\l\l  br label %19, !dbg !442\l}"];
+	Node0x12b1530 -> Node0x12b1580;
+	Node0x12b1580 [shape=record,label="{%19:\l\l  %20 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !443, !tbaa\l... !421\l  %21 = icmp ne %struct._ftsent* %20, null, !dbg !443\l  br i1 %21, label %22, label %26, !dbg !444\l|{<s0>T|<s1>F}}"];
+	Node0x12b1580:s0 -> Node0x12b15d0;
+	Node0x12b1580:s1 -> Node0x12b1620;
+	Node0x12b15d0 [shape=record,label="{%22:\l\l  %23 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !445, !tbaa\l... !421\l  %24 = load %struct._ftsent*, %struct._ftsent** %4, align 8, !dbg !446, !tbaa\l... !421\l  %25 = icmp ne %struct._ftsent* %23, %24, !dbg !447\l  br label %26\l}"];
+	Node0x12b15d0 -> Node0x12b1620;
+	Node0x12b1620 [shape=record,label="{%26:\l\l  %27 = phi i1 [ false, %19 ], [ %25, %22 ], !dbg !448\l  br i1 %27, label %28, label %47, !dbg !442\l|{<s0>T|<s1>F}}"];
+	Node0x12b1620:s0 -> Node0x12b1670;
+	Node0x12b1620:s1 -> Node0x12b1760;
+	Node0x12b1670 [shape=record,label="{%28:\l\l  %29 = load %struct.di_set*, %struct.di_set** @di_mnt, align 8, !dbg !449,\l... !tbaa !421\l  %30 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !452, !tbaa\l... !421\l  %31 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %30, i32 0,\l... i32 18, !dbg !453\l  %32 = getelementptr inbounds [1 x %struct.stat], [1 x %struct.stat]* %31,\l... i32 0, i32 0, !dbg !454\l  %33 = getelementptr inbounds %struct.stat, %struct.stat* %32, i32 0, i32 0,\l... !dbg !454\l  %34 = load i64, i64* %33, align 8, !dbg !454, !tbaa !455\l  %35 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !460, !tbaa\l... !421\l  %36 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %35, i32 0,\l... i32 18, !dbg !461\l  %37 = getelementptr inbounds [1 x %struct.stat], [1 x %struct.stat]* %36,\l... i32 0, i32 0, !dbg !462\l  %38 = getelementptr inbounds %struct.stat, %struct.stat* %37, i32 0, i32 1,\l... !dbg !462\l  %39 = load i64, i64* %38, align 8, !dbg !462, !tbaa !463\l  %40 = call i32 @di_set_lookup(%struct.di_set* %29, i64 %34, i64 %39), !dbg\l... !464\l  %41 = icmp sgt i32 %40, 0, !dbg !465\l  br i1 %41, label %42, label %43, !dbg !466\l|{<s0>T|<s1>F}}"];
+	Node0x12b1670:s0 -> Node0x12b16c0;
+	Node0x12b1670:s1 -> Node0x12b1710;
+	Node0x12b16c0 [shape=record,label="{%42:\l\l  store i1 true, i1* %2, align 1, !dbg !467\l  store i32 1, i32* %5, align 4\l  br label %48, !dbg !467\l}"];
+	Node0x12b16c0 -> Node0x12b17b0;
+	Node0x12b1710 [shape=record,label="{%43:\l\l  %44 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !469, !tbaa\l... !421\l  %45 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %44, i32 0,\l... i32 1, !dbg !470\l  %46 = load %struct._ftsent*, %struct._ftsent** %45, align 8, !dbg !470,\l... !tbaa !421\l  store %struct._ftsent* %46, %struct._ftsent** %3, align 8, !dbg !471, !tbaa\l... !421\l  br label %19, !dbg !442, !llvm.loop !472\l}"];
+	Node0x12b1710 -> Node0x12b1580;
+	Node0x12b1760 [shape=record,label="{%47:\l\l  store i1 false, i1* %2, align 1, !dbg !474\l  store i32 1, i32* %5, align 4\l  br label %48, !dbg !474\l}"];
+	Node0x12b1760 -> Node0x12b17b0;
+	Node0x12b17b0 [shape=record,label="{%48:\l\l  %49 = bitcast %struct._ftsent** %4 to i8*, !dbg !475\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %49) #12, !dbg !475\l  %50 = load i1, i1* %2, align 1, !dbg !475\l  ret i1 %50, !dbg !475\l}"];
+}

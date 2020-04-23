@@ -1,0 +1,5 @@
+digraph "CFG for 'key_init' function" {
+	label="CFG for 'key_init' function";
+
+	Node0x1e566a0 [shape=record,label="{%1:\l  %2 = alloca %struct.keyfield*, align 8\l  store %struct.keyfield* %0, %struct.keyfield** %2, align 8, !tbaa !1741\l  call void @llvm.dbg.declare(metadata %struct.keyfield** %2, metadata !1740,\l... metadata !DIExpression()), !dbg !1745\l  %3 = load %struct.keyfield*, %struct.keyfield** %2, align 8, !dbg !1746,\l... !tbaa !1741\l  %4 = bitcast %struct.keyfield* %3 to i8*, !dbg !1747\l  call void @llvm.memset.p0i8.i64(i8* align 8 %4, i8 0, i64 72, i1 false),\l... !dbg !1747\l  %5 = load %struct.keyfield*, %struct.keyfield** %2, align 8, !dbg !1748,\l... !tbaa !1741\l  %6 = getelementptr inbounds %struct.keyfield, %struct.keyfield* %5, i32 0,\l... i32 2, !dbg !1749\l  store i64 -1, i64* %6, align 8, !dbg !1750, !tbaa !1751\l  %7 = load %struct.keyfield*, %struct.keyfield** %2, align 8, !dbg !1755,\l... !tbaa !1741\l  ret %struct.keyfield* %7, !dbg !1756\l}"];
+}

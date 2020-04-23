@@ -1,0 +1,10 @@
+digraph "CFG for 'get_s1_spec_stats' function" {
+	label="CFG for 'get_s1_spec_stats' function";
+
+	Node0x140dc70 [shape=record,label="{%1:\l  %2 = alloca %struct.Spec_list*, align 8\l  store %struct.Spec_list* %0, %struct.Spec_list** %2, align 8, !tbaa !172\l  call void @llvm.dbg.declare(metadata %struct.Spec_list** %2, metadata !171,\l... metadata !DIExpression()), !dbg !176\l  %3 = load %struct.Spec_list*, %struct.Spec_list** %2, align 8, !dbg !177,\l... !tbaa !172\l  call void @get_spec_stats(%struct.Spec_list* %3), !dbg !178\l  %4 = load i8, i8* @complement, align 1, !dbg !179, !tbaa !181, !range !183\l  %5 = trunc i8 %4 to i1, !dbg !179\l  br i1 %5, label %6, label %12, !dbg !184\l|{<s0>T|<s1>F}}"];
+	Node0x140dc70:s0 -> Node0x140f550;
+	Node0x140dc70:s1 -> Node0x140f5a0;
+	Node0x140f550 [shape=record,label="{%6:\l\l  %7 = load %struct.Spec_list*, %struct.Spec_list** %2, align 8, !dbg !185,\l... !tbaa !172\l  %8 = call i32 @card_of_complement(%struct.Spec_list* %7), !dbg !186\l  %9 = sext i32 %8 to i64, !dbg !186\l  %10 = load %struct.Spec_list*, %struct.Spec_list** %2, align 8, !dbg !187,\l... !tbaa !172\l  %11 = getelementptr inbounds %struct.Spec_list, %struct.Spec_list* %10, i32\l... 0, i32 3, !dbg !188\l  store i64 %9, i64* %11, align 8, !dbg !189, !tbaa !190\l  br label %12, !dbg !187\l}"];
+	Node0x140f550 -> Node0x140f5a0;
+	Node0x140f5a0 [shape=record,label="{%12:\l\l  ret void, !dbg !193\l}"];
+}

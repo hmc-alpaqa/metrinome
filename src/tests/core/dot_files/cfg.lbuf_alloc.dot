@@ -1,0 +1,12 @@
+digraph "CFG for 'lbuf_alloc' function" {
+	label="CFG for 'lbuf_alloc' function";
+
+	Node0x1691050 [shape=record,label="{%0:\l  %1 = load i8*, i8** getelementptr inbounds (%struct.infomap,\l... %struct.infomap* @lbuf, i32 0, i32 0), align 8, !dbg !731, !tbaa !733\l  %2 = icmp ne i8* %1, null, !dbg !738\l  br i1 %2, label %3, label %4, !dbg !739\l|{<s0>T|<s1>F}}"];
+	Node0x1691050:s0 -> Node0x1685370;
+	Node0x1691050:s1 -> Node0x16853c0;
+	Node0x1685370 [shape=record,label="{%3:\l\l  br label %7, !dbg !740\l}"];
+	Node0x1685370 -> Node0x1685410;
+	Node0x16853c0 [shape=record,label="{%4:\l\l  %5 = call noalias i8* @xmalloc(i64 1024), !dbg !741\l  store i8* %5, i8** getelementptr inbounds (%struct.infomap, %struct.infomap*\l... @lbuf, i32 0, i32 0), align 8, !dbg !742, !tbaa !733\l  %6 = load i8*, i8** getelementptr inbounds (%struct.infomap,\l... %struct.infomap* @lbuf, i32 0, i32 0), align 8, !dbg !743, !tbaa !733\l  store i8* %6, i8** getelementptr inbounds (%struct.infomap, %struct.infomap*\l... @lbuf, i32 0, i32 1), align 8, !dbg !744, !tbaa !745\l  br label %7, !dbg !746\l}"];
+	Node0x16853c0 -> Node0x1685410;
+	Node0x1685410 [shape=record,label="{%7:\l\l  ret void, !dbg !746\l}"];
+}

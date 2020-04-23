@@ -1,0 +1,17 @@
+digraph "CFG for 'dot_or_dotdot.105' function" {
+	label="CFG for 'dot_or_dotdot.105' function";
+
+	Node0x2775e60 [shape=record,label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i8*, align 8\l  %4 = alloca i8, align 1\l  store i8* %0, i8** %3, align 8, !tbaa !1544\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1540, metadata\l... !DIExpression()), !dbg !1548\l  %5 = load i8*, i8** %3, align 8, !dbg !1549, !tbaa !1544\l  %6 = getelementptr inbounds i8, i8* %5, i64 0, !dbg !1549\l  %7 = load i8, i8* %6, align 1, !dbg !1549, !tbaa !1550\l  %8 = sext i8 %7 to i32, !dbg !1549\l  %9 = icmp eq i32 %8, 46, !dbg !1551\l  br i1 %9, label %10, label %30, !dbg !1552\l|{<s0>T|<s1>F}}"];
+	Node0x2775e60:s0 -> Node0x2775ee0;
+	Node0x2775e60:s1 -> Node0x2775fd0;
+	Node0x2775ee0 [shape=record,label="{%10:\l\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %4) #15, !dbg !1553\l  call void @llvm.dbg.declare(metadata i8* %4, metadata !1541, metadata\l... !DIExpression()), !dbg !1554\l  %11 = load i8*, i8** %3, align 8, !dbg !1555, !tbaa !1544\l  %12 = load i8*, i8** %3, align 8, !dbg !1556, !tbaa !1544\l  %13 = getelementptr inbounds i8, i8* %12, i64 1, !dbg !1556\l  %14 = load i8, i8* %13, align 1, !dbg !1556, !tbaa !1550\l  %15 = sext i8 %14 to i32, !dbg !1556\l  %16 = icmp eq i32 %15, 46, !dbg !1557\l  %17 = zext i1 %16 to i32, !dbg !1557\l  %18 = add nsw i32 %17, 1, !dbg !1558\l  %19 = sext i32 %18 to i64, !dbg !1555\l  %20 = getelementptr inbounds i8, i8* %11, i64 %19, !dbg !1555\l  %21 = load i8, i8* %20, align 1, !dbg !1555, !tbaa !1550\l  store i8 %21, i8* %4, align 1, !dbg !1554, !tbaa !1550\l  %22 = load i8, i8* %4, align 1, !dbg !1559, !tbaa !1550\l  %23 = icmp ne i8 %22, 0, !dbg !1559\l  br i1 %23, label %24, label %28, !dbg !1560\l|{<s0>T|<s1>F}}"];
+	Node0x2775ee0:s0 -> Node0x2775f30;
+	Node0x2775ee0:s1 -> Node0x2775f80;
+	Node0x2775f30 [shape=record,label="{%24:\l\l  %25 = load i8, i8* %4, align 1, !dbg !1561, !tbaa !1550\l  %26 = sext i8 %25 to i32, !dbg !1561\l  %27 = icmp eq i32 %26, 47, !dbg !1561\l  br label %28, !dbg !1560\l}"];
+	Node0x2775f30 -> Node0x2775f80;
+	Node0x2775f80 [shape=record,label="{%28:\l\l  %29 = phi i1 [ true, %10 ], [ %27, %24 ]\l  store i1 %29, i1* %2, align 1, !dbg !1562\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %4) #15, !dbg !1563\l  br label %31\l}"];
+	Node0x2775f80 -> Node0x2776020;
+	Node0x2775fd0 [shape=record,label="{%30:\l\l  store i1 false, i1* %2, align 1, !dbg !1564\l  br label %31, !dbg !1564\l}"];
+	Node0x2775fd0 -> Node0x2776020;
+	Node0x2776020 [shape=record,label="{%31:\l\l  %32 = load i1, i1* %2, align 1, !dbg !1565\l  ret i1 %32, !dbg !1565\l}"];
+}

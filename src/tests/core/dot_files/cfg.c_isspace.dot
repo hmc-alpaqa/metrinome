@@ -1,0 +1,17 @@
+digraph "CFG for 'c_isspace' function" {
+	label="CFG for 'c_isspace' function";
+
+	Node0x13b56f0 [shape=record,label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !617\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !616, metadata\l... !DIExpression()), !dbg !621\l  %4 = load i32, i32* %3, align 4, !dbg !622, !tbaa !617\l  switch i32 %4, label %6 [\l    i32 32, label %5\l    i32 9, label %5\l    i32 10, label %5\l    i32 11, label %5\l    i32 12, label %5\l    i32 13, label %5\l  ], !dbg !623\l|{<s0>def|<s1>32|<s2>9|<s3>10|<s4>11|<s5>12|<s6>13}}"];
+	Node0x13b56f0:s0 -> Node0x13b57c0;
+	Node0x13b56f0:s1 -> Node0x13b5770;
+	Node0x13b56f0:s2 -> Node0x13b5770;
+	Node0x13b56f0:s3 -> Node0x13b5770;
+	Node0x13b56f0:s4 -> Node0x13b5770;
+	Node0x13b56f0:s5 -> Node0x13b5770;
+	Node0x13b56f0:s6 -> Node0x13b5770;
+	Node0x13b5770 [shape=record,label="{%5:\l\l  store i1 true, i1* %2, align 1, !dbg !624\l  br label %7, !dbg !624\l}"];
+	Node0x13b5770 -> Node0x13b5810;
+	Node0x13b57c0 [shape=record,label="{%6:\l\l  store i1 false, i1* %2, align 1, !dbg !626\l  br label %7, !dbg !626\l}"];
+	Node0x13b57c0 -> Node0x13b5810;
+	Node0x13b5810 [shape=record,label="{%7:\l\l  %8 = load i1, i1* %2, align 1, !dbg !627\l  ret i1 %8, !dbg !627\l}"];
+}

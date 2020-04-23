@@ -1,0 +1,9 @@
+digraph "CFG for 'xputchar' function" {
+	label="CFG for 'xputchar' function";
+
+	Node0x1410850 [shape=record,label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !616\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !615, metadata\l... !DIExpression()), !dbg !619\l  %3 = load i8, i8* %2, align 1, !dbg !620, !tbaa !616\l  %4 = sext i8 %3 to i32, !dbg !620\l  %5 = call i32 @putchar_unlocked(i32 %4), !dbg !620\l  %6 = icmp slt i32 %5, 0, !dbg !622\l  br i1 %6, label %7, label %8, !dbg !623\l|{<s0>T|<s1>F}}"];
+	Node0x1410850:s0 -> Node0x1410c50;
+	Node0x1410850:s1 -> Node0x1410ca0;
+	Node0x1410c50 [shape=record,label="{%7:\l\l  call void @write_error() #13, !dbg !624\l  unreachable, !dbg !624\l}"];
+	Node0x1410ca0 [shape=record,label="{%8:\l\l  ret void, !dbg !625\l}"];
+}

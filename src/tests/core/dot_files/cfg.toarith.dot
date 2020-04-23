@@ -1,0 +1,25 @@
+digraph "CFG for 'toarith' function" {
+	label="CFG for 'toarith' function";
+
+	Node0x9314e0 [shape=record,label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca %struct.valinfo*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca i32, align 4\l  store %struct.valinfo* %0, %struct.valinfo** %3, align 8, !tbaa !1063\l  call void @llvm.dbg.declare(metadata %struct.valinfo** %3, metadata !1059,\l... metadata !DIExpression()), !dbg !1067\l  %6 = load %struct.valinfo*, %struct.valinfo** %3, align 8, !dbg !1068, !tbaa\l... !1063\l  %7 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %6, i32 0, i32\l... 0, !dbg !1069\l  %8 = load i32, i32* %7, align 8, !dbg !1069, !tbaa !1070\l  switch i32 %8, label %35 [\l    i32 0, label %9\l    i32 1, label %10\l  ], !dbg !1072\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x9314e0:s0 -> Node0x9317f0;
+	Node0x9314e0:s1 -> Node0x9315c0;
+	Node0x9314e0:s2 -> Node0x931610;
+	Node0x9315c0 [shape=record,label="{%9:\l\l  store i1 true, i1* %2, align 1, !dbg !1073\l  br label %36, !dbg !1073\l}"];
+	Node0x9315c0 -> Node0x931840;
+	Node0x931610 [shape=record,label="{%10:\l\l  %11 = bitcast i8** %4 to i8*, !dbg !1074\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %11) #12, !dbg !1074\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1060, metadata\l... !DIExpression()), !dbg !1075\l  %12 = load %struct.valinfo*, %struct.valinfo** %3, align 8, !dbg !1076,\l... !tbaa !1063\l  %13 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %12, i32 0,\l... i32 1, !dbg !1077\l  %14 = bitcast %union.anon* %13 to i8**, !dbg !1078\l  %15 = load i8*, i8** %14, align 8, !dbg !1078, !tbaa !1079\l  store i8* %15, i8** %4, align 8, !dbg !1075, !tbaa !1063\l  %16 = load i8*, i8** %4, align 8, !dbg !1080, !tbaa !1063\l  %17 = call zeroext i1 @looks_like_integer(i8* %16) #16, !dbg !1082\l  br i1 %17, label %19, label %18, !dbg !1083\l|{<s0>T|<s1>F}}"];
+	Node0x931610:s0 -> Node0x9316b0;
+	Node0x931610:s1 -> Node0x931660;
+	Node0x931660 [shape=record,label="{%18:\l\l  store i1 false, i1* %2, align 1, !dbg !1084\l  store i32 1, i32* %5, align 4\l  br label %33, !dbg !1084\l}"];
+	Node0x931660 -> Node0x9317a0;
+	Node0x9316b0 [shape=record,label="{%19:\l\l  %20 = load %struct.valinfo*, %struct.valinfo** %3, align 8, !dbg !1085,\l... !tbaa !1063\l  %21 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %20, i32 0,\l... i32 1, !dbg !1087\l  %22 = bitcast %union.anon* %21 to [1 x i64]*, !dbg !1088\l  %23 = getelementptr inbounds [1 x i64], [1 x i64]* %22, i32 0, i32 0, !dbg\l... !1085\l  %24 = load i8*, i8** %4, align 8, !dbg !1089, !tbaa !1063\l  %25 = call i32 @mpz_init_set_str(i64* %23, i8* %24, i32 10), !dbg !1090\l  %26 = icmp ne i32 %25, 0, !dbg !1091\l  br i1 %26, label %27, label %29, !dbg !1092\l|{<s0>T|<s1>F}}"];
+	Node0x9316b0:s0 -> Node0x931700;
+	Node0x9316b0:s1 -> Node0x931750;
+	Node0x931700 [shape=record,label="{%27:\l\l  %28 = load i8*, i8** %4, align 8, !dbg !1093, !tbaa !1063\l  call void (i32, i32, i8*, ...) @error(i32 3, i32 34, i8* getelementptr\l... inbounds ([3 x i8], [3 x i8]* @.str.72, i32 0, i32 0), i8* %28), !dbg !1093\l  unreachable, !dbg !1093\l}"];
+	Node0x931750 [shape=record,label="{%29:\l\l  %30 = load i8*, i8** %4, align 8, !dbg !1094, !tbaa !1063\l  call void @free(i8* %30) #12, !dbg !1095\l  %31 = load %struct.valinfo*, %struct.valinfo** %3, align 8, !dbg !1096,\l... !tbaa !1063\l  %32 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %31, i32 0,\l... i32 0, !dbg !1097\l  store i32 0, i32* %32, align 8, !dbg !1098, !tbaa !1070\l  store i1 true, i1* %2, align 1, !dbg !1099\l  store i32 1, i32* %5, align 4\l  br label %33, !dbg !1099\l}"];
+	Node0x931750 -> Node0x9317a0;
+	Node0x9317a0 [shape=record,label="{%33:\l\l  %34 = bitcast i8** %4 to i8*, !dbg !1100\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %34) #12, !dbg !1100\l  br label %36\l}"];
+	Node0x9317a0 -> Node0x931840;
+	Node0x9317f0 [shape=record,label="{%35:\l\l  call void @abort() #17, !dbg !1101\l  unreachable, !dbg !1101\l}"];
+	Node0x931840 [shape=record,label="{%36:\l\l  %37 = load i1, i1* %2, align 1, !dbg !1102\l  ret i1 %37, !dbg !1102\l}"];
+}

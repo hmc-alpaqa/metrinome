@@ -1,0 +1,5 @@
+digraph "CFG for 'heap_free' function" {
+	label="CFG for 'heap_free' function";
+
+	Node0x215db90 [shape=record,label="{%1:\l  %2 = alloca %struct.heap*, align 8\l  store %struct.heap* %0, %struct.heap** %2, align 8, !tbaa !1752\l  call void @llvm.dbg.declare(metadata %struct.heap** %2, metadata !1751,\l... metadata !DIExpression()), !dbg !1756\l  %3 = load %struct.heap*, %struct.heap** %2, align 8, !dbg !1757, !tbaa !1752\l  %4 = getelementptr inbounds %struct.heap, %struct.heap* %3, i32 0, i32 0,\l... !dbg !1758\l  %5 = load i8**, i8*** %4, align 8, !dbg !1758, !tbaa !1759\l  %6 = bitcast i8** %5 to i8*, !dbg !1757\l  call void @free(i8* %6) #14, !dbg !1762\l  %7 = load %struct.heap*, %struct.heap** %2, align 8, !dbg !1763, !tbaa !1752\l  %8 = bitcast %struct.heap* %7 to i8*, !dbg !1763\l  call void @free(i8* %8) #14, !dbg !1764\l  ret void, !dbg !1765\l}"];
+}

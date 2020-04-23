@@ -1,0 +1,12 @@
+digraph "CFG for 'cut_stream' function" {
+	label="CFG for 'cut_stream' function";
+
+	Node0x195a4f0 [shape=record,label="{%1:\l  %2 = alloca %struct._IO_FILE*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %2, align 8, !tbaa !178\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %2, metadata !177,\l... metadata !DIExpression()), !dbg !182\l  %3 = load i32, i32* @operating_mode, align 4, !dbg !183, !tbaa !185\l  %4 = icmp eq i32 %3, 1, !dbg !186\l  br i1 %4, label %5, label %7, !dbg !187\l|{<s0>T|<s1>F}}"];
+	Node0x195a4f0:s0 -> Node0x1972ce0;
+	Node0x195a4f0:s1 -> Node0x1972d30;
+	Node0x1972ce0 [shape=record,label="{%5:\l\l  %6 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !188,\l... !tbaa !178\l  call void @cut_bytes(%struct._IO_FILE* %6), !dbg !189\l  br label %9, !dbg !189\l}"];
+	Node0x1972ce0 -> Node0x1972d80;
+	Node0x1972d30 [shape=record,label="{%7:\l\l  %8 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !190,\l... !tbaa !178\l  call void @cut_fields(%struct._IO_FILE* %8), !dbg !191\l  br label %9\l}"];
+	Node0x1972d30 -> Node0x1972d80;
+	Node0x1972d80 [shape=record,label="{%9:\l\l  ret void, !dbg !192\l}"];
+}

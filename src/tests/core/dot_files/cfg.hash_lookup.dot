@@ -1,0 +1,29 @@
+digraph "CFG for 'hash_lookup' function" {
+	label="CFG for 'hash_lookup' function";
+
+	Node0x24b5340 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca %struct.hash_table*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.hash_entry*, align 8\l  %7 = alloca %struct.hash_entry*, align 8\l  %8 = alloca i32, align 4\l  store %struct.hash_table* %0, %struct.hash_table** %4, align 8, !tbaa !732\l  call void @llvm.dbg.declare(metadata %struct.hash_table** %4, metadata !728,\l... metadata !DIExpression()), !dbg !736\l  store i8* %1, i8** %5, align 8, !tbaa !732\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !729, metadata\l... !DIExpression()), !dbg !737\l  %9 = bitcast %struct.hash_entry** %6 to i8*, !dbg !738\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #13, !dbg !738\l  call void @llvm.dbg.declare(metadata %struct.hash_entry** %6, metadata !730,\l... metadata !DIExpression()), !dbg !739\l  %10 = load %struct.hash_table*, %struct.hash_table** %4, align 8, !dbg !740,\l... !tbaa !732\l  %11 = load i8*, i8** %5, align 8, !dbg !741, !tbaa !732\l  %12 = call %struct.hash_entry* @safe_hasher(%struct.hash_table* %10, i8*\l... %11), !dbg !742\l  store %struct.hash_entry* %12, %struct.hash_entry** %6, align 8, !dbg !739,\l... !tbaa !732\l  %13 = bitcast %struct.hash_entry** %7 to i8*, !dbg !743\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %13) #13, !dbg !743\l  call void @llvm.dbg.declare(metadata %struct.hash_entry** %7, metadata !731,\l... metadata !DIExpression()), !dbg !744\l  %14 = load %struct.hash_entry*, %struct.hash_entry** %6, align 8, !dbg !745,\l... !tbaa !732\l  %15 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %14,\l... i32 0, i32 0, !dbg !747\l  %16 = load i8*, i8** %15, align 8, !dbg !747, !tbaa !748\l  %17 = icmp eq i8* %16, null, !dbg !750\l  br i1 %17, label %18, label %19, !dbg !751\l|{<s0>T|<s1>F}}"];
+	Node0x24b5340:s0 -> Node0x24ba1a0;
+	Node0x24b5340:s1 -> Node0x24ba1f0;
+	Node0x24ba1a0 [shape=record,label="{%18:\l\l  store i8* null, i8** %3, align 8, !dbg !752\l  store i32 1, i32* %8, align 4\l  br label %49, !dbg !752\l}"];
+	Node0x24ba1a0 -> Node0x24ba470;
+	Node0x24ba1f0 [shape=record,label="{%19:\l\l  %20 = load %struct.hash_entry*, %struct.hash_entry** %6, align 8, !dbg !753,\l... !tbaa !732\l  store %struct.hash_entry* %20, %struct.hash_entry** %7, align 8, !dbg !755,\l... !tbaa !732\l  br label %21, !dbg !756\l}"];
+	Node0x24ba1f0 -> Node0x24ba240;
+	Node0x24ba240 [shape=record,label="{%21:\l\l  %22 = load %struct.hash_entry*, %struct.hash_entry** %7, align 8, !dbg !757,\l... !tbaa !732\l  %23 = icmp ne %struct.hash_entry* %22, null, !dbg !759\l  br i1 %23, label %24, label %48, !dbg !759\l|{<s0>T|<s1>F}}"];
+	Node0x24ba240:s0 -> Node0x24ba290;
+	Node0x24ba240:s1 -> Node0x24ba420;
+	Node0x24ba290 [shape=record,label="{%24:\l\l  %25 = load i8*, i8** %5, align 8, !dbg !760, !tbaa !732\l  %26 = load %struct.hash_entry*, %struct.hash_entry** %7, align 8, !dbg !762,\l... !tbaa !732\l  %27 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %26,\l... i32 0, i32 0, !dbg !763\l  %28 = load i8*, i8** %27, align 8, !dbg !763, !tbaa !748\l  %29 = icmp eq i8* %25, %28, !dbg !764\l  br i1 %29, label %39, label %30, !dbg !765\l|{<s0>T|<s1>F}}"];
+	Node0x24ba290:s0 -> Node0x24ba330;
+	Node0x24ba290:s1 -> Node0x24ba2e0;
+	Node0x24ba2e0 [shape=record,label="{%30:\l\l  %31 = load %struct.hash_table*, %struct.hash_table** %4, align 8, !dbg !766,\l... !tbaa !732\l  %32 = getelementptr inbounds %struct.hash_table, %struct.hash_table* %31,\l... i32 0, i32 7, !dbg !767\l  %33 = load i1 (i8*, i8*)*, i1 (i8*, i8*)** %32, align 8, !dbg !767, !tbaa\l... !768\l  %34 = load i8*, i8** %5, align 8, !dbg !771, !tbaa !732\l  %35 = load %struct.hash_entry*, %struct.hash_entry** %7, align 8, !dbg !772,\l... !tbaa !732\l  %36 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %35,\l... i32 0, i32 0, !dbg !773\l  %37 = load i8*, i8** %36, align 8, !dbg !773, !tbaa !748\l  %38 = call zeroext i1 %33(i8* %34, i8* %37), !dbg !766\l  br i1 %38, label %39, label %43, !dbg !774\l|{<s0>T|<s1>F}}"];
+	Node0x24ba2e0:s0 -> Node0x24ba330;
+	Node0x24ba2e0:s1 -> Node0x24ba380;
+	Node0x24ba330 [shape=record,label="{%39:\l\l  %40 = load %struct.hash_entry*, %struct.hash_entry** %7, align 8, !dbg !775,\l... !tbaa !732\l  %41 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %40,\l... i32 0, i32 0, !dbg !776\l  %42 = load i8*, i8** %41, align 8, !dbg !776, !tbaa !748\l  store i8* %42, i8** %3, align 8, !dbg !777\l  store i32 1, i32* %8, align 4\l  br label %49, !dbg !777\l}"];
+	Node0x24ba330 -> Node0x24ba470;
+	Node0x24ba380 [shape=record,label="{%43:\l\l  br label %44, !dbg !778\l}"];
+	Node0x24ba380 -> Node0x24ba3d0;
+	Node0x24ba3d0 [shape=record,label="{%44:\l\l  %45 = load %struct.hash_entry*, %struct.hash_entry** %7, align 8, !dbg !779,\l... !tbaa !732\l  %46 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %45,\l... i32 0, i32 1, !dbg !780\l  %47 = load %struct.hash_entry*, %struct.hash_entry** %46, align 8, !dbg\l... !780, !tbaa !781\l  store %struct.hash_entry* %47, %struct.hash_entry** %7, align 8, !dbg !782,\l... !tbaa !732\l  br label %21, !dbg !783, !llvm.loop !784\l}"];
+	Node0x24ba3d0 -> Node0x24ba240;
+	Node0x24ba420 [shape=record,label="{%48:\l\l  store i8* null, i8** %3, align 8, !dbg !786\l  store i32 1, i32* %8, align 4\l  br label %49, !dbg !786\l}"];
+	Node0x24ba420 -> Node0x24ba470;
+	Node0x24ba470 [shape=record,label="{%49:\l\l  %50 = bitcast %struct.hash_entry** %7 to i8*, !dbg !787\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %50) #13, !dbg !787\l  %51 = bitcast %struct.hash_entry** %6 to i8*, !dbg !787\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %51) #13, !dbg !787\l  %52 = load i8*, i8** %3, align 8, !dbg !787\l  ret i8* %52, !dbg !787\l}"];
+}

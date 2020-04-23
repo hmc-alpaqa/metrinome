@@ -1,0 +1,12 @@
+digraph "CFG for 'passname' function" {
+	label="CFG for 'passname' function";
+
+	Node0x12da1b0 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !808\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !806, metadata\l... !DIExpression()), !dbg !812\l  store i8* %1, i8** %4, align 8, !tbaa !808\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !807, metadata\l... !DIExpression()), !dbg !813\l  %5 = load i8*, i8** %3, align 8, !dbg !814, !tbaa !808\l  %6 = icmp ne i8* %5, null, !dbg !814\l  br i1 %6, label %7, label %22, !dbg !816\l|{<s0>T|<s1>F}}"];
+	Node0x12da1b0:s0 -> Node0x12de8b0;
+	Node0x12da1b0:s1 -> Node0x12de900;
+	Node0x12de8b0 [shape=record,label="{%7:\l\l  %8 = load i8*, i8** %4, align 8, !dbg !817, !tbaa !808\l  %9 = load i8*, i8** %3, align 8, !dbg !818, !tbaa !808\l  %10 = getelementptr inbounds i8, i8* %9, i64 0, !dbg !818\l  %11 = load i8, i8* %10, align 1, !dbg !818, !tbaa !819\l  %12 = zext i8 %11 to i32, !dbg !818\l  %13 = load i8*, i8** %3, align 8, !dbg !820, !tbaa !808\l  %14 = getelementptr inbounds i8, i8* %13, i64 1, !dbg !820\l  %15 = load i8, i8* %14, align 1, !dbg !820, !tbaa !819\l  %16 = zext i8 %15 to i32, !dbg !820\l  %17 = load i8*, i8** %3, align 8, !dbg !821, !tbaa !808\l  %18 = getelementptr inbounds i8, i8* %17, i64 2, !dbg !821\l  %19 = load i8, i8* %18, align 1, !dbg !821, !tbaa !819\l  %20 = zext i8 %19 to i32, !dbg !821\l  %21 = call i32 (i8*, i8*, ...) @sprintf(i8* %8, i8* getelementptr inbounds\l... ([13 x i8], [13 x i8]* @.str.66, i32 0, i32 0), i32 %12, i32 %16, i32 %20)\l... #12, !dbg !822\l  br label %24, !dbg !822\l}"];
+	Node0x12de8b0 -> Node0x12de950;
+	Node0x12de900 [shape=record,label="{%22:\l\l  %23 = load i8*, i8** %4, align 8, !dbg !823, !tbaa !808\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 1 %23, i8* align 1\l... getelementptr inbounds ([7 x i8], [7 x i8]* @.str.67, i32 0, i32 0), i64 7,\l... i1 false), !dbg !824\l  br label %24\l}"];
+	Node0x12de900 -> Node0x12de950;
+	Node0x12de950 [shape=record,label="{%24:\l\l  ret void, !dbg !825\l}"];
+}

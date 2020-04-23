@@ -1,0 +1,5 @@
+digraph "CFG for 'simple_round_floor' function" {
+	label="CFG for 'simple_round_floor' function";
+
+	Node0xac19b0 [shape=record,label="{%1:\l  %2 = alloca x86_fp80, align 16\l  store x86_fp80 %0, x86_fp80* %2, align 16, !tbaa !844\l  call void @llvm.dbg.declare(metadata x86_fp80* %2, metadata !843, metadata\l... !DIExpression()), !dbg !848\l  %3 = load x86_fp80, x86_fp80* %2, align 16, !dbg !849, !tbaa !844\l  %4 = fsub x86_fp80 0xK80000000000000000000, %3, !dbg !850\l  %5 = call i64 @simple_round_ceiling(x86_fp80 %4), !dbg !851\l  %6 = sub nsw i64 0, %5, !dbg !852\l  ret i64 %6, !dbg !853\l}"];
+}

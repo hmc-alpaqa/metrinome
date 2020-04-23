@@ -1,0 +1,12 @@
+digraph "CFG for 'fwrite_uppcase' function" {
+	label="CFG for 'fwrite_uppcase' function";
+
+	Node0x20ec9e0 [shape=record,label="{%3:\l  %4 = alloca %struct._IO_FILE*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i64, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %4, align 8, !tbaa !743\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %4, metadata !740,\l... metadata !DIExpression()), !dbg !747\l  store i8* %1, i8** %5, align 8, !tbaa !743\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !741, metadata\l... !DIExpression()), !dbg !748\l  store i64 %2, i64* %6, align 8, !tbaa !749\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !742, metadata\l... !DIExpression()), !dbg !751\l  br label %7, !dbg !752\l}"];
+	Node0x20ec9e0 -> Node0x20eddf0;
+	Node0x20eddf0 [shape=record,label="{%7:\l\l  %8 = load i64, i64* %6, align 8, !dbg !753, !tbaa !749\l  %9 = add i64 %8, -1, !dbg !753\l  store i64 %9, i64* %6, align 8, !dbg !753, !tbaa !749\l  %10 = icmp ugt i64 %8, 0, !dbg !754\l  br i1 %10, label %11, label %20, !dbg !752\l|{<s0>T|<s1>F}}"];
+	Node0x20eddf0:s0 -> Node0x20ede40;
+	Node0x20eddf0:s1 -> Node0x20ede90;
+	Node0x20ede40 [shape=record,label="{%11:\l\l  %12 = load i8*, i8** %5, align 8, !dbg !755, !tbaa !743\l  %13 = load i8, i8* %12, align 1, !dbg !755, !tbaa !757\l  %14 = zext i8 %13 to i32, !dbg !755\l  %15 = call i32 @toupper(i32 %14) #13, !dbg !755\l  %16 = load %struct._IO_FILE*, %struct._IO_FILE** %4, align 8, !dbg !758,\l... !tbaa !743\l  %17 = call i32 @fputc(i32 %15, %struct._IO_FILE* %16), !dbg !759\l  %18 = load i8*, i8** %5, align 8, !dbg !760, !tbaa !743\l  %19 = getelementptr inbounds i8, i8* %18, i32 1, !dbg !760\l  store i8* %19, i8** %5, align 8, !dbg !760, !tbaa !743\l  br label %7, !dbg !752, !llvm.loop !761\l}"];
+	Node0x20ede40 -> Node0x20eddf0;
+	Node0x20ede90 [shape=record,label="{%20:\l\l  ret void, !dbg !763\l}"];
+}
