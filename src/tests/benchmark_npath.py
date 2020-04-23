@@ -27,19 +27,21 @@ def main():
     """Execute the tests."""
     # create instance of the npath class
     converter = npath_complexity.NPathComplexity()
-    graph_zero = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-net-3.3/\
-                                org_apache_commons_net_nntp_Threader_buildContainer_0_basic.dot",
-                                 False, True)
+    graph_zero = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLParser_addIfRules_0_basic.dot",
+                                 False, GraphType.ADJACENCY_LIST)
+    graph_one = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLParser_addIfRules_0_basic.dot",
+                                False, GraphType.DICTIONARY)
+    graph_two = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLParser_addIfRules_0_basic.dot",
+                                False, GraphType.ADJACENCY_MATRIX)
     print("list version:")
     print(converter.evaluate(graph_zero))
-    graph_one = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-net-3.3/\
-                                org_apache_commons_net_nntp_Threader_buildContainer_0_basic.dot",
-                                False, False)
     print("dict version:")
     print(converter.evaluate(graph_one))
+    print("matrix version:")
+    print(converter.evaluate(graph_two))
 
-npath_runtime(GraphType.ADJACENCY_LIST)
-
+#npath_runtime(GraphType.ADJACENCY_LIST)
+#main()
 
 
 #LIST VERSION

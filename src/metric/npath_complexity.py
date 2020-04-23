@@ -8,6 +8,7 @@ import copy
 from typing import List
 from graph import Graph
 from metric import metric
+from graph import GraphType
 
 EdgeType = List[int]
 NodeType = int
@@ -109,59 +110,21 @@ class NPathComplexity(metric.MetricAbstract):
             return 1.
 
         total = 0.
-        for neighbor_index in len(matrix[node_index]):
+        for neighbor_index in range(0,len(matrix[node_index])):
             if matrix[node_index][neighbor_index] == 1:
                 # Delete the edge [start, u] from the graph.
-                new_matrix = self.remove_edge_dict_adj(self, matrix, start, end, node_index, neighbor_index)
+                new_matrix = self.remove_edge_adj(matrix, start, end, node_index, neighbor_index)
                 # Recursive call from new edge.
                 total += self.npath_adj(new_matrix, start, end, neighbor_index)
 
         return total
 
-    
-    # def npath_adj(self, matrix, start: NodeType, end: NodeType, node_index) -> float:
-    #     """Compute NPath Complexity recursively."""
-    #     #first call passes in start node: convert to node_index
-    #     if node_index == start:
-    #         node = 0
-
-    #     #future calls pass in a node_index, so end node = 1
-    #     if node_index == 1:
-    #         return 1.
-
-    #     total = 0.
-    #     for neighbor_index in len(matrix[node_index]):
-    #         if matrix[node_index][neighbor_index] == 1:
-    #             # Delete the edge [start, u] from the graph.
-    #             new_matrix = self.remove_edge_dict_adj(self, matrix, start, end, node_index, neighbor_index)
-    #             # Recursive call from new edge. Call using node_index
-    #             total += self.npath_adj(new_matrix, start, end, neighbor_index)
-
-    #     return total
-    
-    # def npath_adj(self, matrix, start: NodeType, end: NodeType, node) -> float:
-    #     """Compute NPath Complexity recursively."""
-    #     if node == end:
-    #         return 1.
-
-    #     total = 0.
-    #     node_index = self.node_to_index_helper(start, end, node)
-    #     for neighbor_index in len(matrix[node_index]):
-    #         if matrix[node_index][neighbor_index] == 1:
-    #             neighbor_node = self.index_to_node_helper(start, end, neighbor_index)
-    #             # Delete the edge [start, u] from the graph.
-    #             new_matrix = self.remove_edge_dict_adj(self, matrix, start, end, node, neighbor_node)
-    #             # Recursive call from new edge.
-    #             total += self.npath_adj(new_matrix, start, end, neighbor_node)
-
-    #     return total
-
     def evaluate(self, graph: Graph) -> float:
         """Compute the NPath complexity of a function given its CFG."""
-        if self.using_list:
+        if graph.graph_type == GraphType.ADJACENCY_LIST:
             return self.npath(graph.start_node, graph.end_node, graph.edge_rules())
-        elif self.using_adjacency_matrix:
-            matrix = self.graph.adjacency_matrix()
+        elif graph.graph_type == GraphType.ADJACENCY_MATRIX:
+            matrix = graph.adjacency_matrix()
             return self.npath_adj(matrix, graph.start_node, graph.end_node, graph.start_node)
         else:
             return self.npath_dict(graph.start_node, graph.end_node, graph.edge_rules())
