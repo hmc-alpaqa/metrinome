@@ -1,4 +1,4 @@
-int foo(int x, int y) {
+int nested_loops_func(int x, int y) {
     int sum = 0;
     for(int i = 0; i < x; i++) {
         if (i%178 == 123){
