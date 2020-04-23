@@ -140,7 +140,7 @@ def runtime_outlier(time_list):
 
     Given a list of tuples (runtime, Graph), return the elements of that list that are outliers.
     """
-    print("OUTLIERS ")
+    print("OUTLIERS: ")
     times = [x[0] for x in time_list]
     average = mean(times)
     stdev_val = std(times)
