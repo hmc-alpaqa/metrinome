@@ -221,7 +221,7 @@ class Graph:
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
-        if graph_type is GraphType.ADJACENCY_LIST or graph_type is GraphType.ADJACENCY_MATRIX:
+        if graph_type is GraphType.DICTIONARY:
             vertices.add(node_one)
             vertices.add(node_two)
             edges.append([node_one, node_two])
