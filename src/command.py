@@ -357,8 +357,8 @@ class Command:
         self.repl_wrapper = repl_wrapper
         self.curr_path = curr_path
 
-    def check_num_args(self, args: List[str], num_args: int,
-                       err1: str,
+    def check_num_args(self, args: List[str], num_args: int, check_recursive: bool = False,
+                       err1: str = "",
                        err2: str = "Too many arguments provided.") -> bool:
         """
         Check that the number of input arguments in the list is correct.
@@ -369,6 +369,8 @@ class Command:
         if len(args) < num_args:
             self.logger.v_msg(err1)
         elif len(args) > num_args:
+            if check_recursive:
+                return len(args) == num_args + 1
             self.logger.v_msg(err2)
         else:
             return True
@@ -613,19 +615,22 @@ class Command:
 
         name = args_list[0]
         keys = [name]
+        
+        if name == '*':
+            keys = list(self.data.klee_formatted_files.keys())
+            
+            
 
-        if name not in self.data.klee_formatted_files:
+        elif name not in self.data.klee_formatted_files:
             self.logger.v_msg(f"Could not find {name}.")
             return
 
-        if name == "*":
-            keys = list(self.data.klee_formatted_files.keys())
 
-        for _ in keys:
+        for f_name in keys:
             with tempfile.NamedTemporaryFile(delete=True, suffix=".c") as file:
                 self.logger.d_msg(f"Created temporary file {file.name}")
-                self.logger.d_msg(f"Going to write {self.data.klee_formatted_files[name]}")
-                file.write(self.data.klee_formatted_files[name].encode())
+                self.logger.d_msg(f"Going to write {self.data.klee_formatted_files[f_name]}")
+                file.write(self.data.klee_formatted_files[f_name].encode())
 
                 file.seek(0)
                 self.logger.d_msg("FILE CONTENTS")
@@ -634,28 +639,21 @@ class Command:
                 cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
                         -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {file.name}"
                 res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
-                self.data.bc_files[name] = res.stdout
+                self.data.bc_files[f_name] = res.stdout
 
     def do_to_klee_format(self, args: str) -> None:
         """Convert a file with C source code to a format compatible with klee."""
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 1, MISSING_FILENAME_ERR)
+        valid_args = self.check_num_args(args_list, 1, True, MISSING_FILENAME_ERR)
         recursive_mode = False
-        if not valid_args:
-            valid_args = self.check_num_args(args_list, 2, "", "")
-            if not valid_args:
-                return
-
-            if args_list[0] == "-r":
+        if args_list[0] == "-r":
                 recursive_mode = True
                 file_path = args_list[1]
-            else:
-                return
         else:
             file_path = args_list[0]
 
         self.logger.d_msg(f"Recursive Mode is {recursive_mode}")
-        files = get_files(file_path, recursive_mode, self.logger, [str(KnownExtensions.C)])
+        files = get_files(file_path, recursive_mode, self.logger, ".c")
         if len(files) == 0:
             self.logger.v_msg(f"Could not find any files for {file_path}")
             return
@@ -745,10 +743,17 @@ class Command:
                     cmd = f"/app/build/bin/klee {file_name}"
                     self.logger.d_msg(f"Going to execute {cmd}")
                     start_time = time.time()
-                    res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
-                    delta_t = time.time() - start_time
-                    output = res.stderr
-                    self.logger.d_msg(output.decode())
+                    
+                    try:
+                        res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
+                        delta_t = time.time() - start_time
+                        output = res.stderr
+                        self.logger.d_msg(output.decode())
+                    except subprocess.CalledProcessError as e:
+                        self.logger.e_msg("Could not run klee")
+                        self.logger.d_msg(e.stderr)
+                        return
+                    
                     self.logger.d_msg("Updating Klee Stats")
                     self.update_klee_stats(output.decode(), key, delta_t)
         else:

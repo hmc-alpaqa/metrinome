@@ -61,7 +61,7 @@ class PathComplexity(metric.MetricAbstract):
 
         test = [round(-x, 2) for x in recurrence_kernel]
 
-        roots = polyroots(test, maxsteps=150, extraprec=150)
+        roots = polyroots(test, maxsteps=250, extraprec=250)
 
         self.logger.d_msg(f"Generating Function: {generating_function}")
 
