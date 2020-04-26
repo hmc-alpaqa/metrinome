@@ -12,7 +12,7 @@ class GraphType(Enum):
 
     ADJACENCY_LIST = "list"
     ADJACENCY_MATRIX = "matrix"
-    DICTIONARY = "dictionary"
+    EDGE_LIST = "list-dictionary"
 
 
 class Graph:
@@ -80,7 +80,7 @@ class Graph:
         elif graph_type is GraphType.ADJACENCY_MATRIX:
             self.from_matrix = True
         else:
-            self.from_dict = True
+            self.from_edgeList = True
 
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
@@ -205,7 +205,7 @@ class Graph:
                 raise ValueError("Start and end nodes must \
                                  both be defined.")
 
-            if graph_type is GraphType.DICTIONARY:
+            if graph_type is GraphType.EDGE_LIST:
                 graph = Graph(v_e_dict, v_e_dict.keys(), start_node,
                               end_node, graph_type)
             else:
@@ -221,7 +221,7 @@ class Graph:
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
-        if graph_type is GraphType.DICTIONARY:
+        if graph_type is GraphType.EDGE_LIST:
             vertices.add(node_one)
             vertices.add(node_two)
             edges.append([node_one, node_two])
