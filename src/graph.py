@@ -12,7 +12,7 @@ class GraphType(Enum):
 
     ADJACENCY_LIST = "list"
     ADJACENCY_MATRIX = "matrix"
-    EDGE_LIST = "edges"
+    EDGE_LIST = "list-dictionary"
 
 
 class Graph:
@@ -73,11 +73,14 @@ class Graph:
         self.start_node = start_node
         self.end_node = end_node
         self.weighted = False
+        self.graph_type = graph_type
 
         if graph_type is GraphType.ADJACENCY_LIST:
             self.from_list = True
         elif graph_type is GraphType.ADJACENCY_MATRIX:
             self.from_matrix = True
+        else:
+            self.from_edgeList = True
 
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
@@ -166,9 +169,13 @@ class Graph:
         """
         start_node = None
         end_node = None
-        vertices = set()
-        v_e_dict: DefaultDict[int, Any] = defaultdict(set)
-        edges: List[List[int]] = []
+
+        if graph_type is GraphType.ADJACENCY_LIST or graph_type is GraphType.ADJACENCY_MATRIX:
+            edges: List[List[int]] = []
+            vertices = set()
+        else:
+            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+
 
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:
@@ -185,26 +192,27 @@ class Graph:
                         elif node_label == "EXIT":
                             end_node = node
 
-                        if graph_type is GraphType.ADJACENCY_LIST:
+                        if graph_type is GraphType.ADJACENCY_LIST or graph_type is GraphType.ADJACENCY_MATRIX:
                             vertices.add(node)
 
                 # The current line in the text file represents an edge
                 else:
-                    if graph_type is GraphType.ADJACENCY_LIST:
+                    if graph_type is GraphType.ADJACENCY_LIST or graph_type is GraphType.ADJACENCY_MATRIX:
                         Graph.update_graph_with_edge(match, graph_type, vertices, edges)
                     else:
-                        Graph.update_graph_with_edge(match, graph_type, vertices, v_e_dict)
+                        Graph.update_graph_with_edge(match, graph_type, v_e_dict.keys(), v_e_dict)
 
             if start_node is None or end_node is None:
                 raise ValueError("Start and end nodes must \
                                  both be defined.")
 
-            if graph_type is GraphType.ADJACENCY_LIST:
-                graph = Graph(edges, vertices, start_node, end_node,
-                              GraphType.ADJACENCY_LIST)
-            else:
+            if graph_type is GraphType.EDGE_LIST:
                 graph = Graph(v_e_dict, v_e_dict.keys(), start_node,
-                              end_node, GraphType.ADJACENCY_LIST)
+                              end_node, graph_type)
+            else:
+                graph = Graph(edges, vertices, start_node, end_node,
+                              graph_type)
+                
             graph.weighted = weighted
 
         return graph
@@ -214,7 +222,7 @@ class Graph:
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
-        if graph_type is GraphType.ADJACENCY_LIST:
+        if graph_type is GraphType.EDGE_LIST:
             vertices.add(node_one)
             vertices.add(node_two)
             edges.append([node_one, node_two])
