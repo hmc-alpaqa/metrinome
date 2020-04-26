@@ -1,4 +1,4 @@
-int foo(int x) {
+int nested_if_func(int x) {
     if(x > 50) {
         if (x==64) {
             return x + 1;

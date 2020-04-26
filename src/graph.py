@@ -176,6 +176,7 @@ class Graph:
         else:
             v_e_dict: DefaultDict[int, Any] = defaultdict(set)
 
+
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:
                 match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)

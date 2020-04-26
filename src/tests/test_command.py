@@ -178,7 +178,7 @@ class TestCommand(unittest.TestCase):
         """Check that commands throw errors when given an incorrect number of arguments."""
         with captured_output() as (out, err):
             for valid_command in self.valid_commands:
-                function_name = "do_" + command
+                function_name = "do_" + valid_command
                 method = getattr(self.command, function_name)
                 min_num_args = self.valid_commands[valid_command][0]
                 max_num_args = self.valid_commands[valid_command][1]

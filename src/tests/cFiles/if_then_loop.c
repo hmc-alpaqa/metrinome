@@ -1,4 +1,4 @@
-int yeah (int i) {
+int if_loop_func (int i) {
 
    int n[ 10 ]; 
    int j;
