@@ -80,7 +80,7 @@ class Graph:
         elif graph_type is GraphType.ADJACENCY_MATRIX:
             self.from_matrix = True
         else:
-            self.from_edgeList = True
+            self.from_edge_list = True
 
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
@@ -176,7 +176,6 @@ class Graph:
         else:
             v_e_dict: DefaultDict[int, Any] = defaultdict(set)
 
-
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:
                 match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)
@@ -192,12 +191,14 @@ class Graph:
                         elif node_label == "EXIT":
                             end_node = node
 
-                        if graph_type is GraphType.ADJACENCY_LIST or graph_type is GraphType.ADJACENCY_MATRIX:
+                        if graph_type is GraphType.ADJACENCY_LIST or \
+                           graph_type is GraphType.ADJACENCY_MATRIX:
                             vertices.add(node)
 
-                # The current line in the text file represents an edge
+                # The current line in the text file represents an edge.
                 else:
-                    if graph_type is GraphType.ADJACENCY_LIST or graph_type is GraphType.ADJACENCY_MATRIX:
+                    if graph_type is GraphType.ADJACENCY_LIST or \
+                       graph_type is GraphType.ADJACENCY_MATRIX:
                         Graph.update_graph_with_edge(match, graph_type, vertices, edges)
                     else:
                         Graph.update_graph_with_edge(match, graph_type, v_e_dict.keys(), v_e_dict)
@@ -212,7 +213,7 @@ class Graph:
             else:
                 graph = Graph(edges, vertices, start_node, end_node,
                               graph_type)
-                
+
             graph.weighted = weighted
 
         return graph

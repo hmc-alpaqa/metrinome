@@ -27,11 +27,12 @@ def main():
     """Execute the tests."""
     # create instance of the npath class
     converter = npath_complexity.NPathComplexity()
-    graph_zero = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLParser_addIfRules_0_basic.dot",
+    base_path = "/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_"
+    graph_zero = Graph.from_file(f"{base_path}scxml_io_SCXMLParser_addIfRules_0_basic.dot",
                                  False, GraphType.ADJACENCY_LIST)
-    graph_one = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLParser_addIfRules_0_basic.dot",
-                                False, GraphType.DICTIONARY)
-    graph_two = Graph.from_file("/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLParser_addIfRules_0_basic.dot",
+    graph_one = Graph.from_file(f"{base_path}scxml_io_SCXMLParser_addIfRules_0_basic.dot",
+                                False, GraphType.EDGE_LIST)
+    graph_two = Graph.from_file(f"{base_path}scxml_io_SCXMLParser_addIfRules_0_basic.dot",
                                 False, GraphType.ADJACENCY_MATRIX)
     print("list version:")
     print(converter.evaluate(graph_zero))
@@ -40,29 +41,43 @@ def main():
     print("matrix version:")
     print(converter.evaluate(graph_two))
 
+
 npath_runtime(GraphType.ADJACENCY_MATRIX)
-#main()
+# main()
 
 
-#LIST VERSION
-# [('maximum', 0.010824441909790039), ('minimum', 3.647804260253906e-05), ('mean', 0.000350918651612337), 
-# ('median', 0.00011205673217773438), ('stdev', 0.0012025774397812876)]
+# LIST VERSION
+# [('maximum', 0.010824441909790039), ('minimum', 3.647804260253906e-05),
+#  ('mean', 0.000350918651612337), ('median', 0.00011205673217773438),
+#  ('stdev', 0.0012025774397812876)]
 # OUTLIERS:
-# [(0.0076601505279541016, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/', '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLSerializer_serializeState_0_basic.dot'), 
-# (0.010824441909790039, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/', '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_model_Executable_setParent_0_basic.dot')]
+# [(0.0076601505279541016, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/',
+#  '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/
+#    org_apache_commons_scxml_io_SCXMLSerializer_serializeState_0_basic.dot'),
+# (0.010824441909790039, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/',
+#  '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/
+#    org_apache_commons_scxml_model_Executable_setParent_0_basic.dot')]
 
-#DICT VERSION
-# [('maximum', 0.007207632064819336), ('minimum', 4.1961669921875e-05), ('mean', 0.00024523813862445924), 
-# ('median', 0.00011181831359863281), ('stdev', 0.0006659859955008892)]
+# DICT VERSION
+# [('maximum', 0.007207632064819336), ('minimum', 4.1961669921875e-05),
+#  ('mean', 0.00024523813862445924), ('median', 0.00011181831359863281),
+#  ('stdev', 0.0006659859955008892)]
 # OUTLIERS:
-# [(0.007207632064819336, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/', '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLSerializer_serializeState_0_basic.dot')]
+# [(0.007207632064819336, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/',
+#  '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/
+#   org_apache_commons_scxml_io_SCXMLSerializer_serializeState_0_basic.dot')]
 
-#MATRIX VERSION
-# [('maximum', 0.00739598274230957), ('minimum', 4.9591064453125e-05), ('mean', 0.00026635296088604887), 
-# ('median', 0.00012946128845214844), ('stdev', 0.0006942695049296839)]
+# MATRIX VERSION
+# [('maximum', 0.00739598274230957), ('minimum', 4.9591064453125e-05),
+#  ('mean', 0.00026635296088604887), ('median', 0.00012946128845214844),
+#  ('stdev', 0.0006942695049296839)]
 # OUTLIERS:
-# [(0.0020546913146972656, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/', '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_env_SimpleErrorReporter_onError_0_basic.dot'), 
-# (0.00739598274230957, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/', '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_scxml_io_SCXMLSerializer_serializeState_0_basic.dot')]
+# [(0.0020546913146972656, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/',
+#  '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/
+#    org_apache_commons_scxml_env_SimpleErrorReporter_onError_0_basic.dot'),
+# (0.00739598274230957, '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/',
+#  '/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/
+#    org_apache_commons_scxml_io_SCXMLSerializer_serializeState_0_basic.dot')]
 
 # LIST VERSION
 # takes 769 seconds to run commons-scxml-0.9/\

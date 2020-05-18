@@ -9,7 +9,6 @@ import glob
 from math import floor
 from numpy import mean, std, median  # type: ignore
 from graph import Graph
-from graph import GraphType
 from utils import Timeout
 
 

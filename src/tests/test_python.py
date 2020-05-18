@@ -58,8 +58,9 @@ class TestPythonConvert(unittest.TestCase):
     def test_if(self):
         """Test that we can correctly parse if statements."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/if", ".py")
-        expected = Graph([(0, 1), (1, 2), (1, 3), (1, 4)], [0, 1, 2, 3, 4], 0, 1)
-        print(res['if_func'])
+        print(res)
+        # expected = Graph([(0, 1), (1, 2), (1, 3), (1, 4)], [0, 1, 2, 3, 4], 0, 1)
+        # print(res['if_func'])
         # self.assertTrue(res['if_func'] == expected)
 
     # def test_else(self):

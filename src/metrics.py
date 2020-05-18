@@ -84,7 +84,7 @@ def average_class_size(input_dict, use_frequencies: bool):
 
         entropy_value *= -1
 
-        # If we only have a single value, then the disbrituion is perfectly uniform
+        # If we only have a single value, then the distribution is perfectly uniform
         if len(input_dict[key]) == 1:
             sum_averages += 1.
         # Ratio between entropy of our distribution and uniform (ideal) distribution
