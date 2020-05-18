@@ -33,11 +33,12 @@ class FunctionVisitor(ast.NodeVisitor):
     It includes visitor functions for each type of statement we are interested in.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, logger=None) -> None:
         """Create a new instance of the function visitor."""
         self.root: Optional[Node] = None
         self.end_node: Optional[Node] = None
         self.frontier: List[Node] = []
+        self.logger = logger
 
     def update_root(self, node) -> bool:
         """Given a new node, set it as the root if a root does not exist."""
@@ -100,8 +101,8 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = [new_node]
 
-        # Now visit EACH of the things in the loop
-        # This will give us the subgraph. We connect each expression to the next
+        # Now visit EACH of the things in the loop.
+        # This will give us the subgraph. We connect each expression to the next.
         for loop_node in node.body:
             print(f"At for loop node {loop_node}")
 
@@ -121,6 +122,21 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_With(self, node) -> None:
         """Visit a python with statement."""
         print(f"At with {node}")
+        new_node = Node()
+        if not self.update_root(new_node):
+            self.update_frontier(new_node)
+
+        self.frontier = [new_node]
+
+        # Visit everything inside the with block.
+        # This follows the same pattern as the for loop visitor.
+        for with_node in node.body:
+            print(f"At with node {with_node}")
+
+            visitor = FunctionVisitor()
+            visitor.visit(with_node)
+            self.update_frontier(visitor.root)
+            self.frontier = visitor.frontier
 
     def visit_If(self, node) -> None:
         """Visit a python if statement."""
@@ -234,10 +250,10 @@ class Visitor(ast.NodeVisitor):
         print(f"Visiting {node.name}")
         visitor.visit(node)
 
-        # Now take the representation and convert it to a graph.py by doing BFS
+        # Now take the representation and convert it to a graph.py by doing BFS.
 
-        L = [visitor.root]  # Keep track of the nodes we still need to visit
-        nodes = dict()  # Maps node object to node number
+        nodes_to_visit = [visitor.root]
+        nodes = dict()  # Maps node object to node number.
         nodes[visitor.root] = 0
 
         edge_list = []
@@ -245,9 +261,9 @@ class Visitor(ast.NodeVisitor):
 
         visited = set()
 
-        while len(L) != 0:
-            curr_node = L[0]
-            L = L[1:]
+        while len(nodes_to_visit) != 0:
+            curr_node = nodes_to_visit[0]
+            nodes_to_visit = nodes_to_visit[1:]
             if curr_node in visited:
                 continue
 
@@ -264,7 +280,15 @@ class Visitor(ast.NodeVisitor):
 
                 edge_list.append((nodes[curr_node], nodes[child]))
 
-            L += children
+            nodes_to_visit += children
+
+        if len(visitor.frontier) != 1:
+            new_node = Node()
+            nodes[new_node] = len(node_list)
+            node_list.append(len(node_list))
+            visitor.end_node = new_node
+            for frontier_node in visitor.frontier:
+                edge_list.append((nodes[frontier_node], nodes[new_node]))
 
         graph = Graph(edge_list, node_list, nodes[visitor.root], nodes[visitor.end_node])
 

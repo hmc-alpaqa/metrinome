@@ -25,6 +25,7 @@ class PathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
+    # pylint: disable=too-many-locals
     def evaluate(self, graph: Graph) -> Any:
         """
         Compute the path complexity given the CFG of some function.

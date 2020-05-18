@@ -75,13 +75,6 @@ class Graph:
         self.weighted = False
         self.graph_type = graph_type
 
-        if graph_type is GraphType.ADJACENCY_LIST:
-            self.from_list = True
-        elif graph_type is GraphType.ADJACENCY_MATRIX:
-            self.from_matrix = True
-        else:
-            self.from_edge_list = True
-
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
         return self.edges

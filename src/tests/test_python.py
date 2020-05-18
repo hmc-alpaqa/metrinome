@@ -58,23 +58,24 @@ class TestPythonConvert(unittest.TestCase):
     def test_if(self):
         """Test that we can correctly parse if statements."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/if", ".py")
-        print(res)
-        # expected = Graph([(0, 1), (1, 2), (1, 3), (1, 4)], [0, 1, 2, 3, 4], 0, 1)
-        # print(res['if_func'])
-        # self.assertTrue(res['if_func'] == expected)
+        expected = Graph([(0, 1), (1, 2), (2, 3), (2, 4), (2, 5), (3, 6), (4, 6), (5, 6)], [0, 1, 2, 3, 4, 5, 6], 0, 6)
+        self.assertTrue(res['if_func'] == expected)
 
-    # def test_else(self):
-    #     """Test that we can correctly parse if statements."""
-    #     res = self.converter.to_graph(f"{self.base_path}/pythonFiles/else", ".py")
-    #     expected = Graph([(0, 1), (1, 2), (1, 3), (1, 4), (1, 5)], [0, 1, 2, 3, 4, 5], 0, 1)
-    #     print(res['if_func'])
-    #     self.assertTrue(res['if_func'] == expected)
+    def test_else(self):
+        """Test that we can correctly parse if statements."""
+        res = self.converter.to_graph(f"{self.base_path}/pythonFiles/else", ".py")
+        expected = Graph([(0, 1), (1, 2), (2, 3), (2, 4), (2, 5),
+                          (2, 6), (3, 7), (4, 7), (5, 7), (6, 7)],
+                          [0, 1, 2, 3, 4, 5, 6, 7], 0, 7)
+        self.assertTrue(res['if_func'] == expected)
 
-    # --> Have implemented all above this line <--
-    # def test_with(self):
-    #     """Test that we can correct parse with blocks."""
-    #     self.converter.to_graph(f"{self.base_path}/pythonFiles/with", ".py")
+    def test_with(self):
+        """Test that we can correct parse with blocks."""
+        res = self.converter.to_graph(f"{self.base_path}/pythonFiles/with", ".py")
+        expected = Graph([(0, 1), (1, 2)], [0, 1, 2], 0, 2)
+        self.assertTrue(res['with_func'] == expected)
 
+    # Raise and Try not implemented.
     # def test_raise(self):
     #     """Test that we can correctly parse raise expressions."""
     #     self.converter.to_graph(f"{self.base_path}/pythonFiles/raise", ".py")
