@@ -13,9 +13,9 @@ TESTING_MODE = True
 class MyPrompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""
 
-    def __init__(self, debug_mode: bool) -> None:
+    def __init__(self, debug_mode: bool, multi_threaded: bool) -> None:
         """Create a new instance of the REPL."""
-        self.command = command.Command(debug_mode, self)
+        self.command = command.Command(debug_mode, multi_threaded, self)
         if TESTING_MODE:
             setattr(self, "do_reload", self.reload)
 
@@ -136,7 +136,7 @@ class MyPrompt(Cmd):
     def reload(self, _):
         """Reload the modules."""
         importlib.reload(command)
-        self.command = command.Command(True, self)
+        self.command = command.Command(True, self.command.multi_threaded, self)
 
 
 def main():
@@ -145,6 +145,9 @@ def main():
     parser.add_argument('--debug', dest='debug_mode',
                         action='store_true', default=False,
                         help='Turn on debugging mode for more verbose output')
+    parser.add_argument('--multi-threaded', dest="multi_threaded",
+                        action='store_true', default=False,
+                        help="Turn this on to speed up REPL functions through parallelism.")
     parsed_args = parser.parse_args()
 
     logging.basicConfig(filename='repl_log.log', level=logging.DEBUG)
@@ -152,7 +155,7 @@ def main():
         readline.read_history_file()
     except FileNotFoundError:
         pass
-    prompt = MyPrompt(parsed_args.debug_mode)
+    prompt = MyPrompt(parsed_args.debug_mode, parsed_args.multi_threaded)
     prompt.prompt = '> '
     prompt.cmdloop('Starting path complexity repl...')
 
