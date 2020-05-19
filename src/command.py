@@ -12,6 +12,7 @@ import tempfile
 import time
 from collections import namedtuple
 from enum import Enum
+import multiprocessing as mp
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 
@@ -270,7 +271,7 @@ class Data:
 class Command:
     """Command is the implementation of the REPL commands."""
 
-    def __init__(self, debug_mode: bool, repl_wrapper) -> None:
+    def __init__(self, debug_mode: bool, multi_threaded: bool, repl_wrapper) -> None:
         """Create a new instance of the REPL implementation."""
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
@@ -278,6 +279,9 @@ class Command:
             self.logger = Log(log_level=LogLevel.REGULAR)
 
         self.logger.d_msg("Debug Mode Enabled")
+        if multi_threaded:
+            self.logger.i_msg("Multithreading Enabled")
+        self.multi_threaded = multi_threaded
         self.controller = Controller(self.logger)
         self.klee_utils = KleeUtils(self.logger)
         self.data = Data(self.logger)

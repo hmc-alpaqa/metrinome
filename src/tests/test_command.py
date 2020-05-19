@@ -11,7 +11,7 @@ class TestCommandInvalid(unittest.TestCase):
 
     def setUp(self):
         """Create a new instance of the Command object without the wrapping object."""
-        self.command = command.Command(False, None)
+        self.command = command.Command(False, False, None)
 
     # ==== Test do_analyze ====
     def test_analyze_invalid_name(self):
@@ -117,7 +117,7 @@ class TestCommandKlee(unittest.TestCase):
 
         Note that in these tests we use the Command object directly.
         """
-        self.command = command.Command(False, None)
+        self.command = command.Command(False, False, None)
 
     # ==== do_to_klee_format =====
     def test_to_klee_format_valid(self):
@@ -172,7 +172,7 @@ class TestCommand(unittest.TestCase):
 
         Note that in these tests we use the Command object directly.
         """
-        self.command = command.Command(False, None)
+        self.command = command.Command(False, False, None)
 
     def test_num_args_invalid(self):
         """Check that commands throw errors when given an incorrect number of arguments."""

@@ -42,7 +42,8 @@ def main():
     print(converter.evaluate(graph_two))
 
 
-npath_runtime(GraphType.ADJACENCY_MATRIX)
+if __name__ == "__main__":
+    npath_runtime(GraphType.EDGE_LIST)
 # main()
 
 

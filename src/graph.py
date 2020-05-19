@@ -12,7 +12,7 @@ class GraphType(Enum):
 
     ADJACENCY_LIST = "list"
     ADJACENCY_MATRIX = "matrix"
-    EDGE_LIST = "list-dictionary"
+    EDGE_LIST = "edge_list"
 
 
 class Graph:
@@ -55,8 +55,7 @@ class Graph:
                f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
                f"\nEnd Node: {self.end_node}"
 
-    def __init__(self, edges, vertices: Any, start_node: int,
-                 end_node: int,
+    def __init__(self, edges, vertices: Any, start_node: int, end_node: int,
                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> None:
         """
         Create a directed graph from a vertex set, edge list, and start/end notes.
@@ -76,15 +75,26 @@ class Graph:
         self.graph_type = graph_type
 
     def edge_rules(self) -> List[Tuple[int, int]]:
-        """Obtain the edge list (ADD CHANGES IF edge dictionary)."""
+        """Obtain the edge list."""
         return self.edges
 
     def vertex_count(self) -> int:
-        """Get the number of vertices in the graph (ADD CHANGES IF vertex-edge dictionary)."""
+        """Get the number of vertices in the graph."""
+        if self.graph_type is GraphType.ADJACENCY_LIST:
+            return len(self.edges.keys())
+
+        if self.graph_type is GraphType.ADJACENCY_MATRIX:
+            return self.edges.shape[0]
+
         return len(self.vertices)
 
     def get_vertices(self) -> List[int]:
         """Get the vertex set for the graph."""
+        if self.graph_type is GraphType.ADJACENCY_LIST:
+            return list(self.edges.keys())
+        if self.graph_type is GraphType.ADJACENCY_MATRIX:
+            return list(range(self.vertex_count()))
+
         return self.vertices
 
     def get_start(self) -> int:
@@ -108,43 +118,62 @@ class Graph:
         Second row  -> END
         Other  rows -> n = 2, ..., END - 1
         """
-        adj_mat = np.zeros((self.end_node + 1, self.end_node + 1))
-        for edge in self.edge_rules():
-            vertex_one = edge[0]
-            vertex_two = edge[1]
-            weight = 1
-            if self.weighted:
-                weight = edge[2]
+        adj_mat = np.zeros((self.vertex_count(), self.vertex_count()))
+        if self.graph_type is GraphType.EDGE_LIST:
+            for edge in self.edge_rules():
+                vertex_one = edge[0]
+                vertex_two = edge[1]
+                weight = 1
+                if self.weighted:
+                    weight = edge[2]
 
-            # Compute the correct index in the matrix
-            if vertex_one == self.end_node:
-                vertex_one = 1
-            elif vertex_one != 0:
-                vertex_one += 1
+                # Compute the correct index in the matrix.
+                vertex_one = self.node_to_index(vertex_one)
+                vertex_two = self.node_to_index(vertex_two)
+                adj_mat[vertex_one][vertex_two] = weight
 
-            if vertex_two == self.end_node:
-                vertex_two = 1
-            elif vertex_two != 0:
-                vertex_two += 1
+            return adj_mat
 
-            adj_mat[vertex_one][vertex_two] = weight
+        if self.graph_type is GraphType.ADJACENCY_LIST:
+            for vertex in self.edge_rules().keys():
+                vertex_one = self.node_to_index(vertex)
+                for vertex_two in self.edge_rules()[vertex]:
+                    vertex_two = self.node_to_index(vertex_two)
+                    adj_mat[vertex_one][vertex_two] = 1
 
-        return adj_mat
+            return adj_mat
+
+        if self.graph_type is GraphType.ADJACENCY_MATRIX:
+            return self.edge_rules()
+
+        return None
 
     def adjacency_list(self):
         """Compute the adjacency list for a Graph from its set of edges."""
-        adjacency_list = [[] for _ in range(self.vertex_count())]
+        if self.graph_type is GraphType.ADJACENCY_LIST:
+            return self.edges
 
-        for edge in self.edge_rules():
-            vertex_one = edge[0]
-            vertex_two = edge[1]
-            weight = 1
-            if self.weighted:
-                weight = edge[2]
+        if self.graph_type is GraphType.EDGE_LIST:
+            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+            for vertex in self.get_vertices():
+                v_e_dict[vertex] = set()
 
-            adjacency_list[vertex_one].append((vertex_two, weight))
+            for edge in self.edge_rules():
+                vertex_one = edge[0]
+                vertex_two = edge[1]
+                weight = 1
+                if self.weighted:
+                    weight = edge[2]
+                    v_e_dict[vertex_one].add((vertex_two, weight))
+                else:
+                    v_e_dict[vertex_one].add(vertex_two)
 
-        return adjacency_list
+            return v_e_dict
+
+        if self.graph_type is GraphType.ADJACENCY_MATRIX:
+            pass
+
+        raise ValueError("Not yet implemented.")
 
     @staticmethod
     def from_file(filename: str, weighted: bool = False,
@@ -160,68 +189,74 @@ class Graph:
             a_k  -> a_m
         }
         """
-        start_node = None
-        end_node = None
-
-        if graph_type is GraphType.ADJACENCY_LIST or graph_type is GraphType.ADJACENCY_MATRIX:
-            edges: List[List[int]] = []
-            vertices = set()
-        else:
+        # Initialize graph based on type.
+        if graph_type is GraphType.ADJACENCY_LIST:
             v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+            graph = Graph(v_e_dict, None, -1, -1, graph_type)
+        elif graph_type is GraphType.EDGE_LIST:
+            edges: List[List[int]] = []
+            graph = Graph(edges, set(), -1, -1, graph_type)
+        elif graph_type is GraphType.ADJACENCY_MATRIX:
+            # We create the graph using an adjacency list and then convert it.
+            # There is probably a better way to do this.
+            v_e_dict = defaultdict(set)
+            graph = Graph(v_e_dict, None, -1, -1, GraphType.ADJACENCY_LIST)
 
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:
-                match = re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)
-                if match is None:
-                    # Current line is not an edge - check if it defines a node
-                    match = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", line)
-                    if match is not None:
-                        node = int(match.group(1))
-                        node_label = match.group(2)
+                if (match := re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)) is not None:
+                    # The current line in the text file represents an edge.
+                    graph.update_with_edge(match)
+                # Current line is not an edge - check if it defines a node.
+                elif (match := re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", line)) is not None:
+                    graph.update_with_node(match)
 
-                        if node_label == "START":
-                            start_node = node
-                        elif node_label == "EXIT":
-                            end_node = node
-
-                        if graph_type is GraphType.ADJACENCY_LIST or \
-                           graph_type is GraphType.ADJACENCY_MATRIX:
-                            vertices.add(node)
-
-                # The current line in the text file represents an edge.
-                else:
-                    if graph_type is GraphType.ADJACENCY_LIST or \
-                       graph_type is GraphType.ADJACENCY_MATRIX:
-                        Graph.update_graph_with_edge(match, graph_type, vertices, edges)
-                    else:
-                        Graph.update_graph_with_edge(match, graph_type, v_e_dict.keys(), v_e_dict)
-
-            if start_node is None or end_node is None:
-                raise ValueError("Start and end nodes must \
-                                 both be defined.")
-
-            if graph_type is GraphType.EDGE_LIST:
-                graph = Graph(v_e_dict, v_e_dict.keys(), start_node,
-                              end_node, graph_type)
-            else:
-                graph = Graph(edges, vertices, start_node, end_node,
-                              graph_type)
+            if graph.start_node == -1 or graph.end_node == -1:
+                raise ValueError("Start and end nodes must both be defined.")
 
             graph.weighted = weighted
 
+        if graph_type is GraphType.ADJACENCY_MATRIX:
+            graph.edges = graph.adjacency_matrix()
+            graph.graph_type = GraphType.ADJACENCY_MATRIX
+
         return graph
 
-    @staticmethod
-    def update_graph_with_edge(match, graph_type, vertices, edges):
+    def node_to_index(self, node):
+        """Find the index for the row or column of an adjacency matrix."""
+        if node == self.start_node:
+            return 0
+
+        if node == self.end_node:
+            return 1
+
+        return node + 1
+
+    def update_with_node(self, match):
+        """Create a new vertex when the current line in the dot file is a node."""
+        node = int(match.group(1))
+        node_label = match.group(2)
+
+        if node_label == "START":
+            self.start_node = node
+        elif node_label == "EXIT":
+            self.end_node = node
+
+        if self.graph_type is GraphType.EDGE_LIST:
+            self.vertices.add(node)
+        elif self.graph_type is GraphType.ADJACENCY_LIST and node not in self.edges:
+            self.edges[node] = set()
+
+    def update_with_edge(self, match):
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
-        if graph_type is GraphType.EDGE_LIST:
-            vertices.add(node_one)
-            vertices.add(node_two)
-            edges.append([node_one, node_two])
-        else:
-            edges[node_one].add(node_two)
+        if self.graph_type is GraphType.EDGE_LIST:
+            self.vertices.add(node_one)
+            self.vertices.add(node_two)
+            self.edges.append([node_one, node_two])
+        elif self.graph_type is GraphType.ADJACENCY_LIST:
+            self.edges[node_one].add(node_two)
 
     def to_prism(self) -> List[str]:
         """

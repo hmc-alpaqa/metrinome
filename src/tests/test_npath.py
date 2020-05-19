@@ -3,7 +3,7 @@
 import unittest
 import sys
 sys.path.append('/app/code')
-from graph import Graph
+from graph import Graph, GraphType  
 from metric import npath_complexity
 
 
@@ -35,17 +35,25 @@ class TestNPATH(unittest.TestCase):
         base_path = f"{path_to_cfgs}/cfgs/simple_test_cfgs/"
         prefix = "vlab_cs_ucsb_test_SimpleExample_test"
 
-        results = []
+        results_one = []
+        results_two = []
+        results_three = [] 
         for file_index in range(1, 7):
             file = base_path + prefix + str(file_index) + "_0_basic.dot"
-            graph = Graph.from_file(file)
-            print("The Graph is: " + str(graph))
-            res = "todo"
-            res = npath_complexity.NPathComplexity().evaluate(graph)
-            results.append(res)
+            graph_one = Graph.from_file(file, graph_type=GraphType.EDGE_LIST)
+            graph_two = Graph.from_file(file, graph_type=GraphType.ADJACENCY_LIST)
+            graph_three = Graph.from_file(file, graph_type=GraphType.ADJACENCY_MATRIX)
+            res_one   = npath_complexity.NPathComplexity().evaluate(graph_one)
+            res_two   = npath_complexity.NPathComplexity().evaluate(graph_two)
+            res_three = npath_complexity.NPathComplexity().evaluate(graph_three)
+            results_one.append(res_one)
+            results_two.append(res_two)
+            results_three.append(res_three)
 
         expected_results = [8, 4, 8, 4, 4, 8]
-        self.assertEqual(results, expected_results)
+        self.assertEqual(results_one, expected_results)
+        self.assertEqual(results_two, expected_results)
+        self.assertEqual(results_three, expected_results)
 
     def test_npath_single_node(self):
         """
@@ -55,7 +63,7 @@ class TestNPATH(unittest.TestCase):
         single node. The start node is equal to the end node,
         so there is a single path from the beginning to the end.
         """
-        graph = Graph([], set([0]), 0, 0)
+        graph = Graph([], set([0]), 0, 0, GraphType.EDGE_LIST)
         result = npath_complexity.NPathComplexity().evaluate(graph)
         expected_result = 1
         self.assertEqual(result, expected_result)
@@ -68,7 +76,7 @@ class TestNPATH(unittest.TestCase):
         and end nodes but no edges is 0, since there are no paths from the
         beginning to the end.
         """
-        graph = Graph([], set([0, 1]), 0, 1)
+        graph = Graph([], set([0, 1]), 0, 1, GraphType.EDGE_LIST)
         result = npath_complexity.NPathComplexity().evaluate(graph)
         expected_result = 0
         self.assertEqual(result, expected_result)
