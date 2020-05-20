@@ -229,7 +229,31 @@ class Data:
         self.logger.i_msg(" Metrics ")
         self.logger.v_msg(" ".join(list(self.metrics.keys())))
 
-    def show_graphs(self, name, names):
+    def list_klee(self) -> None:
+        """List of all KLEE objects the REPL knows about."""
+        self.logger.i_msg(" KLEE ")
+        keys = self.klee_formatted_files.keys()
+        if len(keys) == 0:
+            self.logger.v_msg("No KLEE formatted files available.")
+        else:
+            self.logger.v_msg("KLEE-Formatted file names: ")
+            self.logger.v_msg(" ".join(list(keys)))
+
+        keys = self.bc_files.keys()
+        if len(keys) == 0:
+            self.logger.v_msg("No BC files available.")
+        else:
+            self.logger.v_msg("BC file names: ")
+            self.logger.v_msg(" ".join(list(keys)))
+
+        keys = self.klee_stats.keys()
+        if len(keys) == 0:
+            self.logger.v_msg("No KLEE Stats available.")
+        else:
+            self.logger.v_msg("KLEE Stats names: ")
+            self.logger.v_msg(" ".join(list(keys)))
+
+    def show_graphs(self, name: str, names):
         """Display a Graph we know about to the REPL."""
         if name == "*":
             names = list(self.graphs.keys())
@@ -396,22 +420,12 @@ class Command:
         elif list_type == ObjTypes.GRAPH:
             self.data.list_graphs()
         elif list_type == ObjTypes.KLEE:
-            keys = self.data.klee_formatted_files.keys()
-            if len(keys) == 0:
-                self.logger.v_msg("No KLEE formatted files available.")
-            else:
-                self.logger.v_msg("KLEE-Formatted file names: ")
-                self.logger.v_msg(" ".join(list(keys)))
+            self.data.list_klee()
 
-            keys = self.data.bc_files.keys()
-            if len(keys) == 0:
-                self.logger.v_msg("No BC files available.")
-            else:
-                self.logger.v_msg("BC file names: ")
-                self.logger.v_msg(" ".join(list(keys)))
         elif list_type == ObjTypes.ALL:
             self.data.list_metrics()
             self.data.list_graphs()
+            self.data.list_klee()
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
