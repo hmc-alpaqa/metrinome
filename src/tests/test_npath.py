@@ -3,7 +3,7 @@
 import unittest
 import sys
 sys.path.append('/app/code')
-from graph import Graph, GraphType  
+from graph import Graph, GraphType
 from metric import npath_complexity
 
 
@@ -37,7 +37,7 @@ class TestNPATH(unittest.TestCase):
 
         results_one = []
         results_two = []
-        results_three = [] 
+        results_three = []
         for file_index in range(1, 7):
             file = base_path + prefix + str(file_index) + "_0_basic.dot"
             graph_one = Graph.from_file(file, graph_type=GraphType.EDGE_LIST)

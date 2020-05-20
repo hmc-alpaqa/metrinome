@@ -7,38 +7,42 @@ import time
 import os
 import glob
 from math import floor
+from typing import List, Any
 from numpy import mean, std, median  # type: ignore
 from graph import Graph
 from utils import Timeout
 
 
-def run_benchmark(converter, graph_type):
+def run_benchmark(converter, graph_type, show_info: bool = True):
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
 
-    metric_collection = []
+    metric_collection: List[Any] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
     overall_time_list = []
 
-    graph_frac = 5
-    folders_frac = len(folders)
+    graph_frac = 2
+    folders_frac = 5
+    total_timeout_count = 0
 
-    # test the metrics for each folder in apache_cfgs.
+    # Test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {floor(len(folders) / folders_frac)}")
     for folder in folders[0:floor(len(folders) / folders_frac)]:
+        print(f"On folder {folder}")
         graph_list = (glob.glob(folder + "*.dot"))
         graph_list = graph_list[0:floor(len(graph_list) / graph_frac)]
         # list of tuples for each cfg in folder(seconds, cfg).
-        folder_time_list = []
-        # create instance of the npath class.
+        folder_time_list, overall_time_list, timeout_count = get_converter_time(graph_list,
+                                                                                converter, folder,
+                                                                                graph_type,
+                                                                                show_info)
+        total_timeout_count += timeout_count
 
-        folder_time_list, overall_time_list = get_converter_time(graph_list,
-                                                                 converter, folder, graph_type)
+        print_results(folder_time_list, folder, metric_collection, show_info)
 
-        metric_collection = print_results(folder_time_list,
-                                          folder, metric_collection)
-
+    print(f"======= OVERALL ==========")
     print_overall_results(overall_time_list)
+    print(f"Total number of timeouts: {total_timeout_count}")
 
 
 def print_overall_results(overall_time_list):
@@ -46,22 +50,24 @@ def print_overall_results(overall_time_list):
     # print overall metrics for all cfgs.
     print(runtime_metrics(overall_time_list))
     # print cfgs at above +1 stdev away.
-    print(runtime_outlier(overall_time_list))
+    print(runtime_outlier(overall_time_list, True))
 
 
-def get_converter_time(graph_list, converter, folder, graph_type):
+def get_converter_time(graph_list, converter, folder, graph_type, show_info):
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
     overall_time_list = []
+    timeout_count = 0
 
     for i, graph in enumerate(graph_list):
-        print(os.path.splitext(graph)[0].split("/")[-1],
-              f"{round(100*(i / len(graph_list)))}% done")
-        graph_zero = Graph.from_file(graph, graph_type)
+        if show_info:
+            print(os.path.splitext(graph)[0].split("/")[-1],
+                  f"{round(100*(i / len(graph_list)))}% done")
+        graph_zero = Graph.from_file(graph, graph_type=graph_type)
         start_time = time.time()
         try:
-            with Timeout(5, 'Path-Complexity took too long'):
+            with Timeout(60, f'{converter.name()} took too long'):
                 converter.evaluate(graph_zero)
 
             # Calculate the run time.
@@ -72,29 +78,34 @@ def get_converter_time(graph_list, converter, folder, graph_type):
 
             # Add runtime to overall list.
             overall_time_list.append((runtime, folder, graph))
-            print(f"Runtime {runtime}")
+            if show_info:
+                print(f"Runtime {runtime}")
 
         except TimeoutError as exception:
-            print(exception)
+            if show_info:
+                print(exception)
+            timeout_count += 1
 
-    return folder_time_list, overall_time_list
+    return folder_time_list, overall_time_list, timeout_count
 
 
-def print_results(folder_time_list, folder, metric_collection):
+def print_results(folder_time_list, folder, metric_collection, show_info):
     """Print out the results from the benchmark."""
     folder_metrics = runtime_metrics(folder_time_list)
-    folder_outliers = runtime_outlier(folder_time_list)
-    print("METRICS: ")
-    # print metrics at 100% completion of folder.
-    print(folder_metrics)
-    print("OUTLIERS: ")
-    # print list of cfgs at above +1 stdev away.
-    print(folder_outliers)
-    print("\n\n\n")
-    metric_collection = metric_collection.append((folder, folder_metrics, folder_outliers))
-    # print overall metrics for all folders so far.
-    print(f"COLLECTED METRICS: \n{metric_collection}")
-    return metric_collection
+    folder_outliers = runtime_outlier(folder_time_list, show_info)
+    if show_info:
+        print("METRICS: ")
+        # print metrics at 100% completion of folder.
+        print(folder_metrics)
+        print("OUTLIERS: ")
+        # print list of cfgs at above +1 stdev away.
+        print(folder_outliers)
+        print("\n\n")
+
+    metric_collection.append((folder, folder_metrics, folder_outliers))
+    if show_info:
+        # print overall metrics for all folders so far.
+        print(f"COLLECTED METRICS: \n{metric_collection}")
 
 
 @contextmanager
@@ -128,18 +139,18 @@ def runtime_metrics(time_list):
     average = mean(times)
     median_val = median(times)
     stdev_val = std(times)
-    print("\n \n")
     return [("maximum", max_val), ("minimum", min_val), ("mean", average),
             ("median", median_val), ("stdev", stdev_val)]
 
 
-def runtime_outlier(time_list):
+def runtime_outlier(time_list, show_info):
     """
     Return all outlier elements.
 
     Given a list of tuples (runtime, Graph), return the elements of that list that are outliers.
     """
-    print("OUTLIERS: ")
+    if show_info:
+        print("OUTLIERS: ")
     times = [x[0] for x in time_list]
     average = mean(times)
     stdev_val = std(times)

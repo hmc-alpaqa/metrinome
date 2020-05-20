@@ -12,7 +12,6 @@ import tempfile
 import time
 from collections import namedtuple
 from enum import Enum
-import multiprocessing as mp
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 
