@@ -15,12 +15,23 @@ from log import Log
 from graph import GraphType
 
 
-def apc_runtime(graph_type: GraphType):
+def apc_runtime(g_frac, f_frac, time):
     """Test the amount of time it takes to run APC analysis on different sized graphs."""
     log = Log()
     converter = path_complexity.PathComplexity(log)
-    unit_utils.run_benchmark(converter, graph_type)
+    if g_frac == 0:
+        unit_utils.run_benchmark(converter, GraphType.ADJACENCY_LIST, True)
+    else:
+        unit_utils.run_benchmark(converter, GraphType.ADJACENCY_LIST, True, g_frac, f_frac, time)
 
 
 if __name__ == "__main__":
-    apc_runtime(GraphType.EDGE_LIST)
+    args = sys.argv
+    if len(args) == 4:
+        apc_runtime(int(args[1]), int(args[2]), int(args[3]))
+    elif len(args) == 2:
+        if args[1] == "complete":
+            apc_runtime(1,1,120)
+    else:
+        apc_runtime(0,0,0)
+    

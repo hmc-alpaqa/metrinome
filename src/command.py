@@ -17,6 +17,7 @@ from metric import path_complexity, cyclomatic_complexity, npath_complexity, met
 
 from lang_to_cfg import cpp, java, python
 from klee_utils import KleeUtils
+from utils import Timeout
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t")
 
@@ -512,7 +513,7 @@ class Command:
 
         for name in names:
             graph = self.data.graphs[name]
-            self.logger.v_msg(f"Computing metrics for {graph}")
+            self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
             for metric_generator in self.controller.metrics_generators:
                 self.logger.v_msg(f"Computing {metric_generator.name()}")
@@ -745,17 +746,23 @@ class Command:
                     start_time = time.time()
                     
                     try:
-                        res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
+                        with Timeout(30, "Klee took too long"):
+                            res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
+
                         delta_t = time.time() - start_time
                         output = res.stderr
                         self.logger.d_msg(output.decode())
+                        self.logger.d_msg(f"Runtime: {delta_t} seconds")
+                        self.logger.d_msg("Updating Klee Stats")
+                        self.update_klee_stats(output.decode(), key, delta_t)
                     except subprocess.CalledProcessError as e:
                         self.logger.e_msg("Could not run klee")
                         self.logger.d_msg(e.stderr)
                         return
+                    except TimeoutError as exception:
+                        print(exception)
                     
-                    self.logger.d_msg("Updating Klee Stats")
-                    self.update_klee_stats(output.decode(), key, delta_t)
+                    
         else:
             result = self.verify_file_type(args, "bc")
             if result == 0:
