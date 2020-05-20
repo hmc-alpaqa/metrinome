@@ -219,7 +219,7 @@ class Data:
         if name in self.graphs:
             with open(f"/app/code/exports/{new_name}.dot", "w+") as file:
                 graph = self.graphs[name]
-                file.write(graph.dot())
+                file.write(graph.dot(True))
                 self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
         elif name == "*":
             for graph_name in self.graphs:
