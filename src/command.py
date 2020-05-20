@@ -232,9 +232,11 @@ class Data:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
 
     def list_graphs(self) -> None:
+        self.logger.i_msg(" Graphs ")
         self.logger.v_msg(" ".join(list(self.graphs.keys())))
 
     def list_metrics(self) -> None:
+        self.logger.i_msg(" Metrics ")
         self.logger.v_msg(" ".join(list(self.metrics.keys())))
 
     def show_graphs(self, name, names):
@@ -418,7 +420,7 @@ class Command:
             else:
                 self.logger.v_msg("BC file names: ")
                 self.logger.v_msg(" ".join(list(keys)))
-        elif list_type == "*":
+        elif list_type == ObjTypes.ALL:
             self.data.list_metrics()
             self.data.list_graphs()
         else:
