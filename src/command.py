@@ -146,23 +146,6 @@ class API:
 
         self.logger = logger
 
-    def show_metrics(self) -> None:
-        """Display all of the metrics the REPL knows about."""
-        if len(self.metrics.keys()) == 0:
-            self.logger.v_msg("No metrics available.")
-        else:
-            self.logger.v_msg("Metric Names: ")
-            self.logger.v_msg(" ".join(list(self.metrics.keys())))
-
-    def show_graphs(self) -> None:
-        """Display the names of all of the graphs we know about."""
-        if len(self.graphs.keys()) == 0:
-            self.logger.v_msg("No graphs available.")
-        else:
-            self.logger.v_msg("Graph Names: ")
-            self.logger.v_msg(" ".join(list(self.graphs.keys())))
-
-
 class Controller:
     """Store the file extension we know how to generate graphs for and the generators."""
 
@@ -247,6 +230,12 @@ class Data:
                     self.logger.i_msg(f"Made file {f_name}.dot in /app/code/exports/")
         else:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
+
+    def list_graphs(self) -> None:
+        self.logger.v_msg(" ".join(list(self.graphs.keys())))
+
+    def list_metrics(self) -> None:
+        self.logger.v_msg(" ".join(list(self.metrics.keys())))
 
     def show_graphs(self, name, names):
         """Display a Graph we know about to the REPL."""
@@ -412,9 +401,9 @@ class Command:
         list_type = converted_args[0]
         list_type = ObjTypes.get_type(list_type)
         if list_type == ObjTypes.METRIC:
-            self.api.show_metrics()
+            self.data.list_metrics()
         elif list_type == ObjTypes.GRAPH:
-            self.api.show_graphs()
+            self.data.list_graphs()
         elif list_type == ObjTypes.KLEE:
             keys = self.data.klee_formatted_files.keys()
             if len(keys) == 0:
@@ -430,8 +419,8 @@ class Command:
                 self.logger.v_msg("BC file names: ")
                 self.logger.v_msg(" ".join(list(keys)))
         elif list_type == "*":
-            self.api.show_metrics()
-            self.api.show_graphs()
+            self.data.list_metrics()
+            self.data.list_graphs()
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
