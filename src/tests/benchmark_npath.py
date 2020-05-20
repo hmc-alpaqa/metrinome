@@ -12,38 +12,20 @@ sys.path.append("/app/code/metric")
 from log import Log
 from metric import npath_complexity
 from tests import unit_utils
-from graph import Graph
 from graph import GraphType
 
 
-def npath_runtime(graph_type):
+def npath_runtime(graph_type, show_info: bool):
     """Test the amount of time it takes to run NPath analysis on different sized graphs."""
     log = Log()
     converter = npath_complexity.NPathComplexity(log)
-    unit_utils.run_benchmark(converter, graph_type)
-
-
-def main():
-    """Execute the tests."""
-    # create instance of the npath class
-    converter = npath_complexity.NPathComplexity()
-    base_path = "/app/examples/cfgs/apache_cfgs/commons-scxml-0.9/org_apache_commons_"
-    graph_zero = Graph.from_file(f"{base_path}scxml_io_SCXMLParser_addIfRules_0_basic.dot",
-                                 False, GraphType.ADJACENCY_LIST)
-    graph_one = Graph.from_file(f"{base_path}scxml_io_SCXMLParser_addIfRules_0_basic.dot",
-                                False, GraphType.EDGE_LIST)
-    graph_two = Graph.from_file(f"{base_path}scxml_io_SCXMLParser_addIfRules_0_basic.dot",
-                                False, GraphType.ADJACENCY_MATRIX)
-    print("list version:")
-    print(converter.evaluate(graph_zero))
-    print("dict version:")
-    print(converter.evaluate(graph_one))
-    print("matrix version:")
-    print(converter.evaluate(graph_two))
+    unit_utils.run_benchmark(converter, graph_type, show_info)
 
 
 if __name__ == "__main__":
-    npath_runtime(GraphType.EDGE_LIST)
+    # npath_runtime(GraphType.EDGE_LIST, show_info=False)
+    npath_runtime(GraphType.ADJACENCY_LIST, show_info=False)
+    # npath_runtime(GraphType.ADJACENCY_MATRIX, show_info=False)
 # main()
 
 

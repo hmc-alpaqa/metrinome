@@ -35,13 +35,17 @@ class NPathComplexity(metric.MetricAbstract):
 
     def remove_edge_list(self, edge_list: List[EdgeType], edge: EdgeType) -> List[EdgeType]:
         """Return an edgeList with the specified edge removed."""
-        return list(filter(lambda existing_edge: existing_edge != edge, edge_list))
+        i = edge_list.index(edge)
+        return edge_list[:i] + edge_list[i + 1:]
+        # return list(filter(lambda existing_edge: existing_edge != edge, edge_list))
 
     def remove_edge_adj_list(self, edges, start, end):
         """Return an edgeDictionary with the specified edge removed."""
-        edge_copy = copy.deepcopy(edges)
-        edge_copy[start].remove(end)
-        return edge_copy
+        # edge_copy = copy.deepcopy(edges)
+        # edge_copy[start].remove(end)
+        # return edge_copy
+        i = edges[start].index(end)
+        return edges[:start] + tuple([edges[start][:i] + edges[start][i + 1:]]) + edges[start + 1:]
 
     def remove_edge_adj_matrix(self, matrix, node: NodeType, edge: NodeType):
         """Return copy of matrix with the specified edge removed."""
@@ -100,7 +104,8 @@ class NPathComplexity(metric.MetricAbstract):
     def evaluate(self, graph: Graph) -> float:
         """Compute the NPath complexity of a function given its CFG."""
         if graph.graph_type is GraphType.ADJACENCY_LIST:
-            return self.npath_adj_list(graph.start_node, graph.end_node, graph.edges)
+            edges_tuple = tuple(tuple(edges) for edges in graph.edges)
+            return self.npath_adj_list(graph.start_node, graph.end_node, edges_tuple)
 
         if graph.graph_type is GraphType.ADJACENCY_MATRIX:
             return self.npath_adj_matrix(graph.adjacency_matrix(), graph.start_node,

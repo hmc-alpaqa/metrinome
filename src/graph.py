@@ -1,7 +1,6 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from collections import defaultdict
-from typing import List, Tuple, Any, DefaultDict
+from typing import List, Tuple, Any
 from enum import Enum
 import re
 import numpy as np  # type: ignore
@@ -154,9 +153,10 @@ class Graph:
             return self.edges
 
         if self.graph_type is GraphType.EDGE_LIST:
-            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
-            for vertex in self.get_vertices():
-                v_e_dict[vertex] = set()
+            # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+            v_e_dict = [[] for _ in range(self.vertex_count())]
+            # for vertex in self.get_vertices():
+            #     v_e_dict[vertex] = set()
 
             for edge in self.edge_rules():
                 vertex_one = edge[0]
@@ -164,9 +164,11 @@ class Graph:
                 weight = 1
                 if self.weighted:
                     weight = edge[2]
-                    v_e_dict[vertex_one].add((vertex_two, weight))
+                    # v_e_dict[vertex_one].add((vertex_two, weight))
+                    v_e_dict[vertex_one].append((vertex_two, weight))
                 else:
-                    v_e_dict[vertex_one].add(vertex_two)
+                    # v_e_dict[vertex_one].add(vertex_two)
+                    v_e_dict[vertex_one].append(vertex_two)
 
             return v_e_dict
 
@@ -191,16 +193,16 @@ class Graph:
         """
         # Initialize graph based on type.
         if graph_type is GraphType.ADJACENCY_LIST:
-            v_e_dict: DefaultDict[int, Any] = defaultdict(set)
-            graph = Graph(v_e_dict, None, -1, -1, graph_type)
+            # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
+            # graph = Graph(v_e_dict, None, -1, -1, graph_type)
+            graph = Graph([], None, -1, -1, graph_type)
         elif graph_type is GraphType.EDGE_LIST:
             edges: List[List[int]] = []
             graph = Graph(edges, set(), -1, -1, graph_type)
         elif graph_type is GraphType.ADJACENCY_MATRIX:
             # We create the graph using an adjacency list and then convert it.
             # There is probably a better way to do this.
-            v_e_dict = defaultdict(set)
-            graph = Graph(v_e_dict, None, -1, -1, GraphType.ADJACENCY_LIST)
+            graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST)
 
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:
@@ -244,8 +246,9 @@ class Graph:
 
         if self.graph_type is GraphType.EDGE_LIST:
             self.vertices.add(node)
-        elif self.graph_type is GraphType.ADJACENCY_LIST and node not in self.edges:
-            self.edges[node] = set()
+        elif self.graph_type is GraphType.ADJACENCY_LIST:
+            if len(self.edges) <= node:
+                self.edges += [[] for _ in range(((node + 1) - len(self.edges)))]
 
     def update_with_edge(self, match):
         """Create new vertices and edges when the current line in the dot file is an edge."""
@@ -256,7 +259,7 @@ class Graph:
             self.vertices.add(node_two)
             self.edges.append([node_one, node_two])
         elif self.graph_type is GraphType.ADJACENCY_LIST:
-            self.edges[node_one].add(node_two)
+            self.edges[node_one] += [node_two]
 
     def to_prism(self) -> List[str]:
         """
