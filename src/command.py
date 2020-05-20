@@ -176,7 +176,7 @@ class Controller:
 
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity()
         npath = npath_complexity.NPathComplexity()
-        pathcomplexity = path_complexity.PathComplexity()
+        pathcomplexity = path_complexity.PathComplexity(self.logger)
         self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath, pathcomplexity]
 
         cpp_converter = cpp.CPPConvert(self.logger)
