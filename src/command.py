@@ -134,18 +134,6 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
         return []
 
 
-class API:
-    """API contains all of the methods exposed to the user. These are used to create the REPL."""
-
-    def __init__(self, logger) -> None:
-        """Create a new instance of the API."""
-        self.controller = Controller(logger)
-        self.metrics: Dict[Any, Any] = {}
-        self.graphs: Dict[Any, Any] = {}
-        self.stats: Dict[Any, Any] = {}
-
-        self.logger = logger
-
 class Controller:
     """Store the file extension we know how to generate graphs for and the generators."""
 
@@ -232,10 +220,12 @@ class Data:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
 
     def list_graphs(self) -> None:
+        """List all of the graphs the REPL knows about."""
         self.logger.i_msg(" Graphs ")
         self.logger.v_msg(" ".join(list(self.graphs.keys())))
 
     def list_metrics(self) -> None:
+        """List all of the metrics the REPL knows about."""
         self.logger.i_msg(" Metrics ")
         self.logger.v_msg(" ".join(list(self.metrics.keys())))
 
@@ -288,7 +278,6 @@ class Command:
             self.logger = Log(log_level=LogLevel.REGULAR)
 
         self.logger.d_msg("Debug Mode Enabled")
-        self.api = API(self.logger)
         self.controller = Controller(self.logger)
         self.klee_utils = KleeUtils(self.logger)
         self.data = Data(self.logger)
