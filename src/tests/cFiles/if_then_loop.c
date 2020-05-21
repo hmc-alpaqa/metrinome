@@ -3,7 +3,7 @@ int if_loop_func (int i) {
    int n[ 10 ]; 
    int j;
  
-           
+      
    for ( i = 0; i < 10; i++ ) {
       n[ i ] = i + 100;
       if(n[i] == 111) {

@@ -7,8 +7,8 @@ import sys
 import os
 import re
 import glob2  # type: ignore
-from graph import Graph
 sys.path.append("/app/code/")
+from graph import Graph, GraphType
 
 # pylint: disable=R0201
 
@@ -24,6 +24,7 @@ class CPPConvert():
 
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
         """Create a CFG from a C++ source file."""
+        self.clean_temps()
         self.logger.d_msg("Creating dot files")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")

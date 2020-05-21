@@ -15,7 +15,7 @@ from typing import List, Optional, Dict, cast
 import ast
 import os
 # from pprintast import pprintast as ppast
-from graph import Graph
+from graph import Graph, GraphType
 
 
 class Node:
@@ -281,8 +281,9 @@ class Visitor(ast.NodeVisitor):
                 edge_list.append((nodes[curr_node], nodes[child]))
 
             nodes_to_visit += children
-
+        
         if len(visitor.frontier) != 1:
+            print("Frontier has more than one node.")
             new_node = Node()
             nodes[new_node] = len(node_list)
             node_list.append(len(node_list))
@@ -290,7 +291,7 @@ class Visitor(ast.NodeVisitor):
             for frontier_node in visitor.frontier:
                 edge_list.append((nodes[frontier_node], nodes[new_node]))
 
-        graph = Graph(edge_list, node_list, nodes[visitor.root], nodes[visitor.end_node])
+        graph = Graph(edge_list, node_list, nodes[visitor.root], nodes[visitor.end_node], GraphType.EDGE_LIST)
 
         self.graphs[node.name] = graph
 

@@ -80,7 +80,7 @@ class Graph:
     def vertex_count(self) -> int:
         """Get the number of vertices in the graph."""
         if self.graph_type is GraphType.ADJACENCY_LIST:
-            return len(self.edges.keys())
+            return len(self.edges)
 
         if self.graph_type is GraphType.ADJACENCY_MATRIX:
             return self.edges.shape[0]
@@ -89,9 +89,8 @@ class Graph:
 
     def get_vertices(self) -> List[int]:
         """Get the vertex set for the graph."""
-        if self.graph_type is GraphType.ADJACENCY_LIST:
-            return list(self.edges.keys())
-        if self.graph_type is GraphType.ADJACENCY_MATRIX:
+        if self.graph_type is GraphType.ADJACENCY_LIST or \
+           self.graph_type is GraphType.ADJACENCY_MATRIX:
             return list(range(self.vertex_count()))
 
         return self.vertices
@@ -205,7 +204,10 @@ class Graph:
             graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST)
 
         with open(filename, "r") as file:
-            for line in file.readlines()[1:]:
+            lines = file.readlines()
+            for line in lines:
+                print(line, end="")
+            for line in lines[1:]:
                 if (match := re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)) is not None:
                     # The current line in the text file represents an edge.
                     graph.update_with_edge(match)
@@ -259,6 +261,9 @@ class Graph:
             self.vertices.add(node_two)
             self.edges.append([node_one, node_two])
         elif self.graph_type is GraphType.ADJACENCY_LIST:
+            if len(self.edges) <= node_one:
+                self.edges += [[] for _ in range(((node_one + 1) - len(self.edges)))]
+
             self.edges[node_one] += [node_two]
 
     def to_prism(self) -> List[str]:
@@ -317,6 +322,9 @@ class Graph:
 
     def __eq__(self, other) -> bool:
         """Check that two Graphs are equal by checking their vertices and edges."""
+        if self.graph_type != other.graph_type: 
+            raise ValueError("Graph types must be the same.")
+
         sets_equal = (self.edges == other.edge_rules() and self.vertices == other.get_vertices())
         labels_equal = (self.start_node == other.get_start() and self.end_node == other.get_end())
         return sets_equal and labels_equal
