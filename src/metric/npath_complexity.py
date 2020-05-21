@@ -35,8 +35,6 @@ class NPathComplexity(metric.MetricAbstract):
 
     def remove_edge_list(self, edge_list: List[EdgeType], edge: EdgeType) -> List[EdgeType]:
         """Return an edgeList with the specified edge removed."""
-        print(edge_list)
-        print(edge)
         i = edge_list.index(edge)
         return edge_list[:i] + edge_list[i + 1:]
         # return list(filter(lambda existing_edge: existing_edge != edge, edge_list))

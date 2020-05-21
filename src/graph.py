@@ -204,10 +204,7 @@ class Graph:
             graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST)
 
         with open(filename, "r") as file:
-            lines = file.readlines()
-            for line in lines:
-                print(line, end="")
-            for line in lines[1:]:
+            for line in file.readlines()[1:]:
                 if (match := re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)) is not None:
                     # The current line in the text file represents an edge.
                     graph.update_with_edge(match)
