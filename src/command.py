@@ -222,6 +222,27 @@ class Data:
         else:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
 
+    #TODO: Klee export *
+    def export_bc(self, name, new_name) -> None:
+        """Save a BC the REPL knows about to an external file."""
+        if name in self.bc_files:
+            with open(f"/app/code/exports/{new_name}.bc","wb+") as file:
+                bc = self.bc_files[name]
+                file.write(bc)
+                self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
+        else:
+            self.logger.e_msg(f"No {str(ObjTypes.KLEE_BC).capitalize()} {name} found.")
+
+    def export_klee_file(self, name, new_name) -> None:
+        """Save a Klee formatted file the REPL knows about"""
+        if name in self.klee_formatted_files:
+            with open(f"/app/code/exports/{new_name}_klee.c", "w+") as file:
+                klee_file = self.klee_formatted_files[name]
+                file.write(klee_file)
+                self.logger.i_msg(f"Made file {new_name}_klee.c in /app/code/exports/.")
+        else:
+            self.logger.e_msg(f"No {str(ObjTypes.KLEE_FILE).capitalize()} {name} found.")
+
     def list_graphs(self) -> None:
         """List all of the graphs the REPL knows about."""
         self.logger.i_msg(" Graphs ")
@@ -794,17 +815,20 @@ class Command:
                     with open(f"/app/code/exports/{f_name}_stats", "w+") as file:
                         stat = self.data.metrics[s_name]
                         file.write(stat)
-                        self.logger.i_msg(f"Made file {f_name}s_stats in /app/code/exports/.")
+                        self.logger.i_msg(f"Made file {f_name}s_stats in /app/code/exports/")
             else:
                 self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
 
         #TODO: Fix exporting as other klee types
+        elif export_type == ObjTypes.KLEE_BC:
+            self.data.export_bc(name, new_name)
+        elif export_type == ObjTypes.KLEE_FILE:
+            self.data.export_klee_file(name,new_name)
         elif export_type == ObjTypes.KLEE:
-            if name in self.data.klee_formatted_files:
-                with open(f"/app/code/exports/{new_name}_klee.c", "w+") as file:
-                    klee_file = self.data.klee_formatted_files[name]
-                    file.write(klee_file)
-                    self.logger.i_msg(f"Made file {new_name}_klee.c in /app/code/exports/.")
+            self.data.export_bc(name, new_name)
+            self.data.export_klee_file(name, new_name)
+
+
         else:
             self.logger.v_msg(f"Type {export_type} not recognized.")
 
