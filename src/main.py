@@ -74,21 +74,21 @@ class MyPrompt(Cmd):
 
     def do_list(self, arguments) -> None:
         """
-        List all of the objects of a specific type (either metrics or graphs).
+        List all of the objects of a specific type (metrics, graphs, or a KLEE type).
 
         Usage:
-        list <metrics/graphs>
+        list <metrics/graphs/KLEE type>
         list *
         """
         self.command.do_list(arguments)
 
     def do_show(self, arguments) -> None:
         """
-        Show an object of some type (either metric, graph, or klee).
+        Show an object of some type (either metric, graph, or KLEE type).
 
         Usage
-        show <metric/graph> <name>
-        show <metric/graph> *
+        show <metric/graph/KLEE type> <name>
+        show <metric/graph/KLEE type> *
         """
         self.command.do_show(arguments)
 
@@ -113,7 +113,7 @@ class MyPrompt(Cmd):
 
     def do_delete(self, arguments) -> None:
         """
-        Delete an object (type Graph, Metrics, or States) from memory.
+        Delete an object (type Graph, Metrics, States, or KLEE type) from memory.
 
         Usage:
         delete <type> <name>
@@ -122,7 +122,7 @@ class MyPrompt(Cmd):
 
     def do_export(self, arguments) -> None:
         """
-        Save an object (type Graph, Metrics, or Stats) to an output file.
+        Save an object (type Graph, Metrics, Stats, KLEE type) to an output file.
 
         Usage:
         save <type> <name>
