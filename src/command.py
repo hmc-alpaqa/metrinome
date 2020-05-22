@@ -294,7 +294,7 @@ class Data:
 class Command:
     """Command is the implementation of the REPL commands."""
 
-    def __init__(self, debug_mode: bool, multi_threaded: bool, repl_wrapper) -> None:
+    def __init__(self, curr_path: str, debug_mode: bool, multi_threaded: bool, repl_wrapper) -> None:
         """Create a new instance of the REPL implementation."""
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
@@ -310,6 +310,7 @@ class Command:
         self.data = Data(self.logger)
         self.have_completed = False
         self.repl_wrapper = repl_wrapper
+        self.curr_path = curr_path
 
     def check_num_args(self, args: List[str], num_args: int,
                        err1: str,
@@ -756,15 +757,40 @@ class Command:
         else:
             self.logger.v_msg(f"Type {export_type} not recognized.")
 
+    def do_cd(self, args: str) -> None:
+        """Change the working directory in the REPL."""
+        args_list = self.convert_args(args) 
+        valid_args = self.check_num_args(args_list, 1, MISSING_NAME_ERR)
+        if not valid_args: 
+            return
+        
+        new_path = args_list[0]
+        if new_path[0] == "/" and not os.path.isdir(new_path):
+            self.logger.e_msg("Not a valid directory.")
+            return 
+        elif new_path[0] != "/" and not os.path.isdir(os.path.join(self.curr_path, new_path)):
+            self.logger.e_msg("Not a valid directory.")
+            return
+
+        self.curr_path = os.path.abspath(os.path.join(self.curr_path, new_path))
+
+    def do_ls(self, args: str) -> None: 
+        """List the arguments in the current working directory."""
+        args_list = self.convert_args(args)
+        valid_args = self.check_num_args(args_list, 0, "Cannot accept arguments.")
+        if not valid_args:
+            return 
+
+        self.logger.v_msg(" ".join(os.listdir(self.curr_path)))
+
     def do_delete(self, args: str):
         """Remove some object the REPL is storing from memory."""
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 2, MISSING_TYPE_AND_NAME_ERR)
-        if not valid_args:
+        if not (valid_args := self.check_num_args(args_list, 2, MISSING_TYPE_AND_NAME_ERR)):
             return
 
-        obj_type = args[0]
-        name = args[1]
+        obj_type = args_list[0]
+        name = args_list[1]
         if obj_type == ObjTypes.GRAPH.value:
             try:
                 del self.data.graphs[name]
@@ -793,52 +819,8 @@ class Command:
         else:
             self.logger.v_msg(f"Type {type} not recognized.")
 
+
+
     def convert_args(self, args: str):
         """Obtain a list of arguments from a string."""
         return args.strip().split()
-
-    def complete(self, text, state):
-        """Enhanced auto-completion for the REPL."""
-        res = self.repl_wrapper.complete(text, state)
-        # Try to do tab completion on a directory. Text contains the latest paremeter
-        # text only contains the latest segment, which splits on / (and other characters)
-        line = readline.get_line_buffer()
-        if res is None:
-            if not self.have_completed:
-                starting_index = line[::-1].find(text[::-1])
-                starting_index = len(line) - starting_index - 1
-                if len(text) == 0:
-                    starting_index = len(line) - 1
-                if starting_index != -1:
-                    while starting_index > 0:
-                        if line[starting_index] == ' ':
-                            break
-
-                        starting_index -= 1
-                    path = line[starting_index:]
-                else:
-                    print("This should not happen")
-                    path = ""
-
-                dir_path = path
-                if not os.path.isdir(dir_path):
-                    if os.path.dirname(dir_path) != "":
-                        dir_path = os.path.dirname(dir_path)
-                    else:
-                        dir_path = "."
-
-                sub_files = os.listdir(dir_path.strip())
-                logging.info(f"dir_path {dir_path.strip()}")
-                logging.info(f"Sub Files {sub_files}")
-                matches = [match for match in sub_files if match.startswith(text)]
-                if len(matches) == 1:
-                    self.have_completed = True
-                    return matches[0]
-
-                print(f"\n{matches}\n> {line}", end="")
-            else:
-                self.have_completed = False
-        else:
-            self.have_completed = True
-
-        return res

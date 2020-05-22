@@ -6,6 +6,7 @@ import argparse
 import importlib
 from cmd import Cmd
 import command
+import os
 
 TESTING_MODE = True
 
@@ -13,11 +14,55 @@ TESTING_MODE = True
 class MyPrompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""
 
-    def __init__(self, debug_mode: bool, multi_threaded: bool) -> None:
+    def postcmd(self, stop, line):
+        self.prompt = f"{self.command.curr_path} > "
+
+    def complete_file_path(self, text, line, begin, end, folders_only=False):
+        """Enhanced auto-completion for the REPL."""
+        # Try to do tab completion on a directory. Text contains the latest paremeter
+        # text only contains the latest segment, which splits on / (and other characters)
+               # Find the most recent space.
+        starting_idx = None
+        slash_index = None
+        for i, char in enumerate(reversed(line)):
+            if char == "/" and slash_index is None:
+                slash_index = len(line) - i
+                logging.info("Found the slash.")
+            if char == " ":
+                starting_idx = len(line) - i
+                break
+        full_arg = line[starting_idx:]
+        
+        if os.path.isdir(full_arg):
+            # If this is a folder, get all things in this folder
+            return os.listdir(full_arg)
+        else:
+            # Get the path up to the last "/"
+            logging.info(f"the folder path is: {line[starting_idx:slash_index]}")
+            folder_path = line[starting_idx:slash_index] if slash_index is not None else "."
+            matches = [match for match in os.listdir(folder_path) if match.startswith(text)]
+            return matches
+
+        return None
+
+    def complete_cd(self, text, line, begin, end): 
+        return self.complete_file_path(text, line, begin, end, True)
+
+    def complete_convert(self, text, line, begin, end):
+        """Completion for the convert command."""
+        return self.complete_file_path(text, line, begin, end, False)
+
+    def complete_to_klee_format(self, text, line, begin, end):
+        """Completion for the to_klee_format command."""
+        return self.complete_file_path(text, line, begin, end, False)
+
+    def __init__(self, curr_path:str, debug_mode: bool, multi_threaded: bool) -> None:
         """Create a new instance of the REPL."""
-        self.command = command.Command(debug_mode, multi_threaded, self)
+        self.command = command.Command(curr_path, debug_mode, multi_threaded, self)
         if TESTING_MODE:
             setattr(self, "do_reload", self.reload)
+
+        self.prompt = f"{self.command.curr_path} > "
 
         super(MyPrompt, self).__init__()
 
@@ -133,6 +178,14 @@ class MyPrompt(Cmd):
         """Quit the path complexity repl."""
         self.command.do_quit(arguments)
 
+    def do_cd(self, arguments) -> None:
+        """Change the current working directory."""
+        self.command.do_cd(arguments)
+
+    def do_ls(self, arguments) -> None:
+        """List the files in the current directory."""
+        self.command.do_ls(arguments)
+
     def reload(self, _) -> None:
         """Reload the modules."""
         importlib.reload(command)
@@ -155,9 +208,18 @@ def main():
         readline.read_history_file()
     except FileNotFoundError:
         pass
-    prompt = MyPrompt(parsed_args.debug_mode, parsed_args.multi_threaded)
-    prompt.prompt = '> '
-    prompt.cmdloop('Starting path complexity repl...')
+    prompt = MyPrompt("/app/code", parsed_args.debug_mode, parsed_args.multi_threaded)
+    prompt.cmdloop('''
+
+            _       _____          ____            
+     /\    | |     |  __ \  /\    / __ \     /\    
+    /  \   | |     | |__) |/  \  | |  | |   /  \   
+   / /\ \  | |     |  ___// /\ \ | |  | |  / /\ \  
+  / ____ \ | |____ | |   / ____ \| |__| | / ____ \ 
+ /_/    \_\|______||_|  /_/    \_\\___\_\/_/    \_\
+                                                   
+Starting the REPL...
+    ''')
 
 
 if __name__ == "__main__":
