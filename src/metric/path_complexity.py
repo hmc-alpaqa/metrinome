@@ -51,14 +51,14 @@ class PathComplexity(metric.MetricAbstract):
 
         denominator = Poly(sympify(-x_det))
 
-        generating_function = x_sub.det() / denominator
-        #generating_function = x_sub.det(method="det_LU") / denominator
+        #generating_function = x_sub.det() / denominator
+        generating_function = x_sub.det(method="det_LU") / denominator
 
         recurrence_degree = degree(denominator, gen=t_var) + 1
         self.logger.d_msg(degree_list(denominator))
         self.logger.d_msg(denominator)
-        recurrence_kernel = [denominator.as_expr().coeff(t_var, n) for n in range(recurrence_degree)][::-1]
-        
+        #recurrence_kernel = [denominator.as_expr().coeff(t_var, n) for n in range(recurrence_degree)][::-1]
+        recurrence_kernel = denominator.all_coeffs()[::-1]
         try:
             test = [round(-x, 2) for x in recurrence_kernel]
         except TypeError:
@@ -66,16 +66,17 @@ class PathComplexity(metric.MetricAbstract):
             x_det = x_mat.det()
             denominator = Poly(sympify(-x_det))
             recurrence_degree = degree(denominator, gen=t_var) + 1
-            recurrence_kernel = [denominator.as_expr().coeff(t_var, n) for n in range(recurrence_degree)][::-1]
+            #recurrence_kernel = [denominator.as_expr().coeff(t_var, n) for n in range(recurrence_degree)][::-1]
+            recurrence_kernel = denominator.all_coeffs()[::-1]
             test = [round(-x, 2) for x in recurrence_kernel]
 
-        #test = simplify(recurrence_kernel)
+    
         roots = polyroots(test, maxsteps=250, extraprec=250)
 
         self.logger.d_msg(f"Generating Function: {generating_function}")
 
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
-
+        
         if taylor_coeffs is not None:
             base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree - 1],
                                    dtype='complex')
