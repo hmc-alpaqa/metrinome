@@ -8,7 +8,7 @@ import os
 import re
 import glob2  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph, GraphType
+from graph import Graph, GraphType  # pylint: disable=unused-import
 
 # pylint: disable=R0201
 

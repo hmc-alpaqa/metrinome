@@ -319,7 +319,7 @@ class Graph:
 
     def __eq__(self, other) -> bool:
         """Check that two Graphs are equal by checking their vertices and edges."""
-        if self.graph_type != other.graph_type: 
+        if self.graph_type != other.graph_type:
             raise ValueError("Graph types must be the same.")
 
         sets_equal = (self.edges == other.edge_rules() and self.vertices == other.get_vertices())

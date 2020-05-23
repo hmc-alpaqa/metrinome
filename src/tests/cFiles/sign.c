@@ -7,4 +7,3 @@ int get_sign(int x) {
   else
     return 1;
 }
-

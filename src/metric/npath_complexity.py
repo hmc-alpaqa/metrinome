@@ -5,11 +5,11 @@ This works with both the adjacency list representation and edge list.
 """
 
 import copy
-from typing import List
+from typing import List, Tuple
 from graph import Graph, GraphType
 from metric import metric
 
-EdgeType = List[int]
+EdgeType = Tuple[int, int]
 NodeType = int
 
 

@@ -6,7 +6,6 @@ from os import listdir
 import readline
 from pathlib import Path
 import re
-import logging
 import subprocess
 import tempfile
 import time
@@ -222,19 +221,19 @@ class Data:
         else:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
 
-    #TODO: Klee export *
+    # TODO: Klee export *
     def export_bc(self, name, new_name) -> None:
         """Save a BC the REPL knows about to an external file."""
         if name in self.bc_files:
-            with open(f"/app/code/exports/{new_name}.bc","wb+") as file:
-                bc = self.bc_files[name]
-                file.write(bc)
+            with open(f"/app/code/exports/{new_name}.bc", "wb+") as file:
+                bc_file = self.bc_files[name]
+                file.write(bc_file)
                 self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
         else:
             self.logger.e_msg(f"No {str(ObjTypes.KLEE_BC).capitalize()} {name} found.")
 
     def export_klee_file(self, name, new_name) -> None:
-        """Save a Klee formatted file the REPL knows about"""
+        """Save a Klee formatted file the REPL knows about."""
         if name in self.klee_formatted_files:
             with open(f"/app/code/exports/{new_name}_klee.c", "w+") as file:
                 klee_file = self.klee_formatted_files[name]
@@ -287,8 +286,6 @@ class Data:
         self.list_klee_bc()
         self.list_klee_stats()
 
-
-
     def show_graphs(self, name: str, names):
         """Display a Graph we know about to the REPL."""
         if name == "*":
@@ -312,18 +309,21 @@ class Data:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
     def show_klee_files(self, names):
+        """Display all files that are formatted to be converted to .bc files."""
         for klee_file_name in names:
             if klee_file_name in self.klee_formatted_files:
                 self.logger.i_msg("KLEE FORMATTED FILES:")
                 self.logger.v_msg(str(self.klee_formatted_files[klee_file_name]))
 
-    def show_klee_bc(self,names):
+    def show_klee_bc(self, names):
+        """Display .bc files currently stored in the REPL."""
         for klee_bc_name in names:
             if klee_bc_name in self.bc_files:
                 self.logger.i_msg("BC FILES:")
                 self.logger.v_msg(self.bc_files[klee_bc_name])
 
-    def show_klee_stats(self,names):
+    def show_klee_stats(self, names):
+        """Display statistics obtained from executing KLEE."""
         for klee_stats_name in names:
             if klee_stats_name in self.klee_stats:
                 self.logger.i_msg("KLEE STATS:")
@@ -339,7 +339,8 @@ class Data:
 class Command:
     """Command is the implementation of the REPL commands."""
 
-    def __init__(self, curr_path: str, debug_mode: bool, multi_threaded: bool, repl_wrapper) -> None:
+    def __init__(self, curr_path: str, debug_mode: bool,
+                 multi_threaded: bool, repl_wrapper) -> None:
         """Create a new instance of the REPL implementation."""
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
@@ -520,22 +521,9 @@ class Command:
 
             self.data.metrics[name] = results
 
-    def do_show(self, args: str) -> None:
-        """Display objects the REPL knows about."""
-        args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 2, "Must specify type (metric, graph, or any KLEE type) and name.")
-        if not valid_args:
-            return
-
-        obj_type = args_list[0]
-        name = args_list[1]
-        names = [name]
-        obj_type = ObjTypes.get_type(obj_type)
-        if obj_type == ObjTypes.METRIC:
-            self.data.show_metric(name, names)
-        elif obj_type == ObjTypes.GRAPH:
-            self.data.show_graphs(name, names)
-        elif obj_type == ObjTypes.KLEE_BC:
+    def do_show_klee(self, obj_type, names):
+        """Display the KLEE objects the REPL knows about."""
+        if obj_type == ObjTypes.KLEE_BC:
             self.data.show_klee_bc(names)
         elif obj_type == ObjTypes.KLEE_FILE:
             self.data.show_klee_files(names)
@@ -543,9 +531,30 @@ class Command:
             self.data.show_klee_stats(names)
         elif obj_type == ObjTypes.KLEE:
             self.data.show_klee(names)
+
+    def do_show(self, args: str) -> None:
+        """Display objects the REPL knows about."""
+        args_list = self.convert_args(args)
+        err_msg = "Must specify type (metric, graph, or any KLEE type) and name."
+        valid_args = self.check_num_args(args_list, 2, err_msg)
+        if not valid_args:
+            return
+
+        obj_type = args_list[0]
+        name = args_list[1]
+        names = [name]
+        obj_type = ObjTypes.get_type(obj_type)
+        self.do_show_klee(obj_type, names)
+        if obj_type == ObjTypes.METRIC:
+            self.data.show_metric(name, names)
+        elif obj_type == ObjTypes.GRAPH:
+            self.data.show_graphs(name, names)
         elif obj_type == ObjTypes.ALL:
             if name == "*":
-                names = list(self.data.metrics.keys()) + list(self.data.graphs.keys()) + list(self.data.bc_files.keys())+list(self.data.klee_formatted_files.keys())+list(self.data.klee_stats.keys())
+                names = list(self.data.metrics.keys()) + list(self.data.graphs.keys()) + \
+                    list(self.data.bc_files.keys()) + \
+                    list(self.data.klee_formatted_files.keys()) + \
+                    list(self.data.klee_stats.keys())
                 names = list(set(names))
 
             for name in names:
@@ -820,54 +829,62 @@ class Command:
             else:
                 self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
 
-        #TODO: Fix exporting as other klee types
+        # TODO: Fix exporting as other klee types
         elif export_type == ObjTypes.KLEE_BC:
             self.data.export_bc(name, new_name)
         elif export_type == ObjTypes.KLEE_FILE:
-            self.data.export_klee_file(name,new_name)
+            self.data.export_klee_file(name, new_name)
         elif export_type == ObjTypes.KLEE:
             self.data.export_bc(name, new_name)
             self.data.export_klee_file(name, new_name)
-
-
         else:
             self.logger.v_msg(f"Type {export_type} not recognized.")
 
     def do_cd(self, args: str) -> None:
         """Change the working directory in the REPL."""
-        args_list = self.convert_args(args) 
+        args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, MISSING_NAME_ERR)
-        if not valid_args: 
+        if not valid_args:
             return
-        
+
         new_path = args_list[0]
         if new_path[0] == "/" and not os.path.isdir(new_path):
             self.logger.e_msg("Not a valid directory.")
-            return 
-        elif new_path[0] != "/" and not os.path.isdir(os.path.join(self.curr_path, new_path)):
+            return
+
+        if new_path[0] != "/" and not os.path.isdir(os.path.join(self.curr_path, new_path)):
             self.logger.e_msg("Not a valid directory.")
             return
 
         self.curr_path = os.path.abspath(os.path.join(self.curr_path, new_path))
 
-    def do_ls(self, args: str) -> None: 
+    def do_ls(self, args: str) -> None:
         """List the arguments in the current working directory."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 0, "Cannot accept arguments.")
         if not valid_args:
-            return 
+            return
 
         self.logger.v_msg(" ".join(os.listdir(self.curr_path)))
 
     def do_delete(self, args: str):
         """Remove some object the REPL is storing from memory."""
         args_list = self.convert_args(args)
-        if not (valid_args := self.check_num_args(args_list, 2, MISSING_TYPE_AND_NAME_ERR)):
+        valid_args = self.check_num_args(args_list, 2, MISSING_TYPE_AND_NAME_ERR)
+        if not valid_args:
             return
 
         obj_type = args_list[0]
         self.logger.d_msg(obj_type)
         name = args_list[1]
+        d = {
+            ObjTypes.GRAPH.value: self.data.graphs,
+            ObjTypes.METRIC.value: self.data.metrics,
+            ObjTypes.STAT.value: self.data.stats,
+            ObjTypes.KLEE_BC.value: self.data.bc_files,
+            ObjTypes.KLEE_STATS.value: self.data.klee_stats,
+            ObjTypes.KLEE_FILE.value: self.data.klee_formatted_files,
+        }
         if obj_type == ObjTypes.GRAPH.value:
             try:
                 del self.data.graphs[name]
@@ -900,7 +917,8 @@ class Command:
                 self.logger.v_msg(f"{ObjTypes.KLEE_FILE.value.capitalize()} {name} not found.")
         elif obj_type == ObjTypes.KLEE.value:
             found = False
-            for dictionary in [self.data.klee_stats, self.data.klee_formatted_files, self.data.bc_files]:
+            for dictionary in [self.data.klee_stats, self.data.klee_formatted_files,
+                               self.data.bc_files]:
                 try:
                     del dictionary[name]
                     found = True
@@ -910,7 +928,9 @@ class Command:
                 self.logger.v_msg(f"No {name} found of any KLEE type.")
         elif obj_type == ObjTypes.ALL.value:
             found = False
-            for dictionary in [self.data.graphs, self.data.metrics, self.data.stats, self.data.klee_stats, self.data.klee_formatted_files, self.data.bc_files]:
+            for dictionary in [self.data.graphs, self.data.metrics,
+                               self.data.stats, self.data.klee_stats,
+                               self.data.klee_formatted_files, self.data.bc_files]:
                 try:
                     del dictionary[name]
                     found = True
@@ -920,8 +940,6 @@ class Command:
                 self.logger.v_msg(f"No {name} found of any type.")
         else:
             self.logger.v_msg(f"Type {type} not recognized.")
-
-
 
     def convert_args(self, args: str):
         """Obtain a list of arguments from a string."""

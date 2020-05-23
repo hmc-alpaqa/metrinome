@@ -46,7 +46,8 @@ class TestPythonConvert(unittest.TestCase):
     def test_for(self):
         """Test that we can correctly parse for loops."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/for", ".py")
-        expected = Graph([(0, 1), (1, 2), (1, 3), (2, 4), (4, 1)], [0, 1, 2, 3, 4], 0, 3, GraphType.EDGE_LIST)
+        expected = Graph([(0, 1), (1, 2), (1, 3), (2, 4), (4, 1)],
+                         [0, 1, 2, 3, 4], 0, 3, GraphType.EDGE_LIST)
         self.assertTrue(expected == res['for_func'])
 
     def test_while(self):
