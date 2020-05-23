@@ -113,16 +113,15 @@ def get_recurrence_solution(recurrence: str):
 def get_taylor_coeffs(func, num_coeffs: int):
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
-    series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')
+    series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')[::-1]
     first_element = series_list[0]
     first_power = re.search(r"\*\*([0-9]*)", str(first_element))
     if first_power is not None:
         first_power_int = int(first_power.groups()[0])
-        taylor_coeffs = [0] * first_power_int + [sympify(f).subs(t_var, 1) for f in series_list]
+        taylor_coeffs = [sympify(f).subs(t_var, 1) for f in series_list]
         return taylor_coeffs
-
-    return None
-
+    else:
+        return None
 
 def is_exponential(term: str, var='n'):
     """If an expression contains an exponential, return its base. Otherwise, return None."""
