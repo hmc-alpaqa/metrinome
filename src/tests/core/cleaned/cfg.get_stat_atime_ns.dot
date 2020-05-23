@@ -1,0 +1,5 @@
+digraph { 
+0 [label="START"];
+1;
+2[label="EXIT"];
+}

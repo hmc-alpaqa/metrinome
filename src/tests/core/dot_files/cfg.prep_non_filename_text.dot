@@ -1,0 +1,12 @@
+digraph "CFG for 'prep_non_filename_text' function" {
+	label="CFG for 'prep_non_filename_text' function";
+
+	Node0x2278110 [shape=record,label="{%0:\l  %1 = load i8*, i8** getelementptr inbounds ([24 x %struct.bin_str], [24 x\l... %struct.bin_str]* @color_indicator, i64 0, i64 2, i32 1), align 8, !dbg\l... !1395, !tbaa !1397\l  %2 = icmp ne i8* %1, null, !dbg !1403\l  br i1 %2, label %3, label %4, !dbg !1404\l|{<s0>T|<s1>F}}"];
+	Node0x2278110:s0 -> Node0x2278300;
+	Node0x2278110:s1 -> Node0x2278350;
+	Node0x2278300 [shape=record,label="{%3:\l\l  call void @put_indicator(%struct.bin_str* getelementptr inbounds ([24 x\l... %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64 2)),\l... !dbg !1405\l  br label %5, !dbg !1405\l}"];
+	Node0x2278300 -> Node0x22783a0;
+	Node0x2278350 [shape=record,label="{%4:\l\l  call void @put_indicator(%struct.bin_str* getelementptr inbounds ([24 x\l... %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64 0)),\l... !dbg !1406\l  call void @put_indicator(%struct.bin_str* getelementptr inbounds ([24 x\l... %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64 3)),\l... !dbg !1408\l  call void @put_indicator(%struct.bin_str* getelementptr inbounds ([24 x\l... %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64 1)),\l... !dbg !1409\l  br label %5\l}"];
+	Node0x2278350 -> Node0x22783a0;
+	Node0x22783a0 [shape=record,label="{%5:\l\l  ret void, !dbg !1410\l}"];
+}

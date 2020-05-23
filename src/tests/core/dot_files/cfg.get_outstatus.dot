@@ -1,0 +1,17 @@
+digraph "CFG for 'get_outstatus' function" {
+	label="CFG for 'get_outstatus' function";
+
+	Node0x2041190 [shape=record,label="{%0:\l  %1 = load i32, i32* @get_outstatus.outstat_errno, align 4, !dbg !1736, !tbaa\l... !1738\l  %2 = icmp eq i32 %1, 0, !dbg !1742\l  br i1 %2, label %3, label %12, !dbg !1743\l|{<s0>T|<s1>F}}"];
+	Node0x2041190:s0 -> Node0x2041a50;
+	Node0x2041190:s1 -> Node0x2041b90;
+	Node0x2041a50 [shape=record,label="{%3:\l\l  %4 = call i32 @fstat(i32 1, %struct.stat* @get_outstatus.outstat) #14, !dbg\l... !1744\l  %5 = icmp eq i32 %4, 0, !dbg !1745\l  br i1 %5, label %6, label %7, !dbg !1744\l|{<s0>T|<s1>F}}"];
+	Node0x2041a50:s0 -> Node0x2041aa0;
+	Node0x2041a50:s1 -> Node0x2041af0;
+	Node0x2041aa0 [shape=record,label="{%6:\l\l  br label %10, !dbg !1744\l}"];
+	Node0x2041aa0 -> Node0x2041b40;
+	Node0x2041af0 [shape=record,label="{%7:\l\l  %8 = call i32* @__errno_location() #15, !dbg !1746\l  %9 = load i32, i32* %8, align 4, !dbg !1746, !tbaa !1738\l  br label %10, !dbg !1744\l}"];
+	Node0x2041af0 -> Node0x2041b40;
+	Node0x2041b40 [shape=record,label="{%10:\l\l  %11 = phi i32 [ -1, %6 ], [ %9, %7 ], !dbg !1744\l  store i32 %11, i32* @get_outstatus.outstat_errno, align 4, !dbg !1747, !tbaa\l... !1738\l  br label %12, !dbg !1748\l}"];
+	Node0x2041b40 -> Node0x2041b90;
+	Node0x2041b90 [shape=record,label="{%12:\l\l  %13 = load i32, i32* @get_outstatus.outstat_errno, align 4, !dbg !1749,\l... !tbaa !1738\l  %14 = icmp slt i32 %13, 0, !dbg !1750\l  %15 = zext i1 %14 to i64, !dbg !1749\l  %16 = select i1 %14, %struct.stat* @get_outstatus.outstat, %struct.stat*\l... null, !dbg !1749\l  ret %struct.stat* %16, !dbg !1751\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'forget_all' function" {
+	label="CFG for 'forget_all' function";
+
+	Node0x28b7280 [shape=record,label="{%0:\l  %1 = load %struct.hash_table*, %struct.hash_table** @src_to_dest, align 8,\l... !dbg !1536, !tbaa !1537\l  call void @hash_free(%struct.hash_table* %1), !dbg !1541\l  ret void, !dbg !1542\l}"];
+}

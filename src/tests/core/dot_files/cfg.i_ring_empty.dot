@@ -1,0 +1,5 @@
+digraph "CFG for 'i_ring_empty' function" {
+	label="CFG for 'i_ring_empty' function";
+
+	Node0x25040d0 [shape=record,label="{%1:\l  %2 = alloca %struct.I_ring*, align 8\l  store %struct.I_ring* %0, %struct.I_ring** %2, align 8, !tbaa !936\l  call void @llvm.dbg.declare(metadata %struct.I_ring** %2, metadata !935,\l... metadata !DIExpression()), !dbg !940\l  %3 = load %struct.I_ring*, %struct.I_ring** %2, align 8, !dbg !941, !tbaa\l... !936\l  %4 = getelementptr inbounds %struct.I_ring, %struct.I_ring* %3, i32 0, i32\l... 4, !dbg !942\l  %5 = load i8, i8* %4, align 4, !dbg !942, !tbaa !943, !range !947\l  %6 = trunc i8 %5 to i1, !dbg !942\l  ret i1 %6, !dbg !948\l}"];
+}

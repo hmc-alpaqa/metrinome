@@ -11,21 +11,17 @@ from typing import List, Any
 from numpy import mean, std, median  # type: ignore
 from graph import Graph
 from utils import Timeout
+from typing import List, Any
 
-
-def run_benchmark(converter, graph_type, show_info: bool = True):
+def run_benchmark(converter, graph_type, show_info, graph_frac = 5, folders_frac = 46, timeout_threshold = 5):
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
-
+    print(f"number of folders: {len(folders)}\n")
     metric_collection: List[Any] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
-    overall_time_list = []
-
-    graph_frac = 2
-    folders_frac = 5
-    total_timeout_count = 0
-
-    # Test the metrics for each folder in apache_cfgs.
+    overall_time_list = []  
+    timeout_total = 0
+    # test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {floor(len(folders) / folders_frac)}")
     for folder in folders[0:floor(len(folders) / folders_frac)]:
         print(f"On folder {folder}")
@@ -42,18 +38,20 @@ def run_benchmark(converter, graph_type, show_info: bool = True):
 
     print(f"======= OVERALL ==========")
     print_overall_results(overall_time_list)
-    print(f"Total number of timeouts: {total_timeout_count}")
+    
 
 
-def print_overall_results(overall_time_list):
+def print_overall_results(overall_time_list, timeout_total, timeout_threshold):
     """Print the results once the benchmark is done."""
     # print overall metrics for all cfgs.
     print(runtime_metrics(overall_time_list))
     # print cfgs at above +1 stdev away.
-    print(runtime_outlier(overall_time_list, True))
+    print(runtime_outlier(overall_time_list, show_info))
+    print(f"\nTOTAL TIMEOUTS: {timeout_total}\n")
+    print(f"TIMEOUT THRESHOLD: {timeout_threshold} Seconds")
 
 
-def get_converter_time(graph_list, converter, folder, graph_type, show_info):
+def get_converter_time(graph_list, converter, folder, timeout_threshold, show_info):
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -67,7 +65,7 @@ def get_converter_time(graph_list, converter, folder, graph_type, show_info):
         graph_zero = Graph.from_file(graph, graph_type=graph_type)
         start_time = time.time()
         try:
-            with Timeout(60, f'{converter.name()} took too long'):
+            with Timeout(timeout_threshold, f'{converter.name()} took too long'):
                 converter.evaluate(graph_zero)
 
             # Calculate the run time.

@@ -1,0 +1,14 @@
+digraph "CFG for 'dirent_inode_sort_may_be_useful' function" {
+	label="CFG for 'dirent_inode_sort_may_be_useful' function";
+
+	Node0x2456980 [shape=record,label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca %struct._ftsent*, align 8\l  %5 = alloca i32, align 4\l  store %struct._ftsent* %0, %struct._ftsent** %4, align 8, !tbaa !927\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %4, metadata !925,\l... metadata !DIExpression()), !dbg !931\l  store i32 %1, i32* %5, align 4, !tbaa !932\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !926, metadata\l... !DIExpression()), !dbg !934\l  %6 = load %struct._ftsent*, %struct._ftsent** %4, align 8, !dbg !935, !tbaa\l... !927\l  %7 = load i32, i32* %5, align 4, !dbg !936, !tbaa !932\l  %8 = call i64 @filesystem_type(%struct._ftsent* %6, i32 %7), !dbg !937\l  switch i64 %8, label %10 [\l    i64 4283649346, label %9\l    i64 26985, label %9\l    i64 16914836, label %9\l  ], !dbg !938\l|{<s0>def|<s1>4283649346|<s2>26985|<s3>16914836}}"];
+	Node0x2456980:s0 -> Node0x2456a50;
+	Node0x2456980:s1 -> Node0x2456a00;
+	Node0x2456980:s2 -> Node0x2456a00;
+	Node0x2456980:s3 -> Node0x2456a00;
+	Node0x2456a00 [shape=record,label="{%9:\l\l  store i1 false, i1* %3, align 1, !dbg !939\l  br label %11, !dbg !939\l}"];
+	Node0x2456a00 -> Node0x2456aa0;
+	Node0x2456a50 [shape=record,label="{%10:\l\l  store i1 true, i1* %3, align 1, !dbg !941\l  br label %11, !dbg !941\l}"];
+	Node0x2456a50 -> Node0x2456aa0;
+	Node0x2456aa0 [shape=record,label="{%11:\l\l  %12 = load i1, i1* %3, align 1, !dbg !942\l  ret i1 %12, !dbg !942\l}"];
+}

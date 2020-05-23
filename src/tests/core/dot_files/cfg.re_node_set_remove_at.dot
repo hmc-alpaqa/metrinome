@@ -1,0 +1,22 @@
+digraph "CFG for 're_node_set_remove_at' function" {
+	label="CFG for 're_node_set_remove_at' function";
+
+	Node0xb20460 [shape=record,label="{%2:\l  %3 = alloca %struct.re_node_set*, align 8\l  %4 = alloca i64, align 8\l  store %struct.re_node_set* %0, %struct.re_node_set** %3, align 8, !tbaa !1062\l  call void @llvm.dbg.declare(metadata %struct.re_node_set** %3, metadata\l... !1060, metadata !DIExpression()), !dbg !1066\l  store i64 %1, i64* %4, align 8, !tbaa !1067\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1061, metadata\l... !DIExpression()), !dbg !1069\l  %5 = load i64, i64* %4, align 8, !dbg !1070, !tbaa !1067\l  %6 = icmp slt i64 %5, 0, !dbg !1072\l  br i1 %6, label %13, label %7, !dbg !1073\l|{<s0>T|<s1>F}}"];
+	Node0xb20460:s0 -> Node0xb20500;
+	Node0xb20460:s1 -> Node0xb204b0;
+	Node0xb204b0 [shape=record,label="{%7:\l\l  %8 = load i64, i64* %4, align 8, !dbg !1074, !tbaa !1067\l  %9 = load %struct.re_node_set*, %struct.re_node_set** %3, align 8, !dbg\l... !1075, !tbaa !1062\l  %10 = getelementptr inbounds %struct.re_node_set, %struct.re_node_set* %9,\l... i32 0, i32 1, !dbg !1076\l  %11 = load i64, i64* %10, align 8, !dbg !1076, !tbaa !1077\l  %12 = icmp sge i64 %8, %11, !dbg !1079\l  br i1 %12, label %13, label %14, !dbg !1080\l|{<s0>T|<s1>F}}"];
+	Node0xb204b0:s0 -> Node0xb20500;
+	Node0xb204b0:s1 -> Node0xb20550;
+	Node0xb20500 [shape=record,label="{%13:\l\l  br label %41, !dbg !1081\l}"];
+	Node0xb20500 -> Node0xb20690;
+	Node0xb20550 [shape=record,label="{%14:\l\l  %15 = load %struct.re_node_set*, %struct.re_node_set** %3, align 8, !dbg\l... !1082, !tbaa !1062\l  %16 = getelementptr inbounds %struct.re_node_set, %struct.re_node_set* %15,\l... i32 0, i32 1, !dbg !1083\l  %17 = load i64, i64* %16, align 8, !dbg !1084, !tbaa !1077\l  %18 = add nsw i64 %17, -1, !dbg !1084\l  store i64 %18, i64* %16, align 8, !dbg !1084, !tbaa !1077\l  br label %19, !dbg !1085\l}"];
+	Node0xb20550 -> Node0xb205a0;
+	Node0xb205a0 [shape=record,label="{%19:\l\l  %20 = load i64, i64* %4, align 8, !dbg !1086, !tbaa !1067\l  %21 = load %struct.re_node_set*, %struct.re_node_set** %3, align 8, !dbg\l... !1089, !tbaa !1062\l  %22 = getelementptr inbounds %struct.re_node_set, %struct.re_node_set* %21,\l... i32 0, i32 1, !dbg !1090\l  %23 = load i64, i64* %22, align 8, !dbg !1090, !tbaa !1077\l  %24 = icmp slt i64 %20, %23, !dbg !1091\l  br i1 %24, label %25, label %41, !dbg !1092\l|{<s0>T|<s1>F}}"];
+	Node0xb205a0:s0 -> Node0xb205f0;
+	Node0xb205a0:s1 -> Node0xb20690;
+	Node0xb205f0 [shape=record,label="{%25:\l\l  %26 = load %struct.re_node_set*, %struct.re_node_set** %3, align 8, !dbg\l... !1093, !tbaa !1062\l  %27 = getelementptr inbounds %struct.re_node_set, %struct.re_node_set* %26,\l... i32 0, i32 2, !dbg !1094\l  %28 = load i64*, i64** %27, align 8, !dbg !1094, !tbaa !1095\l  %29 = load i64, i64* %4, align 8, !dbg !1096, !tbaa !1067\l  %30 = add nsw i64 %29, 1, !dbg !1097\l  %31 = getelementptr inbounds i64, i64* %28, i64 %30, !dbg !1093\l  %32 = load i64, i64* %31, align 8, !dbg !1093, !tbaa !1067\l  %33 = load %struct.re_node_set*, %struct.re_node_set** %3, align 8, !dbg\l... !1098, !tbaa !1062\l  %34 = getelementptr inbounds %struct.re_node_set, %struct.re_node_set* %33,\l... i32 0, i32 2, !dbg !1099\l  %35 = load i64*, i64** %34, align 8, !dbg !1099, !tbaa !1095\l  %36 = load i64, i64* %4, align 8, !dbg !1100, !tbaa !1067\l  %37 = getelementptr inbounds i64, i64* %35, i64 %36, !dbg !1098\l  store i64 %32, i64* %37, align 8, !dbg !1101, !tbaa !1067\l  br label %38, !dbg !1098\l}"];
+	Node0xb205f0 -> Node0xb20640;
+	Node0xb20640 [shape=record,label="{%38:\l\l  %39 = load i64, i64* %4, align 8, !dbg !1102, !tbaa !1067\l  %40 = add nsw i64 %39, 1, !dbg !1102\l  store i64 %40, i64* %4, align 8, !dbg !1102, !tbaa !1067\l  br label %19, !dbg !1103, !llvm.loop !1104\l}"];
+	Node0xb20640 -> Node0xb205a0;
+	Node0xb20690 [shape=record,label="{%41:\l\l  ret void, !dbg !1106\l}"];
+}

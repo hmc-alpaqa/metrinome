@@ -1,0 +1,36 @@
+digraph "CFG for 'to_tm_year' function" {
+	label="CFG for 'to_tm_year' function";
+
+	Node0x1deb090 [shape=record,label="{%3:\l  %4 = alloca i1, align 1\l  %5 = alloca i8, align 1\l  %6 = alloca i32*, align 8\l  %7 = alloca i64, align 8\l  %8 = alloca i32, align 4\l  call void @llvm.dbg.declare(metadata %struct.textint* %0, metadata !1171,\l... metadata !DIExpression()), !dbg !1175\l  %9 = zext i1 %1 to i8\l  store i8 %9, i8* %5, align 1, !tbaa !1176\l  call void @llvm.dbg.declare(metadata i8* %5, metadata !1172, metadata\l... !DIExpression()), !dbg !1180\l  store i32* %2, i32** %6, align 8, !tbaa !1181\l  call void @llvm.dbg.declare(metadata i32** %6, metadata !1173, metadata\l... !DIExpression()), !dbg !1183\l  %10 = bitcast i64* %7 to i8*, !dbg !1184\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %10) #12, !dbg !1184\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !1174, metadata\l... !DIExpression()), !dbg !1185\l  %11 = getelementptr inbounds %struct.textint, %struct.textint* %0, i32 0,\l... i32 1, !dbg !1186\l  %12 = load i64, i64* %11, align 8, !dbg !1186, !tbaa !1187\l  store i64 %12, i64* %7, align 8, !dbg !1185, !tbaa !1190\l  %13 = load i64, i64* %7, align 8, !dbg !1191, !tbaa !1190\l  %14 = icmp sle i64 0, %13, !dbg !1193\l  br i1 %14, label %15, label %34, !dbg !1194\l|{<s0>T|<s1>F}}"];
+	Node0x1deb090:s0 -> Node0x1cf3a60;
+	Node0x1deb090:s1 -> Node0x1cf3ba0;
+	Node0x1cf3a60 [shape=record,label="{%15:\l\l  %16 = getelementptr inbounds %struct.textint, %struct.textint* %0, i32 0,\l... i32 2, !dbg !1195\l  %17 = load i64, i64* %16, align 8, !dbg !1195, !tbaa !1196\l  %18 = icmp eq i64 %17, 2, !dbg !1197\l  br i1 %18, label %19, label %34, !dbg !1198\l|{<s0>T|<s1>F}}"];
+	Node0x1cf3a60:s0 -> Node0x1cf3ab0;
+	Node0x1cf3a60:s1 -> Node0x1cf3ba0;
+	Node0x1cf3ab0 [shape=record,label="{%19:\l\l  %20 = load i64, i64* %7, align 8, !dbg !1199, !tbaa !1190\l  %21 = icmp slt i64 %20, 69, !dbg !1201\l  %22 = zext i1 %21 to i64, !dbg !1199\l  %23 = select i1 %21, i32 2000, i32 1900, !dbg !1199\l  %24 = sext i32 %23 to i64, !dbg !1199\l  %25 = load i64, i64* %7, align 8, !dbg !1202, !tbaa !1190\l  %26 = add nsw i64 %25, %24, !dbg !1202\l  store i64 %26, i64* %7, align 8, !dbg !1202, !tbaa !1190\l  %27 = load i8, i8* %5, align 1, !dbg !1203, !tbaa !1176, !range !1205\l  %28 = trunc i8 %27 to i1, !dbg !1203\l  br i1 %28, label %29, label %33, !dbg !1206\l|{<s0>T|<s1>F}}"];
+	Node0x1cf3ab0:s0 -> Node0x1cf3b00;
+	Node0x1cf3ab0:s1 -> Node0x1cf3b50;
+	Node0x1cf3b00 [shape=record,label="{%29:\l\l  %30 = getelementptr inbounds %struct.textint, %struct.textint* %0, i32 0,\l... i32 1, !dbg !1207\l  %31 = load i64, i64* %30, align 8, !dbg !1207, !tbaa !1187\l  %32 = load i64, i64* %7, align 8, !dbg !1208, !tbaa !1190\l  call void (i8*, ...) @dbg_printf(i8* getelementptr inbounds ([42 x i8], [42\l... x i8]* @.str.234, i32 0, i32 0), i64 %31, i64 %32), !dbg !1209\l  br label %33, !dbg !1209\l}"];
+	Node0x1cf3b00 -> Node0x1cf3b50;
+	Node0x1cf3b50 [shape=record,label="{%33:\l\l  br label %34, !dbg !1210\l}"];
+	Node0x1cf3b50 -> Node0x1cf3ba0;
+	Node0x1cf3ba0 [shape=record,label="{%34:\l\l  %35 = load i64, i64* %7, align 8, !dbg !1211, !tbaa !1190\l  %36 = icmp slt i64 %35, 0, !dbg !1213\l  br i1 %36, label %37, label %47, !dbg !1214\l|{<s0>T|<s1>F}}"];
+	Node0x1cf3ba0:s0 -> Node0x1cf3bf0;
+	Node0x1cf3ba0:s1 -> Node0x1cf3c40;
+	Node0x1cf3bf0 [shape=record,label="{%37:\l\l  %38 = load i64, i64* %7, align 8, !dbg !1215, !tbaa !1190\l  %39 = load i32*, i32** %6, align 8, !dbg !1215, !tbaa !1181\l  %40 = call \{ i64, i1 \} @llvm.ssub.with.overflow.i64(i64 -1900, i64 %38),\l... !dbg !1215\l  %41 = extractvalue \{ i64, i1 \} %40, 1, !dbg !1215\l  %42 = extractvalue \{ i64, i1 \} %40, 0, !dbg !1215\l  %43 = trunc i64 %42 to i32, !dbg !1215\l  %44 = sext i32 %43 to i64, !dbg !1215\l  %45 = icmp ne i64 %42, %44, !dbg !1215\l  %46 = or i1 %41, %45, !dbg !1215\l  store i32 %43, i32* %39, align 4, !dbg !1215\l  br i1 %46, label %57, label %63, !dbg !1211\l|{<s0>T|<s1>F}}"];
+	Node0x1cf3bf0:s0 -> Node0x1cf3c90;
+	Node0x1cf3bf0:s1 -> Node0x1cf3d80;
+	Node0x1cf3c40 [shape=record,label="{%47:\l\l  %48 = load i64, i64* %7, align 8, !dbg !1216, !tbaa !1190\l  %49 = load i32*, i32** %6, align 8, !dbg !1216, !tbaa !1181\l  %50 = call \{ i64, i1 \} @llvm.ssub.with.overflow.i64(i64 %48, i64 1900), !dbg\l... !1216\l  %51 = extractvalue \{ i64, i1 \} %50, 1, !dbg !1216\l  %52 = extractvalue \{ i64, i1 \} %50, 0, !dbg !1216\l  %53 = trunc i64 %52 to i32, !dbg !1216\l  %54 = sext i32 %53 to i64, !dbg !1216\l  %55 = icmp ne i64 %52, %54, !dbg !1216\l  %56 = or i1 %51, %55, !dbg !1216\l  store i32 %53, i32* %49, align 4, !dbg !1216\l  br i1 %56, label %57, label %63, !dbg !1214\l|{<s0>T|<s1>F}}"];
+	Node0x1cf3c40:s0 -> Node0x1cf3c90;
+	Node0x1cf3c40:s1 -> Node0x1cf3d80;
+	Node0x1cf3c90 [shape=record,label="{%57:\l\l  %58 = load i8, i8* %5, align 1, !dbg !1217, !tbaa !1176, !range !1205\l  %59 = trunc i8 %58 to i1, !dbg !1217\l  br i1 %59, label %60, label %62, !dbg !1220\l|{<s0>T|<s1>F}}"];
+	Node0x1cf3c90:s0 -> Node0x1cf3ce0;
+	Node0x1cf3c90:s1 -> Node0x1cf3d30;
+	Node0x1cf3ce0 [shape=record,label="{%60:\l\l  %61 = load i64, i64* %7, align 8, !dbg !1221, !tbaa !1190\l  call void (i8*, ...) @dbg_printf(i8* getelementptr inbounds ([30 x i8], [30\l... x i8]* @.str.235, i32 0, i32 0), i64 %61), !dbg !1222\l  br label %62, !dbg !1222\l}"];
+	Node0x1cf3ce0 -> Node0x1cf3d30;
+	Node0x1cf3d30 [shape=record,label="{%62:\l\l  store i1 false, i1* %4, align 1, !dbg !1223\l  store i32 1, i32* %8, align 4\l  br label %64, !dbg !1223\l}"];
+	Node0x1cf3d30 -> Node0x1cf3dd0;
+	Node0x1cf3d80 [shape=record,label="{%63:\l\l  store i1 true, i1* %4, align 1, !dbg !1224\l  store i32 1, i32* %8, align 4\l  br label %64, !dbg !1224\l}"];
+	Node0x1cf3d80 -> Node0x1cf3dd0;
+	Node0x1cf3dd0 [shape=record,label="{%64:\l\l  %65 = bitcast i64* %7 to i8*, !dbg !1225\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %65) #12, !dbg !1225\l  %66 = load i1, i1* %4, align 1, !dbg !1225\l  ret i1 %66, !dbg !1225\l}"];
+}

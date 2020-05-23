@@ -1,0 +1,35 @@
+digraph "CFG for 'check_and_close' function" {
+	label="CFG for 'check_and_close' function";
+
+	Node0x1bd75a0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i8, align 1\l  store i32 %0, i32* %2, align 4, !tbaa !362\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !360, metadata\l... !DIExpression()), !dbg !366\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %3) #13, !dbg !367\l  call void @llvm.dbg.declare(metadata i8* %3, metadata !361, metadata\l... !DIExpression()), !dbg !368\l  store i8 1, i8* %3, align 1, !dbg !368, !tbaa !369\l  %4 = load %struct._IO_FILE*, %struct._IO_FILE** @in_stream, align 8, !dbg\l... !371, !tbaa !373\l  %5 = icmp ne %struct._IO_FILE* %4, null, !dbg !375\l  br i1 %5, label %6, label %40, !dbg !376\l|{<s0>T|<s1>F}}"];
+	Node0x1bd75a0:s0 -> Node0x1bd7660;
+	Node0x1bd75a0:s1 -> Node0x1bd7930;
+	Node0x1bd7660 [shape=record,label="{%6:\l\l  %7 = load %struct._IO_FILE*, %struct._IO_FILE** @in_stream, align 8, !dbg\l... !377, !tbaa !373\l  %8 = call i32 @ferror_unlocked(%struct._IO_FILE* %7) #13, !dbg !377\l  %9 = icmp ne i32 %8, 0, !dbg !377\l  br i1 %9, label %10, label %23, !dbg !380\l|{<s0>T|<s1>F}}"];
+	Node0x1bd7660:s0 -> Node0x1bd76b0;
+	Node0x1bd7660:s1 -> Node0x1bd77a0;
+	Node0x1bd76b0 [shape=record,label="{%10:\l\l  %11 = load i32, i32* %2, align 4, !dbg !381, !tbaa !362\l  %12 = load i8*, i8** @input_filename, align 8, !dbg !383, !tbaa !373\l  %13 = call i8* @quotearg_n_style_colon(i32 0, i32 3, i8* %12), !dbg !383\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 %11, i8* getelementptr\l... inbounds ([15 x i8], [15 x i8]* @.str.111, i32 0, i32 0), i8* %13), !dbg !384\l  %14 = load i8**, i8*** @file_list, align 8, !dbg !385, !tbaa !373\l  %15 = getelementptr inbounds i8*, i8** %14, i64 -1, !dbg !385\l  %16 = load i8*, i8** %15, align 8, !dbg !385, !tbaa !373\l  %17 = call i32 @strcmp(i8* %16, i8* getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.108, i32 0, i32 0)) #14, !dbg !385\l  %18 = icmp eq i32 %17, 0, !dbg !385\l  br i1 %18, label %22, label %19, !dbg !387\l|{<s0>T|<s1>F}}"];
+	Node0x1bd76b0:s0 -> Node0x1bd7750;
+	Node0x1bd76b0:s1 -> Node0x1bd7700;
+	Node0x1bd7700 [shape=record,label="{%19:\l\l  %20 = load %struct._IO_FILE*, %struct._IO_FILE** @in_stream, align 8, !dbg\l... !388, !tbaa !373\l  %21 = call i32 @rpl_fclose(%struct._IO_FILE* %20), !dbg !389\l  br label %22, !dbg !389\l}"];
+	Node0x1bd7700 -> Node0x1bd7750;
+	Node0x1bd7750 [shape=record,label="{%22:\l\l  store i8 0, i8* %3, align 1, !dbg !390, !tbaa !369\l  br label %39, !dbg !391\l}"];
+	Node0x1bd7750 -> Node0x1bd78e0;
+	Node0x1bd77a0 [shape=record,label="{%23:\l\l  %24 = load i8**, i8*** @file_list, align 8, !dbg !392, !tbaa !373\l  %25 = getelementptr inbounds i8*, i8** %24, i64 -1, !dbg !392\l  %26 = load i8*, i8** %25, align 8, !dbg !392, !tbaa !373\l  %27 = call i32 @strcmp(i8* %26, i8* getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.108, i32 0, i32 0)) #14, !dbg !392\l  %28 = icmp eq i32 %27, 0, !dbg !392\l  br i1 %28, label %38, label %29, !dbg !394\l|{<s0>T|<s1>F}}"];
+	Node0x1bd77a0:s0 -> Node0x1bd7890;
+	Node0x1bd77a0:s1 -> Node0x1bd77f0;
+	Node0x1bd77f0 [shape=record,label="{%29:\l\l  %30 = load %struct._IO_FILE*, %struct._IO_FILE** @in_stream, align 8, !dbg\l... !395, !tbaa !373\l  %31 = call i32 @rpl_fclose(%struct._IO_FILE* %30), !dbg !396\l  %32 = icmp ne i32 %31, 0, !dbg !397\l  br i1 %32, label %33, label %38, !dbg !398\l|{<s0>T|<s1>F}}"];
+	Node0x1bd77f0:s0 -> Node0x1bd7840;
+	Node0x1bd77f0:s1 -> Node0x1bd7890;
+	Node0x1bd7840 [shape=record,label="{%33:\l\l  %34 = call i32* @__errno_location() #15, !dbg !399\l  %35 = load i32, i32* %34, align 4, !dbg !399, !tbaa !362\l  %36 = load i8*, i8** @input_filename, align 8, !dbg !401, !tbaa !373\l  %37 = call i8* @quotearg_n_style_colon(i32 0, i32 3, i8* %36), !dbg !401\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 %35, i8* getelementptr\l... inbounds ([3 x i8], [3 x i8]* @.str.38, i32 0, i32 0), i8* %37), !dbg !402\l  store i8 0, i8* %3, align 1, !dbg !403, !tbaa !369\l  br label %38, !dbg !404\l}"];
+	Node0x1bd7840 -> Node0x1bd7890;
+	Node0x1bd7890 [shape=record,label="{%38:\l\l  br label %39\l}"];
+	Node0x1bd7890 -> Node0x1bd78e0;
+	Node0x1bd78e0 [shape=record,label="{%39:\l\l  store %struct._IO_FILE* null, %struct._IO_FILE** @in_stream, align 8, !dbg\l... !405, !tbaa !373\l  br label %40, !dbg !406\l}"];
+	Node0x1bd78e0 -> Node0x1bd7930;
+	Node0x1bd7930 [shape=record,label="{%40:\l\l  %41 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !407, !tbaa !373\l  %42 = call i32 @ferror_unlocked(%struct._IO_FILE* %41) #13, !dbg !407\l  %43 = icmp ne i32 %42, 0, !dbg !407\l  br i1 %43, label %44, label %45, !dbg !409\l|{<s0>T|<s1>F}}"];
+	Node0x1bd7930:s0 -> Node0x1bd7980;
+	Node0x1bd7930:s1 -> Node0x1bd79d0;
+	Node0x1bd7980 [shape=record,label="{%44:\l\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 0, i8* getelementptr\l... inbounds ([12 x i8], [12 x i8]* @.str.112, i32 0, i32 0)), !dbg !410\l  store i8 0, i8* %3, align 1, !dbg !412, !tbaa !369\l  br label %45, !dbg !413\l}"];
+	Node0x1bd7980 -> Node0x1bd79d0;
+	Node0x1bd79d0 [shape=record,label="{%45:\l\l  %46 = load i8, i8* %3, align 1, !dbg !414, !tbaa !369, !range !415\l  %47 = trunc i8 %46 to i1, !dbg !414\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %3) #13, !dbg !416\l  ret i1 %47, !dbg !417\l}"];
+}

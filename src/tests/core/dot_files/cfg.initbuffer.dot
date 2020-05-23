@@ -1,0 +1,5 @@
+digraph "CFG for 'initbuffer' function" {
+	label="CFG for 'initbuffer' function";
+
+	Node0x1bc3150 [shape=record,label="{%1:\l  %2 = alloca %struct.linebuffer*, align 8\l  store %struct.linebuffer* %0, %struct.linebuffer** %2, align 8, !tbaa !1101\l  call void @llvm.dbg.declare(metadata %struct.linebuffer** %2, metadata\l... !1100, metadata !DIExpression()), !dbg !1105\l  %3 = load %struct.linebuffer*, %struct.linebuffer** %2, align 8, !dbg !1106,\l... !tbaa !1101\l  %4 = bitcast %struct.linebuffer* %3 to i8*, !dbg !1107\l  call void @llvm.memset.p0i8.i64(i8* align 8 %4, i8 0, i64 24, i1 false),\l... !dbg !1107\l  ret void, !dbg !1108\l}"];
+}

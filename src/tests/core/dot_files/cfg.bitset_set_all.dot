@@ -1,0 +1,5 @@
+digraph "CFG for 'bitset_set_all' function" {
+	label="CFG for 'bitset_set_all' function";
+
+	Node0xf9b570 [shape=record,label="{%1:\l  %2 = alloca i64*, align 8\l  store i64* %0, i64** %2, align 8, !tbaa !1060\l  call void @llvm.dbg.declare(metadata i64** %2, metadata !1059, metadata\l... !DIExpression()), !dbg !1064\l  %3 = load i64*, i64** %2, align 8, !dbg !1065, !tbaa !1060\l  %4 = bitcast i64* %3 to i8*, !dbg !1066\l  call void @llvm.memset.p0i8.i64(i8* align 8 %4, i8 -1, i64 32, i1 false),\l... !dbg !1066\l  ret void, !dbg !1067\l}"];
+}

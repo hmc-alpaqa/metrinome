@@ -1,0 +1,5 @@
+digraph "CFG for 'dup_safer_flag' function" {
+	label="CFG for 'dup_safer_flag' function";
+
+	Node0x18f8b30 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !1154\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1152, metadata\l... !DIExpression()), !dbg !1158\l  store i32 %1, i32* %4, align 4, !tbaa !1154\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1153, metadata\l... !DIExpression()), !dbg !1159\l  %5 = load i32, i32* %3, align 4, !dbg !1160, !tbaa !1154\l  %6 = load i32, i32* %4, align 4, !dbg !1161, !tbaa !1154\l  %7 = and i32 %6, 524288, !dbg !1162\l  %8 = icmp ne i32 %7, 0, !dbg !1163\l  %9 = zext i1 %8 to i64, !dbg !1163\l  %10 = select i1 %8, i32 1030, i32 0, !dbg !1163\l  %11 = call i32 (i32, i32, ...) @rpl_fcntl(i32 %5, i32 %10, i32 3), !dbg !1164\l  ret i32 %11, !dbg !1165\l}"];
+}

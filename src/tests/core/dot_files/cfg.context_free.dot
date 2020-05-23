@@ -1,0 +1,5 @@
+digraph "CFG for 'context_free' function" {
+	label="CFG for 'context_free' function";
+
+	Node0x1131c70 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !102\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !101, metadata\l... !DIExpression()), !dbg !106\l  ret void, !dbg !107\l}"];
+}

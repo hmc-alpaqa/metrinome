@@ -1,0 +1,15 @@
+digraph "CFG for 'print_padded_number' function" {
+	label="CFG for 'print_padded_number' function";
+
+	Node0xaeaec0 [shape=record,label="{%0:\l  %1 = load i8*, i8** @format_str_prefix, align 8, !dbg !838, !tbaa !840\l  %2 = icmp ne i8* %1, null, !dbg !838\l  br i1 %2, label %3, label %7, !dbg !844\l|{<s0>T|<s1>F}}"];
+	Node0xaeaec0:s0 -> Node0xaeaf40;
+	Node0xaeaec0:s1 -> Node0xaeaf90;
+	Node0xaeaf40 [shape=record,label="{%3:\l\l  %4 = load i8*, i8** @format_str_prefix, align 8, !dbg !845, !tbaa !840\l  %5 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !845,\l... !tbaa !840\l  %6 = call i32 @fputs_unlocked(i8* %4, %struct._IO_FILE* %5), !dbg !845\l  br label %7, !dbg !845\l}"];
+	Node0xaeaf40 -> Node0xaeaf90;
+	Node0xaeaf90 [shape=record,label="{%7:\l\l  %8 = load i8*, i8** @padding_buffer, align 8, !dbg !846, !tbaa !840\l  %9 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !846,\l... !tbaa !840\l  %10 = call i32 @fputs_unlocked(i8* %8, %struct._IO_FILE* %9), !dbg !846\l  %11 = load i8*, i8** @format_str_suffix, align 8, !dbg !847, !tbaa !840\l  %12 = icmp ne i8* %11, null, !dbg !847\l  br i1 %12, label %13, label %17, !dbg !849\l|{<s0>T|<s1>F}}"];
+	Node0xaeaf90:s0 -> Node0xaeafe0;
+	Node0xaeaf90:s1 -> Node0xaeb030;
+	Node0xaeafe0 [shape=record,label="{%13:\l\l  %14 = load i8*, i8** @format_str_suffix, align 8, !dbg !850, !tbaa !840\l  %15 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !850, !tbaa !840\l  %16 = call i32 @fputs_unlocked(i8* %14, %struct._IO_FILE* %15), !dbg !850\l  br label %17, !dbg !850\l}"];
+	Node0xaeafe0 -> Node0xaeb030;
+	Node0xaeb030 [shape=record,label="{%17:\l\l  ret void, !dbg !851\l}"];
+}

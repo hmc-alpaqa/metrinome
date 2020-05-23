@@ -1,0 +1,12 @@
+digraph "CFG for 'dump_rest_of_file' function" {
+	label="CFG for 'dump_rest_of_file' function";
+
+	Node0x132f3d0 [shape=record,label="{%0:\l  %1 = alloca %struct.cstring*, align 8\l  %2 = bitcast %struct.cstring** %1 to i8*, !dbg !1342\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %2) #11, !dbg !1342\l  call void @llvm.dbg.declare(metadata %struct.cstring** %1, metadata !1341,\l... metadata !DIExpression()), !dbg !1343\l  br label %3, !dbg !1344\l}"];
+	Node0x132f3d0 -> Node0x1332360;
+	Node0x1332360 [shape=record,label="{%3:\l\l  %4 = call %struct.cstring* @remove_line(), !dbg !1345\l  store %struct.cstring* %4, %struct.cstring** %1, align 8, !dbg !1346, !tbaa\l... !1347\l  %5 = icmp ne %struct.cstring* %4, null, !dbg !1351\l  br i1 %5, label %6, label %8, !dbg !1344\l|{<s0>T|<s1>F}}"];
+	Node0x1332360:s0 -> Node0x13323b0;
+	Node0x1332360:s1 -> Node0x1332400;
+	Node0x13323b0 [shape=record,label="{%6:\l\l  %7 = load %struct.cstring*, %struct.cstring** %1, align 8, !dbg !1352, !tbaa\l... !1347\l  call void @save_line_to_file(%struct.cstring* %7), !dbg !1353\l  br label %3, !dbg !1344, !llvm.loop !1354\l}"];
+	Node0x13323b0 -> Node0x1332360;
+	Node0x1332400 [shape=record,label="{%8:\l\l  %9 = bitcast %struct.cstring** %1 to i8*, !dbg !1356\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %9) #11, !dbg !1356\l  ret void, !dbg !1356\l}"];
+}

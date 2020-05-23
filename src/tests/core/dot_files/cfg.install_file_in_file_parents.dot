@@ -1,0 +1,10 @@
+digraph "CFG for 'install_file_in_file_parents' function" {
+	label="CFG for 'install_file_in_file_parents' function";
+
+	Node0x8e90b0 [shape=record,label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.cp_options*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !266\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !263, metadata\l... !DIExpression()), !dbg !270\l  store i8* %1, i8** %5, align 8, !tbaa !266\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !264, metadata\l... !DIExpression()), !dbg !271\l  store %struct.cp_options* %2, %struct.cp_options** %6, align 8, !tbaa !266\l  call void @llvm.dbg.declare(metadata %struct.cp_options** %6, metadata !265,\l... metadata !DIExpression()), !dbg !272\l  %7 = load i8*, i8** %4, align 8, !dbg !273, !tbaa !266\l  %8 = load i8*, i8** %5, align 8, !dbg !274, !tbaa !266\l  %9 = load %struct.cp_options*, %struct.cp_options** %6, align 8, !dbg !275,\l... !tbaa !266\l  %10 = call zeroext i1 @mkancesdirs_safe_wd(i8* %7, i8* %8,\l... %struct.cp_options* %9, i1 zeroext false), !dbg !276\l  br i1 %10, label %11, label %16, !dbg !277\l|{<s0>T|<s1>F}}"];
+	Node0x8e90b0:s0 -> Node0x8ec600;
+	Node0x8e90b0:s1 -> Node0x8ec650;
+	Node0x8ec600 [shape=record,label="{%11:\l\l  %12 = load i8*, i8** %4, align 8, !dbg !278, !tbaa !266\l  %13 = load i8*, i8** %5, align 8, !dbg !279, !tbaa !266\l  %14 = load %struct.cp_options*, %struct.cp_options** %6, align 8, !dbg !280,\l... !tbaa !266\l  %15 = call zeroext i1 @install_file_in_file(i8* %12, i8* %13,\l... %struct.cp_options* %14), !dbg !281\l  br label %16\l}"];
+	Node0x8ec600 -> Node0x8ec650;
+	Node0x8ec650 [shape=record,label="{%16:\l\l  %17 = phi i1 [ false, %3 ], [ %15, %11 ], !dbg !282\l  ret i1 %17, !dbg !283\l}"];
+}

@@ -1,0 +1,47 @@
+digraph "CFG for 'match_suffix' function" {
+	label="CFG for 'match_suffix' function";
+
+	Node0x20cd0b0 [shape=record,label="{%1:\l  %2 = alloca i8**, align 8\l  %3 = alloca i8*, align 8\l  %4 = alloca i8, align 1\l  store i8** %0, i8*** %2, align 8, !tbaa !1743\l  call void @llvm.dbg.declare(metadata i8*** %2, metadata !1740, metadata\l... !DIExpression()), !dbg !1747\l  %5 = bitcast i8** %3 to i8*, !dbg !1748\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %5) #14, !dbg !1748\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1741, metadata\l... !DIExpression()), !dbg !1749\l  store i8* null, i8** %3, align 8, !dbg !1749, !tbaa !1743\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %4) #14, !dbg !1750\l  call void @llvm.dbg.declare(metadata i8* %4, metadata !1742, metadata\l... !DIExpression()), !dbg !1751\l  store i8 0, i8* %4, align 1, !dbg !1751, !tbaa !1752\l  br label %6, !dbg !1754\l}"];
+	Node0x20cd0b0 -> Node0x20cd1d0;
+	Node0x20cd1d0 [shape=record,label="{%6:\l\l  %7 = load i8**, i8*** %2, align 8, !dbg !1755, !tbaa !1743\l  %8 = load i8*, i8** %7, align 8, !dbg !1756, !tbaa !1743\l  %9 = load i8, i8* %8, align 1, !dbg !1757, !tbaa !1758\l  %10 = icmp ne i8 %9, 0, !dbg !1754\l  br i1 %10, label %11, label %60, !dbg !1754\l|{<s0>T|<s1>F}}"];
+	Node0x20cd1d0:s0 -> Node0x20cd220;
+	Node0x20cd1d0:s1 -> Node0x20cd6d0;
+	Node0x20cd220 [shape=record,label="{%11:\l\l  %12 = load i8, i8* %4, align 1, !dbg !1759, !tbaa !1752, !range !1762\l  %13 = trunc i8 %12 to i1, !dbg !1759\l  br i1 %13, label %14, label %28, !dbg !1763\l|{<s0>T|<s1>F}}"];
+	Node0x20cd220:s0 -> Node0x20cd270;
+	Node0x20cd220:s1 -> Node0x20cd3b0;
+	Node0x20cd270 [shape=record,label="{%14:\l\l  store i8 0, i8* %4, align 1, !dbg !1764, !tbaa !1752\l  %15 = load i8**, i8*** %2, align 8, !dbg !1766, !tbaa !1743\l  %16 = load i8*, i8** %15, align 8, !dbg !1768, !tbaa !1743\l  %17 = load i8, i8* %16, align 1, !dbg !1769, !tbaa !1758\l  %18 = sext i8 %17 to i32, !dbg !1769\l  %19 = call zeroext i1 @c_isalpha(i32 %18), !dbg !1770\l  br i1 %19, label %27, label %20, !dbg !1771\l|{<s0>T|<s1>F}}"];
+	Node0x20cd270:s0 -> Node0x20cd360;
+	Node0x20cd270:s1 -> Node0x20cd2c0;
+	Node0x20cd2c0 [shape=record,label="{%20:\l\l  %21 = load i8**, i8*** %2, align 8, !dbg !1772, !tbaa !1743\l  %22 = load i8*, i8** %21, align 8, !dbg !1773, !tbaa !1743\l  %23 = load i8, i8* %22, align 1, !dbg !1774, !tbaa !1758\l  %24 = sext i8 %23 to i32, !dbg !1774\l  %25 = icmp ne i32 126, %24, !dbg !1775\l  br i1 %25, label %26, label %27, !dbg !1776\l|{<s0>T|<s1>F}}"];
+	Node0x20cd2c0:s0 -> Node0x20cd310;
+	Node0x20cd2c0:s1 -> Node0x20cd360;
+	Node0x20cd310 [shape=record,label="{%26:\l\l  store i8* null, i8** %3, align 8, !dbg !1777, !tbaa !1743\l  br label %27, !dbg !1778\l}"];
+	Node0x20cd310 -> Node0x20cd360;
+	Node0x20cd360 [shape=record,label="{%27:\l\l  br label %56, !dbg !1779\l}"];
+	Node0x20cd360 -> Node0x20cd680;
+	Node0x20cd3b0 [shape=record,label="{%28:\l\l  %29 = load i8**, i8*** %2, align 8, !dbg !1780, !tbaa !1743\l  %30 = load i8*, i8** %29, align 8, !dbg !1782, !tbaa !1743\l  %31 = load i8, i8* %30, align 1, !dbg !1783, !tbaa !1758\l  %32 = sext i8 %31 to i32, !dbg !1783\l  %33 = icmp eq i32 46, %32, !dbg !1784\l  br i1 %33, label %34, label %41, !dbg !1785\l|{<s0>T|<s1>F}}"];
+	Node0x20cd3b0:s0 -> Node0x20cd400;
+	Node0x20cd3b0:s1 -> Node0x20cd4f0;
+	Node0x20cd400 [shape=record,label="{%34:\l\l  store i8 1, i8* %4, align 1, !dbg !1786, !tbaa !1752\l  %35 = load i8*, i8** %3, align 8, !dbg !1788, !tbaa !1743\l  %36 = icmp ne i8* %35, null, !dbg !1788\l  br i1 %36, label %40, label %37, !dbg !1790\l|{<s0>T|<s1>F}}"];
+	Node0x20cd400:s0 -> Node0x20cd4a0;
+	Node0x20cd400:s1 -> Node0x20cd450;
+	Node0x20cd450 [shape=record,label="{%37:\l\l  %38 = load i8**, i8*** %2, align 8, !dbg !1791, !tbaa !1743\l  %39 = load i8*, i8** %38, align 8, !dbg !1792, !tbaa !1743\l  store i8* %39, i8** %3, align 8, !dbg !1793, !tbaa !1743\l  br label %40, !dbg !1794\l}"];
+	Node0x20cd450 -> Node0x20cd4a0;
+	Node0x20cd4a0 [shape=record,label="{%40:\l\l  br label %55, !dbg !1795\l}"];
+	Node0x20cd4a0 -> Node0x20cd630;
+	Node0x20cd4f0 [shape=record,label="{%41:\l\l  %42 = load i8**, i8*** %2, align 8, !dbg !1796, !tbaa !1743\l  %43 = load i8*, i8** %42, align 8, !dbg !1798, !tbaa !1743\l  %44 = load i8, i8* %43, align 1, !dbg !1799, !tbaa !1758\l  %45 = sext i8 %44 to i32, !dbg !1799\l  %46 = call zeroext i1 @c_isalnum(i32 %45), !dbg !1800\l  br i1 %46, label %54, label %47, !dbg !1801\l|{<s0>T|<s1>F}}"];
+	Node0x20cd4f0:s0 -> Node0x20cd5e0;
+	Node0x20cd4f0:s1 -> Node0x20cd540;
+	Node0x20cd540 [shape=record,label="{%47:\l\l  %48 = load i8**, i8*** %2, align 8, !dbg !1802, !tbaa !1743\l  %49 = load i8*, i8** %48, align 8, !dbg !1803, !tbaa !1743\l  %50 = load i8, i8* %49, align 1, !dbg !1804, !tbaa !1758\l  %51 = sext i8 %50 to i32, !dbg !1804\l  %52 = icmp ne i32 126, %51, !dbg !1805\l  br i1 %52, label %53, label %54, !dbg !1806\l|{<s0>T|<s1>F}}"];
+	Node0x20cd540:s0 -> Node0x20cd590;
+	Node0x20cd540:s1 -> Node0x20cd5e0;
+	Node0x20cd590 [shape=record,label="{%53:\l\l  store i8* null, i8** %3, align 8, !dbg !1807, !tbaa !1743\l  br label %54, !dbg !1808\l}"];
+	Node0x20cd590 -> Node0x20cd5e0;
+	Node0x20cd5e0 [shape=record,label="{%54:\l\l  br label %55\l}"];
+	Node0x20cd5e0 -> Node0x20cd630;
+	Node0x20cd630 [shape=record,label="{%55:\l\l  br label %56\l}"];
+	Node0x20cd630 -> Node0x20cd680;
+	Node0x20cd680 [shape=record,label="{%56:\l\l  %57 = load i8**, i8*** %2, align 8, !dbg !1809, !tbaa !1743\l  %58 = load i8*, i8** %57, align 8, !dbg !1810, !tbaa !1743\l  %59 = getelementptr inbounds i8, i8* %58, i32 1, !dbg !1810\l  store i8* %59, i8** %57, align 8, !dbg !1810, !tbaa !1743\l  br label %6, !dbg !1754, !llvm.loop !1811\l}"];
+	Node0x20cd680 -> Node0x20cd1d0;
+	Node0x20cd6d0 [shape=record,label="{%60:\l\l  %61 = load i8*, i8** %3, align 8, !dbg !1813, !tbaa !1743\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %4) #14, !dbg !1814\l  %62 = bitcast i8** %3 to i8*, !dbg !1814\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %62) #14, !dbg !1814\l  ret i8* %61, !dbg !1815\l}"];
+}

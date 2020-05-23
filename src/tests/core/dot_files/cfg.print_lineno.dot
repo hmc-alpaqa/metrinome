@@ -1,0 +1,9 @@
+digraph "CFG for 'print_lineno' function" {
+	label="CFG for 'print_lineno' function";
+
+	Node0x1bbdbc0 [shape=record,label="{%0:\l  %1 = load i8*, i8** @lineno_format, align 8, !dbg !1091, !tbaa !1092\l  %2 = load i32, i32* @lineno_width, align 4, !dbg !1096, !tbaa !1097\l  %3 = load i64, i64* @line_no, align 8, !dbg !1099, !tbaa !1100\l  %4 = load i8*, i8** @separator_str, align 8, !dbg !1102, !tbaa !1092\l  %5 = call i32 (i8*, ...) @printf(i8* %1, i32 %2, i64 %3, i8* %4), !dbg !1103\l  %6 = load i64, i64* @line_no, align 8, !dbg !1104, !tbaa !1100\l  %7 = load i64, i64* @page_incr, align 8, !dbg !1104, !tbaa !1100\l  %8 = call \{ i64, i1 \} @llvm.sadd.with.overflow.i64(i64 %6, i64 %7), !dbg\l... !1104\l  %9 = extractvalue \{ i64, i1 \} %8, 1, !dbg !1104\l  %10 = extractvalue \{ i64, i1 \} %8, 0, !dbg !1104\l  store i64 %10, i64* @line_no, align 8, !dbg !1104\l  br i1 %9, label %11, label %12, !dbg !1106\l|{<s0>T|<s1>F}}"];
+	Node0x1bbdbc0:s0 -> Node0x1bbdc10;
+	Node0x1bbdbc0:s1 -> Node0x1bbdc60;
+	Node0x1bbdc10 [shape=record,label="{%11:\l\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 0, i8* getelementptr\l... inbounds ([21 x i8], [21 x i8]* @.str.66, i32 0, i32 0)), !dbg !1107\l  unreachable, !dbg !1107\l}"];
+	Node0x1bbdc60 [shape=record,label="{%12:\l\l  ret void, !dbg !1108\l}"];
+}

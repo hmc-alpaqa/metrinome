@@ -1,0 +1,32 @@
+digraph "CFG for 'io_blksize' function" {
+	label="CFG for 'io_blksize' function";
+
+	Node0x25f1c40 [shape=record,label="{%1:\l  call void @llvm.dbg.declare(metadata %struct.stat* %0, metadata !163,\l... metadata !DIExpression()), !dbg !164\l  %2 = getelementptr inbounds %struct.stat, %struct.stat* %0, i32 0, i32 9,\l... !dbg !165\l  %3 = load i64, i64* %2, align 8, !dbg !165, !tbaa !166\l  %4 = icmp slt i64 0, %3, !dbg !165\l  br i1 %4, label %5, label %12, !dbg !165\l|{<s0>T|<s1>F}}"];
+	Node0x25f1c40:s0 -> Node0x25f2710;
+	Node0x25f1c40:s1 -> Node0x25f27b0;
+	Node0x25f2710 [shape=record,label="{%5:\l\l  %6 = getelementptr inbounds %struct.stat, %struct.stat* %0, i32 0, i32 9,\l... !dbg !165\l  %7 = load i64, i64* %6, align 8, !dbg !165, !tbaa !166\l  %8 = icmp ule i64 %7, 2305843009213693952, !dbg !165\l  br i1 %8, label %9, label %12, !dbg !165\l|{<s0>T|<s1>F}}"];
+	Node0x25f2710:s0 -> Node0x25f2760;
+	Node0x25f2710:s1 -> Node0x25f27b0;
+	Node0x25f2760 [shape=record,label="{%9:\l\l  %10 = getelementptr inbounds %struct.stat, %struct.stat* %0, i32 0, i32 9,\l... !dbg !165\l  %11 = load i64, i64* %10, align 8, !dbg !165, !tbaa !166\l  br label %13, !dbg !165\l}"];
+	Node0x25f2760 -> Node0x25f2800;
+	Node0x25f27b0 [shape=record,label="{%12:\l\l  br label %13, !dbg !165\l}"];
+	Node0x25f27b0 -> Node0x25f2800;
+	Node0x25f2800 [shape=record,label="{%13:\l\l  %14 = phi i64 [ %11, %9 ], [ 512, %12 ], !dbg !165\l  %15 = icmp sgt i64 131072, %14, !dbg !165\l  br i1 %15, label %16, label %17, !dbg !165\l|{<s0>T|<s1>F}}"];
+	Node0x25f2800:s0 -> Node0x25f2850;
+	Node0x25f2800:s1 -> Node0x25f28a0;
+	Node0x25f2850 [shape=record,label="{%16:\l\l  br label %31, !dbg !165\l}"];
+	Node0x25f2850 -> Node0x25f2a30;
+	Node0x25f28a0 [shape=record,label="{%17:\l\l  %18 = getelementptr inbounds %struct.stat, %struct.stat* %0, i32 0, i32 9,\l... !dbg !165\l  %19 = load i64, i64* %18, align 8, !dbg !165, !tbaa !166\l  %20 = icmp slt i64 0, %19, !dbg !165\l  br i1 %20, label %21, label %28, !dbg !165\l|{<s0>T|<s1>F}}"];
+	Node0x25f28a0:s0 -> Node0x25f28f0;
+	Node0x25f28a0:s1 -> Node0x25f2990;
+	Node0x25f28f0 [shape=record,label="{%21:\l\l  %22 = getelementptr inbounds %struct.stat, %struct.stat* %0, i32 0, i32 9,\l... !dbg !165\l  %23 = load i64, i64* %22, align 8, !dbg !165, !tbaa !166\l  %24 = icmp ule i64 %23, 2305843009213693952, !dbg !165\l  br i1 %24, label %25, label %28, !dbg !165\l|{<s0>T|<s1>F}}"];
+	Node0x25f28f0:s0 -> Node0x25f2940;
+	Node0x25f28f0:s1 -> Node0x25f2990;
+	Node0x25f2940 [shape=record,label="{%25:\l\l  %26 = getelementptr inbounds %struct.stat, %struct.stat* %0, i32 0, i32 9,\l... !dbg !165\l  %27 = load i64, i64* %26, align 8, !dbg !165, !tbaa !166\l  br label %29, !dbg !165\l}"];
+	Node0x25f2940 -> Node0x25f29e0;
+	Node0x25f2990 [shape=record,label="{%28:\l\l  br label %29, !dbg !165\l}"];
+	Node0x25f2990 -> Node0x25f29e0;
+	Node0x25f29e0 [shape=record,label="{%29:\l\l  %30 = phi i64 [ %27, %25 ], [ 512, %28 ], !dbg !165\l  br label %31, !dbg !165\l}"];
+	Node0x25f29e0 -> Node0x25f2a30;
+	Node0x25f2a30 [shape=record,label="{%31:\l\l  %32 = phi i64 [ 131072, %16 ], [ %30, %29 ], !dbg !165\l  ret i64 %32, !dbg !173\l}"];
+}

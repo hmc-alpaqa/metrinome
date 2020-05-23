@@ -1,0 +1,39 @@
+digraph "CFG for 'ignore_fifo_and_pipe' function" {
+	label="CFG for 'ignore_fifo_and_pipe' function";
+
+	Node0x13cba20 [shape=record,label="{%2:\l  %3 = alloca %struct.File_spec*, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i8, align 1\l  store %struct.File_spec* %0, %struct.File_spec** %3, align 8, !tbaa !230\l  call void @llvm.dbg.declare(metadata %struct.File_spec** %3, metadata !222,\l... metadata !DIExpression()), !dbg !234\l  store i64 %1, i64* %4, align 8, !tbaa !235\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !223, metadata\l... !DIExpression()), !dbg !237\l  %8 = bitcast i64* %5 to i8*, !dbg !238\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #12, !dbg !238\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !224, metadata\l... !DIExpression()), !dbg !239\l  store i64 0, i64* %5, align 8, !dbg !239, !tbaa !235\l  %9 = bitcast i64* %6 to i8*, !dbg !240\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #12, !dbg !240\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !225, metadata\l... !DIExpression()), !dbg !241\l  store i64 0, i64* %6, align 8, !dbg !241, !tbaa !235\l  br label %10, !dbg !240\l}"];
+	Node0x13cba20 -> Node0x13b0af0;
+	Node0x13b0af0 [shape=record,label="{%10:\l\l  %11 = load i64, i64* %6, align 8, !dbg !242, !tbaa !235\l  %12 = load i64, i64* %4, align 8, !dbg !243, !tbaa !235\l  %13 = icmp ult i64 %11, %12, !dbg !244\l  br i1 %13, label %16, label %14, !dbg !245\l|{<s0>T|<s1>F}}"];
+	Node0x13b0af0:s0 -> Node0x13b0b90;
+	Node0x13b0af0:s1 -> Node0x13b0b40;
+	Node0x13b0b40 [shape=record,label="{%14:\l\l  %15 = bitcast i64* %6 to i8*, !dbg !246\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %15) #12, !dbg !246\l  br label %70\l}"];
+	Node0x13b0b40 -> Node0x13b0f00;
+	Node0x13b0b90 [shape=record,label="{%16:\l\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %7) #12, !dbg !247\l  call void @llvm.dbg.declare(metadata i8* %7, metadata !227, metadata\l... !DIExpression()), !dbg !248\l  %17 = load %struct.File_spec*, %struct.File_spec** %3, align 8, !dbg !249,\l... !tbaa !230\l  %18 = load i64, i64* %6, align 8, !dbg !249, !tbaa !235\l  %19 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %17, i64\l... %18, !dbg !249\l  %20 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %19, i32\l... 0, i32 0, !dbg !249\l  %21 = load i8*, i8** %20, align 8, !dbg !249, !tbaa !250\l  %22 = call i32 @strcmp(i8* %21, i8* getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.15, i32 0, i32 0)) #13, !dbg !249\l  %23 = icmp eq i32 %22, 0, !dbg !249\l  br i1 %23, label %24, label %49, !dbg !255\l|{<s0>T|<s1>F}}"];
+	Node0x13b0b90:s0 -> Node0x13b0be0;
+	Node0x13b0b90:s1 -> Node0x13b0d70;
+	Node0x13b0be0 [shape=record,label="{%24:\l\l  %25 = load %struct.File_spec*, %struct.File_spec** %3, align 8, !dbg !256,\l... !tbaa !230\l  %26 = load i64, i64* %6, align 8, !dbg !257, !tbaa !235\l  %27 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %25, i64\l... %26, !dbg !256\l  %28 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %27, i32\l... 0, i32 6, !dbg !258\l  %29 = load i8, i8* %28, align 4, !dbg !258, !tbaa !259, !range !260\l  %30 = trunc i8 %29 to i1, !dbg !258\l  br i1 %30, label %49, label %31, !dbg !261\l|{<s0>T|<s1>F}}"];
+	Node0x13b0be0:s0 -> Node0x13b0d70;
+	Node0x13b0be0:s1 -> Node0x13b0c30;
+	Node0x13b0c30 [shape=record,label="{%31:\l\l  %32 = load %struct.File_spec*, %struct.File_spec** %3, align 8, !dbg !262,\l... !tbaa !230\l  %33 = load i64, i64* %6, align 8, !dbg !263, !tbaa !235\l  %34 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %32, i64\l... %33, !dbg !262\l  %35 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %34, i32\l... 0, i32 9, !dbg !264\l  %36 = load i32, i32* %35, align 8, !dbg !264, !tbaa !265\l  %37 = icmp sle i32 0, %36, !dbg !266\l  br i1 %37, label %38, label %49, !dbg !267\l|{<s0>T|<s1>F}}"];
+	Node0x13b0c30:s0 -> Node0x13b0c80;
+	Node0x13b0c30:s1 -> Node0x13b0d70;
+	Node0x13b0c80 [shape=record,label="{%38:\l\l  %39 = load %struct.File_spec*, %struct.File_spec** %3, align 8, !dbg !268,\l... !tbaa !230\l  %40 = load i64, i64* %6, align 8, !dbg !268, !tbaa !235\l  %41 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %39, i64\l... %40, !dbg !268\l  %42 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %41, i32\l... 0, i32 5, !dbg !268\l  %43 = load i32, i32* %42, align 8, !dbg !268, !tbaa !269\l  %44 = and i32 %43, 61440, !dbg !268\l  %45 = icmp eq i32 %44, 4096, !dbg !268\l  br i1 %45, label %47, label %46, !dbg !270\l|{<s0>T|<s1>F}}"];
+	Node0x13b0c80:s0 -> Node0x13b0d20;
+	Node0x13b0c80:s1 -> Node0x13b0cd0;
+	Node0x13b0cd0 [shape=record,label="{%46:\l\l  br label %47, !dbg !270\l}"];
+	Node0x13b0cd0 -> Node0x13b0d20;
+	Node0x13b0d20 [shape=record,label="{%47:\l\l  %48 = phi i1 [ true, %38 ], [ false, %46 ]\l  br label %49\l}"];
+	Node0x13b0d20 -> Node0x13b0d70;
+	Node0x13b0d70 [shape=record,label="{%49:\l\l  %50 = phi i1 [ false, %31 ], [ false, %24 ], [ false, %16 ], [ %48, %47 ],\l... !dbg !271\l  %51 = zext i1 %50 to i8, !dbg !248\l  store i8 %51, i8* %7, align 1, !dbg !248, !tbaa !272\l  %52 = load i8, i8* %7, align 1, !dbg !273, !tbaa !272, !range !260\l  %53 = trunc i8 %52 to i1, !dbg !273\l  br i1 %53, label %54, label %63, !dbg !275\l|{<s0>T|<s1>F}}"];
+	Node0x13b0d70:s0 -> Node0x13b0dc0;
+	Node0x13b0d70:s1 -> Node0x13b0e10;
+	Node0x13b0dc0 [shape=record,label="{%54:\l\l  %55 = load %struct.File_spec*, %struct.File_spec** %3, align 8, !dbg !276,\l... !tbaa !230\l  %56 = load i64, i64* %6, align 8, !dbg !278, !tbaa !235\l  %57 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %55, i64\l... %56, !dbg !276\l  %58 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %57, i32\l... 0, i32 9, !dbg !279\l  store i32 -1, i32* %58, align 8, !dbg !280, !tbaa !265\l  %59 = load %struct.File_spec*, %struct.File_spec** %3, align 8, !dbg !281,\l... !tbaa !230\l  %60 = load i64, i64* %6, align 8, !dbg !282, !tbaa !235\l  %61 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %59, i64\l... %60, !dbg !281\l  %62 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %61, i32\l... 0, i32 6, !dbg !283\l  store i8 1, i8* %62, align 4, !dbg !284, !tbaa !259\l  br label %66, !dbg !285\l}"];
+	Node0x13b0dc0 -> Node0x13b0e60;
+	Node0x13b0e10 [shape=record,label="{%63:\l\l  %64 = load i64, i64* %5, align 8, !dbg !286, !tbaa !235\l  %65 = add i64 %64, 1, !dbg !286\l  store i64 %65, i64* %5, align 8, !dbg !286, !tbaa !235\l  br label %66\l}"];
+	Node0x13b0e10 -> Node0x13b0e60;
+	Node0x13b0e60 [shape=record,label="{%66:\l\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %7) #12, !dbg !287\l  br label %67, !dbg !288\l}"];
+	Node0x13b0e60 -> Node0x13b0eb0;
+	Node0x13b0eb0 [shape=record,label="{%67:\l\l  %68 = load i64, i64* %6, align 8, !dbg !289, !tbaa !235\l  %69 = add i64 %68, 1, !dbg !289\l  store i64 %69, i64* %6, align 8, !dbg !289, !tbaa !235\l  br label %10, !dbg !246, !llvm.loop !290\l}"];
+	Node0x13b0eb0 -> Node0x13b0af0;
+	Node0x13b0f00 [shape=record,label="{%70:\l\l  %71 = load i64, i64* %5, align 8, !dbg !292, !tbaa !235\l  %72 = bitcast i64* %5 to i8*, !dbg !293\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %72) #12, !dbg !293\l  ret i64 %71, !dbg !294\l}"];
+}

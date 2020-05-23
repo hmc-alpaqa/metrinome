@@ -1,0 +1,27 @@
+digraph "CFG for 'getfilecon_cache' function" {
+	label="CFG for 'getfilecon_cache' function";
+
+	Node0x22e4600 [shape=record,label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.fileinfo*, align 8\l  %7 = alloca i8, align 1\l  %8 = alloca i32, align 4\l  store i8* %0, i8** %5, align 8, !tbaa !1393\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1268, metadata\l... !DIExpression()), !dbg !1397\l  store %struct.fileinfo* %1, %struct.fileinfo** %6, align 8, !tbaa !1393\l  call void @llvm.dbg.declare(metadata %struct.fileinfo** %6, metadata !1269,\l... metadata !DIExpression()), !dbg !1398\l  %9 = zext i1 %2 to i8\l  store i8 %9, i8* %7, align 1, !tbaa !1399\l  call void @llvm.dbg.declare(metadata i8* %7, metadata !1270, metadata\l... !DIExpression()), !dbg !1401\l  %10 = load %struct.fileinfo*, %struct.fileinfo** %6, align 8, !dbg !1402,\l... !tbaa !1393\l  %11 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %10, i32 0,\l... i32 3, !dbg !1404\l  %12 = getelementptr inbounds %struct.stat, %struct.stat* %11, i32 0, i32 0,\l... !dbg !1405\l  %13 = load i64, i64* %12, align 8, !dbg !1405, !tbaa !1406\l  %14 = load i64, i64* @getfilecon_cache.unsupported_device, align 8, !dbg\l... !1412, !tbaa !1413\l  %15 = icmp eq i64 %13, %14, !dbg !1414\l  br i1 %15, label %16, label %18, !dbg !1415\l|{<s0>T|<s1>F}}"];
+	Node0x22e4600:s0 -> Node0x22e6530;
+	Node0x22e4600:s1 -> Node0x22e6580;
+	Node0x22e6530 [shape=record,label="{%16:\l\l  %17 = call i32* @__errno_location() #14, !dbg !1416\l  store i32 95, i32* %17, align 4, !dbg !1418, !tbaa !1419\l  store i32 -1, i32* %4, align 4, !dbg !1420\l  br label %48, !dbg !1420\l}"];
+	Node0x22e6530 -> Node0x22e67b0;
+	Node0x22e6580 [shape=record,label="{%18:\l\l  %19 = bitcast i32* %8 to i8*, !dbg !1421\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %19) #15, !dbg !1421\l  call void @llvm.dbg.declare(metadata i32* %8, metadata !1271, metadata\l... !DIExpression()), !dbg !1422\l  store i32 0, i32* %8, align 4, !dbg !1422, !tbaa !1419\l  %20 = load i8, i8* %7, align 1, !dbg !1423, !tbaa !1399, !range !1424\l  %21 = trunc i8 %20 to i1, !dbg !1423\l  br i1 %21, label %22, label %27, !dbg !1423\l|{<s0>T|<s1>F}}"];
+	Node0x22e6580:s0 -> Node0x22e65d0;
+	Node0x22e6580:s1 -> Node0x22e6620;
+	Node0x22e65d0 [shape=record,label="{%22:\l\l  %23 = load i8*, i8** %5, align 8, !dbg !1425, !tbaa !1393\l  %24 = load %struct.fileinfo*, %struct.fileinfo** %6, align 8, !dbg !1426,\l... !tbaa !1393\l  %25 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %24, i32 0,\l... i32 6, !dbg !1427\l  %26 = call i32 @getfilecon(i8* %23, i8** %25), !dbg !1428\l  br label %32, !dbg !1423\l}"];
+	Node0x22e65d0 -> Node0x22e6670;
+	Node0x22e6620 [shape=record,label="{%27:\l\l  %28 = load i8*, i8** %5, align 8, !dbg !1429, !tbaa !1393\l  %29 = load %struct.fileinfo*, %struct.fileinfo** %6, align 8, !dbg !1430,\l... !tbaa !1393\l  %30 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %29, i32 0,\l... i32 6, !dbg !1431\l  %31 = call i32 @lgetfilecon(i8* %28, i8** %30), !dbg !1432\l  br label %32, !dbg !1423\l}"];
+	Node0x22e6620 -> Node0x22e6670;
+	Node0x22e6670 [shape=record,label="{%32:\l\l  %33 = phi i32 [ %26, %22 ], [ %31, %27 ], !dbg !1423\l  store i32 %33, i32* %8, align 4, !dbg !1433, !tbaa !1419\l  %34 = load i32, i32* %8, align 4, !dbg !1434, !tbaa !1419\l  %35 = icmp slt i32 %34, 0, !dbg !1436\l  br i1 %35, label %36, label %45, !dbg !1437\l|{<s0>T|<s1>F}}"];
+	Node0x22e6670:s0 -> Node0x22e66c0;
+	Node0x22e6670:s1 -> Node0x22e6760;
+	Node0x22e66c0 [shape=record,label="{%36:\l\l  %37 = call i32* @__errno_location() #14, !dbg !1438\l  %38 = load i32, i32* %37, align 4, !dbg !1438, !tbaa !1419\l  %39 = call zeroext i1 @errno_unsupported(i32 %38), !dbg !1439\l  br i1 %39, label %40, label %45, !dbg !1440\l|{<s0>T|<s1>F}}"];
+	Node0x22e66c0:s0 -> Node0x22e6710;
+	Node0x22e66c0:s1 -> Node0x22e6760;
+	Node0x22e6710 [shape=record,label="{%40:\l\l  %41 = load %struct.fileinfo*, %struct.fileinfo** %6, align 8, !dbg !1441,\l... !tbaa !1393\l  %42 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %41, i32 0,\l... i32 3, !dbg !1442\l  %43 = getelementptr inbounds %struct.stat, %struct.stat* %42, i32 0, i32 0,\l... !dbg !1443\l  %44 = load i64, i64* %43, align 8, !dbg !1443, !tbaa !1406\l  store i64 %44, i64* @getfilecon_cache.unsupported_device, align 8, !dbg\l... !1444, !tbaa !1413\l  br label %45, !dbg !1445\l}"];
+	Node0x22e6710 -> Node0x22e6760;
+	Node0x22e6760 [shape=record,label="{%45:\l\l  %46 = load i32, i32* %8, align 4, !dbg !1446, !tbaa !1419\l  store i32 %46, i32* %4, align 4, !dbg !1447\l  %47 = bitcast i32* %8 to i8*, !dbg !1448\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %47) #15, !dbg !1448\l  br label %48\l}"];
+	Node0x22e6760 -> Node0x22e67b0;
+	Node0x22e67b0 [shape=record,label="{%48:\l\l  %49 = load i32, i32* %4, align 4, !dbg !1448\l  ret i32 %49, !dbg !1448\l}"];
+}

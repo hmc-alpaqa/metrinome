@@ -1,0 +1,5 @@
+digraph "CFG for 'chownat' function" {
+	label="CFG for 'chownat' function";
+
+	Node0x1455650 [shape=record,label="{%4:\l  %5 = alloca i32, align 4\l  %6 = alloca i8*, align 8\l  %7 = alloca i32, align 4\l  %8 = alloca i32, align 4\l  store i32 %0, i32* %5, align 4, !tbaa !62\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !58, metadata\l... !DIExpression()), !dbg !66\l  store i8* %1, i8** %6, align 8, !tbaa !67\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !59, metadata\l... !DIExpression()), !dbg !69\l  store i32 %2, i32* %7, align 4, !tbaa !62\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !60, metadata\l... !DIExpression()), !dbg !70\l  store i32 %3, i32* %8, align 4, !tbaa !62\l  call void @llvm.dbg.declare(metadata i32* %8, metadata !61, metadata\l... !DIExpression()), !dbg !71\l  %9 = load i32, i32* %5, align 4, !dbg !72, !tbaa !62\l  %10 = load i8*, i8** %6, align 8, !dbg !73, !tbaa !67\l  %11 = load i32, i32* %7, align 4, !dbg !74, !tbaa !62\l  %12 = load i32, i32* %8, align 4, !dbg !75, !tbaa !62\l  %13 = call i32 @fchownat(i32 %9, i8* %10, i32 %11, i32 %12, i32 0) #9, !dbg\l... !76\l  ret i32 %13, !dbg !77\l}"];
+}

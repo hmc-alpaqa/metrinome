@@ -1,0 +1,12 @@
+digraph "CFG for 'cdb_advance_fd' function" {
+	label="CFG for 'cdb_advance_fd' function";
+
+	Node0x2531080 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca %union.anon.8*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  store %union.anon.8* %0, %union.anon.8** %4, align 8, !tbaa !932\l  call void @llvm.dbg.declare(metadata %union.anon.8** %4, metadata !929,\l... metadata !DIExpression()), !dbg !936\l  store i8* %1, i8** %5, align 8, !tbaa !932\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !930, metadata\l... !DIExpression()), !dbg !937\l  %8 = bitcast i32* %6 to i8*, !dbg !938\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #11, !dbg !938\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !931, metadata\l... !DIExpression()), !dbg !939\l  %9 = load %union.anon.8*, %union.anon.8** %4, align 8, !dbg !940, !tbaa !932\l  %10 = getelementptr inbounds %union.anon.8, %union.anon.8* %9, i32 0, i32 0,\l... !dbg !941\l  %11 = load i32, i32* %10, align 4, !dbg !941, !tbaa !942\l  %12 = load i8*, i8** %5, align 8, !dbg !945, !tbaa !932\l  %13 = call i32 (i32, i8*, i32, ...) @openat(i32 %11, i8* %12, i32 67840),\l... !dbg !946\l  store i32 %13, i32* %6, align 4, !dbg !939, !tbaa !947\l  %14 = load i32, i32* %6, align 4, !dbg !948, !tbaa !947\l  %15 = icmp slt i32 %14, 0, !dbg !950\l  br i1 %15, label %16, label %17, !dbg !951\l|{<s0>T|<s1>F}}"];
+	Node0x2531080:s0 -> Node0x2531820;
+	Node0x2531080:s1 -> Node0x2531870;
+	Node0x2531820 [shape=record,label="{%16:\l\l  store i32 -1, i32* %3, align 4, !dbg !952\l  store i32 1, i32* %7, align 4\l  br label %22, !dbg !952\l}"];
+	Node0x2531820 -> Node0x25318c0;
+	Node0x2531870 [shape=record,label="{%17:\l\l  %18 = load %union.anon.8*, %union.anon.8** %4, align 8, !dbg !953, !tbaa !932\l  call void @cdb_free(%union.anon.8* %18), !dbg !954\l  %19 = load i32, i32* %6, align 4, !dbg !955, !tbaa !947\l  %20 = load %union.anon.8*, %union.anon.8** %4, align 8, !dbg !956, !tbaa !932\l  %21 = getelementptr inbounds %union.anon.8, %union.anon.8* %20, i32 0, i32\l... 0, !dbg !957\l  store i32 %19, i32* %21, align 4, !dbg !958, !tbaa !942\l  store i32 0, i32* %3, align 4, !dbg !959\l  store i32 1, i32* %7, align 4\l  br label %22, !dbg !959\l}"];
+	Node0x2531870 -> Node0x25318c0;
+	Node0x25318c0 [shape=record,label="{%22:\l\l  %23 = bitcast i32* %6 to i8*, !dbg !960\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %23) #11, !dbg !960\l  %24 = load i32, i32* %3, align 4, !dbg !960\l  ret i32 %24, !dbg !960\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'make_printable_char' function" {
+	label="CFG for 'make_printable_char' function";
+
+	Node0x140cc30 [shape=record,label="{%1:\l  %2 = alloca i8, align 1\l  %3 = alloca i8*, align 8\l  store i8 %0, i8* %2, align 1, !tbaa !135\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !133, metadata\l... !DIExpression()), !dbg !138\l  %4 = bitcast i8** %3 to i8*, !dbg !139\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #12, !dbg !139\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !134, metadata\l... !DIExpression()), !dbg !140\l  %5 = call noalias i8* @xmalloc(i64 5), !dbg !141\l  store i8* %5, i8** %3, align 8, !dbg !140, !tbaa !142\l  %6 = call i16** @__ctype_b_loc() #13, !dbg !144\l  %7 = load i16*, i16** %6, align 8, !dbg !144, !tbaa !142\l  %8 = load i8, i8* %2, align 1, !dbg !144, !tbaa !135\l  %9 = zext i8 %8 to i32, !dbg !144\l  %10 = sext i32 %9 to i64, !dbg !144\l  %11 = getelementptr inbounds i16, i16* %7, i64 %10, !dbg !144\l  %12 = load i16, i16* %11, align 2, !dbg !144, !tbaa !146\l  %13 = zext i16 %12 to i32, !dbg !144\l  %14 = and i32 %13, 16384, !dbg !144\l  %15 = icmp ne i32 %14, 0, !dbg !144\l  br i1 %15, label %16, label %22, !dbg !148\l|{<s0>T|<s1>F}}"];
+	Node0x140cc30:s0 -> Node0x140db80;
+	Node0x140cc30:s1 -> Node0x140dbd0;
+	Node0x140db80 [shape=record,label="{%16:\l\l  %17 = load i8, i8* %2, align 1, !dbg !149, !tbaa !135\l  %18 = load i8*, i8** %3, align 8, !dbg !151, !tbaa !142\l  %19 = getelementptr inbounds i8, i8* %18, i64 0, !dbg !151\l  store i8 %17, i8* %19, align 1, !dbg !152, !tbaa !135\l  %20 = load i8*, i8** %3, align 8, !dbg !153, !tbaa !142\l  %21 = getelementptr inbounds i8, i8* %20, i64 1, !dbg !153\l  store i8 0, i8* %21, align 1, !dbg !154, !tbaa !135\l  br label %27, !dbg !155\l}"];
+	Node0x140db80 -> Node0x140dc20;
+	Node0x140dbd0 [shape=record,label="{%22:\l\l  %23 = load i8*, i8** %3, align 8, !dbg !156, !tbaa !142\l  %24 = load i8, i8* %2, align 1, !dbg !158, !tbaa !135\l  %25 = zext i8 %24 to i32, !dbg !158\l  %26 = call i32 (i8*, i8*, ...) @sprintf(i8* %23, i8* getelementptr inbounds\l... ([6 x i8], [6 x i8]* @.str.76, i32 0, i32 0), i32 %25) #12, !dbg !159\l  br label %27\l}"];
+	Node0x140dbd0 -> Node0x140dc20;
+	Node0x140dc20 [shape=record,label="{%27:\l\l  %28 = load i8*, i8** %3, align 8, !dbg !160, !tbaa !142\l  %29 = bitcast i8** %3 to i8*, !dbg !161\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %29) #12, !dbg !161\l  ret i8* %28, !dbg !162\l}"];
+}

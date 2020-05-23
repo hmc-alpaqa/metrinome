@@ -1,0 +1,18 @@
+digraph "CFG for 'adjust_value' function" {
+	label="CFG for 'adjust_value' function";
+
+	Node0x199d3b0 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca x86_fp80, align 16\l  %5 = alloca i64, align 8\l  store i32 %0, i32* %3, align 4, !tbaa !997\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !992, metadata\l... !DIExpression()), !dbg !1001\l  store x86_fp80 %1, x86_fp80* %4, align 16, !tbaa !1002\l  call void @llvm.dbg.declare(metadata x86_fp80* %4, metadata !993, metadata\l... !DIExpression()), !dbg !1004\l  %6 = load i32, i32* %3, align 4, !dbg !1005, !tbaa !997\l  %7 = icmp ne i32 %6, 1, !dbg !1006\l  br i1 %7, label %8, label %30, !dbg !1007\l|{<s0>T|<s1>F}}"];
+	Node0x199d3b0:s0 -> Node0x199d4a0;
+	Node0x199d3b0:s1 -> Node0x199d5e0;
+	Node0x199d4a0 [shape=record,label="{%8:\l\l  %9 = load x86_fp80, x86_fp80* %4, align 16, !dbg !1008, !tbaa !1002\l  %10 = fcmp olt x86_fp80 %9, 0xK403EFFFFFFFFFFFFFFFF, !dbg !1009\l  br i1 %10, label %11, label %30, !dbg !1010\l|{<s0>T|<s1>F}}"];
+	Node0x199d4a0:s0 -> Node0x199d4f0;
+	Node0x199d4a0:s1 -> Node0x199d5e0;
+	Node0x199d4f0 [shape=record,label="{%11:\l\l  %12 = bitcast i64* %5 to i8*, !dbg !1011\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %12) #12, !dbg !1011\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !994, metadata\l... !DIExpression()), !dbg !1012\l  %13 = load x86_fp80, x86_fp80* %4, align 16, !dbg !1013, !tbaa !1002\l  %14 = fptoui x86_fp80 %13 to i64, !dbg !1013\l  store i64 %14, i64* %5, align 8, !dbg !1012, !tbaa !1014\l  %15 = load i64, i64* %5, align 8, !dbg !1016, !tbaa !1014\l  %16 = load i32, i32* %3, align 4, !dbg !1017, !tbaa !997\l  %17 = icmp eq i32 %16, 0, !dbg !1018\l  br i1 %17, label %18, label %23, !dbg !1019\l|{<s0>T|<s1>F}}"];
+	Node0x199d4f0:s0 -> Node0x199d540;
+	Node0x199d4f0:s1 -> Node0x199d590;
+	Node0x199d540 [shape=record,label="{%18:\l\l  %19 = load i64, i64* %5, align 8, !dbg !1020, !tbaa !1014\l  %20 = uitofp i64 %19 to x86_fp80, !dbg !1020\l  %21 = load x86_fp80, x86_fp80* %4, align 16, !dbg !1021, !tbaa !1002\l  %22 = fcmp une x86_fp80 %20, %21, !dbg !1022\l  br label %23\l}"];
+	Node0x199d540 -> Node0x199d590;
+	Node0x199d590 [shape=record,label="{%23:\l\l  %24 = phi i1 [ false, %11 ], [ %22, %18 ], !dbg !1023\l  %25 = zext i1 %24 to i32, !dbg !1019\l  %26 = sext i32 %25 to i64, !dbg !1024\l  %27 = add i64 %15, %26, !dbg !1025\l  %28 = uitofp i64 %27 to x86_fp80, !dbg !1016\l  store x86_fp80 %28, x86_fp80* %4, align 16, !dbg !1026, !tbaa !1002\l  %29 = bitcast i64* %5 to i8*, !dbg !1027\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %29) #12, !dbg !1027\l  br label %30, !dbg !1028\l}"];
+	Node0x199d590 -> Node0x199d5e0;
+	Node0x199d5e0 [shape=record,label="{%30:\l\l  %31 = load x86_fp80, x86_fp80* %4, align 16, !dbg !1029, !tbaa !1002\l  ret x86_fp80 %31, !dbg !1030\l}"];
+}

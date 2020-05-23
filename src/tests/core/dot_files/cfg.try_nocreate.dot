@@ -1,0 +1,13 @@
+digraph "CFG for 'try_nocreate' function" {
+	label="CFG for 'try_nocreate' function";
+
+	Node0x25b5630 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca %struct.stat, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !985\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !945, metadata\l... !DIExpression()), !dbg !989\l  store i8* %1, i8** %4, align 8, !tbaa !985\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !946, metadata\l... !DIExpression()), !dbg !990\l  %6 = bitcast %struct.stat* %5 to i8*, !dbg !991\l  call void @llvm.lifetime.start.p0i8(i64 144, i8* %6) #13, !dbg !991\l  call void @llvm.dbg.declare(metadata %struct.stat* %5, metadata !947,\l... metadata !DIExpression()), !dbg !992\l  %7 = load i8*, i8** %3, align 8, !dbg !993, !tbaa !985\l  %8 = call i32 @lstat(i8* %7, %struct.stat* %5) #13, !dbg !993\l  %9 = icmp eq i32 %8, 0, !dbg !995\l  br i1 %9, label %14, label %10, !dbg !996\l|{<s0>T|<s1>F}}"];
+	Node0x25b5630:s0 -> Node0x25b6030;
+	Node0x25b5630:s1 -> Node0x25b5fe0;
+	Node0x25b5fe0 [shape=record,label="{%10:\l\l  %11 = call i32* @__errno_location() #15, !dbg !997\l  %12 = load i32, i32* %11, align 4, !dbg !997, !tbaa !998\l  %13 = icmp eq i32 %12, 75, !dbg !1000\l  br i1 %13, label %14, label %16, !dbg !1001\l|{<s0>T|<s1>F}}"];
+	Node0x25b5fe0:s0 -> Node0x25b6030;
+	Node0x25b5fe0:s1 -> Node0x25b6080;
+	Node0x25b6030 [shape=record,label="{%14:\l\l  %15 = call i32* @__errno_location() #15, !dbg !1002\l  store i32 17, i32* %15, align 4, !dbg !1002, !tbaa !998\l  br label %16, !dbg !1002\l}"];
+	Node0x25b6030 -> Node0x25b6080;
+	Node0x25b6080 [shape=record,label="{%16:\l\l  %17 = call i32* @__errno_location() #15, !dbg !1003\l  %18 = load i32, i32* %17, align 4, !dbg !1003, !tbaa !998\l  %19 = icmp eq i32 %18, 2, !dbg !1004\l  %20 = zext i1 %19 to i64, !dbg !1003\l  %21 = select i1 %19, i32 0, i32 -1, !dbg !1003\l  %22 = bitcast %struct.stat* %5 to i8*, !dbg !1005\l  call void @llvm.lifetime.end.p0i8(i64 144, i8* %22) #13, !dbg !1005\l  ret i32 %21, !dbg !1006\l}"];
+}

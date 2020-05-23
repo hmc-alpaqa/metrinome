@@ -1,0 +1,18 @@
+digraph "CFG for 'register_proc' function" {
+	label="CFG for 'register_proc' function";
+
+	Node0x1fde6a0 [shape=record,label="{%1:\l  %2 = alloca %struct.tempnode*, align 8\l  store %struct.tempnode* %0, %struct.tempnode** %2, align 8, !tbaa !1741\l  call void @llvm.dbg.declare(metadata %struct.tempnode** %2, metadata !1740,\l... metadata !DIExpression()), !dbg !1745\l  %3 = load %struct.hash_table*, %struct.hash_table** @proctab, align 8, !dbg\l... !1746, !tbaa !1741\l  %4 = icmp ne %struct.hash_table* %3, null, !dbg !1746\l  br i1 %4, label %11, label %5, !dbg !1748\l|{<s0>T|<s1>F}}"];
+	Node0x1fde6a0:s0 -> Node0x1fe3fb0;
+	Node0x1fde6a0:s1 -> Node0x1fe3ec0;
+	Node0x1fe3ec0 [shape=record,label="{%5:\l\l  %6 = call %struct.hash_table* @hash_initialize(i64 47, %struct.hash_tuning*\l... null, i64 (i8*, i64)* @proctab_hasher, i1 (i8*, i8*)* @proctab_comparator,\l... void (i8*)* null), !dbg !1749\l  store %struct.hash_table* %6, %struct.hash_table** @proctab, align 8, !dbg\l... !1751, !tbaa !1741\l  %7 = load %struct.hash_table*, %struct.hash_table** @proctab, align 8, !dbg\l... !1752, !tbaa !1741\l  %8 = icmp ne %struct.hash_table* %7, null, !dbg !1752\l  br i1 %8, label %10, label %9, !dbg !1754\l|{<s0>T|<s1>F}}"];
+	Node0x1fe3ec0:s0 -> Node0x1fe3f60;
+	Node0x1fe3ec0:s1 -> Node0x1fe3f10;
+	Node0x1fe3f10 [shape=record,label="{%9:\l\l  call void @xalloc_die() #15, !dbg !1755\l  unreachable, !dbg !1755\l}"];
+	Node0x1fe3f60 [shape=record,label="{%10:\l\l  br label %11, !dbg !1756\l}"];
+	Node0x1fe3f60 -> Node0x1fe3fb0;
+	Node0x1fe3fb0 [shape=record,label="{%11:\l\l  %12 = load %struct.tempnode*, %struct.tempnode** %2, align 8, !dbg !1757,\l... !tbaa !1741\l  %13 = getelementptr inbounds %struct.tempnode, %struct.tempnode* %12, i32 0,\l... i32 2, !dbg !1758\l  store i8 1, i8* %13, align 4, !dbg !1759, !tbaa !1760\l  %14 = load %struct.hash_table*, %struct.hash_table** @proctab, align 8, !dbg\l... !1761, !tbaa !1741\l  %15 = load %struct.tempnode*, %struct.tempnode** %2, align 8, !dbg !1763,\l... !tbaa !1741\l  %16 = bitcast %struct.tempnode* %15 to i8*, !dbg !1763\l  %17 = call i8* @hash_insert(%struct.hash_table* %14, i8* %16), !dbg !1764\l  %18 = icmp ne i8* %17, null, !dbg !1764\l  br i1 %18, label %20, label %19, !dbg !1765\l|{<s0>T|<s1>F}}"];
+	Node0x1fe3fb0:s0 -> Node0x1fe4050;
+	Node0x1fe3fb0:s1 -> Node0x1fe4000;
+	Node0x1fe4000 [shape=record,label="{%19:\l\l  call void @xalloc_die() #15, !dbg !1766\l  unreachable, !dbg !1766\l}"];
+	Node0x1fe4050 [shape=record,label="{%20:\l\l  ret void, !dbg !1767\l}"];
+}

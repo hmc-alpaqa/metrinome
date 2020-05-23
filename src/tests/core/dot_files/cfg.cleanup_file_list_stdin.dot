@@ -1,0 +1,12 @@
+digraph "CFG for 'cleanup_file_list_stdin' function" {
+	label="CFG for 'cleanup_file_list_stdin' function";
+
+	Node0x90a140 [shape=record,label="{%0:\l  %1 = load i8, i8* @have_read_stdin, align 1, !dbg !718, !tbaa !720, !range\l... !724\l  %2 = trunc i8 %1 to i1, !dbg !718\l  br i1 %2, label %3, label %10, !dbg !725\l|{<s0>T|<s1>F}}"];
+	Node0x90a140:s0 -> Node0x90e0f0;
+	Node0x90a140:s1 -> Node0x90e190;
+	Node0x90e0f0 [shape=record,label="{%3:\l\l  %4 = load %struct._IO_FILE*, %struct._IO_FILE** @stdin, align 8, !dbg !726,\l... !tbaa !727\l  %5 = call i32 @rpl_fclose(%struct._IO_FILE* %4), !dbg !729\l  %6 = icmp ne i32 %5, 0, !dbg !730\l  br i1 %6, label %7, label %10, !dbg !731\l|{<s0>T|<s1>F}}"];
+	Node0x90e0f0:s0 -> Node0x90e140;
+	Node0x90e0f0:s1 -> Node0x90e190;
+	Node0x90e140 [shape=record,label="{%7:\l\l  %8 = call i32* @__errno_location() #13, !dbg !732\l  %9 = load i32, i32* %8, align 4, !dbg !732, !tbaa !733\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 %9, i8* getelementptr\l... inbounds ([2 x i8], [2 x i8]* @.str.9.53, i32 0, i32 0)), !dbg !732\l  unreachable, !dbg !732\l}"];
+	Node0x90e190 [shape=record,label="{%10:\l\l  ret void, !dbg !735\l}"];
+}

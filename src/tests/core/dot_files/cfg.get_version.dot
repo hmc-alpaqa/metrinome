@@ -1,0 +1,15 @@
+digraph "CFG for 'get_version' function" {
+	label="CFG for 'get_version' function";
+
+	Node0x23eec30 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !947\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !945, metadata\l... !DIExpression()), !dbg !951\l  store i8* %1, i8** %5, align 8, !tbaa !947\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !946, metadata\l... !DIExpression()), !dbg !952\l  %6 = load i8*, i8** %5, align 8, !dbg !953, !tbaa !947\l  %7 = icmp eq i8* %6, null, !dbg !955\l  br i1 %7, label %13, label %8, !dbg !956\l|{<s0>T|<s1>F}}"];
+	Node0x23eec30:s0 -> Node0x23f0140;
+	Node0x23eec30:s1 -> Node0x23f00f0;
+	Node0x23f00f0 [shape=record,label="{%8:\l\l  %9 = load i8*, i8** %5, align 8, !dbg !957, !tbaa !947\l  %10 = load i8, i8* %9, align 1, !dbg !958, !tbaa !959\l  %11 = sext i8 %10 to i32, !dbg !958\l  %12 = icmp eq i32 %11, 0, !dbg !960\l  br i1 %12, label %13, label %14, !dbg !961\l|{<s0>T|<s1>F}}"];
+	Node0x23f00f0:s0 -> Node0x23f0140;
+	Node0x23f00f0:s1 -> Node0x23f0190;
+	Node0x23f0140 [shape=record,label="{%13:\l\l  store i32 2, i32* %3, align 4, !dbg !962\l  br label %21, !dbg !962\l}"];
+	Node0x23f0140 -> Node0x23f01e0;
+	Node0x23f0190 [shape=record,label="{%14:\l\l  %15 = load i8*, i8** %4, align 8, !dbg !963, !tbaa !947\l  %16 = load i8*, i8** %5, align 8, !dbg !963, !tbaa !947\l  %17 = load void ()*, void ()** @argmatch_die, align 8, !dbg !963, !tbaa !947\l  %18 = call i64 @__xargmatch_internal(i8* %15, i8* %16, i8** getelementptr\l... inbounds ([9 x i8*], [9 x i8*]* @backup_args, i32 0, i32 0), i8* bitcast ([8\l... x i32]* @backup_types to i8*), i64 4, void ()* %17), !dbg !963\l  %19 = getelementptr inbounds [8 x i32], [8 x i32]* @backup_types, i64 0, i64\l... %18, !dbg !963\l  %20 = load i32, i32* %19, align 4, !dbg !963, !tbaa !959\l  store i32 %20, i32* %3, align 4, !dbg !964\l  br label %21, !dbg !964\l}"];
+	Node0x23f0190 -> Node0x23f01e0;
+	Node0x23f01e0 [shape=record,label="{%21:\l\l  %22 = load i32, i32* %3, align 4, !dbg !965\l  ret i32 %22, !dbg !965\l}"];
+}

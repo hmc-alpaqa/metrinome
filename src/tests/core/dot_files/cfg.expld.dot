@@ -1,0 +1,25 @@
+digraph "CFG for 'expld' function" {
+	label="CFG for 'expld' function";
+
+	Node0xaebb70 [shape=record,label="{%3:\l  %4 = alloca x86_fp80, align 16\l  %5 = alloca i32, align 4\l  %6 = alloca i32*, align 8\l  %7 = alloca i32, align 4\l  store x86_fp80 %0, x86_fp80* %4, align 16, !tbaa !846\l  call void @llvm.dbg.declare(metadata x86_fp80* %4, metadata !842, metadata\l... !DIExpression()), !dbg !850\l  store i32 %1, i32* %5, align 4, !tbaa !851\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !843, metadata\l... !DIExpression()), !dbg !853\l  store i32* %2, i32** %6, align 8, !tbaa !854\l  call void @llvm.dbg.declare(metadata i32** %6, metadata !844, metadata\l... !DIExpression()), !dbg !856\l  %8 = bitcast i32* %7 to i8*, !dbg !857\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #13, !dbg !857\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !845, metadata\l... !DIExpression()), !dbg !858\l  store i32 0, i32* %7, align 4, !dbg !858, !tbaa !851\l  %9 = load x86_fp80, x86_fp80* %4, align 16, !dbg !859, !tbaa !846\l  %10 = fcmp oge x86_fp80 %9, 0xKFFFEFFFFFFFFFFFFFFFF, !dbg !861\l  br i1 %10, label %11, label %29, !dbg !862\l|{<s0>T|<s1>F}}"];
+	Node0xaebb70:s0 -> Node0xaebbc0;
+	Node0xaebb70:s1 -> Node0xaebd50;
+	Node0xaebbc0 [shape=record,label="{%11:\l\l  %12 = load x86_fp80, x86_fp80* %4, align 16, !dbg !863, !tbaa !846\l  %13 = fcmp ole x86_fp80 %12, 0xK7FFEFFFFFFFFFFFFFFFF, !dbg !864\l  br i1 %13, label %14, label %29, !dbg !865\l|{<s0>T|<s1>F}}"];
+	Node0xaebbc0:s0 -> Node0xaebc10;
+	Node0xaebbc0:s1 -> Node0xaebd50;
+	Node0xaebc10 [shape=record,label="{%14:\l\l  br label %15, !dbg !866\l}"];
+	Node0xaebc10 -> Node0xaebc60;
+	Node0xaebc60 [shape=record,label="{%15:\l\l  %16 = load x86_fp80, x86_fp80* %4, align 16, !dbg !868, !tbaa !846\l  %17 = call x86_fp80 @absld(x86_fp80 %16), !dbg !869\l  %18 = load i32, i32* %5, align 4, !dbg !870, !tbaa !851\l  %19 = uitofp i32 %18 to x86_fp80, !dbg !870\l  %20 = fcmp oge x86_fp80 %17, %19, !dbg !871\l  br i1 %20, label %21, label %28, !dbg !866\l|{<s0>T|<s1>F}}"];
+	Node0xaebc60:s0 -> Node0xaebcb0;
+	Node0xaebc60:s1 -> Node0xaebd00;
+	Node0xaebcb0 [shape=record,label="{%21:\l\l  %22 = load i32, i32* %7, align 4, !dbg !872, !tbaa !851\l  %23 = add i32 %22, 1, !dbg !872\l  store i32 %23, i32* %7, align 4, !dbg !872, !tbaa !851\l  %24 = load i32, i32* %5, align 4, !dbg !874, !tbaa !851\l  %25 = uitofp i32 %24 to x86_fp80, !dbg !874\l  %26 = load x86_fp80, x86_fp80* %4, align 16, !dbg !875, !tbaa !846\l  %27 = fdiv x86_fp80 %26, %25, !dbg !875\l  store x86_fp80 %27, x86_fp80* %4, align 16, !dbg !875, !tbaa !846\l  br label %15, !dbg !866, !llvm.loop !876\l}"];
+	Node0xaebcb0 -> Node0xaebc60;
+	Node0xaebd00 [shape=record,label="{%28:\l\l  br label %29, !dbg !878\l}"];
+	Node0xaebd00 -> Node0xaebd50;
+	Node0xaebd50 [shape=record,label="{%29:\l\l  %30 = load i32*, i32** %6, align 8, !dbg !879, !tbaa !854\l  %31 = icmp ne i32* %30, null, !dbg !879\l  br i1 %31, label %32, label %35, !dbg !881\l|{<s0>T|<s1>F}}"];
+	Node0xaebd50:s0 -> Node0xaebda0;
+	Node0xaebd50:s1 -> Node0xaebdf0;
+	Node0xaebda0 [shape=record,label="{%32:\l\l  %33 = load i32, i32* %7, align 4, !dbg !882, !tbaa !851\l  %34 = load i32*, i32** %6, align 8, !dbg !883, !tbaa !854\l  store i32 %33, i32* %34, align 4, !dbg !884, !tbaa !851\l  br label %35, !dbg !885\l}"];
+	Node0xaebda0 -> Node0xaebdf0;
+	Node0xaebdf0 [shape=record,label="{%35:\l\l  %36 = load x86_fp80, x86_fp80* %4, align 16, !dbg !886, !tbaa !846\l  %37 = bitcast i32* %7 to i8*, !dbg !887\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %37) #13, !dbg !887\l  ret x86_fp80 %36, !dbg !888\l}"];
+}

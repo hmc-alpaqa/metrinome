@@ -1,0 +1,35 @@
+digraph "CFG for 'print_esc_char' function" {
+	label="CFG for 'print_esc_char' function";
+
+	Node0x1793340 [shape=record,label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !59\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !58, metadata\l... !DIExpression()), !dbg !62\l  %3 = load i8, i8* %2, align 1, !dbg !63, !tbaa !59\l  %4 = sext i8 %3 to i32, !dbg !63\l  switch i32 %4, label %22 [\l    i32 97, label %5\l    i32 98, label %7\l    i32 99, label %9\l    i32 101, label %10\l    i32 102, label %12\l    i32 110, label %14\l    i32 114, label %16\l    i32 116, label %18\l    i32 118, label %20\l  ], !dbg !64\l|{<s0>def|<s1>97|<s2>98|<s3>99|<s4>101|<s5>102|<s6>110|<s7>114|<s8>116|<s9>118}}"];
+	Node0x1793340:s0 -> Node0x1796480;
+	Node0x1793340:s1 -> Node0x17961b0;
+	Node0x1793340:s2 -> Node0x1796200;
+	Node0x1793340:s3 -> Node0x1796250;
+	Node0x1793340:s4 -> Node0x17962a0;
+	Node0x1793340:s5 -> Node0x17962f0;
+	Node0x1793340:s6 -> Node0x1796340;
+	Node0x1793340:s7 -> Node0x1796390;
+	Node0x1793340:s8 -> Node0x17963e0;
+	Node0x1793340:s9 -> Node0x1796430;
+	Node0x17961b0 [shape=record,label="{%5:\l\l  %6 = call i32 @putchar_unlocked(i32 7), !dbg !65\l  br label %26, !dbg !67\l}"];
+	Node0x17961b0 -> Node0x17964d0;
+	Node0x1796200 [shape=record,label="{%7:\l\l  %8 = call i32 @putchar_unlocked(i32 8), !dbg !68\l  br label %26, !dbg !69\l}"];
+	Node0x1796200 -> Node0x17964d0;
+	Node0x1796250 [shape=record,label="{%9:\l\l  call void @exit(i32 0) #10, !dbg !70\l  unreachable, !dbg !70\l}"];
+	Node0x17962a0 [shape=record,label="{%10:\l\l  %11 = call i32 @putchar_unlocked(i32 27), !dbg !71\l  br label %26, !dbg !72\l}"];
+	Node0x17962a0 -> Node0x17964d0;
+	Node0x17962f0 [shape=record,label="{%12:\l\l  %13 = call i32 @putchar_unlocked(i32 12), !dbg !73\l  br label %26, !dbg !74\l}"];
+	Node0x17962f0 -> Node0x17964d0;
+	Node0x1796340 [shape=record,label="{%14:\l\l  %15 = call i32 @putchar_unlocked(i32 10), !dbg !75\l  br label %26, !dbg !76\l}"];
+	Node0x1796340 -> Node0x17964d0;
+	Node0x1796390 [shape=record,label="{%16:\l\l  %17 = call i32 @putchar_unlocked(i32 13), !dbg !77\l  br label %26, !dbg !78\l}"];
+	Node0x1796390 -> Node0x17964d0;
+	Node0x17963e0 [shape=record,label="{%18:\l\l  %19 = call i32 @putchar_unlocked(i32 9), !dbg !79\l  br label %26, !dbg !80\l}"];
+	Node0x17963e0 -> Node0x17964d0;
+	Node0x1796430 [shape=record,label="{%20:\l\l  %21 = call i32 @putchar_unlocked(i32 11), !dbg !81\l  br label %26, !dbg !82\l}"];
+	Node0x1796430 -> Node0x17964d0;
+	Node0x1796480 [shape=record,label="{%22:\l\l  %23 = load i8, i8* %2, align 1, !dbg !83, !tbaa !59\l  %24 = sext i8 %23 to i32, !dbg !83\l  %25 = call i32 @putchar_unlocked(i32 %24), !dbg !83\l  br label %26, !dbg !84\l}"];
+	Node0x1796480 -> Node0x17964d0;
+	Node0x17964d0 [shape=record,label="{%26:\l\l  ret void, !dbg !85\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'hash_get_n_entries' function" {
+	label="CFG for 'hash_get_n_entries' function";
+
+	Node0x2458420 [shape=record,label="{%1:\l  %2 = alloca %struct.hash_table*, align 8\l  store %struct.hash_table* %0, %struct.hash_table** %2, align 8, !tbaa !729\l  call void @llvm.dbg.declare(metadata %struct.hash_table** %2, metadata !728,\l... metadata !DIExpression()), !dbg !733\l  %3 = load %struct.hash_table*, %struct.hash_table** %2, align 8, !dbg !734,\l... !tbaa !729\l  %4 = getelementptr inbounds %struct.hash_table, %struct.hash_table* %3, i32\l... 0, i32 4, !dbg !735\l  %5 = load i64, i64* %4, align 8, !dbg !735, !tbaa !736\l  ret i64 %5, !dbg !739\l}"];
+}

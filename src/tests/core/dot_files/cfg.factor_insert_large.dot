@@ -1,0 +1,18 @@
+digraph "CFG for 'factor_insert_large' function" {
+	label="CFG for 'factor_insert_large' function";
+
+	Node0x162bc80 [shape=record,label="{%3:\l  %4 = alloca %struct.factors*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  store %struct.factors* %0, %struct.factors** %4, align 8, !tbaa !749\l  call void @llvm.dbg.declare(metadata %struct.factors** %4, metadata !746,\l... metadata !DIExpression()), !dbg !753\l  store i64 %1, i64* %5, align 8, !tbaa !754\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !747, metadata\l... !DIExpression()), !dbg !756\l  store i64 %2, i64* %6, align 8, !tbaa !754\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !748, metadata\l... !DIExpression()), !dbg !757\l  %7 = load i64, i64* %5, align 8, !dbg !758, !tbaa !754\l  %8 = icmp ugt i64 %7, 0, !dbg !760\l  br i1 %8, label %9, label %26, !dbg !761\l|{<s0>T|<s1>F}}"];
+	Node0x162bc80:s0 -> Node0x162bd90;
+	Node0x162bc80:s1 -> Node0x162bed0;
+	Node0x162bd90 [shape=record,label="{%9:\l\l  %10 = load %struct.factors*, %struct.factors** %4, align 8, !dbg !762, !tbaa\l... !749\l  %11 = getelementptr inbounds %struct.factors, %struct.factors* %10, i32 0,\l... i32 0, !dbg !762\l  %12 = getelementptr inbounds [2 x i64], [2 x i64]* %11, i64 0, i64 1, !dbg\l... !762\l  %13 = load i64, i64* %12, align 8, !dbg !762, !tbaa !754\l  %14 = icmp eq i64 %13, 0, !dbg !762\l  br i1 %14, label %15, label %16, !dbg !766\l|{<s0>T|<s1>F}}"];
+	Node0x162bd90:s0 -> Node0x162bde0;
+	Node0x162bd90:s1 -> Node0x162be30;
+	Node0x162bde0 [shape=record,label="{%15:\l\l  br label %17, !dbg !766\l}"];
+	Node0x162bde0 -> Node0x162be80;
+	Node0x162be30 [shape=record,label="{%16:\l\l  call void @__assert_fail(i8* getelementptr inbounds ([24 x i8], [24 x i8]*\l... @.str.46, i32 0, i32 0), i8* getelementptr inbounds ([16 x i8], [16 x i8]*\l... @.str.39, i32 0, i32 0), i32 565, i8* getelementptr inbounds ([65 x i8], [65\l... x i8]* @__PRETTY_FUNCTION__.factor_insert_large, i32 0, i32 0)) #15, !dbg !762\l  unreachable, !dbg !762\l}"];
+	Node0x162be80 [shape=record,label="{%17:\l\l  %18 = load i64, i64* %6, align 8, !dbg !767, !tbaa !754\l  %19 = load %struct.factors*, %struct.factors** %4, align 8, !dbg !768, !tbaa\l... !749\l  %20 = getelementptr inbounds %struct.factors, %struct.factors* %19, i32 0,\l... i32 0, !dbg !769\l  %21 = getelementptr inbounds [2 x i64], [2 x i64]* %20, i64 0, i64 0, !dbg\l... !768\l  store i64 %18, i64* %21, align 8, !dbg !770, !tbaa !754\l  %22 = load i64, i64* %5, align 8, !dbg !771, !tbaa !754\l  %23 = load %struct.factors*, %struct.factors** %4, align 8, !dbg !772, !tbaa\l... !749\l  %24 = getelementptr inbounds %struct.factors, %struct.factors* %23, i32 0,\l... i32 0, !dbg !773\l  %25 = getelementptr inbounds [2 x i64], [2 x i64]* %24, i64 0, i64 1, !dbg\l... !772\l  store i64 %22, i64* %25, align 8, !dbg !774, !tbaa !754\l  br label %29, !dbg !775\l}"];
+	Node0x162be80 -> Node0x162bf20;
+	Node0x162bed0 [shape=record,label="{%26:\l\l  %27 = load %struct.factors*, %struct.factors** %4, align 8, !dbg !776, !tbaa\l... !749\l  %28 = load i64, i64* %6, align 8, !dbg !776, !tbaa !754\l  call void @factor_insert_multiplicity(%struct.factors* %27, i64 %28, i32 1),\l... !dbg !776\l  br label %29\l}"];
+	Node0x162bed0 -> Node0x162bf20;
+	Node0x162bf20 [shape=record,label="{%29:\l\l  ret void, !dbg !777\l}"];
+}

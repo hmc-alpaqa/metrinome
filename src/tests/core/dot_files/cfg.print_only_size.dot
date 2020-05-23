@@ -1,0 +1,12 @@
+digraph "CFG for 'print_only_size' function" {
+	label="CFG for 'print_only_size' function";
+
+	Node0x12e92d0 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  %3 = alloca [652 x i8], align 16\l  store i64 %0, i64* %2, align 8, !tbaa !424\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !419, metadata\l... !DIExpression()), !dbg !428\l  %4 = bitcast [652 x i8]* %3 to i8*, !dbg !429\l  call void @llvm.lifetime.start.p0i8(i64 652, i8* %4) #12, !dbg !429\l  call void @llvm.dbg.declare(metadata [652 x i8]* %3, metadata !420, metadata\l... !DIExpression()), !dbg !430\l  %5 = load i64, i64* %2, align 8, !dbg !431, !tbaa !424\l  %6 = icmp eq i64 %5, -1, !dbg !431\l  br i1 %6, label %7, label %8, !dbg !431\l|{<s0>T|<s1>F}}"];
+	Node0x12e92d0:s0 -> Node0x12eb950;
+	Node0x12e92d0:s1 -> Node0x12eb9a0;
+	Node0x12eb950 [shape=record,label="{%7:\l\l  br label %14, !dbg !431\l}"];
+	Node0x12eb950 -> Node0x12eb9f0;
+	Node0x12eb9a0 [shape=record,label="{%8:\l\l  %9 = load i64, i64* %2, align 8, !dbg !431, !tbaa !424\l  %10 = getelementptr inbounds [652 x i8], [652 x i8]* %3, i32 0, i32 0, !dbg\l... !431\l  %11 = load i32, i32* @human_output_opts, align 4, !dbg !431, !tbaa !432\l  %12 = load i64, i64* @output_block_size, align 8, !dbg !431, !tbaa !424\l  %13 = call i8* @human_readable(i64 %9, i8* %10, i32 %11, i64 1, i64 %12),\l... !dbg !431\l  br label %14, !dbg !431\l}"];
+	Node0x12eb9a0 -> Node0x12eb9f0;
+	Node0x12eb9f0 [shape=record,label="{%14:\l\l  %15 = phi i8* [ getelementptr inbounds ([9 x i8], [9 x i8]* @.str.112, i32\l... 0, i32 0), %7 ], [ %13, %8 ], !dbg !431\l  %16 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !431, !tbaa !434\l  %17 = call i32 @fputs_unlocked(i8* %15, %struct._IO_FILE* %16), !dbg !431\l  %18 = bitcast [652 x i8]* %3 to i8*, !dbg !436\l  call void @llvm.lifetime.end.p0i8(i64 652, i8* %18) #12, !dbg !436\l  ret void, !dbg !436\l}"];
+}

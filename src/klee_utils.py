@@ -19,6 +19,7 @@ class FuncVisitor(c_ast.NodeVisitor):
         self.logger = logger
         self.generator = c_generator.CGenerator()
         self.vars: Dict[str, list] = defaultdict(list)
+        self.types: Dict[str, str] = defaultdict(str)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str):
@@ -36,7 +37,9 @@ class FuncVisitor(c_ast.NodeVisitor):
         """
         # Node is a pycparser.c_ast.funcdef
         args = node.decl.type.args  # type ParamList.
+        return_type = node.decl.type.type.type.names[0]
         self.logger.i_msg(f"Looking at {node.decl.name}()")
+        self.types[node.decl.name] = return_type
         if args is not None:
             params = args.params  # List of TypeDecl.
             for i, param in enumerate(params):
@@ -76,14 +79,19 @@ class KleeUtils:
         uuids: Set[Any] = set()  # TODO: change type
         klee_formatted_files = dict()
         for func_name in func_visitor.vars.keys():
-            variables = func_visitor.vars[func_name]
+            variables = [list(v) for v in func_visitor.vars[func_name]]
             var_names = []
 
             file_str = ""
             file_str += "#include <klee/klee.h>\n"
             file_str += f"#include <{filename}>\n"
+            file_str += "#define SIZE 10\n"
             file_str += "int main() {\n"
             for var in variables:
+                if var[0][-4:] == "[];\n":
+                    var[0] = var[0].replace("[]", "[SIZE]")
+                    
+
                 file_str += "\n"
 
                 file_str += f"\t{var[0]}"
@@ -97,8 +105,12 @@ class KleeUtils:
                             f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
 
                 var_names.append(var[1])
-
-            file_str += f"\treturn {func_name}({', '.join(var_names)});\n"
+        
+            if func_visitor.types[func_name] == 'void':
+                file_str += f"\t{func_name}({', '.join(var_names)});\n"
+                file_str += "\treturn 0;\n"
+            else:
+                file_str += f"\treturn {func_name}({', '.join(var_names)});\n"
             file_str += "}\n"
             klee_formatted_files[func_name] = file_str
         return klee_formatted_files

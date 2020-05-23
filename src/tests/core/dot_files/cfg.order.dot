@@ -1,0 +1,22 @@
+digraph "CFG for 'order' function" {
+	label="CFG for 'order' function";
+
+	Node0x1edb050 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i8, align 1\l  store i8 %0, i8* %3, align 1, !tbaa !1741\l  call void @llvm.dbg.declare(metadata i8* %3, metadata !1740, metadata\l... !DIExpression()), !dbg !1744\l  %4 = load i8, i8* %3, align 1, !dbg !1745, !tbaa !1741\l  %5 = zext i8 %4 to i32, !dbg !1745\l  %6 = call zeroext i1 @c_isdigit(i32 %5), !dbg !1747\l  br i1 %6, label %7, label %8, !dbg !1748\l|{<s0>T|<s1>F}}"];
+	Node0x1edb050:s0 -> Node0x1edb0a0;
+	Node0x1edb050:s1 -> Node0x1edb0f0;
+	Node0x1edb0a0 [shape=record,label="{%7:\l\l  store i32 0, i32* %2, align 4, !dbg !1749\l  br label %25, !dbg !1749\l}"];
+	Node0x1edb0a0 -> Node0x1edb280;
+	Node0x1edb0f0 [shape=record,label="{%8:\l\l  %9 = load i8, i8* %3, align 1, !dbg !1750, !tbaa !1741\l  %10 = zext i8 %9 to i32, !dbg !1750\l  %11 = call zeroext i1 @c_isalpha(i32 %10), !dbg !1752\l  br i1 %11, label %12, label %15, !dbg !1753\l|{<s0>T|<s1>F}}"];
+	Node0x1edb0f0:s0 -> Node0x1edb140;
+	Node0x1edb0f0:s1 -> Node0x1edb190;
+	Node0x1edb140 [shape=record,label="{%12:\l\l  %13 = load i8, i8* %3, align 1, !dbg !1754, !tbaa !1741\l  %14 = zext i8 %13 to i32, !dbg !1754\l  store i32 %14, i32* %2, align 4, !dbg !1755\l  br label %25, !dbg !1755\l}"];
+	Node0x1edb140 -> Node0x1edb280;
+	Node0x1edb190 [shape=record,label="{%15:\l\l  %16 = load i8, i8* %3, align 1, !dbg !1756, !tbaa !1741\l  %17 = zext i8 %16 to i32, !dbg !1756\l  %18 = icmp eq i32 %17, 126, !dbg !1758\l  br i1 %18, label %19, label %20, !dbg !1759\l|{<s0>T|<s1>F}}"];
+	Node0x1edb190:s0 -> Node0x1edb1e0;
+	Node0x1edb190:s1 -> Node0x1edb230;
+	Node0x1edb1e0 [shape=record,label="{%19:\l\l  store i32 -1, i32* %2, align 4, !dbg !1760\l  br label %25, !dbg !1760\l}"];
+	Node0x1edb1e0 -> Node0x1edb280;
+	Node0x1edb230 [shape=record,label="{%20:\l\l  %21 = load i8, i8* %3, align 1, !dbg !1761, !tbaa !1741\l  %22 = zext i8 %21 to i32, !dbg !1762\l  %23 = add nsw i32 %22, 255, !dbg !1763\l  %24 = add nsw i32 %23, 1, !dbg !1764\l  store i32 %24, i32* %2, align 4, !dbg !1765\l  br label %25, !dbg !1765\l}"];
+	Node0x1edb230 -> Node0x1edb280;
+	Node0x1edb280 [shape=record,label="{%25:\l\l  %26 = load i32, i32* %2, align 4, !dbg !1766\l  ret i32 %26, !dbg !1766\l}"];
+}
