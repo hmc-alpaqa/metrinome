@@ -140,18 +140,20 @@ class CPPConvert():
         os.chdir(os.path.split(filepath)[0])
         subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
         self.logger.d_msg("Made directory")
+        
 
-        c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o /dev/stdout"
+        c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
 
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
 
         self.logger.d_msg(f"Command One: {commands[0]}")
         self.logger.d_msg(f"Command Two: {commands[1]}")
-
+        
         with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, shell=False) as line1:
             command = line1.stdout
+           
             if line1.stderr is not None:
                 err_msg = line1.stderr.read()
                 if len(err_msg) == 0:
@@ -160,7 +162,7 @@ class CPPConvert():
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
                 out, err = line2.communicate()
-                print(out, err)
+            
 
         files = glob2.glob("*.dot")
         self.logger.d_msg(f"Found the following .dot files: {files}")

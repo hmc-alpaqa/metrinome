@@ -1,0 +1,12 @@
+digraph "CFG for 'bkm_scale' function" {
+	label="CFG for 'bkm_scale' function";
+
+	Node0x1379c50 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i64*, align 8\l  %5 = alloca i32, align 4\l  store i64* %0, i64** %4, align 8, !tbaa !676\l  call void @llvm.dbg.declare(metadata i64** %4, metadata !674, metadata\l... !DIExpression()), !dbg !680\l  store i32 %1, i32* %5, align 4, !tbaa !681\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !675, metadata\l... !DIExpression()), !dbg !683\l  %6 = load i32, i32* %5, align 4, !dbg !684, !tbaa !681\l  %7 = sext i32 %6 to i64, !dbg !684\l  %8 = udiv i64 -1, %7, !dbg !686\l  %9 = load i64*, i64** %4, align 8, !dbg !687, !tbaa !676\l  %10 = load i64, i64* %9, align 8, !dbg !688, !tbaa !689\l  %11 = icmp ult i64 %8, %10, !dbg !691\l  br i1 %11, label %12, label %14, !dbg !692\l|{<s0>T|<s1>F}}"];
+	Node0x1379c50:s0 -> Node0x1379d30;
+	Node0x1379c50:s1 -> Node0x1379d80;
+	Node0x1379d30 [shape=record,label="{%12:\l\l  %13 = load i64*, i64** %4, align 8, !dbg !693, !tbaa !676\l  store i64 -1, i64* %13, align 8, !dbg !695, !tbaa !689\l  store i32 1, i32* %3, align 4, !dbg !696\l  br label %20, !dbg !696\l}"];
+	Node0x1379d30 -> Node0x1379dd0;
+	Node0x1379d80 [shape=record,label="{%14:\l\l  %15 = load i32, i32* %5, align 4, !dbg !697, !tbaa !681\l  %16 = sext i32 %15 to i64, !dbg !697\l  %17 = load i64*, i64** %4, align 8, !dbg !698, !tbaa !676\l  %18 = load i64, i64* %17, align 8, !dbg !699, !tbaa !689\l  %19 = mul i64 %18, %16, !dbg !699\l  store i64 %19, i64* %17, align 8, !dbg !699, !tbaa !689\l  store i32 0, i32* %3, align 4, !dbg !700\l  br label %20, !dbg !700\l}"];
+	Node0x1379d80 -> Node0x1379dd0;
+	Node0x1379dd0 [shape=record,label="{%20:\l\l  %21 = load i32, i32* %3, align 4, !dbg !701\l  ret i32 %21, !dbg !701\l}"];
+}

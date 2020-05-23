@@ -1,0 +1,12 @@
+digraph "CFG for 'freev' function" {
+	label="CFG for 'freev' function";
+
+	Node0x911640 [shape=record,label="{%1:\l  %2 = alloca %struct.valinfo*, align 8\l  store %struct.valinfo* %0, %struct.valinfo** %2, align 8, !tbaa !1060\l  call void @llvm.dbg.declare(metadata %struct.valinfo** %2, metadata !1059,\l... metadata !DIExpression()), !dbg !1064\l  %3 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !1065, !tbaa\l... !1060\l  %4 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %3, i32 0, i32\l... 0, !dbg !1067\l  %5 = load i32, i32* %4, align 8, !dbg !1067, !tbaa !1068\l  %6 = icmp eq i32 %5, 1, !dbg !1070\l  br i1 %6, label %7, label %12, !dbg !1071\l|{<s0>T|<s1>F}}"];
+	Node0x911640:s0 -> Node0x912c00;
+	Node0x911640:s1 -> Node0x912c50;
+	Node0x912c00 [shape=record,label="{%7:\l\l  %8 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !1072, !tbaa\l... !1060\l  %9 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %8, i32 0, i32\l... 1, !dbg !1073\l  %10 = bitcast %union.anon* %9 to i8**, !dbg !1074\l  %11 = load i8*, i8** %10, align 8, !dbg !1074, !tbaa !1075\l  call void @free(i8* %11) #12, !dbg !1076\l  br label %17, !dbg !1076\l}"];
+	Node0x912c00 -> Node0x912ca0;
+	Node0x912c50 [shape=record,label="{%12:\l\l  %13 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !1077,\l... !tbaa !1060\l  %14 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %13, i32 0,\l... i32 1, !dbg !1078\l  %15 = bitcast %union.anon* %14 to [1 x i64]*, !dbg !1079\l  %16 = getelementptr inbounds [1 x i64], [1 x i64]* %15, i32 0, i32 0, !dbg\l... !1077\l  call void @mpz_clear(i64* %16), !dbg !1080\l  br label %17\l}"];
+	Node0x912c50 -> Node0x912ca0;
+	Node0x912ca0 [shape=record,label="{%17:\l\l  %18 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !1081,\l... !tbaa !1060\l  %19 = bitcast %struct.valinfo* %18 to i8*, !dbg !1081\l  call void @free(i8* %19) #12, !dbg !1082\l  ret void, !dbg !1083\l}"];
+}

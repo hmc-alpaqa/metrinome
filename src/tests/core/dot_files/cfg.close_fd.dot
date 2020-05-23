@@ -1,0 +1,16 @@
+digraph "CFG for 'close_fd' function" {
+	label="CFG for 'close_fd' function";
+
+	Node0x144d090 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i8*, align 8\l  store i32 %0, i32* %3, align 4, !tbaa !224\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !222, metadata\l... !DIExpression()), !dbg !228\l  store i8* %1, i8** %4, align 8, !tbaa !229\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !223, metadata\l... !DIExpression()), !dbg !231\l  %5 = load i32, i32* %3, align 4, !dbg !232, !tbaa !224\l  %6 = icmp ne i32 %5, -1, !dbg !234\l  br i1 %6, label %7, label %20, !dbg !235\l|{<s0>T|<s1>F}}"];
+	Node0x144d090:s0 -> Node0x144eb20;
+	Node0x144d090:s1 -> Node0x144ec10;
+	Node0x144eb20 [shape=record,label="{%7:\l\l  %8 = load i32, i32* %3, align 4, !dbg !236, !tbaa !224\l  %9 = icmp ne i32 %8, 0, !dbg !237\l  br i1 %9, label %10, label %20, !dbg !238\l|{<s0>T|<s1>F}}"];
+	Node0x144eb20:s0 -> Node0x144eb70;
+	Node0x144eb20:s1 -> Node0x144ec10;
+	Node0x144eb70 [shape=record,label="{%10:\l\l  %11 = load i32, i32* %3, align 4, !dbg !239, !tbaa !224\l  %12 = call i32 @close(i32 %11), !dbg !240\l  %13 = icmp ne i32 %12, 0, !dbg !240\l  br i1 %13, label %14, label %20, !dbg !241\l|{<s0>T|<s1>F}}"];
+	Node0x144eb70:s0 -> Node0x144ebc0;
+	Node0x144eb70:s1 -> Node0x144ec10;
+	Node0x144ebc0 [shape=record,label="{%14:\l\l  %15 = call i32* @__errno_location() #12, !dbg !242\l  %16 = load i32, i32* %15, align 4, !dbg !242, !tbaa !224\l  %17 = load i8*, i8** %4, align 8, !dbg !244, !tbaa !229\l  %18 = call i8* @quotearg_style(i32 4, i8* %17), !dbg !244\l  %19 = load i32, i32* %3, align 4, !dbg !245, !tbaa !224\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 %16, i8* getelementptr\l... inbounds ([19 x i8], [19 x i8]* @.str.92, i32 0, i32 0), i8* %18, i32 %19),\l... !dbg !246\l  br label %20, !dbg !247\l}"];
+	Node0x144ebc0 -> Node0x144ec10;
+	Node0x144ec10 [shape=record,label="{%20:\l\l  ret void, !dbg !248\l}"];
+}

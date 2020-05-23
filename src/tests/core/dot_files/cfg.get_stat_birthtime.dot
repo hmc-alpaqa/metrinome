@@ -1,0 +1,5 @@
+digraph "CFG for 'get_stat_birthtime' function" {
+	label="CFG for 'get_stat_birthtime' function";
+
+	Node0x1eaedc0 [shape=record,label="{%1:\l  %2 = alloca %struct.timespec, align 8\l  %3 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %3, align 8, !tbaa !1197\l  call void @llvm.dbg.declare(metadata %struct.stat** %3, metadata !1195,\l... metadata !DIExpression()), !dbg !1201\l  call void @llvm.dbg.declare(metadata %struct.timespec* %2, metadata !1196,\l... metadata !DIExpression()), !dbg !1202\l  %4 = getelementptr inbounds %struct.timespec, %struct.timespec* %2, i32 0,\l... i32 0, !dbg !1203\l  store i64 -1, i64* %4, align 8, !dbg !1204, !tbaa !1205\l  %5 = getelementptr inbounds %struct.timespec, %struct.timespec* %2, i32 0,\l... i32 1, !dbg !1208\l  store i64 -1, i64* %5, align 8, !dbg !1209, !tbaa !1210\l  %6 = bitcast %struct.timespec* %2 to \{ i64, i64 \}*, !dbg !1211\l  %7 = load \{ i64, i64 \}, \{ i64, i64 \}* %6, align 8, !dbg !1211\l  ret \{ i64, i64 \} %7, !dbg !1211\l}"];
+}

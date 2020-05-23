@@ -1,0 +1,5 @@
+digraph "CFG for 'gidtostr_ptr.63' function" {
+	label="CFG for 'gidtostr_ptr.63' function";
+
+	Node0x22540f0 [shape=record,label="{%1:\l  %2 = alloca i32*, align 8\l  store i32* %0, i32** %2, align 8, !tbaa !780\l  call void @llvm.dbg.declare(metadata i32** %2, metadata !91, metadata\l... !DIExpression()), !dbg !784\l  %3 = load i32*, i32** %2, align 8, !dbg !785, !tbaa !780\l  %4 = load i32, i32* %3, align 4, !dbg !786, !tbaa !787\l  %5 = zext i32 %4 to i64, !dbg !786\l  %6 = call i8* @umaxtostr(i64 %5, i8* getelementptr inbounds ([21 x i8], [21\l... x i8]* @gidtostr_ptr.buf.64, i32 0, i32 0)), !dbg !789\l  ret i8* %6, !dbg !790\l}"];
+}

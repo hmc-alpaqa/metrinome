@@ -1,0 +1,29 @@
+digraph "CFG for 'num_processors_via_affinity_mask' function" {
+	label="CFG for 'num_processors_via_affinity_mask' function";
+
+	Node0x1f81320 [shape=record,label="{%0:\l  %1 = alloca i64, align 8\l  %2 = alloca %struct.cpu_set_t, align 8\l  %3 = alloca i64, align 8\l  %4 = alloca i32, align 4\l  %5 = bitcast %struct.cpu_set_t* %2 to i8*, !dbg !849\l  call void @llvm.lifetime.start.p0i8(i64 128, i8* %5) #11, !dbg !849\l  call void @llvm.dbg.declare(metadata %struct.cpu_set_t* %2, metadata !835,\l... metadata !DIExpression()), !dbg !850\l  %6 = call i32 @sched_getaffinity(i32 0, i64 128, %struct.cpu_set_t* %2) #11,\l... !dbg !851\l  %7 = icmp eq i32 %6, 0, !dbg !852\l  br i1 %7, label %8, label %21, !dbg !853\l|{<s0>T|<s1>F}}"];
+	Node0x1f81320:s0 -> Node0x1f813d0;
+	Node0x1f81320:s1 -> Node0x1f81560;
+	Node0x1f813d0 [shape=record,label="{%8:\l\l  %9 = bitcast i64* %3 to i8*, !dbg !854\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #11, !dbg !854\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !846, metadata\l... !DIExpression()), !dbg !855\l  %10 = call i32 @__sched_cpucount(i64 128, %struct.cpu_set_t* %2) #11, !dbg\l... !856\l  %11 = sext i32 %10 to i64, !dbg !856\l  store i64 %11, i64* %3, align 8, !dbg !857, !tbaa !858\l  %12 = load i64, i64* %3, align 8, !dbg !862, !tbaa !858\l  %13 = icmp ugt i64 %12, 0, !dbg !864\l  br i1 %13, label %14, label %16, !dbg !865\l|{<s0>T|<s1>F}}"];
+	Node0x1f813d0:s0 -> Node0x1f81420;
+	Node0x1f813d0:s1 -> Node0x1f81470;
+	Node0x1f81420 [shape=record,label="{%14:\l\l  %15 = load i64, i64* %3, align 8, !dbg !866, !tbaa !858\l  store i64 %15, i64* %1, align 8, !dbg !867\l  store i32 1, i32* %4, align 4\l  br label %17, !dbg !867\l}"];
+	Node0x1f81420 -> Node0x1f814c0;
+	Node0x1f81470 [shape=record,label="{%16:\l\l  store i32 0, i32* %4, align 4, !dbg !868\l  br label %17, !dbg !868\l}"];
+	Node0x1f81470 -> Node0x1f814c0;
+	Node0x1f814c0 [shape=record,label="{%17:\l\l  %18 = bitcast i64* %3 to i8*, !dbg !868\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %18) #11, !dbg !868\l  %19 = load i32, i32* %4, align 4\l  switch i32 %19, label %22 [\l    i32 0, label %20\l  ]\l|{<s0>def|<s1>0}}"];
+	Node0x1f814c0:s0 -> Node0x1f815b0;
+	Node0x1f814c0:s1 -> Node0x1f81510;
+	Node0x1f81510 [shape=record,label="{%20:\l\l  br label %21, !dbg !869\l}"];
+	Node0x1f81510 -> Node0x1f81560;
+	Node0x1f81560 [shape=record,label="{%21:\l\l  store i32 0, i32* %4, align 4, !dbg !870\l  br label %22, !dbg !870\l}"];
+	Node0x1f81560 -> Node0x1f815b0;
+	Node0x1f815b0 [shape=record,label="{%22:\l\l  %23 = bitcast %struct.cpu_set_t* %2 to i8*, !dbg !870\l  call void @llvm.lifetime.end.p0i8(i64 128, i8* %23) #11, !dbg !870\l  %24 = load i32, i32* %4, align 4\l  switch i32 %24, label %28 [\l    i32 0, label %25\l    i32 1, label %26\l  ]\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x1f815b0:s0 -> Node0x1f816a0;
+	Node0x1f815b0:s1 -> Node0x1f81600;
+	Node0x1f815b0:s2 -> Node0x1f81650;
+	Node0x1f81600 [shape=record,label="{%25:\l\l  store i64 0, i64* %1, align 8, !dbg !871\l  br label %26, !dbg !871\l}"];
+	Node0x1f81600 -> Node0x1f81650;
+	Node0x1f81650 [shape=record,label="{%26:\l\l  %27 = load i64, i64* %1, align 8, !dbg !872\l  ret i64 %27, !dbg !872\l}"];
+	Node0x1f816a0 [shape=record,label="{%28:\l\l  unreachable\l}"];
+}

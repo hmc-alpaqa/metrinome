@@ -1,0 +1,44 @@
+digraph "CFG for 'format_address_std' function" {
+	label="CFG for 'format_address_std' function";
+
+	Node0x1b8f3f0 [shape=record,label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i8, align 1\l  %5 = alloca [25 x i8], align 16\l  %6 = alloca i8*, align 8\l  %7 = alloca i8*, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !366\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !358, metadata\l... !DIExpression()), !dbg !370\l  store i8 %1, i8* %4, align 1, !tbaa !371\l  call void @llvm.dbg.declare(metadata i8* %4, metadata !359, metadata\l... !DIExpression()), !dbg !372\l  %8 = bitcast [25 x i8]* %5 to i8*, !dbg !373\l  call void @llvm.lifetime.start.p0i8(i64 25, i8* %8) #13, !dbg !373\l  call void @llvm.dbg.declare(metadata [25 x i8]* %5, metadata !360, metadata\l... !DIExpression()), !dbg !374\l  %9 = bitcast i8** %6 to i8*, !dbg !375\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #13, !dbg !375\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !364, metadata\l... !DIExpression()), !dbg !376\l  %10 = getelementptr inbounds [25 x i8], [25 x i8]* %5, i32 0, i32 0, !dbg\l... !377\l  %11 = getelementptr inbounds i8, i8* %10, i64 25, !dbg !378\l  store i8* %11, i8** %6, align 8, !dbg !376, !tbaa !379\l  %12 = bitcast i8** %7 to i8*, !dbg !381\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %12) #13, !dbg !381\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !365, metadata\l... !DIExpression()), !dbg !382\l  %13 = load i8*, i8** %6, align 8, !dbg !383, !tbaa !379\l  %14 = getelementptr inbounds i8, i8* %13, i32 -1, !dbg !383\l  store i8* %14, i8** %6, align 8, !dbg !383, !tbaa !379\l  store i8 0, i8* %14, align 1, !dbg !384, !tbaa !371\l  %15 = load i8, i8* %4, align 1, !dbg !385, !tbaa !371\l  %16 = load i8*, i8** %6, align 8, !dbg !386, !tbaa !379\l  %17 = getelementptr inbounds i8, i8* %16, i32 -1, !dbg !386\l  store i8* %17, i8** %6, align 8, !dbg !386, !tbaa !379\l  store i8 %15, i8* %17, align 1, !dbg !387, !tbaa !371\l  %18 = load i8*, i8** %6, align 8, !dbg !388, !tbaa !379\l  %19 = load i32, i32* @address_pad_len, align 4, !dbg !389, !tbaa !390\l  %20 = sext i32 %19 to i64, !dbg !392\l  %21 = sub i64 0, %20, !dbg !392\l  %22 = getelementptr inbounds i8, i8* %18, i64 %21, !dbg !392\l  store i8* %22, i8** %7, align 8, !dbg !393, !tbaa !379\l  %23 = load i32, i32* @address_base, align 4, !dbg !394, !tbaa !390\l  switch i32 %23, label %63 [\l    i32 8, label %24\l    i32 10, label %37\l    i32 16, label %50\l  ], !dbg !395\l|{<s0>def|<s1>8|<s2>10|<s3>16}}"];
+	Node0x1b8f3f0:s0 -> Node0x1b573d0;
+	Node0x1b8f3f0:s1 -> Node0x1b505e0;
+	Node0x1b8f3f0:s2 -> Node0x1b50720;
+	Node0x1b8f3f0:s3 -> Node0x1b50860;
+	Node0x1b505e0 [shape=record,label="{%24:\l\l  br label %25, !dbg !396\l}"];
+	Node0x1b505e0 -> Node0x1b50630;
+	Node0x1b50630 [shape=record,label="{%25:\l\l  %26 = load i64, i64* %3, align 8, !dbg !398, !tbaa !366\l  %27 = and i64 %26, 7, !dbg !399\l  %28 = add i64 48, %27, !dbg !400\l  %29 = trunc i64 %28 to i8, !dbg !401\l  %30 = load i8*, i8** %6, align 8, !dbg !402, !tbaa !379\l  %31 = getelementptr inbounds i8, i8* %30, i32 -1, !dbg !402\l  store i8* %31, i8** %6, align 8, !dbg !402, !tbaa !379\l  store i8 %29, i8* %31, align 1, !dbg !403, !tbaa !371\l  br label %32, !dbg !404\l}"];
+	Node0x1b50630 -> Node0x1b50680;
+	Node0x1b50680 [shape=record,label="{%32:\l\l  %33 = load i64, i64* %3, align 8, !dbg !405, !tbaa !366\l  %34 = lshr i64 %33, 3, !dbg !405\l  store i64 %34, i64* %3, align 8, !dbg !405, !tbaa !366\l  %35 = icmp ne i64 %34, 0, !dbg !406\l  br i1 %35, label %25, label %36, !dbg !404, !llvm.loop !407\l|{<s0>T|<s1>F}}"];
+	Node0x1b50680:s0 -> Node0x1b50630;
+	Node0x1b50680:s1 -> Node0x1b506d0;
+	Node0x1b506d0 [shape=record,label="{%36:\l\l  br label %63, !dbg !409\l}"];
+	Node0x1b506d0 -> Node0x1b573d0;
+	Node0x1b50720 [shape=record,label="{%37:\l\l  br label %38, !dbg !410\l}"];
+	Node0x1b50720 -> Node0x1b50770;
+	Node0x1b50770 [shape=record,label="{%38:\l\l  %39 = load i64, i64* %3, align 8, !dbg !411, !tbaa !366\l  %40 = urem i64 %39, 10, !dbg !412\l  %41 = add i64 48, %40, !dbg !413\l  %42 = trunc i64 %41 to i8, !dbg !414\l  %43 = load i8*, i8** %6, align 8, !dbg !415, !tbaa !379\l  %44 = getelementptr inbounds i8, i8* %43, i32 -1, !dbg !415\l  store i8* %44, i8** %6, align 8, !dbg !415, !tbaa !379\l  store i8 %42, i8* %44, align 1, !dbg !416, !tbaa !371\l  br label %45, !dbg !417\l}"];
+	Node0x1b50770 -> Node0x1b507c0;
+	Node0x1b507c0 [shape=record,label="{%45:\l\l  %46 = load i64, i64* %3, align 8, !dbg !418, !tbaa !366\l  %47 = udiv i64 %46, 10, !dbg !418\l  store i64 %47, i64* %3, align 8, !dbg !418, !tbaa !366\l  %48 = icmp ne i64 %47, 0, !dbg !419\l  br i1 %48, label %38, label %49, !dbg !417, !llvm.loop !420\l|{<s0>T|<s1>F}}"];
+	Node0x1b507c0:s0 -> Node0x1b50770;
+	Node0x1b507c0:s1 -> Node0x1b50810;
+	Node0x1b50810 [shape=record,label="{%49:\l\l  br label %63, !dbg !422\l}"];
+	Node0x1b50810 -> Node0x1b573d0;
+	Node0x1b50860 [shape=record,label="{%50:\l\l  br label %51, !dbg !423\l}"];
+	Node0x1b50860 -> Node0x1b508b0;
+	Node0x1b508b0 [shape=record,label="{%51:\l\l  %52 = load i64, i64* %3, align 8, !dbg !424, !tbaa !366\l  %53 = and i64 %52, 15, !dbg !425\l  %54 = getelementptr inbounds [17 x i8], [17 x i8]* @.str.62, i64 0, i64 %53,\l... !dbg !426\l  %55 = load i8, i8* %54, align 1, !dbg !426, !tbaa !371\l  %56 = load i8*, i8** %6, align 8, !dbg !427, !tbaa !379\l  %57 = getelementptr inbounds i8, i8* %56, i32 -1, !dbg !427\l  store i8* %57, i8** %6, align 8, !dbg !427, !tbaa !379\l  store i8 %55, i8* %57, align 1, !dbg !428, !tbaa !371\l  br label %58, !dbg !429\l}"];
+	Node0x1b508b0 -> Node0x1b50900;
+	Node0x1b50900 [shape=record,label="{%58:\l\l  %59 = load i64, i64* %3, align 8, !dbg !430, !tbaa !366\l  %60 = lshr i64 %59, 4, !dbg !430\l  store i64 %60, i64* %3, align 8, !dbg !430, !tbaa !366\l  %61 = icmp ne i64 %60, 0, !dbg !431\l  br i1 %61, label %51, label %62, !dbg !429, !llvm.loop !432\l|{<s0>T|<s1>F}}"];
+	Node0x1b50900:s0 -> Node0x1b508b0;
+	Node0x1b50900:s1 -> Node0x1b50950;
+	Node0x1b50950 [shape=record,label="{%62:\l\l  br label %63, !dbg !434\l}"];
+	Node0x1b50950 -> Node0x1b573d0;
+	Node0x1b573d0 [shape=record,label="{%63:\l\l  br label %64, !dbg !435\l}"];
+	Node0x1b573d0 -> Node0x1b57420;
+	Node0x1b57420 [shape=record,label="{%64:\l\l  %65 = load i8*, i8** %7, align 8, !dbg !436, !tbaa !379\l  %66 = load i8*, i8** %6, align 8, !dbg !437, !tbaa !379\l  %67 = icmp ult i8* %65, %66, !dbg !438\l  br i1 %67, label %68, label %71, !dbg !435\l|{<s0>T|<s1>F}}"];
+	Node0x1b57420:s0 -> Node0x1b57470;
+	Node0x1b57420:s1 -> Node0x1b574c0;
+	Node0x1b57470 [shape=record,label="{%68:\l\l  %69 = load i8*, i8** %6, align 8, !dbg !439, !tbaa !379\l  %70 = getelementptr inbounds i8, i8* %69, i32 -1, !dbg !439\l  store i8* %70, i8** %6, align 8, !dbg !439, !tbaa !379\l  store i8 48, i8* %70, align 1, !dbg !440, !tbaa !371\l  br label %64, !dbg !435, !llvm.loop !441\l}"];
+	Node0x1b57470 -> Node0x1b57420;
+	Node0x1b574c0 [shape=record,label="{%71:\l\l  %72 = load i8*, i8** %6, align 8, !dbg !443, !tbaa !379\l  %73 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !443, !tbaa !379\l  %74 = call i32 @fputs_unlocked(i8* %72, %struct._IO_FILE* %73), !dbg !443\l  %75 = bitcast i8** %7 to i8*, !dbg !444\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %75) #13, !dbg !444\l  %76 = bitcast i8** %6 to i8*, !dbg !444\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %76) #13, !dbg !444\l  %77 = bitcast [25 x i8]* %5 to i8*, !dbg !444\l  call void @llvm.lifetime.end.p0i8(i64 25, i8* %77) #13, !dbg !444\l  ret void, !dbg !444\l}"];
+}

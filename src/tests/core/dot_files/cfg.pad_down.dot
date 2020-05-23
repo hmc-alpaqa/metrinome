@@ -1,0 +1,23 @@
+digraph "CFG for 'pad_down' function" {
+	label="CFG for 'pad_down' function";
+
+	Node0x162bc70 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !1011\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1007, metadata\l... !DIExpression()), !dbg !1015\l  %4 = load i8, i8* @use_form_feed, align 1, !dbg !1016, !tbaa !1017, !range\l... !1019\l  %5 = trunc i8 %4 to i1, !dbg !1016\l  br i1 %5, label %6, label %8, !dbg !1020\l|{<s0>T|<s1>F}}"];
+	Node0x162bc70:s0 -> Node0x162bcc0;
+	Node0x162bc70:s1 -> Node0x162bd10;
+	Node0x162bcc0 [shape=record,label="{%6:\l\l  %7 = call i32 @putchar_unlocked(i32 12), !dbg !1021\l  br label %22, !dbg !1021\l}"];
+	Node0x162bcc0 -> Node0x162bef0;
+	Node0x162bd10 [shape=record,label="{%8:\l\l  %9 = bitcast i32* %3 to i8*, !dbg !1022\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %9) #13, !dbg !1022\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1008, metadata\l... !DIExpression()), !dbg !1023\l  %10 = load i32, i32* %2, align 4, !dbg !1024, !tbaa !1011\l  store i32 %10, i32* %3, align 4, !dbg !1023, !tbaa !1011\l  br label %11, !dbg !1022\l}"];
+	Node0x162bd10 -> Node0x162bd60;
+	Node0x162bd60 [shape=record,label="{%11:\l\l  %12 = load i32, i32* %3, align 4, !dbg !1025, !tbaa !1011\l  %13 = icmp ne i32 %12, 0, !dbg !1027\l  br i1 %13, label %16, label %14, !dbg !1027\l|{<s0>T|<s1>F}}"];
+	Node0x162bd60:s0 -> Node0x162be00;
+	Node0x162bd60:s1 -> Node0x162bdb0;
+	Node0x162bdb0 [shape=record,label="{%14:\l\l  %15 = bitcast i32* %3 to i8*, !dbg !1028\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %15) #13, !dbg !1028\l  br label %21\l}"];
+	Node0x162bdb0 -> Node0x162bea0;
+	Node0x162be00 [shape=record,label="{%16:\l\l  %17 = call i32 @putchar_unlocked(i32 10), !dbg !1029\l  br label %18, !dbg !1029\l}"];
+	Node0x162be00 -> Node0x162be50;
+	Node0x162be50 [shape=record,label="{%18:\l\l  %19 = load i32, i32* %3, align 4, !dbg !1030, !tbaa !1011\l  %20 = add i32 %19, -1, !dbg !1030\l  store i32 %20, i32* %3, align 4, !dbg !1030, !tbaa !1011\l  br label %11, !dbg !1028, !llvm.loop !1031\l}"];
+	Node0x162be50 -> Node0x162bd60;
+	Node0x162bea0 [shape=record,label="{%21:\l\l  br label %22\l}"];
+	Node0x162bea0 -> Node0x162bef0;
+	Node0x162bef0 [shape=record,label="{%22:\l\l  ret void, !dbg !1033\l}"];
+}

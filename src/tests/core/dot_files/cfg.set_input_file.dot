@@ -1,0 +1,12 @@
+digraph "CFG for 'set_input_file' function" {
+	label="CFG for 'set_input_file' function";
+
+	Node0x1309c50 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !1344\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !1343, metadata\l... !DIExpression()), !dbg !1348\l  %3 = load i8*, i8** %2, align 8, !dbg !1349, !tbaa !1344\l  %4 = call i32 @strcmp(i8* %3, i8* getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.42, i32 0, i32 0)) #15, !dbg !1349\l  %5 = icmp eq i32 %4, 0, !dbg !1349\l  br i1 %5, label %15, label %6, !dbg !1351\l|{<s0>T|<s1>F}}"];
+	Node0x1309c50:s0 -> Node0x1325820;
+	Node0x1309c50:s1 -> Node0x1325780;
+	Node0x1325780 [shape=record,label="{%6:\l\l  %7 = load i8*, i8** %2, align 8, !dbg !1352, !tbaa !1344\l  %8 = call i32 @fd_reopen(i32 0, i8* %7, i32 0, i32 0), !dbg !1353\l  %9 = icmp slt i32 %8, 0, !dbg !1354\l  br i1 %9, label %10, label %15, !dbg !1355\l|{<s0>T|<s1>F}}"];
+	Node0x1325780:s0 -> Node0x13257d0;
+	Node0x1325780:s1 -> Node0x1325820;
+	Node0x13257d0 [shape=record,label="{%10:\l\l  %11 = call i32* @__errno_location() #12, !dbg !1356\l  %12 = load i32, i32* %11, align 4, !dbg !1356, !tbaa !1357\l  %13 = load i8*, i8** %2, align 8, !dbg !1356, !tbaa !1344\l  %14 = call i8* @quotearg_style(i32 4, i8* %13), !dbg !1356\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 %12, i8* getelementptr\l... inbounds ([27 x i8], [27 x i8]* @.str.43, i32 0, i32 0), i8* %14), !dbg !1356\l  unreachable, !dbg !1356\l}"];
+	Node0x1325820 [shape=record,label="{%15:\l\l  ret void, !dbg !1359\l}"];
+}

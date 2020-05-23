@@ -1,0 +1,5 @@
+digraph "CFG for 'blake2b_set_lastnode' function" {
+	label="CFG for 'blake2b_set_lastnode' function";
+
+	Node0x1d4e9a0 [shape=record,label="{%1:\l  %2 = alloca %struct.blake2b_state__*, align 8\l  store %struct.blake2b_state__* %0, %struct.blake2b_state__** %2, align 8,\l... !tbaa !83\l  call void @llvm.dbg.declare(metadata %struct.blake2b_state__** %2, metadata\l... !82, metadata !DIExpression()), !dbg !87\l  %3 = load %struct.blake2b_state__*, %struct.blake2b_state__** %2, align 8,\l... !dbg !88, !tbaa !83\l  %4 = getelementptr inbounds %struct.blake2b_state__,\l... %struct.blake2b_state__* %3, i32 0, i32 2, !dbg !89\l  %5 = getelementptr inbounds [2 x i64], [2 x i64]* %4, i64 0, i64 1, !dbg !88\l  store i64 -1, i64* %5, align 8, !dbg !90, !tbaa !91\l  ret void, !dbg !93\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'set_file_list' function" {
+	label="CFG for 'set_file_list' function";
+
+	Node0x908e90 [shape=record,label="{%1:\l  %2 = alloca i8**, align 8\l  store i8** %0, i8*** %2, align 8, !tbaa !720\l  call void @llvm.dbg.declare(metadata i8*** %2, metadata !719, metadata\l... !DIExpression()), !dbg !724\l  store i8 0, i8* @have_read_stdin, align 1, !dbg !725, !tbaa !726\l  %3 = load i8**, i8*** %2, align 8, !dbg !728, !tbaa !720\l  %4 = icmp ne i8** %3, null, !dbg !728\l  br i1 %4, label %6, label %5, !dbg !730\l|{<s0>T|<s1>F}}"];
+	Node0x908e90:s0 -> Node0x908f90;
+	Node0x908e90:s1 -> Node0x908f40;
+	Node0x908f40 [shape=record,label="{%5:\l\l  store i8** getelementptr inbounds ([2 x i8*], [2 x i8*]* @stdin_argv, i32 0,\l... i32 0), i8*** @file_list, align 8, !dbg !731, !tbaa !720\l  br label %8, !dbg !732\l}"];
+	Node0x908f40 -> Node0x908fe0;
+	Node0x908f90 [shape=record,label="{%6:\l\l  %7 = load i8**, i8*** %2, align 8, !dbg !733, !tbaa !720\l  store i8** %7, i8*** @file_list, align 8, !dbg !734, !tbaa !720\l  br label %8\l}"];
+	Node0x908f90 -> Node0x908fe0;
+	Node0x908fe0 [shape=record,label="{%8:\l\l  ret void, !dbg !735\l}"];
+}

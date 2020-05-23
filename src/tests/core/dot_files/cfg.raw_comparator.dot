@@ -1,0 +1,5 @@
+digraph "CFG for 'raw_comparator' function" {
+	label="CFG for 'raw_comparator' function";
+
+	Node0x2483990 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !695\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !693, metadata\l... !DIExpression()), !dbg !699\l  store i8* %1, i8** %4, align 8, !tbaa !695\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !694, metadata\l... !DIExpression()), !dbg !700\l  %5 = load i8*, i8** %3, align 8, !dbg !701, !tbaa !695\l  %6 = load i8*, i8** %4, align 8, !dbg !702, !tbaa !695\l  %7 = icmp eq i8* %5, %6, !dbg !703\l  ret i1 %7, !dbg !704\l}"];
+}

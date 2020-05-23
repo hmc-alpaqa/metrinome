@@ -1,3 +1,5 @@
+// klee fails
+
 int nested_loops_func(int x, int y) {
     int sum = 0;
     for(int i = 0; i < x; i++) {

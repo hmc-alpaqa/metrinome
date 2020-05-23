@@ -1,0 +1,5 @@
+digraph "CFG for 'rotl_sz' function" {
+	label="CFG for 'rotl_sz' function";
+
+	Node0x25f2870 [shape=record,label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i32, align 4\l  store i64 %0, i64* %3, align 8, !tbaa !694\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !692, metadata\l... !DIExpression()), !dbg !698\l  store i32 %1, i32* %4, align 4, !tbaa !699\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !693, metadata\l... !DIExpression()), !dbg !701\l  %5 = load i64, i64* %3, align 8, !dbg !702, !tbaa !694\l  %6 = load i32, i32* %4, align 4, !dbg !703, !tbaa !699\l  %7 = zext i32 %6 to i64, !dbg !704\l  %8 = shl i64 %5, %7, !dbg !704\l  %9 = load i64, i64* %3, align 8, !dbg !705, !tbaa !694\l  %10 = load i32, i32* %4, align 4, !dbg !706, !tbaa !699\l  %11 = sext i32 %10 to i64, !dbg !706\l  %12 = sub i64 64, %11, !dbg !707\l  %13 = lshr i64 %9, %12, !dbg !708\l  %14 = or i64 %8, %13, !dbg !709\l  ret i64 %14, !dbg !710\l}"];
+}

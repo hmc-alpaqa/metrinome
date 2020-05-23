@@ -1,0 +1,5 @@
+digraph "CFG for 'cdb_init' function" {
+	label="CFG for 'cdb_init' function";
+
+	Node0x2531000 [shape=record,label="{%1:\l  %2 = alloca %union.anon.8*, align 8\l  store %union.anon.8* %0, %union.anon.8** %2, align 8, !tbaa !930\l  call void @llvm.dbg.declare(metadata %union.anon.8** %2, metadata !929,\l... metadata !DIExpression()), !dbg !934\l  %3 = load %union.anon.8*, %union.anon.8** %2, align 8, !dbg !935, !tbaa !930\l  %4 = getelementptr inbounds %union.anon.8, %union.anon.8* %3, i32 0, i32 0,\l... !dbg !936\l  store i32 -100, i32* %4, align 4, !dbg !937, !tbaa !938\l  ret void, !dbg !941\l}"];
+}

@@ -1,0 +1,6 @@
+digraph "CFG for 'beyond' function" {
+	label="CFG for 'beyond' function";
+
+	Node0x1dd9600 [shape=record,label="{%0:\l  %1 = load i8**, i8*** @argv, align 8, !dbg !52, !tbaa !53\l  %2 = load i32, i32* @argc, align 4, !dbg !57, !tbaa !58\l  %3 = sub nsw i32 %2, 1, !dbg !60\l  %4 = sext i32 %3 to i64, !dbg !52\l  %5 = getelementptr inbounds i8*, i8** %1, i64 %4, !dbg !52\l  %6 = load i8*, i8** %5, align 8, !dbg !52, !tbaa !53\l  %7 = call i8* @quote(i8* %6), !dbg !61\l  call void (i8*, ...) @test_syntax_error(i8* getelementptr inbounds ([26 x\l... i8], [26 x i8]* @.str.44, i32 0, i32 0), i8* %7) #12, !dbg !62\l  unreachable, !dbg !62\l}"];
+	Node0x1db6100 [shape=record,label="{%8:                                                  \l  unreachable, !dbg !63\l}"];
+}

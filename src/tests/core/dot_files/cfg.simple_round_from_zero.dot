@@ -1,0 +1,12 @@
+digraph "CFG for 'simple_round_from_zero' function" {
+	label="CFG for 'simple_round_from_zero' function";
+
+	Node0xac2a10 [shape=record,label="{%1:\l  %2 = alloca x86_fp80, align 16\l  store x86_fp80 %0, x86_fp80* %2, align 16, !tbaa !844\l  call void @llvm.dbg.declare(metadata x86_fp80* %2, metadata !843, metadata\l... !DIExpression()), !dbg !848\l  %3 = load x86_fp80, x86_fp80* %2, align 16, !dbg !849, !tbaa !844\l  %4 = fcmp olt x86_fp80 %3, 0xK00000000000000000000, !dbg !850\l  br i1 %4, label %5, label %8, !dbg !849\l|{<s0>T|<s1>F}}"];
+	Node0xac2a10:s0 -> Node0xac31a0;
+	Node0xac2a10:s1 -> Node0xac31f0;
+	Node0xac31a0 [shape=record,label="{%5:\l\l  %6 = load x86_fp80, x86_fp80* %2, align 16, !dbg !851, !tbaa !844\l  %7 = call i64 @simple_round_floor(x86_fp80 %6), !dbg !852\l  br label %11, !dbg !849\l}"];
+	Node0xac31a0 -> Node0xac3240;
+	Node0xac31f0 [shape=record,label="{%8:\l\l  %9 = load x86_fp80, x86_fp80* %2, align 16, !dbg !853, !tbaa !844\l  %10 = call i64 @simple_round_ceiling(x86_fp80 %9), !dbg !854\l  br label %11, !dbg !849\l}"];
+	Node0xac31f0 -> Node0xac3240;
+	Node0xac3240 [shape=record,label="{%11:\l\l  %12 = phi i64 [ %7, %5 ], [ %10, %8 ], !dbg !849\l  ret i64 %12, !dbg !855\l}"];
+}

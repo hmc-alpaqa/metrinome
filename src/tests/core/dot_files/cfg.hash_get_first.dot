@@ -1,0 +1,27 @@
+digraph "CFG for 'hash_get_first' function" {
+	label="CFG for 'hash_get_first' function";
+
+	Node0x24bd560 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca %struct.hash_table*, align 8\l  %4 = alloca %struct.hash_entry*, align 8\l  %5 = alloca i32, align 4\l  store %struct.hash_table* %0, %struct.hash_table** %3, align 8, !tbaa !730\l  call void @llvm.dbg.declare(metadata %struct.hash_table** %3, metadata !728,\l... metadata !DIExpression()), !dbg !734\l  %6 = bitcast %struct.hash_entry** %4 to i8*, !dbg !735\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #13, !dbg !735\l  call void @llvm.dbg.declare(metadata %struct.hash_entry** %4, metadata !729,\l... metadata !DIExpression()), !dbg !736\l  %7 = load %struct.hash_table*, %struct.hash_table** %3, align 8, !dbg !737,\l... !tbaa !730\l  %8 = getelementptr inbounds %struct.hash_table, %struct.hash_table* %7, i32\l... 0, i32 4, !dbg !739\l  %9 = load i64, i64* %8, align 8, !dbg !739, !tbaa !740\l  %10 = icmp eq i64 %9, 0, !dbg !743\l  br i1 %10, label %11, label %12, !dbg !744\l|{<s0>T|<s1>F}}"];
+	Node0x24bd560:s0 -> Node0x2498c40;
+	Node0x24bd560:s1 -> Node0x2498c90;
+	Node0x2498c40 [shape=record,label="{%11:\l\l  store i8* null, i8** %2, align 8, !dbg !745\l  store i32 1, i32* %5, align 4\l  br label %37, !dbg !745\l}"];
+	Node0x2498c40 -> Node0x2498f10;
+	Node0x2498c90 [shape=record,label="{%12:\l\l  %13 = load %struct.hash_table*, %struct.hash_table** %3, align 8, !dbg !746,\l... !tbaa !730\l  %14 = getelementptr inbounds %struct.hash_table, %struct.hash_table* %13,\l... i32 0, i32 0, !dbg !748\l  %15 = load %struct.hash_entry*, %struct.hash_entry** %14, align 8, !dbg\l... !748, !tbaa !749\l  store %struct.hash_entry* %15, %struct.hash_entry** %4, align 8, !dbg !750,\l... !tbaa !730\l  br label %16, !dbg !751\l}"];
+	Node0x2498c90 -> Node0x2498ce0;
+	Node0x2498ce0 [shape=record,label="{%16:\l\l  %17 = load %struct.hash_entry*, %struct.hash_entry** %4, align 8, !dbg !752,\l... !tbaa !730\l  %18 = load %struct.hash_table*, %struct.hash_table** %3, align 8, !dbg !755,\l... !tbaa !730\l  %19 = getelementptr inbounds %struct.hash_table, %struct.hash_table* %18,\l... i32 0, i32 1, !dbg !756\l  %20 = load %struct.hash_entry*, %struct.hash_entry** %19, align 8, !dbg\l... !756, !tbaa !757\l  %21 = icmp ult %struct.hash_entry* %17, %20, !dbg !758\l  br i1 %21, label %23, label %22, !dbg !759\l|{<s0>T|<s1>F}}"];
+	Node0x2498ce0:s0 -> Node0x2498d80;
+	Node0x2498ce0:s1 -> Node0x2498d30;
+	Node0x2498d30 [shape=record,label="{%22:\l\l  call void @abort() #14, !dbg !760\l  unreachable, !dbg !760\l}"];
+	Node0x2498d80 [shape=record,label="{%23:\l\l  %24 = load %struct.hash_entry*, %struct.hash_entry** %4, align 8, !dbg !761,\l... !tbaa !730\l  %25 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %24,\l... i32 0, i32 0, !dbg !763\l  %26 = load i8*, i8** %25, align 8, !dbg !763, !tbaa !764\l  %27 = icmp ne i8* %26, null, !dbg !761\l  br i1 %27, label %28, label %32, !dbg !766\l|{<s0>T|<s1>F}}"];
+	Node0x2498d80:s0 -> Node0x2498dd0;
+	Node0x2498d80:s1 -> Node0x2498e20;
+	Node0x2498dd0 [shape=record,label="{%28:\l\l  %29 = load %struct.hash_entry*, %struct.hash_entry** %4, align 8, !dbg !767,\l... !tbaa !730\l  %30 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %29,\l... i32 0, i32 0, !dbg !768\l  %31 = load i8*, i8** %30, align 8, !dbg !768, !tbaa !764\l  store i8* %31, i8** %2, align 8, !dbg !769\l  store i32 1, i32* %5, align 4\l  br label %37, !dbg !769\l}"];
+	Node0x2498dd0 -> Node0x2498f10;
+	Node0x2498e20 [shape=record,label="{%32:\l\l  br label %33\l}"];
+	Node0x2498e20 -> Node0x2498e70;
+	Node0x2498e70 [shape=record,label="{%33:\l\l  br label %34, !dbg !770\l}"];
+	Node0x2498e70 -> Node0x2498ec0;
+	Node0x2498ec0 [shape=record,label="{%34:\l\l  %35 = load %struct.hash_entry*, %struct.hash_entry** %4, align 8, !dbg !771,\l... !tbaa !730\l  %36 = getelementptr inbounds %struct.hash_entry, %struct.hash_entry* %35,\l... i32 1, !dbg !771\l  store %struct.hash_entry* %36, %struct.hash_entry** %4, align 8, !dbg !771,\l... !tbaa !730\l  br label %16, !dbg !772, !llvm.loop !773\l}"];
+	Node0x2498ec0 -> Node0x2498ce0;
+	Node0x2498f10 [shape=record,label="{%37:\l\l  %38 = bitcast %struct.hash_entry** %4 to i8*, !dbg !776\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %38) #13, !dbg !776\l  %39 = load i8*, i8** %2, align 8, !dbg !776\l  ret i8* %39, !dbg !776\l}"];
+}

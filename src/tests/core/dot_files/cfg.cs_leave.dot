@@ -1,0 +1,10 @@
+digraph "CFG for 'cs_leave' function" {
+	label="CFG for 'cs_leave' function";
+
+	Node0x1fecf40 [shape=record,label="{%1:\l  %2 = alloca %struct.cs_status*, align 8\l  store %struct.cs_status* %0, %struct.cs_status** %2, align 8, !tbaa !1743\l  call void @llvm.dbg.declare(metadata %struct.cs_status** %2, metadata !1742,\l... metadata !DIExpression()), !dbg !1747\l  %3 = load %struct.cs_status*, %struct.cs_status** %2, align 8, !dbg !1748,\l... !tbaa !1743\l  %4 = getelementptr inbounds %struct.cs_status, %struct.cs_status* %3, i32 0,\l... i32 0, !dbg !1750\l  %5 = load i8, i8* %4, align 8, !dbg !1750, !tbaa !1751, !range !1755\l  %6 = trunc i8 %5 to i1, !dbg !1750\l  br i1 %6, label %7, label %11, !dbg !1756\l|{<s0>T|<s1>F}}"];
+	Node0x1fecf40:s0 -> Node0x1fedff0;
+	Node0x1fecf40:s1 -> Node0x1fee040;
+	Node0x1fedff0 [shape=record,label="{%7:\l\l  %8 = load %struct.cs_status*, %struct.cs_status** %2, align 8, !dbg !1757,\l... !tbaa !1743\l  %9 = getelementptr inbounds %struct.cs_status, %struct.cs_status* %8, i32 0,\l... i32 1, !dbg !1759\l  %10 = call i32 @pthread_sigmask(i32 2, %struct.__sigset_t* %9,\l... %struct.__sigset_t* null) #14, !dbg !1760\l  br label %11, !dbg !1761\l}"];
+	Node0x1fedff0 -> Node0x1fee040;
+	Node0x1fee040 [shape=record,label="{%11:\l\l  ret void, !dbg !1762\l}"];
+}

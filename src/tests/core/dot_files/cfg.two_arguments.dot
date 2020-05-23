@@ -1,0 +1,24 @@
+digraph "CFG for 'two_arguments' function" {
+	label="CFG for 'two_arguments' function";
+
+	Node0x1db2c30 [shape=record,label="{%0:\l  %1 = alloca i8, align 1\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %1) #11, !dbg !54\l  call void @llvm.dbg.declare(metadata i8* %1, metadata !53, metadata\l... !DIExpression()), !dbg !55\l  %2 = load i8**, i8*** @argv, align 8, !dbg !56, !tbaa !58\l  %3 = load i32, i32* @pos, align 4, !dbg !56, !tbaa !62\l  %4 = sext i32 %3 to i64, !dbg !56\l  %5 = getelementptr inbounds i8*, i8** %2, i64 %4, !dbg !56\l  %6 = load i8*, i8** %5, align 8, !dbg !56, !tbaa !58\l  %7 = call i32 @strcmp(i8* %6, i8* getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.39, i32 0, i32 0)) #12, !dbg !56\l  %8 = icmp eq i32 %7, 0, !dbg !56\l  br i1 %8, label %9, label %13, !dbg !64\l|{<s0>T|<s1>F}}"];
+	Node0x1db2c30:s0 -> Node0x1db2c80;
+	Node0x1db2c30:s1 -> Node0x1db2cd0;
+	Node0x1db2c80 [shape=record,label="{%9:\l\l  call void @advance(i1 zeroext false), !dbg !65\l  %10 = call zeroext i1 @one_argument(), !dbg !67\l  %11 = xor i1 %10, true, !dbg !68\l  %12 = zext i1 %11 to i8, !dbg !69\l  store i8 %12, i8* %1, align 1, !dbg !69, !tbaa !70\l  br label %48, !dbg !72\l}"];
+	Node0x1db2c80 -> Node0x1db2eb0;
+	Node0x1db2cd0 [shape=record,label="{%13:\l\l  %14 = load i8**, i8*** @argv, align 8, !dbg !73, !tbaa !58\l  %15 = load i32, i32* @pos, align 4, !dbg !75, !tbaa !62\l  %16 = sext i32 %15 to i64, !dbg !73\l  %17 = getelementptr inbounds i8*, i8** %14, i64 %16, !dbg !73\l  %18 = load i8*, i8** %17, align 8, !dbg !73, !tbaa !58\l  %19 = getelementptr inbounds i8, i8* %18, i64 0, !dbg !73\l  %20 = load i8, i8* %19, align 1, !dbg !73, !tbaa !76\l  %21 = sext i8 %20 to i32, !dbg !73\l  %22 = icmp eq i32 %21, 45, !dbg !77\l  br i1 %22, label %23, label %46, !dbg !78\l|{<s0>T|<s1>F}}"];
+	Node0x1db2cd0:s0 -> Node0x1db2d20;
+	Node0x1db2cd0:s1 -> Node0x1db2e10;
+	Node0x1db2d20 [shape=record,label="{%23:\l\l  %24 = load i8**, i8*** @argv, align 8, !dbg !79, !tbaa !58\l  %25 = load i32, i32* @pos, align 4, !dbg !80, !tbaa !62\l  %26 = sext i32 %25 to i64, !dbg !79\l  %27 = getelementptr inbounds i8*, i8** %24, i64 %26, !dbg !79\l  %28 = load i8*, i8** %27, align 8, !dbg !79, !tbaa !58\l  %29 = getelementptr inbounds i8, i8* %28, i64 1, !dbg !79\l  %30 = load i8, i8* %29, align 1, !dbg !79, !tbaa !76\l  %31 = sext i8 %30 to i32, !dbg !79\l  %32 = icmp ne i32 %31, 0, !dbg !81\l  br i1 %32, label %33, label %46, !dbg !82\l|{<s0>T|<s1>F}}"];
+	Node0x1db2d20:s0 -> Node0x1db2d70;
+	Node0x1db2d20:s1 -> Node0x1db2e10;
+	Node0x1db2d70 [shape=record,label="{%33:\l\l  %34 = load i8**, i8*** @argv, align 8, !dbg !83, !tbaa !58\l  %35 = load i32, i32* @pos, align 4, !dbg !84, !tbaa !62\l  %36 = sext i32 %35 to i64, !dbg !83\l  %37 = getelementptr inbounds i8*, i8** %34, i64 %36, !dbg !83\l  %38 = load i8*, i8** %37, align 8, !dbg !83, !tbaa !58\l  %39 = getelementptr inbounds i8, i8* %38, i64 2, !dbg !83\l  %40 = load i8, i8* %39, align 1, !dbg !83, !tbaa !76\l  %41 = sext i8 %40 to i32, !dbg !83\l  %42 = icmp eq i32 %41, 0, !dbg !85\l  br i1 %42, label %43, label %46, !dbg !86\l|{<s0>T|<s1>F}}"];
+	Node0x1db2d70:s0 -> Node0x1db2dc0;
+	Node0x1db2d70:s1 -> Node0x1db2e10;
+	Node0x1db2dc0 [shape=record,label="{%43:\l\l  %44 = call zeroext i1 @unary_operator(), !dbg !87\l  %45 = zext i1 %44 to i8, !dbg !89\l  store i8 %45, i8* %1, align 1, !dbg !89, !tbaa !70\l  br label %47, !dbg !90\l}"];
+	Node0x1db2dc0 -> Node0x1db2e60;
+	Node0x1db2e10 [shape=record,label="{%46:\l\l  call void @beyond() #13, !dbg !91\l  unreachable, !dbg !91\l}"];
+	Node0x1db2e60 [shape=record,label="{%47:\l\l  br label %48\l}"];
+	Node0x1db2e60 -> Node0x1db2eb0;
+	Node0x1db2eb0 [shape=record,label="{%48:\l\l  %49 = load i8, i8* %1, align 1, !dbg !92, !tbaa !70, !range !93\l  %50 = trunc i8 %49 to i1, !dbg !92\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %1) #11, !dbg !94\l  ret i1 %50, !dbg !95\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'bkm_scale_by_power.179' function" {
+	label="CFG for 'bkm_scale_by_power.179' function";
+
+	Node0xe08760 [shape=record,label="{%3:\l  %4 = alloca i64*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  store i64* %0, i64** %4, align 8, !tbaa !755\l  call void @llvm.dbg.declare(metadata i64** %4, metadata !751, metadata\l... !DIExpression()), !dbg !759\l  store i32 %1, i32* %5, align 4, !tbaa !760\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !752, metadata\l... !DIExpression()), !dbg !762\l  store i32 %2, i32* %6, align 4, !tbaa !760\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !753, metadata\l... !DIExpression()), !dbg !763\l  %8 = bitcast i32* %7 to i8*, !dbg !764\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #12, !dbg !764\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !754, metadata\l... !DIExpression()), !dbg !765\l  store i32 0, i32* %7, align 4, !dbg !765, !tbaa !766\l  br label %9, !dbg !767\l}"];
+	Node0xe08760 -> Node0xe09bc0;
+	Node0xe09bc0 [shape=record,label="{%9:\l\l  %10 = load i32, i32* %6, align 4, !dbg !768, !tbaa !760\l  %11 = add nsw i32 %10, -1, !dbg !768\l  store i32 %11, i32* %6, align 4, !dbg !768, !tbaa !760\l  %12 = icmp ne i32 %10, 0, !dbg !767\l  br i1 %12, label %13, label %19, !dbg !767\l|{<s0>T|<s1>F}}"];
+	Node0xe09bc0:s0 -> Node0xe09c10;
+	Node0xe09bc0:s1 -> Node0xe09c60;
+	Node0xe09c10 [shape=record,label="{%13:\l\l  %14 = load i64*, i64** %4, align 8, !dbg !769, !tbaa !755\l  %15 = load i32, i32* %5, align 4, !dbg !770, !tbaa !760\l  %16 = call i32 @bkm_scale.178(i64* %14, i32 %15), !dbg !771\l  %17 = load i32, i32* %7, align 4, !dbg !772, !tbaa !766\l  %18 = or i32 %17, %16, !dbg !772\l  store i32 %18, i32* %7, align 4, !dbg !772, !tbaa !766\l  br label %9, !dbg !767, !llvm.loop !773\l}"];
+	Node0xe09c10 -> Node0xe09bc0;
+	Node0xe09c60 [shape=record,label="{%19:\l\l  %20 = load i32, i32* %7, align 4, !dbg !775, !tbaa !766\l  %21 = bitcast i32* %7 to i8*, !dbg !776\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %21) #12, !dbg !776\l  ret i32 %20, !dbg !777\l}"];
+}

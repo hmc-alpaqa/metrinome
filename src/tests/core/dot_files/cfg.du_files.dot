@@ -1,0 +1,38 @@
+digraph "CFG for 'du_files' function" {
+	label="CFG for 'du_files' function";
+
+	Node0x1281970 [shape=record,label="{%2:\l  %3 = alloca i8**, align 8\l  %4 = alloca i32, align 4\l  %5 = alloca i8, align 1\l  %6 = alloca %struct.FTS*, align 8\l  %7 = alloca %struct._ftsent*, align 8\l  %8 = alloca i32, align 4\l  store i8** %0, i8*** %3, align 8, !tbaa !427\l  call void @llvm.dbg.declare(metadata i8*** %3, metadata !419, metadata\l... !DIExpression()), !dbg !431\l  store i32 %1, i32* %4, align 4, !tbaa !432\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !420, metadata\l... !DIExpression()), !dbg !434\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %5) #12, !dbg !435\l  call void @llvm.dbg.declare(metadata i8* %5, metadata !421, metadata\l... !DIExpression()), !dbg !436\l  store i8 1, i8* %5, align 1, !dbg !436, !tbaa !437\l  %9 = load i8**, i8*** %3, align 8, !dbg !439, !tbaa !427\l  %10 = load i8*, i8** %9, align 8, !dbg !440, !tbaa !427\l  %11 = icmp ne i8* %10, null, !dbg !440\l  br i1 %11, label %12, label %60, !dbg !441\l|{<s0>T|<s1>F}}"];
+	Node0x1281970:s0 -> Node0x127a9a0;
+	Node0x1281970:s1 -> Node0x127ad60;
+	Node0x127a9a0 [shape=record,label="{%12:\l\l  %13 = bitcast %struct.FTS** %6 to i8*, !dbg !442\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %13) #12, !dbg !442\l  call void @llvm.dbg.declare(metadata %struct.FTS** %6, metadata !422,\l... metadata !DIExpression()), !dbg !443\l  %14 = load i8**, i8*** %3, align 8, !dbg !444, !tbaa !427\l  %15 = load i32, i32* %4, align 4, !dbg !445, !tbaa !432\l  %16 = call %struct.FTS* @xfts_open(i8** %14, i32 %15, i32\l... (%struct._ftsent**, %struct._ftsent**)* null), !dbg !446\l  store %struct.FTS* %16, %struct.FTS** %6, align 8, !dbg !443, !tbaa !427\l  br label %17, !dbg !447\l}"];
+	Node0x127a9a0 -> Node0x127a9f0;
+	Node0x127a9f0 [shape=record,label="{%17:\l\l  br label %18, !dbg !447\l}"];
+	Node0x127a9f0 -> Node0x127aa40;
+	Node0x127aa40 [shape=record,label="{%18:\l\l  %19 = bitcast %struct._ftsent** %7 to i8*, !dbg !448\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %19) #12, !dbg !448\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %7, metadata !425,\l... metadata !DIExpression()), !dbg !449\l  %20 = load %struct.FTS*, %struct.FTS** %6, align 8, !dbg !450, !tbaa !427\l  %21 = call %struct._ftsent* @rpl_fts_read(%struct.FTS* %20), !dbg !451\l  store %struct._ftsent* %21, %struct._ftsent** %7, align 8, !dbg !452, !tbaa\l... !427\l  %22 = load %struct._ftsent*, %struct._ftsent** %7, align 8, !dbg !453, !tbaa\l... !427\l  %23 = icmp eq %struct._ftsent* %22, null, !dbg !455\l  br i1 %23, label %24, label %36, !dbg !456\l|{<s0>T|<s1>F}}"];
+	Node0x127aa40:s0 -> Node0x127aa90;
+	Node0x127aa40:s1 -> Node0x127ab80;
+	Node0x127aa90 [shape=record,label="{%24:\l\l  %25 = call i32* @__errno_location() #13, !dbg !457\l  %26 = load i32, i32* %25, align 4, !dbg !457, !tbaa !432\l  %27 = icmp ne i32 %26, 0, !dbg !460\l  br i1 %27, label %28, label %35, !dbg !461\l|{<s0>T|<s1>F}}"];
+	Node0x127aa90:s0 -> Node0x127aae0;
+	Node0x127aa90:s1 -> Node0x127ab30;
+	Node0x127aae0 [shape=record,label="{%28:\l\l  %29 = call i32* @__errno_location() #13, !dbg !462\l  %30 = load i32, i32* %29, align 4, !dbg !462, !tbaa !432\l  %31 = load %struct.FTS*, %struct.FTS** %6, align 8, !dbg !464, !tbaa !427\l  %32 = getelementptr inbounds %struct.FTS, %struct.FTS* %31, i32 0, i32 4,\l... !dbg !464\l  %33 = load i8*, i8** %32, align 8, !dbg !464, !tbaa !465\l  %34 = call i8* @quotearg_n_style_colon(i32 0, i32 3, i8* %33), !dbg !464\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 %30, i8* getelementptr\l... inbounds ([20 x i8], [20 x i8]* @.str.104, i32 0, i32 0), i8* %34), !dbg !469\l  store i8 0, i8* %5, align 1, !dbg !470, !tbaa !437\l  br label %35, !dbg !471\l}"];
+	Node0x127aae0 -> Node0x127ab30;
+	Node0x127ab30 [shape=record,label="{%35:\l\l  store i64 0, i64* @prev_level, align 8, !dbg !472, !tbaa !473\l  store i32 3, i32* %8, align 4\l  br label %47, !dbg !474\l}"];
+	Node0x127ab30 -> Node0x127abd0;
+	Node0x127ab80 [shape=record,label="{%36:\l\l  %37 = load %struct.FTS*, %struct.FTS** %6, align 8, !dbg !475, !tbaa !427\l  %38 = load %struct._ftsent*, %struct._ftsent** %7, align 8, !dbg !476, !tbaa\l... !427\l  %39 = call zeroext i1 @process_file(%struct.FTS* %37, %struct._ftsent* %38),\l... !dbg !477\l  %40 = zext i1 %39 to i32, !dbg !477\l  %41 = load i8, i8* %5, align 1, !dbg !478, !tbaa !437, !range !479\l  %42 = trunc i8 %41 to i1, !dbg !478\l  %43 = zext i1 %42 to i32, !dbg !478\l  %44 = and i32 %43, %40, !dbg !478\l  %45 = icmp ne i32 %44, 0, !dbg !478\l  %46 = zext i1 %45 to i8, !dbg !478\l  store i8 %46, i8* %5, align 1, !dbg !478, !tbaa !437\l  store i32 0, i32* %8, align 4, !dbg !480\l  br label %47, !dbg !480\l}"];
+	Node0x127ab80 -> Node0x127abd0;
+	Node0x127abd0 [shape=record,label="{%47:\l\l  %48 = bitcast %struct._ftsent** %7 to i8*, !dbg !480\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %48) #12, !dbg !480\l  %49 = load i32, i32* %8, align 4\l  switch i32 %49, label %63 [\l    i32 0, label %50\l    i32 3, label %51\l  ]\l|{<s0>def|<s1>0|<s2>3}}"];
+	Node0x127abd0:s0 -> Node0x127adb0;
+	Node0x127abd0:s1 -> Node0x127ac20;
+	Node0x127abd0:s2 -> Node0x127ac70;
+	Node0x127ac20 [shape=record,label="{%50:\l\l  br label %17, !dbg !447, !llvm.loop !481\l}"];
+	Node0x127ac20 -> Node0x127a9f0;
+	Node0x127ac70 [shape=record,label="{%51:\l\l  %52 = load %struct.FTS*, %struct.FTS** %6, align 8, !dbg !482, !tbaa !427\l  %53 = call i32 @rpl_fts_close(%struct.FTS* %52), !dbg !484\l  %54 = icmp ne i32 %53, 0, !dbg !485\l  br i1 %54, label %55, label %58, !dbg !486\l|{<s0>T|<s1>F}}"];
+	Node0x127ac70:s0 -> Node0x127acc0;
+	Node0x127ac70:s1 -> Node0x127ad10;
+	Node0x127acc0 [shape=record,label="{%55:\l\l  %56 = call i32* @__errno_location() #13, !dbg !487\l  %57 = load i32, i32* %56, align 4, !dbg !487, !tbaa !432\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 %57, i8* getelementptr\l... inbounds ([17 x i8], [17 x i8]* @.str.105, i32 0, i32 0)), !dbg !489\l  store i8 0, i8* %5, align 1, !dbg !490, !tbaa !437\l  br label %58, !dbg !491\l}"];
+	Node0x127acc0 -> Node0x127ad10;
+	Node0x127ad10 [shape=record,label="{%58:\l\l  %59 = bitcast %struct.FTS** %6 to i8*, !dbg !492\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %59) #12, !dbg !492\l  br label %60, !dbg !493\l}"];
+	Node0x127ad10 -> Node0x127ad60;
+	Node0x127ad60 [shape=record,label="{%60:\l\l  %61 = load i8, i8* %5, align 1, !dbg !494, !tbaa !437, !range !479\l  %62 = trunc i8 %61 to i1, !dbg !494\l  store i32 1, i32* %8, align 4\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %5) #12, !dbg !495\l  ret i1 %62, !dbg !496\l}"];
+	Node0x127adb0 [shape=record,label="{%63:\l\l  unreachable\l}"];
+}

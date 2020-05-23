@@ -1,0 +1,5 @@
+digraph "CFG for 'lutimensat' function" {
+	label="CFG for 'lutimensat' function";
+
+	Node0x2aeeeb0 [shape=record,label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.timespec*, align 8\l  store i32 %0, i32* %4, align 4, !tbaa !1549\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1546, metadata\l... !DIExpression()), !dbg !1553\l  store i8* %1, i8** %5, align 8, !tbaa !1554\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1547, metadata\l... !DIExpression()), !dbg !1556\l  store %struct.timespec* %2, %struct.timespec** %6, align 8, !tbaa !1554\l  call void @llvm.dbg.declare(metadata %struct.timespec** %6, metadata !1548,\l... metadata !DIExpression()), !dbg !1557\l  %7 = load i32, i32* %4, align 4, !dbg !1558, !tbaa !1549\l  %8 = load i8*, i8** %5, align 8, !dbg !1559, !tbaa !1554\l  %9 = load %struct.timespec*, %struct.timespec** %6, align 8, !dbg !1560,\l... !tbaa !1554\l  %10 = call i32 @utimensat(i32 %7, i8* %8, %struct.timespec* %9, i32 256)\l... #15, !dbg !1561\l  ret i32 %10, !dbg !1562\l}"];
+}

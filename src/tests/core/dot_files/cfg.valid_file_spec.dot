@@ -1,0 +1,5 @@
+digraph "CFG for 'valid_file_spec' function" {
+	label="CFG for 'valid_file_spec' function";
+
+	Node0x14c3b10 [shape=record,label="{%1:\l  %2 = alloca %struct.File_spec*, align 8\l  store %struct.File_spec* %0, %struct.File_spec** %2, align 8, !tbaa !225\l  call void @llvm.dbg.declare(metadata %struct.File_spec** %2, metadata !224,\l... metadata !DIExpression()), !dbg !229\l  %3 = load %struct.File_spec*, %struct.File_spec** %2, align 8, !dbg !230,\l... !tbaa !225\l  %4 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %3, i32 0,\l... i32 9, !dbg !231\l  %5 = load i32, i32* %4, align 8, !dbg !231, !tbaa !232\l  %6 = icmp eq i32 %5, -1, !dbg !238\l  %7 = zext i1 %6 to i32, !dbg !238\l  %8 = load %struct.File_spec*, %struct.File_spec** %2, align 8, !dbg !239,\l... !tbaa !225\l  %9 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %8, i32 0,\l... i32 10, !dbg !240\l  %10 = load i32, i32* %9, align 4, !dbg !240, !tbaa !241\l  %11 = icmp eq i32 %10, 0, !dbg !242\l  %12 = zext i1 %11 to i32, !dbg !242\l  %13 = xor i32 %7, %12, !dbg !243\l  %14 = icmp ne i32 %13, 0, !dbg !244\l  ret i1 %14, !dbg !245\l}"];
+}

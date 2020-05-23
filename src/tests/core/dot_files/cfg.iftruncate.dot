@@ -1,0 +1,17 @@
+digraph "CFG for 'iftruncate' function" {
+	label="CFG for 'iftruncate' function";
+
+	Node0x242ad20 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i64, align 8\l  %5 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !371\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !368, metadata\l... !DIExpression()), !dbg !375\l  store i64 %1, i64* %4, align 8, !tbaa !376\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !369, metadata\l... !DIExpression()), !dbg !378\l  %6 = bitcast i32* %5 to i8*, !dbg !379\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %6) #12, !dbg !379\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !370, metadata\l... !DIExpression()), !dbg !380\l  br label %7, !dbg !381\l}"];
+	Node0x242ad20 -> Node0x242d760;
+	Node0x242d760 [shape=record,label="{%7:\l\l  call void @process_signals(), !dbg !382\l  %8 = load i32, i32* %3, align 4, !dbg !384, !tbaa !371\l  %9 = load i64, i64* %4, align 8, !dbg !385, !tbaa !376\l  %10 = call i32 @ftruncate(i32 %8, i64 %9) #12, !dbg !386\l  store i32 %10, i32* %5, align 4, !dbg !387, !tbaa !371\l  br label %11, !dbg !388\l}"];
+	Node0x242d760 -> Node0x242d7b0;
+	Node0x242d7b0 [shape=record,label="{%11:\l\l  %12 = load i32, i32* %5, align 4, !dbg !389, !tbaa !371\l  %13 = icmp slt i32 %12, 0, !dbg !390\l  br i1 %13, label %14, label %18, !dbg !391\l|{<s0>T|<s1>F}}"];
+	Node0x242d7b0:s0 -> Node0x242d800;
+	Node0x242d7b0:s1 -> Node0x242d850;
+	Node0x242d800 [shape=record,label="{%14:\l\l  %15 = call i32* @__errno_location() #14, !dbg !392\l  %16 = load i32, i32* %15, align 4, !dbg !392, !tbaa !371\l  %17 = icmp eq i32 %16, 4, !dbg !393\l  br label %18\l}"];
+	Node0x242d800 -> Node0x242d850;
+	Node0x242d850 [shape=record,label="{%18:\l\l  %19 = phi i1 [ false, %11 ], [ %17, %14 ], !dbg !394\l  br i1 %19, label %7, label %20, !dbg !388, !llvm.loop !395\l|{<s0>T|<s1>F}}"];
+	Node0x242d850:s0 -> Node0x242d760;
+	Node0x242d850:s1 -> Node0x242d8a0;
+	Node0x242d8a0 [shape=record,label="{%20:\l\l  %21 = load i32, i32* %5, align 4, !dbg !397, !tbaa !371\l  %22 = bitcast i32* %5 to i8*, !dbg !398\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %22) #12, !dbg !398\l  ret i32 %21, !dbg !399\l}"];
+}

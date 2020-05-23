@@ -1,0 +1,12 @@
+digraph "CFG for 'me_for_dev' function" {
+	label="CFG for 'me_for_dev' function";
+
+	Node0xd1fe80 [shape=record,label="{%1:\l  %2 = alloca %struct.mount_entry*, align 8\l  %3 = alloca i64, align 8\l  %4 = alloca %struct.devlist*, align 8\l  %5 = alloca i32, align 4\l  store i64 %0, i64* %3, align 8, !tbaa !239\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !231, metadata\l... !DIExpression()), !dbg !243\l  %6 = bitcast %struct.devlist** %4 to i8*, !dbg !244\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #12, !dbg !244\l  call void @llvm.dbg.declare(metadata %struct.devlist** %4, metadata !232,\l... metadata !DIExpression()), !dbg !245\l  %7 = load i64, i64* %3, align 8, !dbg !246, !tbaa !239\l  %8 = call %struct.devlist* @devlist_for_dev(i64 %7), !dbg !247\l  store %struct.devlist* %8, %struct.devlist** %4, align 8, !dbg !245, !tbaa\l... !248\l  %9 = load %struct.devlist*, %struct.devlist** %4, align 8, !dbg !250, !tbaa\l... !248\l  %10 = icmp ne %struct.devlist* %9, null, !dbg !250\l  br i1 %10, label %11, label %15, !dbg !252\l|{<s0>T|<s1>F}}"];
+	Node0xd1fe80:s0 -> Node0xd21190;
+	Node0xd1fe80:s1 -> Node0xd211e0;
+	Node0xd21190 [shape=record,label="{%11:\l\l  %12 = load %struct.devlist*, %struct.devlist** %4, align 8, !dbg !253, !tbaa\l... !248\l  %13 = getelementptr inbounds %struct.devlist, %struct.devlist* %12, i32 0,\l... i32 1, !dbg !254\l  %14 = load %struct.mount_entry*, %struct.mount_entry** %13, align 8, !dbg\l... !254, !tbaa !255\l  store %struct.mount_entry* %14, %struct.mount_entry** %2, align 8, !dbg !257\l  store i32 1, i32* %5, align 4\l  br label %16, !dbg !257\l}"];
+	Node0xd21190 -> Node0xd21230;
+	Node0xd211e0 [shape=record,label="{%15:\l\l  store %struct.mount_entry* null, %struct.mount_entry** %2, align 8, !dbg !258\l  store i32 1, i32* %5, align 4\l  br label %16, !dbg !258\l}"];
+	Node0xd211e0 -> Node0xd21230;
+	Node0xd21230 [shape=record,label="{%16:\l\l  %17 = bitcast %struct.devlist** %4 to i8*, !dbg !259\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %17) #12, !dbg !259\l  %18 = load %struct.mount_entry*, %struct.mount_entry** %2, align 8, !dbg !259\l  ret %struct.mount_entry* %18, !dbg !259\l}"];
+}

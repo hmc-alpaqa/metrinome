@@ -1,0 +1,16 @@
+digraph "CFG for 'read_and_xlate' function" {
+	label="CFG for 'read_and_xlate' function";
+
+	Node0x13af0d0 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !137\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !132, metadata\l... !DIExpression()), !dbg !141\l  store i64 %1, i64* %4, align 8, !tbaa !142\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !133, metadata\l... !DIExpression()), !dbg !144\l  %7 = bitcast i64* %5 to i8*, !dbg !145\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %7) #12, !dbg !145\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !134, metadata\l... !DIExpression()), !dbg !146\l  %8 = load i8*, i8** %3, align 8, !dbg !147, !tbaa !137\l  %9 = load i64, i64* %4, align 8, !dbg !148, !tbaa !142\l  %10 = call i64 @plain_read(i8* %8, i64 %9), !dbg !149\l  store i64 %10, i64* %5, align 8, !dbg !146, !tbaa !142\l  %11 = bitcast i64* %6 to i8*, !dbg !150\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %11) #12, !dbg !150\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !135, metadata\l... !DIExpression()), !dbg !151\l  store i64 0, i64* %6, align 8, !dbg !151, !tbaa !142\l  br label %12, !dbg !150\l}"];
+	Node0x13af0d0 -> Node0x13afcf0;
+	Node0x13afcf0 [shape=record,label="{%12:\l\l  %13 = load i64, i64* %6, align 8, !dbg !152, !tbaa !142\l  %14 = load i64, i64* %5, align 8, !dbg !154, !tbaa !142\l  %15 = icmp ult i64 %13, %14, !dbg !155\l  br i1 %15, label %18, label %16, !dbg !156\l|{<s0>T|<s1>F}}"];
+	Node0x13afcf0:s0 -> Node0x13afd90;
+	Node0x13afcf0:s1 -> Node0x13afd40;
+	Node0x13afd40 [shape=record,label="{%16:\l\l  %17 = bitcast i64* %6 to i8*, !dbg !157\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %17) #12, !dbg !157\l  br label %33\l}"];
+	Node0x13afd40 -> Node0x13afe30;
+	Node0x13afd90 [shape=record,label="{%18:\l\l  %19 = load i8*, i8** %3, align 8, !dbg !158, !tbaa !137\l  %20 = load i64, i64* %6, align 8, !dbg !159, !tbaa !142\l  %21 = getelementptr inbounds i8, i8* %19, i64 %20, !dbg !158\l  %22 = load i8, i8* %21, align 1, !dbg !158, !tbaa !160\l  %23 = call zeroext i8 @to_uchar(i8 signext %22), !dbg !161\l  %24 = zext i8 %23 to i64, !dbg !162\l  %25 = getelementptr inbounds [256 x i8], [256 x i8]* @xlate, i64 0, i64 %24,\l... !dbg !162\l  %26 = load i8, i8* %25, align 1, !dbg !162, !tbaa !160\l  %27 = load i8*, i8** %3, align 8, !dbg !163, !tbaa !137\l  %28 = load i64, i64* %6, align 8, !dbg !164, !tbaa !142\l  %29 = getelementptr inbounds i8, i8* %27, i64 %28, !dbg !163\l  store i8 %26, i8* %29, align 1, !dbg !165, !tbaa !160\l  br label %30, !dbg !163\l}"];
+	Node0x13afd90 -> Node0x13afde0;
+	Node0x13afde0 [shape=record,label="{%30:\l\l  %31 = load i64, i64* %6, align 8, !dbg !166, !tbaa !142\l  %32 = add i64 %31, 1, !dbg !166\l  store i64 %32, i64* %6, align 8, !dbg !166, !tbaa !142\l  br label %12, !dbg !157, !llvm.loop !167\l}"];
+	Node0x13afde0 -> Node0x13afcf0;
+	Node0x13afe30 [shape=record,label="{%33:\l\l  %34 = load i64, i64* %5, align 8, !dbg !169, !tbaa !142\l  %35 = bitcast i64* %5 to i8*, !dbg !170\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %35) #12, !dbg !170\l  ret i64 %34, !dbg !171\l}"];
+}

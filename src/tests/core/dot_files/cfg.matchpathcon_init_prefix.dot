@@ -1,0 +1,5 @@
+digraph "CFG for 'matchpathcon_init_prefix' function" {
+	label="CFG for 'matchpathcon_init_prefix' function";
+
+	Node0xae1ca0 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !595\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !593, metadata\l... !DIExpression()), !dbg !599\l  store i8* %1, i8** %4, align 8, !tbaa !595\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !594, metadata\l... !DIExpression()), !dbg !600\l  %5 = call i32* @__errno_location() #13, !dbg !601\l  store i32 95, i32* %5, align 4, !dbg !602, !tbaa !603\l  ret i32 -1, !dbg !605\l}"];
+}

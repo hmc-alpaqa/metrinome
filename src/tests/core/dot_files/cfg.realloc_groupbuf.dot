@@ -1,0 +1,12 @@
+digraph "CFG for 'realloc_groupbuf' function" {
+	label="CFG for 'realloc_groupbuf' function";
+
+	Node0xf6b2f0 [shape=record,label="{%2:\l  %3 = alloca i32*, align 8\l  %4 = alloca i32*, align 8\l  %5 = alloca i64, align 8\l  store i32* %0, i32** %4, align 8, !tbaa !759\l  call void @llvm.dbg.declare(metadata i32** %4, metadata !757, metadata\l... !DIExpression()), !dbg !763\l  store i64 %1, i64* %5, align 8, !tbaa !764\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !758, metadata\l... !DIExpression()), !dbg !766\l  %6 = load i64, i64* %5, align 8, !dbg !767, !tbaa !764\l  %7 = icmp ult i64 2305843009213693951, %6, !dbg !767\l  br i1 %7, label %8, label %10, !dbg !769\l|{<s0>T|<s1>F}}"];
+	Node0xf6b2f0:s0 -> Node0xf6b3d0;
+	Node0xf6b2f0:s1 -> Node0xf6b420;
+	Node0xf6b3d0 [shape=record,label="{%8:\l\l  %9 = call i32* @__errno_location() #13, !dbg !770\l  store i32 12, i32* %9, align 4, !dbg !772, !tbaa !773\l  store i32* null, i32** %3, align 8, !dbg !775\l  br label %17, !dbg !775\l}"];
+	Node0xf6b3d0 -> Node0xf6b470;
+	Node0xf6b420 [shape=record,label="{%10:\l\l  %11 = load i32*, i32** %4, align 8, !dbg !776, !tbaa !759\l  %12 = bitcast i32* %11 to i8*, !dbg !776\l  %13 = load i64, i64* %5, align 8, !dbg !777, !tbaa !764\l  %14 = mul i64 %13, 4, !dbg !778\l  %15 = call i8* @realloc(i8* %12, i64 %14) #11, !dbg !779\l  %16 = bitcast i8* %15 to i32*, !dbg !779\l  store i32* %16, i32** %3, align 8, !dbg !780\l  br label %17, !dbg !780\l}"];
+	Node0xf6b420 -> Node0xf6b470;
+	Node0xf6b470 [shape=record,label="{%17:\l\l  %18 = load i32*, i32** %3, align 8, !dbg !781\l  ret i32* %18, !dbg !781\l}"];
+}

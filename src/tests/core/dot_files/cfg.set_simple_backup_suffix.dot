@@ -1,0 +1,23 @@
+digraph "CFG for 'set_simple_backup_suffix' function" {
+	label="CFG for 'set_simple_backup_suffix' function";
+
+	Node0x240c030 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !946\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !945, metadata\l... !DIExpression()), !dbg !950\l  %3 = load i8*, i8** %2, align 8, !dbg !951, !tbaa !946\l  %4 = icmp ne i8* %3, null, !dbg !951\l  br i1 %4, label %7, label %5, !dbg !953\l|{<s0>T|<s1>F}}"];
+	Node0x240c030:s0 -> Node0x240c0d0;
+	Node0x240c030:s1 -> Node0x240c080;
+	Node0x240c080 [shape=record,label="{%5:\l\l  %6 = call i8* @getenv(i8* getelementptr inbounds ([21 x i8], [21 x i8]*\l... @.str.86, i32 0, i32 0)) #13, !dbg !954\l  store i8* %6, i8** %2, align 8, !dbg !955, !tbaa !946\l  br label %7, !dbg !956\l}"];
+	Node0x240c080 -> Node0x240c0d0;
+	Node0x240c0d0 [shape=record,label="{%7:\l\l  %8 = load i8*, i8** %2, align 8, !dbg !957, !tbaa !946\l  %9 = icmp ne i8* %8, null, !dbg !957\l  br i1 %9, label %10, label %22, !dbg !958\l|{<s0>T|<s1>F}}"];
+	Node0x240c0d0:s0 -> Node0x240c120;
+	Node0x240c0d0:s1 -> Node0x240c210;
+	Node0x240c120 [shape=record,label="{%10:\l\l  %11 = load i8*, i8** %2, align 8, !dbg !959, !tbaa !946\l  %12 = load i8, i8* %11, align 1, !dbg !960, !tbaa !961\l  %13 = sext i8 %12 to i32, !dbg !960\l  %14 = icmp ne i32 %13, 0, !dbg !960\l  br i1 %14, label %15, label %22, !dbg !962\l|{<s0>T|<s1>F}}"];
+	Node0x240c120:s0 -> Node0x240c170;
+	Node0x240c120:s1 -> Node0x240c210;
+	Node0x240c170 [shape=record,label="{%15:\l\l  %16 = load i8*, i8** %2, align 8, !dbg !963, !tbaa !946\l  %17 = load i8*, i8** %2, align 8, !dbg !964, !tbaa !946\l  %18 = call i8* @last_component(i8* %17) #15, !dbg !965\l  %19 = icmp eq i8* %16, %18, !dbg !966\l  br i1 %19, label %20, label %22, !dbg !957\l|{<s0>T|<s1>F}}"];
+	Node0x240c170:s0 -> Node0x240c1c0;
+	Node0x240c170:s1 -> Node0x240c210;
+	Node0x240c1c0 [shape=record,label="{%20:\l\l  %21 = load i8*, i8** %2, align 8, !dbg !967, !tbaa !946\l  br label %23, !dbg !957\l}"];
+	Node0x240c1c0 -> Node0x240c260;
+	Node0x240c210 [shape=record,label="{%22:\l\l  br label %23, !dbg !957\l}"];
+	Node0x240c210 -> Node0x240c260;
+	Node0x240c260 [shape=record,label="{%23:\l\l  %24 = phi i8* [ %21, %20 ], [ getelementptr inbounds ([2 x i8], [2 x i8]*\l... @.str.1.87, i32 0, i32 0), %22 ], !dbg !957\l  store i8* %24, i8** @simple_backup_suffix, align 8, !dbg !968, !tbaa !946\l  ret void, !dbg !969\l}"];
+}

@@ -1,0 +1,21 @@
+digraph "CFG for 'isbase64url' function" {
+	label="CFG for 'isbase64url' function";
+
+	Node0xd48140 [shape=record,label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !747\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !746, metadata\l... !DIExpression()), !dbg !750\l  %3 = load i8, i8* %2, align 1, !dbg !751, !tbaa !747\l  %4 = sext i8 %3 to i32, !dbg !751\l  %5 = icmp eq i32 %4, 45, !dbg !752\l  br i1 %5, label %23, label %6, !dbg !753\l|{<s0>T|<s1>F}}"];
+	Node0xd48140:s0 -> Node0xd4db50;
+	Node0xd48140:s1 -> Node0xd4d9c0;
+	Node0xd4d9c0 [shape=record,label="{%6:\l\l  %7 = load i8, i8* %2, align 1, !dbg !754, !tbaa !747\l  %8 = sext i8 %7 to i32, !dbg !754\l  %9 = icmp eq i32 %8, 95, !dbg !755\l  br i1 %9, label %23, label %10, !dbg !756\l|{<s0>T|<s1>F}}"];
+	Node0xd4d9c0:s0 -> Node0xd4db50;
+	Node0xd4d9c0:s1 -> Node0xd4da10;
+	Node0xd4da10 [shape=record,label="{%10:\l\l  %11 = load i8, i8* %2, align 1, !dbg !757, !tbaa !747\l  %12 = sext i8 %11 to i32, !dbg !757\l  %13 = icmp ne i32 %12, 43, !dbg !758\l  br i1 %13, label %14, label %21, !dbg !759\l|{<s0>T|<s1>F}}"];
+	Node0xd4da10:s0 -> Node0xd4da60;
+	Node0xd4da10:s1 -> Node0xd4db00;
+	Node0xd4da60 [shape=record,label="{%14:\l\l  %15 = load i8, i8* %2, align 1, !dbg !760, !tbaa !747\l  %16 = sext i8 %15 to i32, !dbg !760\l  %17 = icmp ne i32 %16, 47, !dbg !761\l  br i1 %17, label %18, label %21, !dbg !762\l|{<s0>T|<s1>F}}"];
+	Node0xd4da60:s0 -> Node0xd4dab0;
+	Node0xd4da60:s1 -> Node0xd4db00;
+	Node0xd4dab0 [shape=record,label="{%18:\l\l  %19 = load i8, i8* %2, align 1, !dbg !763, !tbaa !747\l  %20 = call zeroext i1 @isbase64(i8 signext %19) #14, !dbg !764\l  br label %21\l}"];
+	Node0xd4dab0 -> Node0xd4db00;
+	Node0xd4db00 [shape=record,label="{%21:\l\l  %22 = phi i1 [ false, %14 ], [ false, %10 ], [ %20, %18 ], !dbg !765\l  br label %23, !dbg !756\l}"];
+	Node0xd4db00 -> Node0xd4db50;
+	Node0xd4db50 [shape=record,label="{%23:\l\l  %24 = phi i1 [ true, %6 ], [ true, %1 ], [ %22, %21 ]\l  ret i1 %24, !dbg !766\l}"];
+}

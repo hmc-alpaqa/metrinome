@@ -1,0 +1,10 @@
+digraph "CFG for 'send_sig' function" {
+	label="CFG for 'send_sig' function";
+
+	Node0x2596a40 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !71\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !69, metadata\l... !DIExpression()), !dbg !75\l  store i32 %1, i32* %4, align 4, !tbaa !71\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !70, metadata\l... !DIExpression()), !dbg !76\l  %5 = load i32, i32* %3, align 4, !dbg !77, !tbaa !71\l  %6 = icmp eq i32 %5, 0, !dbg !79\l  br i1 %6, label %7, label %10, !dbg !80\l|{<s0>T|<s1>F}}"];
+	Node0x2596a40:s0 -> Node0x2583390;
+	Node0x2596a40:s1 -> Node0x25833e0;
+	Node0x2583390 [shape=record,label="{%7:\l\l  %8 = load i32, i32* %4, align 4, !dbg !81, !tbaa !71\l  %9 = call void (i32)* @signal(i32 %8, void (i32)* inttoptr (i64 1 to void\l... (i32)*)) #11, !dbg !82\l  br label %10, !dbg !82\l}"];
+	Node0x2583390 -> Node0x25833e0;
+	Node0x25833e0 [shape=record,label="{%10:\l\l  %11 = load i32, i32* %3, align 4, !dbg !83, !tbaa !71\l  %12 = load i32, i32* %4, align 4, !dbg !84, !tbaa !71\l  %13 = call i32 @kill(i32 %11, i32 %12) #11, !dbg !85\l  ret i32 %13, !dbg !86\l}"];
+}
