@@ -55,7 +55,6 @@ class Graph:
                f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
                f"\nEnd Node: {self.end_node}"
 
-
     def __init__(self, edges, vertices: Any, start_node: int,
                  end_node: int,
                  graph_type: GraphType = GraphType.ADJACENCY_LIST,
@@ -205,7 +204,7 @@ class Graph:
         if graph_type is GraphType.ADJACENCY_LIST:
             # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
             # graph = Graph(v_e_dict, None, -1, -1, graph_type)
-            graph = Graph([], None, -1, -1, graph_type,name)
+            graph = Graph([], None, -1, -1, graph_type, name)
         elif graph_type is GraphType.EDGE_LIST:
             edges: List[List[int]] = []
             graph = Graph(edges, set(), -1, -1, graph_type, name)

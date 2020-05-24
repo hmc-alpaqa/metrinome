@@ -30,8 +30,8 @@ MISSING_TYPE_AND_NAME_ERR: str = "Must specify type and name."
 MISSING_NAME_ERR: str = "Must specify name."
 NO_FILE_EXT_ERR: Callable[[str], str] = lambda f_name: \
     f"No file extension found for {f_name}."
-NOT_IMPLEMENTED_ERR: str        = "Not implemened."
-EXTENSION_ERR: Callable[[str, str], str]   = lambda target_type, file_extension: \
+NOT_IMPLEMENTED_ERR: str = "Not implemened."
+EXTENSION_ERR: Callable[[str, str], str] = lambda target_type, file_extension: \
     f"File extension must be {target_type}, not {file_extension}."
 
 
@@ -379,7 +379,7 @@ class Command:
 
         return False
 
-    def verify_file_type(self, args, target_type: str):
+    def verify_file_type(self, args: str, target_type: str):
         """
         Verify that the file extension for the file passed in matches the expected file type.
 
@@ -401,7 +401,7 @@ class Command:
     def do_klee_replay(self, args: str):
         """Run a generated unit tests against the C source code by providing a ktest file."""
         converted_args = self.convert_args(args)
-        valid_args = self.check_num_args(converted_args, 1, MISSING_FILENAME_ERR)
+        valid_args = self.check_num_args(converted_args, 1, False, MISSING_FILENAME_ERR)
         if not valid_args:
             return
 
@@ -415,7 +415,7 @@ class Command:
 
         print(path_to_klee_build_dir, command_one, command_two)
 
-    def do_convert(self, args: str):
+    def do_convert(self, args: str) -> None:
         """Convert source code into CFGs."""
         args = self.convert_args(args)
         if len(args) == 0:
@@ -460,7 +460,7 @@ class Command:
     def do_list(self, args: str) -> None:
         """List objects the REPL knows about."""
         converted_args = self.convert_args(args)
-        valid_args = self.check_num_args(converted_args, 1,
+        valid_args = self.check_num_args(converted_args, 1, False,
                                          "Must specify object type to list\
                                          (metrics, graphs, or KLEE type).")
         if not valid_args:
@@ -491,7 +491,7 @@ class Command:
     def do_metrics(self, args: str) -> None:
         """Compute of one of the known objects for a stored Graph object."""
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 1, "Must provide graph name.")
+        valid_args = self.check_num_args(args_list, 1, False, "Must provide graph name.")
         if not valid_args:
             return
 
@@ -524,7 +524,7 @@ class Command:
 
             self.data.metrics[name] = results
 
-    def do_show_klee(self, obj_type, names):
+    def do_show_klee(self, obj_type, names) -> None:
         """Display the KLEE objects the REPL knows about."""
         if obj_type == ObjTypes.KLEE_BC:
             self.data.show_klee_bc(names)
@@ -539,7 +539,7 @@ class Command:
         """Display objects the REPL knows about."""
         args_list = self.convert_args(args)
         err_msg = "Must specify type (metric, graph, or any KLEE type) and name."
-        valid_args = self.check_num_args(args_list, 2, err_msg)
+        valid_args = self.check_num_args(args_list, 2, False, err_msg)
         if not valid_args:
             return
 
@@ -595,7 +595,7 @@ class Command:
         statistics.
         """
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 1, "Must provide metric name.")
+        valid_args = self.check_num_args(args_list, 1, False, "Must provide metric name.")
         if not valid_args:
             return
 
@@ -619,22 +619,19 @@ class Command:
         KLEE is called on .bc files which we generate using clang.
         """
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 1, "Must provide KLEE formatted name.")
+        valid_args = self.check_num_args(args_list, 1, False, "Must provide KLEE formatted name.")
         if not valid_args:
             return
 
         name = args_list[0]
         keys = [name]
-        
+
         if name == '*':
             keys = list(self.data.klee_formatted_files.keys())
-            
-            
 
         elif name not in self.data.klee_formatted_files:
             self.logger.v_msg(f"Could not find {name}.")
             return
-
 
         for f_name in keys:
             with tempfile.NamedTemporaryFile(delete=True, suffix=".c") as file:
@@ -655,15 +652,18 @@ class Command:
         """Convert a file with C source code to a format compatible with klee."""
         args_list = self.convert_args(args)
         valid_args = self.check_num_args(args_list, 1, True, MISSING_FILENAME_ERR)
+        if not valid_args:
+            return
+
         recursive_mode = False
         if args_list[0] == "-r":
-                recursive_mode = True
-                file_path = args_list[1]
+            recursive_mode = True
+            file_path = args_list[1]
         else:
             file_path = args_list[0]
 
         self.logger.d_msg(f"Recursive Mode is {recursive_mode}")
-        files = get_files(file_path, recursive_mode, self.logger, ".c")
+        files = get_files(file_path, recursive_mode, self.logger, [".c"])
         if len(files) == 0:
             self.logger.v_msg(f"Could not find any files for {file_path}")
             return
@@ -679,7 +679,7 @@ class Command:
     def do_clean_klee_files(self, args: str) -> None:
         """Remove all KLEE-related files created by the REPL."""
         converted_args = self.convert_args(args)
-        valid_args = self.check_num_args(converted_args, 0, NOT_IMPLEMENTED_ERR)
+        valid_args = self.check_num_args(converted_args, 0, False, NOT_IMPLEMENTED_ERR)
         if not valid_args:
             return
 
@@ -722,7 +722,7 @@ class Command:
     def get_klee_file_name(self, args: str) -> Optional[str]:
         """Return the name of the .bc file given a command line argument string."""
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 1, MISSING_FILENAME_ERR)
+        valid_args = self.check_num_args(args_list, 1, False, MISSING_FILENAME_ERR)
         if not valid_args:
             return None
 
@@ -753,7 +753,7 @@ class Command:
                     cmd = f"/app/build/bin/klee {file_name}"
                     self.logger.d_msg(f"Going to execute {cmd}")
                     start_time = time.time()
-                    
+
                     try:
                         with Timeout(30, "Klee took too long"):
                             res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
@@ -764,14 +764,12 @@ class Command:
                         self.logger.d_msg(f"Runtime: {delta_t} seconds")
                         self.logger.d_msg("Updating Klee Stats")
                         self.update_klee_stats(output.decode(), key, delta_t)
-                    except subprocess.CalledProcessError as e:
+                    except subprocess.CalledProcessError as error:
                         self.logger.e_msg("Could not run klee")
-                        self.logger.d_msg(e.stderr)
+                        self.logger.d_msg(error.stderr)
                         return
                     except TimeoutError as exception:
                         print(exception)
-                    
-                    
         else:
             result = self.verify_file_type(args, "bc")
             if result == 0:
@@ -795,21 +793,21 @@ class Command:
                 self.logger.d_msg(output.decode())
                 self.update_klee_stats(output.decode(), name, delta_t)
 
-    def do_quit(self, args: str):
+    def do_quit(self, args: str) -> None:
         """Quit the repl."""
         readline.write_history_file()
         converted_args = self.convert_args(args)
-        self.check_num_args(converted_args, 0, "Quitting...")
+        self.check_num_args(converted_args, 0, False, "Quitting...")
         raise SystemExit
 
-    def do_export(self, args: str):
+    def do_export(self, args: str) -> None:
         """
         Save some object the REPL knows about to an external file.
 
         The format it is stored as depends on the object we are storing.
         """
         converted_args = self.convert_args(args)
-        valid_args = self.check_num_args(converted_args, 2, MISSING_TYPE_AND_NAME_ERR)
+        valid_args = self.check_num_args(converted_args, 2, False, MISSING_TYPE_AND_NAME_ERR)
         if not valid_args:
             return
 
@@ -855,7 +853,7 @@ class Command:
     def do_cd(self, args: str) -> None:
         """Change the working directory in the REPL."""
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 1, MISSING_NAME_ERR)
+        valid_args = self.check_num_args(args_list, 1, False, MISSING_NAME_ERR)
         if not valid_args:
             return
 
@@ -873,23 +871,23 @@ class Command:
     def do_ls(self, args: str) -> None:
         """List the arguments in the current working directory."""
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 0, "Cannot accept arguments.")
+        valid_args = self.check_num_args(args_list, 0, False, "Cannot accept arguments.")
         if not valid_args:
             return
 
         self.logger.v_msg(" ".join(os.listdir(self.curr_path)))
 
-    def do_delete(self, args: str):
+    def do_delete(self, args: str) -> None:
         """Remove some object the REPL is storing from memory."""
         args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 2, MISSING_TYPE_AND_NAME_ERR)
+        valid_args = self.check_num_args(args_list, 2, False, MISSING_TYPE_AND_NAME_ERR)
         if not valid_args:
             return
 
         obj_type = args_list[0]
         self.logger.d_msg(obj_type)
         name = args_list[1]
-        d = {
+        known_types_dict = {
             ObjTypes.GRAPH.value: self.data.graphs,
             ObjTypes.METRIC.value: self.data.metrics,
             ObjTypes.STAT.value: self.data.stats,
@@ -897,37 +895,15 @@ class Command:
             ObjTypes.KLEE_STATS.value: self.data.klee_stats,
             ObjTypes.KLEE_FILE.value: self.data.klee_formatted_files,
         }
-        if obj_type == ObjTypes.GRAPH.value:
-            try:
-                del self.data.graphs[name]
-            except KeyError:
-                self.logger.v_msg(f"{ObjTypes.GRAPH.value.capitalize()} {name} not found.")
-        elif obj_type == ObjTypes.METRIC.value:
-            try:
-                del self.data.metrics[name]
-            except KeyError:
-                self.logger.v_msg(f"{ObjTypes.METRIC.value.capitalize()} {name} not found.")
-        elif obj_type == ObjTypes.STAT.value:
-            try:
-                del self.data.stats[name]
-            except KeyError:
-                self.logger.v_msg(f"{ObjTypes.STAT.value.capitalize()} {name} not found.")
-        elif obj_type == ObjTypes.KLEE_BC.value:
-            try:
-                del self.data.bc_files[name]
-            except KeyError:
-                self.logger.v_msg(f"{ObjTypes.KLEE_BC.value.capitalize()} {name} not found.")
-        elif obj_type == ObjTypes.KLEE_STATS.value:
-            try:
-                del self.data.klee_stats[name]
-            except KeyError:
-                self.logger.v_msg(f"{ObjTypes.KLEE_STATS.value.capitalize()} {name} not found.")
-        elif obj_type == ObjTypes.KLEE_FILE.value:
-            try:
-                del self.data.klee_formatted_files[name]
-            except KeyError:
-                self.logger.v_msg(f"{ObjTypes.KLEE_FILE.value.capitalize()} {name} not found.")
-        elif obj_type == ObjTypes.KLEE.value:
+        for known_obj_type in known_types_dict:
+            if obj_type == known_obj_type:
+                try:
+                    del known_types_dict[name]
+                except KeyError:
+                    self.logger.v_msg(f"{known_obj_type.capitalize()} {name} not found.")
+                return
+
+        if obj_type == ObjTypes.KLEE.value:
             found = False
             for dictionary in [self.data.klee_stats, self.data.klee_formatted_files,
                                self.data.bc_files]:

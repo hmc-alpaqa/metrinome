@@ -90,7 +90,6 @@ class KleeUtils:
             for var in variables:
                 if var[0][-4:] == "[];\n":
                     var[0] = var[0].replace("[]", "[SIZE]")
-                    
 
                 file_str += "\n"
 
@@ -105,7 +104,7 @@ class KleeUtils:
                             f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
 
                 var_names.append(var[1])
-        
+
             if func_visitor.types[func_name] == 'void':
                 file_str += f"\t{func_name}({', '.join(var_names)});\n"
                 file_str += "\treturn 0;\n"

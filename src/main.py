@@ -215,7 +215,7 @@ def main():
     except FileNotFoundError:
         pass
     prompt = MyPrompt("/app/code", parsed_args.debug_mode, parsed_args.multi_threaded)
-    prompt.cmdloop(r'''
+    prompt.cmdloop(r"""
 
             _       _____          ____
      /\    | |     |  __ \  /\    / __ \     /\
@@ -225,7 +225,7 @@ def main():
  /_/    \_\|______||_|  /_/    \_\\___\_\/_/    \_\
 
 Starting the REPL...
-    ''')
+    """)
 
 
 if __name__ == "__main__":

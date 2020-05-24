@@ -26,12 +26,10 @@ def apc_runtime(g_frac, f_frac, time):
 
 
 if __name__ == "__main__":
-    args = sys.argv
-    if len(args) == 4:
-        apc_runtime(int(args[1]), int(args[2]), int(args[3]))
-    elif len(args) == 2:
-        if args[1] == "complete":
-            apc_runtime(1,1,120)
+    if len(sys.argv) == 4:
+        apc_runtime(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == "complete":
+            apc_runtime(1, 1, 120)
     else:
-        apc_runtime(0,0,0)
-    
+        apc_runtime(0, 0, 0)

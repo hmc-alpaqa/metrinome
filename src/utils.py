@@ -117,11 +117,11 @@ def get_taylor_coeffs(func, num_coeffs: int):
     first_element = series_list[0]
     first_power = re.search(r"\*\*([0-9]*)", str(first_element))
     if first_power is not None:
-        first_power_int = int(first_power.groups()[0])
         taylor_coeffs = [sympify(f).subs(t_var, 1) for f in series_list]
         return taylor_coeffs
-    else:
-        return None
+
+    return None
+
 
 def is_exponential(term: str, var='n'):
     """If an expression contains an exponential, return its base. Otherwise, return None."""

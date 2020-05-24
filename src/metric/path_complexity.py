@@ -46,18 +46,19 @@ class PathComplexity(metric.MetricAbstract):
 
         self.logger.d_msg(f"Matrix shape: {x_mat.shape}")
 
-        #x_det = x_mat.det(method="det_LU")
+        # x_det = x_mat.det(method="det_LU")
         x_det = x_mat.det()
 
         denominator = Poly(sympify(-x_det))
 
-        #generating_function = x_sub.det() / denominator
+        # generating_function = x_sub.det() / denominator
         generating_function = x_sub.det(method="det_LU") / denominator
 
         recurrence_degree = degree(denominator, gen=t_var) + 1
         self.logger.d_msg(degree_list(denominator))
         self.logger.d_msg(denominator)
-        #recurrence_kernel = [denominator.as_expr().coeff(t_var, n) for n in range(recurrence_degree)][::-1]
+        # recurrence_kernel = [denominator.as_expr().coeff(t_var, n)
+        #                      for n in range(recurrence_degree)][::-1]
         recurrence_kernel = denominator.all_coeffs()[::-1]
         try:
             test = [round(-x, 2) for x in recurrence_kernel]
@@ -66,17 +67,17 @@ class PathComplexity(metric.MetricAbstract):
             x_det = x_mat.det()
             denominator = Poly(sympify(-x_det))
             recurrence_degree = degree(denominator, gen=t_var) + 1
-            #recurrence_kernel = [denominator.as_expr().coeff(t_var, n) for n in range(recurrence_degree)][::-1]
+            # recurrence_kernel = [denominator.as_expr().coeff(t_var, n) for
+            #                      n in range(recurrence_degree)][::-1]
             recurrence_kernel = denominator.all_coeffs()[::-1]
             test = [round(-x, 2) for x in recurrence_kernel]
 
-    
         roots = polyroots(test, maxsteps=250, extraprec=250)
 
         self.logger.d_msg(f"Generating Function: {generating_function}")
 
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
-        
+
         if taylor_coeffs is not None:
             base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree - 1],
                                    dtype='complex')
@@ -122,7 +123,6 @@ class PathComplexity(metric.MetricAbstract):
         exp_terms = [refine(term, Q.real(n_var)) for term in exp_terms]  # pylint: disable=E1121
         exp_terms = list(filter(lambda a: a != 0, exp_terms))
 
-
         apc = big_o(exp_terms)
 
         exp_terms_list = (*exp_terms, )
@@ -130,7 +130,7 @@ class PathComplexity(metric.MetricAbstract):
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))
         if apc != 0.0:
-            if degree(apc, gen = n_var) != 0:
+            if degree(apc, gen=n_var) != 0:
                 return (sympy.LM(apc), terms)
             return(apc, terms)
         return(expr_with_abs, expr_with_abs)
