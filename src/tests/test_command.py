@@ -14,11 +14,11 @@ class TestCommandInvalid(unittest.TestCase):
         self.command = command.Command("", False, False, None)
 
     # ==== Test do_analyze ====
-    def test_analyze_invalid_name(self):
-        """Test that we get an error when we pass a name for an object that does not exist."""
-        with captured_output() as (out, err):
-            self.command.do_analyze("invalid_name")
-            print(out, err)
+    # def test_analyze_invalid_name(self):
+    #     """Test that we get an error when we pass a name for an object that does not exist."""
+    #     with captured_output() as (out, err):
+    #         self.command.do_analyze("invalid_name")
+    #         print(out, err)
 
     # ==== do_to_klee_format =====
     def test_to_klee_format_invalid_type(self):
@@ -193,17 +193,17 @@ class TestCommand(unittest.TestCase):
             print(out, err)
 
     # ==== Test do_analyze ====
-    def test_analyze_all(self):
-        """Test the analyze command given input * (meaning we should analyze all)."""
-        with captured_output() as (out, err):
-            self.command.do_analyze("*")
-            print(out, err)
+    # def test_analyze_all(self):
+    #     """Test the analyze command given input * (meaning we should analyze all)."""
+    #     with captured_output() as (out, err):
+    #         self.command.do_analyze("*")
+    #         print(out, err)
 
-    def test_analyze_valid_name(self):
-        """Test that we can analyze a specific object."""
-        with captured_output() as (out, err):
-            self.command.do_analyze("some_name")
-            print(out, err)
+    # def test_analyze_valid_name(self):
+    #     """Test that we can analyze a specific object."""
+    #     with captured_output() as (out, err):
+    #         self.command.do_analyze("some_name")
+    #         print(out, err)
 
     # ==== Test do_convert =====
     def test_convert_valid_type(self):

@@ -8,6 +8,7 @@ from cmd import Cmd
 import os
 from typing import List
 import command
+from log import Colors
 
 TESTING_MODE = True
 
@@ -17,7 +18,7 @@ class MyPrompt(Cmd):
 
     def postcmd(self, stop, line) -> bool:
         """Execute after any command is executed to update the prompt."""
-        self.prompt = f"{self.command.curr_path} > "
+        self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
         return False
 
     # pylint: disable=unused-argument
@@ -37,17 +38,22 @@ class MyPrompt(Cmd):
         full_arg = line[starting_idx:]
 
         if os.path.isdir(full_arg):
-            # If this is a folder, get all things in this folder
-            return os.listdir(full_arg)
+            # If this is a folder, get all things in this folder.
+            if not folders_only:
+                return os.listdir(full_arg)
+            
+            return [path for path in os.listdir(full_arg) if \
+                   os.path.isdir(os.path.join(full_arg, path))]
 
         # Get the path up to the last "/"
-        logging.info(f"the folder path is: {line[starting_idx:slash_index]}")
-        folder_path = line[starting_idx:slash_index] if slash_index is not None else "."
+        folder_path = line[starting_idx:slash_index] if slash_index is not None else self.command.curr_path
+        logging.info(f"the folder path is: {folder_path}")
         if not folders_only:
+            logging.info(f"found {os.listdir(folder_path)}")
             return [match for match in os.listdir(folder_path) if match.startswith(text)]
-
-        # TODO
-        return []
+        
+        return [match for match in os.listdir(folder_path) if match.startswith(text) and \
+                os.path.isdir(os.path.join(folder_path, match))]
 
     def complete_cd(self, text, line, begin, end) -> List[str]:
         """Completion for the cd command."""
@@ -67,7 +73,7 @@ class MyPrompt(Cmd):
         if TESTING_MODE:
             setattr(self, "do_reload", self.reload)
 
-        self.prompt = f"{self.command.curr_path} > "
+        self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
 
         super(MyPrompt, self).__init__()
 
@@ -152,14 +158,14 @@ class MyPrompt(Cmd):
         """
         self.command.do_metrics(arguments)
 
-    def do_analyze(self, arguments: str) -> None:
-        """
-        Perform statistical analysis on a set of generated metrics.
+    # def do_analyze(self, arguments: str) -> None:
+    #     """
+    #     Perform statistical analysis on a set of generated metrics.
 
-        Usage:
-        analyze <metric names>
-        """
-        self.command.do_analyze(arguments)
+    #     Usage:
+    #     analyze <metric names>
+    #     """
+    #     self.command.do_analyze(arguments)
 
     def do_delete(self, arguments: str) -> None:
         """
@@ -214,7 +220,8 @@ def main():
         readline.read_history_file()
     except FileNotFoundError:
         pass
-    prompt = MyPrompt("/app/code", parsed_args.debug_mode, parsed_args.multi_threaded)
+    prompt = MyPrompt(f"/app/code",
+                      parsed_args.debug_mode, parsed_args.multi_threaded)
     prompt.cmdloop(r"""
 
             _       _____          ____

@@ -8,6 +8,19 @@ Created on Tue Sep 16 23:47:44 2014.
 from enum import Enum, auto
 
 
+class Colors(Enum):
+    """Use these within print or log statements to change output color."""
+
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 class LogLevel(Enum):
     """Set levels in the logger to decide which messages will be displayed."""
 
@@ -32,7 +45,7 @@ class Log:
     def d_msg(self, msg: str) -> None:
         """Use for debugging. Messages are only displayed if LOG_LEVEL is 'DEBUG'."""
         if self.display_output and self.log_level is LogLevel.DEBUG:
-            print(f"=== DEBUG ===: {msg}")
+            print(f"{Colors.OKBLUE.value} === DEBUG === {Colors.ENDC.value}: {msg}")
 
     def i_msg(self, msg: str) -> None:
         """Log an information-level message."""
@@ -47,4 +60,6 @@ class Log:
     def e_msg(self, msg: str) -> None:
         """Log an error-level message."""
         if self.display_output:
-            print(f"{self.tag} > !!! {msg} !!!")
+            beginning = f" {self.tag} > {Colors.WARNING.value} !!! {Colors.ENDC.value} "
+            end = f"{msg} {Colors.WARNING.value} !!! {Colors.ENDC.value}"
+            print(beginning + end)

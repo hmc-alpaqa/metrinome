@@ -433,7 +433,7 @@ class Command:
         for full_path in args:
             files = get_files(full_path, recursive_mode, self.logger, allowed_extensions)
             if files == []:
-                self.logger.v_msg(f"Could not get files from: {full_path}")
+                self.logger.e_msg(f"Could not get files from: {full_path}")
                 return
             all_files += files
 
@@ -586,31 +586,6 @@ class Command:
                     self.logger.v_msg(f"Object {name} not found.")
         else:
             self.logger.v_msg(f"Type {obj_type} not recognized.")
-
-    def do_analyze(self, args: str) -> None:
-        """
-        Analyze some set of metrics we have already computed.
-
-        This is currently not implemented, but will likely involve computing some aggregate
-        statistics.
-        """
-        args_list = self.convert_args(args)
-        valid_args = self.check_num_args(args_list, 1, False, "Must provide metric name.")
-        if not valid_args:
-            return
-
-        metric_name = args_list[0]
-        metric_names = []
-        if metric_name in self.data.metrics.keys():
-            metric_names.append(metric_name)
-        elif metric_name == "*":
-            metric_names = list(self.data.metrics.keys())
-        else:
-            self.logger.v_msg(f"Could not find metric {metric_name}")
-            return
-
-        for metric_name in metric_names:
-            _ = self.data.metrics[metric_name]
 
     def do_klee_to_bc(self, args: str) -> None:
         """
@@ -932,3 +907,28 @@ class Command:
     def convert_args(self, args: str):
         """Obtain a list of arguments from a string."""
         return args.strip().split()
+
+    # def do_analyze(self, args: str) -> None:
+    #     """
+    #     Analyze some set of metrics we have already computed.
+
+    #     This is currently not implemented, but will likely involve computing some aggregate
+    #     statistics.
+    #     """
+    #     args_list = self.convert_args(args)
+    #     valid_args = self.check_num_args(args_list, 1, False, "Must provide metric name.")
+    #     if not valid_args:
+    #         return
+
+    #     metric_name = args_list[0]
+    #     metric_names = []
+    #     if metric_name in self.data.metrics.keys():
+    #         metric_names.append(metric_name)
+    #     elif metric_name == "*":
+    #         metric_names = list(self.data.metrics.keys())
+    #     else:
+    #         self.logger.v_msg(f"Could not find metric {metric_name}")
+    #         return
+
+    #     for metric_name in metric_names:
+    #         _ = self.data.metrics[metric_name]
