@@ -41,19 +41,21 @@ class MyPrompt(Cmd):
             # If this is a folder, get all things in this folder.
             if not folders_only:
                 return os.listdir(full_arg)
-            
-            return [path for path in os.listdir(full_arg) if \
-                   os.path.isdir(os.path.join(full_arg, path))]
 
-        # Get the path up to the last "/"
-        folder_path = line[starting_idx:slash_index] if slash_index is not None else self.command.curr_path
+            return [path for path in os.listdir(full_arg) if
+                    os.path.isdir(os.path.join(full_arg, path))]
+
+        # Get the path up to the last "/".
+        folder_path = self.command.curr_path
+        if slash_index is not None:
+            folder_path = line[starting_idx:slash_index]
         logging.info(f"the folder path is: {folder_path}")
         if not folders_only:
             logging.info(f"found {os.listdir(folder_path)}")
             return [match for match in os.listdir(folder_path) if match.startswith(text)]
-        
-        return [match for match in os.listdir(folder_path) if match.startswith(text) and \
-                os.path.isdir(os.path.join(folder_path, match))]
+
+        return [match for match in os.listdir(folder_path)
+                if match.startswith(text) and os.path.isdir(os.path.join(folder_path, match))]
 
     def complete_cd(self, text, line, begin, end) -> List[str]:
         """Completion for the cd command."""
