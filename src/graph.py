@@ -41,7 +41,7 @@ class Graph:
             elif node == self.end_node:
                 out += " [label=\"EXIT\"]"
             out += ";\n"
-           
+
         if self.graph_type is GraphType.EDGE_LIST:
             for edge_pair in self.edge_rules():
                 out += f"{edge_pair[0]} -> {edge_pair[1]};\n"
@@ -52,7 +52,7 @@ class Graph:
                 for vertex_two in self.edge_rules()[vertex]:
                     out += f"{vertex} -> {vertex_two};\n"
             out += "}"
-      
+
         elif self.graph_type is GraphType.ADJACENCY_MATRIX:
             raise ValueError("Not yet implemented.")
 
@@ -93,17 +93,31 @@ class Graph:
 
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list."""
+        if self.graph_type is GraphType.ADJACENCY_LIST:
+            edges = []
+            for vertex in range(len(self.edges)):
+                for vertex_two in self.edges[vertex]:
+                    edges.append((vertex, vertex_two))
+
+            return edges
+
+        if self.graph_type is GraphType.ADJACENCY_MATRIX:
+            raise ValueError("Not Implemented.")
+
         return self.edges
-    
+
     def edge_count(self) -> int:
+        """Get the number of edges in the graph."""
         if self.graph_type is GraphType.ADJACENCY_LIST:
             count = 0
             for vertex in range(len(self.edges)):
-                for vertex_two in self.edges[vertex]:
-                    count += 1
+                count += len(self.edges[vertex])
             return count
+
         if self.graph_type is GraphType.ADJACENCY_MATRIX:
             return np.count_nonzero(self.edges)
+
+        return len(self.edge_rules())
 
     def vertex_count(self) -> int:
         """Get the number of vertices in the graph."""

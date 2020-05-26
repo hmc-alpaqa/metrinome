@@ -493,14 +493,12 @@ class Command:
                     self.logger.v_msg(f"Cannot convert {file_extension} for {file}.")
                 return
 
-
             graph = Graph.from_file(file)
             self.logger.v_msg(graph)
             if isinstance(graph, dict):
                 self.data.graphs.update(graph)
             else:
                 self.data.graphs[filepath] = graph
-
 
     def do_list(self, args: str) -> None:
         """List objects the REPL knows about."""

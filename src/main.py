@@ -133,7 +133,7 @@ class MyPrompt(Cmd):
     def do_import(self, arguments) -> None:
         """
         Convert a .dot file representing a cfg into a Graph object.
-        
+
         The recursive flag (-r) can also be used.
 
         Usage:
@@ -220,8 +220,9 @@ class MyPrompt(Cmd):
             debug = True
         elif arguments.strip() == "user":
             debug = False
-        self.command = command.Command(self.command.curr_path, debug, self.command.multi_threaded, self)
-        
+        self.command = command.Command(self.command.curr_path, debug,
+                                       self.command.multi_threaded, self)
+
 
 def main():
     """Parse command line arguments and initialize the REPL."""
