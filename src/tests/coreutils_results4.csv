@@ -1,0 +1,4 @@
+,graph,complexity
+0,cfg.dtotimespec.dot,"(4.00000000000000, 4.00000000000000)"
+1,cfg.hash_get_entries.dot,"(7.00000000000000, '12.34*0.66**n + 1.12*1.2**n + 7.0')"
+2,cfg.proper_name_utf8.dot,"(492.000000000000, 492.000000000000)"
