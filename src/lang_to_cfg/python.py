@@ -300,16 +300,17 @@ class Visitor(ast.NodeVisitor):
 class PythonConvert():
     """PythonConvert is able to convert from Python source files to graph objects."""
 
-    def __init__(self) -> None:
+    def __init__(self, logger) -> None:
         """Create a new instance of the python converter."""
+        self.logger = logger
 
     # pylint: disable=R0201
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
         """Create a CFG from a Python source file."""
-        print(file_extension)
+        self.logger.d_msg(file_extension)
 
         path = os.path.join(os.getcwd(), filename) + ".py"
-        print(path)
+        self.logger.d_msg(path)
         visitor = Visitor()
         graphs: Dict[str, Graph]
         with open(path, "r") as src:
@@ -318,7 +319,7 @@ class PythonConvert():
             graphs = visitor.graphs
 
         for key in graphs.keys():
-            print(f"==== Graph {key} =====")
-            print(graphs[key])
+            self.logger.d_msg(f"==== Graph {key} =====")
+            self.logger.d_msg(graphs[key])
 
         return graphs

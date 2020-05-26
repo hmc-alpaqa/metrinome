@@ -5,17 +5,17 @@ lint:
 	find . -type f -name "*.py" | xargs pylint --rcfile=.pylintrc -r n -f parseable	# Linting
 
 tests:
-	# python tests/test_command.py        OK
-	# python tests/test_cpp.py
-	# python tests/test_cyclomatic.py     OK
-	# python tests/test_graph.py          OK
-	# python tests/test_java.py           OK
-	# python tests/test_log.py            OK
-	# python tests/test_metrics.py        OK
-	# python tests/test_npath.py          OK
-	# python tests/test_pathcomplexity.py OK
+	python tests/test_command.py       
+	python tests/test_cpp.py
+	python tests/test_cyclomatic.py     
+	python tests/test_graph.py          
+	python tests/test_java.py           
+	python tests/test_log.py            
+	python tests/test_metrics.py        
+	python tests/test_npath.py          
+	python tests/test_pathcomplexity.py 
 	python tests/test_python.py
-	# python tests/test_utils.py          OK
+	python tests/test_utils.py          
 
 test:   formatting lint tests
 

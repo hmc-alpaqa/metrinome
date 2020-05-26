@@ -5,6 +5,7 @@ import sys
 sys.path.append("/app/code/")
 from lang_to_cfg.python import PythonConvert
 from graph import Graph, GraphType
+from log import Log
 
 
 class TestPythonConvert(unittest.TestCase):
@@ -18,7 +19,7 @@ class TestPythonConvert(unittest.TestCase):
 
     def setUp(self):
         """Create an instance of the python converter for each test."""
-        self.converter = PythonConvert()
+        self.converter = PythonConvert(Log(display_output=False))
         self.base_path = "/app/code/tests"
 
     def test_expr(self):

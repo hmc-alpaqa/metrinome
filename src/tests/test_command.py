@@ -157,7 +157,7 @@ class TestCommand(unittest.TestCase):
             "list": (1, 1),
             "metrics": (1, 1),
             "show": (2, 2),
-            "analyze": (1, 1),
+            # "analyze": (1, 1),
             "klee_to_bc": (0, 0),
             "to_klee_format": (1, 1),
             "clean_klee_files": (0, 0),
@@ -337,17 +337,6 @@ class TestCommand(unittest.TestCase):
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
 
-    def test_delete_stat_valid(self):
-        """Verify that we can delete statistics in the REPL."""
-        with captured_output() as (out, err):
-            obj_type = command.ObjTypes.STAT
-            obj_name = "sample_stat"
-            self.command.data.stats['sample_stat'] = 'foo'
-            self.command.data.stats['sample_stat'] = 'bar'
-            self.command.data.metrics['sample_stat'] = 'a'
-            self.command.do_delete(str(obj_type) + " " + str(obj_name))
-            print(out, err)
-
     def test_delete_all_types_valid(self):
         """
         Check wildcard in delete.
@@ -360,11 +349,9 @@ class TestCommand(unittest.TestCase):
             obj_name = "sample_name"
             self.command.data.graphs['sample_name'] = 'foo'
             self.command.data.metrics['sample_name'] = 'foo'
-            self.command.data.stats['sample_name'] = 'foo'
 
             self.command.data.graphs['sample_name'] = 'a'
             self.command.data.metrics['sample_name'] = 'b'
-            self.command.data.stats['sample_name'] = 'c'
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
 
@@ -379,7 +366,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.graphs['sample_name'] = 'c'
 
             self.command.data.metrics['sample_name'] = 'b'
-            self.command.data.stats['sample_name'] = 'c'
 
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)

@@ -7,8 +7,9 @@ from lang_to_cfg.javaextractor.app import App  # type: ignore
 class JavaConvert():
     """JavaConvert is able to convert java files to graphs."""
 
-    def __init__(self) -> None:
+    def __init__(self, logger) -> None:
         """Create a new Java coverter."""
+        self.logger = logger
 
     # pylint: disable=R0201
     def to_graph(self, filename: str, file_extension: str) -> Graph:

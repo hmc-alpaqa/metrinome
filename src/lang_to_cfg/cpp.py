@@ -38,7 +38,7 @@ class CPPConvert():
             f_name = filename + (str(i) + ".dot")
             graph_name = os.path.splitext(f_name)[0]
             graph_name = os.path.split(graph_name)[1]
-            graphs[graph_name] = Graph.from_file(f_name)
+            graphs[graph_name] = Graph.from_file(f_name, False, GraphType.EDGE_LIST)
         self.clean_temps()
         return graphs
 
@@ -161,7 +161,8 @@ class CPPConvert():
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
                 # out, err = line2.communicate()
-                self.logger.d(line2)
+                # self.logger.d_msg(out, err)
+                line2.communicate()
 
         files = glob2.glob("*.dot")
         self.logger.d_msg(f"Found the following .dot files: {files}")
@@ -170,4 +171,8 @@ class CPPConvert():
 
     def clean_temps(self):
         """Remove temp files and directories."""
-        subprocess.call(["rm", "-r", "cppConverterTemps"])
+        proc = subprocess.Popen(["rm", "-r", "cppConverterTemps"],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+        output, err = proc.communicate()
+        self.logger.d_msg(f"stdout: {output}", f"stderr: {err}")

@@ -102,7 +102,12 @@ class Graph:
             return edges
 
         if self.graph_type is GraphType.ADJACENCY_MATRIX:
-            raise ValueError("Not Implemented.")
+            vertex_count = self.vertex_count()
+            edges = []
+            for i in range(vertex_count):
+                for j in range(vertex_count):
+                    if self.edges[i, j] == 1:
+                        edges.append((i, j))
 
         return self.edges
 

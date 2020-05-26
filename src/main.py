@@ -16,13 +16,24 @@ TESTING_MODE = True
 class MyPrompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""
 
+    def __init__(self, curr_path: str, debug_mode: bool, multi_threaded: bool) -> None:
+        """Create a new instance of the REPL."""
+        self.command = command.Command(curr_path, debug_mode, multi_threaded, self)
+        if TESTING_MODE:
+            setattr(self, "do_reload", self.reload)
+
+        self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
+
+        super(MyPrompt, self).__init__()
+
     def postcmd(self, stop, line) -> bool:
         """Execute after any command is executed to update the prompt."""
         self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
         return False
 
     # pylint: disable=unused-argument
-    def complete_file_path(self, text, line, begin, start, folders_only=False) -> List[str]:
+    def complete_file_path(self, text: str, line: str,
+                           begin, start, folders_only=False) -> List[str]:
         """Enhanced auto-completion for the REPL."""
         # Try to do tab completion on a directory. Text contains the latest paremeter
         # text only contains the latest segment, which splits on / (and other characters)
@@ -57,6 +68,49 @@ class MyPrompt(Cmd):
         return [match for match in os.listdir(folder_path)
                 if match.startswith(text) and os.path.isdir(os.path.join(folder_path, match))]
 
+    def complete_list(self, text: str, line: str, begin, end) -> List[str]:
+        """Auto-completion for the list command."""
+        options = ["metrics", "graphs", "KLEE"]
+        return [match for match in options if match.startswith(text)]
+
+    def complete_metrics(self, text: str, line: str, begin, end) -> List[str]:
+        """Auto-completion for the metrics command."""
+        options = list(self.command.data.graphs.keys())
+        return [opt for opt in options if opt.startswith(text)]
+
+    def complete_repl_objects(self, line: str):
+        """Auto-completion for commands that use objects the REPL knows about."""
+        args = line.split(" ")
+        logging.info(args)
+        if len(args) == 2:
+            options = ["graph", "metric", "klee"]
+            return [opt for opt in options if opt.startswith(args[1])]
+
+        if args[1] == "graph":
+            options = list(self.command.data.graphs.keys())
+            return [opt for opt in options if opt.startswith(args[2])]
+
+        if args[1] == "metric":
+            options = list(self.command.data.metrics.keys())
+            return [opt for opt in options if opt.startswith(args[2])]
+
+        if args[1] == "klee":
+            stats_list = list(self.command.data.klee_stats.keys())
+            formatted_files_list = list(self.command.data.klee_formatted_files.keys())
+            bc_files_list = list(self.command.data.bc_files.keys())
+            options = stats_list + formatted_files_list + bc_files_list
+            return [opt for opt in options if opt.startswith(args[2])]
+
+        return []
+
+    def complete_show(self, text, line, begin, end) -> List[str]:
+        """Auto-completion for the show command."""
+        return self.complete_repl_objects(line)
+
+    def complete_delete(self, text, line, begin, end) -> List[str]:
+        """Auto-complete for the delete command."""
+        return self.complete_repl_objects(line)
+
     def complete_cd(self, text, line, begin, end) -> List[str]:
         """Completion for the cd command."""
         return self.complete_file_path(text, line, begin, end, True)
@@ -68,16 +122,6 @@ class MyPrompt(Cmd):
     def complete_to_klee_format(self, text, line, begin, end) -> List[str]:
         """Completion for the to_klee_format command."""
         return self.complete_file_path(text, line, begin, end, False)
-
-    def __init__(self, curr_path: str, debug_mode: bool, multi_threaded: bool) -> None:
-        """Create a new instance of the REPL."""
-        self.command = command.Command(curr_path, debug_mode, multi_threaded, self)
-        if TESTING_MODE:
-            setattr(self, "do_reload", self.reload)
-
-        self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
-
-        super(MyPrompt, self).__init__()
 
     def do_to_klee_format(self, arguments: str) -> None:
         """

@@ -42,24 +42,28 @@ class Log:
         """Set the tag for the logger. This tag will be prepended to all messages."""
         self.tag = tag
 
-    def d_msg(self, msg: str) -> None:
+    def d_msg(self, *msgs: str) -> None:
         """Use for debugging. Messages are only displayed if LOG_LEVEL is 'DEBUG'."""
         if self.display_output and self.log_level is LogLevel.DEBUG:
-            print(f"{Colors.OKBLUE.value} === DEBUG === {Colors.ENDC.value}: {msg}")
+            for msg in msgs:
+                print(f"{Colors.OKBLUE.value} === DEBUG === {Colors.ENDC.value}: {msg}")
 
-    def i_msg(self, msg: str) -> None:
+    def i_msg(self, *msgs: str) -> None:
         """Log an information-level message."""
         if self.display_output:
-            print(f"{self.tag} ~~~ {msg.upper()} ~~~")
+            for msg in msgs:
+                print(f"{self.tag} ~~~ {msg.upper()} ~~~")
 
-    def v_msg(self, msg: str) -> None:
+    def v_msg(self, *msgs: str) -> None:
         """Log a verbose-level message."""
         if self.display_output:
-            print(f"{self.tag} > {msg}")
+            for msg in msgs:
+                print(f"{self.tag} > {msg}")
 
-    def e_msg(self, msg: str) -> None:
+    def e_msg(self, *msgs: str) -> None:
         """Log an error-level message."""
         if self.display_output:
-            beginning = f" {self.tag} > {Colors.WARNING.value} !!! {Colors.ENDC.value} "
-            end = f"{msg} {Colors.WARNING.value} !!! {Colors.ENDC.value}"
-            print(beginning + end)
+            for msg in msgs:
+                beginning = f" {self.tag} > {Colors.WARNING.value} !!! {Colors.ENDC.value} "
+                end = f"{msg} {Colors.WARNING.value} !!! {Colors.ENDC.value}"
+                print(beginning + end)

@@ -40,7 +40,6 @@ class ObjTypes(Enum):
 
     GRAPH  = "graph"
     METRIC = "metric"
-    STAT   = "stat"
     KLEE   = "klee"
     KLEE_STATS = "klee_stat"
     KLEE_BC = "klee_bc"
@@ -154,8 +153,8 @@ class Controller:
         self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath, pathcomplexity]
 
         cpp_converter = cpp.CPPConvert(self.logger)
-        java_converter = java.JavaConvert()
-        python_converter = python.PythonConvert()
+        java_converter = java.JavaConvert(self.logger)
+        python_converter = python.PythonConvert(self.logger)
         self.graph_generators = {
             ".cpp": cpp_converter,
             ".c": cpp_converter,
@@ -179,10 +178,9 @@ class Data:
 
     def __init__(self, logger):
         """Create a new instance of the REPL data."""
-        self.metrics: Dict[Any, Any] = {}
-        self.graphs: Dict[Any, Any] = {}
-        self.stats: Dict[Any, Any] = {}
-        self.klee_stats: Dict[Any, Any] = {}
+        self.metrics: Dict[str, Any] = {}
+        self.graphs: Dict[str, Any] = {}
+        self.klee_stats: Dict[str, Any] = {}
         self.klee_stat = KleeStat
         self.klee_formatted_files: Dict[str, str] = dict()
         self.bc_files: Dict[str, Any] = dict()
@@ -246,13 +244,21 @@ class Data:
 
     def list_graphs(self) -> None:
         """List all of the graphs the REPL knows about."""
-        self.logger.i_msg(" Graphs ")
-        self.logger.v_msg(" ".join(list(self.graphs.keys())))
+        keys = list(self.graphs.keys())
+        if len(keys) == 0:
+            self.logger.i_msg("No graphs available.")
+        else:
+            self.logger.i_msg(" Graphs ")
+            self.logger.v_msg(" ".join(keys))
 
     def list_metrics(self) -> None:
         """List all of the metrics the REPL knows about."""
-        self.logger.i_msg(" Metrics ")
-        self.logger.v_msg(" ".join(list(self.metrics.keys())))
+        keys = list(self.metrics.keys())
+        if len(keys) == 0:
+            self.logger.i_msg("No metrics available.")
+        else:
+            self.logger.i_msg(" Metrics ")
+            self.logger.v_msg(" ".join(keys))
 
     def list_klee_stats(self) -> None:
         """List all of the KLEE stats the REPL knows about."""
@@ -381,7 +387,7 @@ class Command:
 
         return False
 
-    def verify_file_type(self, args: str, target_type: str):
+    def verify_file_type(self, args: str, target_type: str) -> Optional[str]:
         """
         Verify that the file extension for the file passed in matches the expected file type.
 
@@ -392,47 +398,47 @@ class Command:
         _, file_extension = os.path.splitext(file)
         if file_extension == "":
             self.logger.v_msg(NO_FILE_EXT_ERR(file))
-            return 0
+            return None
 
         if file_extension.strip() != f".{target_type}":
             self.logger.v_msg(EXTENSION_ERR(target_type, file_extension))
-            return 0
+            return None
 
         return file
 
-    def do_klee_replay(self, args: str):
+    def do_klee_replay(self, args: str) -> None:
         """Run a generated unit tests against the C source code by providing a ktest file."""
         converted_args = self.convert_args(args)
         valid_args = self.check_num_args(converted_args, 1, False, MISSING_FILENAME_ERR)
         if not valid_args:
             return
 
-        result = self.verify_file_type(converted_args, "ktest")
-        if result == 0:
+        result = self.verify_file_type(converted_args[0], "ktest")
+        if result is None:
             return
 
         path_to_klee_build_dir = '/app/build'
         command_one = 'export LD_LIBRARY_PATH={path_to_klee_build_dir}/lib/:$LD_LIBRARY_PATH'
         command_two = "gcc -I ../../include -L path-to-klee-build-dir/lib/ get_sign.c -lkleeRuntest"
 
-        print(path_to_klee_build_dir, command_one, command_two)
+        self.logger.d_msg(path_to_klee_build_dir, command_one, command_two)
 
     def do_convert(self, args: str) -> None:
         """Convert source code into CFGs."""
-        args = self.convert_args(args)
-        if len(args) == 0:
+        converted_args = self.convert_args(args)
+        if len(converted_args) == 0:
             self.logger.v_msg(MISSING_FILENAME_ERR)
             return
 
         recursive_mode = False
-        if args[0] == "-r" or args[0] == "--recursive":
+        if converted_args[0] == "-r" or converted_args[0] == "--recursive":
             recursive_mode = True
-            args = args[1:]
+            converted_args = converted_args[1:]
 
         # Iterate through all file-like objects.
         all_files = []
         allowed_extensions = list(self.controller.graph_generators.keys())
-        for full_path in args:
+        for full_path in converted_args:
             files = get_files(full_path, recursive_mode, self.logger, allowed_extensions)
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
@@ -453,6 +459,7 @@ class Command:
 
             converter = self.controller.get_graph_generator(file_extension)
             graph = converter.to_graph(filepath.strip(), file_extension.strip())
+            self.logger.i_msg("Converted successfully")
             self.logger.v_msg(graph)
             if isinstance(graph, dict):
                 self.data.graphs.update(graph)
@@ -461,20 +468,20 @@ class Command:
 
     def do_import(self, args: str) -> None:
         """Convert .dot files into CFGs."""
-        args = self.convert_args(args)
-        if len(args) == 0:
+        converted_args = self.convert_args(args)
+        if len(converted_args) == 0:
             self.logger.v_msg(MISSING_FILENAME_ERR)
             return
 
         recursive_mode = False
-        if args[0] == "-r" or args[0] == "--recursive":
+        if converted_args[0] == "-r" or converted_args[0] == "--recursive":
             recursive_mode = True
-            args = args[1:]
+            converted_args = converted_args[1:]
 
         # Iterate through all file-like objects.
         all_files = []
         allowed_extensions = ["dot"]
-        for full_path in args:
+        for full_path in converted_args:
             files = get_files(full_path, recursive_mode, self.logger, allowed_extensions)
             if files == []:
                 self.logger.v_msg(f"Could not get files from: {full_path}")
@@ -713,7 +720,7 @@ class Command:
 
         return generated_tests_index, completed_paths_index, total_instructions_index
 
-    def update_klee_stats(self, klee_output, name: str, delta_t):
+    def update_klee_stats(self, klee_output, name: str, delta_t) -> None:
         """Parse and store the results of running klee on some .bc file."""
         indices = self.klee_output_indices(klee_output)
         generated_tests_index    = indices[0]
@@ -790,7 +797,7 @@ class Command:
                         print(exception)
         else:
             result = self.verify_file_type(args, "bc")
-            if result == 0:
+            if result is None:
                 return
 
             files = get_files(result, False, self.logger, [str(KnownExtensions.BC)])
@@ -840,23 +847,6 @@ class Command:
             self.data.export_graph(name, new_name)
         elif export_type == ObjTypes.METRIC:
             self.data.export_metrics(name, new_name)
-        elif export_type == ObjTypes.STAT:
-            if name in self.data.stats:
-                with open(f"/app/code/exports/{new_name}_stats", "w+") as file:
-                    stat = self.data.stats[name]
-                    file.write(stat)
-                    self.logger.i_msg(f"Made file {new_name}_stats in /app/code/exports/")
-
-            elif name == "*":
-                for s_name in self.data.stats:
-                    f_name = os.path.split(s_name)[1]
-                    with open(f"/app/code/exports/{f_name}_stats", "w+") as file:
-                        stat = self.data.metrics[s_name]
-                        file.write(stat)
-                        self.logger.i_msg(f"Made file {f_name}s_stats in /app/code/exports/")
-            else:
-                self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
-
         # TODO: Fix exporting as other klee types
         elif export_type == ObjTypes.KLEE_BC:
             self.data.export_bc(name, new_name)
@@ -866,7 +856,7 @@ class Command:
             self.data.export_bc(name, new_name)
             self.data.export_klee_file(name, new_name)
         else:
-            self.logger.v_msg(f"Type {export_type} not recognized.")
+            self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
 
     def do_cd(self, args: str) -> None:
         """Change the working directory in the REPL."""
@@ -908,7 +898,6 @@ class Command:
         known_types_dict = {
             ObjTypes.GRAPH.value: self.data.graphs,
             ObjTypes.METRIC.value: self.data.metrics,
-            ObjTypes.STAT.value: self.data.stats,
             ObjTypes.KLEE_BC.value: self.data.bc_files,
             ObjTypes.KLEE_STATS.value: self.data.klee_stats,
             ObjTypes.KLEE_FILE.value: self.data.klee_formatted_files,
@@ -916,7 +905,7 @@ class Command:
         for known_obj_type in known_types_dict:
             if obj_type == known_obj_type:
                 try:
-                    del known_types_dict[name]
+                    known_types_dict[known_obj_type].pop(name)
                 except KeyError:
                     self.logger.v_msg(f"{known_obj_type.capitalize()} {name} not found.")
                 return
@@ -935,8 +924,8 @@ class Command:
         elif obj_type == ObjTypes.ALL.value:
             found = False
             for dictionary in [self.data.graphs, self.data.metrics,
-                               self.data.stats, self.data.klee_stats,
-                               self.data.klee_formatted_files, self.data.bc_files]:
+                               self.data.klee_stats, self.data.klee_formatted_files,
+                               self.data.bc_files]:
                 try:
                     del dictionary[name]
                     found = True
@@ -947,7 +936,7 @@ class Command:
         else:
             self.logger.v_msg(f"Type {type} not recognized.")
 
-    def convert_args(self, args: str):
+    def convert_args(self, args: str) -> List[str]:
         """Obtain a list of arguments from a string."""
         return args.strip().split()
 
