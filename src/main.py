@@ -130,6 +130,19 @@ class MyPrompt(Cmd):
         """
         self.command.do_convert(arguments)
 
+    def do_import(self, arguments) -> None:
+        """
+        Convert a .dot file representing a cfg into a Graph object.
+        
+        The recursive flag (-r) can also be used.
+
+        Usage:
+        import <file-like>
+        import -r <file-like>
+        import <file-like-1> <file-like-2> ... <file-like-n>
+        """
+        self.command.do_import(arguments)
+
     def do_list(self, arguments) -> None:
         """
         List all of the objects of a specific type (metrics, graphs, or a KLEE type).
@@ -199,12 +212,16 @@ class MyPrompt(Cmd):
         """List the files in the current directory."""
         self.command.do_ls(arguments)
 
-    def reload(self, _) -> None:
+    def reload(self, arguments) -> None:
         """Reload the modules."""
+        debug = self.command.debug_mode
         importlib.reload(command)
-        self.command = command.Command(self.command.curr_path,
-                                       True, self.command.multi_threaded, self)
-
+        if arguments.strip() == "debug":
+            debug = True
+        elif arguments.strip() == "user":
+            debug = False
+        self.command = command.Command(self.command.curr_path, debug, self.command.multi_threaded, self)
+        
 
 def main():
     """Parse command line arguments and initialize the REPL."""

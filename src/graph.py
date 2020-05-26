@@ -31,7 +31,7 @@ class Graph:
     We store a list of these edges.
     """
 
-    def dot(self, using_list: bool) -> str:
+    def dot(self) -> str:
         """Convert a Graph object to a .dot file."""
         out = "digraph {\n"
         for node in self.get_vertices():
@@ -41,12 +41,21 @@ class Graph:
             elif node == self.end_node:
                 out += " [label=\"EXIT\"]"
             out += ";\n"
-        if using_list:
+           
+        if self.graph_type is GraphType.EDGE_LIST:
             for edge_pair in self.edge_rules():
                 out += f"{edge_pair[0]} -> {edge_pair[1]};\n"
             out += "}"
-        else:
-            out += '0'
+
+        elif self.graph_type is GraphType.ADJACENCY_LIST:
+            for vertex in range(self.vertex_count()):
+                for vertex_two in self.edge_rules()[vertex]:
+                    out += f"{vertex} -> {vertex_two};\n"
+            out += "}"
+      
+        elif self.graph_type is GraphType.ADJACENCY_MATRIX:
+            raise ValueError("Not yet implemented.")
+
         return out
 
     def __str__(self) -> str:
@@ -85,6 +94,16 @@ class Graph:
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list."""
         return self.edges
+    
+    def edge_count(self) -> int:
+        if self.graph_type is GraphType.ADJACENCY_LIST:
+            count = 0
+            for vertex in range(len(self.edges)):
+                for vertex_two in self.edges[vertex]:
+                    count += 1
+            return count
+        if self.graph_type is GraphType.ADJACENCY_MATRIX:
+            return np.count_nonzero(self.edges)
 
     def vertex_count(self) -> int:
         """Get the number of vertices in the graph."""

@@ -13,7 +13,7 @@ from collections import namedtuple
 from enum import Enum
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
-
+from graph import Graph
 from lang_to_cfg import cpp, java, python
 from klee_utils import KleeUtils
 from utils import Timeout
@@ -210,7 +210,8 @@ class Data:
         if name in self.graphs:
             with open(f"/app/code/exports/{new_name}.dot", "w+") as file:
                 graph = self.graphs[name]
-                file.write(graph.dot(True))
+                self.logger.d_msg(graph.dot())
+                file.write(graph.dot())
                 self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
         elif name == "*":
             for graph_name in self.graphs:
@@ -358,6 +359,7 @@ class Command:
         self.have_completed = False
         self.repl_wrapper = repl_wrapper
         self.curr_path = curr_path
+        self.debug_mode = debug_mode
 
     def check_num_args(self, args: List[str], num_args: int, check_recursive: bool = False,
                        err1: str = "",
@@ -456,6 +458,49 @@ class Command:
                 self.data.graphs.update(graph)
             else:
                 self.data.graphs[filepath] = graph
+
+    def do_import(self, args: str) -> None:
+        """Convert .dot files into CFGs."""
+        args = self.convert_args(args)
+        if len(args) == 0:
+            self.logger.v_msg(MISSING_FILENAME_ERR)
+            return
+
+        recursive_mode = False
+        if args[0] == "-r" or args[0] == "--recursive":
+            recursive_mode = True
+            args = args[1:]
+
+        # Iterate through all file-like objects.
+        all_files = []
+        allowed_extensions = ["dot"]
+        for full_path in args:
+            files = get_files(full_path, recursive_mode, self.logger, allowed_extensions)
+            if files == []:
+                self.logger.v_msg(f"Could not get files from: {full_path}")
+                return
+            all_files += files
+
+        self.logger.d_msg(f"Convert {all_files}")
+        # Make sure files are valid (if using recursive mode
+        #  this is done automatically in the previous step).
+        for file in all_files:
+            filepath, file_extension = os.path.splitext(file)
+            if file_extension != ".dot":
+                if file_extension == "":
+                    self.logger.v_msg(NO_FILE_EXT_ERR(file))
+                else:
+                    self.logger.v_msg(f"Cannot convert {file_extension} for {file}.")
+                return
+
+
+            graph = Graph.from_file(file)
+            self.logger.v_msg(graph)
+            if isinstance(graph, dict):
+                self.data.graphs.update(graph)
+            else:
+                self.data.graphs[filepath] = graph
+
 
     def do_list(self, args: str) -> None:
         """List objects the REPL knows about."""
