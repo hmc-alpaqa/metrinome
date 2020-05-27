@@ -304,7 +304,7 @@ class Graph:
         if self.graph_type is GraphType.EDGE_LIST:
             self.vertices.add(node_one)
             self.vertices.add(node_two)
-            self.edges.append([node_one, node_two])
+            self.edges.append((node_one, node_two))
         elif self.graph_type is GraphType.ADJACENCY_LIST:
             if len(self.edges) <= node_one:
                 self.edges += [[] for _ in range(((node_one + 1) - len(self.edges)))]
