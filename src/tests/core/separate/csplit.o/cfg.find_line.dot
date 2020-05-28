@@ -1,0 +1,48 @@
+digraph "CFG for 'find_line' function" {
+	label="CFG for 'find_line' function";
+
+	Node0x23d28e0 [shape=record,label="{%1:\l  %2 = alloca %struct.cstring*, align 8\l  %3 = alloca i64, align 8\l  %4 = alloca %struct.buffer_record*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca %struct.line*, align 8\l  %7 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !440\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !431, metadata\l... !DIExpression()), !dbg !444\l  %8 = bitcast %struct.buffer_record** %4 to i8*, !dbg !445\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #10, !dbg !445\l  call void @llvm.dbg.declare(metadata %struct.buffer_record** %4, metadata\l... !432, metadata !DIExpression()), !dbg !446\l  %9 = load %struct.buffer_record*, %struct.buffer_record** @head, align 8,\l... !dbg !447, !tbaa !449\l  %10 = icmp eq %struct.buffer_record* %9, null, !dbg !451\l  br i1 %10, label %11, label %14, !dbg !452\l|{<s0>T|<s1>F}}"];
+	Node0x23d28e0:s0 -> Node0x23d69d0;
+	Node0x23d28e0:s1 -> Node0x23d6a70;
+	Node0x23d69d0 [shape=record,label="{%11:\l\l  %12 = call zeroext i1 @load_buffer(), !dbg !453\l  br i1 %12, label %14, label %13, !dbg !454\l|{<s0>T|<s1>F}}"];
+	Node0x23d69d0:s0 -> Node0x23d6a70;
+	Node0x23d69d0:s1 -> Node0x23d6a20;
+	Node0x23d6a20 [shape=record,label="{%13:\l\l  store %struct.cstring* null, %struct.cstring** %2, align 8, !dbg !455\l  store i32 1, i32* %5, align 4\l  br label %77, !dbg !455\l}"];
+	Node0x23d6a20 -> Node0x23d6f20;
+	Node0x23d6a70 [shape=record,label="{%14:\l\l  %15 = load i64, i64* %3, align 8, !dbg !456, !tbaa !440\l  %16 = load %struct.buffer_record*, %struct.buffer_record** @head, align 8,\l... !dbg !458, !tbaa !449\l  %17 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %16, i32 0, i32 2, !dbg !459\l  %18 = load i64, i64* %17, align 8, !dbg !459, !tbaa !460\l  %19 = icmp ult i64 %15, %18, !dbg !462\l  br i1 %19, label %20, label %21, !dbg !463\l|{<s0>T|<s1>F}}"];
+	Node0x23d6a70:s0 -> Node0x23d6ac0;
+	Node0x23d6a70:s1 -> Node0x23d6b10;
+	Node0x23d6ac0 [shape=record,label="{%20:\l\l  store %struct.cstring* null, %struct.cstring** %2, align 8, !dbg !464\l  store i32 1, i32* %5, align 4\l  br label %77, !dbg !464\l}"];
+	Node0x23d6ac0 -> Node0x23d6f20;
+	Node0x23d6b10 [shape=record,label="{%21:\l\l  %22 = load %struct.buffer_record*, %struct.buffer_record** @head, align 8,\l... !dbg !465, !tbaa !449\l  store %struct.buffer_record* %22, %struct.buffer_record** %4, align 8, !dbg\l... !466, !tbaa !449\l  br label %23, !dbg !467\l}"];
+	Node0x23d6b10 -> Node0x23d6b60;
+	Node0x23d6b60 [shape=record,label="{%23:\l\l  %24 = load %struct.buffer_record*, %struct.buffer_record** %4, align 8, !dbg\l... !468, !tbaa !449\l  %25 = icmp ne %struct.buffer_record* %24, null, !dbg !468\l  br i1 %25, label %26, label %27, !dbg !471\l|{<s0>T|<s1>F}}"];
+	Node0x23d6b60:s0 -> Node0x23d6bb0;
+	Node0x23d6b60:s1 -> Node0x23d6c00;
+	Node0x23d6bb0 [shape=record,label="{%26:\l\l  br label %28, !dbg !471\l}"];
+	Node0x23d6bb0 -> Node0x23d6c50;
+	Node0x23d6c00 [shape=record,label="{%27:\l\l  call void @__assert_fail(i8* getelementptr inbounds ([2 x i8], [2 x i8]*\l... @.str.54, i32 0, i32 0), i8* getelementptr inbounds ([16 x i8], [16 x i8]*\l... @.str.55, i32 0, i32 0), i32 618, i8* getelementptr inbounds ([37 x i8], [37\l... x i8]* @__PRETTY_FUNCTION__.find_line, i32 0, i32 0)) #11, !dbg !468\l  unreachable, !dbg !468\l}"];
+	Node0x23d6c50 [shape=record,label="{%28:\l\l  %29 = load i64, i64* %3, align 8, !dbg !472, !tbaa !440\l  %30 = load %struct.buffer_record*, %struct.buffer_record** %4, align 8, !dbg\l... !473, !tbaa !449\l  %31 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %30, i32 0, i32 2, !dbg !474\l  %32 = load i64, i64* %31, align 8, !dbg !474, !tbaa !460\l  %33 = load %struct.buffer_record*, %struct.buffer_record** %4, align 8, !dbg\l... !475, !tbaa !449\l  %34 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %33, i32 0, i32 4, !dbg !476\l  %35 = load i64, i64* %34, align 8, !dbg !476, !tbaa !477\l  %36 = add i64 %32, %35, !dbg !478\l  %37 = icmp ult i64 %29, %36, !dbg !479\l  br i1 %37, label %38, label %65, !dbg !480\l|{<s0>T|<s1>F}}"];
+	Node0x23d6c50:s0 -> Node0x23d6ca0;
+	Node0x23d6c50:s1 -> Node0x23d6de0;
+	Node0x23d6ca0 [shape=record,label="{%38:\l\l  %39 = bitcast %struct.line** %6 to i8*, !dbg !481\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %39) #10, !dbg !481\l  call void @llvm.dbg.declare(metadata %struct.line** %6, metadata !433,\l... metadata !DIExpression()), !dbg !482\l  %40 = bitcast i64* %7 to i8*, !dbg !483\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %40) #10, !dbg !483\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !439, metadata\l... !DIExpression()), !dbg !484\l  %41 = load %struct.buffer_record*, %struct.buffer_record** %4, align 8, !dbg\l... !485, !tbaa !449\l  %42 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %41, i32 0, i32 6, !dbg !486\l  %43 = load %struct.line*, %struct.line** %42, align 8, !dbg !486, !tbaa !487\l  store %struct.line* %43, %struct.line** %6, align 8, !dbg !488, !tbaa !449\l  %44 = load i64, i64* %3, align 8, !dbg !489, !tbaa !440\l  %45 = load %struct.buffer_record*, %struct.buffer_record** %4, align 8, !dbg\l... !490, !tbaa !449\l  %46 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %45, i32 0, i32 2, !dbg !491\l  %47 = load i64, i64* %46, align 8, !dbg !491, !tbaa !460\l  %48 = sub i64 %44, %47, !dbg !492\l  store i64 %48, i64* %7, align 8, !dbg !493, !tbaa !440\l  br label %49, !dbg !494\l}"];
+	Node0x23d6ca0 -> Node0x23d6cf0;
+	Node0x23d6cf0 [shape=record,label="{%49:\l\l  %50 = load i64, i64* %7, align 8, !dbg !495, !tbaa !440\l  %51 = icmp uge i64 %50, 80, !dbg !496\l  br i1 %51, label %52, label %58, !dbg !494\l|{<s0>T|<s1>F}}"];
+	Node0x23d6cf0:s0 -> Node0x23d6d40;
+	Node0x23d6cf0:s1 -> Node0x23d6d90;
+	Node0x23d6d40 [shape=record,label="{%52:\l\l  %53 = load %struct.line*, %struct.line** %6, align 8, !dbg !497, !tbaa !449\l  %54 = getelementptr inbounds %struct.line, %struct.line* %53, i32 0, i32 4,\l... !dbg !499\l  %55 = load %struct.line*, %struct.line** %54, align 8, !dbg !499, !tbaa !500\l  store %struct.line* %55, %struct.line** %6, align 8, !dbg !502, !tbaa !449\l  %56 = load i64, i64* %7, align 8, !dbg !503, !tbaa !440\l  %57 = sub i64 %56, 80, !dbg !503\l  store i64 %57, i64* %7, align 8, !dbg !503, !tbaa !440\l  br label %49, !dbg !494, !llvm.loop !504\l}"];
+	Node0x23d6d40 -> Node0x23d6cf0;
+	Node0x23d6d90 [shape=record,label="{%58:\l\l  %59 = load %struct.line*, %struct.line** %6, align 8, !dbg !506, !tbaa !449\l  %60 = getelementptr inbounds %struct.line, %struct.line* %59, i32 0, i32 3,\l... !dbg !507\l  %61 = load i64, i64* %7, align 8, !dbg !508, !tbaa !440\l  %62 = getelementptr inbounds [80 x %struct.cstring], [80 x %struct.cstring]*\l... %60, i64 0, i64 %61, !dbg !506\l  store %struct.cstring* %62, %struct.cstring** %2, align 8, !dbg !509\l  store i32 1, i32* %5, align 4\l  %63 = bitcast i64* %7 to i8*, !dbg !510\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %63) #10, !dbg !510\l  %64 = bitcast %struct.line** %6 to i8*, !dbg !510\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %64) #10, !dbg !510\l  br label %77\l}"];
+	Node0x23d6d90 -> Node0x23d6f20;
+	Node0x23d6de0 [shape=record,label="{%65:\l\l  %66 = load %struct.buffer_record*, %struct.buffer_record** %4, align 8, !dbg\l... !511, !tbaa !449\l  %67 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %66, i32 0, i32 8, !dbg !513\l  %68 = load %struct.buffer_record*, %struct.buffer_record** %67, align 8,\l... !dbg !513, !tbaa !514\l  %69 = icmp eq %struct.buffer_record* %68, null, !dbg !515\l  br i1 %69, label %70, label %73, !dbg !516\l|{<s0>T|<s1>F}}"];
+	Node0x23d6de0:s0 -> Node0x23d6e30;
+	Node0x23d6de0:s1 -> Node0x23d6ed0;
+	Node0x23d6e30 [shape=record,label="{%70:\l\l  %71 = call zeroext i1 @load_buffer(), !dbg !517\l  br i1 %71, label %73, label %72, !dbg !518\l|{<s0>T|<s1>F}}"];
+	Node0x23d6e30:s0 -> Node0x23d6ed0;
+	Node0x23d6e30:s1 -> Node0x23d6e80;
+	Node0x23d6e80 [shape=record,label="{%72:\l\l  store %struct.cstring* null, %struct.cstring** %2, align 8, !dbg !519\l  store i32 1, i32* %5, align 4\l  br label %77, !dbg !519\l}"];
+	Node0x23d6e80 -> Node0x23d6f20;
+	Node0x23d6ed0 [shape=record,label="{%73:\l\l  %74 = load %struct.buffer_record*, %struct.buffer_record** %4, align 8, !dbg\l... !520, !tbaa !449\l  %75 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %74, i32 0, i32 8, !dbg !521\l  %76 = load %struct.buffer_record*, %struct.buffer_record** %75, align 8,\l... !dbg !521, !tbaa !514\l  store %struct.buffer_record* %76, %struct.buffer_record** %4, align 8, !dbg\l... !522, !tbaa !449\l  br label %23, !dbg !523, !llvm.loop !524\l}"];
+	Node0x23d6ed0 -> Node0x23d6b60;
+	Node0x23d6f20 [shape=record,label="{%77:\l\l  %78 = bitcast %struct.buffer_record** %4 to i8*, !dbg !527\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %78) #10, !dbg !527\l  %79 = load %struct.cstring*, %struct.cstring** %2, align 8, !dbg !527\l  ret %struct.cstring* %79, !dbg !527\l}"];
+}

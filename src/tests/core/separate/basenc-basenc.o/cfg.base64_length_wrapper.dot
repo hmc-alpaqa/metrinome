@@ -1,0 +1,5 @@
+digraph "CFG for 'base64_length_wrapper' function" {
+	label="CFG for 'base64_length_wrapper' function";
+
+	Node0x123d330 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !159\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !158, metadata\l... !DIExpression()), !dbg !163\l  %3 = load i32, i32* %2, align 4, !dbg !164, !tbaa !159\l  %4 = add nsw i32 %3, 2, !dbg !164\l  %5 = sdiv i32 %4, 3, !dbg !164\l  %6 = mul nsw i32 %5, 4, !dbg !164\l  ret i32 %6, !dbg !165\l}"];
+}

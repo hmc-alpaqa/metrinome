@@ -1,0 +1,9 @@
+digraph "CFG for 'xnrealloc' function" {
+	label="CFG for 'xnrealloc' function";
+
+	Node0x15b2420 [shape=record,label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !112\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !109, metadata\l... !DIExpression()), !dbg !116\l  store i64 %1, i64* %5, align 8, !tbaa !117\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !110, metadata\l... !DIExpression()), !dbg !119\l  store i64 %2, i64* %6, align 8, !tbaa !117\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !111, metadata\l... !DIExpression()), !dbg !120\l  %7 = load i64, i64* %6, align 8, !dbg !121, !tbaa !117\l  %8 = udiv i64 9223372036854775807, %7, !dbg !121\l  %9 = load i64, i64* %5, align 8, !dbg !121, !tbaa !117\l  %10 = icmp ult i64 %8, %9, !dbg !121\l  br i1 %10, label %11, label %12, !dbg !123\l|{<s0>T|<s1>F}}"];
+	Node0x15b2420:s0 -> Node0x15a2f30;
+	Node0x15b2420:s1 -> Node0x15a2f80;
+	Node0x15a2f30 [shape=record,label="{%11:\l\l  call void @xalloc_die() #8, !dbg !124\l  unreachable, !dbg !124\l}"];
+	Node0x15a2f80 [shape=record,label="{%12:\l\l  %13 = load i8*, i8** %4, align 8, !dbg !125, !tbaa !112\l  %14 = load i64, i64* %5, align 8, !dbg !126, !tbaa !117\l  %15 = load i64, i64* %6, align 8, !dbg !127, !tbaa !117\l  %16 = mul i64 %14, %15, !dbg !128\l  %17 = call i8* @xrealloc(i8* %13, i64 %16), !dbg !129\l  ret i8* %17, !dbg !130\l}"];
+}

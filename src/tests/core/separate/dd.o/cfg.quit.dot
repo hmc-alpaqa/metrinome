@@ -1,0 +1,6 @@
+digraph "CFG for 'quit' function" {
+	label="CFG for 'quit' function";
+
+	Node0x1def1a0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !367\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !366, metadata\l... !DIExpression()), !dbg !371\l  call void @finish_up(), !dbg !372\l  %3 = load i32, i32* %2, align 4, !dbg !373, !tbaa !367\l  call void @exit(i32 %3) #15, !dbg !374\l  unreachable, !dbg !374\l}"];
+	Node0x1d07ce0 [shape=record,label="{%4:                                                  \l  unreachable, !dbg !375\l}"];
+}

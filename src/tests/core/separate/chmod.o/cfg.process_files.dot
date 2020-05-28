@@ -1,0 +1,38 @@
+digraph "CFG for 'process_files' function" {
+	label="CFG for 'process_files' function";
+
+	Node0x9044e0 [shape=record,label="{%2:\l  %3 = alloca i8**, align 8\l  %4 = alloca i32, align 4\l  %5 = alloca i8, align 1\l  %6 = alloca %struct.FTS*, align 8\l  %7 = alloca %struct._ftsent*, align 8\l  %8 = alloca i32, align 4\l  store i8** %0, i8*** %3, align 8, !tbaa !242\l  call void @llvm.dbg.declare(metadata i8*** %3, metadata !117, metadata\l... !DIExpression()), !dbg !246\l  store i32 %1, i32* %4, align 4, !tbaa !247\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !118, metadata\l... !DIExpression()), !dbg !249\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %5) #10, !dbg !250\l  call void @llvm.dbg.declare(metadata i8* %5, metadata !119, metadata\l... !DIExpression()), !dbg !251\l  store i8 1, i8* %5, align 1, !dbg !251, !tbaa !252\l  %9 = bitcast %struct.FTS** %6 to i8*, !dbg !254\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #10, !dbg !254\l  call void @llvm.dbg.declare(metadata %struct.FTS** %6, metadata !120,\l... metadata !DIExpression()), !dbg !255\l  %10 = load i8**, i8*** %3, align 8, !dbg !256, !tbaa !242\l  %11 = load i32, i32* %4, align 4, !dbg !257, !tbaa !247\l  %12 = call %struct.FTS* @xfts_open(i8** %10, i32 %11, i32\l... (%struct._ftsent**, %struct._ftsent**)* null), !dbg !258\l  store %struct.FTS* %12, %struct.FTS** %6, align 8, !dbg !255, !tbaa !242\l  br label %13, !dbg !259\l}"];
+	Node0x9044e0 -> Node0x8eba30;
+	Node0x8eba30 [shape=record,label="{%13:\l\l  br label %14, !dbg !259\l}"];
+	Node0x8eba30 -> Node0x8eba80;
+	Node0x8eba80 [shape=record,label="{%14:\l\l  %15 = bitcast %struct._ftsent** %7 to i8*, !dbg !260\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %15) #10, !dbg !260\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %7, metadata !238,\l... metadata !DIExpression()), !dbg !261\l  %16 = load %struct.FTS*, %struct.FTS** %6, align 8, !dbg !262, !tbaa !242\l  %17 = call %struct._ftsent* @rpl_fts_read(%struct.FTS* %16), !dbg !263\l  store %struct._ftsent* %17, %struct._ftsent** %7, align 8, !dbg !264, !tbaa\l... !242\l  %18 = load %struct._ftsent*, %struct._ftsent** %7, align 8, !dbg !265, !tbaa\l... !242\l  %19 = icmp eq %struct._ftsent* %18, null, !dbg !267\l  br i1 %19, label %20, label %32, !dbg !268\l|{<s0>T|<s1>F}}"];
+	Node0x8eba80:s0 -> Node0x8ebad0;
+	Node0x8eba80:s1 -> Node0x8ebc60;
+	Node0x8ebad0 [shape=record,label="{%20:\l\l  %21 = call i32* @__errno_location() #11, !dbg !269\l  %22 = load i32, i32* %21, align 4, !dbg !269, !tbaa !247\l  %23 = icmp ne i32 %22, 0, !dbg !272\l  br i1 %23, label %24, label %31, !dbg !273\l|{<s0>T|<s1>F}}"];
+	Node0x8ebad0:s0 -> Node0x8ebb20;
+	Node0x8ebad0:s1 -> Node0x8ebc10;
+	Node0x8ebb20 [shape=record,label="{%24:\l\l  %25 = load i8, i8* @force_silent, align 1, !dbg !274, !tbaa !252, !range !277\l  %26 = trunc i8 %25 to i1, !dbg !274\l  br i1 %26, label %30, label %27, !dbg !278\l|{<s0>T|<s1>F}}"];
+	Node0x8ebb20:s0 -> Node0x8ebbc0;
+	Node0x8ebb20:s1 -> Node0x8ebb70;
+	Node0x8ebb70 [shape=record,label="{%27:\l\l  %28 = call i32* @__errno_location() #11, !dbg !279\l  %29 = load i32, i32* %28, align 4, !dbg !279, !tbaa !247\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 %29, i8* getelementptr\l... inbounds ([16 x i8], [16 x i8]* @.str.48, i32 0, i32 0)), !dbg !280\l  br label %30, !dbg !280\l}"];
+	Node0x8ebb70 -> Node0x8ebbc0;
+	Node0x8ebbc0 [shape=record,label="{%30:\l\l  store i8 0, i8* %5, align 1, !dbg !281, !tbaa !252\l  br label %31, !dbg !282\l}"];
+	Node0x8ebbc0 -> Node0x8ebc10;
+	Node0x8ebc10 [shape=record,label="{%31:\l\l  store i32 3, i32* %8, align 4\l  br label %43, !dbg !283\l}"];
+	Node0x8ebc10 -> Node0x8ebcb0;
+	Node0x8ebc60 [shape=record,label="{%32:\l\l  %33 = load %struct.FTS*, %struct.FTS** %6, align 8, !dbg !284, !tbaa !242\l  %34 = load %struct._ftsent*, %struct._ftsent** %7, align 8, !dbg !285, !tbaa\l... !242\l  %35 = call zeroext i1 @process_file(%struct.FTS* %33, %struct._ftsent* %34),\l... !dbg !286\l  %36 = zext i1 %35 to i32, !dbg !286\l  %37 = load i8, i8* %5, align 1, !dbg !287, !tbaa !252, !range !277\l  %38 = trunc i8 %37 to i1, !dbg !287\l  %39 = zext i1 %38 to i32, !dbg !287\l  %40 = and i32 %39, %36, !dbg !287\l  %41 = icmp ne i32 %40, 0, !dbg !287\l  %42 = zext i1 %41 to i8, !dbg !287\l  store i8 %42, i8* %5, align 1, !dbg !287, !tbaa !252\l  store i32 0, i32* %8, align 4, !dbg !288\l  br label %43, !dbg !288\l}"];
+	Node0x8ebc60 -> Node0x8ebcb0;
+	Node0x8ebcb0 [shape=record,label="{%43:\l\l  %44 = bitcast %struct._ftsent** %7 to i8*, !dbg !288\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %44) #10, !dbg !288\l  %45 = load i32, i32* %8, align 4\l  switch i32 %45, label %58 [\l    i32 0, label %46\l    i32 3, label %47\l  ]\l|{<s0>def|<s1>0|<s2>3}}"];
+	Node0x8ebcb0:s0 -> Node0x8ebe40;
+	Node0x8ebcb0:s1 -> Node0x8ebd00;
+	Node0x8ebcb0:s2 -> Node0x8ebd50;
+	Node0x8ebd00 [shape=record,label="{%46:\l\l  br label %13, !dbg !259, !llvm.loop !289\l}"];
+	Node0x8ebd00 -> Node0x8eba30;
+	Node0x8ebd50 [shape=record,label="{%47:\l\l  %48 = load %struct.FTS*, %struct.FTS** %6, align 8, !dbg !290, !tbaa !242\l  %49 = call i32 @rpl_fts_close(%struct.FTS* %48), !dbg !292\l  %50 = icmp ne i32 %49, 0, !dbg !293\l  br i1 %50, label %51, label %54, !dbg !294\l|{<s0>T|<s1>F}}"];
+	Node0x8ebd50:s0 -> Node0x8ebda0;
+	Node0x8ebd50:s1 -> Node0x8ebdf0;
+	Node0x8ebda0 [shape=record,label="{%51:\l\l  %52 = call i32* @__errno_location() #11, !dbg !295\l  %53 = load i32, i32* %52, align 4, !dbg !295, !tbaa !247\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 %53, i8* getelementptr\l... inbounds ([17 x i8], [17 x i8]* @.str.49, i32 0, i32 0)), !dbg !297\l  store i8 0, i8* %5, align 1, !dbg !298, !tbaa !252\l  br label %54, !dbg !299\l}"];
+	Node0x8ebda0 -> Node0x8ebdf0;
+	Node0x8ebdf0 [shape=record,label="{%54:\l\l  %55 = load i8, i8* %5, align 1, !dbg !300, !tbaa !252, !range !277\l  %56 = trunc i8 %55 to i1, !dbg !300\l  store i32 1, i32* %8, align 4\l  %57 = bitcast %struct.FTS** %6 to i8*, !dbg !301\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %57) #10, !dbg !301\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %5) #10, !dbg !301\l  ret i1 %56, !dbg !302\l}"];
+	Node0x8ebe40 [shape=record,label="{%58:\l\l  unreachable\l}"];
+}

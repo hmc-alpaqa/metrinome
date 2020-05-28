@@ -1,0 +1,14 @@
+digraph "CFG for 'cleanup' function" {
+	label="CFG for 'cleanup' function";
+
+	Node0x168eca0 [shape=record,label="{%0:\l  %1 = alloca %struct.tempnode*, align 8\l  %2 = bitcast %struct.tempnode** %1 to i8*, !dbg !1166\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %2) #12, !dbg !1166\l  call void @llvm.dbg.declare(metadata %struct.tempnode** %1, metadata !1163,\l... metadata !DIExpression()), !dbg !1167\l  %3 = load volatile %struct.tempnode*, %struct.tempnode** @temphead, align 8,\l... !dbg !1168, !tbaa !1170\l  store %struct.tempnode* %3, %struct.tempnode** %1, align 8, !dbg !1174,\l... !tbaa !1170\l  br label %4, !dbg !1175\l}"];
+	Node0x168eca0 -> Node0x1690610;
+	Node0x1690610 [shape=record,label="{%4:\l\l  %5 = load %struct.tempnode*, %struct.tempnode** %1, align 8, !dbg !1176,\l... !tbaa !1170\l  %6 = icmp ne %struct.tempnode* %5, null, !dbg !1178\l  br i1 %6, label %7, label %16, !dbg !1178\l|{<s0>T|<s1>F}}"];
+	Node0x1690610:s0 -> Node0x1690660;
+	Node0x1690610:s1 -> Node0x1690700;
+	Node0x1690660 [shape=record,label="{%7:\l\l  %8 = load %struct.tempnode*, %struct.tempnode** %1, align 8, !dbg !1179,\l... !tbaa !1170\l  %9 = getelementptr inbounds %struct.tempnode, %struct.tempnode* %8, i32 0,\l... i32 3, !dbg !1180\l  %10 = getelementptr inbounds [0 x i8], [0 x i8]* %9, i32 0, i32 0, !dbg !1179\l  %11 = call i32 @unlink(i8* %10) #12, !dbg !1181\l  br label %12, !dbg !1181\l}"];
+	Node0x1690660 -> Node0x16906b0;
+	Node0x16906b0 [shape=record,label="{%12:\l\l  %13 = load %struct.tempnode*, %struct.tempnode** %1, align 8, !dbg !1182,\l... !tbaa !1170\l  %14 = getelementptr inbounds %struct.tempnode, %struct.tempnode* %13, i32 0,\l... i32 0, !dbg !1183\l  %15 = load volatile %struct.tempnode*, %struct.tempnode** %14, align 8, !dbg\l... !1183, !tbaa !1170\l  store %struct.tempnode* %15, %struct.tempnode** %1, align 8, !dbg !1184,\l... !tbaa !1170\l  br label %4, !dbg !1185, !llvm.loop !1186\l}"];
+	Node0x16906b0 -> Node0x1690610;
+	Node0x1690700 [shape=record,label="{%16:\l\l  store volatile %struct.tempnode* null, %struct.tempnode** @temphead, align\l... 8, !dbg !1188, !tbaa !1170\l  %17 = bitcast %struct.tempnode** %1 to i8*, !dbg !1189\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %17) #12, !dbg !1189\l  ret void, !dbg !1189\l}"];
+}

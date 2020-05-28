@@ -1,0 +1,14 @@
+digraph "CFG for 'put_paragraph' function" {
+	label="CFG for 'put_paragraph' function";
+
+	Node0xc5a820 [shape=record,label="{%1:\l  %2 = alloca %struct.Word*, align 8\l  %3 = alloca %struct.Word*, align 8\l  store %struct.Word* %0, %struct.Word** %2, align 8, !tbaa !144\l  call void @llvm.dbg.declare(metadata %struct.Word** %2, metadata !142,\l... metadata !DIExpression()), !dbg !148\l  %4 = bitcast %struct.Word** %3 to i8*, !dbg !149\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #10, !dbg !149\l  call void @llvm.dbg.declare(metadata %struct.Word** %3, metadata !143,\l... metadata !DIExpression()), !dbg !150\l  %5 = load i32, i32* @first_indent, align 4, !dbg !151, !tbaa !152\l  call void @put_line(%struct.Word* getelementptr inbounds ([1000 x\l... %struct.Word], [1000 x %struct.Word]* @unused_word_type, i32 0, i32 0), i32\l... %5), !dbg !154\l  %6 = load %struct.Word*, %struct.Word** getelementptr inbounds ([1000 x\l... %struct.Word], [1000 x %struct.Word]* @unused_word_type, i32 0, i32 0, i32\l... 6), align 16, !dbg !155, !tbaa !157\l  store %struct.Word* %6, %struct.Word** %3, align 8, !dbg !160, !tbaa !144\l  br label %7, !dbg !161\l}"];
+	Node0xc5a820 -> Node0xc5a8d0;
+	Node0xc5a8d0 [shape=record,label="{%7:\l\l  %8 = load %struct.Word*, %struct.Word** %3, align 8, !dbg !162, !tbaa !144\l  %9 = load %struct.Word*, %struct.Word** %2, align 8, !dbg !164, !tbaa !144\l  %10 = icmp ne %struct.Word* %8, %9, !dbg !165\l  br i1 %10, label %11, label %18, !dbg !166\l|{<s0>T|<s1>F}}"];
+	Node0xc5a8d0:s0 -> Node0xc5a920;
+	Node0xc5a8d0:s1 -> Node0xc5a9c0;
+	Node0xc5a920 [shape=record,label="{%11:\l\l  %12 = load %struct.Word*, %struct.Word** %3, align 8, !dbg !167, !tbaa !144\l  %13 = load i32, i32* @other_indent, align 4, !dbg !168, !tbaa !152\l  call void @put_line(%struct.Word* %12, i32 %13), !dbg !169\l  br label %14, !dbg !169\l}"];
+	Node0xc5a920 -> Node0xc5a970;
+	Node0xc5a970 [shape=record,label="{%14:\l\l  %15 = load %struct.Word*, %struct.Word** %3, align 8, !dbg !170, !tbaa !144\l  %16 = getelementptr inbounds %struct.Word, %struct.Word* %15, i32 0, i32 6,\l... !dbg !171\l  %17 = load %struct.Word*, %struct.Word** %16, align 8, !dbg !171, !tbaa !157\l  store %struct.Word* %17, %struct.Word** %3, align 8, !dbg !172, !tbaa !144\l  br label %7, !dbg !173, !llvm.loop !174\l}"];
+	Node0xc5a970 -> Node0xc5a8d0;
+	Node0xc5a9c0 [shape=record,label="{%18:\l\l  %19 = bitcast %struct.Word** %3 to i8*, !dbg !176\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %19) #10, !dbg !176\l  ret void, !dbg !176\l}"];
+}

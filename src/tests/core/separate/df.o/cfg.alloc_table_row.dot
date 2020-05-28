@@ -1,0 +1,5 @@
+digraph "CFG for 'alloc_table_row' function" {
+	label="CFG for 'alloc_table_row' function";
+
+	Node0x14ed390 [shape=record,label="{%0:\l  %1 = load i64, i64* @nrows, align 8, !dbg !229, !tbaa !230\l  %2 = add i64 %1, 1, !dbg !229\l  store i64 %2, i64* @nrows, align 8, !dbg !229, !tbaa !230\l  %3 = load i8***, i8**** @table, align 8, !dbg !234, !tbaa !235\l  %4 = bitcast i8*** %3 to i8*, !dbg !234\l  %5 = load i64, i64* @nrows, align 8, !dbg !237, !tbaa !230\l  %6 = call i8* @xnrealloc(i8* %4, i64 %5, i64 8), !dbg !238\l  %7 = bitcast i8* %6 to i8***, !dbg !238\l  store i8*** %7, i8**** @table, align 8, !dbg !239, !tbaa !235\l  %8 = load i64, i64* @ncolumns, align 8, !dbg !240, !tbaa !230\l  %9 = call noalias i8* @xnmalloc(i64 %8, i64 8), !dbg !241\l  %10 = bitcast i8* %9 to i8**, !dbg !241\l  %11 = load i8***, i8**** @table, align 8, !dbg !242, !tbaa !235\l  %12 = load i64, i64* @nrows, align 8, !dbg !243, !tbaa !230\l  %13 = sub i64 %12, 1, !dbg !244\l  %14 = getelementptr inbounds i8**, i8*** %11, i64 %13, !dbg !242\l  store i8** %10, i8*** %14, align 8, !dbg !245, !tbaa !235\l  ret void, !dbg !246\l}"];
+}

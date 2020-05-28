@@ -1,0 +1,17 @@
+digraph "CFG for 'usage' function" {
+	label="CFG for 'usage' function";
+
+	Node0x108bab0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !87\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !86, metadata\l... !DIExpression()), !dbg !91\l  %3 = load i32, i32* %2, align 4, !dbg !92, !tbaa !87\l  %4 = icmp ne i32 %3, 0, !dbg !94\l  br i1 %4, label %5, label %11, !dbg !95\l|{<s0>T|<s1>F}}"];
+	Node0x108bab0:s0 -> Node0x1099fb0;
+	Node0x108bab0:s1 -> Node0x109a0a0;
+	Node0x1099fb0 [shape=record,label="{%5:\l\l  br label %6, !dbg !96\l}"];
+	Node0x1099fb0 -> Node0x109a000;
+	Node0x109a000 [shape=record,label="{%6:\l\l  %7 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg !97,\l... !tbaa !99\l  %8 = load i8*, i8** @program_name, align 8, !dbg !97, !tbaa !99\l  %9 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %7,\l... i8* getelementptr inbounds ([39 x i8], [39 x i8]* @.str, i32 0, i32 0), i8*\l... %8), !dbg !97\l  br label %10, !dbg !97\l}"];
+	Node0x109a000 -> Node0x109a050;
+	Node0x109a050 [shape=record,label="{%10:\l\l  br label %22, !dbg !97\l}"];
+	Node0x109a050 -> Node0x109a0f0;
+	Node0x109a0a0 [shape=record,label="{%11:\l\l  %12 = load i8*, i8** @program_name, align 8, !dbg !101, !tbaa !99\l  %13 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([39 x i8], [39\l... x i8]* @.str.1, i32 0, i32 0), i8* %12), !dbg !103\l  %14 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([222 x i8],\l... [222 x i8]* @.str.2, i32 0, i32 0), i32 -20, i32 19), !dbg !104\l  call void @emit_mandatory_arg_note(), !dbg !105\l  %15 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !106, !tbaa !99\l  %16 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([67 x i8], [67 x\l... i8]* @.str.3, i32 0, i32 0), %struct._IO_FILE* %15), !dbg !106\l  %17 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !107, !tbaa !99\l  %18 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([45 x i8], [45 x\l... i8]* @.str.4, i32 0, i32 0), %struct._IO_FILE* %17), !dbg !107\l  %19 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !108, !tbaa !99\l  %20 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([54 x i8], [54 x\l... i8]* @.str.5, i32 0, i32 0), %struct._IO_FILE* %19), !dbg !108\l  %21 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([191 x i8],\l... [191 x i8]* @.str.6, i32 0, i32 0), i8* getelementptr inbounds ([5 x i8], [5\l... x i8]* @.str.7, i32 0, i32 0)), !dbg !109\l  call void @emit_ancillary_info(i8* getelementptr inbounds ([5 x i8], [5 x\l... i8]* @.str.7, i32 0, i32 0)), !dbg !110\l  br label %22\l}"];
+	Node0x109a0a0 -> Node0x109a0f0;
+	Node0x109a0f0 [shape=record,label="{%22:\l\l  %23 = load i32, i32* %2, align 4, !dbg !111, !tbaa !87\l  call void @exit(i32 %23) #10, !dbg !112\l  unreachable, !dbg !112\l}"];
+	Node0x109a140 [shape=record,label="{%24:                                                  \l  unreachable, !dbg !113\l}"];
+}

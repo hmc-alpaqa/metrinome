@@ -1,0 +1,21 @@
+digraph "CFG for 'free_spareline' function" {
+	label="CFG for 'free_spareline' function";
+
+	Node0x128a580 [shape=record,label="{%0:\l  %1 = alloca i64, align 8\l  %2 = bitcast i64* %1 to i8*, !dbg !193\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %2) #11, !dbg !193\l  call void @llvm.dbg.declare(metadata i64* %1, metadata !191, metadata\l... !DIExpression()), !dbg !194\l  store i64 0, i64* %1, align 8, !dbg !194, !tbaa !195\l  br label %3, !dbg !193\l}"];
+	Node0x128a580 -> Node0x128a5d0;
+	Node0x128a5d0 [shape=record,label="{%3:\l\l  %4 = load i64, i64* %1, align 8, !dbg !199, !tbaa !195\l  %5 = icmp ult i64 %4, 2, !dbg !201\l  br i1 %5, label %8, label %6, !dbg !202\l|{<s0>T|<s1>F}}"];
+	Node0x128a5d0:s0 -> Node0x128a670;
+	Node0x128a5d0:s1 -> Node0x128a620;
+	Node0x128a620 [shape=record,label="{%6:\l\l  %7 = bitcast i64* %1 to i8*, !dbg !203\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %7) #11, !dbg !203\l  br label %25\l}"];
+	Node0x128a620 -> Node0x128a7b0;
+	Node0x128a670 [shape=record,label="{%8:\l\l  %9 = load i64, i64* %1, align 8, !dbg !204, !tbaa !195\l  %10 = getelementptr inbounds [2 x %struct.line*], [2 x %struct.line*]*\l... @spareline, i64 0, i64 %9, !dbg !207\l  %11 = load %struct.line*, %struct.line** %10, align 8, !dbg !207, !tbaa !208\l  %12 = icmp ne %struct.line* %11, null, !dbg !207\l  br i1 %12, label %13, label %21, !dbg !210\l|{<s0>T|<s1>F}}"];
+	Node0x128a670:s0 -> Node0x128a6c0;
+	Node0x128a670:s1 -> Node0x128a710;
+	Node0x128a6c0 [shape=record,label="{%13:\l\l  %14 = load i64, i64* %1, align 8, !dbg !211, !tbaa !195\l  %15 = getelementptr inbounds [2 x %struct.line*], [2 x %struct.line*]*\l... @spareline, i64 0, i64 %14, !dbg !213\l  %16 = load %struct.line*, %struct.line** %15, align 8, !dbg !213, !tbaa !208\l  call void @freeline(%struct.line* %16), !dbg !214\l  %17 = load i64, i64* %1, align 8, !dbg !215, !tbaa !195\l  %18 = getelementptr inbounds [2 x %struct.line*], [2 x %struct.line*]*\l... @spareline, i64 0, i64 %17, !dbg !216\l  %19 = load %struct.line*, %struct.line** %18, align 8, !dbg !216, !tbaa !208\l  %20 = bitcast %struct.line* %19 to i8*, !dbg !216\l  call void @free(i8* %20) #11, !dbg !217\l  br label %21, !dbg !218\l}"];
+	Node0x128a6c0 -> Node0x128a710;
+	Node0x128a710 [shape=record,label="{%21:\l\l  br label %22, !dbg !219\l}"];
+	Node0x128a710 -> Node0x128a760;
+	Node0x128a760 [shape=record,label="{%22:\l\l  %23 = load i64, i64* %1, align 8, !dbg !220, !tbaa !195\l  %24 = add i64 %23, 1, !dbg !220\l  store i64 %24, i64* %1, align 8, !dbg !220, !tbaa !195\l  br label %3, !dbg !203, !llvm.loop !221\l}"];
+	Node0x128a760 -> Node0x128a5d0;
+	Node0x128a7b0 [shape=record,label="{%25:\l\l  ret void, !dbg !223\l}"];
+}

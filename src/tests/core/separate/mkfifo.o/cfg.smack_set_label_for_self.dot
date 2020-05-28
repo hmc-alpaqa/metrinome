@@ -1,0 +1,5 @@
+digraph "CFG for 'smack_set_label_for_self' function" {
+	label="CFG for 'smack_set_label_for_self' function";
+
+	Node0xbaedd0 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !50\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !49, metadata\l... !DIExpression()), !dbg !54\l  ret i32 -1, !dbg !55\l}"];
+}

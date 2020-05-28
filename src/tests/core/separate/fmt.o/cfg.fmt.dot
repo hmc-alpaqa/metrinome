@@ -1,0 +1,12 @@
+digraph "CFG for 'fmt' function" {
+	label="CFG for 'fmt' function";
+
+	Node0xc3ba90 [shape=record,label="{%1:\l  %2 = alloca %struct._IO_FILE*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %2, align 8, !tbaa !200\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %2, metadata !199,\l... metadata !DIExpression()), !dbg !204\l  %3 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !205,\l... !tbaa !200\l  call void @fadvise(%struct._IO_FILE* %3, i32 2), !dbg !206\l  store i8 0, i8* @tabs, align 1, !dbg !207, !tbaa !208\l  store i32 0, i32* @other_indent, align 4, !dbg !210, !tbaa !211\l  %4 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !213,\l... !tbaa !200\l  %5 = call i32 @get_prefix(%struct._IO_FILE* %4), !dbg !214\l  store i32 %5, i32* @next_char, align 4, !dbg !215, !tbaa !211\l  br label %6, !dbg !216\l}"];
+	Node0xc3ba90 -> Node0xc414b0;
+	Node0xc414b0 [shape=record,label="{%6:\l\l  %7 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !217,\l... !tbaa !200\l  %8 = call zeroext i1 @get_paragraph(%struct._IO_FILE* %7), !dbg !218\l  br i1 %8, label %9, label %11, !dbg !216\l|{<s0>T|<s1>F}}"];
+	Node0xc414b0:s0 -> Node0xc41560;
+	Node0xc414b0:s1 -> Node0xc415b0;
+	Node0xc41560 [shape=record,label="{%9:\l\l  call void @fmt_paragraph(), !dbg !219\l  %10 = load %struct.Word*, %struct.Word** @word_limit, align 8, !dbg !221,\l... !tbaa !200\l  call void @put_paragraph(%struct.Word* %10), !dbg !222\l  br label %6, !dbg !216, !llvm.loop !223\l}"];
+	Node0xc41560 -> Node0xc414b0;
+	Node0xc415b0 [shape=record,label="{%11:\l\l  ret void, !dbg !225\l}"];
+}

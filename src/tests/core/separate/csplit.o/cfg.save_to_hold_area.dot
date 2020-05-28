@@ -1,0 +1,5 @@
+digraph "CFG for 'save_to_hold_area' function" {
+	label="CFG for 'save_to_hold_area' function";
+
+	Node0x23bb410 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !433\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !431, metadata\l... !DIExpression()), !dbg !437\l  store i64 %1, i64* %4, align 8, !tbaa !438\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !432, metadata\l... !DIExpression()), !dbg !440\l  %5 = load i8*, i8** @hold_area, align 8, !dbg !441, !tbaa !433\l  call void @free(i8* %5) #10, !dbg !442\l  %6 = load i8*, i8** %3, align 8, !dbg !443, !tbaa !433\l  store i8* %6, i8** @hold_area, align 8, !dbg !444, !tbaa !433\l  %7 = load i64, i64* %4, align 8, !dbg !445, !tbaa !438\l  store i64 %7, i64* @hold_count, align 8, !dbg !446, !tbaa !438\l  ret void, !dbg !447\l}"];
+}

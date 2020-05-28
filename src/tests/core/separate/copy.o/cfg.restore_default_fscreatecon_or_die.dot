@@ -1,0 +1,9 @@
+digraph "CFG for 'restore_default_fscreatecon_or_die' function" {
+	label="CFG for 'restore_default_fscreatecon_or_die' function";
+
+	Node0x1dce4b0 [shape=record,label="{%0:\l  %1 = call i32 @setfscreatecon(i8* null), !dbg !127\l  %2 = icmp ne i32 %1, 0, !dbg !129\l  br i1 %2, label %3, label %6, !dbg !130\l|{<s0>T|<s1>F}}"];
+	Node0x1dce4b0:s0 -> Node0x1d9f460;
+	Node0x1dce4b0:s1 -> Node0x1d9f4b0;
+	Node0x1d9f460 [shape=record,label="{%3:\l\l  %4 = call i32* @__errno_location() #11, !dbg !131\l  %5 = load i32, i32* %4, align 4, !dbg !131, !tbaa !132\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 %5, i8* getelementptr\l... inbounds ([52 x i8], [52 x i8]* @.str.75, i32 0, i32 0)), !dbg !131\l  unreachable, !dbg !131\l}"];
+	Node0x1d9f4b0 [shape=record,label="{%6:\l\l  ret void, !dbg !136\l}"];
+}

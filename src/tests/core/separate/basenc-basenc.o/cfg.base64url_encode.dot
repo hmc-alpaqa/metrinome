@@ -1,0 +1,24 @@
+digraph "CFG for 'base64url_encode' function" {
+	label="CFG for 'base64url_encode' function";
+
+	Node0x12449b0 [shape=record,label="{%4:\l  %5 = alloca i8*, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i8*, align 8\l  %8 = alloca i64, align 8\l  %9 = alloca i8*, align 8\l  store i8* %0, i8** %5, align 8, !tbaa !163\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !158, metadata\l... !DIExpression()), !dbg !167\l  store i64 %1, i64* %6, align 8, !tbaa !168\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !159, metadata\l... !DIExpression()), !dbg !170\l  store i8* %2, i8** %7, align 8, !tbaa !163\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !160, metadata\l... !DIExpression()), !dbg !171\l  store i64 %3, i64* %8, align 8, !tbaa !168\l  call void @llvm.dbg.declare(metadata i64* %8, metadata !161, metadata\l... !DIExpression()), !dbg !172\l  %10 = load i8*, i8** %5, align 8, !dbg !173, !tbaa !163\l  %11 = load i64, i64* %6, align 8, !dbg !174, !tbaa !168\l  %12 = load i8*, i8** %7, align 8, !dbg !175, !tbaa !163\l  %13 = load i64, i64* %8, align 8, !dbg !176, !tbaa !168\l  call void @base64_encode(i8* %10, i64 %11, i8* %12, i64 %13), !dbg !177\l  %14 = bitcast i8** %9 to i8*, !dbg !178\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %14) #11, !dbg !178\l  call void @llvm.dbg.declare(metadata i8** %9, metadata !162, metadata\l... !DIExpression()), !dbg !179\l  %15 = load i8*, i8** %7, align 8, !dbg !180, !tbaa !163\l  store i8* %15, i8** %9, align 8, !dbg !179, !tbaa !163\l  br label %16, !dbg !181\l}"];
+	Node0x12449b0 -> Node0x1244a00;
+	Node0x1244a00 [shape=record,label="{%16:\l\l  %17 = load i64, i64* %8, align 8, !dbg !182, !tbaa !168\l  %18 = add i64 %17, -1, !dbg !182\l  store i64 %18, i64* %8, align 8, !dbg !182, !tbaa !168\l  %19 = icmp ne i64 %17, 0, !dbg !181\l  br i1 %19, label %20, label %38, !dbg !181\l|{<s0>T|<s1>F}}"];
+	Node0x1244a00:s0 -> Node0x1244a50;
+	Node0x1244a00:s1 -> Node0x1244c30;
+	Node0x1244a50 [shape=record,label="{%20:\l\l  %21 = load i8*, i8** %9, align 8, !dbg !183, !tbaa !163\l  %22 = load i8, i8* %21, align 1, !dbg !186, !tbaa !187\l  %23 = sext i8 %22 to i32, !dbg !186\l  %24 = icmp eq i32 %23, 43, !dbg !188\l  br i1 %24, label %25, label %27, !dbg !189\l|{<s0>T|<s1>F}}"];
+	Node0x1244a50:s0 -> Node0x1244aa0;
+	Node0x1244a50:s1 -> Node0x1244af0;
+	Node0x1244aa0 [shape=record,label="{%25:\l\l  %26 = load i8*, i8** %9, align 8, !dbg !190, !tbaa !163\l  store i8 45, i8* %26, align 1, !dbg !191, !tbaa !187\l  br label %35, !dbg !192\l}"];
+	Node0x1244aa0 -> Node0x1244be0;
+	Node0x1244af0 [shape=record,label="{%27:\l\l  %28 = load i8*, i8** %9, align 8, !dbg !193, !tbaa !163\l  %29 = load i8, i8* %28, align 1, !dbg !195, !tbaa !187\l  %30 = sext i8 %29 to i32, !dbg !195\l  %31 = icmp eq i32 %30, 47, !dbg !196\l  br i1 %31, label %32, label %34, !dbg !197\l|{<s0>T|<s1>F}}"];
+	Node0x1244af0:s0 -> Node0x1244b40;
+	Node0x1244af0:s1 -> Node0x1244b90;
+	Node0x1244b40 [shape=record,label="{%32:\l\l  %33 = load i8*, i8** %9, align 8, !dbg !198, !tbaa !163\l  store i8 95, i8* %33, align 1, !dbg !199, !tbaa !187\l  br label %34, !dbg !200\l}"];
+	Node0x1244b40 -> Node0x1244b90;
+	Node0x1244b90 [shape=record,label="{%34:\l\l  br label %35\l}"];
+	Node0x1244b90 -> Node0x1244be0;
+	Node0x1244be0 [shape=record,label="{%35:\l\l  %36 = load i8*, i8** %9, align 8, !dbg !201, !tbaa !163\l  %37 = getelementptr inbounds i8, i8* %36, i32 1, !dbg !201\l  store i8* %37, i8** %9, align 8, !dbg !201, !tbaa !163\l  br label %16, !dbg !181, !llvm.loop !202\l}"];
+	Node0x1244be0 -> Node0x1244a00;
+	Node0x1244c30 [shape=record,label="{%38:\l\l  %39 = bitcast i8** %9 to i8*, !dbg !204\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %39) #11, !dbg !204\l  ret void, !dbg !204\l}"];
+}

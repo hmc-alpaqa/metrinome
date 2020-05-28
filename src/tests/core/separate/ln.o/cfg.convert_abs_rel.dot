@@ -1,0 +1,25 @@
+digraph "CFG for 'convert_abs_rel' function" {
+	label="CFG for 'convert_abs_rel' function";
+
+	Node0x21a76a0 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i8*, align 8\l  %7 = alloca i8*, align 8\l  %8 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !101\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !95, metadata\l... !DIExpression()), !dbg !105\l  store i8* %1, i8** %4, align 8, !tbaa !101\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !96, metadata\l... !DIExpression()), !dbg !106\l  %9 = bitcast i8** %5 to i8*, !dbg !107\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #11, !dbg !107\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !97, metadata\l... !DIExpression()), !dbg !108\l  %10 = load i8*, i8** %4, align 8, !dbg !109, !tbaa !101\l  %11 = call i8* @dir_name(i8* %10), !dbg !110\l  store i8* %11, i8** %5, align 8, !dbg !108, !tbaa !101\l  %12 = bitcast i8** %6 to i8*, !dbg !111\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %12) #11, !dbg !111\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !98, metadata\l... !DIExpression()), !dbg !112\l  %13 = load i8*, i8** %5, align 8, !dbg !113, !tbaa !101\l  %14 = call i8* @canonicalize_filename_mode(i8* %13, i32 2), !dbg !114\l  store i8* %14, i8** %6, align 8, !dbg !112, !tbaa !101\l  %15 = bitcast i8** %7 to i8*, !dbg !115\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %15) #11, !dbg !115\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !99, metadata\l... !DIExpression()), !dbg !116\l  %16 = load i8*, i8** %3, align 8, !dbg !117, !tbaa !101\l  %17 = call i8* @canonicalize_filename_mode(i8* %16, i32 2), !dbg !118\l  store i8* %17, i8** %7, align 8, !dbg !116, !tbaa !101\l  %18 = bitcast i8** %8 to i8*, !dbg !119\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %18) #11, !dbg !119\l  call void @llvm.dbg.declare(metadata i8** %8, metadata !100, metadata\l... !DIExpression()), !dbg !120\l  store i8* null, i8** %8, align 8, !dbg !120, !tbaa !101\l  %19 = load i8*, i8** %6, align 8, !dbg !121, !tbaa !101\l  %20 = icmp ne i8* %19, null, !dbg !121\l  br i1 %20, label %21, label %33, !dbg !123\l|{<s0>T|<s1>F}}"];
+	Node0x21a76a0:s0 -> Node0x21a76f0;
+	Node0x21a76a0:s1 -> Node0x21a7830;
+	Node0x21a76f0 [shape=record,label="{%21:\l\l  %22 = load i8*, i8** %7, align 8, !dbg !124, !tbaa !101\l  %23 = icmp ne i8* %22, null, !dbg !124\l  br i1 %23, label %24, label %33, !dbg !125\l|{<s0>T|<s1>F}}"];
+	Node0x21a76f0:s0 -> Node0x21a7740;
+	Node0x21a76f0:s1 -> Node0x21a7830;
+	Node0x21a7740 [shape=record,label="{%24:\l\l  %25 = call noalias i8* @xmalloc(i64 4096), !dbg !126\l  store i8* %25, i8** %8, align 8, !dbg !128, !tbaa !101\l  %26 = load i8*, i8** %7, align 8, !dbg !129, !tbaa !101\l  %27 = load i8*, i8** %6, align 8, !dbg !131, !tbaa !101\l  %28 = load i8*, i8** %8, align 8, !dbg !132, !tbaa !101\l  %29 = call zeroext i1 @relpath(i8* %26, i8* %27, i8* %28, i64 4096), !dbg\l... !133\l  br i1 %29, label %32, label %30, !dbg !134\l|{<s0>T|<s1>F}}"];
+	Node0x21a7740:s0 -> Node0x21a77e0;
+	Node0x21a7740:s1 -> Node0x21a7790;
+	Node0x21a7790 [shape=record,label="{%30:\l\l  %31 = load i8*, i8** %8, align 8, !dbg !135, !tbaa !101\l  call void @free(i8* %31) #11, !dbg !137\l  store i8* null, i8** %8, align 8, !dbg !138, !tbaa !101\l  br label %32, !dbg !139\l}"];
+	Node0x21a7790 -> Node0x21a77e0;
+	Node0x21a77e0 [shape=record,label="{%32:\l\l  br label %33, !dbg !140\l}"];
+	Node0x21a77e0 -> Node0x21a7830;
+	Node0x21a7830 [shape=record,label="{%33:\l\l  %34 = load i8*, i8** %5, align 8, !dbg !141, !tbaa !101\l  call void @free(i8* %34) #11, !dbg !142\l  %35 = load i8*, i8** %6, align 8, !dbg !143, !tbaa !101\l  call void @free(i8* %35) #11, !dbg !144\l  %36 = load i8*, i8** %7, align 8, !dbg !145, !tbaa !101\l  call void @free(i8* %36) #11, !dbg !146\l  %37 = load i8*, i8** %8, align 8, !dbg !147, !tbaa !101\l  %38 = icmp ne i8* %37, null, !dbg !147\l  br i1 %38, label %39, label %41, !dbg !147\l|{<s0>T|<s1>F}}"];
+	Node0x21a7830:s0 -> Node0x22000c0;
+	Node0x21a7830:s1 -> Node0x2200110;
+	Node0x22000c0 [shape=record,label="{%39:\l\l  %40 = load i8*, i8** %8, align 8, !dbg !148, !tbaa !101\l  br label %44, !dbg !147\l}"];
+	Node0x22000c0 -> Node0x2200160;
+	Node0x2200110 [shape=record,label="{%41:\l\l  %42 = load i8*, i8** %3, align 8, !dbg !149, !tbaa !101\l  %43 = call noalias i8* @xstrdup(i8* %42), !dbg !150\l  br label %44, !dbg !147\l}"];
+	Node0x2200110 -> Node0x2200160;
+	Node0x2200160 [shape=record,label="{%44:\l\l  %45 = phi i8* [ %40, %39 ], [ %43, %41 ], !dbg !147\l  %46 = bitcast i8** %8 to i8*, !dbg !151\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %46) #11, !dbg !151\l  %47 = bitcast i8** %7 to i8*, !dbg !151\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %47) #11, !dbg !151\l  %48 = bitcast i8** %6 to i8*, !dbg !151\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %48) #11, !dbg !151\l  %49 = bitcast i8** %5 to i8*, !dbg !151\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %49) #11, !dbg !151\l  ret i8* %45, !dbg !152\l}"];
+}

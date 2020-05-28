@@ -1,0 +1,5 @@
+digraph "CFG for 'one_argument' function" {
+	label="CFG for 'one_argument' function";
+
+	Node0x14d7c10 [shape=record,label="{%0:\l  %1 = load i8**, i8*** @argv, align 8, !dbg !53, !tbaa !54\l  %2 = load i32, i32* @pos, align 4, !dbg !58, !tbaa !59\l  %3 = add nsw i32 %2, 1, !dbg !58\l  store i32 %3, i32* @pos, align 4, !dbg !58, !tbaa !59\l  %4 = sext i32 %2 to i64, !dbg !53\l  %5 = getelementptr inbounds i8*, i8** %1, i64 %4, !dbg !53\l  %6 = load i8*, i8** %5, align 8, !dbg !53, !tbaa !54\l  %7 = getelementptr inbounds i8, i8* %6, i64 0, !dbg !53\l  %8 = load i8, i8* %7, align 1, !dbg !53, !tbaa !61\l  %9 = sext i8 %8 to i32, !dbg !53\l  %10 = icmp ne i32 %9, 0, !dbg !62\l  ret i1 %10, !dbg !63\l}"];
+}

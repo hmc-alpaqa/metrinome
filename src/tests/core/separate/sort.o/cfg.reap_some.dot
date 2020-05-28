@@ -1,0 +1,5 @@
+digraph "CFG for 'reap_some' function" {
+	label="CFG for 'reap_some' function";
+
+	Node0x177f480 [shape=record,label="{%0:\l  %1 = call i32 @reap(i32 -1), !dbg !1162\l  call void @reap_exited(), !dbg !1163\l  ret void, !dbg !1164\l}"];
+}

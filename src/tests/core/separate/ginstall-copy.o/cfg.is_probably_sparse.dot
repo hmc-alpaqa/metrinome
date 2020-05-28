@@ -1,0 +1,10 @@
+digraph "CFG for 'is_probably_sparse' function" {
+	label="CFG for 'is_probably_sparse' function";
+
+	Node0x1718d00 [shape=record,label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !166\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !165,\l... metadata !DIExpression()), !dbg !170\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !171, !tbaa !166\l  %4 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 3,\l... !dbg !171\l  %5 = load i32, i32* %4, align 8, !dbg !171, !tbaa !172\l  %6 = and i32 %5, 61440, !dbg !171\l  %7 = icmp eq i32 %6, 32768, !dbg !171\l  br i1 %7, label %8, label %17, !dbg !177\l|{<s0>T|<s1>F}}"];
+	Node0x1718d00:s0 -> Node0x1718d80;
+	Node0x1718d00:s1 -> Node0x1718dd0;
+	Node0x1718d80 [shape=record,label="{%8:\l\l  %9 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !178, !tbaa !166\l  %10 = getelementptr inbounds %struct.stat, %struct.stat* %9, i32 0, i32 10,\l... !dbg !178\l  %11 = load i64, i64* %10, align 8, !dbg !178, !tbaa !179\l  %12 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !180, !tbaa !166\l  %13 = getelementptr inbounds %struct.stat, %struct.stat* %12, i32 0, i32 8,\l... !dbg !181\l  %14 = load i64, i64* %13, align 8, !dbg !181, !tbaa !182\l  %15 = sdiv i64 %14, 512, !dbg !183\l  %16 = icmp slt i64 %11, %15, !dbg !184\l  br label %17\l}"];
+	Node0x1718d80 -> Node0x1718dd0;
+	Node0x1718dd0 [shape=record,label="{%17:\l\l  %18 = phi i1 [ false, %1 ], [ %16, %8 ], !dbg !185\l  ret i1 %18, !dbg !186\l}"];
+}

@@ -1,0 +1,24 @@
+digraph "CFG for 'format_to_mask' function" {
+	label="CFG for 'format_to_mask' function";
+
+	Node0x132ef30 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca i32, align 4\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !353\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !350, metadata\l... !DIExpression()), !dbg !357\l  %5 = bitcast i32* %3 to i8*, !dbg !358\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %5) #12, !dbg !358\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !351, metadata\l... !DIExpression()), !dbg !359\l  store i32 0, i32* %3, align 4, !dbg !359, !tbaa !360\l  %6 = bitcast i8** %4 to i8*, !dbg !362\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #12, !dbg !362\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !352, metadata\l... !DIExpression()), !dbg !363\l  %7 = load i8*, i8** %2, align 8, !dbg !364, !tbaa !353\l  store i8* %7, i8** %4, align 8, !dbg !366, !tbaa !353\l  br label %8, !dbg !367\l}"];
+	Node0x132ef30 -> Node0x132ef80;
+	Node0x132ef80 [shape=record,label="{%8:\l\l  %9 = load i8*, i8** %4, align 8, !dbg !368, !tbaa !353\l  %10 = load i8, i8* %9, align 1, !dbg !370, !tbaa !371\l  %11 = icmp ne i8 %10, 0, !dbg !372\l  br i1 %11, label %12, label %37, !dbg !372\l|{<s0>T|<s1>F}}"];
+	Node0x132ef80:s0 -> Node0x132efd0;
+	Node0x132ef80:s1 -> Node0x132f1b0;
+	Node0x132efd0 [shape=record,label="{%12:\l\l  %13 = load i8*, i8** %4, align 8, !dbg !373, !tbaa !353\l  %14 = load i8, i8* %13, align 1, !dbg !376, !tbaa !371\l  %15 = sext i8 %14 to i32, !dbg !376\l  %16 = icmp ne i32 %15, 37, !dbg !377\l  br i1 %16, label %17, label %18, !dbg !378\l|{<s0>T|<s1>F}}"];
+	Node0x132efd0:s0 -> Node0x132f020;
+	Node0x132efd0:s1 -> Node0x132f070;
+	Node0x132f020 [shape=record,label="{%17:\l\l  br label %34, !dbg !379\l}"];
+	Node0x132f020 -> Node0x132f160;
+	Node0x132f070 [shape=record,label="{%18:\l\l  %19 = load i8*, i8** %4, align 8, !dbg !380, !tbaa !353\l  %20 = call i64 @format_code_offset(i8* %19) #13, !dbg !381\l  %21 = load i8*, i8** %4, align 8, !dbg !382, !tbaa !353\l  %22 = getelementptr inbounds i8, i8* %21, i64 %20, !dbg !382\l  store i8* %22, i8** %4, align 8, !dbg !382, !tbaa !353\l  %23 = load i8*, i8** %4, align 8, !dbg !383, !tbaa !353\l  %24 = load i8, i8* %23, align 1, !dbg !385, !tbaa !371\l  %25 = sext i8 %24 to i32, !dbg !385\l  %26 = icmp eq i32 %25, 0, !dbg !386\l  br i1 %26, label %27, label %28, !dbg !387\l|{<s0>T|<s1>F}}"];
+	Node0x132f070:s0 -> Node0x132f0c0;
+	Node0x132f070:s1 -> Node0x132f110;
+	Node0x132f0c0 [shape=record,label="{%27:\l\l  br label %37, !dbg !388\l}"];
+	Node0x132f0c0 -> Node0x132f1b0;
+	Node0x132f110 [shape=record,label="{%28:\l\l  %29 = load i8*, i8** %4, align 8, !dbg !389, !tbaa !353\l  %30 = load i8, i8* %29, align 1, !dbg !390, !tbaa !371\l  %31 = call i32 @fmt_to_mask(i8 signext %30), !dbg !391\l  %32 = load i32, i32* %3, align 4, !dbg !392, !tbaa !360\l  %33 = or i32 %32, %31, !dbg !392\l  store i32 %33, i32* %3, align 4, !dbg !392, !tbaa !360\l  br label %34, !dbg !393\l}"];
+	Node0x132f110 -> Node0x132f160;
+	Node0x132f160 [shape=record,label="{%34:\l\l  %35 = load i8*, i8** %4, align 8, !dbg !394, !tbaa !353\l  %36 = getelementptr inbounds i8, i8* %35, i32 1, !dbg !394\l  store i8* %36, i8** %4, align 8, !dbg !394, !tbaa !353\l  br label %8, !dbg !395, !llvm.loop !396\l}"];
+	Node0x132f160 -> Node0x132ef80;
+	Node0x132f1b0 [shape=record,label="{%37:\l\l  %38 = load i32, i32* %3, align 4, !dbg !398, !tbaa !360\l  %39 = bitcast i8** %4 to i8*, !dbg !399\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %39) #12, !dbg !399\l  %40 = bitcast i32* %3 to i8*, !dbg !399\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %40) #12, !dbg !399\l  ret i32 %38, !dbg !400\l}"];
+}

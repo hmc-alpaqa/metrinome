@@ -1,0 +1,6 @@
+digraph "CFG for 'test_syntax_error' function" {
+	label="CFG for 'test_syntax_error' function";
+
+	Node0x1a0b3a0 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca [1 x %struct.__va_list_tag], align 16\l  store i8* %0, i8** %2, align 8, !tbaa !69\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !53, metadata\l... !DIExpression()), !dbg !73\l  %4 = bitcast [1 x %struct.__va_list_tag]* %3 to i8*, !dbg !74\l  call void @llvm.lifetime.start.p0i8(i64 24, i8* %4) #9, !dbg !74\l  call void @llvm.dbg.declare(metadata [1 x %struct.__va_list_tag]* %3,\l... metadata !54, metadata !DIExpression()), !dbg !75\l  %5 = getelementptr inbounds [1 x %struct.__va_list_tag], [1 x\l... %struct.__va_list_tag]* %3, i32 0, i32 0, !dbg !76\l  %6 = bitcast %struct.__va_list_tag* %5 to i8*, !dbg !76\l  call void @llvm.va_start(i8* %6), !dbg !76\l  %7 = load i8*, i8** %2, align 8, !dbg !77, !tbaa !69\l  %8 = getelementptr inbounds [1 x %struct.__va_list_tag], [1 x\l... %struct.__va_list_tag]* %3, i32 0, i32 0, !dbg !78\l  call void @verror(i32 0, i32 0, i8* %7, %struct.__va_list_tag* %8), !dbg !79\l  call void @exit(i32 2) #12, !dbg !80\l  unreachable, !dbg !80\l}"];
+	Node0x1a0bbc0 [shape=record,label="{%9:                                                  \l  unreachable, !dbg !81\l}"];
+}

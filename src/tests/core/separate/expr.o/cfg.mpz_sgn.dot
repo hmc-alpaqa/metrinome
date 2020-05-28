@@ -1,0 +1,12 @@
+digraph "CFG for 'mpz_sgn' function" {
+	label="CFG for 'mpz_sgn' function";
+
+	Node0x23739a0 [shape=record,label="{%1:\l  %2 = alloca i64*, align 8\l  store i64* %0, i64** %2, align 8, !tbaa !122\l  call void @llvm.dbg.declare(metadata i64** %2, metadata !121, metadata\l... !DIExpression()), !dbg !126\l  %3 = load i64*, i64** %2, align 8, !dbg !127, !tbaa !122\l  %4 = getelementptr inbounds i64, i64* %3, i64 0, !dbg !127\l  %5 = load i64, i64* %4, align 8, !dbg !127, !tbaa !128\l  %6 = icmp slt i64 %5, 0, !dbg !130\l  br i1 %6, label %7, label %8, !dbg !127\l|{<s0>T|<s1>F}}"];
+	Node0x23739a0:s0 -> Node0x2381ac0;
+	Node0x23739a0:s1 -> Node0x2381b10;
+	Node0x2381ac0 [shape=record,label="{%7:\l\l  br label %14, !dbg !127\l}"];
+	Node0x2381ac0 -> Node0x2381b60;
+	Node0x2381b10 [shape=record,label="{%8:\l\l  %9 = load i64*, i64** %2, align 8, !dbg !131, !tbaa !122\l  %10 = getelementptr inbounds i64, i64* %9, i64 0, !dbg !131\l  %11 = load i64, i64* %10, align 8, !dbg !131, !tbaa !128\l  %12 = icmp slt i64 0, %11, !dbg !132\l  %13 = zext i1 %12 to i32, !dbg !132\l  br label %14, !dbg !127\l}"];
+	Node0x2381b10 -> Node0x2381b60;
+	Node0x2381b60 [shape=record,label="{%14:\l\l  %15 = phi i32 [ -1, %7 ], [ %13, %8 ], !dbg !127\l  ret i32 %15, !dbg !133\l}"];
+}

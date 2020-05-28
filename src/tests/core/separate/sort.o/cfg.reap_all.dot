@@ -1,0 +1,12 @@
+digraph "CFG for 'reap_all' function" {
+	label="CFG for 'reap_all' function";
+
+	Node0x17a2db0 [shape=record,label="{%0:\l  br label %1, !dbg !1162\l}"];
+	Node0x17a2db0 -> Node0x17a4530;
+	Node0x17a4530 [shape=record,label="{%1:\l\l  %2 = load i32, i32* @nprocs, align 4, !dbg !1163, !tbaa !1164\l  %3 = icmp slt i32 0, %2, !dbg !1168\l  br i1 %3, label %4, label %6, !dbg !1162\l|{<s0>T|<s1>F}}"];
+	Node0x17a4530:s0 -> Node0x17a4580;
+	Node0x17a4530:s1 -> Node0x17a45d0;
+	Node0x17a4580 [shape=record,label="{%4:\l\l  %5 = call i32 @reap(i32 -1), !dbg !1169\l  br label %1, !dbg !1162, !llvm.loop !1170\l}"];
+	Node0x17a4580 -> Node0x17a4530;
+	Node0x17a45d0 [shape=record,label="{%6:\l\l  ret void, !dbg !1172\l}"];
+}

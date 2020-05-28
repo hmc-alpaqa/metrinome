@@ -1,0 +1,16 @@
+digraph "CFG for 'usable_st_size' function" {
+	label="CFG for 'usable_st_size' function";
+
+	Node0x1d9e860 [shape=record,label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !226\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !225,\l... metadata !DIExpression()), !dbg !230\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !231, !tbaa !226\l  %4 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 3,\l... !dbg !231\l  %5 = load i32, i32* %4, align 8, !dbg !231, !tbaa !232\l  %6 = and i32 %5, 61440, !dbg !231\l  %7 = icmp eq i32 %6, 32768, !dbg !231\l  br i1 %7, label %24, label %8, !dbg !237\l|{<s0>T|<s1>F}}"];
+	Node0x1d9e860:s0 -> Node0x1d9ea00;
+	Node0x1d9e860:s1 -> Node0x1d9e910;
+	Node0x1d9e910 [shape=record,label="{%8:\l\l  %9 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !238, !tbaa !226\l  %10 = getelementptr inbounds %struct.stat, %struct.stat* %9, i32 0, i32 3,\l... !dbg !238\l  %11 = load i32, i32* %10, align 8, !dbg !238, !tbaa !232\l  %12 = and i32 %11, 61440, !dbg !238\l  %13 = icmp eq i32 %12, 40960, !dbg !238\l  br i1 %13, label %24, label %14, !dbg !239\l|{<s0>T|<s1>F}}"];
+	Node0x1d9e910:s0 -> Node0x1d9ea00;
+	Node0x1d9e910:s1 -> Node0x1d9e960;
+	Node0x1d9e960 [shape=record,label="{%14:\l\l  %15 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !240, !tbaa !226\l  %16 = getelementptr inbounds %struct.stat, %struct.stat* %15, i32 0, i32 3,\l... !dbg !240\l  %17 = load i32, i32* %16, align 8, !dbg !240, !tbaa !232\l  %18 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !240, !tbaa !226\l  %19 = getelementptr inbounds %struct.stat, %struct.stat* %18, i32 0, i32 3,\l... !dbg !240\l  %20 = load i32, i32* %19, align 8, !dbg !240, !tbaa !232\l  %21 = sub i32 %17, %20, !dbg !240\l  %22 = icmp ne i32 %21, 0, !dbg !240\l  br i1 %22, label %24, label %23, !dbg !241\l|{<s0>T|<s1>F}}"];
+	Node0x1d9e960:s0 -> Node0x1d9ea00;
+	Node0x1d9e960:s1 -> Node0x1d9e9b0;
+	Node0x1d9e9b0 [shape=record,label="{%23:\l\l  br label %24, !dbg !241\l}"];
+	Node0x1d9e9b0 -> Node0x1d9ea00;
+	Node0x1d9ea00 [shape=record,label="{%24:\l\l  %25 = phi i1 [ true, %14 ], [ true, %8 ], [ true, %1 ], [ false, %23 ]\l  ret i1 %25, !dbg !242\l}"];
+}

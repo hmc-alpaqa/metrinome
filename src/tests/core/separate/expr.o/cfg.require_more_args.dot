@@ -1,0 +1,9 @@
+digraph "CFG for 'require_more_args' function" {
+	label="CFG for 'require_more_args' function";
+
+	Node0x23db600 [shape=record,label="{%0:\l  %1 = call zeroext i1 @nomoreargs(), !dbg !120\l  br i1 %1, label %2, label %7, !dbg !122\l|{<s0>T|<s1>F}}"];
+	Node0x23db600:s0 -> Node0x23db650;
+	Node0x23db600:s1 -> Node0x23db6a0;
+	Node0x23db650 [shape=record,label="{%2:\l\l  %3 = load i8**, i8*** @args, align 8, !dbg !123, !tbaa !124\l  %4 = getelementptr inbounds i8*, i8** %3, i64 -1, !dbg !123\l  %5 = load i8*, i8** %4, align 8, !dbg !123, !tbaa !124\l  %6 = call i8* @quotearg_n_style(i32 0, i32 8, i8* %5), !dbg !123\l  call void (i32, i32, i8*, ...) @error(i32 2, i32 0, i8* getelementptr\l... inbounds ([40 x i8], [40 x i8]* @.str.62, i32 0, i32 0), i8* %6), !dbg !123\l  unreachable, !dbg !123\l}"];
+	Node0x23db6a0 [shape=record,label="{%7:\l\l  ret void, !dbg !128\l}"];
+}

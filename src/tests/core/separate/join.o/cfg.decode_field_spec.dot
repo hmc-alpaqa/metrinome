@@ -1,0 +1,23 @@
+digraph "CFG for 'decode_field_spec' function" {
+	label="CFG for 'decode_field_spec' function";
+
+	Node0x12b7780 [shape=record,label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i32*, align 8\l  %6 = alloca i64*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !194\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !191, metadata\l... !DIExpression()), !dbg !198\l  store i32* %1, i32** %5, align 8, !tbaa !194\l  call void @llvm.dbg.declare(metadata i32** %5, metadata !192, metadata\l... !DIExpression()), !dbg !199\l  store i64* %2, i64** %6, align 8, !tbaa !194\l  call void @llvm.dbg.declare(metadata i64** %6, metadata !193, metadata\l... !DIExpression()), !dbg !200\l  %7 = load i8*, i8** %4, align 8, !dbg !201, !tbaa !194\l  %8 = getelementptr inbounds i8, i8* %7, i64 0, !dbg !201\l  %9 = load i8, i8* %8, align 1, !dbg !201, !tbaa !202\l  %10 = sext i8 %9 to i32, !dbg !201\l  switch i32 %10, label %42 [\l    i32 48, label %11\l    i32 49, label %22\l    i32 50, label %22\l  ], !dbg !203\l|{<s0>def|<s1>48|<s2>49|<s3>50}}"];
+	Node0x12b7780:s0 -> Node0x12b79b0;
+	Node0x12b7780:s1 -> Node0x12b77d0;
+	Node0x12b7780:s2 -> Node0x12b78c0;
+	Node0x12b7780:s3 -> Node0x12b78c0;
+	Node0x12b77d0 [shape=record,label="{%11:\l\l  %12 = load i8*, i8** %4, align 8, !dbg !204, !tbaa !194\l  %13 = getelementptr inbounds i8, i8* %12, i64 1, !dbg !204\l  %14 = load i8, i8* %13, align 1, !dbg !204, !tbaa !202\l  %15 = icmp ne i8 %14, 0, !dbg !204\l  br i1 %15, label %16, label %19, !dbg !207\l|{<s0>T|<s1>F}}"];
+	Node0x12b77d0:s0 -> Node0x12b7820;
+	Node0x12b77d0:s1 -> Node0x12b7870;
+	Node0x12b7820 [shape=record,label="{%16:\l\l  %17 = load i8*, i8** %4, align 8, !dbg !208, !tbaa !194\l  %18 = call i8* @quote(i8* %17), !dbg !208\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 0, i8* getelementptr\l... inbounds ([28 x i8], [28 x i8]* @.str.54, i32 0, i32 0), i8* %18), !dbg !208\l  unreachable, !dbg !208\l}"];
+	Node0x12b7870 [shape=record,label="{%19:\l\l  %20 = load i32*, i32** %5, align 8, !dbg !210, !tbaa !194\l  store i32 0, i32* %20, align 4, !dbg !211, !tbaa !212\l  %21 = load i64*, i64** %6, align 8, !dbg !214, !tbaa !194\l  store i64 0, i64* %21, align 8, !dbg !215, !tbaa !216\l  br label %45, !dbg !218\l}"];
+	Node0x12b7870 -> Node0x12b7a00;
+	Node0x12b78c0 [shape=record,label="{%22:\l\l  %23 = load i8*, i8** %4, align 8, !dbg !219, !tbaa !194\l  %24 = getelementptr inbounds i8, i8* %23, i64 1, !dbg !219\l  %25 = load i8, i8* %24, align 1, !dbg !219, !tbaa !202\l  %26 = sext i8 %25 to i32, !dbg !219\l  %27 = icmp ne i32 %26, 46, !dbg !221\l  br i1 %27, label %28, label %31, !dbg !222\l|{<s0>T|<s1>F}}"];
+	Node0x12b78c0:s0 -> Node0x12b7910;
+	Node0x12b78c0:s1 -> Node0x12b7960;
+	Node0x12b7910 [shape=record,label="{%28:\l\l  %29 = load i8*, i8** %4, align 8, !dbg !223, !tbaa !194\l  %30 = call i8* @quote(i8* %29), !dbg !223\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 0, i8* getelementptr\l... inbounds ([28 x i8], [28 x i8]* @.str.54, i32 0, i32 0), i8* %30), !dbg !223\l  unreachable, !dbg !223\l}"];
+	Node0x12b7960 [shape=record,label="{%31:\l\l  %32 = load i8*, i8** %4, align 8, !dbg !224, !tbaa !194\l  %33 = getelementptr inbounds i8, i8* %32, i64 0, !dbg !224\l  %34 = load i8, i8* %33, align 1, !dbg !224, !tbaa !202\l  %35 = sext i8 %34 to i32, !dbg !224\l  %36 = sub nsw i32 %35, 48, !dbg !225\l  %37 = load i32*, i32** %5, align 8, !dbg !226, !tbaa !194\l  store i32 %36, i32* %37, align 4, !dbg !227, !tbaa !212\l  %38 = load i8*, i8** %4, align 8, !dbg !228, !tbaa !194\l  %39 = getelementptr inbounds i8, i8* %38, i64 2, !dbg !229\l  %40 = call i64 @string_to_join_field(i8* %39), !dbg !230\l  %41 = load i64*, i64** %6, align 8, !dbg !231, !tbaa !194\l  store i64 %40, i64* %41, align 8, !dbg !232, !tbaa !216\l  br label %45, !dbg !233\l}"];
+	Node0x12b7960 -> Node0x12b7a00;
+	Node0x12b79b0 [shape=record,label="{%42:\l\l  %43 = load i8*, i8** %4, align 8, !dbg !234, !tbaa !194\l  %44 = call i8* @quote(i8* %43), !dbg !234\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 0, i8* getelementptr\l... inbounds ([38 x i8], [38 x i8]* @.str.55, i32 0, i32 0), i8* %44), !dbg !234\l  unreachable, !dbg !234\l}"];
+	Node0x12b7a00 [shape=record,label="{%45:\l\l  ret void, !dbg !235\l}"];
+}

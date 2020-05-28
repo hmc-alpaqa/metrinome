@@ -1,0 +1,5 @@
+digraph "CFG for 'base64_decode_ctx_init_wrapper' function" {
+	label="CFG for 'base64_decode_ctx_init_wrapper' function";
+
+	Node0x120f2a0 [shape=record,label="{%1:\l  %2 = alloca %struct.base_decode_context*, align 8\l  store %struct.base_decode_context* %0, %struct.base_decode_context** %2,\l... align 8, !tbaa !159\l  call void @llvm.dbg.declare(metadata %struct.base_decode_context** %2,\l... metadata !158, metadata !DIExpression()), !dbg !163\l  %3 = load %struct.base_decode_context*, %struct.base_decode_context** %2,\l... align 8, !dbg !164, !tbaa !159\l  %4 = getelementptr inbounds %struct.base_decode_context,\l... %struct.base_decode_context* %3, i32 0, i32 1, !dbg !165\l  %5 = bitcast %union.anon* %4 to %struct.base64_decode_context*, !dbg !166\l  call void @base64_decode_ctx_init(%struct.base64_decode_context* %5), !dbg\l... !167\l  ret void, !dbg !168\l}"];
+}

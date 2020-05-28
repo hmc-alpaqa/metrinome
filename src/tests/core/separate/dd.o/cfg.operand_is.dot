@@ -1,0 +1,5 @@
+digraph "CFG for 'operand_is' function" {
+	label="CFG for 'operand_is' function";
+
+	Node0x1d9ead0 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !370\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !368, metadata\l... !DIExpression()), !dbg !374\l  store i8* %1, i8** %4, align 8, !tbaa !370\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !369, metadata\l... !DIExpression()), !dbg !375\l  %5 = load i8*, i8** %3, align 8, !dbg !376, !tbaa !370\l  %6 = load i8*, i8** %4, align 8, !dbg !377, !tbaa !370\l  %7 = call zeroext i1 @operand_matches(i8* %5, i8* %6, i8 signext 61) #15,\l... !dbg !378\l  ret i1 %7, !dbg !379\l}"];
+}

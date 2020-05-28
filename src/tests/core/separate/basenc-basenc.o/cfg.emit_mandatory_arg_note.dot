@@ -1,0 +1,5 @@
+digraph "CFG for 'emit_mandatory_arg_note' function" {
+	label="CFG for 'emit_mandatory_arg_note' function";
+
+	Node0x12108a0 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !161,\l... !tbaa !162\l  %2 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([75 x i8], [75 x\l... i8]* @.str.29, i32 0, i32 0), %struct._IO_FILE* %1), !dbg !161\l  ret void, !dbg !166\l}"];
+}

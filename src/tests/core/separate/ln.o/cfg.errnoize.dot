@@ -1,0 +1,12 @@
+digraph "CFG for 'errnoize' function" {
+	label="CFG for 'errnoize' function";
+
+	Node0x21feb90 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !96\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !95, metadata\l... !DIExpression()), !dbg !100\l  %3 = load i32, i32* %2, align 4, !dbg !101, !tbaa !96\l  %4 = icmp slt i32 %3, 0, !dbg !102\l  br i1 %4, label %5, label %8, !dbg !101\l|{<s0>T|<s1>F}}"];
+	Node0x21feb90:s0 -> Node0x21fec40;
+	Node0x21feb90:s1 -> Node0x21fec90;
+	Node0x21fec40 [shape=record,label="{%5:\l\l  %6 = call i32* @__errno_location() #11, !dbg !103\l  %7 = load i32, i32* %6, align 4, !dbg !103, !tbaa !96\l  br label %9, !dbg !101\l}"];
+	Node0x21fec40 -> Node0x21fece0;
+	Node0x21fec90 [shape=record,label="{%8:\l\l  br label %9, !dbg !101\l}"];
+	Node0x21fec90 -> Node0x21fece0;
+	Node0x21fece0 [shape=record,label="{%9:\l\l  %10 = phi i32 [ %7, %5 ], [ 0, %8 ], !dbg !101\l  ret i32 %10, !dbg !104\l}"];
+}

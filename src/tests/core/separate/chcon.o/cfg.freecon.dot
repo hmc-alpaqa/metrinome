@@ -1,0 +1,5 @@
+digraph "CFG for 'freecon' function" {
+	label="CFG for 'freecon' function";
+
+	Node0x1248280 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !102\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !101, metadata\l... !DIExpression()), !dbg !106\l  ret void, !dbg !107\l}"];
+}

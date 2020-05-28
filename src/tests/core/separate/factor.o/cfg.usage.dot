@@ -1,0 +1,17 @@
+digraph "CFG for 'usage' function" {
+	label="CFG for 'usage' function";
+
+	Node0x250e3d0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !103\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !102, metadata\l... !DIExpression()), !dbg !107\l  %3 = load i32, i32* %2, align 4, !dbg !108, !tbaa !103\l  %4 = icmp ne i32 %3, 0, !dbg !110\l  br i1 %4, label %5, label %11, !dbg !111\l|{<s0>T|<s1>F}}"];
+	Node0x250e3d0:s0 -> Node0x2551ab0;
+	Node0x250e3d0:s1 -> Node0x2551ba0;
+	Node0x2551ab0 [shape=record,label="{%5:\l\l  br label %6, !dbg !112\l}"];
+	Node0x2551ab0 -> Node0x2551b00;
+	Node0x2551b00 [shape=record,label="{%6:\l\l  %7 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg !113,\l... !tbaa !115\l  %8 = load i8*, i8** @program_name, align 8, !dbg !113, !tbaa !115\l  %9 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %7,\l... i8* getelementptr inbounds ([39 x i8], [39 x i8]* @.str, i32 0, i32 0), i8*\l... %8), !dbg !113\l  br label %10, !dbg !113\l}"];
+	Node0x2551b00 -> Node0x2551b50;
+	Node0x2551b50 [shape=record,label="{%10:\l\l  br label %21, !dbg !113\l}"];
+	Node0x2551b50 -> Node0x2551bf0;
+	Node0x2551ba0 [shape=record,label="{%11:\l\l  %12 = load i8*, i8** @program_name, align 8, !dbg !117, !tbaa !115\l  %13 = load i8*, i8** @program_name, align 8, !dbg !119, !tbaa !115\l  %14 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([40 x i8], [40\l... x i8]* @.str.1, i32 0, i32 0), i8* %12, i8* %13), !dbg !120\l  %15 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !121, !tbaa !115\l  %16 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([135 x i8], [135\l... x i8]* @.str.2, i32 0, i32 0), %struct._IO_FILE* %15), !dbg !121\l  %17 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !122, !tbaa !115\l  %18 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([45 x i8], [45 x\l... i8]* @.str.3, i32 0, i32 0), %struct._IO_FILE* %17), !dbg !122\l  %19 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !123, !tbaa !115\l  %20 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([54 x i8], [54 x\l... i8]* @.str.4, i32 0, i32 0), %struct._IO_FILE* %19), !dbg !123\l  call void @emit_ancillary_info(i8* getelementptr inbounds ([7 x i8], [7 x\l... i8]* @.str.5, i32 0, i32 0)), !dbg !124\l  br label %21\l}"];
+	Node0x2551ba0 -> Node0x2551bf0;
+	Node0x2551bf0 [shape=record,label="{%21:\l\l  %22 = load i32, i32* %2, align 4, !dbg !125, !tbaa !103\l  call void @exit(i32 %22) #12, !dbg !126\l  unreachable, !dbg !126\l}"];
+	Node0x2551c40 [shape=record,label="{%23:                                                  \l  unreachable, !dbg !127\l}"];
+}

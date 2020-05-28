@@ -1,0 +1,28 @@
+digraph "CFG for 'xfclose' function" {
+	label="CFG for 'xfclose' function";
+
+	Node0x15fe610 [shape=record,label="{%2:\l  %3 = alloca %struct._IO_FILE*, align 8\l  %4 = alloca i8*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %3, align 8, !tbaa !1167\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %3, metadata !1165,\l... metadata !DIExpression()), !dbg !1171\l  store i8* %1, i8** %4, align 8, !tbaa !1167\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1166, metadata\l... !DIExpression()), !dbg !1172\l  %5 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1173,\l... !tbaa !1167\l  %6 = call i32 @fileno(%struct._IO_FILE* %5) #12, !dbg !1174\l  switch i32 %6, label %21 [\l    i32 0, label %7\l    i32 1, label %14\l  ], !dbg !1175\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x15fe610:s0 -> Node0x15f0f40;
+	Node0x15fe610:s1 -> Node0x15f0d60;
+	Node0x15fe610:s2 -> Node0x15f0e50;
+	Node0x15f0d60 [shape=record,label="{%7:\l\l  %8 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1176,\l... !tbaa !1167\l  %9 = call i32 @feof_unlocked(%struct._IO_FILE* %8) #12, !dbg !1176\l  %10 = icmp ne i32 %9, 0, !dbg !1176\l  br i1 %10, label %11, label %13, !dbg !1179\l|{<s0>T|<s1>F}}"];
+	Node0x15f0d60:s0 -> Node0x15f0db0;
+	Node0x15f0d60:s1 -> Node0x15f0e00;
+	Node0x15f0db0 [shape=record,label="{%11:\l\l  %12 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1180,\l... !tbaa !1167\l  call void @clearerr_unlocked(%struct._IO_FILE* %12) #12, !dbg !1180\l  br label %13, !dbg !1180\l}"];
+	Node0x15f0db0 -> Node0x15f0e00;
+	Node0x15f0e00 [shape=record,label="{%13:\l\l  br label %28, !dbg !1181\l}"];
+	Node0x15f0e00 -> Node0x15f1030;
+	Node0x15f0e50 [shape=record,label="{%14:\l\l  %15 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1182,\l... !tbaa !1167\l  %16 = call i32 @fflush_unlocked(%struct._IO_FILE* %15), !dbg !1182\l  %17 = icmp ne i32 %16, 0, !dbg !1184\l  br i1 %17, label %18, label %20, !dbg !1185\l|{<s0>T|<s1>F}}"];
+	Node0x15f0e50:s0 -> Node0x15f0ea0;
+	Node0x15f0e50:s1 -> Node0x15f0ef0;
+	Node0x15f0ea0 [shape=record,label="{%18:\l\l  %19 = load i8*, i8** %4, align 8, !dbg !1186, !tbaa !1167\l  call void @sort_die(i8* getelementptr inbounds ([14 x i8], [14 x i8]*\l... @.str.144, i32 0, i32 0), i8* %19) #13, !dbg !1187\l  unreachable, !dbg !1187\l}"];
+	Node0x15f0ef0 [shape=record,label="{%20:\l\l  br label %28, !dbg !1188\l}"];
+	Node0x15f0ef0 -> Node0x15f1030;
+	Node0x15f0f40 [shape=record,label="{%21:\l\l  %22 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1189,\l... !tbaa !1167\l  %23 = call i32 @rpl_fclose(%struct._IO_FILE* %22), !dbg !1191\l  %24 = icmp ne i32 %23, 0, !dbg !1192\l  br i1 %24, label %25, label %27, !dbg !1193\l|{<s0>T|<s1>F}}"];
+	Node0x15f0f40:s0 -> Node0x15f0f90;
+	Node0x15f0f40:s1 -> Node0x15f0fe0;
+	Node0x15f0f90 [shape=record,label="{%25:\l\l  %26 = load i8*, i8** %4, align 8, !dbg !1194, !tbaa !1167\l  call void @sort_die(i8* getelementptr inbounds ([13 x i8], [13 x i8]*\l... @.str.63, i32 0, i32 0), i8* %26) #13, !dbg !1195\l  unreachable, !dbg !1195\l}"];
+	Node0x15f0fe0 [shape=record,label="{%27:\l\l  br label %28, !dbg !1196\l}"];
+	Node0x15f0fe0 -> Node0x15f1030;
+	Node0x15f1030 [shape=record,label="{%28:\l\l  ret void, !dbg !1197\l}"];
+}

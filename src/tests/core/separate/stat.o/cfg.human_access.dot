@@ -1,0 +1,5 @@
+digraph "CFG for 'human_access' function" {
+	label="CFG for 'human_access' function";
+
+	Node0x1296150 [shape=record,label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !346\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !264,\l... metadata !DIExpression()), !dbg !350\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !351, !tbaa !346\l  call void @filemodestring(%struct.stat* %3, i8* getelementptr inbounds ([12\l... x i8], [12 x i8]* @human_access.modebuf, i32 0, i32 0)), !dbg !352\l  store i8 0, i8* getelementptr inbounds ([12 x i8], [12 x i8]*\l... @human_access.modebuf, i64 0, i64 10), align 1, !dbg !353, !tbaa !354\l  ret i8* getelementptr inbounds ([12 x i8], [12 x i8]* @human_access.modebuf,\l... i32 0, i32 0), !dbg !355\l}"];
+}

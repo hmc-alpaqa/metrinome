@@ -1,0 +1,5 @@
+digraph "CFG for 'count_items' function" {
+	label="CFG for 'count_items' function";
+
+	Node0x2846a20 [shape=record,label="{%1:\l  %2 = alloca %struct.item*, align 8\l  store %struct.item* %0, %struct.item** %2, align 8, !tbaa !70\l  call void @llvm.dbg.declare(metadata %struct.item** %2, metadata !69,\l... metadata !DIExpression()), !dbg !74\l  %3 = load i64, i64* @n_strings, align 8, !dbg !75, !tbaa !76\l  %4 = add i64 %3, 1, !dbg !75\l  store i64 %4, i64* @n_strings, align 8, !dbg !75, !tbaa !76\l  ret i1 false, !dbg !78\l}"];
+}

@@ -1,0 +1,10 @@
+digraph "CFG for 'next_item' function" {
+	label="CFG for 'next_item' function";
+
+	Node0x194ef00 [shape=record,label="{%1:\l  %2 = alloca i64*, align 8\l  store i64* %0, i64** %2, align 8, !tbaa !124\l  call void @llvm.dbg.declare(metadata i64** %2, metadata !123, metadata\l... !DIExpression()), !dbg !128\l  %3 = load i64*, i64** %2, align 8, !dbg !129, !tbaa !124\l  %4 = load i64, i64* %3, align 8, !dbg !130, !tbaa !131\l  %5 = add i64 %4, 1, !dbg !130\l  store i64 %5, i64* %3, align 8, !dbg !130, !tbaa !131\l  %6 = load i64*, i64** %2, align 8, !dbg !133, !tbaa !124\l  %7 = load i64, i64* %6, align 8, !dbg !135, !tbaa !131\l  %8 = load %struct.field_range_pair*, %struct.field_range_pair** @current_rp,\l... align 8, !dbg !136, !tbaa !124\l  %9 = getelementptr inbounds %struct.field_range_pair,\l... %struct.field_range_pair* %8, i32 0, i32 1, !dbg !137\l  %10 = load i64, i64* %9, align 8, !dbg !137, !tbaa !138\l  %11 = icmp ugt i64 %7, %10, !dbg !140\l  br i1 %11, label %12, label %15, !dbg !141\l|{<s0>T|<s1>F}}"];
+	Node0x194ef00:s0 -> Node0x1935380;
+	Node0x194ef00:s1 -> Node0x19353d0;
+	Node0x1935380 [shape=record,label="{%12:\l\l  %13 = load %struct.field_range_pair*, %struct.field_range_pair**\l... @current_rp, align 8, !dbg !142, !tbaa !124\l  %14 = getelementptr inbounds %struct.field_range_pair,\l... %struct.field_range_pair* %13, i32 1, !dbg !142\l  store %struct.field_range_pair* %14, %struct.field_range_pair** @current_rp,\l... align 8, !dbg !142, !tbaa !124\l  br label %15, !dbg !143\l}"];
+	Node0x1935380 -> Node0x19353d0;
+	Node0x19353d0 [shape=record,label="{%15:\l\l  ret void, !dbg !144\l}"];
+}

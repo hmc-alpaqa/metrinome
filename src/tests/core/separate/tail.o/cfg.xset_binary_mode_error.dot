@@ -1,0 +1,5 @@
+digraph "CFG for 'xset_binary_mode_error' function" {
+	label="CFG for 'xset_binary_mode_error' function";
+
+	Node0x1db9640 [shape=record,label="{%0:\l  ret void, !dbg !223\l}"];
+}

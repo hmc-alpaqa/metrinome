@@ -1,0 +1,36 @@
+digraph "CFG for 'next_line_num' function" {
+	label="CFG for 'next_line_num' function";
+
+	Node0x13e75f0 [shape=record,label="{%0:\l  %1 = alloca i8*, align 8\l  %2 = alloca i32, align 4\l  %3 = bitcast i8** %1 to i8*, !dbg !152\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %3) #10, !dbg !152\l  call void @llvm.dbg.declare(metadata i8** %1, metadata !151, metadata\l... !DIExpression()), !dbg !153\l  %4 = load i8*, i8** @line_num_end, align 8, !dbg !154, !tbaa !155\l  store i8* %4, i8** %1, align 8, !dbg !153, !tbaa !155\l  br label %5, !dbg !159\l}"];
+	Node0x13e75f0 -> Node0x13e91c0;
+	Node0x13e91c0 [shape=record,label="{%5:\l\l  %6 = load i8*, i8** %1, align 8, !dbg !160, !tbaa !155\l  %7 = load i8, i8* %6, align 1, !dbg !163, !tbaa !164\l  %8 = add i8 %7, 1, !dbg !163\l  store i8 %8, i8* %6, align 1, !dbg !163, !tbaa !164\l  %9 = sext i8 %7 to i32, !dbg !165\l  %10 = icmp slt i32 %9, 57, !dbg !166\l  br i1 %10, label %11, label %12, !dbg !167\l|{<s0>T|<s1>F}}"];
+	Node0x13e91c0:s0 -> Node0x13e9210;
+	Node0x13e91c0:s1 -> Node0x13e9260;
+	Node0x13e9210 [shape=record,label="{%11:\l\l  store i32 1, i32* %2, align 4\l  br label %34, !dbg !168\l}"];
+	Node0x13e9210 -> Node0x13e94e0;
+	Node0x13e9260 [shape=record,label="{%12:\l\l  %13 = load i8*, i8** %1, align 8, !dbg !169, !tbaa !155\l  %14 = getelementptr inbounds i8, i8* %13, i32 -1, !dbg !169\l  store i8* %14, i8** %1, align 8, !dbg !169, !tbaa !155\l  store i8 48, i8* %13, align 1, !dbg !170, !tbaa !164\l  br label %15, !dbg !171\l}"];
+	Node0x13e9260 -> Node0x13e92b0;
+	Node0x13e92b0 [shape=record,label="{%15:\l\l  %16 = load i8*, i8** %1, align 8, !dbg !172, !tbaa !155\l  %17 = load i8*, i8** @line_num_start, align 8, !dbg !173, !tbaa !155\l  %18 = icmp uge i8* %16, %17, !dbg !174\l  br i1 %18, label %5, label %19, !dbg !171, !llvm.loop !175\l|{<s0>T|<s1>F}}"];
+	Node0x13e92b0:s0 -> Node0x13e91c0;
+	Node0x13e92b0:s1 -> Node0x13e9300;
+	Node0x13e9300 [shape=record,label="{%19:\l\l  %20 = load i8*, i8** @line_num_start, align 8, !dbg !177, !tbaa !155\l  %21 = icmp ugt i8* %20, getelementptr inbounds ([20 x i8], [20 x i8]*\l... @line_buf, i32 0, i32 0), !dbg !179\l  br i1 %21, label %22, label %25, !dbg !180\l|{<s0>T|<s1>F}}"];
+	Node0x13e9300:s0 -> Node0x13e9350;
+	Node0x13e9300:s1 -> Node0x13e93a0;
+	Node0x13e9350 [shape=record,label="{%22:\l\l  %23 = load i8*, i8** @line_num_start, align 8, !dbg !181, !tbaa !155\l  %24 = getelementptr inbounds i8, i8* %23, i32 -1, !dbg !181\l  store i8* %24, i8** @line_num_start, align 8, !dbg !181, !tbaa !155\l  store i8 49, i8* %24, align 1, !dbg !182, !tbaa !164\l  br label %26, !dbg !183\l}"];
+	Node0x13e9350 -> Node0x13e93f0;
+	Node0x13e93a0 [shape=record,label="{%25:\l\l  store i8 62, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @line_buf,\l... i32 0, i32 0), align 16, !dbg !184, !tbaa !164\l  br label %26\l}"];
+	Node0x13e93a0 -> Node0x13e93f0;
+	Node0x13e93f0 [shape=record,label="{%26:\l\l  %27 = load i8*, i8** @line_num_start, align 8, !dbg !185, !tbaa !155\l  %28 = load i8*, i8** @line_num_print, align 8, !dbg !187, !tbaa !155\l  %29 = icmp ult i8* %27, %28, !dbg !188\l  br i1 %29, label %30, label %33, !dbg !189\l|{<s0>T|<s1>F}}"];
+	Node0x13e93f0:s0 -> Node0x13e9440;
+	Node0x13e93f0:s1 -> Node0x13e9490;
+	Node0x13e9440 [shape=record,label="{%30:\l\l  %31 = load i8*, i8** @line_num_print, align 8, !dbg !190, !tbaa !155\l  %32 = getelementptr inbounds i8, i8* %31, i32 -1, !dbg !190\l  store i8* %32, i8** @line_num_print, align 8, !dbg !190, !tbaa !155\l  br label %33, !dbg !191\l}"];
+	Node0x13e9440 -> Node0x13e9490;
+	Node0x13e9490 [shape=record,label="{%33:\l\l  store i32 0, i32* %2, align 4, !dbg !192\l  br label %34, !dbg !192\l}"];
+	Node0x13e9490 -> Node0x13e94e0;
+	Node0x13e94e0 [shape=record,label="{%34:\l\l  %35 = bitcast i8** %1 to i8*, !dbg !192\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %35) #10, !dbg !192\l  %36 = load i32, i32* %2, align 4\l  switch i32 %36, label %38 [\l    i32 0, label %37\l    i32 1, label %37\l  ]\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x13e94e0:s0 -> Node0x13e9580;
+	Node0x13e94e0:s1 -> Node0x13e9530;
+	Node0x13e94e0:s2 -> Node0x13e9530;
+	Node0x13e9530 [shape=record,label="{%37:\l\l  ret void, !dbg !192\l}"];
+	Node0x13e9580 [shape=record,label="{%38:\l\l  unreachable\l}"];
+}

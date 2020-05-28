@@ -1,0 +1,25 @@
+digraph "CFG for 'x2nrealloc' function" {
+	label="CFG for 'x2nrealloc' function";
+
+	Node0x12df880 [shape=record,label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i64*, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i64, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !161\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !45, metadata\l... !DIExpression()), !dbg !165\l  store i64* %1, i64** %5, align 8, !tbaa !161\l  call void @llvm.dbg.declare(metadata i64** %5, metadata !46, metadata\l... !DIExpression()), !dbg !166\l  store i64 %2, i64* %6, align 8, !tbaa !167\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !47, metadata\l... !DIExpression()), !dbg !169\l  %8 = bitcast i64* %7 to i8*, !dbg !170\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #12, !dbg !170\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !48, metadata\l... !DIExpression()), !dbg !171\l  %9 = load i64*, i64** %5, align 8, !dbg !172, !tbaa !161\l  %10 = load i64, i64* %9, align 8, !dbg !173, !tbaa !167\l  store i64 %10, i64* %7, align 8, !dbg !171, !tbaa !167\l  %11 = load i8*, i8** %4, align 8, !dbg !174, !tbaa !161\l  %12 = icmp ne i8* %11, null, !dbg !174\l  br i1 %12, label %33, label %13, !dbg !176\l|{<s0>T|<s1>F}}"];
+	Node0x12df880:s0 -> Node0x12dfb40;
+	Node0x12df880:s1 -> Node0x12df9b0;
+	Node0x12df9b0 [shape=record,label="{%13:\l\l  %14 = load i64, i64* %7, align 8, !dbg !177, !tbaa !167\l  %15 = icmp ne i64 %14, 0, !dbg !177\l  br i1 %15, label %26, label %16, !dbg !180\l|{<s0>T|<s1>F}}"];
+	Node0x12df9b0:s0 -> Node0x12dfa50;
+	Node0x12df9b0:s1 -> Node0x12dfa00;
+	Node0x12dfa00 [shape=record,label="{%16:\l\l  %17 = load i64, i64* %6, align 8, !dbg !181, !tbaa !167\l  %18 = udiv i64 128, %17, !dbg !183\l  store i64 %18, i64* %7, align 8, !dbg !184, !tbaa !167\l  %19 = load i64, i64* %7, align 8, !dbg !185, !tbaa !167\l  %20 = icmp ne i64 %19, 0, !dbg !186\l  %21 = xor i1 %20, true, !dbg !186\l  %22 = zext i1 %21 to i32, !dbg !186\l  %23 = sext i32 %22 to i64, !dbg !186\l  %24 = load i64, i64* %7, align 8, !dbg !187, !tbaa !167\l  %25 = add i64 %24, %23, !dbg !187\l  store i64 %25, i64* %7, align 8, !dbg !187, !tbaa !167\l  br label %26, !dbg !188\l}"];
+	Node0x12dfa00 -> Node0x12dfa50;
+	Node0x12dfa50 [shape=record,label="{%26:\l\l  %27 = load i64, i64* %6, align 8, !dbg !189, !tbaa !167\l  %28 = udiv i64 9223372036854775807, %27, !dbg !189\l  %29 = load i64, i64* %7, align 8, !dbg !189, !tbaa !167\l  %30 = icmp ult i64 %28, %29, !dbg !189\l  br i1 %30, label %31, label %32, !dbg !191\l|{<s0>T|<s1>F}}"];
+	Node0x12dfa50:s0 -> Node0x12dfaa0;
+	Node0x12dfa50:s1 -> Node0x12dfaf0;
+	Node0x12dfaa0 [shape=record,label="{%31:\l\l  call void @xalloc_die() #13, !dbg !192\l  unreachable, !dbg !192\l}"];
+	Node0x12dfaf0 [shape=record,label="{%32:\l\l  br label %45, !dbg !193\l}"];
+	Node0x12dfaf0 -> Node0x12dfc30;
+	Node0x12dfb40 [shape=record,label="{%33:\l\l  %34 = load i64, i64* %6, align 8, !dbg !194, !tbaa !167\l  %35 = udiv i64 6148914691236517204, %34, !dbg !197\l  %36 = load i64, i64* %7, align 8, !dbg !198, !tbaa !167\l  %37 = icmp ule i64 %35, %36, !dbg !199\l  br i1 %37, label %38, label %39, !dbg !200\l|{<s0>T|<s1>F}}"];
+	Node0x12dfb40:s0 -> Node0x12dfb90;
+	Node0x12dfb40:s1 -> Node0x12dfbe0;
+	Node0x12dfb90 [shape=record,label="{%38:\l\l  call void @xalloc_die() #13, !dbg !201\l  unreachable, !dbg !201\l}"];
+	Node0x12dfbe0 [shape=record,label="{%39:\l\l  %40 = load i64, i64* %7, align 8, !dbg !202, !tbaa !167\l  %41 = udiv i64 %40, 2, !dbg !203\l  %42 = add i64 %41, 1, !dbg !204\l  %43 = load i64, i64* %7, align 8, !dbg !205, !tbaa !167\l  %44 = add i64 %43, %42, !dbg !205\l  store i64 %44, i64* %7, align 8, !dbg !205, !tbaa !167\l  br label %45\l}"];
+	Node0x12dfbe0 -> Node0x12dfc30;
+	Node0x12dfc30 [shape=record,label="{%45:\l\l  %46 = load i64, i64* %7, align 8, !dbg !206, !tbaa !167\l  %47 = load i64*, i64** %5, align 8, !dbg !207, !tbaa !161\l  store i64 %46, i64* %47, align 8, !dbg !208, !tbaa !167\l  %48 = load i8*, i8** %4, align 8, !dbg !209, !tbaa !161\l  %49 = load i64, i64* %7, align 8, !dbg !210, !tbaa !167\l  %50 = load i64, i64* %6, align 8, !dbg !211, !tbaa !167\l  %51 = mul i64 %49, %50, !dbg !212\l  %52 = call i8* @xrealloc(i8* %48, i64 %51), !dbg !213\l  %53 = bitcast i64* %7 to i8*, !dbg !214\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %53) #12, !dbg !214\l  ret i8* %52, !dbg !215\l}"];
+}
