@@ -225,7 +225,6 @@ class Data:
         else:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
 
-    # TODO: Klee export *
     def export_bc(self, name, new_name) -> None:
         """Save a BC the REPL knows about to an external file."""
         if name in self.bc_files:
