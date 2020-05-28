@@ -232,7 +232,13 @@ class Data:
             with open(f"/app/code/exports/{new_name}.bc", "wb+") as file:
                 bc_file = self.bc_files[name]
                 file.write(bc_file)
-                self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
+                self.logger.i_msg(f"Made file {new_name}.bc in /app/code/exports/")
+        elif name == "*":
+            for bc_name in self.bc_files:
+                with open(f"/app/code/exports/{bc_name}_export.bc", "wb+") as file:
+                    contents = self.bc_files[bc_name]
+                    file.write(contents)
+                    self.logger.i_msg(f"Made file {bc_name}_export.dot in /app/code/exports/")
         else:
             self.logger.e_msg(f"No {str(ObjTypes.KLEE_BC).capitalize()} {name} found.")
 
@@ -243,6 +249,12 @@ class Data:
                 klee_file = self.klee_formatted_files[name]
                 file.write(klee_file)
                 self.logger.i_msg(f"Made file {new_name}_klee.c in /app/code/exports/.")
+        elif name == "*":
+            for klee_file in self.klee_formatted_files:
+                with open(f"/app/code/exports/{klee_file}_export_klee.c", "w+") as file:
+                    file_contents = self.klee_formatted_files[klee_file]
+                    file.write(file_contents)
+                    self.logger.i_msg(f"Made file {klee_file}_export_klee.c in /app/code/exports/.")
         else:
             self.logger.e_msg(f"No {str(ObjTypes.KLEE_FILE).capitalize()} {name} found.")
 
