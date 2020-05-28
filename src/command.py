@@ -487,13 +487,15 @@ class Command:
 
             converter = self.controller.get_graph_generator(file_extension)
             graph = converter.to_graph(filepath.strip(), file_extension.strip())
-
-            self.logger.i_msg("Converted successfully")
-            self.logger.v_msg(graph)
-            if isinstance(graph, dict):
-                self.data.graphs.update(graph)
+            if graph == None:
+                self.logger.i_msg("Conversion Failed. Maybe your code has an error?")
             else:
-                self.data.graphs[filepath] = graph
+                self.logger.i_msg("Converted successfully")
+                self.logger.v_msg(graph)
+                if isinstance(graph, dict):
+                    self.data.graphs.update(graph)
+                else:
+                    self.data.graphs[filepath] = graph
 
     def do_import(self, args: str) -> None:
         """Convert .dot files into CFGs."""
