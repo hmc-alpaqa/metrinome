@@ -89,6 +89,8 @@ class CPPConvert():
         if len(nodes) == 1:
             nodes.append("1")
             nodes.append("2")
+            edges += ["0 -> 1;"]
+            edges += ["1 -> 2;"]
             counter += 2
 
         # Make a temporary file (with the new content).

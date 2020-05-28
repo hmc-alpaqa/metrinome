@@ -103,6 +103,10 @@ class MyPrompt(Cmd):
 
         return []
 
+    def complete_import(self, text: str, line: str, begin, end) -> List[str]:
+        """Auto-completion for the import command."""
+        return self.complete_file_path(text, line, begin, end, False)
+
     def complete_show(self, text, line, begin, end) -> List[str]:
         """Auto-completion for the show command."""
         return self.complete_repl_objects(line)

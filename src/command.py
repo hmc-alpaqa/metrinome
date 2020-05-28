@@ -11,12 +11,16 @@ import tempfile
 import time
 from collections import namedtuple
 from enum import Enum
+from functools import partial
+from multiprocessing import Pool, Manager
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 from graph import Graph
 from lang_to_cfg import cpp, java, python
 from klee_utils import KleeUtils
 from utils import Timeout
+import numpy
+import mpmath
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t")
 
@@ -344,6 +348,30 @@ class Data:
         self.show_klee_stats(names)
 
 
+def worker_main(shared_dict, file):
+    """Handle the multiprocessing of import."""
+    graph = Graph.from_file(file)
+    print(graph)
+    if isinstance(graph, dict):
+        shared_dict.update(graph)
+    else:
+        filepath, _ = os.path.splitext(file)
+        shared_dict[filepath] = graph
+
+
+def worker_main_two(metrics_generator, shared_dict, graph):
+    """Handle the multiprocessing of convert."""
+    try:
+        with Timeout(10, "Took too long!"):
+            result = metrics_generator.evaluate(graph)
+        shared_dict[(graph.name, metrics_generator.name())] = result
+    except IndexError as err:
+        print(graph)
+        print(err)
+    except TimeoutError as err:
+        print(err, graph.name, metrics_generator.name())
+
+
 class Command:
     """Command is the implementation of the REPL commands."""
 
@@ -459,6 +487,7 @@ class Command:
 
             converter = self.controller.get_graph_generator(file_extension)
             graph = converter.to_graph(filepath.strip(), file_extension.strip())
+
             self.logger.i_msg("Converted successfully")
             self.logger.v_msg(graph)
             if isinstance(graph, dict):
@@ -491,21 +520,21 @@ class Command:
         self.logger.d_msg(f"Convert {all_files}")
         # Make sure files are valid (if using recursive mode
         #  this is done automatically in the previous step).
-        for file in all_files:
-            filepath, file_extension = os.path.splitext(file)
-            if file_extension != ".dot":
-                if file_extension == "":
-                    self.logger.v_msg(NO_FILE_EXT_ERR(file))
+        if self.multi_threaded:
+            manager = Manager()
+            shared_dict: Dict[Any, Any] = manager.dict()
+            pool = Pool(8)
+            pool.map(partial(worker_main, shared_dict), all_files)
+            self.data.graphs.update(shared_dict)
+        else:
+            for file in all_files:
+                filepath, _ = os.path.splitext(file)
+                graph = Graph.from_file(file)
+                self.logger.v_msg(graph)
+                if isinstance(graph, dict):
+                    self.data.graphs.update(graph)
                 else:
-                    self.logger.v_msg(f"Cannot convert {file_extension} for {file}.")
-                return
-
-            graph = Graph.from_file(file)
-            self.logger.v_msg(graph)
-            if isinstance(graph, dict):
-                self.data.graphs.update(graph)
-            else:
-                self.data.graphs[filepath] = graph
+                    self.data.graphs[filepath] = graph
 
     def do_list(self, args: str) -> None:
         """List objects the REPL knows about."""
@@ -562,15 +591,34 @@ class Command:
                 self.logger.v_msg(f"Error, Graph {name} not found.")
                 return
 
-        for name in names:
-            graph = self.data.graphs[name]
+        graphs = [self.data.graphs[name] for name in names]
+        if self.multi_threaded:
+            pool = Pool(8)
+            manager = Manager()
+            shared_dict: Dict[Any, Any] = manager.dict()
+            for metrics_generator in self.controller.metrics_generators:
+                pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
+            self.logger.v_msg(str(shared_dict))
+
+        for graph in graphs:
             self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
             for metric_generator in self.controller.metrics_generators:
                 self.logger.v_msg(f"Computing {metric_generator.name()}")
-                result = metric_generator.evaluate(graph)
-                results.append((metric_generator.name(), result))
-                self.logger.v_msg(f"Got {result}")
+
+                try:
+                    with Timeout(60, "Took too long!"):
+                        result = metric_generator.evaluate(graph)
+                    results.append((metric_generator.name(), result))
+                    self.logger.v_msg(f"Got {result}")
+                except TimeoutError:
+                    self.logger.e_msg("Timeout!")
+                except IndexError as err:
+                    self.logger.e_msg(err)
+                except numpy.linalg.LinAlgError as err:
+                    self.logger.e_msg(err)
+                except mpmath.libmp.libhyper.NoConvergence as err:
+                    self.logger.e_msg(err)
 
             self.data.metrics[name] = results
 
