@@ -1,0 +1,32 @@
+digraph "CFG for 'print_factors_single' function" {
+	label="CFG for 'print_factors_single' function";
+
+	Node0x2574fd0 [shape=record,label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca %struct.factors, align 8\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  %8 = alloca i32, align 4\l  store i64 %0, i64* %3, align 8, !tbaa !123\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !102, metadata\l... !DIExpression()), !dbg !127\l  store i64 %1, i64* %4, align 8, !tbaa !123\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !103, metadata\l... !DIExpression()), !dbg !128\l  %9 = bitcast %struct.factors* %5 to i8*, !dbg !129\l  call void @llvm.lifetime.start.p0i8(i64 256, i8* %9) #12, !dbg !129\l  call void @llvm.dbg.declare(metadata %struct.factors* %5, metadata !104,\l... metadata !DIExpression()), !dbg !130\l  %10 = load i64, i64* %3, align 8, !dbg !131, !tbaa !123\l  %11 = load i64, i64* %4, align 8, !dbg !132, !tbaa !123\l  call void @print_uintmaxes(i64 %10, i64 %11), !dbg !133\l  call void @lbuf_putc(i8 signext 58), !dbg !134\l  %12 = load i64, i64* %3, align 8, !dbg !135, !tbaa !123\l  %13 = load i64, i64* %4, align 8, !dbg !136, !tbaa !123\l  call void @factor(i64 %12, i64 %13, %struct.factors* %5), !dbg !137\l  %14 = bitcast i32* %6 to i8*, !dbg !138\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %14) #12, !dbg !138\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !118, metadata\l... !DIExpression()), !dbg !139\l  store i32 0, i32* %6, align 4, !dbg !139, !tbaa !140\l  br label %15, !dbg !138\l}"];
+	Node0x2574fd0 -> Node0x25750f0;
+	Node0x25750f0 [shape=record,label="{%15:\l\l  %16 = load i32, i32* %6, align 4, !dbg !142, !tbaa !140\l  %17 = getelementptr inbounds %struct.factors, %struct.factors* %5, i32 0,\l... i32 3, !dbg !143\l  %18 = load i8, i8* %17, align 2, !dbg !143, !tbaa !144\l  %19 = zext i8 %18 to i32, !dbg !146\l  %20 = icmp ult i32 %16, %19, !dbg !147\l  br i1 %20, label %23, label %21, !dbg !148\l|{<s0>T|<s1>F}}"];
+	Node0x25750f0:s0 -> Node0x2575190;
+	Node0x25750f0:s1 -> Node0x2575140;
+	Node0x2575140 [shape=record,label="{%21:\l\l  store i32 2, i32* %7, align 4\l  %22 = bitcast i32* %6 to i8*, !dbg !149\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %22) #12, !dbg !149\l  br label %49\l}"];
+	Node0x2575140 -> Node0x25753c0;
+	Node0x2575190 [shape=record,label="{%23:\l\l  %24 = bitcast i32* %8 to i8*, !dbg !150\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %24) #12, !dbg !150\l  call void @llvm.dbg.declare(metadata i32* %8, metadata !120, metadata\l... !DIExpression()), !dbg !151\l  store i32 0, i32* %8, align 4, !dbg !151, !tbaa !140\l  br label %25, !dbg !150\l}"];
+	Node0x2575190 -> Node0x25751e0;
+	Node0x25751e0 [shape=record,label="{%25:\l\l  %26 = load i32, i32* %8, align 4, !dbg !152, !tbaa !140\l  %27 = getelementptr inbounds %struct.factors, %struct.factors* %5, i32 0,\l... i32 2, !dbg !154\l  %28 = load i32, i32* %6, align 4, !dbg !155, !tbaa !140\l  %29 = zext i32 %28 to i64, !dbg !156\l  %30 = getelementptr inbounds [26 x i8], [26 x i8]* %27, i64 0, i64 %29, !dbg\l... !156\l  %31 = load i8, i8* %30, align 1, !dbg !156, !tbaa !157\l  %32 = zext i8 %31 to i32, !dbg !156\l  %33 = icmp ult i32 %26, %32, !dbg !158\l  br i1 %33, label %36, label %34, !dbg !159\l|{<s0>T|<s1>F}}"];
+	Node0x25751e0:s0 -> Node0x2575280;
+	Node0x25751e0:s1 -> Node0x2575230;
+	Node0x2575230 [shape=record,label="{%34:\l\l  store i32 5, i32* %7, align 4\l  %35 = bitcast i32* %8 to i8*, !dbg !160\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %35) #12, !dbg !160\l  br label %45\l}"];
+	Node0x2575230 -> Node0x2575320;
+	Node0x2575280 [shape=record,label="{%36:\l\l  call void @lbuf_putc(i8 signext 32), !dbg !161\l  %37 = getelementptr inbounds %struct.factors, %struct.factors* %5, i32 0,\l... i32 1, !dbg !163\l  %38 = load i32, i32* %6, align 4, !dbg !164, !tbaa !140\l  %39 = zext i32 %38 to i64, !dbg !165\l  %40 = getelementptr inbounds [26 x i64], [26 x i64]* %37, i64 0, i64 %39,\l... !dbg !165\l  %41 = load i64, i64* %40, align 8, !dbg !165, !tbaa !123\l  call void @print_uintmaxes(i64 0, i64 %41), !dbg !166\l  br label %42, !dbg !167\l}"];
+	Node0x2575280 -> Node0x25752d0;
+	Node0x25752d0 [shape=record,label="{%42:\l\l  %43 = load i32, i32* %8, align 4, !dbg !168, !tbaa !140\l  %44 = add i32 %43, 1, !dbg !168\l  store i32 %44, i32* %8, align 4, !dbg !168, !tbaa !140\l  br label %25, !dbg !160, !llvm.loop !169\l}"];
+	Node0x25752d0 -> Node0x25751e0;
+	Node0x2575320 [shape=record,label="{%45:\l\l  br label %46, !dbg !170\l}"];
+	Node0x2575320 -> Node0x2575370;
+	Node0x2575370 [shape=record,label="{%46:\l\l  %47 = load i32, i32* %6, align 4, !dbg !171, !tbaa !140\l  %48 = add i32 %47, 1, !dbg !171\l  store i32 %48, i32* %6, align 4, !dbg !171, !tbaa !140\l  br label %15, !dbg !149, !llvm.loop !172\l}"];
+	Node0x2575370 -> Node0x25750f0;
+	Node0x25753c0 [shape=record,label="{%49:\l\l  %50 = getelementptr inbounds %struct.factors, %struct.factors* %5, i32 0,\l... i32 0, !dbg !174\l  %51 = getelementptr inbounds [2 x i64], [2 x i64]* %50, i64 0, i64 1, !dbg\l... !176\l  %52 = load i64, i64* %51, align 8, !dbg !176, !tbaa !123\l  %53 = icmp ne i64 %52, 0, !dbg !176\l  br i1 %53, label %54, label %61, !dbg !177\l|{<s0>T|<s1>F}}"];
+	Node0x25753c0:s0 -> Node0x2575410;
+	Node0x25753c0:s1 -> Node0x2575460;
+	Node0x2575410 [shape=record,label="{%54:\l\l  call void @lbuf_putc(i8 signext 32), !dbg !178\l  %55 = getelementptr inbounds %struct.factors, %struct.factors* %5, i32 0,\l... i32 0, !dbg !180\l  %56 = getelementptr inbounds [2 x i64], [2 x i64]* %55, i64 0, i64 1, !dbg\l... !181\l  %57 = load i64, i64* %56, align 8, !dbg !181, !tbaa !123\l  %58 = getelementptr inbounds %struct.factors, %struct.factors* %5, i32 0,\l... i32 0, !dbg !182\l  %59 = getelementptr inbounds [2 x i64], [2 x i64]* %58, i64 0, i64 0, !dbg\l... !183\l  %60 = load i64, i64* %59, align 8, !dbg !183, !tbaa !123\l  call void @print_uintmaxes(i64 %57, i64 %60), !dbg !184\l  br label %61, !dbg !185\l}"];
+	Node0x2575410 -> Node0x2575460;
+	Node0x2575460 [shape=record,label="{%61:\l\l  call void @lbuf_putc(i8 signext 10), !dbg !186\l  %62 = bitcast %struct.factors* %5 to i8*, !dbg !187\l  call void @llvm.lifetime.end.p0i8(i64 256, i8* %62) #12, !dbg !187\l  ret void, !dbg !187\l}"];
+}

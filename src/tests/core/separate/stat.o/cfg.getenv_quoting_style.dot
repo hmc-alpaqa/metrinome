@@ -1,0 +1,19 @@
+digraph "CFG for 'getenv_quoting_style' function" {
+	label="CFG for 'getenv_quoting_style' function";
+
+	Node0x128c910 [shape=record,label="{%0:\l  %1 = alloca i8*, align 8\l  %2 = alloca i32, align 4\l  %3 = bitcast i8** %1 to i8*, !dbg !354\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %3) #12, !dbg !354\l  call void @llvm.dbg.declare(metadata i8** %1, metadata !350, metadata\l... !DIExpression()), !dbg !355\l  %4 = call i8* @getenv(i8* getelementptr inbounds ([14 x i8], [14 x i8]*\l... @.str.56, i32 0, i32 0)) #12, !dbg !356\l  store i8* %4, i8** %1, align 8, !dbg !355, !tbaa !357\l  %5 = load i8*, i8** %1, align 8, !dbg !361, !tbaa !357\l  %6 = icmp ne i8* %5, null, !dbg !361\l  br i1 %6, label %7, label %24, !dbg !362\l|{<s0>T|<s1>F}}"];
+	Node0x128c910:s0 -> Node0x12b6500;
+	Node0x128c910:s1 -> Node0x12b6640;
+	Node0x12b6500 [shape=record,label="{%7:\l\l  %8 = bitcast i32* %2 to i8*, !dbg !363\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #12, !dbg !363\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !351, metadata\l... !DIExpression()), !dbg !364\l  %9 = load i8*, i8** %1, align 8, !dbg !365, !tbaa !357\l  %10 = call i64 @argmatch(i8* %9, i8** getelementptr inbounds ([0 x i8*], [0\l... x i8*]* @quoting_style_args, i32 0, i32 0), i8* bitcast ([0 x i32]*\l... @quoting_style_vals to i8*), i64 4) #13, !dbg !365\l  %11 = trunc i64 %10 to i32, !dbg !365\l  store i32 %11, i32* %2, align 4, !dbg !364, !tbaa !366\l  %12 = load i32, i32* %2, align 4, !dbg !368, !tbaa !366\l  %13 = icmp sle i32 0, %12, !dbg !370\l  br i1 %13, label %14, label %19, !dbg !371\l|{<s0>T|<s1>F}}"];
+	Node0x12b6500:s0 -> Node0x12b6550;
+	Node0x12b6500:s1 -> Node0x12b65a0;
+	Node0x12b6550 [shape=record,label="{%14:\l\l  %15 = load i32, i32* %2, align 4, !dbg !372, !tbaa !366\l  %16 = sext i32 %15 to i64, !dbg !373\l  %17 = getelementptr inbounds [0 x i32], [0 x i32]* @quoting_style_vals, i64\l... 0, i64 %16, !dbg !373\l  %18 = load i32, i32* %17, align 4, !dbg !373, !tbaa !374\l  call void @set_quoting_style(%struct.quoting_options* null, i32 %18), !dbg\l... !375\l  br label %22, !dbg !375\l}"];
+	Node0x12b6550 -> Node0x12b65f0;
+	Node0x12b65a0 [shape=record,label="{%19:\l\l  call void @set_quoting_style(%struct.quoting_options* null, i32 4), !dbg !376\l  %20 = load i8*, i8** %1, align 8, !dbg !378, !tbaa !357\l  %21 = call i8* @quote(i8* %20), !dbg !379\l  call void (i32, i32, i8*, ...) @error(i32 0, i32 0, i8* getelementptr\l... inbounds ([65 x i8], [65 x i8]* @.str.57, i32 0, i32 0), i8* %21), !dbg !380\l  br label %22\l}"];
+	Node0x12b65a0 -> Node0x12b65f0;
+	Node0x12b65f0 [shape=record,label="{%22:\l\l  %23 = bitcast i32* %2 to i8*, !dbg !381\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %23) #12, !dbg !381\l  br label %25, !dbg !382\l}"];
+	Node0x12b65f0 -> Node0x12b6690;
+	Node0x12b6640 [shape=record,label="{%24:\l\l  call void @set_quoting_style(%struct.quoting_options* null, i32 4), !dbg !383\l  br label %25\l}"];
+	Node0x12b6640 -> Node0x12b6690;
+	Node0x12b6690 [shape=record,label="{%25:\l\l  %26 = bitcast i8** %1 to i8*, !dbg !384\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %26) #12, !dbg !384\l  ret void, !dbg !384\l}"];
+}

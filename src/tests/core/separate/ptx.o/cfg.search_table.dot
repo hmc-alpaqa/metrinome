@@ -1,0 +1,28 @@
+digraph "CFG for 'search_table' function" {
+	label="CFG for 'search_table' function";
+
+	Node0x22d1c20 [shape=record,label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca %struct.WORD*, align 8\l  %5 = alloca %struct.WORD_TABLE*, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i64, align 8\l  %8 = alloca i64, align 8\l  %9 = alloca i32, align 4\l  %10 = alloca i32, align 4\l  store %struct.WORD* %0, %struct.WORD** %4, align 8, !tbaa !293\l  call void @llvm.dbg.declare(metadata %struct.WORD** %4, metadata !287,\l... metadata !DIExpression()), !dbg !297\l  store %struct.WORD_TABLE* %1, %struct.WORD_TABLE** %5, align 8, !tbaa !293\l  call void @llvm.dbg.declare(metadata %struct.WORD_TABLE** %5, metadata !288,\l... metadata !DIExpression()), !dbg !298\l  %11 = bitcast i64* %6 to i8*, !dbg !299\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %11) #12, !dbg !299\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !289, metadata\l... !DIExpression()), !dbg !300\l  %12 = bitcast i64* %7 to i8*, !dbg !301\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %12) #12, !dbg !301\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !290, metadata\l... !DIExpression()), !dbg !302\l  %13 = bitcast i64* %8 to i8*, !dbg !303\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %13) #12, !dbg !303\l  call void @llvm.dbg.declare(metadata i64* %8, metadata !291, metadata\l... !DIExpression()), !dbg !304\l  %14 = bitcast i32* %9 to i8*, !dbg !305\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %14) #12, !dbg !305\l  call void @llvm.dbg.declare(metadata i32* %9, metadata !292, metadata\l... !DIExpression()), !dbg !306\l  store i64 0, i64* %6, align 8, !dbg !307, !tbaa !308\l  %15 = load %struct.WORD_TABLE*, %struct.WORD_TABLE** %5, align 8, !dbg !310,\l... !tbaa !293\l  %16 = getelementptr inbounds %struct.WORD_TABLE, %struct.WORD_TABLE* %15,\l... i32 0, i32 2, !dbg !311\l  %17 = load i64, i64* %16, align 8, !dbg !311, !tbaa !312\l  %18 = sub nsw i64 %17, 1, !dbg !314\l  store i64 %18, i64* %7, align 8, !dbg !315, !tbaa !308\l  br label %19, !dbg !316\l}"];
+	Node0x22d1c20 -> Node0x22d2090;
+	Node0x22d2090 [shape=record,label="{%19:\l\l  %20 = load i64, i64* %6, align 8, !dbg !317, !tbaa !308\l  %21 = load i64, i64* %7, align 8, !dbg !318, !tbaa !308\l  %22 = icmp sle i64 %20, %21, !dbg !319\l  br i1 %22, label %23, label %51, !dbg !316\l|{<s0>T|<s1>F}}"];
+	Node0x22d2090:s0 -> Node0x22d20e0;
+	Node0x22d2090:s1 -> Node0x22d2310;
+	Node0x22d20e0 [shape=record,label="{%23:\l\l  %24 = load i64, i64* %6, align 8, !dbg !320, !tbaa !308\l  %25 = load i64, i64* %7, align 8, !dbg !322, !tbaa !308\l  %26 = add nsw i64 %24, %25, !dbg !323\l  %27 = sdiv i64 %26, 2, !dbg !324\l  store i64 %27, i64* %8, align 8, !dbg !325, !tbaa !308\l  %28 = load %struct.WORD*, %struct.WORD** %4, align 8, !dbg !326, !tbaa !293\l  %29 = bitcast %struct.WORD* %28 to i8*, !dbg !326\l  %30 = load %struct.WORD_TABLE*, %struct.WORD_TABLE** %5, align 8, !dbg !327,\l... !tbaa !293\l  %31 = getelementptr inbounds %struct.WORD_TABLE, %struct.WORD_TABLE* %30,\l... i32 0, i32 0, !dbg !328\l  %32 = load %struct.WORD*, %struct.WORD** %31, align 8, !dbg !328, !tbaa !329\l  %33 = load i64, i64* %8, align 8, !dbg !330, !tbaa !308\l  %34 = getelementptr inbounds %struct.WORD, %struct.WORD* %32, i64 %33, !dbg\l... !331\l  %35 = bitcast %struct.WORD* %34 to i8*, !dbg !327\l  %36 = call i32 @compare_words(i8* %29, i8* %35), !dbg !332\l  store i32 %36, i32* %9, align 4, !dbg !333, !tbaa !334\l  %37 = load i32, i32* %9, align 4, !dbg !336, !tbaa !334\l  %38 = icmp slt i32 %37, 0, !dbg !338\l  br i1 %38, label %39, label %42, !dbg !339\l|{<s0>T|<s1>F}}"];
+	Node0x22d20e0:s0 -> Node0x22d2130;
+	Node0x22d20e0:s1 -> Node0x22d2180;
+	Node0x22d2130 [shape=record,label="{%39:\l\l  %40 = load i64, i64* %8, align 8, !dbg !340, !tbaa !308\l  %41 = sub nsw i64 %40, 1, !dbg !341\l  store i64 %41, i64* %7, align 8, !dbg !342, !tbaa !308\l  br label %50, !dbg !343\l}"];
+	Node0x22d2130 -> Node0x22d22c0;
+	Node0x22d2180 [shape=record,label="{%42:\l\l  %43 = load i32, i32* %9, align 4, !dbg !344, !tbaa !334\l  %44 = icmp sgt i32 %43, 0, !dbg !346\l  br i1 %44, label %45, label %48, !dbg !347\l|{<s0>T|<s1>F}}"];
+	Node0x22d2180:s0 -> Node0x22d21d0;
+	Node0x22d2180:s1 -> Node0x22d2220;
+	Node0x22d21d0 [shape=record,label="{%45:\l\l  %46 = load i64, i64* %8, align 8, !dbg !348, !tbaa !308\l  %47 = add nsw i64 %46, 1, !dbg !349\l  store i64 %47, i64* %6, align 8, !dbg !350, !tbaa !308\l  br label %49, !dbg !351\l}"];
+	Node0x22d21d0 -> Node0x22d2270;
+	Node0x22d2220 [shape=record,label="{%48:\l\l  store i1 true, i1* %3, align 1, !dbg !352\l  store i32 1, i32* %10, align 4\l  br label %52, !dbg !352\l}"];
+	Node0x22d2220 -> Node0x22d2360;
+	Node0x22d2270 [shape=record,label="{%49:\l\l  br label %50\l}"];
+	Node0x22d2270 -> Node0x22d22c0;
+	Node0x22d22c0 [shape=record,label="{%50:\l\l  br label %19, !dbg !316, !llvm.loop !353\l}"];
+	Node0x22d22c0 -> Node0x22d2090;
+	Node0x22d2310 [shape=record,label="{%51:\l\l  store i1 false, i1* %3, align 1, !dbg !355\l  store i32 1, i32* %10, align 4\l  br label %52, !dbg !355\l}"];
+	Node0x22d2310 -> Node0x22d2360;
+	Node0x22d2360 [shape=record,label="{%52:\l\l  %53 = bitcast i32* %9 to i8*, !dbg !356\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %53) #12, !dbg !356\l  %54 = bitcast i64* %8 to i8*, !dbg !356\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %54) #12, !dbg !356\l  %55 = bitcast i64* %7 to i8*, !dbg !356\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %55) #12, !dbg !356\l  %56 = bitcast i64* %6 to i8*, !dbg !356\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %56) #12, !dbg !356\l  %57 = load i1, i1* %3, align 1, !dbg !356\l  ret i1 %57, !dbg !356\l}"];
+}

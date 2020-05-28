@@ -1,0 +1,13 @@
+digraph "CFG for 'sort_die' function" {
+	label="CFG for 'sort_die' function";
+
+	Node0x168ce10 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1167\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1165, metadata\l... !DIExpression()), !dbg !1171\l  store i8* %1, i8** %4, align 8, !tbaa !1167\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1166, metadata\l... !DIExpression()), !dbg !1172\l  %5 = call i32* @__errno_location() #12, !dbg !1173\l  %6 = load i32, i32* %5, align 4, !dbg !1173, !tbaa !1174\l  %7 = load i8*, i8** %3, align 8, !dbg !1173, !tbaa !1167\l  %8 = load i8*, i8** %4, align 8, !dbg !1173, !tbaa !1167\l  %9 = icmp ne i8* %8, null, !dbg !1173\l  br i1 %9, label %10, label %12, !dbg !1173\l|{<s0>T|<s1>F}}"];
+	Node0x168ce10:s0 -> Node0x168cef0;
+	Node0x168ce10:s1 -> Node0x168cf40;
+	Node0x168cef0 [shape=record,label="{%10:\l\l  %11 = load i8*, i8** %4, align 8, !dbg !1173, !tbaa !1167\l  br label %13, !dbg !1173\l}"];
+	Node0x168cef0 -> Node0x168cf90;
+	Node0x168cf40 [shape=record,label="{%12:\l\l  br label %13, !dbg !1173\l}"];
+	Node0x168cf40 -> Node0x168cf90;
+	Node0x168cf90 [shape=record,label="{%13:\l\l  %14 = phi i8* [ %11, %10 ], [ getelementptr inbounds ([16 x i8], [16 x i8]*\l... @.str.180, i32 0, i32 0), %12 ], !dbg !1173\l  %15 = call i8* @quotearg_n_style_colon(i32 0, i32 3, i8* %14), !dbg !1173\l  call void (i32, i32, i8*, ...) @error(i32 2, i32 %6, i8* getelementptr\l... inbounds ([7 x i8], [7 x i8]* @.str.179, i32 0, i32 0), i8* %7, i8* %15),\l... !dbg !1173\l  unreachable, !dbg !1173\l}"];
+	Node0x168cfe0 [shape=record,label="{%16:                                                  \l  unreachable, !dbg !1176\l}"];
+}

@@ -1,0 +1,9 @@
+digraph "CFG for 'xnmalloc' function" {
+	label="CFG for 'xnmalloc' function";
+
+	Node0x1512000 [shape=record,label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !96\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !94, metadata\l... !DIExpression()), !dbg !100\l  store i64 %1, i64* %4, align 8, !tbaa !96\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !95, metadata\l... !DIExpression()), !dbg !101\l  %5 = load i64, i64* %4, align 8, !dbg !102, !tbaa !96\l  %6 = udiv i64 9223372036854775807, %5, !dbg !102\l  %7 = load i64, i64* %3, align 8, !dbg !102, !tbaa !96\l  %8 = icmp ult i64 %6, %7, !dbg !102\l  br i1 %8, label %9, label %10, !dbg !104\l|{<s0>T|<s1>F}}"];
+	Node0x1512000:s0 -> Node0x1512d00;
+	Node0x1512000:s1 -> Node0x1512d50;
+	Node0x1512d00 [shape=record,label="{%9:\l\l  call void @xalloc_die() #11, !dbg !105\l  unreachable, !dbg !105\l}"];
+	Node0x1512d50 [shape=record,label="{%10:\l\l  %11 = load i64, i64* %3, align 8, !dbg !106, !tbaa !96\l  %12 = load i64, i64* %4, align 8, !dbg !107, !tbaa !96\l  %13 = mul i64 %11, %12, !dbg !108\l  %14 = call noalias i8* @xmalloc(i64 %13), !dbg !109\l  ret i8* %14, !dbg !110\l}"];
+}

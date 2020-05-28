@@ -1,0 +1,21 @@
+digraph "CFG for 'get_space' function" {
+	label="CFG for 'get_space' function";
+
+	Node0xc5bf70 [shape=record,label="{%2:\l  %3 = alloca %struct._IO_FILE*, align 8\l  %4 = alloca i32, align 4\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %3, align 8, !tbaa !201\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %3, metadata !199,\l... metadata !DIExpression()), !dbg !205\l  store i32 %1, i32* %4, align 4, !tbaa !206\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !200, metadata\l... !DIExpression()), !dbg !208\l  br label %5, !dbg !209\l}"];
+	Node0xc5bf70 -> Node0xc5bfc0;
+	Node0xc5bfc0 [shape=record,label="{%5:\l\l  %6 = load i32, i32* %4, align 4, !dbg !210, !tbaa !206\l  %7 = icmp eq i32 %6, 32, !dbg !213\l  br i1 %7, label %8, label %11, !dbg !214\l|{<s0>T|<s1>F}}"];
+	Node0xc5bfc0:s0 -> Node0xc5c010;
+	Node0xc5bfc0:s1 -> Node0xc5c060;
+	Node0xc5c010 [shape=record,label="{%8:\l\l  %9 = load i32, i32* @in_column, align 4, !dbg !215, !tbaa !206\l  %10 = add nsw i32 %9, 1, !dbg !215\l  store i32 %10, i32* @in_column, align 4, !dbg !215, !tbaa !206\l  br label %22, !dbg !216\l}"];
+	Node0xc5c010 -> Node0xc5c1a0;
+	Node0xc5c060 [shape=record,label="{%11:\l\l  %12 = load i32, i32* %4, align 4, !dbg !217, !tbaa !206\l  %13 = icmp eq i32 %12, 9, !dbg !219\l  br i1 %13, label %14, label %19, !dbg !220\l|{<s0>T|<s1>F}}"];
+	Node0xc5c060:s0 -> Node0xc5c0b0;
+	Node0xc5c060:s1 -> Node0xc5c100;
+	Node0xc5c0b0 [shape=record,label="{%14:\l\l  store i8 1, i8* @tabs, align 1, !dbg !221, !tbaa !223\l  %15 = load i32, i32* @in_column, align 4, !dbg !225, !tbaa !206\l  %16 = sdiv i32 %15, 8, !dbg !226\l  %17 = add nsw i32 %16, 1, !dbg !227\l  %18 = mul nsw i32 %17, 8, !dbg !228\l  store i32 %18, i32* @in_column, align 4, !dbg !229, !tbaa !206\l  br label %21, !dbg !230\l}"];
+	Node0xc5c0b0 -> Node0xc5c150;
+	Node0xc5c100 [shape=record,label="{%19:\l\l  %20 = load i32, i32* %4, align 4, !dbg !231, !tbaa !206\l  ret i32 %20, !dbg !232\l}"];
+	Node0xc5c150 [shape=record,label="{%21:\l\l  br label %22\l}"];
+	Node0xc5c150 -> Node0xc5c1a0;
+	Node0xc5c1a0 [shape=record,label="{%22:\l\l  %23 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !233,\l... !tbaa !201\l  %24 = call i32 @getc_unlocked(%struct._IO_FILE* %23), !dbg !233\l  store i32 %24, i32* %4, align 4, !dbg !234, !tbaa !206\l  br label %5, !dbg !209, !llvm.loop !235\l}"];
+	Node0xc5c1a0 -> Node0xc5bfc0;
+}

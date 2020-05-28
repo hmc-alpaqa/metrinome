@@ -1,0 +1,21 @@
+digraph "CFG for 'set_speed' function" {
+	label="CFG for 'set_speed' function";
+
+	Node0x9e1230 [shape=record,label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.termios*, align 8\l  %7 = alloca i32, align 4\l  store i32 %0, i32* %4, align 4, !tbaa !179\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !175, metadata\l... !DIExpression()), !dbg !182\l  store i8* %1, i8** %5, align 8, !tbaa !183\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !176, metadata\l... !DIExpression()), !dbg !185\l  store %struct.termios* %2, %struct.termios** %6, align 8, !tbaa !183\l  call void @llvm.dbg.declare(metadata %struct.termios** %6, metadata !177,\l... metadata !DIExpression()), !dbg !186\l  %8 = bitcast i32* %7 to i8*, !dbg !187\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #10, !dbg !187\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !178, metadata\l... !DIExpression()), !dbg !188\l  %9 = load i8*, i8** %5, align 8, !dbg !189, !tbaa !183\l  %10 = call i32 @string_to_baud(i8* %9), !dbg !190\l  store i32 %10, i32* %7, align 4, !dbg !191, !tbaa !192\l  %11 = load i32, i32* %4, align 4, !dbg !194, !tbaa !179\l  %12 = icmp eq i32 %11, 0, !dbg !196\l  br i1 %12, label %16, label %13, !dbg !197\l|{<s0>T|<s1>F}}"];
+	Node0x9e1230:s0 -> Node0x9fec00;
+	Node0x9e1230:s1 -> Node0x9febb0;
+	Node0x9febb0 [shape=record,label="{%13:\l\l  %14 = load i32, i32* %4, align 4, !dbg !198, !tbaa !179\l  %15 = icmp eq i32 %14, 2, !dbg !199\l  br i1 %15, label %16, label %20, !dbg !200\l|{<s0>T|<s1>F}}"];
+	Node0x9febb0:s0 -> Node0x9fec00;
+	Node0x9febb0:s1 -> Node0x9fec50;
+	Node0x9fec00 [shape=record,label="{%16:\l\l  %17 = load %struct.termios*, %struct.termios** %6, align 8, !dbg !201, !tbaa\l... !183\l  %18 = load i32, i32* %7, align 4, !dbg !202, !tbaa !192\l  %19 = call i32 @cfsetispeed(%struct.termios* %17, i32 %18) #10, !dbg !203\l  br label %20, !dbg !203\l}"];
+	Node0x9fec00 -> Node0x9fec50;
+	Node0x9fec50 [shape=record,label="{%20:\l\l  %21 = load i32, i32* %4, align 4, !dbg !204, !tbaa !179\l  %22 = icmp eq i32 %21, 1, !dbg !206\l  br i1 %22, label %26, label %23, !dbg !207\l|{<s0>T|<s1>F}}"];
+	Node0x9fec50:s0 -> Node0x9fecf0;
+	Node0x9fec50:s1 -> Node0x9feca0;
+	Node0x9feca0 [shape=record,label="{%23:\l\l  %24 = load i32, i32* %4, align 4, !dbg !208, !tbaa !179\l  %25 = icmp eq i32 %24, 2, !dbg !209\l  br i1 %25, label %26, label %30, !dbg !210\l|{<s0>T|<s1>F}}"];
+	Node0x9feca0:s0 -> Node0x9fecf0;
+	Node0x9feca0:s1 -> Node0x9fed40;
+	Node0x9fecf0 [shape=record,label="{%26:\l\l  %27 = load %struct.termios*, %struct.termios** %6, align 8, !dbg !211, !tbaa\l... !183\l  %28 = load i32, i32* %7, align 4, !dbg !212, !tbaa !192\l  %29 = call i32 @cfsetospeed(%struct.termios* %27, i32 %28) #10, !dbg !213\l  br label %30, !dbg !213\l}"];
+	Node0x9fecf0 -> Node0x9fed40;
+	Node0x9fed40 [shape=record,label="{%30:\l\l  %31 = bitcast i32* %7 to i8*, !dbg !214\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %31) #10, !dbg !214\l  ret void, !dbg !214\l}"];
+}

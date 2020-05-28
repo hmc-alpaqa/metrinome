@@ -1,0 +1,13 @@
+digraph "CFG for 'cleanup' function" {
+	label="CFG for 'cleanup' function";
+
+	Node0x1dccfb0 [shape=record,label="{%0:\l  %1 = call i32 @iclose(i32 0), !dbg !368\l  %2 = icmp ne i32 %1, 0, !dbg !370\l  br i1 %2, label %3, label %8, !dbg !371\l|{<s0>T|<s1>F}}"];
+	Node0x1dccfb0:s0 -> Node0x1dcd000;
+	Node0x1dccfb0:s1 -> Node0x1dcd050;
+	Node0x1dcd000 [shape=record,label="{%3:\l\l  %4 = call i32* @__errno_location() #14, !dbg !372\l  %5 = load i32, i32* %4, align 4, !dbg !372, !tbaa !373\l  %6 = load i8*, i8** @input_file, align 8, !dbg !372, !tbaa !377\l  %7 = call i8* @quotearg_style(i32 4, i8* %6), !dbg !372\l  call void (i32, i32, i8*, ...) @nl_error(i32 1, i32 %5, i8* getelementptr\l... inbounds ([22 x i8], [22 x i8]* @.str.90, i32 0, i32 0), i8* %7), !dbg !372\l  unreachable, !dbg !372\l}"];
+	Node0x1dcd050 [shape=record,label="{%8:\l\l  %9 = call i32 @iclose(i32 1), !dbg !379\l  %10 = icmp ne i32 %9, 0, !dbg !381\l  br i1 %10, label %11, label %16, !dbg !382\l|{<s0>T|<s1>F}}"];
+	Node0x1dcd050:s0 -> Node0x1dcd0a0;
+	Node0x1dcd050:s1 -> Node0x1dcd0f0;
+	Node0x1dcd0a0 [shape=record,label="{%11:\l\l  %12 = call i32* @__errno_location() #14, !dbg !383\l  %13 = load i32, i32* %12, align 4, !dbg !383, !tbaa !373\l  %14 = load i8*, i8** @output_file, align 8, !dbg !383, !tbaa !377\l  %15 = call i8* @quotearg_style(i32 4, i8* %14), !dbg !383\l  call void (i32, i32, i8*, ...) @nl_error(i32 1, i32 %13, i8* getelementptr\l... inbounds ([23 x i8], [23 x i8]* @.str.91, i32 0, i32 0), i8* %15), !dbg !383\l  unreachable, !dbg !383\l}"];
+	Node0x1dcd0f0 [shape=record,label="{%16:\l\l  ret void, !dbg !384\l}"];
+}

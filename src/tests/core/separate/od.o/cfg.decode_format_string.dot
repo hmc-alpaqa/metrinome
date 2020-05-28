@@ -1,0 +1,41 @@
+digraph "CFG for 'decode_format_string' function" {
+	label="CFG for 'decode_format_string' function";
+
+	Node0x19a11d0 [shape=record,label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i32, align 4\l  store i8* %0, i8** %3, align 8, !tbaa !364\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !360, metadata\l... !DIExpression()), !dbg !368\l  %7 = bitcast i8** %4 to i8*, !dbg !369\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %7) #13, !dbg !369\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !361, metadata\l... !DIExpression()), !dbg !370\l  %8 = load i8*, i8** %3, align 8, !dbg !371, !tbaa !364\l  store i8* %8, i8** %4, align 8, !dbg !370, !tbaa !364\l  %9 = load i8*, i8** %3, align 8, !dbg !372, !tbaa !364\l  %10 = icmp ne i8* %9, null, !dbg !372\l  br i1 %10, label %11, label %12, !dbg !375\l|{<s0>T|<s1>F}}"];
+	Node0x19a11d0:s0 -> Node0x19a1780;
+	Node0x19a11d0:s1 -> Node0x19a17d0;
+	Node0x19a1780 [shape=record,label="{%11:\l\l  br label %13, !dbg !375\l}"];
+	Node0x19a1780 -> Node0x19a1820;
+	Node0x19a17d0 [shape=record,label="{%12:\l\l  call void @__assert_fail(i8* getelementptr inbounds ([10 x i8], [10 x i8]*\l... @.str.74, i32 0, i32 0), i8* getelementptr inbounds ([12 x i8], [12 x i8]*\l... @.str.75, i32 0, i32 0), i32 985, i8* getelementptr inbounds ([41 x i8], [41\l... x i8]* @__PRETTY_FUNCTION__.decode_format_string, i32 0, i32 0)) #14, !dbg\l... !372\l  unreachable, !dbg !372\l}"];
+	Node0x19a1820 [shape=record,label="{%13:\l\l  br label %14, !dbg !376\l}"];
+	Node0x19a1820 -> Node0x19a1870;
+	Node0x19a1870 [shape=record,label="{%14:\l\l  %15 = load i8*, i8** %3, align 8, !dbg !377, !tbaa !364\l  %16 = load i8, i8* %15, align 1, !dbg !378, !tbaa !379\l  %17 = sext i8 %16 to i32, !dbg !378\l  %18 = icmp ne i32 %17, 0, !dbg !380\l  br i1 %18, label %19, label %51, !dbg !376\l|{<s0>T|<s1>F}}"];
+	Node0x19a1870:s0 -> Node0x19a18c0;
+	Node0x19a1870:s1 -> Node0x19a1be0;
+	Node0x19a18c0 [shape=record,label="{%19:\l\l  %20 = bitcast i8** %5 to i8*, !dbg !381\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %20) #13, !dbg !381\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !362, metadata\l... !DIExpression()), !dbg !382\l  %21 = load i64, i64* @n_specs_allocated, align 8, !dbg !383, !tbaa !385\l  %22 = load i64, i64* @n_specs, align 8, !dbg !387, !tbaa !385\l  %23 = icmp ule i64 %21, %22, !dbg !388\l  br i1 %23, label %24, label %29, !dbg !389\l|{<s0>T|<s1>F}}"];
+	Node0x19a18c0:s0 -> Node0x19a1910;
+	Node0x19a18c0:s1 -> Node0x19a1960;
+	Node0x19a1910 [shape=record,label="{%24:\l\l  %25 = load %struct.tspec*, %struct.tspec** @spec, align 8, !dbg !390, !tbaa\l... !364\l  %26 = bitcast %struct.tspec* %25 to i8*, !dbg !390\l  %27 = call i8* @x2nrealloc(i8* %26, i64* @n_specs_allocated, i64 40), !dbg\l... !390\l  %28 = bitcast i8* %27 to %struct.tspec*, !dbg !390\l  store %struct.tspec* %28, %struct.tspec** @spec, align 8, !dbg !391, !tbaa\l... !364\l  br label %29, !dbg !392\l}"];
+	Node0x19a1910 -> Node0x19a1960;
+	Node0x19a1960 [shape=record,label="{%29:\l\l  %30 = load i8*, i8** %4, align 8, !dbg !393, !tbaa !364\l  %31 = load i8*, i8** %3, align 8, !dbg !395, !tbaa !364\l  %32 = load %struct.tspec*, %struct.tspec** @spec, align 8, !dbg !396, !tbaa\l... !364\l  %33 = load i64, i64* @n_specs, align 8, !dbg !397, !tbaa !385\l  %34 = getelementptr inbounds %struct.tspec, %struct.tspec* %32, i64 %33,\l... !dbg !396\l  %35 = call zeroext i1 @decode_one_format(i8* %30, i8* %31, i8** %5,\l... %struct.tspec* %34), !dbg !398\l  br i1 %35, label %37, label %36, !dbg !399\l|{<s0>T|<s1>F}}"];
+	Node0x19a1960:s0 -> Node0x19a1a00;
+	Node0x19a1960:s1 -> Node0x19a19b0;
+	Node0x19a19b0 [shape=record,label="{%36:\l\l  store i1 false, i1* %2, align 1, !dbg !400\l  store i32 1, i32* %6, align 4\l  br label %47, !dbg !400\l}"];
+	Node0x19a19b0 -> Node0x19a1b40;
+	Node0x19a1a00 [shape=record,label="{%37:\l\l  %38 = load i8*, i8** %3, align 8, !dbg !401, !tbaa !364\l  %39 = load i8*, i8** %5, align 8, !dbg !401, !tbaa !364\l  %40 = icmp ne i8* %38, %39, !dbg !401\l  br i1 %40, label %41, label %42, !dbg !404\l|{<s0>T|<s1>F}}"];
+	Node0x19a1a00:s0 -> Node0x19a1a50;
+	Node0x19a1a00:s1 -> Node0x19a1aa0;
+	Node0x19a1a50 [shape=record,label="{%41:\l\l  br label %43, !dbg !404\l}"];
+	Node0x19a1a50 -> Node0x19a1af0;
+	Node0x19a1aa0 [shape=record,label="{%42:\l\l  call void @__assert_fail(i8* getelementptr inbounds ([10 x i8], [10 x i8]*\l... @.str.76, i32 0, i32 0), i8* getelementptr inbounds ([12 x i8], [12 x i8]*\l... @.str.75, i32 0, i32 0), i32 997, i8* getelementptr inbounds ([41 x i8], [41\l... x i8]* @__PRETTY_FUNCTION__.decode_format_string, i32 0, i32 0)) #14, !dbg\l... !401\l  unreachable, !dbg !401\l}"];
+	Node0x19a1af0 [shape=record,label="{%43:\l\l  %44 = load i8*, i8** %5, align 8, !dbg !405, !tbaa !364\l  store i8* %44, i8** %3, align 8, !dbg !406, !tbaa !364\l  %45 = load i64, i64* @n_specs, align 8, !dbg !407, !tbaa !385\l  %46 = add i64 %45, 1, !dbg !407\l  store i64 %46, i64* @n_specs, align 8, !dbg !407, !tbaa !385\l  store i32 0, i32* %6, align 4, !dbg !408\l  br label %47, !dbg !408\l}"];
+	Node0x19a1af0 -> Node0x19a1b40;
+	Node0x19a1b40 [shape=record,label="{%47:\l\l  %48 = bitcast i8** %5 to i8*, !dbg !408\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %48) #13, !dbg !408\l  %49 = load i32, i32* %6, align 4\l  switch i32 %49, label %52 [\l    i32 0, label %50\l  ]\l|{<s0>def|<s1>0}}"];
+	Node0x19a1b40:s0 -> Node0x19a1c30;
+	Node0x19a1b40:s1 -> Node0x19a1b90;
+	Node0x19a1b90 [shape=record,label="{%50:\l\l  br label %14, !dbg !376, !llvm.loop !409\l}"];
+	Node0x19a1b90 -> Node0x19a1870;
+	Node0x19a1be0 [shape=record,label="{%51:\l\l  store i1 true, i1* %2, align 1, !dbg !410\l  store i32 1, i32* %6, align 4\l  br label %52, !dbg !410\l}"];
+	Node0x19a1be0 -> Node0x19a1c30;
+	Node0x19a1c30 [shape=record,label="{%52:\l\l  %53 = bitcast i8** %4 to i8*, !dbg !411\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %53) #13, !dbg !411\l  %54 = load i1, i1* %2, align 1, !dbg !411\l  ret i1 %54, !dbg !411\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'base16_length' function" {
+	label="CFG for 'base16_length' function";
+
+	Node0x125a9f0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !159\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !158, metadata\l... !DIExpression()), !dbg !163\l  %3 = load i32, i32* %2, align 4, !dbg !164, !tbaa !159\l  %4 = mul nsw i32 %3, 2, !dbg !165\l  ret i32 %4, !dbg !166\l}"];
+}

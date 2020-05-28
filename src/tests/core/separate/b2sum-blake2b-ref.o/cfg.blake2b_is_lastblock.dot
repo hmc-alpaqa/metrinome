@@ -1,0 +1,5 @@
+digraph "CFG for 'blake2b_is_lastblock' function" {
+	label="CFG for 'blake2b_is_lastblock' function";
+
+	Node0x190fb50 [shape=record,label="{%1:\l  %2 = alloca %struct.blake2b_state__*, align 8\l  store %struct.blake2b_state__* %0, %struct.blake2b_state__** %2, align 8,\l... !tbaa !84\l  call void @llvm.dbg.declare(metadata %struct.blake2b_state__** %2, metadata\l... !83, metadata !DIExpression()), !dbg !88\l  %3 = load %struct.blake2b_state__*, %struct.blake2b_state__** %2, align 8,\l... !dbg !89, !tbaa !84\l  %4 = getelementptr inbounds %struct.blake2b_state__,\l... %struct.blake2b_state__* %3, i32 0, i32 2, !dbg !90\l  %5 = getelementptr inbounds [2 x i64], [2 x i64]* %4, i64 0, i64 0, !dbg !89\l  %6 = load i64, i64* %5, align 8, !dbg !89, !tbaa !91\l  %7 = icmp ne i64 %6, 0, !dbg !93\l  %8 = zext i1 %7 to i32, !dbg !93\l  ret i32 %8, !dbg !94\l}"];
+}

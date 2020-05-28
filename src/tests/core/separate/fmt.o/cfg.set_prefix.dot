@@ -1,0 +1,24 @@
+digraph "CFG for 'set_prefix' function" {
+	label="CFG for 'set_prefix' function";
+
+	Node0xc25ad0 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !144\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !142, metadata\l... !DIExpression()), !dbg !148\l  %4 = bitcast i8** %3 to i8*, !dbg !149\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #10, !dbg !149\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !143, metadata\l... !DIExpression()), !dbg !150\l  store i32 0, i32* @prefix_lead_space, align 4, !dbg !151, !tbaa !152\l  br label %5, !dbg !154\l}"];
+	Node0xc25ad0 -> Node0xc25b20;
+	Node0xc25b20 [shape=record,label="{%5:\l\l  %6 = load i8*, i8** %2, align 8, !dbg !155, !tbaa !144\l  %7 = load i8, i8* %6, align 1, !dbg !156, !tbaa !157\l  %8 = sext i8 %7 to i32, !dbg !156\l  %9 = icmp eq i32 %8, 32, !dbg !158\l  br i1 %9, label %10, label %15, !dbg !154\l|{<s0>T|<s1>F}}"];
+	Node0xc25b20:s0 -> Node0xc25b70;
+	Node0xc25b20:s1 -> Node0xc25bc0;
+	Node0xc25b70 [shape=record,label="{%10:\l\l  %11 = load i32, i32* @prefix_lead_space, align 4, !dbg !159, !tbaa !152\l  %12 = add nsw i32 %11, 1, !dbg !159\l  store i32 %12, i32* @prefix_lead_space, align 4, !dbg !159, !tbaa !152\l  %13 = load i8*, i8** %2, align 8, !dbg !161, !tbaa !144\l  %14 = getelementptr inbounds i8, i8* %13, i32 1, !dbg !161\l  store i8* %14, i8** %2, align 8, !dbg !161, !tbaa !144\l  br label %5, !dbg !154, !llvm.loop !162\l}"];
+	Node0xc25b70 -> Node0xc25b20;
+	Node0xc25bc0 [shape=record,label="{%15:\l\l  %16 = load i8*, i8** %2, align 8, !dbg !164, !tbaa !144\l  store i8* %16, i8** @prefix, align 8, !dbg !165, !tbaa !144\l  %17 = load i8*, i8** %2, align 8, !dbg !166, !tbaa !144\l  %18 = call i64 @strlen(i8* %17) #11, !dbg !167\l  %19 = trunc i64 %18 to i32, !dbg !167\l  store i32 %19, i32* @prefix_full_length, align 4, !dbg !168, !tbaa !152\l  %20 = load i8*, i8** %2, align 8, !dbg !169, !tbaa !144\l  %21 = load i32, i32* @prefix_full_length, align 4, !dbg !170, !tbaa !152\l  %22 = sext i32 %21 to i64, !dbg !171\l  %23 = getelementptr inbounds i8, i8* %20, i64 %22, !dbg !171\l  store i8* %23, i8** %3, align 8, !dbg !172, !tbaa !144\l  br label %24, !dbg !173\l}"];
+	Node0xc25bc0 -> Node0xc25c10;
+	Node0xc25c10 [shape=record,label="{%24:\l\l  %25 = load i8*, i8** %3, align 8, !dbg !174, !tbaa !144\l  %26 = load i8*, i8** %2, align 8, !dbg !175, !tbaa !144\l  %27 = icmp ugt i8* %25, %26, !dbg !176\l  br i1 %27, label %28, label %34, !dbg !177\l|{<s0>T|<s1>F}}"];
+	Node0xc25c10:s0 -> Node0xc25c60;
+	Node0xc25c10:s1 -> Node0xc25cb0;
+	Node0xc25c60 [shape=record,label="{%28:\l\l  %29 = load i8*, i8** %3, align 8, !dbg !178, !tbaa !144\l  %30 = getelementptr inbounds i8, i8* %29, i64 -1, !dbg !178\l  %31 = load i8, i8* %30, align 1, !dbg !178, !tbaa !157\l  %32 = sext i8 %31 to i32, !dbg !178\l  %33 = icmp eq i32 %32, 32, !dbg !179\l  br label %34\l}"];
+	Node0xc25c60 -> Node0xc25cb0;
+	Node0xc25cb0 [shape=record,label="{%34:\l\l  %35 = phi i1 [ false, %24 ], [ %33, %28 ], !dbg !180\l  br i1 %35, label %36, label %39, !dbg !173\l|{<s0>T|<s1>F}}"];
+	Node0xc25cb0:s0 -> Node0xc25d00;
+	Node0xc25cb0:s1 -> Node0xc25d50;
+	Node0xc25d00 [shape=record,label="{%36:\l\l  %37 = load i8*, i8** %3, align 8, !dbg !181, !tbaa !144\l  %38 = getelementptr inbounds i8, i8* %37, i32 -1, !dbg !181\l  store i8* %38, i8** %3, align 8, !dbg !181, !tbaa !144\l  br label %24, !dbg !173, !llvm.loop !182\l}"];
+	Node0xc25d00 -> Node0xc25c10;
+	Node0xc25d50 [shape=record,label="{%39:\l\l  %40 = load i8*, i8** %3, align 8, !dbg !183, !tbaa !144\l  store i8 0, i8* %40, align 1, !dbg !184, !tbaa !157\l  %41 = load i8*, i8** %3, align 8, !dbg !185, !tbaa !144\l  %42 = load i8*, i8** %2, align 8, !dbg !186, !tbaa !144\l  %43 = ptrtoint i8* %41 to i64, !dbg !187\l  %44 = ptrtoint i8* %42 to i64, !dbg !187\l  %45 = sub i64 %43, %44, !dbg !187\l  %46 = trunc i64 %45 to i32, !dbg !185\l  store i32 %46, i32* @prefix_length, align 4, !dbg !188, !tbaa !152\l  %47 = bitcast i8** %3 to i8*, !dbg !189\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %47) #10, !dbg !189\l  ret void, !dbg !189\l}"];
+}

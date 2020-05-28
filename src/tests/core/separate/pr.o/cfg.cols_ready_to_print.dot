@@ -1,0 +1,31 @@
+digraph "CFG for 'cols_ready_to_print' function" {
+	label="CFG for 'cols_ready_to_print' function";
+
+	Node0x219e1f0 [shape=record,label="{%0:\l  %1 = alloca %struct.COLUMN*, align 8\l  %2 = alloca i32, align 4\l  %3 = alloca i32, align 4\l  %4 = bitcast %struct.COLUMN** %1 to i8*, !dbg !408\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #13, !dbg !408\l  call void @llvm.dbg.declare(metadata %struct.COLUMN** %1, metadata !405,\l... metadata !DIExpression()), !dbg !409\l  %5 = bitcast i32* %2 to i8*, !dbg !410\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %5) #13, !dbg !410\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !406, metadata\l... !DIExpression()), !dbg !411\l  %6 = bitcast i32* %3 to i8*, !dbg !412\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %6) #13, !dbg !412\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !407, metadata\l... !DIExpression()), !dbg !413\l  store i32 0, i32* %3, align 4, !dbg !414, !tbaa !415\l  %7 = load %struct.COLUMN*, %struct.COLUMN** @column_vector, align 8, !dbg\l... !419, !tbaa !421\l  store %struct.COLUMN* %7, %struct.COLUMN** %1, align 8, !dbg !423, !tbaa !421\l  store i32 0, i32* %2, align 4, !dbg !424, !tbaa !415\l  br label %8, !dbg !425\l}"];
+	Node0x219e1f0 -> Node0x21a3300;
+	Node0x21a3300 [shape=record,label="{%8:\l\l  %9 = load i32, i32* %2, align 4, !dbg !426, !tbaa !415\l  %10 = load i32, i32* @columns, align 4, !dbg !428, !tbaa !415\l  %11 = icmp ult i32 %9, %10, !dbg !429\l  br i1 %11, label %12, label %44, !dbg !430\l|{<s0>T|<s1>F}}"];
+	Node0x21a3300:s0 -> Node0x21a3350;
+	Node0x21a3300:s1 -> Node0x21a35d0;
+	Node0x21a3350 [shape=record,label="{%12:\l\l  %13 = load %struct.COLUMN*, %struct.COLUMN** %1, align 8, !dbg !431, !tbaa\l... !421\l  %14 = getelementptr inbounds %struct.COLUMN, %struct.COLUMN* %13, i32 0, i32\l... 2, !dbg !433\l  %15 = load i32, i32* %14, align 8, !dbg !433, !tbaa !434\l  %16 = icmp eq i32 %15, 0, !dbg !437\l  br i1 %16, label %35, label %17, !dbg !438\l|{<s0>T|<s1>F}}"];
+	Node0x21a3350:s0 -> Node0x21a34e0;
+	Node0x21a3350:s1 -> Node0x21a33a0;
+	Node0x21a33a0 [shape=record,label="{%17:\l\l  %18 = load %struct.COLUMN*, %struct.COLUMN** %1, align 8, !dbg !439, !tbaa\l... !421\l  %19 = getelementptr inbounds %struct.COLUMN, %struct.COLUMN* %18, i32 0, i32\l... 2, !dbg !440\l  %20 = load i32, i32* %19, align 8, !dbg !440, !tbaa !434\l  %21 = icmp eq i32 %20, 1, !dbg !441\l  br i1 %21, label %35, label %22, !dbg !442\l|{<s0>T|<s1>F}}"];
+	Node0x21a33a0:s0 -> Node0x21a34e0;
+	Node0x21a33a0:s1 -> Node0x21a33f0;
+	Node0x21a33f0 [shape=record,label="{%22:\l\l  %23 = load i8, i8* @storing_columns, align 1, !dbg !443, !tbaa !444, !range\l... !445\l  %24 = trunc i8 %23 to i1, !dbg !443\l  br i1 %24, label %25, label %38, !dbg !446\l|{<s0>T|<s1>F}}"];
+	Node0x21a33f0:s0 -> Node0x21a3440;
+	Node0x21a33f0:s1 -> Node0x21a3530;
+	Node0x21a3440 [shape=record,label="{%25:\l\l  %26 = load %struct.COLUMN*, %struct.COLUMN** %1, align 8, !dbg !447, !tbaa\l... !421\l  %27 = getelementptr inbounds %struct.COLUMN, %struct.COLUMN* %26, i32 0, i32\l... 6, !dbg !448\l  %28 = load i32, i32* %27, align 4, !dbg !448, !tbaa !449\l  %29 = icmp sgt i32 %28, 0, !dbg !450\l  br i1 %29, label %30, label %38, !dbg !451\l|{<s0>T|<s1>F}}"];
+	Node0x21a3440:s0 -> Node0x21a3490;
+	Node0x21a3440:s1 -> Node0x21a3530;
+	Node0x21a3490 [shape=record,label="{%30:\l\l  %31 = load %struct.COLUMN*, %struct.COLUMN** %1, align 8, !dbg !452, !tbaa\l... !421\l  %32 = getelementptr inbounds %struct.COLUMN, %struct.COLUMN* %31, i32 0, i32\l... 7, !dbg !453\l  %33 = load i32, i32* %32, align 8, !dbg !453, !tbaa !454\l  %34 = icmp sgt i32 %33, 0, !dbg !455\l  br i1 %34, label %35, label %38, !dbg !456\l|{<s0>T|<s1>F}}"];
+	Node0x21a3490:s0 -> Node0x21a34e0;
+	Node0x21a3490:s1 -> Node0x21a3530;
+	Node0x21a34e0 [shape=record,label="{%35:\l\l  %36 = load i32, i32* %3, align 4, !dbg !457, !tbaa !415\l  %37 = add i32 %36, 1, !dbg !457\l  store i32 %37, i32* %3, align 4, !dbg !457, !tbaa !415\l  br label %38, !dbg !457\l}"];
+	Node0x21a34e0 -> Node0x21a3530;
+	Node0x21a3530 [shape=record,label="{%38:\l\l  br label %39, !dbg !458\l}"];
+	Node0x21a3530 -> Node0x21a3580;
+	Node0x21a3580 [shape=record,label="{%39:\l\l  %40 = load %struct.COLUMN*, %struct.COLUMN** %1, align 8, !dbg !459, !tbaa\l... !421\l  %41 = getelementptr inbounds %struct.COLUMN, %struct.COLUMN* %40, i32 1,\l... !dbg !459\l  store %struct.COLUMN* %41, %struct.COLUMN** %1, align 8, !dbg !459, !tbaa\l... !421\l  %42 = load i32, i32* %2, align 4, !dbg !460, !tbaa !415\l  %43 = add i32 %42, 1, !dbg !460\l  store i32 %43, i32* %2, align 4, !dbg !460, !tbaa !415\l  br label %8, !dbg !461, !llvm.loop !462\l}"];
+	Node0x21a3580 -> Node0x21a3300;
+	Node0x21a35d0 [shape=record,label="{%44:\l\l  %45 = load i32, i32* %3, align 4, !dbg !464, !tbaa !415\l  %46 = bitcast i32* %3 to i8*, !dbg !465\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %46) #13, !dbg !465\l  %47 = bitcast i32* %2 to i8*, !dbg !465\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %47) #13, !dbg !465\l  %48 = bitcast %struct.COLUMN** %1 to i8*, !dbg !465\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %48) #13, !dbg !465\l  ret i32 %45, !dbg !466\l}"];
+}

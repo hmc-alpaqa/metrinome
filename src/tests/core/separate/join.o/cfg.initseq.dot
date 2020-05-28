@@ -1,0 +1,5 @@
+digraph "CFG for 'initseq' function" {
+	label="CFG for 'initseq' function";
+
+	Node0x12ba4b0 [shape=record,label="{%1:\l  %2 = alloca %struct.seq*, align 8\l  store %struct.seq* %0, %struct.seq** %2, align 8, !tbaa !199\l  call void @llvm.dbg.declare(metadata %struct.seq** %2, metadata !198,\l... metadata !DIExpression()), !dbg !203\l  %3 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !204, !tbaa !199\l  %4 = getelementptr inbounds %struct.seq, %struct.seq* %3, i32 0, i32 0, !dbg\l... !205\l  store i64 0, i64* %4, align 8, !dbg !206, !tbaa !207\l  %5 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !210, !tbaa !199\l  %6 = getelementptr inbounds %struct.seq, %struct.seq* %5, i32 0, i32 1, !dbg\l... !211\l  store i64 0, i64* %6, align 8, !dbg !212, !tbaa !213\l  %7 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !214, !tbaa !199\l  %8 = getelementptr inbounds %struct.seq, %struct.seq* %7, i32 0, i32 2, !dbg\l... !215\l  store %struct.line** null, %struct.line*** %8, align 8, !dbg !216, !tbaa !217\l  ret void, !dbg !218\l}"];
+}

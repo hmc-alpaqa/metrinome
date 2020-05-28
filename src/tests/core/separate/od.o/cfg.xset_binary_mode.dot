@@ -1,0 +1,10 @@
+digraph "CFG for 'xset_binary_mode' function" {
+	label="CFG for 'xset_binary_mode' function";
+
+	Node0x1a60a60 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !363\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !361, metadata\l... !DIExpression()), !dbg !367\l  store i32 %1, i32* %4, align 4, !tbaa !363\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !362, metadata\l... !DIExpression()), !dbg !368\l  %5 = load i32, i32* %3, align 4, !dbg !369, !tbaa !363\l  %6 = load i32, i32* %4, align 4, !dbg !371, !tbaa !363\l  %7 = call i32 @set_binary_mode(i32 %5, i32 %6), !dbg !372\l  %8 = icmp slt i32 %7, 0, !dbg !373\l  br i1 %8, label %9, label %10, !dbg !374\l|{<s0>T|<s1>F}}"];
+	Node0x1a60a60:s0 -> Node0x1a60b10;
+	Node0x1a60a60:s1 -> Node0x1a60b60;
+	Node0x1a60b10 [shape=record,label="{%9:\l\l  call void @xset_binary_mode_error(), !dbg !375\l  br label %10, !dbg !375\l}"];
+	Node0x1a60b10 -> Node0x1a60b60;
+	Node0x1a60b60 [shape=record,label="{%10:\l\l  ret void, !dbg !376\l}"];
+}

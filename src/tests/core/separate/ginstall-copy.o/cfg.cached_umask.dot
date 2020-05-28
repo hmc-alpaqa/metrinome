@@ -1,0 +1,10 @@
+digraph "CFG for 'cached_umask' function" {
+	label="CFG for 'cached_umask' function";
+
+	Node0x16597c0 [shape=record,label="{%0:\l  %1 = load i32, i32* @cached_umask.mask, align 4, !dbg !124, !tbaa !126\l  %2 = icmp eq i32 %1, -1, !dbg !130\l  br i1 %2, label %3, label %7, !dbg !131\l|{<s0>T|<s1>F}}"];
+	Node0x16597c0:s0 -> Node0x1659810;
+	Node0x16597c0:s1 -> Node0x1659860;
+	Node0x1659810 [shape=record,label="{%3:\l\l  %4 = call i32 @umask(i32 0) #12, !dbg !132\l  store i32 %4, i32* @cached_umask.mask, align 4, !dbg !134, !tbaa !126\l  %5 = load i32, i32* @cached_umask.mask, align 4, !dbg !135, !tbaa !126\l  %6 = call i32 @umask(i32 %5) #12, !dbg !136\l  br label %7, !dbg !137\l}"];
+	Node0x1659810 -> Node0x1659860;
+	Node0x1659860 [shape=record,label="{%7:\l\l  %8 = load i32, i32* @cached_umask.mask, align 4, !dbg !138, !tbaa !126\l  ret i32 %8, !dbg !139\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'is_smack_enabled' function" {
+	label="CFG for 'is_smack_enabled' function";
+
+	Node0x1fb2670 [shape=record,label="{%0:\l  ret i1 false, !dbg !90\l}"];
+}

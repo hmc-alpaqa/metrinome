@@ -1,0 +1,40 @@
+digraph "CFG for 'binop' function" {
+	label="CFG for 'binop' function";
+
+	Node0x150de00 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !54\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !53, metadata\l... !DIExpression()), !dbg !58\l  %3 = load i8*, i8** %2, align 8, !dbg !59, !tbaa !54\l  %4 = call i32 @strcmp(i8* %3, i8* getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.48, i32 0, i32 0)) #12, !dbg !59\l  %5 = icmp eq i32 %4, 0, !dbg !59\l  br i1 %5, label %50, label %6, !dbg !60\l|{<s0>T|<s1>F}}"];
+	Node0x150de00:s0 -> Node0x150e820;
+	Node0x150de00:s1 -> Node0x150e4b0;
+	Node0x150e4b0 [shape=record,label="{%6:\l\l  %7 = load i8*, i8** %2, align 8, !dbg !61, !tbaa !54\l  %8 = call i32 @strcmp(i8* %7, i8* getelementptr inbounds ([3 x i8], [3 x\l... i8]* @.str.49, i32 0, i32 0)) #12, !dbg !61\l  %9 = icmp eq i32 %8, 0, !dbg !61\l  br i1 %9, label %50, label %10, !dbg !62\l|{<s0>T|<s1>F}}"];
+	Node0x150e4b0:s0 -> Node0x150e820;
+	Node0x150e4b0:s1 -> Node0x150e500;
+	Node0x150e500 [shape=record,label="{%10:\l\l  %11 = load i8*, i8** %2, align 8, !dbg !63, !tbaa !54\l  %12 = call i32 @strcmp(i8* %11, i8* getelementptr inbounds ([3 x i8], [3 x\l... i8]* @.str.50, i32 0, i32 0)) #12, !dbg !63\l  %13 = icmp eq i32 %12, 0, !dbg !63\l  br i1 %13, label %50, label %14, !dbg !64\l|{<s0>T|<s1>F}}"];
+	Node0x150e500:s0 -> Node0x150e820;
+	Node0x150e500:s1 -> Node0x150e550;
+	Node0x150e550 [shape=record,label="{%14:\l\l  %15 = load i8*, i8** %2, align 8, !dbg !65, !tbaa !54\l  %16 = call i32 @strcmp(i8* %15, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.51, i32 0, i32 0)) #12, !dbg !65\l  %17 = icmp eq i32 %16, 0, !dbg !65\l  br i1 %17, label %50, label %18, !dbg !66\l|{<s0>T|<s1>F}}"];
+	Node0x150e550:s0 -> Node0x150e820;
+	Node0x150e550:s1 -> Node0x150e5a0;
+	Node0x150e5a0 [shape=record,label="{%18:\l\l  %19 = load i8*, i8** %2, align 8, !dbg !67, !tbaa !54\l  %20 = call i32 @strcmp(i8* %19, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.52, i32 0, i32 0)) #12, !dbg !67\l  %21 = icmp eq i32 %20, 0, !dbg !67\l  br i1 %21, label %50, label %22, !dbg !68\l|{<s0>T|<s1>F}}"];
+	Node0x150e5a0:s0 -> Node0x150e820;
+	Node0x150e5a0:s1 -> Node0x150e5f0;
+	Node0x150e5f0 [shape=record,label="{%22:\l\l  %23 = load i8*, i8** %2, align 8, !dbg !69, !tbaa !54\l  %24 = call i32 @strcmp(i8* %23, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.53, i32 0, i32 0)) #12, !dbg !69\l  %25 = icmp eq i32 %24, 0, !dbg !69\l  br i1 %25, label %50, label %26, !dbg !70\l|{<s0>T|<s1>F}}"];
+	Node0x150e5f0:s0 -> Node0x150e820;
+	Node0x150e5f0:s1 -> Node0x150e640;
+	Node0x150e640 [shape=record,label="{%26:\l\l  %27 = load i8*, i8** %2, align 8, !dbg !71, !tbaa !54\l  %28 = call i32 @strcmp(i8* %27, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.54, i32 0, i32 0)) #12, !dbg !71\l  %29 = icmp eq i32 %28, 0, !dbg !71\l  br i1 %29, label %50, label %30, !dbg !72\l|{<s0>T|<s1>F}}"];
+	Node0x150e640:s0 -> Node0x150e820;
+	Node0x150e640:s1 -> Node0x150e690;
+	Node0x150e690 [shape=record,label="{%30:\l\l  %31 = load i8*, i8** %2, align 8, !dbg !73, !tbaa !54\l  %32 = call i32 @strcmp(i8* %31, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.55, i32 0, i32 0)) #12, !dbg !73\l  %33 = icmp eq i32 %32, 0, !dbg !73\l  br i1 %33, label %50, label %34, !dbg !74\l|{<s0>T|<s1>F}}"];
+	Node0x150e690:s0 -> Node0x150e820;
+	Node0x150e690:s1 -> Node0x150e6e0;
+	Node0x150e6e0 [shape=record,label="{%34:\l\l  %35 = load i8*, i8** %2, align 8, !dbg !75, !tbaa !54\l  %36 = call i32 @strcmp(i8* %35, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.56, i32 0, i32 0)) #12, !dbg !75\l  %37 = icmp eq i32 %36, 0, !dbg !75\l  br i1 %37, label %50, label %38, !dbg !76\l|{<s0>T|<s1>F}}"];
+	Node0x150e6e0:s0 -> Node0x150e820;
+	Node0x150e6e0:s1 -> Node0x150e730;
+	Node0x150e730 [shape=record,label="{%38:\l\l  %39 = load i8*, i8** %2, align 8, !dbg !77, !tbaa !54\l  %40 = call i32 @strcmp(i8* %39, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.57, i32 0, i32 0)) #12, !dbg !77\l  %41 = icmp eq i32 %40, 0, !dbg !77\l  br i1 %41, label %50, label %42, !dbg !78\l|{<s0>T|<s1>F}}"];
+	Node0x150e730:s0 -> Node0x150e820;
+	Node0x150e730:s1 -> Node0x150e780;
+	Node0x150e780 [shape=record,label="{%42:\l\l  %43 = load i8*, i8** %2, align 8, !dbg !79, !tbaa !54\l  %44 = call i32 @strcmp(i8* %43, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.58, i32 0, i32 0)) #12, !dbg !79\l  %45 = icmp eq i32 %44, 0, !dbg !79\l  br i1 %45, label %50, label %46, !dbg !80\l|{<s0>T|<s1>F}}"];
+	Node0x150e780:s0 -> Node0x150e820;
+	Node0x150e780:s1 -> Node0x150e7d0;
+	Node0x150e7d0 [shape=record,label="{%46:\l\l  %47 = load i8*, i8** %2, align 8, !dbg !81, !tbaa !54\l  %48 = call i32 @strcmp(i8* %47, i8* getelementptr inbounds ([4 x i8], [4 x\l... i8]* @.str.59, i32 0, i32 0)) #12, !dbg !81\l  %49 = icmp eq i32 %48, 0, !dbg !81\l  br label %50, !dbg !80\l}"];
+	Node0x150e7d0 -> Node0x150e820;
+	Node0x150e820 [shape=record,label="{%50:\l\l  %51 = phi i1 [ true, %42 ], [ true, %38 ], [ true, %34 ], [ true, %30 ], [\l... true, %26 ], [ true, %22 ], [ true, %18 ], [ true, %14 ], [ true, %10 ], [\l... true, %6 ], [ true, %1 ], [ %49, %46 ]\l  ret i1 %51, !dbg !82\l}"];
+}

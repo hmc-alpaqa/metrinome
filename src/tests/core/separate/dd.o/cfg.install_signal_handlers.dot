@@ -1,0 +1,25 @@
+digraph "CFG for 'install_signal_handlers' function" {
+	label="CFG for 'install_signal_handlers' function";
+
+	Node0x1ceb080 [shape=record,label="{%0:\l  %1 = alloca i8, align 1\l  %2 = alloca %struct.sigaction, align 8\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %1) #12, !dbg !462\l  call void @llvm.dbg.declare(metadata i8* %1, metadata !368, metadata\l... !DIExpression()), !dbg !463\l  %3 = call i8* @getenv(i8* getelementptr inbounds ([16 x i8], [16 x i8]*\l... @.str.54, i32 0, i32 0)) #12, !dbg !464\l  %4 = icmp ne i8* %3, null, !dbg !465\l  %5 = xor i1 %4, true, !dbg !466\l  %6 = zext i1 %5 to i8, !dbg !463\l  store i8 %6, i8* %1, align 1, !dbg !463, !tbaa !467\l  %7 = bitcast %struct.sigaction* %2 to i8*, !dbg !471\l  call void @llvm.lifetime.start.p0i8(i64 152, i8* %7) #12, !dbg !471\l  call void @llvm.dbg.declare(metadata %struct.sigaction* %2, metadata !369,\l... metadata !DIExpression()), !dbg !472\l  %8 = call i32 @sigemptyset(%struct.__sigset_t* @caught_signals) #12, !dbg\l... !473\l  %9 = load i8, i8* %1, align 1, !dbg !474, !tbaa !467, !range !476\l  %10 = trunc i8 %9 to i1, !dbg !474\l  br i1 %10, label %11, label %13, !dbg !477\l|{<s0>T|<s1>F}}"];
+	Node0x1ceb080:s0 -> Node0x1ceb0d0;
+	Node0x1ceb080:s1 -> Node0x1ceb120;
+	Node0x1ceb0d0 [shape=record,label="{%11:\l\l  %12 = call i32 @sigaddset(%struct.__sigset_t* @caught_signals, i32 10) #12,\l... !dbg !478\l  br label %13, !dbg !478\l}"];
+	Node0x1ceb0d0 -> Node0x1ceb120;
+	Node0x1ceb120 [shape=record,label="{%13:\l\l  %14 = call i32 @sigaction(i32 2, %struct.sigaction* null, %struct.sigaction*\l... %2) #12, !dbg !479\l  %15 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %2, i32\l... 0, i32 0, !dbg !480\l  %16 = bitcast %union.anon* %15 to void (i32)**, !dbg !480\l  %17 = load void (i32)*, void (i32)** %16, align 8, !dbg !480, !tbaa !482\l  %18 = icmp ne void (i32)* %17, inttoptr (i64 1 to void (i32)*), !dbg !483\l  br i1 %18, label %19, label %21, !dbg !484\l|{<s0>T|<s1>F}}"];
+	Node0x1ceb120:s0 -> Node0x1ceb170;
+	Node0x1ceb120:s1 -> Node0x1ceb1c0;
+	Node0x1ceb170 [shape=record,label="{%19:\l\l  %20 = call i32 @sigaddset(%struct.__sigset_t* @caught_signals, i32 2) #12,\l... !dbg !485\l  br label %21, !dbg !485\l}"];
+	Node0x1ceb170 -> Node0x1ceb1c0;
+	Node0x1ceb1c0 [shape=record,label="{%21:\l\l  %22 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %2, i32\l... 0, i32 1, !dbg !486\l  %23 = bitcast %struct.__sigset_t* %22 to i8*, !dbg !487\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 8 %23, i8* align 8 bitcast\l... (%struct.__sigset_t* @caught_signals to i8*), i64 128, i1 false), !dbg !487,\l... !tbaa.struct !488\l  %24 = call i32 @sigismember(%struct.__sigset_t* @caught_signals, i32 10)\l... #12, !dbg !489\l  %25 = icmp ne i32 %24, 0, !dbg !489\l  br i1 %25, label %26, label %31, !dbg !491\l|{<s0>T|<s1>F}}"];
+	Node0x1ceb1c0:s0 -> Node0x1ceb210;
+	Node0x1ceb1c0:s1 -> Node0x1ceb260;
+	Node0x1ceb210 [shape=record,label="{%26:\l\l  %27 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %2, i32\l... 0, i32 0, !dbg !492\l  %28 = bitcast %union.anon* %27 to void (i32)**, !dbg !492\l  store void (i32)* @siginfo_handler, void (i32)** %28, align 8, !dbg !494,\l... !tbaa !482\l  %29 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %2, i32\l... 0, i32 2, !dbg !495\l  store i32 0, i32* %29, align 8, !dbg !496, !tbaa !497\l  %30 = call i32 @sigaction(i32 10, %struct.sigaction* %2, %struct.sigaction*\l... null) #12, !dbg !502\l  br label %31, !dbg !503\l}"];
+	Node0x1ceb210 -> Node0x1ceb260;
+	Node0x1ceb260 [shape=record,label="{%31:\l\l  %32 = call i32 @sigismember(%struct.__sigset_t* @caught_signals, i32 2) #12,\l... !dbg !504\l  %33 = icmp ne i32 %32, 0, !dbg !504\l  br i1 %33, label %34, label %39, !dbg !506\l|{<s0>T|<s1>F}}"];
+	Node0x1ceb260:s0 -> Node0x1ceb2b0;
+	Node0x1ceb260:s1 -> Node0x1ceb300;
+	Node0x1ceb2b0 [shape=record,label="{%34:\l\l  %35 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %2, i32\l... 0, i32 0, !dbg !507\l  %36 = bitcast %union.anon* %35 to void (i32)**, !dbg !507\l  store void (i32)* @interrupt_handler, void (i32)** %36, align 8, !dbg !509,\l... !tbaa !482\l  %37 = getelementptr inbounds %struct.sigaction, %struct.sigaction* %2, i32\l... 0, i32 2, !dbg !510\l  store i32 -1073741824, i32* %37, align 8, !dbg !511, !tbaa !497\l  %38 = call i32 @sigaction(i32 2, %struct.sigaction* %2, %struct.sigaction*\l... null) #12, !dbg !512\l  br label %39, !dbg !513\l}"];
+	Node0x1ceb2b0 -> Node0x1ceb300;
+	Node0x1ceb300 [shape=record,label="{%39:\l\l  %40 = bitcast %struct.sigaction* %2 to i8*, !dbg !514\l  call void @llvm.lifetime.end.p0i8(i64 152, i8* %40) #12, !dbg !514\l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %1) #12, !dbg !514\l  ret void, !dbg !514\l}"];
+}

@@ -1,0 +1,10 @@
+digraph "CFG for 'initialize_exit_failure' function" {
+	label="CFG for 'initialize_exit_failure' function";
+
+	Node0x27d6070 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !69\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !68, metadata\l... !DIExpression()), !dbg !73\l  %3 = load i32, i32* %2, align 4, !dbg !74, !tbaa !69\l  %4 = icmp ne i32 %3, 1, !dbg !76\l  br i1 %4, label %5, label %7, !dbg !77\l|{<s0>T|<s1>F}}"];
+	Node0x27d6070:s0 -> Node0x27c71a0;
+	Node0x27d6070:s1 -> Node0x27c71f0;
+	Node0x27c71a0 [shape=record,label="{%5:\l\l  %6 = load i32, i32* %2, align 4, !dbg !78, !tbaa !69\l  store volatile i32 %6, i32* @exit_failure, align 4, !dbg !79, !tbaa !69\l  br label %7, !dbg !80\l}"];
+	Node0x27c71a0 -> Node0x27c71f0;
+	Node0x27c71f0 [shape=record,label="{%7:\l\l  ret void, !dbg !81\l}"];
+}

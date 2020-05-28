@@ -1,0 +1,5 @@
+digraph "CFG for 'is_tty_writable' function" {
+	label="CFG for 'is_tty_writable' function";
+
+	Node0x107e340 [shape=record,label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !302\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !301,\l... metadata !DIExpression()), !dbg !306\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !307, !tbaa !302\l  %4 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 3,\l... !dbg !308\l  %5 = load i32, i32* %4, align 8, !dbg !308, !tbaa !309\l  %6 = and i32 %5, 16, !dbg !314\l  %7 = icmp ne i32 %6, 0, !dbg !307\l  ret i1 %7, !dbg !315\l}"];
+}

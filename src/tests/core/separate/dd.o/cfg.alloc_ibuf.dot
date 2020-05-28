@@ -1,0 +1,16 @@
+digraph "CFG for 'alloc_ibuf' function" {
+	label="CFG for 'alloc_ibuf' function";
+
+	Node0x1d07d30 [shape=record,label="{%0:\l  %1 = alloca i8*, align 8\l  %2 = alloca i64, align 8\l  %3 = alloca [652 x i8], align 16\l  %4 = load i8*, i8** @ibuf, align 8, !dbg !376, !tbaa !378\l  %5 = icmp ne i8* %4, null, !dbg !376\l  br i1 %5, label %6, label %7, !dbg !382\l|{<s0>T|<s1>F}}"];
+	Node0x1d07d30:s0 -> Node0x1d08400;
+	Node0x1d07d30:s1 -> Node0x1d08450;
+	Node0x1d08400 [shape=record,label="{%6:\l\l  br label %33, !dbg !383\l}"];
+	Node0x1d08400 -> Node0x1d08540;
+	Node0x1d08450 [shape=record,label="{%7:\l\l  %8 = bitcast i8** %1 to i8*, !dbg !384\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #12, !dbg !384\l  call void @llvm.dbg.declare(metadata i8** %1, metadata !368, metadata\l... !DIExpression()), !dbg !385\l  %9 = load i64, i64* @input_blocksize, align 8, !dbg !386, !tbaa !387\l  %10 = load i64, i64* @page_size, align 8, !dbg !389, !tbaa !387\l  %11 = mul i64 2, %10, !dbg !389\l  %12 = add i64 4, %11, !dbg !389\l  %13 = sub i64 %12, 1, !dbg !389\l  %14 = add i64 %9, %13, !dbg !390\l  %15 = call noalias i8* @malloc(i64 %14) #12, !dbg !391\l  store i8* %15, i8** %1, align 8, !dbg !385, !tbaa !378\l  %16 = load i8*, i8** %1, align 8, !dbg !392, !tbaa !378\l  %17 = icmp ne i8* %16, null, !dbg !392\l  br i1 %17, label %26, label %18, !dbg !393\l|{<s0>T|<s1>F}}"];
+	Node0x1d08450:s0 -> Node0x1d084f0;
+	Node0x1d08450:s1 -> Node0x1d084a0;
+	Node0x1d084a0 [shape=record,label="{%18:\l\l  %19 = bitcast i64* %2 to i8*, !dbg !394\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %19) #12, !dbg !394\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !369, metadata\l... !DIExpression()), !dbg !395\l  %20 = load i64, i64* @input_blocksize, align 8, !dbg !396, !tbaa !387\l  store i64 %20, i64* %2, align 8, !dbg !395, !tbaa !387\l  %21 = bitcast [652 x i8]* %3 to i8*, !dbg !397\l  call void @llvm.lifetime.start.p0i8(i64 652, i8* %21) #12, !dbg !397\l  call void @llvm.dbg.declare(metadata [652 x i8]* %3, metadata !372, metadata\l... !DIExpression()), !dbg !398\l  %22 = load i64, i64* %2, align 8, !dbg !399, !tbaa !387\l  %23 = load i64, i64* @input_blocksize, align 8, !dbg !399, !tbaa !387\l  %24 = getelementptr inbounds [652 x i8], [652 x i8]* %3, i32 0, i32 0, !dbg\l... !399\l  %25 = call i8* @human_readable(i64 %23, i8* %24, i32 497, i64 1, i64 1),\l... !dbg !399\l  call void (i32, i32, i8*, ...) @nl_error(i32 1, i32 0, i8* getelementptr\l... inbounds ([56 x i8], [56 x i8]* @.str.116, i32 0, i32 0), i64 %22, i8* %25),\l... !dbg !399\l  unreachable, !dbg !399\l}"];
+	Node0x1d084f0 [shape=record,label="{%26:\l\l  %27 = load i8*, i8** %1, align 8, !dbg !400, !tbaa !378\l  %28 = getelementptr inbounds i8, i8* %27, i64 2, !dbg !400\l  store i8* %28, i8** %1, align 8, !dbg !400, !tbaa !378\l  %29 = load i8*, i8** %1, align 8, !dbg !401, !tbaa !378\l  %30 = load i64, i64* @page_size, align 8, !dbg !402, !tbaa !387\l  %31 = call i8* @ptr_align(i8* %29, i64 %30), !dbg !403\l  store i8* %31, i8** @ibuf, align 8, !dbg !404, !tbaa !378\l  %32 = bitcast i8** %1 to i8*, !dbg !405\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %32) #12, !dbg !405\l  br label %33, !dbg !405\l}"];
+	Node0x1d084f0 -> Node0x1d08540;
+	Node0x1d08540 [shape=record,label="{%33:\l\l  ret void, !dbg !405\l}"];
+}

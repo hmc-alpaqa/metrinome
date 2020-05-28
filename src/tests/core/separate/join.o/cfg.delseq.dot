@@ -1,0 +1,16 @@
+digraph "CFG for 'delseq' function" {
+	label="CFG for 'delseq' function";
+
+	Node0x129f4a0 [shape=record,label="{%1:\l  %2 = alloca %struct.seq*, align 8\l  %3 = alloca i64, align 8\l  store %struct.seq* %0, %struct.seq** %2, align 8, !tbaa !201\l  call void @llvm.dbg.declare(metadata %struct.seq** %2, metadata !198,\l... metadata !DIExpression()), !dbg !205\l  %4 = bitcast i64* %3 to i8*, !dbg !206\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #11, !dbg !206\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !199, metadata\l... !DIExpression()), !dbg !207\l  store i64 0, i64* %3, align 8, !dbg !207, !tbaa !208\l  br label %5, !dbg !206\l}"];
+	Node0x129f4a0 -> Node0x130a210;
+	Node0x130a210 [shape=record,label="{%5:\l\l  %6 = load i64, i64* %3, align 8, !dbg !210, !tbaa !208\l  %7 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !212, !tbaa !201\l  %8 = getelementptr inbounds %struct.seq, %struct.seq* %7, i32 0, i32 1, !dbg\l... !213\l  %9 = load i64, i64* %8, align 8, !dbg !213, !tbaa !214\l  %10 = icmp ult i64 %6, %9, !dbg !216\l  br i1 %10, label %13, label %11, !dbg !217\l|{<s0>T|<s1>F}}"];
+	Node0x130a210:s0 -> Node0x130a2b0;
+	Node0x130a210:s1 -> Node0x130a260;
+	Node0x130a260 [shape=record,label="{%11:\l\l  %12 = bitcast i64* %3 to i8*, !dbg !218\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %12) #11, !dbg !218\l  br label %30\l}"];
+	Node0x130a260 -> Node0x130a350;
+	Node0x130a2b0 [shape=record,label="{%13:\l\l  %14 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !219, !tbaa !201\l  %15 = getelementptr inbounds %struct.seq, %struct.seq* %14, i32 0, i32 2,\l... !dbg !221\l  %16 = load %struct.line**, %struct.line*** %15, align 8, !dbg !221, !tbaa\l... !222\l  %17 = load i64, i64* %3, align 8, !dbg !223, !tbaa !208\l  %18 = getelementptr inbounds %struct.line*, %struct.line** %16, i64 %17,\l... !dbg !219\l  %19 = load %struct.line*, %struct.line** %18, align 8, !dbg !219, !tbaa !201\l  call void @freeline(%struct.line* %19), !dbg !224\l  %20 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !225, !tbaa !201\l  %21 = getelementptr inbounds %struct.seq, %struct.seq* %20, i32 0, i32 2,\l... !dbg !226\l  %22 = load %struct.line**, %struct.line*** %21, align 8, !dbg !226, !tbaa\l... !222\l  %23 = load i64, i64* %3, align 8, !dbg !227, !tbaa !208\l  %24 = getelementptr inbounds %struct.line*, %struct.line** %22, i64 %23,\l... !dbg !225\l  %25 = load %struct.line*, %struct.line** %24, align 8, !dbg !225, !tbaa !201\l  %26 = bitcast %struct.line* %25 to i8*, !dbg !225\l  call void @free(i8* %26) #11, !dbg !228\l  br label %27, !dbg !229\l}"];
+	Node0x130a2b0 -> Node0x130a300;
+	Node0x130a300 [shape=record,label="{%27:\l\l  %28 = load i64, i64* %3, align 8, !dbg !230, !tbaa !208\l  %29 = add i64 %28, 1, !dbg !230\l  store i64 %29, i64* %3, align 8, !dbg !230, !tbaa !208\l  br label %5, !dbg !218, !llvm.loop !231\l}"];
+	Node0x130a300 -> Node0x130a210;
+	Node0x130a350 [shape=record,label="{%30:\l\l  %31 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !233, !tbaa !201\l  %32 = getelementptr inbounds %struct.seq, %struct.seq* %31, i32 0, i32 2,\l... !dbg !234\l  %33 = load %struct.line**, %struct.line*** %32, align 8, !dbg !234, !tbaa\l... !222\l  %34 = bitcast %struct.line** %33 to i8*, !dbg !233\l  call void @free(i8* %34) #11, !dbg !235\l  ret void, !dbg !236\l}"];
+}

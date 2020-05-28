@@ -1,0 +1,9 @@
+digraph "CFG for 'expr' function" {
+	label="CFG for 'expr' function";
+
+	Node0x1a2b850 [shape=record,label="{%0:\l  %1 = load i32, i32* @pos, align 4, !dbg !54, !tbaa !56\l  %2 = load i32, i32* @argc, align 4, !dbg !60, !tbaa !56\l  %3 = icmp sge i32 %1, %2, !dbg !61\l  br i1 %3, label %4, label %5, !dbg !62\l|{<s0>T|<s1>F}}"];
+	Node0x1a2b850:s0 -> Node0x1a2c400;
+	Node0x1a2b850:s1 -> Node0x1a2c450;
+	Node0x1a2c400 [shape=record,label="{%4:\l\l  call void @beyond() #12, !dbg !63\l  unreachable, !dbg !63\l}"];
+	Node0x1a2c450 [shape=record,label="{%5:\l\l  %6 = call zeroext i1 @or(), !dbg !64\l  ret i1 %6, !dbg !65\l}"];
+}

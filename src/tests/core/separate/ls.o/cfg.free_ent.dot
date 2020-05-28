@@ -1,0 +1,17 @@
+digraph "CFG for 'free_ent' function" {
+	label="CFG for 'free_ent' function";
+
+	Node0x108a270 [shape=record,label="{%1:\l  %2 = alloca %struct.fileinfo*, align 8\l  store %struct.fileinfo* %0, %struct.fileinfo** %2, align 8, !tbaa !1398\l  call void @llvm.dbg.declare(metadata %struct.fileinfo** %2, metadata !1397,\l... metadata !DIExpression()), !dbg !1402\l  %3 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1403,\l... !tbaa !1398\l  %4 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %3, i32 0,\l... i32 0, !dbg !1404\l  %5 = load i8*, i8** %4, align 8, !dbg !1404, !tbaa !1405\l  call void @free(i8* %5) #14, !dbg !1412\l  %6 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1413,\l... !tbaa !1398\l  %7 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %6, i32 0,\l... i32 1, !dbg !1414\l  %8 = load i8*, i8** %7, align 8, !dbg !1414, !tbaa !1415\l  call void @free(i8* %8) #14, !dbg !1416\l  %9 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1417,\l... !tbaa !1398\l  %10 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %9, i32 0,\l... i32 2, !dbg !1418\l  %11 = load i8*, i8** %10, align 8, !dbg !1418, !tbaa !1419\l  call void @free(i8* %11) #14, !dbg !1420\l  %12 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1421,\l... !tbaa !1398\l  %13 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %12, i32 0,\l... i32 6, !dbg !1423\l  %14 = load i8*, i8** %13, align 8, !dbg !1423, !tbaa !1424\l  %15 = icmp ne i8* %14, getelementptr inbounds ([2 x i8], [2 x i8]*\l... @UNKNOWN_SECURITY_CONTEXT, i32 0, i32 0), !dbg !1425\l  br i1 %15, label %16, label %27, !dbg !1426\l|{<s0>T|<s1>F}}"];
+	Node0x108a270:s0 -> Node0x108db90;
+	Node0x108a270:s1 -> Node0x108fbe0;
+	Node0x108db90 [shape=record,label="{%16:\l\l  %17 = call zeroext i1 @is_smack_enabled(), !dbg !1427\l  br i1 %17, label %18, label %22, !dbg !1430\l|{<s0>T|<s1>F}}"];
+	Node0x108db90:s0 -> Node0x108faf0;
+	Node0x108db90:s1 -> Node0x108fb40;
+	Node0x108faf0 [shape=record,label="{%18:\l\l  %19 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1431,\l... !tbaa !1398\l  %20 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %19, i32 0,\l... i32 6, !dbg !1432\l  %21 = load i8*, i8** %20, align 8, !dbg !1432, !tbaa !1424\l  call void @free(i8* %21) #14, !dbg !1433\l  br label %26, !dbg !1433\l}"];
+	Node0x108faf0 -> Node0x108fb90;
+	Node0x108fb40 [shape=record,label="{%22:\l\l  %23 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1434,\l... !tbaa !1398\l  %24 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %23, i32 0,\l... i32 6, !dbg !1435\l  %25 = load i8*, i8** %24, align 8, !dbg !1435, !tbaa !1424\l  call void @freecon(i8* %25), !dbg !1436\l  br label %26\l}"];
+	Node0x108fb40 -> Node0x108fb90;
+	Node0x108fb90 [shape=record,label="{%26:\l\l  br label %27, !dbg !1437\l}"];
+	Node0x108fb90 -> Node0x108fbe0;
+	Node0x108fbe0 [shape=record,label="{%27:\l\l  ret void, !dbg !1438\l}"];
+}
