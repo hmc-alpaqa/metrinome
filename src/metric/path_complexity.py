@@ -63,7 +63,7 @@ class PathComplexity(metric.MetricAbstract):
         try:
             test = [round(-x, 2) for x in recurrence_kernel]
         except TypeError:
-            print("Cannot use LU decomposition")
+            self.logger.d_msg("Cannot use LU decomposition")
             x_det = x_mat.det()
             denominator = Poly(sympify(-x_det))
             recurrence_degree = degree(denominator, gen=t_var) + 1
