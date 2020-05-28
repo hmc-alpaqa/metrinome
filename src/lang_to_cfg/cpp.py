@@ -30,6 +30,9 @@ class CPPConvert():
         self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
         self.logger.d_msg(f"File count is: {file_count}")
+        if file_count == 0:
+            self.clean_temps()
+            return None
         name = os.path.split(filename)[1]
         graphs = {}
         filename = filename.strip(name)
@@ -162,8 +165,6 @@ class CPPConvert():
 
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
-                # out, err = line2.communicate()
-                # self.logger.d_msg(out, err)
                 line2.communicate()
 
         files = glob2.glob("*.dot")
