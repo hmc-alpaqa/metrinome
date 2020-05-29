@@ -5,6 +5,9 @@ sys.path.append("/app/code/")
 import command
 from tests.unit_utils import captured_output
 
+# pylint does not understand decorators :(
+# pylint: disable=no-value-for-parameter
+
 
 class TestCommandInvalid(unittest.TestCase):
     """Test each command with invalid inputs."""

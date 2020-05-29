@@ -2,6 +2,7 @@
 
 from typing import Any
 import sys
+import re
 import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
     simplify, sympify, Abs, Q, degree_list  # type: ignore
@@ -11,7 +12,7 @@ import numpy as np  # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
 from metric import metric  # type: ignore
-import re
+
 
 class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
@@ -78,6 +79,8 @@ class PathComplexity(metric.MetricAbstract):
 
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
 
+        self.logger.d_msg(f"Got taylor coeffs.")
+
         if taylor_coeffs is not None:
             base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree - 1],
                                    dtype='complex')
@@ -93,12 +96,24 @@ class PathComplexity(metric.MetricAbstract):
         # Solve the recurrence relation
         terms = get_solution_from_roots(roots)
 
+        self.logger.d_msg(f"Got terms.")
+
         factors = terms
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
                             for nval in range(1, len(factors) + 1)], dtype='complex')
 
+        self.logger.d_msg(f"Made the matrix guy.")
+
         base_cases = base_cases.transpose()
+
+        self.logger.d_msg(f"Got the base cases.")
+        self.logger.d_msg(matrix)
+        self.logger.d_msg(matrix.shape)
+        self.logger.d_msg(base_cases)
+
         bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
+
+        self.logger.d_msg(f"Got the bounding solution terms.")
 
         bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(factors))
         expr_without_abs = bounding_solution_terms[0][0]
@@ -129,11 +144,12 @@ class PathComplexity(metric.MetricAbstract):
 
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))
-        print(apc)
+        # print(apc)
         if apc != 0.0:
             if degree(apc, gen=n_var) != 0:
                 return (sympy.LM(apc), terms)
-            elif "n" in str(apc):
+
+            if "n" in str(apc):
                 regex_cleaner = re.search(r'([0-9.]*\*\*n)', str(apc))
                 if regex_cleaner:
                     apc = regex_cleaner.groups()[0]

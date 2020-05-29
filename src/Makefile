@@ -23,7 +23,7 @@ build:
 	docker build --tag gbessler/pathrepl:latest -f ../Dockerfile ../
 
 run:
-	docker run -it -v $(shell pwd):/app/code gbessler/pathrepl:latest /bin/zsh
+	docker run -it -v ${shell pwd}:/app/code gbessler/pathrepl:latest /bin/zsh
 
 run-detached:
 	docker run --name detached_repl -d -t -v $(shell pwd):/app/code gbessler/pathrepl:latest
