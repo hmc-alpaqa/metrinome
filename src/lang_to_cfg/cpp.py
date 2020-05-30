@@ -1,6 +1,6 @@
 """This module converts C++ source code into Graph objects representing the CFG for the code."""
 
-from typing import Dict
+from typing import Dict, Optional
 import subprocess
 import shlex  # type: ignore
 import sys
@@ -8,7 +8,7 @@ import os
 import re
 import glob2  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph, GraphType  # pylint: disable=unused-import
+from graph import Graph, GraphType
 
 # pylint: disable=R0201
 
@@ -22,7 +22,7 @@ class CPPConvert():
         self.edge_pattern = "->"
         self.name_pattern = "([a-zA-Z0-9]+ )"
 
-    def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
         """Create a CFG from a C++ source file."""
         self.clean_temps()
         self.logger.d_msg("Creating dot files")
@@ -84,7 +84,7 @@ class CPPConvert():
 
         return nodes, edges, node_map, counter
 
-    def convert_file_to_standard(self, f_num, filename, file):
+    def convert_file_to_standard(self, file: str) -> None:
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
 
@@ -96,8 +96,9 @@ class CPPConvert():
             edges += ["1 -> 2;"]
             counter += 2
 
+        filename = os.path.split(file)[1]
         # Make a temporary file (with the new content).
-        with open(f'cppConverterTemps/{filename}{f_num}.dot', 'w') as new_file:
+        with open(f'cppConverterTemps/{filename}.dot', 'w') as new_file:
             new_file.write("digraph { \n")
 
             # Create the nodes and then the edges.
@@ -123,15 +124,14 @@ class CPPConvert():
         as the dot files generated from Java CFGs.
         """
         path = os.path.split(filename)[0]
-        filename = os.path.split(filename)[1]
         files = glob2.glob(f"{path}/cppConverterTemps/*.dot")
         for name in files:
             if "global" in name.lower():
                 os.remove(name)
                 files.remove(name)
 
-        for f_num, file in enumerate(files):
-            self.convert_file_to_standard(f_num, filename, file)
+        for file in files:
+            self.convert_file_to_standard(file)
 
         return len(files)
 
@@ -172,10 +172,10 @@ class CPPConvert():
         for file in files:
             subprocess.call(["mv", f"{file}", "cppConverterTemps"])
 
-    def clean_temps(self):
+    def clean_temps(self) -> None:
         """Remove temp files and directories."""
         proc = subprocess.Popen(["rm", "-r", "cppConverterTemps"],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
         output, err = proc.communicate()
-        self.logger.d_msg(f"stdout: {output}", f"stderr: {err}")
+        self.logger.d_msg(f"stdout: {output.decode()}", f"stderr: {err.decode()}")
