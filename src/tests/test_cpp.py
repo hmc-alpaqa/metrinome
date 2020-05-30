@@ -3,13 +3,7 @@
 import unittest
 import sys
 import warnings
-import subprocess
-import os
-import glob2  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph
-from lang_to_cfg.cpp import CPPConvert
-from log import Log, LogLevel
 
 
 def ignore_warnings(test_func):
@@ -23,32 +17,6 @@ def ignore_warnings(test_func):
 
 class TestCPPConvert(unittest.TestCase):
     """All tests for the object that converts arbitrary C++ code to Graph objects."""
-
-    # def test_parse_original(self):
-    #     converter = CPPConvert(Log())
-    #     res = converter.parse_original("/app/code/tests/dotFiles/singlenode_nonstandard.dot")
-    #     nodes, edges, node_map, counter = res
-    #     print(nodes)
-    #     print(edges)
-    #     print(node_map)
-    #     print(counter)
-
-    def test_parse_original2(self):
-        converter = CPPConvert(Log())
-        res = converter.parse_original("/app/code/tests/dotFiles/xstr_cd_iconv.dot")
-        nodes, edges, node_map, counter = res
-        # print(nodes)
-        print("EDGES: ", edges)
-        # print(node_map)
-        # print(counter)
-
-    def test_convert_file_to_standard(self):
-        """
-        """
-        converter = CPPConvert(Log())
-        converter.convert_file_to_standard(0, "singlenode_nonstandard.dot",
-                                 "/app/code/tests/dotFiles/singlenode_nonstandard.dot")
-
 
     # @ignore_warnings  # glob regex deprecation warnings.
     # def test_create_dot_files(self):

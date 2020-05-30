@@ -1,11 +1,5 @@
 """Various utilities used only for testing and not the main REPL."""
-
-from contextlib import contextmanager
-from io import StringIO
-import sys
 import subprocess
-import re
-import time
 import os
 import glob2
 from math import floor
@@ -58,38 +52,15 @@ def con(file):
             else:
                 edges += [line]
 
-    return nodes, edges, node_map, counter
 
 def convert_file_to_standard(file):
     """Convert a single file to the standard format."""
-    nodes, edges, node_map, counter = con(file)
+    converter = CPPConvert(None)
+    converter.convert_file_to_standard(file)
 
-    # Covers case of leaf CFGs.
-    if len(nodes) == 1:
-        nodes.append("1")
-        nodes.append("2")
-        counter += 2
-    filename = os.path.split(file)[1]
-    # Make a temporary file (with the new content).
-    with open(f'cleaned/{filename}', 'w') as new_file:
-        new_file.write("digraph { \n")
-
-        # Create the nodes and then the edges.
-        for i, node in enumerate(nodes):
-            if i == counter - 1:
-                node += "[label=\"EXIT\"]"
-            new_file.write(node + ";" + "\n")
-
-        for edge in edges:
-            for name in node_map:
-                edge = edge.replace(name, node_map[name])
-                edge = edge.replace(":s0", "")
-                edge = edge.replace(":s1", "")
-
-            new_file.write(edge + "\n")
-        new_file.write("}")
 
 def clean(file):
+    """Remove unecessary files."""
     filepath = os.path.split(file)[0]
     os.chdir(os.path.split(filepath)[0])
     subprocess.check_call(["mkdir", "-p", "cleaned"])
@@ -155,14 +126,10 @@ def run_benchmark(converter):
 
 
 
-
-
-
-
 if __name__ == "__main__":
     # Get all the folders
     # Establish our lists: names, apc, cyclomatic, npath, time, exception? 
-
+    pass
 
 
 
@@ -177,5 +144,4 @@ if __name__ == "__main__":
 #     name = os.path.basename(file)
 #     os.chdir(f"/app/code/tests/core/separate/{name}/")
 #     f = f".{name}.bc"     
-#     subprocess.check_call(["opt", "-dot-cfg", f"{f}"])        
-        
+#     subprocess.check_call(["opt", "-dot-cfg", f"{f}"])

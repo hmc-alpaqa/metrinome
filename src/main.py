@@ -12,6 +12,11 @@ from log import Colors
 
 TESTING_MODE = True
 
+# pylint does not understand decorators.
+# pylint: disable=no-value-for-parameter
+# pylint: disable=too-many-function-args
+# pylint: disable=too-many-public-methods
+
 
 class MyPrompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""

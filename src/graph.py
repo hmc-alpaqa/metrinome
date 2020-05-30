@@ -1,6 +1,6 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from typing import List, Tuple, Any
+from typing import List, Tuple, Any, Optional
 from enum import Enum
 import re
 import os
@@ -66,8 +66,7 @@ class Graph:
 
     def __init__(self, edges, vertices: Any, start_node: int,
                  end_node: int,
-                 graph_type: GraphType = GraphType.ADJACENCY_LIST,
-                 name: str = "") -> None:
+                 graph_type: GraphType = GraphType.ADJACENCY_LIST) -> None:
         """
         Create a directed graph from a vertex set, edge list, and start/end notes.
 
@@ -83,13 +82,12 @@ class Graph:
         self.start_node = start_node
         self.end_node = end_node
         self.weighted = False
-        self.name  = name
+        self.name: Optional[str]  = None
         self.graph_type = graph_type
 
-        if graph_type is GraphType.ADJACENCY_LIST:
-            self.from_list = True
-        elif graph_type is GraphType.ADJACENCY_MATRIX:
-            self.from_matrix = True
+    def set_name(self, name: str) -> None:
+        """Set the name of the Graph."""
+        self.name = name
 
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list."""
@@ -165,7 +163,7 @@ class Graph:
         """
         adj_mat = np.zeros((self.vertex_count(), self.vertex_count()))
         if self.graph_type is GraphType.EDGE_LIST:
-            for edge in self.edge_rules():
+            for edge in self.edges:
                 vertex_one = edge[0]
                 vertex_two = edge[1]
                 weight = 1
@@ -182,7 +180,7 @@ class Graph:
         if self.graph_type is GraphType.ADJACENCY_LIST:
             for vertex in range(self.vertex_count()):
                 vertex_one = self.node_to_index(vertex)
-                for vertex_two in self.edge_rules()[vertex]:
+                for vertex_two in self.edges[vertex]:
                     vertex_two = self.node_to_index(vertex_two)
                     adj_mat[vertex_one][vertex_two] = 1
 
@@ -242,14 +240,16 @@ class Graph:
         if graph_type is GraphType.ADJACENCY_LIST:
             # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
             # graph = Graph(v_e_dict, None, -1, -1, graph_type)
-            graph = Graph([], None, -1, -1, graph_type, name)
+            graph = Graph([], None, -1, -1, graph_type)
         elif graph_type is GraphType.EDGE_LIST:
             edges: List[List[int]] = []
-            graph = Graph(edges, set(), -1, -1, graph_type, name)
+            graph = Graph(edges, set(), -1, -1, graph_type)
         elif graph_type is GraphType.ADJACENCY_MATRIX:
             # We create the graph using an adjacency list and then convert it.
             # There is probably a better way to do this.
-            graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST, name)
+            graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST)
+
+        graph.set_name(name)
 
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:

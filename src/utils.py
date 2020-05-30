@@ -10,7 +10,7 @@ from typing import List
 import re
 from collections import Counter
 import signal
-from sympy import limit, Abs, sympify, series, symbols, Poly  # type: ignore
+from sympy import limit, Abs, sympify, series, symbols  # type: ignore
 from mpmath import polyroots  # type: ignore
 
 
@@ -175,7 +175,7 @@ def big_o(terms):
         return 0.0
 
     if len(terms) == 1:
-        
+
         return terms[0]
 
     term_one = terms[0]
