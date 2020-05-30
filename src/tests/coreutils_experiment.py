@@ -18,7 +18,7 @@ from typing import List, Any
 sys.path.append("/app/code/lang_to_cfg")
 from cpp import CPPConvert
 sys.path.append("/app/code/metric")
-from metric import cyclomatic_complexity
+from metric import path_complexity
 
 
 
@@ -95,20 +95,87 @@ def clean(file):
     subprocess.check_call(["mkdir", "-p", "cleaned"])
     convert_file_to_standard(file)
 
+def get_converter_time(graph_list, converter, folder):
+    """Run the the converter on all graph files from some folder."""
+    # loop through each cfg in each folder.
+    folder_time_list = []
+    overall_time_list = []
+    timeout_count = 0
+
+    for i, graph in enumerate(graph_list):
+        if show_info:
+            print(os.path.splitext(graph)[0].split("/")[-1],
+                  f"{round(100*(i / len(graph_list)))}% done")
+        graph_zero = Graph.from_file(graph)
+        start_time = time.time()
+        try:
+            with Timeout(timeout_threshold, f'{converter.name()} took too long'):
+                apc =  converter.evaluate(graph_zero)
+
+            # Calculate the run time.
+            runtime = time.time() - start_time
+
+            # Add runtime to folder-specific list.
+            folder_time_list.append((runtime, graph))
+
+            # Add runtime to overall list.
+            overall_time_list.append((runtime, folder, graph))
+            if show_info:
+                print(f"Runtime {runtime}")
+
+        except TimeoutError as exception:
+            if show_info:
+                print(exception)
+            timeout_count += 1
+
+    return folder_time_list, overall_time_list, timeout_count
+
+
+def run_benchmark(converter):
+    """Run all CFGs through the converter to create a benchmark."""
+    folders = (glob.glob("/app/code/tests/core/separate/*/"))
+    print(f"number of folders: {len(folders)}\n")
+    metric_collection: List[Any] = []
+    # list of tuples for all cfgs in all folders (seconds, folder, cfg).
+    time_list = []
+    apc_list = []
+    timeout_total = 0
+    # test the metrics for each folder in apache_cfgs.
+    print(f"Num Folders: {floor(len(folders) / folders_frac)}")
+    for folder in folders[0:floor(len(folders) / folders_frac)]:
+        print(f"On folder {folder}")
+        graph_list = (glob.glob(folder + "*.dot"))
+        graph_list = graph_list[0:floor(len(graph_list) / graph_frac)]
+        # list of tuples for each cfg in folder(seconds, cfg).
+        folder_time_list, overall_time_list, timeout_count = get_converter_time(graph_list,
+                                                                                converter, folder,
+                                                                                timeout_threshold,
+                                                                                graph_type,
+                                                                                show_info)
+
+
 
 
 
 
 
 if __name__ == "__main__":
-    pass
-    # """Run all CFGs through the converter to create a benchmark."""
-    # files = (glob2.glob("/app/code/tests/core/separate/*"))
+    # Get all the folders
+    # Establish our lists: names, apc, cyclomatic, npath, time, exception? 
 
-    # os.chdir("/app/code/tests/core/separate")
-    # for file in files: 
-    #     name = os.path.basename(file)
-    #     os.chdir(f"/app/code/tests/core/separate/{name}/")
-    #     f = f".{name}.bc"     
-    #     subprocess.check_call(["opt", "-dot-cfg", f"{f}"])        
+
+
+
+
+
+
+# """Run all CFGs through the converter to create a benchmark."""
+# files = (glob2.glob("/app/code/tests/core/separate/*"))
+
+# os.chdir("/app/code/tests/core/separate")
+# for file in files: 
+#     name = os.path.basename(file)
+#     os.chdir(f"/app/code/tests/core/separate/{name}/")
+#     f = f".{name}.bc"     
+#     subprocess.check_call(["opt", "-dot-cfg", f"{f}"])        
         
