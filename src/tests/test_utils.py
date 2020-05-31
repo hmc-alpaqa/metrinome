@@ -1,23 +1,24 @@
 """This is used to test the utils that are primarily used in computing APC and path complexity."""
-
+import sys
+sys.path.append("/app/code")
 import unittest
+import utils
 
-
-class TestUtils(unittest.TestCase):
+class Testutils(unittest.TestCase):
     """Test all of the utils methods."""
 
     # === roundExpression ===
     def test_round_expression_simple(self):
         """Check an expression with only numbers and binary operations."""
         # simpleExpression = '1.234567 * 1.123123 + 1.123123 / 1.123123'
-        # result = Utils.roundExpression(simpleExpression, 3)
+        # result = utils.roundExpression(simpleExpression, 3)
         # expectedResult = "1.234 * 1.123 + 1.123 / 1.123"
         # self.assertEqual(result, expectedResult)
 
     def test_round_expression_polynomial(self):
         """Check that a polynomial simplies correctly."""
         # polynomialExpression = '1.123123 * x**1 + x**1.123123'
-        # simplifiedExpression = Utils.roundExpression(polynomialExpression, 3)
+        # simplifiedExpression = utils.roundExpression(polynomialExpression, 3)
         # expectedResult = '1.123 * x**1 + x**1.123'
         # self.assertEqual(simplifiedExpression, expectedResult)
 
@@ -26,10 +27,10 @@ class TestUtils(unittest.TestCase):
         Check that we can round numbers in an expression.
 
         Coefficients in an exponential expression should be rounded to
-        the appropriate numebr of decimal places
+        the appropriate number of decimal places
         """
         # exponentialExpression = '1.12 * e**(1.123123*x)'
-        # simplifiedExpression = Utils.roundExpression(exponentialExpression, 3)
+        # simplifiedExpression = utils.roundExpression(exponentialExpression, 3)
         # expectedResult = '1.12 * e**(1.123*x)'
         # self.assertEqual(expectedResult, simplifiedExpression)
 
@@ -41,7 +42,7 @@ class TestUtils(unittest.TestCase):
         Given some expression and expected classification, verify that
         classify() returns the correct classification
         """
-        # classified = Utils.classify(expression)
+        # classified = utils.classify(expression)
         # self.assertEqual(classified, expected)
 
     def test_classify_constant(self):
@@ -79,7 +80,7 @@ class TestUtils(unittest.TestCase):
         # self.classifyHelper(exponentialExpression, expectedClassification)
 
         # exponentialExpression = '1 + n + 1.5 * 3.1^(2.1*n)'
-        # classified = Utils.roundExpression(Utils.classify(exponentialExpression), 4)
+        # classified = utils.roundExpression(utils.classify(exponentialExpression), 4)
         # expectedClassification = 'ExpBase:10.7611'
         # self.assertEqual(classified, expectedClassification)
 
@@ -91,13 +92,13 @@ class TestUtils(unittest.TestCase):
         The method should return the solution to a linear homogeneous recurrence relation
         from the roots of the charactersic equation.
         """
-        # Utils.getSolutionFromRoots()
+        # utils.getSolutionFromRoots()
         # self.assertEqual('1', '1')
 
     # === getRecurrenceSolution ===
     def test_recurrence_solution(self):
         """Returns the solution to an arbitrary linear homogeneous recurrence relation."""
-        # Utils.getRecurrenceSolution()
+        # utils.getRecurrenceSolution()
         # self.assertEqual('1', '1')
 
     # === getTaylorCoeffs ===
@@ -109,7 +110,7 @@ class TestUtils(unittest.TestCase):
         rational function (p(x) / q(x) where p and q are polynomials),
         up to a specified degree.
         """
-        # Utils.getTaylorCoeffs()
+        # utils.getTaylorCoeffs()
         # self.assertEqual('1', '1')
 
     # === isExponential ===
@@ -119,8 +120,8 @@ class TestUtils(unittest.TestCase):
 
         This should also return True if it includes variants of a^n.
         """
-        # result = Utils.isExponential('n * 2 + 1.5 - 2^n')
-        # resultTwo = Utils.isExponential('n + 1 / 2')
+        # result = utils.isExponential('n * 2 + 1.5 - 2^n')
+        # resultTwo = utils.isExponential('n + 1 / 2')
 
         # self.assertEqual(result, True)
         # self.assertEqual(resultTwo, False)
@@ -138,39 +139,55 @@ class TestUtils(unittest.TestCase):
         # degreeZeroPolynomial = '42'
         # degreeTwoPolynomial = '42 + 1.3*x + 1.341*x^3'
         # polynomialWithParenthesis = '42 + 1.3*x + 1.341*x^(3)'
-        # degreeResultOne = Utils.getDegree(degreeZeroPolynomial)
-        # degreeResultTwo = Utils.getDegree(degreeTwoPolynomial, 'x')
+        # degreeResultOne = utils.getDegree(degreeZeroPolynomial)
+        # degreeResultTwo = utils.getDegree(degreeTwoPolynomial, 'x')
 
         # self.assertEqual(degreeResultOne, 0)
         # self.assertEqual(degreeResultTwo, 3)
 
-    # === bigo ===
-    def test_bigo_constant(self):
-        """The bigo of a constant should be O(1)."""
-        # constantExpression = ['1', '2', '3']
-        # constantExpressionTwo = ['3', '2', '1']
+    # === big_o===
+    def test_big_o_constant(self):
+        """The big_o of a constant should be O(1)."""
+        constantExpression = ['1', '2', '3']
+        constantExpressionTwo = ['3', '2', '1']
 
-        # bigoOne = Utils.bigo(constantExpression)
-        # bigoTwo = Utils.bigo(constantExpressionTwo)
+        big_oOne = utils.big_o(constantExpression)
+        big_oTwo = utils.big_o(constantExpressionTwo)
 
-        # self.assertEqual(bigoOne, '1')
-        # self.assertEqual(bigoTwo, '1')
+        self.assertEqual(big_oOne, '1')
+        self.assertEqual(big_oTwo, '1')
 
-    def test_bigo_polynomial(self):
-        """The bigo of a polynomial should be O(x^n) where n is the degree of the polynomial."""
+    def test_big_o_polynomial(self):
+        """The big_o of a polynomial should be O(x^n) where n is the degree of the polynomial."""
         # Expression One: "1 - x + 6*x^8"
         # Expression Two: = "1.2*x^(8.4) - 3.1*x"
 
-        # polynomialExpression = ['1', '-x', '6*x^8']
-        # polynomialExpressionTwo = ['1.2*x^(8.4)', '-3.1*x']
+        polynomialExpression = ['1', '-x', '6*x^8']
+        polynomialExpressionTwo = ['1.2*x^(8.4)', '-3.1*x']
 
-        # bigoOne = Utils.bigo(polynomialExpression)
-        # bigoTwo = Utils.bigo(polynomialExpressionTwo)
+        big_oOne = utils.big_o(polynomialExpression)
+        big_oTwo = utils.big_o(polynomialExpressionTwo)
 
-        # expectedbigoOne = 'x^8'
-        # expectedbigoTwo = 'x^8.4'
-        # self.assertEqual(expectedbigoOne, bigoOne)
-        # self.assertEqual(expectedbigoTwo, bigoTwo)
+        expectedbig_oOne = 'x^8'
+        expectedbig_oTwo = 'x^8.4'
+        self.assertEqual(expectedbig_oOne, big_oOne)
+        self.assertEqual(expectedbig_oTwo, big_oTwo)
+
+    def test_big_o_exponential(self):
+        # Expression One: "1 + x + .5^x + 2^x"
+        # Expression Two: "2*1.01^x + 1.02^x"
+
+        Expression = ['1000000', 'x', '.5**x', '2**x']
+        ExpressionTwo = ['2*1.01**x', '1.02**x']
+
+        big_oOne = utils.big_o(Expression)
+        big_oTwo = utils.big_o(ExpressionTwo)
+
+        expectedbig_oOne = '2**x'
+        expectedbig_oTwo = '1.02**x'
+
+        self.assertEqual(expectedbig_oOne, big_oOne)
+        self.assertEqual(expectedbig_oTwo, big_oTwo)
 
     # === Timeout ===
     def test_timeout_notimetout(self):
@@ -179,7 +196,7 @@ class TestUtils(unittest.TestCase):
         #     return 7
 
         # result = 0
-        # with Utils.Timeout(seconds = 5):
+        # with utils.Timeout(seconds = 5):
         #     result = foo()
         # self.assertEqual(result, 7)
 
@@ -189,7 +206,7 @@ class TestUtils(unittest.TestCase):
         #     sleep(2)
 
         # with self.assertRaises(TimeoutError):
-        #     with Utils.Timeout(seconds = 1):
+        #     with utils.Timeout(seconds = 1):
         #         foo()
 
 
