@@ -71,7 +71,7 @@ def check_args(num_args, err, check_recursive=False, var_args=False):
                 self.logger.v_msg(err)
                 return
 
-            if len(args) > num_args:
+            if len(args_list) > num_args:
                 if check_recursive:
                     recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
                     if not var_args and len(args) == num_args + 1 and recursive_flag:
@@ -395,7 +395,6 @@ class Data:
 def worker_main(shared_dict, file):
     """Handle the multiprocessing of import."""
     graph = Graph.from_file(file)
-    print(graph)
     if isinstance(graph, dict):
         shared_dict.update(graph)
     else:

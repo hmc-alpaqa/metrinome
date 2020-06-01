@@ -1,0 +1,14 @@
+digraph "CFG for '_Z14array_functionPii' function" {
+	label="CFG for '_Z14array_functionPii' function";
+
+	Node0x560c6f324610 [shape=record,label="{%2:\l  %3 = alloca i32*, align 8\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  store i32* %0, i32** %3, align 8\l  store i32 %1, i32* %4, align 4\l  store i32 0, i32* %5, align 4\l  store i32 0, i32* %6, align 4\l  br label %7\l}"];
+	Node0x560c6f324610 -> Node0x560c6f3250b0;
+	Node0x560c6f3250b0 [shape=record,label="{%7:\l\l  %8 = load i32, i32* %6, align 4\l  %9 = load i32, i32* %4, align 4\l  %10 = icmp slt i32 %8, %9\l  br i1 %10, label %11, label %22\l|{<s0>T|<s1>F}}"];
+	Node0x560c6f3250b0:s0 -> Node0x560c6f324da0;
+	Node0x560c6f3250b0:s1 -> Node0x560c6f325320;
+	Node0x560c6f324da0 [shape=record,label="{%11:\l\l  %12 = load i32*, i32** %3, align 8\l  %13 = load i32, i32* %6, align 4\l  %14 = sext i32 %13 to i64\l  %15 = getelementptr inbounds i32, i32* %12, i64 %14\l  %16 = load i32, i32* %15, align 4\l  %17 = load i32, i32* %5, align 4\l  %18 = add nsw i32 %17, %16\l  store i32 %18, i32* %5, align 4\l  br label %19\l}"];
+	Node0x560c6f324da0 -> Node0x560c6f325790;
+	Node0x560c6f325790 [shape=record,label="{%19:\l\l  %20 = load i32, i32* %6, align 4\l  %21 = add nsw i32 %20, 1\l  store i32 %21, i32* %6, align 4\l  br label %7\l}"];
+	Node0x560c6f325790 -> Node0x560c6f3250b0;
+	Node0x560c6f325320 [shape=record,label="{%22:\l\l  %23 = load i32, i32* %5, align 4\l  ret i32 %23\l}"];
+}

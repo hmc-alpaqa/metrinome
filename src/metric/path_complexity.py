@@ -26,6 +26,12 @@ class PathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
+# 1.070
+# 1.232
+# 0.987
+
+# Timeout: 1
+
     def gen_func_taylor_coeffs(self, graph):
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()
@@ -83,8 +89,7 @@ class PathComplexity(metric.MetricAbstract):
         n_var = symbols('n')
 
         # Solve the recurrence relation.
-        terms = get_solution_from_roots(roots)
-        factors = terms
+        factors = get_solution_from_roots(roots)
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
                             for nval in range(1, len(factors) + 1)], dtype='complex')
         base_cases = base_cases.transpose()

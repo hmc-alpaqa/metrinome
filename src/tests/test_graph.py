@@ -10,6 +10,42 @@ from graph import Graph, GraphType
 class TestGraph(unittest.TestCase):
     """Test Graph objects."""
 
+    # === Graph::node_to_index ===
+    def test_node_to_index(self):
+        pass
+
+    # === Graph::get_end ===
+    def test_get_end(self):
+        pass
+
+    # === Graph::get_start ===
+    def test_get_start(self):
+        pass
+
+    # === Graph::edge_count ===
+    def test_edge_count(self):
+        pass
+
+    # === Graph::set_name ===
+    def test_set_name(self):
+        pass
+
+    # === Graph::dot ===
+    def test_dot(self):
+        pass
+
+    # === Graph::update_with_node ===
+    def test_update_with_node(self):
+        pass
+
+    # === Graph::update_with_edge === 
+    def test_update_with_edge(self):
+        pass
+
+    # === Graph::__eq__ ===
+    def test_eq(self):
+        pass
+
     # === Graph::__str__ ===
     def test_to_str(self):
         """Test if we can correctly convert a Graph to a string."""
@@ -17,7 +53,7 @@ class TestGraph(unittest.TestCase):
         expected = "Edges: [1, 2]\nVertices: [1, 2, 3]\nStart Node: 1\nEnd Node: 3"
         self.assertEqual(expected, str(graph))
 
-    # # === Graph::edgeRules ===
+    # # === Graph::edge_rules ===
     def test_edge_rules_no_edges(self):
         """Test if we can get all of the edges from a Graph."""
         graph = Graph([], [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
@@ -50,7 +86,7 @@ class TestGraph(unittest.TestCase):
         vertices = graph.get_vertices()
         self.assertEqual(vertices, [1, 2, 3, 4])
 
-    # # === Graph::adjacencyMatrix ===
+    # # === Graph::adjacency_matrix ===
     def test_adjacency_matrix_no_edges(self):
         """Test if we can get the adjacency matrix for a Graph with no edges."""
         graph = Graph([], [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
@@ -68,7 +104,7 @@ class TestGraph(unittest.TestCase):
                         [0, 0, 0, 0]]
         self.assertTrue((adj_mat == expected_mat).all())
 
-    # # === Graph::adjacencyList ===
+    # # === Graph::adjacency_list ===
     def test_adjacency_list_no_edges(self):
         """Test if we can get the adjacency list for a graph with no edges."""
         graph = Graph([], [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
@@ -76,7 +112,7 @@ class TestGraph(unittest.TestCase):
         for i in adj_list.keys():
             self.assertTrue(len(adj_list[i]) == 0)
 
-    # # === Graph::fromFile ===
+    # # === Graph::from_file ===
     def test_from_file_one_vertex(self):
         """Test if we can get the adjacency list for a graph with no edges."""
         # Graph.fromFile(None)
@@ -85,7 +121,7 @@ class TestGraph(unittest.TestCase):
         """Test if we can get the adjacency list for a graph with many edges and vertices."""
     #     # Graph.fromFile(None)
 
-    # # === Graph::toPrism ===
+    # # === Graph::to_prism ===
     def test_to_prism_one_vertex(self):
         """Test if we can convert a Graph with one vertex to a PRISM file."""
 
@@ -93,5 +129,4 @@ class TestGraph(unittest.TestCase):
         """Test if we can convert a Graph with many vertices and many edges to a PRISM file."""
 
 
-if __name__ == '__main__':
-    unittest.main()
+   
