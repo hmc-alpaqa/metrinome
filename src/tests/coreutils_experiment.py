@@ -90,7 +90,6 @@ def convert_file_to_standard(file: str) -> None:
             new_file.write(edge + "\n")
         new_file.write("}")
 
-
 def clean(file):
     """Remove unecessary files."""
     filepath = os.path.split(file)
@@ -134,7 +133,6 @@ def get_converter_time(graph_list, converter, folder):
             timeout_count += 1
 
     return folder_time_list, overall_time_list, timeout_count
-
 
 def run_benchmark(converter):
     """Run all CFGs through the converter to create a benchmark."""
@@ -226,13 +224,6 @@ if __name__ == "__main__":
 
             data = data.append(new_row, ignore_index = True)
             data.to_csv("/app/code/tests/core/final.csv")
-    
-
-   
-
-
-
-
 
 # """Run all CFGs through the converter to create a benchmark."""
 # files = (glob2.glob("/app/code/tests/core/separate/*"))

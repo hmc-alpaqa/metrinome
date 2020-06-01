@@ -24,14 +24,14 @@ class CPPConvert():
 
     def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
         """Create a CFG from a C++ source file."""
-        self.clean_temps()
+        self.clean_temps(filename)
         self.logger.d_msg("Creating dot files")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
         self.logger.d_msg(f"File count is: {file_count}")
         if file_count == 0:
-            self.clean_temps()
+            self.clean_temps(filename)
             return None
         name = os.path.split(filename)[1]
         graphs = {}
@@ -41,8 +41,8 @@ class CPPConvert():
             f_name = filename + (str(i) + ".dot")
             graph_name = os.path.splitext(f_name)[0]
             graph_name = os.path.split(graph_name)[1]
+            self.logger.d_msg(f"graph_name: {graph_name}")
             graphs[graph_name] = Graph.from_file(f_name, False, GraphType.EDGE_LIST)
-        self.clean_temps()
         return graphs
 
     def parse_original(self, file):
@@ -84,7 +84,8 @@ class CPPConvert():
 
         return nodes, edges, node_map, counter
 
-    def convert_file_to_standard(self, file: str) -> None:
+    def convert_file_to_standard(self, file: str, filename: str,
+                                 f_num: Optional[int]=None) -> None:
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
 
@@ -96,9 +97,16 @@ class CPPConvert():
             edges += ["1 -> 2;"]
             counter += 2
 
-        filename = os.path.split(file)[1]
         # Make a temporary file (with the new content).
-        with open(f'cppConverterTemps/{filename}.dot', 'w') as new_file:
+        name = os.path.split(filename)[1]
+        filename = filename.strip(name)
+        filename += f"cppConverterTemps/"
+        if f_num is not None:
+            output_name = f'{filename}{name}{f_num}.dot'
+        else:
+            output_name = f'{filename}/{name}.dot'
+
+        with open(output_name, 'w') as new_file:
             new_file.write("digraph { \n")
 
             # Create the nodes and then the edges.
@@ -130,8 +138,8 @@ class CPPConvert():
                 os.remove(name)
                 files.remove(name)
 
-        for file in files:
-            self.convert_file_to_standard(file)
+        for i, file in enumerate(files):
+            self.convert_file_to_standard(file, filename, i)
 
         return len(files)
 
@@ -172,9 +180,15 @@ class CPPConvert():
         for file in files:
             subprocess.call(["mv", f"{file}", "cppConverterTemps"])
 
-    def clean_temps(self) -> None:
+    def clean_temps(self, filename: str) -> None:
         """Remove temp files and directories."""
-        proc = subprocess.Popen(["rm", "-r", "cppConverterTemps"],
+        name = os.path.split(filename)[1]
+        filename = filename.strip(name)
+        filename += f"cppConverterTemps"
+
+        self.logger.d_msg(f"=== Filename: {filename}")
+
+        proc = subprocess.Popen(["rm", "-r", f"{filename}"],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
         output, err = proc.communicate()
