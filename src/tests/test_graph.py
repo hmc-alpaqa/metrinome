@@ -38,7 +38,7 @@ class TestGraph(unittest.TestCase):
     def test_update_with_node(self):
         pass
 
-    # === Graph::update_with_edge === 
+    # === Graph::update_with_edge ===
     def test_update_with_edge(self):
         pass
 
@@ -127,6 +127,3 @@ class TestGraph(unittest.TestCase):
 
     def test_to_prism_normal_graph(self):
         """Test if we can convert a Graph with many vertices and many edges to a PRISM file."""
-
-
-   
