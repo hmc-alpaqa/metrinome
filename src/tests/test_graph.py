@@ -3,6 +3,7 @@
 import unittest
 import sys
 import numpy as np  # type: ignore
+import re
 sys.path.append("/app/code/")
 from graph import Graph, GraphType
 
@@ -67,15 +68,28 @@ class TestGraph(unittest.TestCase):
 
     # === Graph::dot ===
     def test_dot(self):
-        pass
+        graph = Graph([[0,1],[1,2],[1,3],[3,4],[3,5],[2,7],[4,6],[5,6],[6,7]], [0,1,2,3,4,5,6,7],0,7, GraphType.EDGE_LIST)
+        dot = graph.dot()
+        with open("dotFiles/dotTest.dot","w+") as file:
+            file.write(dot)
+        frmfile = graph.from_file("dotFiles/dotTest.dot", graph_type = GraphType.EDGE_LIST)
+        self.assertEqual(frmfile, graph)
 
     # === Graph::update_with_node ===
     def test_update_with_node(self):
-        pass
+        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        update = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", "2 [label=\"EXIT\"]")
+        graph.update_with_node(update)
+        expected = Graph([], [1,2], 1, 2, GraphType.EDGE_LIST)
+        self.assertEqual(expected, graph)
 
     # === Graph::update_with_edge ===
     def test_update_with_edge(self):
-        pass
+        graph = Graph([], [1,2], 1, 2, GraphType.EDGE_LIST)
+        update = re.search(r"([0-9]*)\s*->\s*([0-9]*)", "1 -> 2")
+        graph.update_with_edge(update)
+        expected = Graph([[1,2]], [1,2], 1, 2, GraphType.EDGE_LIST)
+        self.assertEqual(expected, graph)
 
     # === Graph::__eq__ ===
     def test_eq_same_simple(self):
@@ -162,10 +176,16 @@ class TestGraph(unittest.TestCase):
     # # === Graph::from_file ===
     def test_from_file_one_vertex(self):
         """Test if we can get the adjacency list for a graph with no edges."""
+        expected = Graph([], [0,1], 0, 1, GraphType.EDGE_LIST)
+        graph = Graph.from_file("dotFiles/testsimple.dot", graph_type = GraphType.EDGE_LIST)
+        self.assertEqual(expected, graph)
         # Graph.fromFile(None)
 
     def test_from_file_normal_graph(self):
         """Test if we can get the adjacency list for a graph with many edges and vertices."""
+        expected = Graph([[0,1],[1,2],[1,3],[3,4],[3,5],[2,7],[4,6],[5,6],[6,7]], [0,1,2,3,4,5,6,7],0,7, GraphType.EDGE_LIST)
+        graph = Graph.from_file("dotFiles/testgraph.dot", graph_type = GraphType.EDGE_LIST)
+        self.assertEqual(expected,graph)
     #     # Graph.fromFile(None)
 
     # # === Graph::to_prism ===
