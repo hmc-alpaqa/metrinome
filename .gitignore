@@ -9,3 +9,4 @@ src/.mypy_cache/
 /src/tests/cFiles/recursive.c
 .DS_STORE
 /src/exports/*
+/src/tests/cFiles/cppConverterTemps/*
