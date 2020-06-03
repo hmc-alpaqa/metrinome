@@ -77,3 +77,5 @@ RUN rm -rf /app/prism-4.5-linux64.tar && rm /app/requirements.txt && rm /app/rel
 
 # Set up oh-my-zsh [OPTIONAL]
 RUN echo "y" | sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+

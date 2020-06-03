@@ -38,14 +38,7 @@ class TestCyclomaticComplexity(unittest.TestCase):
         graph_matrix = Graph(edges, vertices, start_node, end_node, graph_type=GraphType.ADJACENCY_MATRIX)
         result_matrix = CyclomaticComplexity().evaluate(graph_list)
         expected_result_matrix = 6 - 3 + 2  # edges - nodes + 2
-
-        # print(graph_matrix.vertex_count())
-        # print(graph_matrix.edge_count())
-
         self.assertEqual(result_matrix, expected_result_matrix)
-
-        print(expected_result_matrix)
-        print(result_matrix)
 
 
     def test_cyclomatic_complexity_no_edges(self):
@@ -77,9 +70,6 @@ class TestCyclomaticComplexity(unittest.TestCase):
         result_matrix = CyclomaticComplexity().evaluate(graph_list)
         expected_result_matrix = 0 - 0 + 2  # edges - nodes + 2
         self.assertEqual(result_matrix, expected_result_matrix)
-
-        print(expected_result_matrix)
-        print(result_matrix)
 
     
 if __name__ == '__main__':
