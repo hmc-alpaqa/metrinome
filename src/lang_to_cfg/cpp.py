@@ -1,6 +1,6 @@
 """This module converts C++ source code into Graph objects representing the CFG for the code."""
 
-from typing import Dict
+from typing import Dict, Optional
 import subprocess
 import shlex  # type: ignore
 import sys
@@ -8,7 +8,7 @@ import os
 import re
 import glob2  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph, GraphType  # pylint: disable=unused-import
+from graph import Graph, GraphType
 
 # pylint: disable=R0201
 
@@ -22,16 +22,16 @@ class CPPConvert():
         self.edge_pattern = "->"
         self.name_pattern = "([a-zA-Z0-9]+ )"
 
-    def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
         """Create a CFG from a C++ source file."""
-        self.clean_temps()
+        self.clean_temps(filename)
         self.logger.d_msg("Creating dot files")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
         self.logger.d_msg(f"File count is: {file_count}")
         if file_count == 0:
-            self.clean_temps()
+            self.clean_temps(filename)
             return None
         name = os.path.split(filename)[1]
         graphs = {}
@@ -41,8 +41,8 @@ class CPPConvert():
             f_name = filename + (str(i) + ".dot")
             graph_name = os.path.splitext(f_name)[0]
             graph_name = os.path.split(graph_name)[1]
+            self.logger.d_msg(f"graph_name: {graph_name}")
             graphs[graph_name] = Graph.from_file(f_name, False, GraphType.EDGE_LIST)
-        self.clean_temps()
         return graphs
 
     def parse_original(self, file):
@@ -84,7 +84,8 @@ class CPPConvert():
 
         return nodes, edges, node_map, counter
 
-    def convert_file_to_standard(self, f_num, filename, file):
+    def convert_file_to_standard(self, file: str, filename: str,
+                                 f_num: Optional[int]=None) -> None:
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
 
@@ -97,7 +98,15 @@ class CPPConvert():
             counter += 2
 
         # Make a temporary file (with the new content).
-        with open(f'cppConverterTemps/{filename}{f_num}.dot', 'w') as new_file:
+        name = os.path.split(filename)[1]
+        filename = filename.strip(name)
+        filename += f"cppConverterTemps/"
+        if f_num is not None:
+            output_name = f'{filename}{name}{f_num}.dot'
+        else:
+            output_name = f'{filename}/{name}.dot'
+
+        with open(output_name, 'w') as new_file:
             new_file.write("digraph { \n")
 
             # Create the nodes and then the edges.
@@ -123,15 +132,14 @@ class CPPConvert():
         as the dot files generated from Java CFGs.
         """
         path = os.path.split(filename)[0]
-        filename = os.path.split(filename)[1]
         files = glob2.glob(f"{path}/cppConverterTemps/*.dot")
         for name in files:
             if "global" in name.lower():
                 os.remove(name)
                 files.remove(name)
 
-        for f_num, file in enumerate(files):
-            self.convert_file_to_standard(f_num, filename, file)
+        for i, file in enumerate(files):
+            self.convert_file_to_standard(file, filename, i)
 
         return len(files)
 
@@ -172,10 +180,16 @@ class CPPConvert():
         for file in files:
             subprocess.call(["mv", f"{file}", "cppConverterTemps"])
 
-    def clean_temps(self):
+    def clean_temps(self, filename: str) -> None:
         """Remove temp files and directories."""
-        proc = subprocess.Popen(["rm", "-r", "cppConverterTemps"],
+        name = os.path.split(filename)[1]
+        filename = filename.strip(name)
+        filename += f"cppConverterTemps"
+
+        self.logger.d_msg(f"=== Filename: {filename}")
+
+        proc = subprocess.Popen(["rm", "-r", f"{filename}"],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
         output, err = proc.communicate()
-        self.logger.d_msg(f"stdout: {output}", f"stderr: {err}")
+        self.logger.d_msg(f"stdout: {output.decode()}", f"stderr: {err.decode()}")

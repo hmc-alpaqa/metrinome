@@ -12,6 +12,11 @@ from log import Colors
 
 TESTING_MODE = True
 
+# pylint does not understand decorators.
+# pylint: disable=no-value-for-parameter
+# pylint: disable=too-many-function-args
+# pylint: disable=too-many-public-methods
+
 
 class MyPrompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""
@@ -262,15 +267,27 @@ class MyPrompt(Cmd):
 
     def reload(self, arguments) -> None:
         """Reload the modules."""
+        metrics = self.command.data.metrics
+        graphs = self.command.data.graphs
+        klee_stats = self.command.data.klee_stats
+        klee_formatted_files = self.command.data.klee_formatted_files
+        bc_files = self.command.data.bc_files
+
         debug = self.command.debug_mode
         importlib.reload(command)
         if arguments.strip() == "debug":
             debug = True
         elif arguments.strip() == "user":
             debug = False
+
         self.command = command.Command(self.command.curr_path, debug,
                                        self.command.multi_threaded, self)
 
+        self.command.data.grahs = graphs
+        self.command.data.metrics = metrics
+        self.command.data.klee_stats = klee_stats
+        self.command.data.klee_formatted_files = klee_formatted_files
+        self.command.data.bc_files = bc_files
 
 def main():
     """Parse command line arguments and initialize the REPL."""

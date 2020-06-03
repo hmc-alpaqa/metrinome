@@ -1,0 +1,22 @@
+digraph "CFG for '_Z14nested_if_funci' function" {
+	label="CFG for '_Z14nested_if_funci' function";
+
+	Node0x55f7c3d335d0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4\l  %4 = load i32, i32* %3, align 4\l  %5 = icmp sgt i32 %4, 50\l  br i1 %5, label %6, label %14\l|{<s0>T|<s1>F}}"];
+	Node0x55f7c3d335d0:s0 -> Node0x55f7c3d33f00;
+	Node0x55f7c3d335d0:s1 -> Node0x55f7c3d33f50;
+	Node0x55f7c3d33f00 [shape=record,label="{%6:\l\l  %7 = load i32, i32* %3, align 4\l  %8 = icmp eq i32 %7, 64\l  br i1 %8, label %9, label %12\l|{<s0>T|<s1>F}}"];
+	Node0x55f7c3d33f00:s0 -> Node0x55f7c3d33e40;
+	Node0x55f7c3d33f00:s1 -> Node0x55f7c3d34200;
+	Node0x55f7c3d33e40 [shape=record,label="{%9:\l\l  %10 = load i32, i32* %3, align 4\l  %11 = add nsw i32 %10, 1\l  store i32 %11, i32* %2, align 4\l  br label %22\l}"];
+	Node0x55f7c3d33e40 -> Node0x55f7c3d34470;
+	Node0x55f7c3d34200 [shape=record,label="{%12:\l\l  %13 = load i32, i32* %3, align 4\l  store i32 %13, i32* %2, align 4\l  br label %22\l}"];
+	Node0x55f7c3d34200 -> Node0x55f7c3d34470;
+	Node0x55f7c3d33f50 [shape=record,label="{%14:\l\l  %15 = load i32, i32* %3, align 4\l  %16 = icmp eq i32 %15, 23\l  br i1 %16, label %17, label %20\l|{<s0>T|<s1>F}}"];
+	Node0x55f7c3d33f50:s0 -> Node0x55f7c3d34760;
+	Node0x55f7c3d33f50:s1 -> Node0x55f7c3d347b0;
+	Node0x55f7c3d34760 [shape=record,label="{%17:\l\l  %18 = load i32, i32* %3, align 4\l  %19 = sub nsw i32 %18, 1\l  store i32 %19, i32* %2, align 4\l  br label %22\l}"];
+	Node0x55f7c3d34760 -> Node0x55f7c3d34470;
+	Node0x55f7c3d347b0 [shape=record,label="{%20:\l\l  %21 = load i32, i32* %3, align 4\l  store i32 %21, i32* %2, align 4\l  br label %22\l}"];
+	Node0x55f7c3d347b0 -> Node0x55f7c3d34470;
+	Node0x55f7c3d34470 [shape=record,label="{%22:\l\l  %23 = load i32, i32* %2, align 4\l  ret i32 %23\l}"];
+}

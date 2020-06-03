@@ -30,6 +30,6 @@ if __name__ == "__main__":
         apc_runtime(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
     elif len(sys.argv) == 2:
         if sys.argv[1] == "complete":
-            apc_runtime(1, 1, 120)
+            apc_runtime(1, 1, 60)
     else:
-        apc_runtime(0, 0, 0)
+        apc_runtime(50, 46, 120)
