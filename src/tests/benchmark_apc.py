@@ -32,4 +32,4 @@ if __name__ == "__main__":
         if sys.argv[1] == "complete":
             apc_runtime(1, 1, 60)
     else:
-        apc_runtime(50, 46, 120)
+        apc_runtime(12, 46, 120)

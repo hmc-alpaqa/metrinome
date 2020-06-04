@@ -14,6 +14,11 @@ from graph import Graph
 from metric import metric  # type: ignore
 
 
+def determinant(matrix):
+    # return matrix.det(method="det_LU")
+    return matrix.det()
+
+# 0.7419323299242102
 class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
 
@@ -49,18 +54,10 @@ class PathComplexity(metric.MetricAbstract):
         generating_function = x_sub.det(method="det_LU") / denominator
 
         recurrence_degree = degree(denominator, gen=t_var) + 1
-        self.logger.d_msg(degree_list(denominator), denominator)
+        # self.logger.d_msg(degree_list(denominator), denominator)
+        
         recurrence_kernel = denominator.all_coeffs()[::-1]
-        try:
-            test = [round(-x, 2) for x in recurrence_kernel]
-        except TypeError:
-            self.logger.d_msg("Cannot use LU decomposition")
-            x_det = x_mat.det()
-            denominator = Poly(sympify(-x_det))
-            recurrence_degree = degree(denominator, gen=t_var) + 1
-            recurrence_kernel = denominator.all_coeffs()[::-1]
-            test = [round(-x, 2) for x in recurrence_kernel]
-
+        test = [round(-x, 2) for x in recurrence_kernel]
         roots = polyroots(test, maxsteps=250, extraprec=250)
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
 
@@ -74,12 +71,11 @@ class PathComplexity(metric.MetricAbstract):
         Return both the path complexity and the asymptotic path complexity.
         """
         taylor_coeffs, dimension, recurrence_degree, roots = self.gen_func_taylor_coeffs(graph)
-        if taylor_coeffs is not None:
-            base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree - 1],
-                                   dtype='complex')
-        else:
+        if taylor_coeffs is None:
             return (0.0, 0.0)
 
+        base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree - 1],
+                               dtype='complex')
         n_var = symbols('n')
 
         # Solve the recurrence relation.
@@ -101,15 +97,13 @@ class PathComplexity(metric.MetricAbstract):
             if isinstance(expr_term, Float):
                 expr_with_abs = expr_with_abs.subs(expr_term, round(expr_term, 2))
 
-        exp_terms = ([str(Abs(k)) for k in list(expr_with_abs.args)])
-        for i, exp_term in enumerate(exp_terms):
-            new_exp_term = exp_term
-            new_exp_term = new_exp_term.replace("Abs(n)", 'n')
-            new_exp_term = new_exp_term.replace("re(n)", 'n')
-            new_exp_term = new_exp_term.replace("im(n)", '0')
-            new_exp_term = new_exp_term.replace("exp", "0*")
-            new_exp_term = new_exp_term.replace("I", "0")
-            exp_terms[i] = new_exp_term
+        exp_terms = [str(Abs(k)) for k in list(expr_with_abs.args)]
+        for i in range(len(exp_terms)):
+            exp_terms[i] = exp_terms[i].replace("Abs(n)", 'n')
+            exp_terms[i] = exp_terms[i].replace("re(n)", 'n')
+            exp_terms[i] = exp_terms[i].replace("im(n)", '0')
+            exp_terms[i] = exp_terms[i].replace("exp", "0*")
+            exp_terms[i] = exp_terms[i].replace("I", "0")
 
         exp_terms = [simplify(sympify(arg)) for arg in exp_terms]
         exp_terms = [refine(term, Q.real(n_var)) for term in exp_terms]  # pylint: disable=E1121
