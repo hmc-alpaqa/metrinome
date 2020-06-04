@@ -26,12 +26,6 @@ class PathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
-# 1.070
-# 1.232
-# 0.987
-
-# Timeout: 1
-
     def gen_func_taylor_coeffs(self, graph):
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()

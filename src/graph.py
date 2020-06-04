@@ -161,7 +161,7 @@ class Graph:
         Second row  -> END
         Other  rows -> n = 2, ..., END - 1
         """
-        adj_mat = np.zeros((self.vertex_count(), self.vertex_count()))
+        adj_mat = np.zeros((self.vertex_count(), self.vertex_count()), dtype=np.int8)
         if self.graph_type is GraphType.EDGE_LIST:
             for edge in self.edges:
                 vertex_one = edge[0]
