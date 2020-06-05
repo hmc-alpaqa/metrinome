@@ -552,7 +552,6 @@ class Command:
             self.data.list_klee_files()
         elif list_type == ObjTypes.KLEE:
             self.data.list_klee()
-
         elif list_type == ObjTypes.ALL:
             self.data.list_metrics()
             self.data.list_graphs()
@@ -620,13 +619,19 @@ class Command:
             self.data.show_klee_stats(names)
         elif obj_type == ObjTypes.KLEE:
             self.data.show_klee(names)
+        else:
+            return False
+
+        return True
 
     @check_args(2, "Must specify type (metric, graph, or any KLEE type) and name.")
     def do_show(self, obj_type: str, arg_name: str) -> None:
         """Display objects the REPL knows about."""
         names = [arg_name]
         obj_type = ObjTypes.get_type(obj_type)
-        self.do_show_klee(obj_type, names)
+        if self.do_show_klee(obj_type, names):
+            return
+
         if obj_type == ObjTypes.METRIC:
             self.data.show_metric(arg_name, names)
         elif obj_type == ObjTypes.GRAPH:
@@ -679,6 +684,9 @@ class Command:
         elif name not in self.data.klee_formatted_files:
             self.logger.v_msg(f"Could not find {name}.")
             return
+
+        else:
+            args_list = [name]
 
         for f_name in args_list:
             with tempfile.NamedTemporaryFile(delete=True, suffix=".c") as file:

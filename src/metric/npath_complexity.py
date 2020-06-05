@@ -77,7 +77,7 @@ class NPathComplexity(metric.MetricAbstract):
         neighbors = self.neighbors_edge_list(start, edges)
         for neighbor in neighbors:
             # Delete the edge [start, u] from the graph.
-            new_edges = self.remove_edge_list(edges, (start, neighbor))
+            new_edges = self.remove_edge_list(edges, [start, neighbor])
             # Recursive call from new edge.
             total += self.npath_edge_list(neighbor, end, new_edges)
 

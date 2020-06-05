@@ -89,6 +89,9 @@ class Graph:
         """Set the name of the Graph."""
         self.name = name
 
+    def connected_components(self) -> int:
+        return 1 # TODO
+
     def edge_rules(self) -> List[Tuple[int, int]]:
         """Obtain the edge list."""
         if self.graph_type is GraphType.ADJACENCY_LIST:
