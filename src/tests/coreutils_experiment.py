@@ -173,7 +173,6 @@ if __name__ == "__main__":
     Npath = npath_complexity.NPathComplexity(log)
     for folder in folders:
         folder_name = get_name(folder, "folder")
-        clean(folder)
         files = glob2.glob(f"{folder}/cleaned_*.dot")
         for file in files:
             file_name = get_name(file, "file")
@@ -187,7 +186,7 @@ if __name__ == "__main__":
             exception_type = "na"
             runtime = 0.0
             try:
-                with Timeout(5, ""):
+                with Timeout(600, ""):
                     apc = Apc.evaluate(graph)
                 runtime = time.time() - start_time
     
