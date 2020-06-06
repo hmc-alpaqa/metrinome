@@ -189,7 +189,7 @@ if __name__ == "__main__":
             exception_type = "na"
             runtime = 0.0
             try:
-                with Timeout(5, ""):
+                with Timeout(300, ""):
                     apc = Apc.evaluate(graph)
                 runtime = time.time() - start_time
     
@@ -197,6 +197,7 @@ if __name__ == "__main__":
                 ex = True 
                 exception_type = "Timeout"
             except Exception as v:
+                print(v)
                 ex = True
                 exception_type = "Other"
             if not ex:
