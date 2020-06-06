@@ -29,12 +29,13 @@ def run_benchmark(converter, graph_type, show_info, graph_frac=5,
         graph_list = (glob.glob(folder + "*.dot"))
         graph_list = graph_list[0:floor(len(graph_list) / graph_frac)]
         # list of tuples for each cfg in folder(seconds, cfg).
+        print(f"Num Graphs: ", len(graph_list))
         folder_time_list, overall_time_list, timeout_count = get_converter_time(graph_list,
                                                                                 converter, folder,
                                                                                 timeout_threshold,
                                                                                 graph_type,
                                                                                 show_info)
-        total_timeout_count += timeout_count
+        timeout_total += timeout_count
 
         print_results(folder_time_list, folder, metric_collection, show_info)
 
@@ -67,7 +68,8 @@ def get_converter_time(graph_list, converter, folder, timeout_threshold, graph_t
         start_time = time.time()
         try:
             with Timeout(timeout_threshold, f'{converter.name()} took too long'):
-                converter.evaluate(graph_zero)
+                res = converter.evaluate(graph_zero)
+                print(res)
 
             # Calculate the run time.
             runtime = time.time() - start_time

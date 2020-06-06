@@ -90,7 +90,6 @@ def convert_file_to_standard(file: str) -> None:
             new_file.write(edge + "\n")
         new_file.write("}")
 
-
 def clean(file):
     """Remove unecessary files."""
     filepath = os.path.split(file)
@@ -135,7 +134,6 @@ def get_converter_time(graph_list, converter, folder):
 
     return folder_time_list, overall_time_list, timeout_count
 
-
 def run_benchmark(converter):
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/code/tests/core/separate/*/"))
@@ -175,7 +173,6 @@ if __name__ == "__main__":
     Npath = npath_complexity.NPathComplexity(log)
     for folder in folders:
         folder_name = get_name(folder, "folder")
-        clean(folder)
         files = glob2.glob(f"{folder}/cleaned_*.dot")
         for file in files:
             file_name = get_name(file, "file")
@@ -227,13 +224,6 @@ if __name__ == "__main__":
 
             data = data.append(new_row, ignore_index = True)
             data.to_csv("/app/code/tests/core/final.csv")
-    
-
-   
-
-
-
-
 
 # """Run all CFGs through the converter to create a benchmark."""
 # files = (glob2.glob("/app/code/tests/core/separate/*"))

@@ -44,7 +44,6 @@ class FuncVisitor(c_ast.NodeVisitor):
             params = args.params  # List of TypeDecl.
             for i, param in enumerate(params):
                 self.logger.d_msg(f"\tParameter {i}: Name: {param.name}")
-                print(f"Here is the parameter: {param.name}")
                 self.define_var(node.decl.name, self.generator.visit(param), param.name)
         else:
             self.logger.d_msg(f"\t{node.decl.name} has no parameters.")

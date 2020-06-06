@@ -3,12 +3,109 @@
 import unittest
 import sys
 import numpy as np  # type: ignore
+import re
 sys.path.append("/app/code/")
 from graph import Graph, GraphType
 
 
 class TestGraph(unittest.TestCase):
     """Test Graph objects."""
+
+    # === Graph::node_to_index ===
+    def test_node_to_index(self):
+        pass
+
+    # === Graph::get_end ===
+    def test_get_end_one_vertex(self):
+        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        end_node = graph.get_end()
+        expected = 1
+        self.assertEqual(expected, end_node)
+
+    def test_get_end_multiple_vertex(self):
+        graph = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
+        end_node = graph.get_end()
+        expected = 4
+        self.assertEqual(expected, end_node)
+
+    # === Graph::get_start ===
+    def test_get_start_one_vertex(self):
+        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        start_node = graph.get_start()
+        expected = 1
+        self.assertEqual(expected, start_node)
+
+    def test_get_start_multiple_vertex(self):
+        graph = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
+        start_node = graph.get_start()
+        expected = 1
+        self.assertEqual(expected, start_node)
+
+    # === Graph::edge_count ===
+    def test_edge_count_no_edges(self):
+        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        count = graph.edge_count()
+        expected = 0
+        self.assertEqual(expected, count)
+
+    def test_edge_count_one_edge(self):
+        graph = Graph([[1, 2]], [1, 2], 1, 2, GraphType.EDGE_LIST)
+        count = graph.edge_count()
+        expected = 1
+        self.assertEqual(expected, count)
+
+    def test_edge_count_multiple_edge(self):
+        graph = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
+        count = graph.edge_count()
+        expected = 3
+        self.assertEqual(expected, count)
+
+    # === Graph::set_name ===
+    def test_set_name(self):
+        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        graph.set_name("Test graph")
+        self.assertEqual(graph.name, "Test graph")
+
+    # === Graph::dot ===
+    def test_dot(self):
+        graph = Graph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5], [2, 7], [4, 6], [5, 6], [6, 7]], [0, 1, 2, 3, 4, 5, 6, 7], 0, 7, GraphType.EDGE_LIST)
+        dot = graph.dot()
+        with open("dotFiles/dotTest.dot", "w+") as file:
+            file.write(dot)
+        frmfile = graph.from_file("dotFiles/dotTest.dot", graph_type=GraphType.EDGE_LIST)
+        self.assertEqual(frmfile, graph)
+
+    # === Graph::update_with_node ===
+    def test_update_with_node(self):
+        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        update = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", "2 [label=\"EXIT\"]")
+        graph.update_with_node(update)
+        expected = Graph([], [1, 2], 1, 2, GraphType.EDGE_LIST)
+        self.assertEqual(expected, graph)
+
+    # === Graph::update_with_edge ===
+    def test_update_with_edge(self):
+        graph = Graph([], [1, 2], 1, 2, GraphType.EDGE_LIST)
+        update = re.search(r"([0-9]*)\s*->\s*([0-9]*)", "1 -> 2")
+        graph.update_with_edge(update)
+        expected = Graph([[1, 2]], [1, 2], 1, 2, GraphType.EDGE_LIST)
+        self.assertEqual(expected, graph)
+
+    # === Graph::__eq__ ===
+    def test_eq_same_simple(self):
+        graph1 = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        graph2 = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        self.assertTrue(graph1 == graph2)
+
+    def test_eq_same_complicated(self):
+        graph1 = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
+        graph2 = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
+        self.assertTrue(graph1 == graph2)
+
+    def test_eq_different(self):
+        graph1 = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        graph2 = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
+        self.assertFalse(graph1 == graph2)
 
     # === Graph::__str__ ===
     def test_to_str(self):
@@ -17,7 +114,7 @@ class TestGraph(unittest.TestCase):
         expected = "Edges: [1, 2]\nVertices: [1, 2, 3]\nStart Node: 1\nEnd Node: 3"
         self.assertEqual(expected, str(graph))
 
-    # # === Graph::edgeRules ===
+    # # === Graph::edge_rules ===
     def test_edge_rules_no_edges(self):
         """Test if we can get all of the edges from a Graph."""
         graph = Graph([], [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
@@ -50,7 +147,7 @@ class TestGraph(unittest.TestCase):
         vertices = graph.get_vertices()
         self.assertEqual(vertices, [1, 2, 3, 4])
 
-    # # === Graph::adjacencyMatrix ===
+    # # === Graph::adjacency_matrix ===
     def test_adjacency_matrix_no_edges(self):
         """Test if we can get the adjacency matrix for a Graph with no edges."""
         graph = Graph([], [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
@@ -68,24 +165,30 @@ class TestGraph(unittest.TestCase):
                         [0, 0, 0, 0]]
         self.assertTrue((adj_mat == expected_mat).all())
 
-    # # === Graph::adjacencyList ===
+    # # === Graph::adjacency_list ===
     def test_adjacency_list_no_edges(self):
         """Test if we can get the adjacency list for a graph with no edges."""
-        graph = Graph([], [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
+        graph = Graph([], [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
         adj_list = graph.adjacency_list()
-        for i in adj_list.keys():
-            self.assertTrue(len(adj_list[i]) == 0)
+        for i in adj_list:
+            self.assertTrue(len(i) == 0)
 
-    # # === Graph::fromFile ===
+    # # === Graph::from_file ===
     def test_from_file_one_vertex(self):
         """Test if we can get the adjacency list for a graph with no edges."""
+        expected = Graph([], [0, 1], 0, 1, GraphType.EDGE_LIST)
+        graph = Graph.from_file("dotFiles/testsimple.dot", graph_type=GraphType.EDGE_LIST)
+        self.assertEqual(expected, graph)
         # Graph.fromFile(None)
 
     def test_from_file_normal_graph(self):
         """Test if we can get the adjacency list for a graph with many edges and vertices."""
+        expected = Graph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5], [2, 7], [4, 6], [5, 6], [6, 7]], [0, 1, 2, 3, 4, 5, 6, 7], 0, 7, GraphType.EDGE_LIST)
+        graph = Graph.from_file("dotFiles/testgraph.dot", graph_type=GraphType.EDGE_LIST)
+        self.assertEqual(expected, graph)
     #     # Graph.fromFile(None)
 
-    # # === Graph::toPrism ===
+    # # === Graph::to_prism ===
     def test_to_prism_one_vertex(self):
         """Test if we can convert a Graph with one vertex to a PRISM file."""
 
@@ -95,3 +198,4 @@ class TestGraph(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
