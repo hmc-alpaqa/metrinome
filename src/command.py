@@ -67,7 +67,7 @@ def check_args(num_args, err, check_recursive=False, var_args=False):
     def decorator(func):
         def wrapper(self, args):
             args_list = args.strip().split()
-            if len(args) < num_args:
+            if len(args_list) < num_args:
                 self.logger.v_msg(err)
                 return
 
