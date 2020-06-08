@@ -1,37 +1,35 @@
 
 // from https://www.programminglogic.com/the-sieve-of-eratosthenes-implemented-in-c/
+// method 2
+
 
 #include <stdio.h>
+#include <stdlib.h>
 
-#define LIMIT 1500000 /*size of integers array*/
-#define PRIMES 100000 /*size of primes array*/
+// use a single array, fill it with 1s, and then put 0s on all the numbers that are not primes.
+// The program below prints the first 650,000 or so primes using this method
+int sieveOfEra(int LIMIT) {
+    unsigned long long int i,j;
+    int *primes;
+    int z = 1;
+
+    primes = malloc(sizeof(int)*LIMIT);
+
+    for (i=2;i<LIMIT;i++)
+        primes[i]=1;
+
+    for (i=2;i<LIMIT;i++)
+        if (primes[i])
+            for (j=i;i*j<LIMIT;j++)
+                primes[i*j]=0;
+
+    for (i=2;i<LIMIT;i++)
+        if (primes[i])
+            printf("%dth prime = %dn",z++,i);
+
+    return 0;
+}
 
 int main(){
-    int i,j,numbers[LIMIT];
-    int primes[PRIMES];
-
-    /*fill the array with natural numbers*/
-    for (i=0;i<limit;i++){
-        numbers[i]=i+2;
-    }
-
-    /*sieve the non-primes*/
-    for (i=0;i<limit;i++){
-        if (numbers[i]!=-1){
-            for (j=2*numbers[i]-2;j<limit;j+=numbers[i])
-                numbers[j]=-1;
-        }
-    }
-
-    /*transfer the primes to their own array*/
-    j = 0;
-    for (i=0;i<limit&&j<primes;i++)
-        if (numbers[i]!=-1)
-            primes[j++] = numbers[i];
-
-    /*print*/
-    for (i=0;i<primes;i++)
-        printf("%dn",primes[i]);
-
-return 0;
+    return sieveOfEra(10000000);
 }
