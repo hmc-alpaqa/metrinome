@@ -156,6 +156,10 @@ class Graph:
         self.edges = new_edges
         self.weighted = True
 
+    def connected_components(self) -> int:
+        """Return the number of connected components in this graph."""
+        return 1 # TODO
+
     def simplify(self) -> None:
         parents = self.get_parents()
         self.convert_to_weighted()
