@@ -369,7 +369,7 @@ class Graph:
             # There is probably a better way to do this.
             graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST)
 
-        graph.set_name(name)
+        graph.set_name(os.path.splitext(name)[0])
 
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:

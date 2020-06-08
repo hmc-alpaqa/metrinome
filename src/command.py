@@ -21,7 +21,7 @@ from lang_to_cfg import cpp, java, python
 from klee_utils import KleeUtils
 from utils import Timeout
 
-KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t")
+KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
 
 """
 List of all the error messages the REPL can throw.
@@ -360,7 +360,9 @@ class Data:
 
         for metric_name in names:
             if metric_name in self.metrics:
-                self.logger.v_msg(self.metrics[metric_name])
+                self.logger.i_msg(f"Metrics for {metric_name}:")
+                for metric in self.metrics[metric_name]:
+                    self.logger.v_msg(f"{metric[0]}: {metric[1]}")
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
@@ -498,10 +500,12 @@ class Command:
                 self.logger.i_msg("Conversion Failed. Maybe your code has an error?")
             else:
                 self.logger.i_msg("Converted successfully")
-                self.logger.v_msg(graph)
+                self.logger.d_msg(graph)
                 if isinstance(graph, dict):
+                    self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
                     self.data.graphs.update(graph)
                 else:
+                    sself.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
 
     @check_args(1, MISSING_FILENAME, check_recursive=True, var_args=True)
@@ -702,6 +706,7 @@ class Command:
                         -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {file.name}"
                 res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
                 self.data.bc_files[f_name] = res.stdout
+                self.logger.v_msg(f"Created {f_name}")
 
     @check_args(1, MISSING_FILENAME, check_recursive=True)
     def do_to_klee_format(self, recursive_mode: bool, file_path: str) -> None:
@@ -718,6 +723,7 @@ class Command:
                 return
             self.data.klee_formatted_files = {**self.data.klee_formatted_files,
                                               **klee_formatted_files}
+            self.logger.v_msg(f"Created {' '.join(list(klee_formatted_files.keys()))}")
 
     @check_args(0, NOT_IMPLEMENTED)
     def do_clean_klee_files(self, args_list: List[str]) -> None:
@@ -737,6 +743,8 @@ class Command:
 
     def update_klee_stats(self, klee_output, name: str, delta_t) -> None:
         """Parse and store the results of running klee on some .bc file."""
+        timed_out = "HaltTimer invoked" in klee_output
+
         indices = self.klee_output_indices(klee_output)
         generated_tests_index    = indices[0]
         completed_paths_index    = indices[1]
@@ -756,7 +764,8 @@ class Command:
             insts = int(insts_match.group())
 
         self.data.klee_stats[name] = self.data.klee_stat(tests=tests, paths=paths,
-                                                         instructions=insts, delta_t=delta_t)
+                                                         instructions=insts, delta_t=delta_t,
+                                                         timeout=timed_out)
         self.logger.i_msg("Updated!")
 
     @check_args(1, MISSING_FILENAME)
@@ -777,12 +786,14 @@ class Command:
                     file.write(thing_to_write)
                     file.seek(0)
 
-                    cmd = f"/app/build/bin/klee {file.name}"
+                    max_time = 30
+                    klee_path = "/app/build/bin/klee"
+                    cmd = f"{klee_path} --max-time={max_time}s --dump-states-on-halt=false {file.name}"
                     self.logger.d_msg(f"Going to execute {cmd}")
                     start_time = time.time()
 
                     try:
-                        with Timeout(30, "Klee took too long"):
+                        with Timeout(60, "Klee command took too long"):
                             res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
 
                         delta_t = time.time() - start_time
