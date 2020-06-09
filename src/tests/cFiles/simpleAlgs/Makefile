@@ -57,9 +57,8 @@ all: 01_greatestof3 02_fib 03_sign 04_prime 05_parity 06_palindrome 10_find_val_
 22_selectionsort: 22_selectionsort_main.c 22_selectionsort.c
 	$(CXX) $(CXX_FLAGS) 22_selectionsort_main.c -o 22_selectionsort
 
-# 23_mergesort.c only has 1 large main 
-# 23_mergesort: 23_mergesort_main.c 23_mergesort.c
-# 	$(CXX) $(CXX_FLAGS) 23_mergesort_main.c -o 23_mergesort
+23_mergesort: 23_mergesort_main.c 23_mergesort.c
+	$(CXX) $(CXX_FLAGS) 23_mergesort_main.c -o 23_mergesort
 
 24_quicksort: 24_quicksort_main.c 24_quicksort.c
 	$(CXX) $(CXX_FLAGS) 24_quicksort_main.c -o 24_quicksort
