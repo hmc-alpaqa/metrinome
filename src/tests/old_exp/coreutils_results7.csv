@@ -1,4 +1,0 @@
-,graph,complexity
-0,cfg.tostring.dot,"(2.00000000000000, 2.00000000000000)"
-1,cfg.ignorable_ctx_err.dot,"(2.00000000000000, 2.00000000000000)"
-2,cfg.ignorable_missing.dot,"(2.00000000000000, 2.00000000000000)"
