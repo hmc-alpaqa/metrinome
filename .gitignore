@@ -5,8 +5,6 @@ venv/
 .idea/
 *.log
 src/.mypy_cache/
-/src/tests/cFiles/nested_if_two.c
-/src/tests/cFiles/recursive.c
 .DS_STORE
 /src/exports/*
 /src/tests/cFiles/cppConverterTemps/*

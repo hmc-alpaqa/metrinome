@@ -779,7 +779,7 @@ class Command:
 
             for key in keys:
                 with tempfile.NamedTemporaryFile(delete=True, suffix=".bc") as file:
-                    self.logger.d_msg(f"Created temporary file {file.name}") 
+                    self.logger.d_msg(f"Created temporary file {file.name}")
                     self.logger.d_msg(f"Writing")
                     file.write(self.data.bc_files[key])
                     file.seek(0)
