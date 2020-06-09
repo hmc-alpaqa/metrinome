@@ -63,7 +63,7 @@ confidence=
 disable=C0326, # disable space before bracket
 	W0511, # TODOs
 	W1202, # % for lazy evaluation in logging
-	W1201, # % for lazy evluation in logging
+	W1201, # % for lazy evaluation in logging
 	R0903, # too few public methods
 	W0235, # useless super() delegation
 	R0201, # method could be a function
