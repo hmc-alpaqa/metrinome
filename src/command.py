@@ -361,8 +361,8 @@ class Data:
         for metric_name in names:
             if metric_name in self.metrics:
                 self.logger.i_msg(f"Metrics for {metric_name}:")
-                for metric in self.metrics[metric_name]:
-                    self.logger.v_msg(f"{metric[0]}: {metric[1]}")
+                for metric_data in self.metrics[metric_name]:
+                    self.logger.v_msg(f"{metric_data[0]}: {metric_data[1]}")
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
@@ -505,7 +505,7 @@ class Command:
                     self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
                     self.data.graphs.update(graph)
                 else:
-                    sself.logger.v_msg(f"Created graph {graph.name}")
+                    self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
 
     @check_args(1, MISSING_FILENAME, check_recursive=True, var_args=True)
@@ -613,7 +613,7 @@ class Command:
 
             self.data.metrics[name] = results
 
-    def do_show_klee(self, obj_type, names) -> None:
+    def do_show_klee(self, obj_type, names) -> bool:
         """Display the KLEE objects the REPL knows about."""
         if obj_type == ObjTypes.KLEE_BC:
             self.data.show_klee_bc(names)
@@ -768,8 +768,8 @@ class Command:
                                                          timeout=timed_out)
         self.logger.i_msg("Updated!")
 
-    @check_args(1, MISSING_FILENAME)
-    def do_klee(self, name: str) -> None:
+    @check_args(1, MISSING_FILENAME, check_recursive=False, var_args=True)
+    def do_klee(self, name: str, *extra_args: str) -> None:
         """Execute klee on a .bc file stored as an object in the REPL."""
         if name in self.data.bc_files or name == "*":
             if name == "*":
@@ -779,16 +779,14 @@ class Command:
 
             for key in keys:
                 with tempfile.NamedTemporaryFile(delete=True, suffix=".bc") as file:
-                    self.logger.d_msg(f"Created temporary file {file.name}")
-
-                    thing_to_write = self.data.bc_files[key]
+                    self.logger.d_msg(f"Created temporary file {file.name}") 
                     self.logger.d_msg(f"Writing")
-                    file.write(thing_to_write)
+                    file.write(self.data.bc_files[key])
                     file.seek(0)
 
-                    max_time = 30
-                    klee_path = "/app/build/bin/klee"
-                    cmd = f"{klee_path} --max-time={max_time}s --dump-states-on-halt=false {file.name}"
+                    cmd = f"/app/build/bin/klee --max-time=30s " + \
+                          f"--dump-states-on-halt=false " + \
+                          f"{' '.join(extra_args)} {file.name}"
                     self.logger.d_msg(f"Going to execute {cmd}")
                     start_time = time.time()
 
