@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int editDistArraysDP(int* a, int* b, int m, int n) 
+int editDistArraysDP(int a[], int b[], int m, int n) 
 { 
     // Create a table to store results of subproblems 
     int dp[m + 1][n + 1]; 
@@ -48,18 +48,3 @@ int editDistArraysDP(int* a, int* b, int m, int n)
   
     return dp[m][n]; 
 } 
-
-// Driver program 
-int main() 
-{ 
-
-    int a[] = {115, 117, 110, 100, 97, 120};
-    int l_a = 6;
-    int b[] = {115, 97, 116, 117, 114, 100, 97, 120};
-    int l_b = 8;
-
-    int d = editDistArraysDP(a, b, l_a, l_b); 
-    printf("%d", d);
-
-    return 0; 
-}
