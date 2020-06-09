@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-bool quickSort(int *arr, int elements) {
+bool quickSort(int arr[], int elements) {
 
   #define  MAX_LEVELS  1000
 
@@ -18,14 +18,5 @@ bool quickSort(int *arr, int elements) {
       arr[L]=piv; beg[i+1]=L+1; end[i+1]=end[i]; end[i++]=L; }
     else {
       i--; }}
-  return true; }
-
-
-
-int main()
-{
-    int myArray[5] = {1,5,12,0,4};
-    quickSort(&myArray[0], 5);
-    printf("%d", myArray[1]);
-
+  return true; 
 }

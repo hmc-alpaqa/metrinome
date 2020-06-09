@@ -19,12 +19,3 @@ void sieve(int primes[], int n) {
                 primes[i * j] = 0;
     return;
 }
-
-int main(){
-    int const n  = 100;
-    int primes[n];
-    sieve(primes, n);
-    for (int i = 2; i < n; i++)
-        if (primes[i])
-            printf("%d is prime\n", i);
-}

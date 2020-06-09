@@ -10,10 +10,3 @@ int gcd(int a, int b) {
     }
     return a;
 }
-
-int main() {
-    int a = 24;
-    int b = 18;
-    int result = gcd(a, b); 
-    printf("%d\n", result);
-}

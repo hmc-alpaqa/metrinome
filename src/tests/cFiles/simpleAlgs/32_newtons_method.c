@@ -28,16 +28,3 @@ float newton_root(float x0, float allerr, int maxmitr){
     printf(" The required solution does not converge or iterations are insufficient\n");
     return x1;
 }
-
-int main(){
-    int itr, maxmitr;
-    float abs_h;
-    float h, x0, x1, allerr;
-    
-    x0 = 1;
-    allerr = 0.00001;
-    maxmitr = 10000;
-
-    float rt = newton_root(x0, allerr, maxmitr);
-    return 0;
-}
