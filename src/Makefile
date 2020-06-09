@@ -1,8 +1,8 @@
 lint:
-	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8
-	find . -type f -name "*.py" | xargs mypy # Type checking
-	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting
-	find . -type f -name "*.py" | xargs pylint --rcfile=.pylintrc -r n -f parseable	# Linting
+	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
+	find . -type f -name "*.py" | xargs mypy # Type checking.
+	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
+	find . -type f -name "*.py" | xargs pylint --rcfile=.pylintrc -r n -f parseable	# Linting.
 
 tests:
 	python tests/test_command.py       
@@ -31,11 +31,11 @@ run-detached:
 
 # Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command.
 formatting:
-	# Remove trailing whitespace
+	# Remove trailing whitespace.
 	find . -type f -name "*.py" | xargs sed -i '' -e "s/[[:space:]]*$$//g"
-	# Replace tabs with spaces 
+	# Replace tabs with spaces
 	find . -type f -name "*.py" | xargs sed -i '' -e "s/	/    /g"
-	# Replace ''' with """
+	# Replace ''' with """.
 	find . -type f -name "*.py" | xargs sed -i '' -e 's/'"'''"'/"""/g'
 
 clean:
