@@ -596,12 +596,14 @@ class Command:
             results = []
             for metric_generator in self.controller.metrics_generators:
                 self.logger.v_msg(f"Computing {metric_generator.name()}")
+                start_time = time.time()
 
                 try:
                     with Timeout(60, "Took too long!"):
                         result = metric_generator.evaluate(graph)
+                        runtime = time.time() - start_time
                     results.append((metric_generator.name(), result))
-                    self.logger.v_msg(f"Got {result}")
+                    self.logger.v_msg(f"Got {result}, took {runtime} seconds")
                 except TimeoutError:
                     self.logger.e_msg("Timeout!")
                 except IndexError as err:

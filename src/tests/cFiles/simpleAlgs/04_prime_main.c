@@ -1,13 +1,12 @@
 #include "04_prime.c"
 
-int main()
-{
-   int n, result;
- 
-   n = 23;
+int main() {
+  int n, result;
 
-   result = check_prime(n);
- 
-   printf("%d\n", result);   
-   return 0;
+  n = 23;
+
+  result = check_prime(n);
+
+  printf("%d\n", result);
+  return 0;
 }
