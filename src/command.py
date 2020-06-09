@@ -768,8 +768,8 @@ class Command:
                                                          timeout=timed_out)
         self.logger.i_msg("Updated!")
 
-    @check_args(1, MISSING_FILENAME)
-    def do_klee(self, name: str) -> None:
+    @check_args(1, MISSING_FILENAME, check_recursive=False, var_args=True)
+    def do_klee(self, name: str, *extra_args: str) -> None:
         """Execute klee on a .bc file stored as an object in the REPL."""
         if name in self.data.bc_files or name == "*":
             if name == "*":
@@ -788,7 +788,8 @@ class Command:
 
                     max_time = 30
                     klee_path = "/app/build/bin/klee"
-                    cmd = f"{klee_path} --max-time={max_time}s --dump-states-on-halt=false {file.name}"
+                    extra_args_str = " ".join(extra_args)
+                    cmd = f"{klee_path} --max-time={max_time}s --dump-states-on-halt=false {extra_args_str} {file.name}"
                     self.logger.d_msg(f"Going to execute {cmd}")
                     start_time = time.time()
 
