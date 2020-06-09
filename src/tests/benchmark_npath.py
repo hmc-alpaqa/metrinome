@@ -23,6 +23,6 @@ def npath_runtime(graph_type, show_info: bool):
 
 
 if __name__ == "__main__":
-    # npath_runtime(GraphType.EDGE_LIST, show_info=False)
+    npath_runtime(GraphType.EDGE_LIST, show_info=False)
     # npath_runtime(GraphType.ADJACENCY_LIST, show_info=False)
     # npath_runtime(GraphType.ADJACENCY_MATRIX, show_info=False)
