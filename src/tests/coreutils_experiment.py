@@ -171,7 +171,7 @@ if __name__ == "__main__":
                          "cyclo": [], "npath": [], "apc_time": [], "exception": [],
                          "exception_type": []})
 
-    folders = (glob2.glob("/app/code/tests/core/separate/*/"))
+    folders = (glob2.glob("/app/code/tests/cFiles/simpleAlgs/0*/"))
 
     Apc = path_complexity.PathComplexity(log)
     Cyclo = cyclomatic_complexity.CyclomaticComplexity()
@@ -191,7 +191,7 @@ if __name__ == "__main__":
             exception_type = "na"
             runtime = 0.0
             try:
-                with Timeout(600, ""):
+                with Timeout(200, ""):
                     apc = Apc.evaluate(graph)
                 runtime = time.time() - start_time
 
@@ -228,7 +228,7 @@ if __name__ == "__main__":
                        "exception": ex, "exception_type": exception_type}
 
             data = data.append(new_row, ignore_index=True)
-            data.to_csv("/app/code/tests/core/final.csv")
+            data.to_csv("/app/code/tests/simpleExperiment0x.csv")
 
 # """Run all CFGs through the converter to create a benchmark."""
 # files = (glob2.glob("/app/code/tests/core/separate/*"))
