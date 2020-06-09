@@ -30,4 +30,3 @@ void mergesort(int arr[], int n) {
     for (i = 0; i < n; i++) arr[i] = temp[i];
   }
 }
-
