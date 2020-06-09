@@ -18,7 +18,6 @@ def determinant(matrix):
     # return matrix.det(method="det_LU")
     return matrix.det()
 
-# 0.7419323299242102
 class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
 

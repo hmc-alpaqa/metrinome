@@ -156,6 +156,10 @@ class Graph:
         self.edges = new_edges
         self.weighted = True
 
+    def connected_components(self) -> int:
+        """Return the number of connected components in this graph."""
+        return 1 # TODO
+
     def simplify(self) -> None:
         parents = self.get_parents()
         self.convert_to_weighted()
@@ -365,7 +369,7 @@ class Graph:
             # There is probably a better way to do this.
             graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST)
 
-        graph.set_name(name)
+        graph.set_name(os.path.splitext(name)[0])
 
         with open(filename, "r") as file:
             for line in file.readlines()[1:]:
