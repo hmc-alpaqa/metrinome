@@ -4,6 +4,7 @@ sys.path.append("/app/code")
 import unittest
 import utils
 
+
 class Testutils(unittest.TestCase):
     """Test all of the utils methods."""
 
@@ -148,46 +149,47 @@ class Testutils(unittest.TestCase):
     # === big_o===
     def test_big_o_constant(self):
         """The big_o of a constant should be O(1)."""
-        constantExpression = ['1', '2', '3']
-        constantExpressionTwo = ['3', '2', '1']
+        constant_expression = ['1', '2', '3']
+        constant_expression_two = ['3', '2', '1']
 
-        big_oOne = utils.big_o(constantExpression)
-        big_oTwo = utils.big_o(constantExpressionTwo)
+        big_o_one = utils.big_o(constant_expression)
+        big_o_two = utils.big_o(constant_expression_two)
 
-        self.assertEqual(big_oOne, '1')
-        self.assertEqual(big_oTwo, '1')
+        self.assertEqual(big_o_one, '1')
+        self.assertEqual(big_o_two, '1')
 
     def test_big_o_polynomial(self):
         """The big_o of a polynomial should be O(x^n) where n is the degree of the polynomial."""
         # Expression One: "1 - x + 6*x^8"
         # Expression Two: = "1.2*x^(8.4) - 3.1*x"
 
-        polynomialExpression = ['1', '-x', '6*x^8']
-        polynomialExpressionTwo = ['1.2*x^(8.4)', '-3.1*x']
+        polynomial_expression = ['1', '-x', '6*x^8']
+        polynomial_expression_two = ['1.2*x^(8.4)', '-3.1*x']
 
-        big_oOne = utils.big_o(polynomialExpression)
-        big_oTwo = utils.big_o(polynomialExpressionTwo)
+        big_o_one = utils.big_o(polynomial_expression)
+        big_o_two = utils.big_o(polynomial_expression_two)
 
-        expectedbig_oOne = 'x^8'
-        expectedbig_oTwo = 'x^8.4'
-        self.assertEqual(expectedbig_oOne, big_oOne)
-        self.assertEqual(expectedbig_oTwo, big_oTwo)
+        expectedbig_o_one = 'x^8'
+        expectedbig_o_two = 'x^8.4'
+        self.assertEqual(expectedbig_o_one, big_o_one)
+        self.assertEqual(expectedbig_o_two, big_o_two)
 
     def test_big_o_exponential(self):
+        """The big_o of an exponential should be O(a^x) where a is the base."""
         # Expression One: "1 + x + .5^x + 2^x"
         # Expression Two: "2*1.01^x + 1.02^x"
 
-        Expression = ['1000000', 'x', '.5**x', '2**x']
-        ExpressionTwo = ['2*1.01**x', '1.02**x']
+        expression = ['1000000', 'x', '.5**x', '2**x']
+        expression_two = ['2*1.01**x', '1.02**x']
 
-        big_oOne = utils.big_o(Expression)
-        big_oTwo = utils.big_o(ExpressionTwo)
+        big_o_one = utils.big_o(expression)
+        big_o_two = utils.big_o(expression_two)
 
-        expectedbig_oOne = '2**x'
-        expectedbig_oTwo = '1.02**x'
+        expectedbig_o_one = '2**x'
+        expectedbig_o_two = '1.02**x'
 
-        self.assertEqual(expectedbig_oOne, big_oOne)
-        self.assertEqual(expectedbig_oTwo, big_oTwo)
+        self.assertEqual(expectedbig_o_one, big_o_one)
+        self.assertEqual(expectedbig_o_two, big_o_two)
 
     # === Timeout ===
     def test_timeout_notimetout(self):
