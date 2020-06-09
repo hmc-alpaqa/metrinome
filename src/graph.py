@@ -1,11 +1,12 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from typing import List, Tuple, Any, Optional
+from typing import List, Any, Optional, DefaultDict, Sequence
 from enum import Enum
 import re
 import os
-import numpy as np  # type: ignore
 import collections
+import numpy as np  # type: ignore
+
 
 class GraphType(Enum):
     """All of the different ways to represent the graph."""
@@ -78,10 +79,10 @@ class Graph:
 
         """
         self.edges = edges
-        self.vertices = vertices
-        self.start_node = start_node
-        self.end_node = end_node
-        self.weighted = False
+        self.vertices: List[int] = vertices
+        self.start_node: int = start_node
+        self.end_node: int = end_node
+        self.weighted: bool = False
         self.name: Optional[str]  = None
         self.graph_type = graph_type
 
@@ -92,24 +93,27 @@ class Graph:
     def get_parents(self) -> Any:
         """Create a dictionary which maps a node to a list of its parents."""
         if self.graph_type is not GraphType.ADJACENCY_LIST:
-            raise NotImplemented(f"Not possible for graph type {self.graph_type}")
+            raise NotImplementedError(f"Not possible for graph type {self.graph_type}")
 
-        parents = collections.defaultdict(list)
+        parents: DefaultDict[str, list] = collections.defaultdict(list)
         for vertex in self.get_vertices():
             for child in self.edges[vertex]:
                 parents[child] += [vertex]
-        
+
         return parents
 
     def delete_nodes(self, removed_nodes) -> None:
         """
         Given a set of nodes to delete, update the graph.
-        
-        Note that this requires renaming nodes in the graph since the nodes are 
+
+        Note that this requires renaming nodes in the graph since the nodes are
         supposed to be in sequence (0, ..., n).
         """
+        if self.graph_type is not GraphType.ADJACENCY_LIST:
+            raise NotImplementedError(f"Not possible for graph type {self.graph_type}")
+
         # First, we have to figure out what each node will map to in the new graph.
-        new_num_nodes = self.vertex_count() - len(removed_nodes) 
+        new_num_nodes = self.vertex_count() - len(removed_nodes)
         node_mapping = dict()
         removed_count = 0
         for vertex in self.get_vertices():
@@ -119,51 +123,52 @@ class Graph:
 
             node_mapping[vertex] = vertex - removed_count
 
-        # Figure out what the new edges should be
-        new_edges = []
+        # Figure out what the new edges should be.
+        new_edges: List[Any] = []
         for vertex in self.get_vertices():
             if vertex in removed_nodes:
                 continue
 
             children = self.edges[vertex]
             if self.weighted:
-                L = []
+                new_edge = []
                 for child in children:
                     child_node = child[0]
                     child_weight = child[1]
-                    L.append([node_mapping[child_node], child_weight])
-                new_edges.append(L)
+                    new_edge.append([node_mapping[child_node], child_weight])
+                new_edges.append(new_edge)
             else:
-                new_edges += [[node_mapping[child] for child in children]] 
+                new_edges += [[node_mapping[child] for child in children]]
 
         self.edges = new_edges
         self.start_node = node_mapping[self.start_node]
         self.end_node = node_mapping[self.end_node]
 
     def convert_to_weighted(self) -> None:
+        """Turn a graph that is not weighted into a weighted one."""
         if self.weighted:
             raise ValueError("Already weighted.")
 
         if self.graph_type is not GraphType.ADJACENCY_LIST:
-            raise NotImplemented(f"Not possible for graph type {self.graph_type}")
+            raise NotImplementedError(f"Not possible for graph type {self.graph_type}")
 
         new_edges = []
         weight = 1
         for vertex in self.get_vertices():
-            # new_edges.append([lambda edge: [edge[0], edge[1], weight] for edge in self.edges[vertex]])
             new_edges.append([[node, weight] for node in self.edges[vertex]])
-        
+
         self.edges = new_edges
         self.weighted = True
 
     def connected_components(self) -> int:
         """Return the number of connected components in this graph."""
-        return 1 # TODO
+        return 1  # TODO
 
     def simplify(self) -> None:
+        """Make the graph smaller."""
         parents = self.get_parents()
         self.convert_to_weighted()
-    
+
         # Figure out which nodes we have to delete and update the edges.
         removed_vertices = set()
         for vertex in range(self.vertex_count()):
@@ -173,12 +178,13 @@ class Graph:
                 child_node = child[0]
                 child_weight = child[1]
 
-                # Find the correct edge from the parent 
+                # Find the correct edge from the parent
+                child_of_parent = None
                 for i, child_of_parent in enumerate(self.edges[parent]):
                     if child_of_parent[0] == vertex:
                         curr_vertex_of_parent = child_of_parent
                         break
-                     
+
                 if child_of_parent[1] != child_weight:
                     print("ERROR! Incoming and outgoing weights should be the same!")
 
@@ -203,10 +209,10 @@ class Graph:
 
         self.delete_nodes(removed_vertices)
 
-    def edge_rules(self) -> List[Tuple[int, int]]:
+    def edge_rules(self) -> List[Sequence[int]]:
         """Obtain the edge list."""
         if self.graph_type is GraphType.ADJACENCY_LIST:
-            edges = []
+            edges: List[Sequence[int]] = []
             for vertex in range(len(self.edges)):
                 for vertex_two in self.edges[vertex]:
                     if self.weighted:
@@ -303,7 +309,7 @@ class Graph:
                     if self.weighted:
                         weight = vertex_two[1]
                         vertex_two = vertex_two[0]
-                    else: 
+                    else:
                         weight = 1
 
                     vertex_two = self.node_to_index(vertex_two)
@@ -493,6 +499,7 @@ class Graph:
         if self.graph_type != other.graph_type:
             raise ValueError("Graph types must be the same.")
 
-        sets_equal = (self.edges == other.edge_rules() and set(self.vertices) == set(other.get_vertices()))
+        edges_equal = self.edges == other.edge_rules()
+        vertices_equal = set(self.vertices) == set(other.get_vertices())
         labels_equal = (self.start_node == other.get_start() and self.end_node == other.get_end())
-        return sets_equal and labels_equal
+        return edges_equal and vertices_equal and labels_equal

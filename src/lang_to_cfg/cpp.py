@@ -85,7 +85,7 @@ class CPPConvert():
         return nodes, edges, node_map, counter
 
     def convert_file_to_standard(self, file: str, filename: str,
-                                 f_num: Optional[int]=None) -> None:
+                                 f_num: Optional[int] = None) -> None:
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
 

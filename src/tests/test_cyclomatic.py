@@ -2,7 +2,7 @@
 
 import unittest
 import sys
-import numpy as np
+import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph, GraphType
 from metric.cyclomatic_complexity import CyclomaticComplexity
@@ -28,15 +28,16 @@ class TestCyclomaticComplexity(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
         adjacencies = [[1], [2], [], [4], []]
-        graph = Graph(adjacencies, vertices, start_node, end_node, graph_type=GraphType.ADJACENCY_LIST)
+        graph = Graph(adjacencies, vertices, start_node, end_node,
+                      graph_type=GraphType.ADJACENCY_LIST)
         result = CyclomaticComplexity().evaluate(graph)
         self.assertEqual(result, expected_result)
 
-        edges = np.array([[0, 1, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
+        edges = np.array([[0, 1, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
         graph = Graph(edges, vertices, start_node, end_node, graph_type=GraphType.ADJACENCY_MATRIX)
         result = CyclomaticComplexity().evaluate(graph)
         self.assertEqual(result, result)
-
 
     def test_cyclomatic_complexity_no_edges(self):
         """
@@ -50,24 +51,27 @@ class TestCyclomaticComplexity(unittest.TestCase):
         start_node = 0
         end_node = 1
 
-        # graph type is edge_list
-        graph_edge = Graph(edges, vertices, start_node, end_node, graph_type=GraphType.EDGE_LIST)
+        # graph type is edge_list.
+        graph_edge = Graph(edges, vertices, start_node, end_node,
+                           graph_type=GraphType.EDGE_LIST)
         result_edge = CyclomaticComplexity().evaluate(graph_edge)
-        expected_result_edge = 0 - 2 + 2 # edges - nodes + 2
+        expected_result_edge = 0 - 2 + 2  # edges - nodes + 2
         self.assertEqual(result_edge, expected_result_edge)
 
         # graph type is list
-        graph_list = Graph(edges, vertices, start_node, end_node, graph_type=GraphType.ADJACENCY_LIST)
+        graph_list = Graph(edges, vertices, start_node, end_node,
+                           graph_type=GraphType.ADJACENCY_LIST)
         result_list = CyclomaticComplexity().evaluate(graph_list)
         expected_result_list = 0 - 0 + 2  # edges - nodes + 2
         self.assertEqual(result_list, expected_result_list)
 
         # graph type is matrix
-        graph_matrix = Graph(edges, vertices, start_node, end_node, graph_type=GraphType.ADJACENCY_MATRIX)
-        result_matrix = CyclomaticComplexity().evaluate(graph_list)
+        graph_matrix = Graph(edges, vertices, start_node, end_node,
+                             graph_type=GraphType.ADJACENCY_MATRIX)
+        result_matrix = CyclomaticComplexity().evaluate(graph_matrix)
         expected_result_matrix = 0 - 0 + 2  # edges - nodes + 2
         self.assertEqual(result_matrix, expected_result_matrix)
 
-    
+
 if __name__ == '__main__':
     unittest.main()

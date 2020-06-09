@@ -283,11 +283,12 @@ class MyPrompt(Cmd):
         self.command = command.Command(self.command.curr_path, debug,
                                        self.command.multi_threaded, self)
 
-        self.command.data.grahs = graphs
+        self.command.data.graphs = graphs
         self.command.data.metrics = metrics
         self.command.data.klee_stats = klee_stats
         self.command.data.klee_formatted_files = klee_formatted_files
         self.command.data.bc_files = bc_files
+
 
 def main():
     """Parse command line arguments and initialize the REPL."""

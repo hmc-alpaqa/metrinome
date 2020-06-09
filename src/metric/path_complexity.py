@@ -5,7 +5,7 @@ import sys
 import re
 import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
-    simplify, sympify, Abs, Q, degree_list  # type: ignore
+    simplify, sympify, Abs, Q  # type: ignore
 from mpmath import polyroots  # type: ignore
 sys.path.append("/app/code/")
 import numpy as np  # type: ignore
@@ -13,10 +13,6 @@ from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
 from metric import metric  # type: ignore
 
-
-def determinant(matrix):
-    # return matrix.det(method="det_LU")
-    return matrix.det()
 
 class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
@@ -53,8 +49,7 @@ class PathComplexity(metric.MetricAbstract):
         generating_function = x_sub.det(method="det_LU") / denominator
 
         recurrence_degree = degree(denominator, gen=t_var) + 1
-        # self.logger.d_msg(degree_list(denominator), denominator)
-        
+
         recurrence_kernel = denominator.all_coeffs()[::-1]
         test = [round(-x, 2) for x in recurrence_kernel]
         roots = polyroots(test, maxsteps=250, extraprec=250)
@@ -97,12 +92,12 @@ class PathComplexity(metric.MetricAbstract):
                 expr_with_abs = expr_with_abs.subs(expr_term, round(expr_term, 2))
 
         exp_terms = [str(Abs(k)) for k in list(expr_with_abs.args)]
-        for i in range(len(exp_terms)):
-            exp_terms[i] = exp_terms[i].replace("Abs(n)", 'n')
-            exp_terms[i] = exp_terms[i].replace("re(n)", 'n')
-            exp_terms[i] = exp_terms[i].replace("im(n)", '0')
-            exp_terms[i] = exp_terms[i].replace("exp", "0*")
-            exp_terms[i] = exp_terms[i].replace("I", "0")
+        for i, exp_term in enumerate(exp_terms):
+            exp_term = exp_term.replace("Abs(n)", 'n')
+            exp_term = exp_term.replace("re(n)", 'n')
+            exp_term = exp_term.replace("im(n)", '0')
+            exp_term = exp_term.replace("exp", "0*")
+            exp_terms[i] = exp_term.replace("I", "0")
 
         exp_terms = [simplify(sympify(arg)) for arg in exp_terms]
         exp_terms = [refine(term, Q.real(n_var)) for term in exp_terms]  # pylint: disable=E1121

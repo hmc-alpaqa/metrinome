@@ -1,20 +1,16 @@
 """Various utilities used only for testing and not the main REPL."""
-import subprocess
 import os
 import time
 import sys
-import glob2
 import re
-import pandas as pd
-from math import floor
-from numpy import mean, std, median  # type: ignore
+from typing import List, Any, Union
+import glob2  # type: ignore
+import pandas as pd  # type: ignore
 sys.path.append("/app/code")
 from log import Log
 from graph import Graph
 from utils import Timeout
-from typing import List, Any
 sys.path.append("/app/code/lang_to_cfg")
-from cpp import CPPConvert
 sys.path.append("/app/code/metric")
 from metric import path_complexity, cyclomatic_complexity, npath_complexity
 
@@ -58,6 +54,7 @@ def parse_original(file):
 
     return nodes, edges, node_map, counter
 
+
 def convert_file_to_standard(file: str) -> None:
     """Convert a single file to the standard format."""
     nodes, edges, node_map, counter = parse_original(file)
@@ -90,6 +87,7 @@ def convert_file_to_standard(file: str) -> None:
             new_file.write(edge + "\n")
         new_file.write("}")
 
+
 def clean(file):
     """Remove unecessary files."""
     filepath = os.path.split(file)
@@ -98,6 +96,7 @@ def clean(file):
     files = glob2.glob("*.dot")
     for fname in files:
         convert_file_to_standard(fname)
+
 
 def get_converter_time(graph_list, converter, folder):
     """Run the the converter on all graph files from some folder."""
@@ -114,7 +113,7 @@ def get_converter_time(graph_list, converter, folder):
         start_time = time.time()
         try:
             with Timeout(timeout_threshold, f'{converter.name()} took too long'):
-                apc =  converter.evaluate(graph_zero)
+                apc = converter.evaluate(graph_zero)
 
             # Calculate the run time.
             runtime = time.time() - start_time
@@ -134,13 +133,14 @@ def get_converter_time(graph_list, converter, folder):
 
     return folder_time_list, overall_time_list, timeout_count
 
+
 def run_benchmark(converter):
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/code/tests/core/separate/*/"))
     print(f"number of folders: {len(folders)}\n")
     metric_collection: List[Any] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
-    
+
     # test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {len(folders)}")
     for folder in folders:
@@ -153,18 +153,23 @@ def run_benchmark(converter):
                                                                                 graph_type,
                                                                                 show_info)
 
+
 def get_name(path, type):
+    """Get the name of a file given its path."""
     if type == "folder":
         return os.path.split(os.path.split(path)[0])[1].replace(".o", ".c")
-    elif type == "file":
+
+    if type == "file":
         return os.path.split(path)[1].split("cleaned_cfg.")[1]
+
 
 if __name__ == "__main__":
     # Get all the folders
     # Establish our lists: file_name, dot_name, apc, cyclo, npath, time, exception?
     log = Log()
-    data = pd.DataFrame({"c_file_name": [], "dot_file_name": [], "apc": [], 
-      "cyclo": [], "npath": [], "apc_time": [], "exception": [], "exception_type": []})
+    data = pd.DataFrame({"c_file_name": [], "dot_file_name": [], "apc": [],
+                         "cyclo": [], "npath": [], "apc_time": [], "exception": [],
+                         "exception_type": []})
 
     folders = (glob2.glob("/app/code/tests/core/separate/*/"))
 
@@ -177,10 +182,10 @@ if __name__ == "__main__":
         for file in files:
             file_name = get_name(file, "file")
             graph = Graph.from_file(file)
-        
+
             start_time = time.time()
             apc = "na"
-            npath = "na"
+            npath: Union[str, float] = "na"
             cyclo = "na"
             ex = False
             exception_type = "na"
@@ -189,9 +194,9 @@ if __name__ == "__main__":
                 with Timeout(600, ""):
                     apc = Apc.evaluate(graph)
                 runtime = time.time() - start_time
-    
+
             except TimeoutError as exception:
-                ex = True 
+                ex = True
                 exception_type = "Timeout"
             except Exception as v:
                 ex = True
@@ -200,9 +205,9 @@ if __name__ == "__main__":
                 try:
                     with Timeout(200, ""):
                         cyclo = Cyclo.evaluate(graph)
-                
+
                 except TimeoutError as exception:
-                    ex = True 
+                    ex = True
                     exception_type = "Timeout"
                 except Exception:
                     ex = True
@@ -211,25 +216,26 @@ if __name__ == "__main__":
                     try:
                         with Timeout(200, ""):
                             npath = Npath.evaluate(graph)
-            
+
                     except TimeoutError as exception:
-                        ex = True 
+                        ex = True
                         exception_type = "Timeout"
                     except Exception:
                         ex = True
                         exception_type = "Other"
-            new_row = {"c_file_name": folder_name, "dot_file_name": file_name, "apc": apc, 
-      "cyclo": cyclo, "npath": npath, "apc_time": runtime, "exception": ex, "exception_type": exception_type}
+            new_row = {"c_file_name": folder_name, "dot_file_name": file_name, "apc": apc,
+                       "cyclo": cyclo, "npath": npath, "apc_time": runtime,
+                       "exception": ex, "exception_type": exception_type}
 
-            data = data.append(new_row, ignore_index = True)
+            data = data.append(new_row, ignore_index=True)
             data.to_csv("/app/code/tests/core/final.csv")
 
 # """Run all CFGs through the converter to create a benchmark."""
 # files = (glob2.glob("/app/code/tests/core/separate/*"))
 
 # os.chdir("/app/code/tests/core/separate")
-# for file in files: 
+# for file in files:
 #     name = os.path.basename(file)
 #     os.chdir(f"/app/code/tests/core/separate/{name}/")
-#     f = f".{name}.bc"     
+#     f = f".{name}.bc"
 #     subprocess.check_call(["opt", "-dot-cfg", f"{f}"])
