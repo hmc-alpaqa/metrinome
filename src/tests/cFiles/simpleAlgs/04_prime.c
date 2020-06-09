@@ -10,15 +10,4 @@ int check_prime(int n)
    return 1;
 } 
  
-int main()
-{
-   int n, result;
- 
-   n = 23;
-
-   result = check_prime(n);
- 
-   printf("%d\n", result);   
-   return 0;
-}
  

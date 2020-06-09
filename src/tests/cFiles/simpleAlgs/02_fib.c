@@ -18,8 +18,4 @@ int fib(int count){
   }
   return next_term;
 }
-int main()
-{
-  int term = fib(4);
-  printf("%d", term);
-}
+

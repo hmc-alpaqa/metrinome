@@ -9,8 +9,4 @@ int sign(int num) {
       return 0;
 }
 
-int main()
-{
-  int s = sign(-5);
-  printf("%d", s);
-}
+
