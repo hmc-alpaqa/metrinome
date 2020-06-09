@@ -1,8 +1,5 @@
 #include <stdio.h>
 
-/*  This is our function to find the largest
- * element in the array arr[]
- */
 int largest_element(int arr[], int num)
 {
     int i, max_element;
