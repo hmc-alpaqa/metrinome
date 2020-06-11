@@ -4,23 +4,6 @@
 #define V 4
 #define INF 99999
 
-// void printSolution(int dist[][V]) 
-// { 
-//     printf ("The following matrix shows the shortest distances"
-//             " between every pair of vertices \n"); 
-//     for (int i = 0; i < V; i++) 
-//     { 
-//         for (int j = 0; j < V; j++) 
-//         { 
-//             if (dist[i][j] == INF) 
-//                 printf("%7s", "INF"); 
-//             else
-//                 printf ("%7d", dist[i][j]); 
-//         } 
-//         printf("\n"); 
-//     } 
-// }
-
 // Solves the all-pairs shortest path problem using Floyd Warshall algorithm
 void floydWarshall(int graph[][V]) {
   /* dist[][] will be the output matrix that will finally have the shortest
@@ -52,19 +35,4 @@ void floydWarshall(int graph[][V]) {
       }
     }
   }
-
-  // Print the shortest distance matrix
-  printf ("The following matrix shows the shortest distances"
-            " between every pair of vertices \n"); 
-    for (i = 0; i < V; i++) 
-    { 
-        for (j = 0; j < V; j++) 
-        { 
-            if (dist[i][j] == INF) 
-                printf("%7s", "INF"); 
-            else
-                printf ("%7d", dist[i][j]); 
-        } 
-        printf("\n"); 
-    }
 }
