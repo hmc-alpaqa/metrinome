@@ -26,12 +26,13 @@ RUN git clone https://github.com/klee/klee-uclibc.git
 RUN ln -s /usr/bin/llvm-config-6.0 /usr/bin/llvm-config
 RUN alias llvm-config=llvm-config-6.0 
 RUN CC=/usr/bin/clang-6.0 /app/klee-uclibc/configure --make-llvm-lib
+RUN cd /app/klee-uclibc && make -j2
 
 # Get KLEE
 RUN mkdir /app/build
 RUN git clone https://github.com/klee/klee.git
 RUN apt-get install zlib1g-dev
-RUN cd /app/build && cmake -DENABLE_SOLVER_STP=OFF -DENABLE_POSIX_RUNTIME=OFF -DENABLE_KLEE_UCLIBC=OFF -DENABLE_UNIT_TESTS=OFF -DLLVMCC=/usr/bin/clang-6.0 -ENABLE_ZLIB=OFF -DLLVMCXX=/usr/bin/clang++-6.0 /app/klee
+RUN cd /app/build && cmake -DENABLE_SOLVER_STP=OFF -DENABLE_POSIX_RUNTIME=ON -DENABLE_KLEE_UCLIBC=ON -DKLEE_UCLIBC_PATH=/app/klee-uclibc -DENABLE_UNIT_TESTS=OFF -DLLVMCC=/usr/bin/clang-6.0 -ENABLE_ZLIB=OFF -DLLVMCXX=/usr/bin/clang++-6.0 /app/klee
 RUN cd /app/build && make
 
 # Build LibC++
@@ -47,10 +48,7 @@ RUN unzip /app/release-1.7.0.zip
 RUN pip install pycparser
 RUN git clone https://github.com/eliben/pycparser
 
-# TODO: verify that this lets us do 'klee' in the command line 
-RUN export PATH=$PATH:/app/build/bin/ 
-
-## === Finish Configuring and Testing Everything Below Here === 
+ENV PATH "$PATH:/app/build/bin/"
 
 # AFL (Dependency for Kelinci) 
 RUN git clone https://github.com/google/AFL
@@ -77,5 +75,3 @@ RUN rm -rf /app/prism-4.5-linux64.tar && rm /app/requirements.txt && rm /app/rel
 
 # Set up oh-my-zsh [OPTIONAL]
 RUN echo "y" | sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-

@@ -70,7 +70,7 @@ class KleeUtils:
         """
         self.logger.d_msg(f"Going to parse file {filename}")
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc',
-                         cpp_args=['-E', r'-Iutils/fake_libc_include'])
+                         cpp_args=['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include'])
         self.logger.d_msg(f"Going to visit functions.")
         func_visitor = FuncVisitor(self.logger)
         func_visitor.visit(ast)
