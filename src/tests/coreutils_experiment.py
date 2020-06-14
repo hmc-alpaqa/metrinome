@@ -174,7 +174,7 @@ if __name__ == "__main__":
     folders = (glob2.glob("/app/code/tests/core/separate/*/"))
 
     Apc = path_complexity.PathComplexity(log)
-    Cyclo = cyclomatic_complexity.CyclomaticComplexity()
+    Cyclo = cyclomatic_complexity.CyclomaticComplexity(log)
     Npath = npath_complexity.NPathComplexity(log)
     for folder in folders:
         folder_name = get_name(folder, "folder")

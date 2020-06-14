@@ -19,7 +19,7 @@ class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
 
     # pylint: disable=super-init-not-called
-    def __init__(self, logger:Log =None) -> None:
+    def __init__(self, logger: Log) -> None:
         """Create a new instance of PathComplexity."""
         self.logger = logger
 

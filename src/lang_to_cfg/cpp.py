@@ -8,14 +8,16 @@ import os
 import re
 import glob2  # type: ignore
 sys.path.append("/app/code/")
+sys.path.append("/app/code/lang_to_cfg")
 from graph import Graph, GraphType
 from log import Log
 from env import Env
+from converter import ConverterAbstract  # type: ignore
 
 # pylint: disable=R0201
 
 
-class CPPConvert():
+class CPPConvert(ConverterAbstract):
     """Create Graph objects from files."""
 
     def __init__(self, logger: Log) -> None:
@@ -25,6 +27,7 @@ class CPPConvert():
         self.name_pattern = "([a-zA-Z0-9]+ )"
 
     def name(self) -> str:
+        """Get the name of the CPP converter."""
         return "CPP"
 
     def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
@@ -42,7 +45,7 @@ class CPPConvert():
 
         name = os.path.split(filename)[1]
         graphs = {}
-        filename = f"{Env.TMP_PATH}/{name}"
+        filename = f"{Env.TMP_DOT_PATH}/{name}"
         for i in range(file_count):
             f_name = filename + (str(i) + ".dot")
             graph_name = os.path.splitext(f_name)[0]
@@ -108,9 +111,9 @@ class CPPConvert():
         # Make a temporary file (with the new content).
         name = os.path.split(filename)[1]
         if f_num is not None:
-            output_name = f'{Env.TMP_PATH}/{name}{f_num}.dot'
+            output_name = f'{Env.TMP_DOT_PATH}/{name}{f_num}.dot'
         else:
-            output_name = f'{Env.TMP_PATH}/{name}.dot'
+            output_name = f'{Env.TMP_DOT_PATH}/{name}.dot'
 
         with open(output_name, 'w') as new_file:
             new_file.write("digraph { \n")
@@ -137,7 +140,6 @@ class CPPConvert():
         Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
         """
-     
         files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
         for name in files:
             if "global" in name.lower():

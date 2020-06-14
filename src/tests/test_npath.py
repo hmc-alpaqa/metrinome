@@ -5,6 +5,7 @@ import sys
 sys.path.append('/app/code')
 from graph import Graph, GraphType
 from metric import npath_complexity
+from log import Log
 
 
 class TestNPATH(unittest.TestCase):
@@ -43,9 +44,9 @@ class TestNPATH(unittest.TestCase):
             graph_one = Graph.from_file(file, graph_type=GraphType.EDGE_LIST)
             graph_two = Graph.from_file(file, graph_type=GraphType.ADJACENCY_LIST)
             graph_three = Graph.from_file(file, graph_type=GraphType.ADJACENCY_MATRIX)
-            res_one   = npath_complexity.NPathComplexity().evaluate(graph_one)
-            res_two   = npath_complexity.NPathComplexity().evaluate(graph_two)
-            res_three = npath_complexity.NPathComplexity().evaluate(graph_three)
+            res_one   = npath_complexity.NPathComplexity(Log()).evaluate(graph_one)
+            res_two   = npath_complexity.NPathComplexity(Log()).evaluate(graph_two)
+            res_three = npath_complexity.NPathComplexity(Log()).evaluate(graph_three)
             results_one.append(res_one)
             results_two.append(res_two)
             results_three.append(res_three)
@@ -64,7 +65,7 @@ class TestNPATH(unittest.TestCase):
         so there is a single path from the beginning to the end.
         """
         graph = Graph([], set([0]), 0, 0, GraphType.EDGE_LIST)
-        result = npath_complexity.NPathComplexity().evaluate(graph)
+        result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 1
         self.assertEqual(result, expected_result)
 
@@ -77,7 +78,7 @@ class TestNPATH(unittest.TestCase):
         beginning to the end.
         """
         graph = Graph([], set([0, 1]), 0, 1, GraphType.EDGE_LIST)
-        result = npath_complexity.NPathComplexity().evaluate(graph)
+        result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 0
         self.assertEqual(result, expected_result)
 

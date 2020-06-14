@@ -184,8 +184,8 @@ class Controller:
         """
         self.logger = logger
 
-        cyclomatic = cyclomatic_complexity.CyclomaticComplexity()
-        npath = npath_complexity.NPathComplexity()
+        cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
+        npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
         self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath, pathcomplexity]
 
@@ -727,9 +727,9 @@ class Command:
                                               **klee_formatted_files}
             self.logger.v_msg(f"Created {' '.join(list(klee_formatted_files.keys()))}")
 
-    @check_args(0, NOT_IMPLEMENTED)
-    def do_clean_klee_files(self, args_list: List[str]) -> None:
-        """Remove all KLEE-related files created by the REPL."""
+    # @check_args(0, NOT_IMPLEMENTED)
+    # def do_clean_klee_files(self, args_list: List[str]) -> None:
+    #    """Remove all KLEE-related files created by the REPL."""
 
     def klee_output_indices(self, klee_output):
         """Get the indicies of statistics we care about in the Klee output string."""
@@ -880,6 +880,30 @@ class Command:
     def do_ls(self) -> None:
         """List the arguments in the current working directory."""
         self.logger.v_msg(" ".join(os.listdir(self.curr_path)))
+
+    @check_args(1, "Missing directory name.")
+    def do_mkdir(self, dirname: str) -> None:
+        """Create a new directory from the given name."""
+        subprocess.check_call(["mkdir", "-p", dirname])
+
+    @check_args(2, "Missing name one and name two.")
+    def do_mv(self, name_one: str, name_two: str) -> None:
+        """Move a file to a new location."""
+        subprocess.check_call(["mv", name_one, name_two])
+
+    @check_args(1, "Missing name of file/directory to delete.", check_recursive=True, var_args=True)
+    def do_rm(self, recursive_mode: bool, *names: str) -> None:
+        """Remove a file or directory."""
+        for name in names:
+            if recursive_mode:
+                subprocess.check_call(["rm", "-r", name])
+            else:
+                subprocess.check_call(["rm", name])
+
+    @check_args(0, "Cannot accept arguments.")
+    def do_pwd(self) -> None:
+        """Print out the current working directory."""
+        self.logger.v_msg(self.curr_path)
 
     @check_args(2, MISSING_TYPE_AND_NAME)
     def do_delete(self, obj_type, name: str) -> None:

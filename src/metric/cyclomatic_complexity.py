@@ -8,10 +8,11 @@ from graph import Graph
 from metric import metric  # type: ignore
 from log import Log
 
+
 class CyclomaticComplexity(metric.MetricAbstract):
     """Compute the Cyclomatic Complexity given some control flow graph."""
 
-    def __init__(self, logger: Log=None) -> None:
+    def __init__(self, logger: Log) -> None:
         """Initialize an object used to compute the cyclomatic complexity of graphs."""
         self.logger = logger
 
