@@ -304,6 +304,9 @@ class PythonConvert():
         """Create a new instance of the python converter."""
         self.logger = logger
 
+    def name(self) -> str:
+        return ""
+
     # pylint: disable=R0201
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
         """Create a CFG from a Python source file."""

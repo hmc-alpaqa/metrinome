@@ -3,13 +3,14 @@
 from abc import ABC, abstractmethod
 from typing import Any
 from graph import Graph
+from log import Log
 
 
 class MetricAbstract(ABC):
     """The interface that all metric computers should follow."""
 
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self, logger: Log) -> None:
         """Initialize a new object capable of computing a metric."""
 
     @abstractmethod

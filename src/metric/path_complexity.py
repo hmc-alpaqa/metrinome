@@ -12,13 +12,14 @@ import numpy as np  # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
 from metric import metric  # type: ignore
+from log import Log
 
 
 class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
 
     # pylint: disable=super-init-not-called
-    def __init__(self, logger=None) -> None:
+    def __init__(self, logger:Log =None) -> None:
         """Create a new instance of PathComplexity."""
         self.logger = logger
 

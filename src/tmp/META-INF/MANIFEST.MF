@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.5.3 
+Created-By: Apache Maven
+Built-By: tcurdt
+Package: org.apache.bcel
+Build-Jdk: 1.5.0_06
+Extension-Name: bcel
+Specification-Title: Bytecode Engineering Library
+Specification-Vendor: Apache Software Foundation
+Implementation-Title: org.apache.bcel
+Implementation-Vendor: Apache Software Foundation
+Implementation-Version: 5.2
+X-Compile-Source-JDK: 1.3
+X-Compile-Target-JDK: 1.3
+

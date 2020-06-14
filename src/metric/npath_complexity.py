@@ -8,6 +8,7 @@ import copy
 from typing import List
 from graph import Graph, GraphType
 from metric import metric
+from log import Log
 
 EdgeType = List[int]
 NodeType = int
@@ -16,10 +17,9 @@ NodeType = int
 class NPathComplexity(metric.MetricAbstract):
     """NPathComplexity allows us to compute the NPath Complexity of functions from their CFGs."""
 
-    def __init__(self, log=None) -> None:
+    def __init__(self, logger: Log=None) -> None:
         """Create a new NPathComplexity to compute NPath for arbitrary Graph objects."""
-        super(NPathComplexity, self).__init__()
-        self.log = log
+        self.log = logger
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
