@@ -65,6 +65,20 @@ Using the klee type deletes all klee-related objects with that name.
 Usage: 
 delete \<type> \<name>
 
+### import
+
+Import a .dot graph file as a graph object. Similar to `convert`, if a directory
+of .dot files is passed as an argument, all graphs will be imported. 
+The recursive flag (-r) can also be used to import all graphs from a directory
+and subdirectories.
+
+Usage: 
+import \<file-like>
+  
+import -r \<file-like>
+  
+import \<file-like-1> \<file-like-2> ... \<file-like-n>
+
 ### export 
 
 Save an object (type graph, metric, klee_bc, klee_file, or klee) to an output file.
