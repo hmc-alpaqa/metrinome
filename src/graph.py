@@ -61,9 +61,10 @@ class Graph:
 
     def __str__(self) -> str:
         """Return a string representation of the Graph."""
-        return f"Edges: {self.edge_rules()}\nVertices: " + \
+        return f"Edges: {self.edge_rules()}\nVertices " + \
                f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
-               f"\nEnd Node: {self.end_node}"
+               f"\nEnd Node: {self.end_node}\nTotal Edges:" + \
+               f"{self.edge_count}"
 
     def __init__(self, edges, vertices: Any, start_node: int,
                  end_node: int,
