@@ -4,14 +4,14 @@ int helper(int x) {
     } else {
         return 1;
     }
-}
+} 
 
 int outside_function(int x){
-    helper(x);
+    return helper(x);
 }
 
-int main() {
-    int x;
-    klee_make_symbolic(&x, sizeof(x), "x");
-    return outside_function(x);
-}
+// int main() {
+//     int x;
+//     klee_make_symbolic(&x, sizeof(x), "x");
+//     return outside_function(x);
+// }
