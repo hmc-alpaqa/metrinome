@@ -1,7 +1,7 @@
 // from https://www.geeksforgeeks.org/floyd-warshall-algorithm-dp-16/
 
 #include <stdio.h>
-#define V 4
+#define V 10
 #define INF 99999
 
 // Solves the all-pairs shortest path problem using Floyd Warshall algorithm
