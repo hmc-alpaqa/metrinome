@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #define uint unsigned int
-#define SIZE 10
 
 void heap_sort(int a[], uint len) {
   /* heap sort */
