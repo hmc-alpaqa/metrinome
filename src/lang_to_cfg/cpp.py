@@ -9,40 +9,51 @@ import re
 import glob2  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph, GraphType
+from log import Log
+from env import Env
+from lang_to_cfg import converter  # type: ignore
 
 # pylint: disable=R0201
 
 
-class CPPConvert():
+class CPPConvert(converter.ConverterAbstract):
     """Create Graph objects from files."""
 
-    def __init__(self, logger) -> None:
+    # pylint: disable=super-init-not-called
+    def __init__(self, logger: Log) -> None:
         """Create a new instance of the C++ converter."""
         self.logger = logger
         self.edge_pattern = "->"
         self.name_pattern = "([a-zA-Z0-9]+ )"
 
+    def name(self) -> str:
+        """Get the name of the CPP converter."""
+        return "CPP"
+
     def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
         """Create a CFG from a C++ source file."""
-        self.clean_temps(filename)
+        Env.make_temp()
+        Env.clean_temps()
         self.logger.d_msg("Creating dot files")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
         self.logger.d_msg(f"File count is: {file_count}")
         if file_count == 0:
-            self.clean_temps(filename)
+            Env.clean_temps()
             return None
+
         name = os.path.split(filename)[1]
         graphs = {}
-        filename = filename.strip(name)
-        filename += f"cppConverterTemps/{name}"
+        filename = f"{Env.TMP_DOT_PATH}/{name}"
         for i in range(file_count):
             f_name = filename + (str(i) + ".dot")
             graph_name = os.path.splitext(f_name)[0]
             graph_name = os.path.split(graph_name)[1]
             self.logger.d_msg(f"graph_name: {graph_name}")
             graphs[graph_name] = Graph.from_file(f_name, False, GraphType.EDGE_LIST)
+
+        Env.clean_temps()
         return graphs
 
     def parse_original(self, file):
@@ -99,12 +110,10 @@ class CPPConvert():
 
         # Make a temporary file (with the new content).
         name = os.path.split(filename)[1]
-        filename = filename.strip(name)
-        filename += f"cppConverterTemps/"
         if f_num is not None:
-            output_name = f'{filename}{name}{f_num}.dot'
+            output_name = f'{Env.TMP_DOT_PATH}/{name}{f_num}.dot'
         else:
-            output_name = f'{filename}/{name}.dot'
+            output_name = f'{Env.TMP_DOT_PATH}/{name}.dot'
 
         with open(output_name, 'w') as new_file:
             new_file.write("digraph { \n")
@@ -131,8 +140,7 @@ class CPPConvert():
         Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
         """
-        path = os.path.split(filename)[0]
-        files = glob2.glob(f"{path}/cppConverterTemps/*.dot")
+        files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
         for name in files:
             if "global" in name.lower():
                 os.remove(name)
@@ -151,9 +159,6 @@ class CPPConvert():
 
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
-        subprocess.check_call(["mkdir", "-p", "cppConverterTemps"])
-        self.logger.d_msg("Made directory")
-
         c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
 
@@ -178,18 +183,4 @@ class CPPConvert():
         files = glob2.glob("*.dot")
         self.logger.d_msg(f"Found the following .dot files: {files}")
         for file in files:
-            subprocess.call(["mv", f"{file}", "cppConverterTemps"])
-
-    def clean_temps(self, filename: str) -> None:
-        """Remove temp files and directories."""
-        name = os.path.split(filename)[1]
-        filename = filename.strip(name)
-        filename += f"cppConverterTemps"
-
-        self.logger.d_msg(f"=== Filename: {filename}")
-
-        proc = subprocess.Popen(["rm", "-r", f"{filename}"],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
-        output, err = proc.communicate()
-        self.logger.d_msg(f"stdout: {output.decode()}", f"stderr: {err.decode()}")
+            subprocess.call(["mv", file, Env.TMP_PATH])

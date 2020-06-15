@@ -8,3 +8,5 @@ src/.mypy_cache/
 .DS_STORE
 /src/exports/*
 /src/tests/cFiles/cppConverterTemps/*
+/src/tmp/
+/src/tmp_dot/

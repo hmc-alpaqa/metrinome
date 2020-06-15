@@ -38,7 +38,7 @@ public class Extractor
         try {
             com = comParser.parse(comOptions, args);
         }
-        catch (Exception e2) {
+        catch (final Exception e2) {
             exit(comOptions);
         }
         if (com.hasOption('h')) {
@@ -113,7 +113,7 @@ public class Extractor
                     cr.accept(cv, 0);
                 }
             }
-            catch (IOException e) {
+            catch (final IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }

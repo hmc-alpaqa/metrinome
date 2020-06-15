@@ -6,14 +6,16 @@
 
 from graph import Graph
 from metric import metric  # type: ignore
+from log import Log
 
 
 class CyclomaticComplexity(metric.MetricAbstract):
     """Compute the Cyclomatic Complexity given some control flow graph."""
 
-    def __init__(self) -> None:
+    # pylint: disable=super-init-not-called
+    def __init__(self, logger: Log) -> None:
         """Initialize an object used to compute the cyclomatic complexity of graphs."""
-        super(CyclomaticComplexity, self).__init__()
+        self.logger = logger
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""

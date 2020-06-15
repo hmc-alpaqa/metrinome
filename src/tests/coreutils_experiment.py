@@ -174,7 +174,7 @@ if __name__ == "__main__":
     folders = (glob2.glob("/app/code/tests/core/separate/*/"))
 
     Apc = path_complexity.PathComplexity(log)
-    Cyclo = cyclomatic_complexity.CyclomaticComplexity()
+    Cyclo = cyclomatic_complexity.CyclomaticComplexity(log)
     Npath = npath_complexity.NPathComplexity(log)
     for folder in folders:
         folder_name = get_name(folder, "folder")
@@ -191,7 +191,7 @@ if __name__ == "__main__":
             exception_type = "na"
             runtime = 0.0
             try:
-                with Timeout(600, ""):
+                with Timeout(300, ""):
                     apc = Apc.evaluate(graph)
                 runtime = time.time() - start_time
 
@@ -199,6 +199,7 @@ if __name__ == "__main__":
                 ex = True
                 exception_type = "Timeout"
             except Exception as v:
+                print(v)
                 ex = True
                 exception_type = "Other"
             if not ex:

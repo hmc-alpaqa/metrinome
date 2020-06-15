@@ -10,12 +10,14 @@ thing after the statement returns.
 """
 
 # pylint: disable=C0103
-
+import sys
+sys.path.append("/app/code/")
 from typing import List, Optional, Dict, cast
 import ast
 import os
 # from pprintast import pprintast as ppast
 from graph import Graph, GraphType
+from lang_to_cfg import converter  # type: ignore
 
 
 class Node:
@@ -297,12 +299,17 @@ class Visitor(ast.NodeVisitor):
         self.graphs[node.name] = graph
 
 
-class PythonConvert():
+class PythonConvert(converter.ConverterAbstract):
     """PythonConvert is able to convert from Python source files to graph objects."""
 
+    # pylint: disable=super-init-not-called
     def __init__(self, logger) -> None:
         """Create a new instance of the python converter."""
         self.logger = logger
+
+    def name(self) -> str:
+        """Get the name of the Python converter."""
+        return "Python"
 
     # pylint: disable=R0201
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
@@ -320,6 +327,6 @@ class PythonConvert():
 
         for key in graphs.keys():
             self.logger.d_msg(f"==== Graph {key} =====")
-            self.logger.d_msg(graphs[key])
+            self.logger.d_msg(str(graphs[key]))
 
         return graphs
