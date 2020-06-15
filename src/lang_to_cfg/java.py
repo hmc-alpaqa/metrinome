@@ -1,22 +1,22 @@
 """This class knows how to convert from java source code to graph objects."""
 import sys
 sys.path.append("/app/code/")
-sys.path.append("/app/code/lang_to_cfg")
 from typing import Dict, Optional
 from os.path import basename
 from glob2 import glob  # type: ignore
 from graph import Graph, GraphType
 from env import Env
-from converter import ConverterAbstract  # type: ignore
+from lang_to_cfg import converter  # type: ignore
 
 
-class JavaConvert(ConverterAbstract):
+class JavaConvert(converter.ConverterAbstract):
     """
     JavaConvert is able to convert java files to graphs.
 
     Interacts with the java program that extracts CFGs from Java source code.
     """
 
+    # pylint: disable=super-init-not-called
     def __init__(self, logger) -> None:
         """Create a new Java coverter."""
         self.logger = logger

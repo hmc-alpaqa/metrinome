@@ -12,6 +12,7 @@ from log import Log
 class CyclomaticComplexity(metric.MetricAbstract):
     """Compute the Cyclomatic Complexity given some control flow graph."""
 
+    # pylint: disable=super-init-not-called
     def __init__(self, logger: Log) -> None:
         """Initialize an object used to compute the cyclomatic complexity of graphs."""
         self.logger = logger

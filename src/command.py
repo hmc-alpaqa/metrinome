@@ -418,6 +418,7 @@ def worker_main_two(metrics_generator, shared_dict, graph):
 
 
 class Command:
+    # pylint: disable=R0904
     """Command is the implementation of the REPL commands."""
 
     def __init__(self, curr_path: str, debug_mode: bool,
@@ -563,6 +564,16 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
+    def do_metrics_multithreaded(self, graphs) -> None:
+        """Compute all of the metrics for some set of graphs using parallelization."""
+        pool = Pool(8)
+        manager = Manager()
+        shared_dict: Dict[Any, Any] = manager.dict()
+        for metrics_generator in self.controller.metrics_generators:
+            pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
+            self.logger.v_msg(str(shared_dict))
+        # TODO: save the results.
+
     @check_args(1, "Must provide graph name.")
     def do_metrics(self, name: str) -> None:
         """Compute of one of the known objects for a stored Graph object."""
@@ -584,12 +595,8 @@ class Command:
 
         graphs = [self.data.graphs[name] for name in args_list]
         if self.multi_threaded:
-            pool = Pool(8)
-            manager = Manager()
-            shared_dict: Dict[Any, Any] = manager.dict()
-            for metrics_generator in self.controller.metrics_generators:
-                pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
-            self.logger.v_msg(str(shared_dict))
+            self.do_metrics_multithreaded(graphs)
+            return
 
         for graph in graphs:
             self.logger.v_msg(f"Computing metrics for {graph.name}")

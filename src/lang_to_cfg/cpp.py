@@ -8,18 +8,18 @@ import os
 import re
 import glob2  # type: ignore
 sys.path.append("/app/code/")
-sys.path.append("/app/code/lang_to_cfg")
 from graph import Graph, GraphType
 from log import Log
 from env import Env
-from converter import ConverterAbstract  # type: ignore
+from lang_to_cfg import converter  # type: ignore
 
 # pylint: disable=R0201
 
 
-class CPPConvert(ConverterAbstract):
+class CPPConvert(converter.ConverterAbstract):
     """Create Graph objects from files."""
 
+    # pylint: disable=super-init-not-called
     def __init__(self, logger: Log) -> None:
         """Create a new instance of the C++ converter."""
         self.logger = logger

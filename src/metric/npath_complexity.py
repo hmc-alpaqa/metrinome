@@ -17,6 +17,7 @@ NodeType = int
 class NPathComplexity(metric.MetricAbstract):
     """NPathComplexity allows us to compute the NPath Complexity of functions from their CFGs."""
 
+    # pylint: disable=super-init-not-called
     def __init__(self, logger: Log) -> None:
         """Create a new NPathComplexity to compute NPath for arbitrary Graph objects."""
         self.log = logger

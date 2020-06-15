@@ -1,4 +1,5 @@
 """."""
+# pylint: skip-file
 import subprocess
 import re
 from subprocess import PIPE
@@ -37,13 +38,13 @@ def parse_klee(klee_output):
     return tests, paths, insts, real, user, sys
 
 
-def klee_with_preferences(file_name, output_name, preferences, max_depth, input):
+def klee_with_preferences(file_name, output_name, preferences, max_depth, input_):
     """."""
     with open(file_name, "rb+") as file:
         klee_path = "/app/build/bin/klee"
         timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
         cmd_params = f"-output-dir={output_name} -max-depth {max_depth}"
-        cmd = f"time {klee_path} {preferences} {cmd_params} {file_name} {input}"
+        cmd = f"time {klee_path} {preferences} {cmd_params} {file_name} {input_}"
         res = subprocess.run(timeconfig + cmd, shell=True,
                              executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
         output = res.stderr
@@ -64,8 +65,9 @@ def klee_compare(file_name, preferences, depths, inputs, function):
                 results = klee_with_preferences(file_name, output_file, preference, depth, input)
                 stats_params = "--table-format=simple --print-all"
                 stats = subprocess.run(f"{klee_path}-stats {stats_params} {output_file}",
-                                       shell=True, stdout=PIPE, stderr=PIPE)
-                subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True)
+                                       shell=True, stdout=PIPE, stderr=PIPE, check=True)
+                subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done",
+                               shell=True, check=True)
                 stats_decoded = stats.stdout.decode().split("\n")
                 headers = stats_decoded[0].split()[1:]
                 values = map(lambda x: float(x), stats_decoded[2].split()[1:])
@@ -77,15 +79,15 @@ def klee_compare(file_name, preferences, depths, inputs, function):
     return results_dict
 
 
-def graph_stat(function, preference, max_depths, inputs, results, field):
+def graph_stat(func, preference, max_depths, inputs, results, field):
     """."""
     subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/graphs/", shell=True)
     fig1, ax1 = plt.subplots()
     depths = [float(i) for i in max_depths]
-    for input in inputs:
-        stats = [results[(preference, i, input)][field] for i in max_depths]
-        ax1.plot(depths, stats, label=input)
-    ax1.set(xlabel='depth', ylabel=field, title=function)
+    for input_ in inputs:
+        stats = [results[(preference, i, input_)][field] for i in max_depths]
+        ax1.plot(depths, stats, label=input_)
+    ax1.set(xlabel='depth', ylabel=field, title=func)
     ax1.legend()
     ax1.grid()
 
