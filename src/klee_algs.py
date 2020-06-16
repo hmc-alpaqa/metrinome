@@ -168,7 +168,7 @@ def main():
     preferences = ["--dump-states-on-halt=false --max-time=5min"]
     # max_times = ["1min", "3min"]
     max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90', '100']
-
+    fields = ["ICov(%)",'BCov(%)',"CompletedPaths","GeneratedTests", "RealTime", "UserTime", "SysTime", "PythonTime"]
     # inputs = ["--sym-args 0 1 10 --sym-args 0 2 2 --sym-files 1 8 --sym-stdin 8 --sym-stdout"]
     inputs = [""]
 
@@ -178,7 +178,9 @@ def main():
     # "20_bubblesort", "21_insertionsort", "22_selectionsort", "23_mergesort",
     # "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method"]
     # functions = ['04_prime', '05_parity']
-    functions = ['01_greatestof3', '13_check_arrays_equal', '22_selectionsort', '02_fib', '14_lexicographic_array_compare', '23_mergesort', '03_sign', '15_check_heap_order', '24_quicksort', '04_prime', '16_binary_search', '25_heapsort', '05_parity', '17_edit_dist', '26_quicksort', '06_palindrome', '18_longest_common_subsequence', '30_euclid_GCD', '10_find_val_in_array', '19_longest_common_increasing_subsequence', '31_sieve_of_eratosthenes', '11_array_max', '20_bubblesort', '32_newtons_method', '12_check_sorted_array', '21_insertionsort']
+    # '01_greatestof3', '13_check_arrays_equal', '22_selectionsort', '02_fib', '14_lexicographic_array_compare', '23_mergesort', '03_sign', '15_check_heap_order', '24_quicksort',
+#'04_prime', '16_binary_search', '25_heapsort', '05_parity', '17_edit_dist', '26_quicksort', '06_palindrome', '18_longest_common_subsequence', 
+    functions = ['30_euclid_GCD', '10_find_val_in_array', '19_longest_common_increasing_subsequence', '31_sieve_of_eratosthenes', '11_array_max', '20_bubblesort', '32_newtons_method', '12_check_sorted_array', '21_insertionsort']
 
     subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/frames/", shell=True)
     for func in functions:

@@ -12,79 +12,79 @@ step = lambda u: ( u > 0 ).astype(float)
 
 rampdeg = lambda u, degree: u**degree if (u > 0) else 0
 
-# def SegmentedLinearReg( X, Y, breakpoints, degree ):
-#     nIterationMax = 10
-#
-#     breakpoints = np.sort( np.array(breakpoints) )
-#
-#     dt = np.min( np.diff(X) )
-#     ones = np.ones_like(X)
-#
-#     for i in range( nIterationMax ):
-#         # Linear regression:  solve A*p = Y
-#         # Rk = [ramp( X - xk ) for xk in breakpoints ]
-#         breakpoints_modified = np.concatenate(([0], breakpoints))
-#         Sk = [step( X - xk ) for xk in breakpoints_modified ]
-#         degrees = [[ [rampdeg(i, deg) for i in X-xk] for xk in breakpoints_modified] for deg in range(1, degree+1)]
-#         np.concatenate((Sk, np.concatenate(degrees)))
-#         A = np.concatenate((Sk, np.concatenate(degrees)))
-#         # A = np.array([ ones, X ] + Rk + Sk )
-#         p =  lstsq(A.transpose(), Y, rcond=None)[0]
-#         print(p)
-#         # Parameters identification:
-#         a, b = p[0:2]
-#         ck = p[ 2:2+len(breakpoints) ]
-#         dk = p[ 2+len(breakpoints): ]
-#
-#         # Estimation of the next break-points:
-#         newBreakpoints = breakpoints - dk/ck
-#
-#         # Stop condition
-#         if np.max(np.abs(newBreakpoints - breakpoints)) < dt/5:
-#             break
-#
-#         breakpoints = newBreakpoints
-#     else:
-#         print( 'maximum iteration reached' )
-#
-#     # Compute the final segmented fit:
-#     Xsolution = np.insert( np.append( breakpoints, max(X) ), 0, min(X) )
-#     ones =  np.ones_like(Xsolution)
-#     Rk = [ c*ramp( Xsolution - x0 ) for x0, c in zip(breakpoints, ck) ]
-#
-#     Ysolution = a*ones + b*Xsolution + np.sum( Rk, axis=0 )
-#     return Xsolution, Ysolution
-
-def SegmentedLinearReg( X, Y, breakpoints , apple):
+def SegmentedLinearReg( X, Y, breakpoints, degree ):
     nIterationMax = 10
+
     breakpoints = np.sort( np.array(breakpoints) )
+
     dt = np.min( np.diff(X) )
     ones = np.ones_like(X)
+
     for i in range( nIterationMax ):
         # Linear regression:  solve A*p = Y
-        Rk = [ramp( X - xk ) for xk in breakpoints ]
-        Sk = [step( X - xk ) for xk in breakpoints ]
-        A = np.array([ ones, X ] + Rk + Sk )
+        # Rk = [ramp( X - xk ) for xk in breakpoints ]
+        breakpoints_modified = np.concatenate(([0], breakpoints))
+        Sk = [step( X - xk ) for xk in breakpoints_modified ]
+        degrees = [[ [rampdeg(i, deg) for i in X-xk] for xk in breakpoints_modified] for deg in range(1, degree+1)]
+        np.concatenate((Sk, np.concatenate(degrees)))
+        A = np.concatenate((Sk, np.concatenate(degrees)))
+        # A = np.array([ ones, X ] + Rk + Sk )
         p =  lstsq(A.transpose(), Y, rcond=None)[0]
         print(p)
         # Parameters identification:
         a, b = p[0:2]
         ck = p[ 2:2+len(breakpoints) ]
         dk = p[ 2+len(breakpoints): ]
+
         # Estimation of the next break-points:
         newBreakpoints = breakpoints - dk/ck
+
         # Stop condition
         if np.max(np.abs(newBreakpoints - breakpoints)) < dt/5:
             break
+
         breakpoints = newBreakpoints
     else:
         print( 'maximum iteration reached' )
+
     # Compute the final segmented fit:
     Xsolution = np.insert( np.append( breakpoints, max(X) ), 0, min(X) )
     ones =  np.ones_like(Xsolution)
     Rk = [ c*ramp( Xsolution - x0 ) for x0, c in zip(breakpoints, ck) ]
+
     Ysolution = a*ones + b*Xsolution + np.sum( Rk, axis=0 )
     return Xsolution, Ysolution
+
+# def SegmentedLinearReg( X, Y, breakpoints , apple):
+#     nIterationMax = 10
+#     breakpoints = np.sort( np.array(breakpoints) )
+#     dt = np.min( np.diff(X) )
+#     ones = np.ones_like(X)
+#     for i in range( nIterationMax ):
+#         # Linear regression:  solve A*p = Y
+#         Rk = [ramp( X - xk ) for xk in breakpoints ]
+#         Sk = [step( X - xk ) for xk in breakpoints ]
+#         A = np.array([ ones, X ] + Rk + Sk )
+#         p =  lstsq(A.transpose(), Y, rcond=None)[0]
+#         print(p)
+#         # Parameters identification:
+#         a, b = p[0:2]
+#         ck = p[ 2:2+len(breakpoints) ]
+#         dk = p[ 2+len(breakpoints): ]
+#         # Estimation of the next break-points:
+#         newBreakpoints = breakpoints - dk/ck
+#         # Stop condition
+#         if np.max(np.abs(newBreakpoints - breakpoints)) < dt/5:
+#             break
+#         breakpoints = newBreakpoints
+#     else:
+#         print( 'maximum iteration reached' )
+#     # Compute the final segmented fit:
+#     Xsolution = np.insert( np.append( breakpoints, max(X) ), 0, min(X) )
+#     ones =  np.ones_like(Xsolution)
+#     Rk = [ c*ramp( Xsolution - x0 ) for x0, c in zip(breakpoints, ck) ]
+#     Ysolution = a*ones + b*Xsolution + np.sum( Rk, axis=0 )
+#     return Xsolution, Ysolution
 
 # functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3', '16_binary_search', '12_check_sorted_array',
 # '11_array_max', '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
