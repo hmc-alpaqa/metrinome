@@ -8,11 +8,13 @@
 //     *a = *b; 
 //     *b = t; 
 // } 
+
+#define MAXSTACKSIZE 100
   
 void quickSortIterative(int arr[], int l, int h) 
 { 
     // Create an auxiliary stack 
-    int stack[h - l + 1]; 
+    int stack[MAXSTACKSIZE]; 
   
     // initialize top of stack 
     int top = -1; 
