@@ -1,6 +1,7 @@
 """."""
 # pylint: skip-file
 import subprocess
+import time
 import re
 from subprocess import PIPE
 import matplotlib.pyplot as plt  # type: ignore
@@ -108,7 +109,7 @@ def klee_with_preferences(file_name, output_name, preferences, max_depth, input_
         return (*parsed, final_time)
 
 
-def klee_compare(file_name, preferences, depths, inputs, function):
+def klee_compare(file_name, preferences, depths, inputs, function, remove=True):
     """."""
     klee_path = "/app/build/bin/klee"
     results_dict = {}
@@ -122,8 +123,11 @@ def klee_compare(file_name, preferences, depths, inputs, function):
                 stats_params = "--table-format=simple --print-all"
                 stats = subprocess.run(f"{klee_path}-stats {stats_params} {output_file}",
                                        shell=True, stdout=PIPE, stderr=PIPE, check=True)
-                subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done",
-                               shell=True, check=True)
+                if remove:
+                    subprocess.run(f"rm -rf {output_file}", shell=True)
+                else:
+                    subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done",
+                                   shell=True, check=True)
                 stats_decoded = stats.stdout.decode().split("\n")
                 headers = stats_decoded[0].split()[1:]
                 values = map(lambda x: float(x), stats_decoded[2].split()[1:])
@@ -142,7 +146,7 @@ def graph_stat(func, preference, max_depths, inputs, results, field):
     depths = [float(i) for i in max_depths]
     for input_ in inputs:
         stats = [results[(preference, i, input_)][field] for i in max_depths]
-        ax1.plot(depths, stats, label=input_)
+        ax1.plot(depths, stats, label=func)
     ax1.set(xlabel='depth', ylabel=field, title=func)
     ax1.legend()
     ax1.grid()
@@ -163,26 +167,25 @@ def main():
     """."""
     preferences = ["--dump-states-on-halt=false --max-time=5min"]
     # max_times = ["1min", "3min"]
-    max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
+    max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90', '100']
 
     # inputs = ["--sym-args 0 1 10 --sym-args 0 2 2 --sym-files 1 8 --sym-stdin 8 --sym-stdout"]
     inputs = [""]
 
-    functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3', '16_binary_search', '12_check_sorted_array',
-    '11_array_max', '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
-    '14_lexicographic_array_compare', '17_edit_dist',
-    "20_bubblesort", "21_insertionsort", "22_selectionsort", "23_mergesort",
-    "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method"]
-    fields = ["ICov(%)",'BCov(%)',"CompletedPaths","GeneratedTests", "RealTime",
-    "UserTime", "SysTime", "PythonTime"]
+    # functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3', '16_binary_search', '12_check_sorted_array',
+    # '11_array_max', '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
+    # '14_lexicographic_array_compare', '17_edit_dist',
+    # "20_bubblesort", "21_insertionsort", "22_selectionsort", "23_mergesort",
+    # "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method"]
+    # functions = ['04_prime', '05_parity']
+    functions = ['01_greatestof3', '13_check_arrays_equal', '22_selectionsort', '02_fib', '14_lexicographic_array_compare', '23_mergesort', '03_sign', '15_check_heap_order', '24_quicksort', '04_prime', '16_binary_search', '25_heapsort', '05_parity', '17_edit_dist', '26_quicksort', '06_palindrome', '18_longest_common_subsequence', '30_euclid_GCD', '10_find_val_in_array', '19_longest_common_increasing_subsequence', '31_sieve_of_eratosthenes', '11_array_max', '20_bubblesort', '32_newtons_method', '12_check_sorted_array', '21_insertionsort']
 
     subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/frames/", shell=True)
-
     for func in functions:
         log = Log()
         kleeu = KleeUtils(log)
         filename = f"/app/code/tests/cFiles/simpleAlgs/{func}.c"
-        output = kleeu.show_func_defs(filename)
+        output = kleeu.show_func_defs(filename, size=100)
 
         for i in output:
             new_name = f"/app/code/tests/cFiles/simpleAlgs/{func}_{i}.c"
@@ -195,19 +198,9 @@ def main():
             results = klee_compare(bcname, preferences, max_depths, inputs, f"{func}_{i}")
             results_frame = create_pandas(results, preferences[0], inputs[0], max_depths, fields)
             results_frame.to_csv(f'/app/code/tests/cFiles/simpleAlgs/frames/{func}.csv')
-            test = pd.read_csv(f'/app/code/tests/cFiles/simpleAlgs/frames/{func}.csv')
+            for field in fields:
+                graph_stat(func, preferences[0], max_depths, inputs, results, field)
 
-        # for i in output:
-        #     new_name = f"/app/code/tests/cFiles/simpleAlgs/{func}_{i}.c"
-        #     bcname = f"/app/code/tests/cFiles/simpleAlgs/{func}_{i}.bc"
-        #     with open(new_name, "w+") as file:
-        #         file.write(output[i])
-        #     cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
-        #             -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
-        #     res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
-        #     results = klee_compare(bcname, preferences, max_depths, inputs, f"{func}_{i}")
-        #     for field in fields:
-        #         graph_stat(func, preferences[0], max_depths, inputs, results, field)
 
 
 if __name__ == "__main__":
