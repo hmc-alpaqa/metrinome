@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define MAXSIZE 20
+#define MAXSIZE 101
 
 int lcs(int S1[], int m, int S2[], int n) {
   int i, j; 
