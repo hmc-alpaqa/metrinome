@@ -2,12 +2,12 @@
 #include <stdio.h> 
   
 // A utility function to swap two elements 
-void swap(int* a, int* b) 
-{ 
-    int t = *a; 
-    *a = *b; 
-    *b = t; 
-} 
+// void swap(int* a, int* b) 
+// { 
+//     int t = *a; 
+//     *a = *b; 
+//     *b = t; 
+// } 
   
 void quickSortIterative(int arr[], int l, int h) 
 { 
@@ -36,13 +36,17 @@ void quickSortIterative(int arr[], int l, int h)
         for (int j = l; j <= h - 1; j++) { 
             if (arr[j] <= x) { 
                 i++;
-                // int temp = arr[i];
-                // arr[i] = arr[j];
-                // arr[j] = temp; 
-                swap(&arr[i], &arr[j]); 
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp; 
+                // swap(&arr[i], &arr[j]); 
             } 
         } 
-        swap(&arr[i + 1], &arr[h]); 
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[h];
+        arr[h] = temp; 
+
+        // swap(&arr[i + 1], &arr[h]); 
         
         int p = (i + 1); 
   
