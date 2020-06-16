@@ -61,7 +61,7 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self.logger = logger
 
-    def show_func_defs(self, filename: str):
+    def show_func_defs(self, filename: str, size: int = 10):
         """
         Generate the set of klee-compatible files.
 
@@ -84,7 +84,7 @@ class KleeUtils:
             file_str = ""
             file_str += "#include <klee/klee.h>\n"
             file_str += f"#include <{filename}>\n"
-            file_str += "#define SIZE 10\n"
+            file_str += f"#define SIZE {size}\n"
             file_str += "int main() {\n"
             for var in variables:
                 if var[0][-4:] == "[];\n":
