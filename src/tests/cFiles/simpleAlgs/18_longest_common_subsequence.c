@@ -1,39 +1,54 @@
-// A C++ Program to find length of the Longest Common
-// Increasing Subsequence (LCIS)
 #include <stdio.h>
+#define MAXSIZE 20
 
-// Returns the length and the LCIS of two
-// arrays arr1[0..n-1] and arr2[0..m-1]
-int LCIS(int arr1[], int n, int arr2[], int m) {
-  // table[j] is going to store length of LCIS
-  // ending with arr2[j]. We initialize it as 0,
-  int table[m];
-  for (int j = 0; j < m; j++) table[j] = 0;
+int lcs(int S1[], int m, int S2[], int n) {
+  int i, j; 
+  int LCS_table[MAXSIZE][MAXSIZE];
 
-  // Traverse all elements of arr1[]
-  for (int i = 0; i < n; i++) {
-    // Initialize current length of LCIS
-    int current = 0;
+  // Filling 0's in the matrix
+  for (i = 0; i <= m; i++)
+    LCS_table[i][0] = 0;
+  for (i = 0; i <= n; i++)
+    LCS_table[0][i] = 0;
 
-    // For each element of arr1[], traverse all
-    // elements of arr2[].
-    for (int j = 0; j < m; j++) {
-      // If both the array have same elements.
-      // Note that we don't break the loop here.
-      if (arr1[i] == arr2[j])
-        if (current + 1 > table[j]) table[j] = current + 1;
-
-      /* Now seek for previous smaller common
-         element for current element of arr1 */
-      if (arr1[i] > arr2[j])
-        if (table[j] > current) current = table[j];
+  // Building the mtrix in bottom-up way
+  for (i = 1; i <= m; i++)
+    for (j = 1; j <= n; j++) {
+      if (S1[i - 1] == S2[j - 1]) {
+        LCS_table[i][j] = LCS_table[i - 1][j - 1] + 1;
+      } else if (LCS_table[i - 1][j] >= LCS_table[i][j - 1]) {
+        LCS_table[i][j] = LCS_table[i - 1][j];
+      } else {
+        LCS_table[i][j] = LCS_table[i][j - 1];
+      }
     }
+
+  int index = LCS_table[m][n];
+  int lcsAlgo[index + 1];
+  int lcs_length = index;
+
+  i = m, j = n;
+  while (i > 0 && j > 0) {
+    if (S1[i - 1] == S2[j - 1]) {
+      lcsAlgo[index - 1] = S1[i - 1];
+      i--;
+      j--;
+      index--;
+    }
+
+    else if (LCS_table[i - 1][j] > LCS_table[i][j - 1])
+      i--;
+    else
+      j--;
   }
 
-  // The maximum value in table[] is out result
-  int result = 0;
-  for (int i = 0; i < m; i++)
-    if (table[i] > result) result = table[i];
+  // for(i = 0; i < lcs_length; i++){
+  //  printf("%d ", lcsAlgo[i]);
+  // }
+  // printf("\n");
 
-  return result;
+  return lcs_length;
 }
+
+
+
