@@ -112,23 +112,23 @@ class MyPrompt(Cmd):
         """Auto-completion for the import command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_show(self, text, line, begin, end) -> List[str]:
+    def complete_show(self, text: str, line: str, begin, end) -> List[str]:
         """Auto-completion for the show command."""
         return self.complete_repl_objects(line)
 
-    def complete_delete(self, text, line, begin, end) -> List[str]:
+    def complete_delete(self, text: str, line: str, begin, end) -> List[str]:
         """Auto-complete for the delete command."""
         return self.complete_repl_objects(line)
 
-    def complete_cd(self, text, line, begin, end) -> List[str]:
+    def complete_cd(self, text: str, line: str, begin, end) -> List[str]:
         """Completion for the cd command."""
         return self.complete_file_path(text, line, begin, end, True)
 
-    def complete_convert(self, text, line, begin, end) -> List[str]:
+    def complete_convert(self, text: str, line: str, begin, end) -> List[str]:
         """Completion for the convert command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_to_klee_format(self, text, line, begin, end) -> List[str]:
+    def complete_to_klee_format(self, text: str, line: str, begin, end) -> List[str]:
         """Completion for the to_klee_format command."""
         return self.complete_file_path(text, line, begin, end, False)
 
@@ -183,7 +183,7 @@ class MyPrompt(Cmd):
         """
         self.command.do_convert(arguments)
 
-    def do_import(self, arguments) -> None:
+    def do_import(self, arguments: str) -> None:
         """
         Convert a .dot file representing a cfg into a Graph object.
 
@@ -196,7 +196,7 @@ class MyPrompt(Cmd):
         """
         self.command.do_import(arguments)
 
-    def do_list(self, arguments) -> None:
+    def do_list(self, arguments: str) -> None:
         """
         List all of the objects of a specific type (metrics, graphs, or a KLEE type).
 
@@ -206,7 +206,7 @@ class MyPrompt(Cmd):
         """
         self.command.do_list(arguments)
 
-    def do_show(self, arguments) -> None:
+    def do_show(self, arguments: str) -> None:
         """
         Show an object of some type (either metric, graph, or KLEE type).
 
@@ -261,7 +261,7 @@ class MyPrompt(Cmd):
         """Change the current working directory."""
         self.command.do_cd(arguments)
 
-    def do_ls(self, arguments) -> None:
+    def do_ls(self, arguments: str) -> None:
         """List the files in the current directory."""
         self.command.do_ls(arguments)
 
@@ -281,7 +281,7 @@ class MyPrompt(Cmd):
         """Print the name of the current directory."""
         self.command.do_pwd(arguments)
 
-    def reload(self, arguments) -> None:
+    def reload(self, arguments: str) -> None:
         """Reload the modules."""
         metrics = self.command.data.metrics
         graphs = self.command.data.graphs
