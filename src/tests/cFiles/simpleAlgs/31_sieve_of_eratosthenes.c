@@ -10,7 +10,6 @@
 // this method
 void sieve(int primes[], int n) {
   int i, j;
-  int z = 1;
 
   for (i = 2; i < n; i++) primes[i] = 1;
 
