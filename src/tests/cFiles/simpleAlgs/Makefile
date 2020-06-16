@@ -1,7 +1,7 @@
 CXX = clang
 CXX_FLAGS = -pedantic -Wall -Wextra
 
-all: 01_greatestof3 02_fib 03_sign 04_prime 05_parity 06_palindrome 10_find_val_in_array 11_array_max 12_check_sorted_array 13_check_arrays_equal 14_lexicographic_array_compare 15_check_heap_order 16_binary_search 17_edit_dist 18_longest_common_subsequence 19_longest_common_increasing_subsequence 20_bubblesort 21_insertionsort 22_selectionsort 23_mergesort 24_quicksort 25_heapsort 26_quicksort 30_euclid_GCD 31_sieve_of_eratosthenes 32_newtons_method
+all: 01_greatestof3 02_fib 03_sign 04_prime 05_parity 06_palindrome 10_find_val_in_array 11_array_max 12_check_sorted_array 13_check_arrays_equal 14_lexicographic_array_compare 15_check_heap_order 16_binary_search 17_edit_dist 18_longest_common_subsequence 19_longest_common_increasing_subsequence 20_bubblesort 21_insertionsort 22_selectionsort 23_mergesort 24_quicksort 25_heapsort 26_quicksort 30_euclid_GCD 31_sieve_of_eratosthenes 32_newtons_method 50_check_sorted_or_reverse
 
 01_greatestof3: 01_greatestof3_main.c 01_greatestof3.c
 	$(CXX) $(CXX_FLAGS) 01_greatestof3_main.c -o 01_greatestof3
@@ -82,7 +82,10 @@ all: 01_greatestof3 02_fib 03_sign 04_prime 05_parity 06_palindrome 10_find_val_
 32_newtons_method: 32_newtons_method_main.c 32_newtons_method.c
 	$(CXX) $(CXX_FLAGS) 32_newtons_method_main.c -o 32_newtons_method
 
+50_check_sorted_or_reverse: 50_check_sorted_or_reverse_main.c 50_check_sorted_or_reverse.c
+	$(CXX) $(CXX_FLAGS) 50_check_sorted_or_reverse_main.c -o 50_check_sorted_or_reverse
+
 
 # Removes all object files and the executable (if they exist).
 clean:
-	rm -rf *.o 01_greatestof3 02_fib 03_sign 04_prime 05_parity 06_palindrome 10_find_val_in_array 11_array_max 12_check_sorted_array 13_check_arrays_equal 14_lexicographic_array_compare 15_check_heap_order 16_binary_search 17_edit_dist 18_longest_common_subsequence 19_longest_common_increasing_subsequence 20_bubblesort 21_insertionsort 22_selectionsort 23_mergesort 24_quicksort 25_heapsort 26_quicksort 30_euclid_GCD 31_sieve_of_eratosthenes 32_newtons_method
+	rm -rf *.o 01_greatestof3 02_fib 03_sign 04_prime 05_parity 06_palindrome 10_find_val_in_array 11_array_max 12_check_sorted_array 13_check_arrays_equal 14_lexicographic_array_compare 15_check_heap_order 16_binary_search 17_edit_dist 18_longest_common_subsequence 19_longest_common_increasing_subsequence 20_bubblesort 21_insertionsort 22_selectionsort 23_mergesort 24_quicksort 25_heapsort 26_quicksort 30_euclid_GCD 31_sieve_of_eratosthenes 32_newtons_method 50_check_sorted_or_reverse
