@@ -242,6 +242,8 @@ if __name__ == "__main__":
 
         Xtofit = X[np.concatenate([leftdiff<2, rightdiff<2])]
         Ytofit = Y[np.concatenate([leftdiff<2, rightdiff<2])]
+        print(Xtofit)
+        print(Ytofit)
 
         p, e = optimize.curve_fit(func_to_optimize, Xtofit, Ytofit, p0=params, maxfev=5000)
         plt.plot(X, Y, "o")
