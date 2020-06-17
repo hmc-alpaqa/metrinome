@@ -137,23 +137,23 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
 
     logger.d_msg("Checking if it's a regular expression")
     # Check if it's a regular expression (only allowed at the END of the filename)
-    base, file = os.path.split(path)
-    logger.d_msg(f"base: {base} file: {file}")
+    original_base, file = os.path.split(path)
+    logger.d_msg(f"base: {original_base} file: {file}")
     try:
         regexp = re.compile(file)
         logger.d_msg(f"Successfully compiled as a regular expression")
         all_files = []
-        if os.path.exists(base):
+        if os.path.exists(original_base):
             if recursive_mode:
-                all_files += Path(base).rglob("*")  # Get all files in all subdirectories
+                all_files += Path(original_base).rglob("*")  # Get all files in all subdirectories
             else:
-                all_files = [f for f in listdir(base) if os.path.isfile(os.path.join(base, f))]
+                all_files = [f for f in listdir(original_base) if os.path.isfile(os.path.join(original_base, f))]
 
             matched_files = []
             for file in all_files:
                 base, name = os.path.split(file)
                 if regexp.match(name):
-                    matched_files.append(file)
+                    matched_files.append(os.path.join(original_base, file))
 
             return matched_files
 
@@ -162,11 +162,21 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
     except re.error:
         # Try checking for just wildcard operators
         logger.d_msg("Checking for wildcard operators")
-        file.replace(".", r"\.")
-        file.replace("*", ".*")
+        file = file.replace(".", r"\.")
+        file = file.replace("*", ".*")
         try:
             regexp = re.compile(file)
-            # TODO
+            logger.d_msg("Successfully compiled as a regular expression")
+            if os.path.exists(original_base):
+                all_files = [f for f in listdir(original_base) if os.path.isfile(os.path.join(original_base, f))]
+                matched_files = []
+                for file in all_files:
+                    base, name = os.path.split(file)
+                    if regexp.match(name):
+                        matched_files.append(os.path.join(original_base, file))
+
+                return matched_files
+
         except re.error:
             pass
 
@@ -368,6 +378,9 @@ class Data:
 
     def show_klee_files(self, names):
         """Display all files that are formatted to be converted to .bc files."""
+        if names[0] == "*":
+            names = list(self.klee_formatted_files.keys())
+
         for klee_file_name in names:
             if klee_file_name in self.klee_formatted_files:
                 self.logger.i_msg("KLEE FORMATTED FILES:")
@@ -375,6 +388,9 @@ class Data:
 
     def show_klee_bc(self, names):
         """Display .bc files currently stored in the REPL."""
+        if names[0] == "*":
+            names = list(self.bc_files.keys())
+
         for klee_bc_name in names:
             if klee_bc_name in self.bc_files:
                 self.logger.i_msg("BC FILES:")
@@ -382,6 +398,9 @@ class Data:
 
     def show_klee_stats(self, names):
         """Display statistics obtained from executing KLEE."""
+        if names[0] == "*":
+            names = list(self.klee_stats.keys())
+
         for klee_stats_name in names:
             if klee_stats_name in self.klee_stats:
                 self.logger.i_msg("KLEE STATS:")
@@ -487,6 +506,7 @@ class Command:
         # Make sure files are valid (if using recursive mode
         #  this is done automatically in the previous step).
         for file in all_files:
+            self.logger.d_msg(f"Looking at file {file}")
             filepath, file_extension = os.path.splitext(file)
             if file_extension not in self.controller.get_graph_generator_names():
                 if file_extension == "":

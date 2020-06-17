@@ -1,6 +1,6 @@
 """This module manages the temporary directories used in the generation of CFGs."""
 import subprocess
-from os.path import join, splitext
+from os.path import join, splitext, isfile
 
 
 class Env:
@@ -19,15 +19,20 @@ class Env:
     @staticmethod
     def clean_temps() -> None:
         """Remove temp files and directories."""
-        _ = subprocess.Popen(["rm", "-rf", Env.TMP_PATH])
-        _ = subprocess.Popen(["rm", "-rf", Env.TMP_DOT_PATH])
+        proc_one = subprocess.Popen(["rm", "-rf", Env.TMP_PATH])
+        proc_two = subprocess.Popen(["rm", "-rf", Env.TMP_DOT_PATH])
+        proc_two.wait()
+        proc_one.wait()
         Env.make_temp()
 
     @staticmethod
     def make_temp() -> None:
         """Create the temporary dir."""
-        subprocess.check_call(["mkdir", "-p", Env.TMP_PATH])
-        subprocess.check_call(["mkdir", "-p", Env.TMP_DOT_PATH])
+        try:
+            subprocess.check_call(["mkdir", "-p", Env.TMP_PATH])
+            subprocess.check_call(["mkdir", "-p", Env.TMP_DOT_PATH])
+        except subprocess.CalledProcessError as e:
+            print("Error in creating TMP folders.")
 
     @staticmethod
     def get_output_path(name):
