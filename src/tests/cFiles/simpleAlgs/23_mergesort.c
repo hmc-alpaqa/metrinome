@@ -1,7 +1,9 @@
 #include <stdio.h>
 
+#define MAXTEMPSIZE 100
+
 void mergesort(int arr[], int n) {
-  int temp[n];
+  int temp[MAXTEMPSIZE];
   int size;
   int l1, l2, h1, h2, k, i, j;
   for (size = 1; size < n; size = size * 2) {

@@ -1,8 +1,10 @@
 #include <stdio.h>
 
+#define MAXSIZE 100
+
 int editDistArraysDP(int a[], int b[], int m, int n) {
   // Create a table to store results of subproblems
-  int dp[m + 1][n + 1];
+  int dp[MAXSIZE + 1][MAXSIZE + 1];
   // int u = 0, v = 0, w = 0;
 
   // Fill d[][] in bottom up manner
