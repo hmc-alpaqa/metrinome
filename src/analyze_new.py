@@ -167,10 +167,10 @@ if __name__ == "__main__":
     '23_mergesort', '03_sign', '15_check_heap_order', '04_prime', '16_binary_search', '25_heapsort', '05_parity',
     '17_edit_dist', '06_palindrome',
     '30_euclid_GCD', '10_find_val_in_array', '19_longest_common_increasing_subsequence',
-    '31_sieve_of_eratosthenes', '11_array_max', '20_bubblesort', '32_newtons_method', '12_check_sorted_array', '21_insertionsort',
-    '50_check_sorted_or_reverse', '51_variance']
+    '31_sieve_of_eratosthenes', '11_array_max', '20_bubblesort', '32_newtons_method', '12_check_sorted_array', '21_insertionsort', '51_variance']
     # functions = ['01_greatestof3']
     for f in functions:
+        print(f)
         data = pd.read_csv(f"/app/code/tests/cFiles/simpleAlgs/frames/{f}.csv")
         times = [float(i.split()[2]) for i in data.iloc[:,0]]
         data_field = data[field]
@@ -231,8 +231,8 @@ if __name__ == "__main__":
 
         predictedleft = func_to_optimize(left, *p)
         predictedright = func_to_optimize(right, *p)
-        leftl2 = np.sqrt(np.sum((leftY-predictedleft)**2))
-        rightl2 = np.sqrt(np.sum((rightY-predictedright)**2))
+        leftl2 = np.sqrt(np.sum((leftY-predictedleft)**2))/len(predictedleft)
+        rightl2 = np.sqrt(np.sum((rightY-predictedright)**2))/len(predictedright)
 
         if leftl2 != 0:
             leftdiff = np.abs(leftY-predictedleft)/leftl2
