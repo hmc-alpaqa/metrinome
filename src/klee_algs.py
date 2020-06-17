@@ -181,13 +181,14 @@ def main():
     # '01_greatestof3', '13_check_arrays_equal', '22_selectionsort', '02_fib', '14_lexicographic_array_compare', '23_mergesort', '03_sign', '15_check_heap_order', '24_quicksort',
 #'04_prime', '16_binary_search', '25_heapsort', '05_parity', '17_edit_dist', '26_quicksort', '06_palindrome', '18_longest_common_subsequence',
 #    functions = ['30_euclid_GCD', '10_find_val_in_array', '19_longest_common_increasing_subsequence', '31_sieve_of_eratosthenes', '11_array_max', '20_bubblesort', '32_newtons_method', '12_check_sorted_array', '21_insertionsort']
-    functions = ['26_quicksort', '17_edit_dist', '23_mergesort', '18_longest_common_subsequence']
+# '26_quicksort', '17_edit_dist', '23_mergesort',
+    functions = ['18_longest_common_subsequence']
     subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/frames/", shell=True)
     for func in functions:
         log = Log()
         kleeu = KleeUtils(log)
         filename = f"/app/code/tests/cFiles/simpleAlgs/{func}.c"
-        output = kleeu.show_func_defs(filename, size=100)
+        output = kleeu.show_func_defs(filename, size=10)
 
         for i in output:
             new_name = f"/app/code/tests/cFiles/simpleAlgs/{func}_{i}.c"

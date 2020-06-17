@@ -13,3 +13,4 @@ src/.mypy_cache/
 /src/tests/cFiles/simpleAlgs/frames
 /src/tests/cFiles/simpleAlgs/graphs
 /src/tests/cFiles/simpleAlgs/graphspandas
+/src/tests/cFiles/simpleAlgs/autobpgraphs

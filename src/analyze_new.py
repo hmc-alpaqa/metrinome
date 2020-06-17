@@ -234,16 +234,20 @@ if __name__ == "__main__":
         leftl2 = np.sqrt(np.sum((leftY-predictedleft)**2))
         rightl2 = np.sqrt(np.sum((rightY-predictedright)**2))
 
-        leftdiff = np.abs(leftY-predictedleft)/leftl2
-        rightdiff = np.abs(rightY-predictedright)/rightl2
+        if leftl2 != 0:
+            leftdiff = np.abs(leftY-predictedleft)/leftl2
+        else:
+            leftdiff = np.ones_like(leftY)
+        if rightl2 != 0:
+            rightdiff = np.abs(rightY-predictedright)/rightl2
+        else:
+            rightdiff = np.ones_like(rightY)
         leftcentral = leftdiff<2
         rightcentral = rightdiff<2
 
 
         Xtofit = X[np.concatenate([leftdiff<2, rightdiff<2])]
         Ytofit = Y[np.concatenate([leftdiff<2, rightdiff<2])]
-        print(Xtofit)
-        print(Ytofit)
 
         p, e = optimize.curve_fit(func_to_optimize, Xtofit, Ytofit, p0=params, maxfev=5000)
         plt.plot(X, Y, "o")

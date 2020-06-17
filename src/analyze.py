@@ -111,8 +111,10 @@ def quadratic_function(x, a, b, c):
 # breakpoints = {'22_selectionsort':20, '16_binary_search':20, '25_heapsort':12  }
 # functions = ['30_euclid_GCD', '11_array_max', '20_bubblesort', '21_insertionsort']
 # breakpoints = {'30_euclid_GCD':18, '11_array_max':20, '20_bubblesort':19, '21_insertionsort':20}
-functions = ['50_check_sorted_or_reverse']
-breakpoints = {'50_check_sorted_or_reverse':100}
+# functions = ['50_check_sorted_or_reverse']
+# breakpoints = {'50_check_sorted_or_reverse':100}
+functions = ['26_quicksort', '17_edit_dist', '23_mergesort']
+breakpoints = {'26_quicksort':13, '17_edit_dist':14, '23_mergesort':14}
 fields = ["ICov(%)",'BCov(%)',"CompletedPaths","GeneratedTests", "RealTime", "UserTime", "SysTime", "PythonTime"]
 
 def generate_graphs(func, field):
@@ -161,14 +163,14 @@ if __name__ == "__main__":
         data = pd.read_csv(f"/app/code/tests/cFiles/simpleAlgs/frames/{f}.csv")
         times = [time for time in [float(i.split()[2]) for i in data.iloc[:,0]] if time <= breakpoint]
         data_field = data[field][0:len(times)]
-        a, b = curve_fit(quadratic_function, times, data_field)
+        a, b = curve_fit(exp_function, times, data_field)
         ax1.plot(times, data_field, "+g", label="original")
-        ax1.plot(times, [quadratic_function(t, *a) for t in times], label="regression")
+        ax1.plot(times, [exp_function(t, *a) for t in times], label="regression")
         ax1.set(xlabel='depth', ylabel=field, title=f)
         ax1.legend()
         ax1.grid()
         fig1.savefig(f"/app/code/tests/cFiles/simpleAlgs/graphspandas/{field}_{f}.png".replace("%","percent"))
         plt.close(fig1)
         print(f)
-        # print(f"{a[0]} * e^{a[1]}x + {a[2]}")
-        print(f"{a[0]}x^2+{a[1]}x+{a[2]}")
+        print(f"{a[0]} * e^{a[1]}x + {a[2]}")
+        # print(f"{a[0]}x^2+{a[1]}x+{a[2]}")
