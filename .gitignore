@@ -10,3 +10,6 @@ src/.mypy_cache/
 /src/tests/cFiles/cppConverterTemps/*
 /src/tmp/
 /src/tmp_dot/
+/src/tests/cFiles/simpleAlgs/frames
+/src/tests/cFiles/simpleAlgs/graphs
+/src/tests/cFiles/simpleAlgs/graphspandas
