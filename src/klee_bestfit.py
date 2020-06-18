@@ -134,3 +134,27 @@ for func in functions:
         results = generate_results(preferences, max_depths, inputs, f"{func}_{i}")
         for field in fields:
             graph_stat_regr(func, preferences[0],max_depths, inputs, results, field)
+
+
+    # for f in functions:
+    #     for field in fields:
+    #         generate_graphs(f, field)
+    # for f in functions:
+    #     for sz in array_sizes:
+    #         for field in fields:
+    #             temp_func = f+str(sz)
+    #             fig1, ax1 = plt.subplots()
+    #             data = pd.read_csv(f"/app/code/tests/cFiles/simpleAlgs/frames/{temp_func}.csv")
+    #             times = [float(i.split()[2]) for i in data.iloc[:,0]]
+    #             init_bps = [3]
+    #             ax1.plot(times, data[field], label = "OG")
+    #             ax1.plot(*SegmentedLinearReg(times, data[field], init_bps), '-r', label="REGRESSION")
+    #             ax1.set(xlabel='depth', ylabel=field, title=temp_func)
+    #             ax1.legend()
+    #             ax1.grid()
+    #             fig1.savefig(f"/app/code/tests/cFiles/simpleAlgs/graphspandas/{field}_{temp_func}.png".replace("%","percent"))
+    #             plt.close(fig1)
+    # bp = [3, 7]
+    # X = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    # Y = [0, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 4, 3, 2, 1]
+    # print(SegmentedLinearReg(X, Y, bp, 2))
