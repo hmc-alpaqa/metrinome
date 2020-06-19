@@ -150,7 +150,8 @@ def main():
                  '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
                  '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
                  '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
-                 '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break', '63_three_loops_symbolic_bounds' ]
+                 '60_array_summary', '61_pos_vel_acc',
+                 '62_three_loops_w_break', '63_three_loops_symbolic_bounds']
 
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/", shell=True)
     for func in functions:

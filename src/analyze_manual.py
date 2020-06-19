@@ -13,16 +13,14 @@ def exp_function(x_val, coef1, coef2, const_term):
     return coef1 * np.exp(coef2 * x_val) + const_term
 
 
-
 def cubic_function(x_val, coef1, coef2, coef3, const_term):
     """General cubic function with 4 parameters."""
-    return coef1*(x_val**3) + coef2*(x_val**2) + coef3*x_val + const_term
+    return coef1 * (x_val**3) + coef2 * (x_val**2) + coef3 * x_val + const_term
 
 
 def quadratic_function(x_val, coef1, coef2, const_term):
     """General quadratic function with 3 parameters."""
     return coef1 * (x_val**2) + coef2 * (x_val) + const_term
-
 
 
 def main():
@@ -45,7 +43,8 @@ def main():
     #              '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
     #              '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
     #              '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
-    #              '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break', '63_three_loops_symbolic_bounds' ]
+    #              '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
+    #              '63_three_loops_symbolic_bounds' ]
 
     for func in functions:
         breakpoint_ = breakpoints[func]

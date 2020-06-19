@@ -28,9 +28,6 @@ def rampdeg(val, degree):
     return val ** degree if (val > 0) else 0
 
 
-
-
-
 def piecewise_eval(x_val, params, degree_one, degree_two, break_point):
     """Evaluates a piecewise polynomial at a point."""
     num_params = degree_one if degree_one is not None else 3
@@ -61,7 +58,8 @@ def fit(data_x, data_y, degree_one, degree_two):
     min_loss = float('inf')
     best_bp = -1
     for i in data_x:
-        fit_func = partial(piecewise_eval, degree_one=degree_one, degree_two=degree_two, break_point=i)
+        fit_func = partial(
+            piecewise_eval, degree_one=degree_one, degree_two=degree_two, break_point=i)
 
         # Create a function that takes as make arguments as we have parameters, as well as the
         # independent variable and the breakpoint value.
@@ -75,7 +73,8 @@ def fit(data_x, data_y, degree_one, degree_two):
             min_loss = l2_loss
 
     # Perform the fit.
-    fit_func = partial(piecewise_eval, degree_one=degree_one, degree_two=degree_two, break_point=best_bp)
+    fit_func = partial(
+        piecewise_eval, degree_one=degree_one, degree_two=degree_two, break_point=best_bp)
     # Create a function that takes as make arguments as we have parameters, as well as the
     # independent variable and the breakpoint value.
 
@@ -89,10 +88,11 @@ def fit(data_x, data_y, degree_one, degree_two):
 
 def main():
     """
-    Runs regression on each function and tried to automatically find the
-    breakpoints that minimize the loss.
+    Runs regression on each function and tried to automatically
+    find the breakpoints that minimize the loss.
     """
-    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/autobpgraphs/", shell=True, check=False)
+    subprocess.run(
+        "mkdir /app/code/tests/cFiles/fse_2020_benchmark/autobpgraphs/", shell=True, check=False)
     field = "CompletedPaths"
     functions = ['01_greatestof3', '13_check_arrays_equal', '22_selectionsort', '02_fib',
                  '14_lexicographic_array_compare', '23_mergesort', '03_sign',
@@ -137,7 +137,8 @@ def main():
             degree_two = None
             best_bp = best_bp3
 
-        fit_func = partial(piecewise_eval, degree_one=degree_one, degree_two=degree_two, break_point=best_bp)
+        fit_func = partial(
+            piecewise_eval, degree_one=degree_one, degree_two=degree_two, break_point=best_bp)
         # Create a function that takes as make arguments as we have parameters, as well as the
         # independent variable and the breakpoint value.
         num_params = degree_one if degree_one is not None else 3
