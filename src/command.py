@@ -146,7 +146,7 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
         if os.path.exists(original_base):
             if recursive_mode:
                 # Get all files in all subdirectories.
-                all_files += Path(original_base).rglob("*")  
+                all_files += Path(original_base).rglob("*")
             else:
                 all_files = [f for f in listdir(original_base) if
                              os.path.isfile(os.path.join(original_base, f))]
@@ -979,22 +979,3 @@ class Command:
                 self.logger.v_msg(f"No {name} found of any type.")
         else:
             self.logger.v_msg(f"Type {type} not recognized.")
-
-    # @test_decorator_factory(1, "Must provide metric name")
-    # def do_analyze(self, metric_name: str) -> None:
-    #     """
-    #     Analyze some set of metrics we have already computed.
-
-    #     This is currently not implemented, but will likely involve computing some aggregate
-    #     statistics.
-    #     """
-    #     if metric_name in self.data.metrics.keys():
-    #         metric_names = [metric_name]
-    #     elif metric_name == "*":
-    #         metric_names = list(self.data.metrics.keys())
-    #     else:
-    #         self.logger.v_msg(f"Could not find metric {metric_name}")
-    #         return
-
-    #     for metric_name in metric_names:
-    #         _ = self.data.metrics[metric_name]
