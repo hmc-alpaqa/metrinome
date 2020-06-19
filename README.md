@@ -57,7 +57,11 @@ The first important component is the src/lang_to_cfg folder. This contains all o
 
 # Experiments and Data
 
-The C source code for the algorithms used in the KLEE correlational study can be found in `src/tests/cFiles/simpleAlgs/`. The modification of this code to make it compatible with KLEE (by marking variables as symbolic) can be found in `src/tests/cFiles/simpleAlgs/kleeFiles/`. 
+The C source code for the algorithms used in the KLEE correlational study can be found in `src/tests/cFiles/fse_2020_benchmark/`. Modifications to the code to make it compatible with KLEE (by marking variables as symbolic) and the compiled bytecode files can be found in `src/tests/cFiles/fse_2020_benchmark/kleefiles/`.
+The script to run the experiment can be found at `src/klee_algs.py`. When inside the docker image, running the script will run Klee on each of the functions in the `functions` list and record the data for each of the fields in `fields` into a pandas dataframe. It will write the dataframe to a csv in `src/tests/cFiles/fse_2020_benchmark/frames` and create matplotlib plots for each field in `src/tests/cFiles/fse_2020_benchmark/graphs`. The data and graphs for the algorithms in the study is already in those locations.
+
+Given 
+
 
 # Useful REPL Features
 
