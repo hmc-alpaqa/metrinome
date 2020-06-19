@@ -136,7 +136,7 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
         return [f for f in listdir(path) if os.path.isfile(os.path.join(path, f))]
 
     logger.d_msg("Checking if it's a regular expression")
-    # Check if it's a regular expression (only allowed at the END of the filename)
+    # Check if it's a regular expression (only allowed at the END of the filename).
     original_base, file = os.path.split(path)
     logger.d_msg(f"base: {original_base} file: {file}")
     try:
@@ -145,13 +145,15 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
         all_files = []
         if os.path.exists(original_base):
             if recursive_mode:
-                all_files += Path(original_base).rglob("*")  # Get all files in all subdirectories
+                # Get all files in all subdirectories.
+                all_files += Path(original_base).rglob("*")  
             else:
-                all_files = [f for f in listdir(original_base) if os.path.isfile(os.path.join(original_base, f))]
+                all_files = [f for f in listdir(original_base) if
+                             os.path.isfile(os.path.join(original_base, f))]
 
             matched_files = []
             for file in all_files:
-                base, name = os.path.split(file)
+                name = os.path.split(file)[1]
                 if regexp.match(name):
                     matched_files.append(os.path.join(original_base, file))
 
@@ -160,7 +162,7 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
         return []
 
     except re.error:
-        # Try checking for just wildcard operators
+        # Try checking for just wildcard operators.
         logger.d_msg("Checking for wildcard operators")
         file = file.replace(".", r"\.")
         file = file.replace("*", ".*")
@@ -168,10 +170,11 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
             regexp = re.compile(file)
             logger.d_msg("Successfully compiled as a regular expression")
             if os.path.exists(original_base):
-                all_files = [f for f in listdir(original_base) if os.path.isfile(os.path.join(original_base, f))]
+                all_files = [f for f in listdir(original_base) if
+                             os.path.isfile(os.path.join(original_base, f))]
                 matched_files = []
                 for file in all_files:
-                    base, name = os.path.split(file)
+                    name = os.path.split(file)[1]
                     if regexp.match(name):
                         matched_files.append(os.path.join(original_base, file))
 
