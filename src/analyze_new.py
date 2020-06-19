@@ -1,4 +1,4 @@
-"""."""
+fse_2020_benchmark"""."""
 import subprocess
 from functools import partial
 from typing import Optional
@@ -104,7 +104,7 @@ def segmented_linear_reg(data_x, data_y, breakpoints, degree):
 
 def generate_graphs(func, field):
     """."""
-    root_dir = "/app/code/tests/cFiles/simpleAlgs"
+    root_dir = "/app/code/tests/cFiles/fse_2020_benchmark"
     subprocess.run(f"mkdir {root_dir}/graphspandas/", shell=True, check=False)
     fig1, ax1 = plt.subplots()
     data = pd.read_csv(f"{root_dir}/frames/{func}.csv")
@@ -175,7 +175,7 @@ def fit(data_x, data_y, degree_one, degree_two):
 
 def main():
     """."""
-    subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/autobpgraphs/", shell=True, check=False)
+    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/autobpgraphs/", shell=True, check=False)
     field = "CompletedPaths"
     functions = ['01_greatestof3', '13_check_arrays_equal', '22_selectionsort', '02_fib',
                  '14_lexicographic_array_compare', '23_mergesort', '03_sign',
@@ -186,7 +186,7 @@ def main():
                  '21_insertionsort', '51_variance']
     for func in functions:
         print(func)
-        data = pd.read_csv(f"/app/code/tests/cFiles/simpleAlgs/frames/{func}.csv")
+        data = pd.read_csv(f"/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}.csv")
         times = [float(i.split()[2]) for i in data.iloc[:, 0]]
         data_field = data[field]
         data_x = np.array(times)
@@ -278,7 +278,7 @@ def main():
         plt.plot(xd2, func_to_optimize(xd2, *fit_res), "b")
         plt.legend(["it's a graph", f"Line 1: {fit_res[0: num_params + 1]}",
                     f"Line 2: {fit_res[num_params + 1:]}"])
-        root_dir = "/app/code/tests/cFiles/simpleAlgs"
+        root_dir = "/app/code/tests/cFiles/fse_2020_benchmark"
         plt.savefig(f"{root_dir}/autobpgraphs/{field}_{func}".replace("%", "percent"))
         plt.close()
 

@@ -25,7 +25,7 @@ def quadratic_function(x_val, coef1, coef2, const_term):
 
 def generate_graphs(func, field):
     """."""
-    root_dir = f"/app/code/tests/cFiles/simpleAlgs"
+    root_dir = f"/app/code/tests/cFiles/fse_2020_benchmark"
     subprocess.run(f"mkdir {root_dir}/graphspandas/", shell=True, check=False)
     fig1, ax1 = plt.subplots()
     data = pd.read_csv(f"{root_dir}/frames/{func}.csv")
@@ -61,10 +61,10 @@ def main():
         field = "CompletedPaths"
         breakpoint_ = breakpoints[func]
         function_type = func_types[func]
-        subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/graphspandas/",
+        subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphspandas/",
                        shell=True, check=False)
         fig1, ax1 = plt.subplots()
-        data = pd.read_csv(f"/app/code/tests/cFiles/simpleAlgs/frames/{func}.csv")
+        data = pd.read_csv(f"/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}.csv")
         times = [time for time in [float(i.split()[2])
                                    for i in data.iloc[:, 0]] if time <= breakpoint_]
         data_field = data[field][0:len(times)]
@@ -80,7 +80,7 @@ def main():
         ax1.set(xlabel='depth', ylabel=field, title=func)
         ax1.legend()
         ax1.grid()
-        root_dir = "/app/code/tests/cFiles/simpleAlgs"
+        root_dir = "/app/code/tests/cFiles/fse_2020_benchmark"
         fig1.savefig(f"{root_dir}/graphspandas/{field}_{func}.png".replace("%", "percent"))
         plt.close(fig1)
 

@@ -130,7 +130,7 @@ def klee_compare(file_name, preferences, depths, inputs, function, remove=True):
     for preference in preferences:
         for depth in depths:
             for input in inputs:
-                algs_path = "/app/code/tests/cFiles/simpleAlgs/klee"
+                algs_path = "/app/code/tests/cFiles/fse_2020_benchmark/klee"
                 output_file = f"{algs_path}_{preference}_{depth}_{input}_{function}_output"
                 output_file = output_file.replace(" ", "_")
                 results = klee_with_preferences(file_name, output_file, preference, depth, input)
@@ -156,7 +156,7 @@ def klee_compare(file_name, preferences, depths, inputs, function, remove=True):
 
 def graph_stat(func, preference, max_depths, inputs, results, field):
     """."""
-    subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/graphs/", shell=True)
+    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/", shell=True)
     fig1, ax1 = plt.subplots()
     depths = [float(i) for i in max_depths]
     for input_ in inputs:
@@ -166,7 +166,7 @@ def graph_stat(func, preference, max_depths, inputs, results, field):
     ax1.legend()
     ax1.grid()
 
-    algs_path = "/app/code/tests/cFiles/simpleAlgs"
+    algs_path = "/app/code/tests/cFiles/fse_2020_benchmark"
     fig1.savefig(f"{algs_path}/graphs/{field}_{func}.png".replace("%", "percent"))
     plt.close(fig1)
 
@@ -200,16 +200,16 @@ def main():
                  '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
                  '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break', '63_three_loops_symbolic_bounds' ]
 
-    subprocess.run("mkdir /app/code/tests/cFiles/simpleAlgs/frames/", shell=True)
+    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/", shell=True)
     for func in functions:
         log = Log()
         kleeu = KleeUtils(log)
-        filename = f"/app/code/tests/cFiles/simpleAlgs/{func}.c"
+        filename = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}.c"
         output = kleeu.show_func_defs(filename, size=array_size)
 
         for i in output:
-            new_name = f"/app/code/tests/cFiles/simpleAlgs/{func}_{i}.c"
-            bcname = f"/app/code/tests/cFiles/simpleAlgs/{func}_{i}.bc"
+            new_name = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.c"
+            bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.bc"
             with open(new_name, "w+") as file:
                 file.write(output[i])
             cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
@@ -217,7 +217,7 @@ def main():
             res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
             results = klee_compare(bcname, preferences, max_depths, inputs, f"{func}_{i}")
             results_frame = create_pandas(results, preferences[0], inputs[0], max_depths, fields)
-            results_frame.to_csv(f'/app/code/tests/cFiles/simpleAlgs/frames/{func}.csv')
+            results_frame.to_csv(f'/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}.csv')
             for field in fields:
                 graph_stat(func, preferences[0], max_depths, inputs, results, field)
 
