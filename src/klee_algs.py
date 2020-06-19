@@ -1,4 +1,4 @@
-"""."""
+"""Script for running Klee on a series of functions and saving data."""
 # pylint: skip-file
 import subprocess
 import time
@@ -15,70 +15,17 @@ plt.rcParams["figure.figsize"] = (10, 10)
 
 
 def poly(input, coef, deg):
-    """."""
+    """Apply a polynomial to an iterable."""
     return [sum([k * (i**j) for j, k in zip(list(range(deg + 1))[::-1], coef)]) for i in input]
 
 
 def exp_function(x, a, b, c):
-    """."""
+    """General exponential function with 3 parameters."""
     return a * np.exp(-b * x) + c
 
 
-def ramp(u):
-    """."""
-    return np.maximum(u, 0)
-
-
-def step(u):
-    """."""
-    return (u > 0).astype(float)
-
-
-def SegmentedLinearReg(X, Y, breakpoints):
-    """."""
-    nIterationMax = 50
-
-    breakpoints = np.sort(np.array(breakpoints))
-
-    dt = np.min(np.diff(X))
-    ones = np.ones_like(X)
-
-    for i in range(nIterationMax):
-        # Linear regression:  solve A*p = Y
-        Rk = [ramp(X - xk) for xk in breakpoints]
-        Sk = [step(X - xk) for xk in breakpoints]
-        A = np.array([ones, X] + Rk + Sk)
-        print(A)
-        p = lstsq(A.transpose(), Y, rcond=None)[0]
-
-        # Parameters identification:
-        a, b = p[0: 2]
-        ck = p[2: 2 + len(breakpoints)]
-        dk = p[2 + len(breakpoints):]
-
-        # Estimation of the next break-points:
-        newBreakpoints = breakpoints - dk / ck
-
-        # Stop condition
-        if np.max(np.abs(newBreakpoints - breakpoints)) < dt / 5:
-            break
-
-        breakpoints = newBreakpoints
-    else:
-        print('maximum iteration reached')
-
-    # Compute the final segmented fit:
-    Xsolution = np.insert(np.append(breakpoints, max(X)), 0, min(X))
-    ones = np.ones_like(Xsolution)
-    Rk = [c * ramp(Xsolution - x0) for x0, c in zip(breakpoints, ck)]
-
-    Ysolution = a * ones + b * Xsolution + np.sum(Rk, axis=0)
-
-    return Xsolution, Ysolution
-
-
 def parse_klee(klee_output):
-    """."""
+    """Parse output from running Klee."""
     string_one = "generated tests = "
     string_two = "completed paths = "
     string_three = "total instructions = "
@@ -107,7 +54,7 @@ def parse_klee(klee_output):
 
 
 def klee_with_preferences(file_name, output_name, preferences, max_depth, input_):
-    """."""
+    """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+") as file:
         klee_path = "/app/build/bin/klee"
         timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
@@ -124,7 +71,10 @@ def klee_with_preferences(file_name, output_name, preferences, max_depth, input_
 
 
 def klee_compare(file_name, preferences, depths, inputs, function, remove=True):
-    """."""
+    """
+    Run a Klee experiment on a certain function, and return the results
+    as a dictionary of dictionaries.
+    """
     klee_path = "/app/build/bin/klee"
     results_dict = {}
     for preference in preferences:
@@ -155,7 +105,7 @@ def klee_compare(file_name, preferences, depths, inputs, function, remove=True):
 
 
 def graph_stat(func, preference, max_depths, inputs, results, field):
-    """."""
+    """Create and save a graph for a certain statistic on a Klee experiment."""
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/", shell=True)
     fig1, ax1 = plt.subplots()
     depths = [float(i) for i in max_depths]
@@ -172,7 +122,7 @@ def graph_stat(func, preference, max_depths, inputs, results, field):
 
 
 def create_pandas(results, preference, input, max_depths, fields):
-    """."""
+    """Create a pandas dataframe from the results of a Klee experiment."""
     index = [f'max depth {i}' for i in max_depths]
     columns = fields
     data = [[results[(preference, depth, input)][field] for field in fields]
@@ -181,7 +131,10 @@ def create_pandas(results, preference, input, max_depths, fields):
 
 
 def main():
-    """."""
+    """
+    Runs a Klee experiment. For each function, runs Klee once with each maximum depth,
+    saves the data as a csv, and creates a graph for each field.
+    """
     preferences = ["--dump-states-on-halt=false --max-time=5min"]
     max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
                   '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
