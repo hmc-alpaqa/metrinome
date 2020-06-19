@@ -116,6 +116,7 @@ def get_taylor_coeffs(func, num_coeffs: int):
     series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')[::-1]
     first_element = series_list[0]
     first_power = re.search(r"\*\*([0-9]*)", str(first_element))
+
     if first_power is not None:
         taylor_coeffs = [sympify(f).subs(t_var, 1) for f in series_list]
         return taylor_coeffs

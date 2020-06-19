@@ -20,26 +20,22 @@ tests:
 test:   formatting lint tests
 
 build: 
-	docker build --tag gbessler/pathrepl:latest -f ../Dockerfile ../
+	docker build --tag harveymudd/metrinome:latest -f ../Dockerfile ../
 
 run:
-	docker run -it -v ${shell pwd}:/app/code gbessler/pathrepl:latest /bin/zsh
+	docker run -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
 
 run-detached:
-	docker run --name detached_repl -d -t -v $(shell pwd):/app/code gbessler/pathrepl:latest
-
+	docker run --name detached_repl -d -t -v $(shell pwd):/app/code harveymudd/metrinome:latest
 
 # Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command.
 formatting:
 	# Remove trailing whitespace.
 	find . -type f -name "*.py" | xargs sed -i '' -e "s/[[:space:]]*$$//g"
-	# Replace tabs with spaces
+	# Replace tabs with spaces.
 	find . -type f -name "*.py" | xargs sed -i '' -e "s/	/    /g"
 	# Replace ''' with """.
 	find . -type f -name "*.py" | xargs sed -i '' -e 's/'"'''"'/"""/g'
 
-clean:
-	# pass
-
-.PHONY: lint tests clean formatting test build run
+.PHONY: lint tests formatting test build run
 	

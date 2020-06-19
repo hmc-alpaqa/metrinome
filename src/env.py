@@ -1,6 +1,6 @@
 """This module manages the temporary directories used in the generation of CFGs."""
 import subprocess
-from os.path import join, splitext, isfile
+from os.path import join, splitext
 
 
 class Env:
@@ -31,8 +31,9 @@ class Env:
         try:
             subprocess.check_call(["mkdir", "-p", Env.TMP_PATH])
             subprocess.check_call(["mkdir", "-p", Env.TMP_DOT_PATH])
-        except subprocess.CalledProcessError as e:
+        except subprocess.CalledProcessError as err:
             print("Error in creating TMP folders.")
+            print(err)
 
     @staticmethod
     def get_output_path(name):

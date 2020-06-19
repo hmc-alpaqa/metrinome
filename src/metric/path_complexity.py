@@ -44,19 +44,18 @@ class PathComplexity(metric.MetricAbstract):
         self.logger.d_msg(f"Matrix shape: {x_mat.shape}")
 
         x_det = x_mat.det()
-
         denominator = Poly(sympify(-x_det))
-
         generating_function = x_sub.det(method="det_LU") / denominator
-
-        recurrence_degree = degree(denominator, gen=t_var) + 1
 
         recurrence_kernel = denominator.all_coeffs()[::-1]
         test = [round(-x, 2) for x in recurrence_kernel]
         roots = polyroots(test, maxsteps=250, extraprec=250)
+        self.logger.d_msg(f"Getting {2 * dimension + 1} many coeffs.")
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
 
-        return taylor_coeffs, dimension, recurrence_degree, roots
+        self.logger.d_msg(f"Got taylor coeffs: {taylor_coeffs}, len: {len(taylor_coeffs)}")
+
+        return taylor_coeffs, dimension, degree(denominator, gen=t_var), roots
 
     # pylint: disable=too-many-locals
     def evaluate(self, graph: Graph) -> Any:
@@ -69,22 +68,30 @@ class PathComplexity(metric.MetricAbstract):
         if taylor_coeffs is None:
             return (0.0, 0.0)
 
-        base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree - 1],
+        base_cases = np.matrix(taylor_coeffs[1: recurrence_degree + 1],
                                dtype='complex')
         n_var = symbols('n')
 
         # Solve the recurrence relation.
         factors = get_solution_from_roots(roots)
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
-                            for nval in range(1, len(factors) + 1)], dtype='complex')
+                            for nval in range(2 * recurrence_degree, recurrence_degree, -1)],
+                           dtype='complex')
         base_cases = base_cases.transpose()
         self.logger.d_msg(f"Got the base cases.")
+
+        self.logger.d_msg(f"Matrix: {matrix.shape}")
+        self.logger.d_msg(f"Base Cases: {base_cases.shape}")
+        self.logger.d_msg(f"Dimension: {dimension}")
+        self.logger.d_msg(f"Recurrence Degree: {recurrence_degree}")
 
         bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
         self.logger.d_msg(f"Got the bounding solution terms.")
 
         bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(factors))
+
         expr_without_abs = bounding_solution_terms[0][0]
+        self.logger.d_msg(f"bounding_solution_terms: {expr_without_abs}")
         expr_without_abs = str(expr_without_abs)[2:-2]
         expr_without_abs = simplify(sympify(expr_without_abs))
         expr_with_abs = expr_without_abs
