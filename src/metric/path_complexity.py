@@ -75,7 +75,7 @@ class PathComplexity(metric.MetricAbstract):
         # Solve the recurrence relation.
         factors = get_solution_from_roots(roots)
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors]
-                            for nval in range(2 * recurrence_degree, recurrence_degree, -1)],
+                            for nval in range(2 * dimension, 2 * dimension - recurrence_degree, -1)],
                            dtype='complex')
         base_cases = base_cases.transpose()
         self.logger.d_msg(f"Got the base cases.")
