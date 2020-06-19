@@ -58,8 +58,13 @@ The first important component is the src/lang_to_cfg folder. This contains all o
 # Experiments and Data
 
 The C source code for the algorithms used in the KLEE correlational study can be found in `src/tests/cFiles/fse_2020_benchmark/`. Modifications to the code to make it compatible with KLEE (by marking variables as symbolic) and the compiled bytecode files can be found in `src/tests/cFiles/fse_2020_benchmark/kleefiles/`.
+
 Path complexity calculations can only be run inside the REPL. To calculate path complexity for the algorithms in `src/tests/cFiles/fse_2020_benchmark/`, run ```convert /app/code/tests/cFiles/fse_2020_benchmark/filename.c```. This will output a CFG for each function in the file. To look at a list of all generated CFGs, run ```list graphs```. Then, run ```metrics graphname``` to run path complexity on the chosen CFG. To see details on the CFG generated, run ```show graph graphname```, and the edges, nodes, total number of edges and nodes, and source and end nodes will be displayed in text format.
+
+To run Klee from inside the REPL, run ```to_klee_format /app/code/tests/cFiles/fse_2020_benchmark/filename.c``` then ```klee_to_bc filename``` to convert the file to a Klee compatible form then to compile it into bytecode. Finally, run ```klee filename (parameters)``` to actually run Klee. You can see the results with ```show klee_stat filename```.
+
 The script to run the experiment can be found at `src/klee_algs.py`. When inside the docker image, running the script will run Klee on each of the functions in the `functions` list and record the data for each of the fields in `fields` into a pandas dataframe. It will write the dataframe to a csv in `src/tests/cFiles/fse_2020_benchmark/frames` and create matplotlib plots for each field in `src/tests/cFiles/fse_2020_benchmark/graphs`. The data and graphs for the algorithms in the study is already in those locations.
+
 To analyze the data, use `src/analyze_manual.py` to find best fit functions if you have found the breakpoints and know the general functional form (exponential, quadratic, etc). To automatically find the breakpoints and functional forms, use `src/analyze_manual.py`.
 
 
