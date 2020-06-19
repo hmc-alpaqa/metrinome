@@ -188,7 +188,6 @@ def main():
                   '100']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"]
-    # inputs = ["--sym-args 0 1 10 --sym-args 0 2 2 --sym-files 1 8 --sym-stdin 8 --sym-stdout"]
     inputs = [""]
     array_size = 100
     functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',

@@ -1,4 +1,4 @@
-fse_2020_benchmark"""."""
+"""."""
 import subprocess
 from functools import partial
 from typing import Optional

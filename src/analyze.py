@@ -46,6 +46,7 @@ def main():
                    '50_check_sorted_or_reverse': 100}
     func_types = {'26_quicksort': exp_function, '17_edit_dist': exp_function,
                   '23_mergesort': exp_function, '50_check_sorted_or_reverse': quadratic_function}
+    field = "CompletedPaths"
     # fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime",
     #           "UserTime", "SysTime", "PythonTime"]
     # functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
@@ -58,7 +59,6 @@ def main():
     #              '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break', '63_three_loops_symbolic_bounds' ]
 
     for func in functions:
-        field = "CompletedPaths"
         breakpoint_ = breakpoints[func]
         function_type = func_types[func]
         subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphspandas/",
