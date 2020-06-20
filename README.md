@@ -65,7 +65,7 @@ To run Klee from inside the REPL, run ```to_klee_format /app/code/tests/cFiles/f
 
 The script to run the experiment can be found at `src/klee_algs.py`. When inside the docker image, running the script will run Klee on each of the functions in the `functions` list and record the data for each of the fields in `fields` into a pandas dataframe. It will write the dataframe to a csv in `src/tests/cFiles/fse_2020_benchmark/frames` and create matplotlib plots for each field in `src/tests/cFiles/fse_2020_benchmark/graphs`. The data and graphs for the algorithms in the study is already in those locations.
 
-To analyze the data, use `src/analyze_manual.py` to find best fit functions if you have found the breakpoints and know the general functional form (exponential, quadratic, etc). To automatically find the breakpoints and functional forms, use `src/analyze_manual.py`.
+With higher max-depths, Klee often starts timing out so the paths completed starts dropping or behaving weirdly so the data past this point is not very useful. If you manually find the "breakpoints," you can use `src/analyze_manual.py`to find best fit functions if you also can guess the general functional form (quadratic, exponential, etc). `src/analyze_manual.py` will try to automatically find the breakpoints and the best functional form to fit the data.
 
 
 # Useful REPL Features
