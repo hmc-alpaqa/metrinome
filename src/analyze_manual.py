@@ -3,7 +3,6 @@ import subprocess
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
-from numpy.linalg import lstsq  # type: ignore
 from scipy.optimize import curve_fit  # type: ignore
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -58,15 +57,16 @@ def main():
         times = [time for time in [float(i.split()[2])
                                    for i in data.iloc[:, 0]] if time <= breakpoint_]
         data_field = data[field][0:len(times)]
-        a, _ = curve_fit(function_type, times, data_field)
+        fitted_coeffs, _ = curve_fit(function_type, times, data_field)
         if function_type is quadratic_function:
-            function_text = f"{a[0]}x^2+{a[1]}x+{a[2]}"
+            function_text = f"{fitted_coeffs[0]}x^2+{fitted_coeffs[1]}x+{fitted_coeffs[2]}"
         elif function_type is exp_function:
-            function_text = f"{a[0]} * e^{a[1]}x + {a[2]}"
-        elif function_type == cubic_function:
-            function_text = f"{a[0]}x^3 + {a[1]}x^2 + {a[2]}x + {a[3]}"
+            function_text = f"{fitted_coeffs[0]} * e^{fitted_coeffs[1]}x + {fitted_coeffs[2]}"
+        elif function_type is cubic_function:
+            function_text = f"{fitted_coeffs[0]}x^3 + {fitted_coeffs[1]}x^2 + " + \
+                            f"{fitted_coeffs[2]}x + {fitted_coeffs[3]}"
         ax1.plot(times, data_field, "+g", label="original")
-        ax1.plot(times, [function_type(t, *a) for t in times], label=function_text)
+        ax1.plot(times, [function_type(t, *fitted_coeffs) for t in times], label=function_text)
         ax1.set(xlabel='depth', ylabel=field, title=func)
         ax1.legend()
         ax1.grid()

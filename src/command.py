@@ -105,6 +105,54 @@ class KnownExtensions(Enum):
     BC     = ".bc"
 
 
+def get_files_from_regex(logger, input_file, original_base, recursive_mode: bool):
+    """Try to compile a path as a regular expression and get the matching files."""
+    try:
+        regexp = re.compile(input_file)
+        logger.d_msg(f"Successfully compiled as a regular expression")
+        all_files: List[Any] = []
+        if os.path.exists(original_base):
+            if recursive_mode:
+                # Get all files in all subdirectories.
+                all_files += Path(original_base).rglob("*")
+            else:
+                all_files = [f for f in listdir(original_base) if
+                             os.path.isfile(os.path.join(original_base, f))]
+
+            matched_files = []
+            for file in all_files:
+                name = os.path.split(file)[1]
+                if regexp.match(name):
+                    matched_files.append(os.path.join(original_base, file))
+
+            return matched_files
+
+        return []
+    except re.error:
+        # Try checking for just wildcard operators.
+        logger.d_msg("Checking for wildcard operators")
+        file = file.replace(".", r"\.")
+        file = file.replace("*", ".*")
+        try:
+            regexp = re.compile(file)
+            logger.d_msg("Successfully compiled as a regular expression")
+            if os.path.exists(original_base):
+                all_files = [f for f in listdir(original_base) if
+                             os.path.isfile(os.path.join(original_base, f))]
+                matched_files = []
+                for file in all_files:
+                    name = os.path.split(file)[1]
+                    if regexp.match(name):
+                        matched_files.append(os.path.join(original_base, file))
+
+                return matched_files
+
+        except re.error:
+            pass
+
+        return []
+
+
 def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[str]):
     """
     get_files returns a list of files from the given path.
@@ -139,51 +187,8 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
     # Check if it's a regular expression (only allowed at the END of the filename).
     original_base, file = os.path.split(path)
     logger.d_msg(f"base: {original_base} file: {file}")
-    try:
-        regexp = re.compile(file)
-        logger.d_msg(f"Successfully compiled as a regular expression")
-        all_files = []
-        if os.path.exists(original_base):
-            if recursive_mode:
-                # Get all files in all subdirectories.
-                all_files += Path(original_base).rglob("*")
-            else:
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
 
-            matched_files = []
-            for file in all_files:
-                name = os.path.split(file)[1]
-                if regexp.match(name):
-                    matched_files.append(os.path.join(original_base, file))
-
-            return matched_files
-
-        return []
-
-    except re.error:
-        # Try checking for just wildcard operators.
-        logger.d_msg("Checking for wildcard operators")
-        file = file.replace(".", r"\.")
-        file = file.replace("*", ".*")
-        try:
-            regexp = re.compile(file)
-            logger.d_msg("Successfully compiled as a regular expression")
-            if os.path.exists(original_base):
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
-                matched_files = []
-                for file in all_files:
-                    name = os.path.split(file)[1]
-                    if regexp.match(name):
-                        matched_files.append(os.path.join(original_base, file))
-
-                return matched_files
-
-        except re.error:
-            pass
-
-        return []
+    return get_files_from_regex(logger, file, original_base, recursive_mode)
 
 
 class Controller:
