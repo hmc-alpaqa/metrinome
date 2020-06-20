@@ -25,7 +25,9 @@ def quadratic_function(x_val, coef1, coef2, const_term):
 
 def main():
     """
-    For each function and a given field, with a given breakpoint and a given function type,
+    Find the best fit function.
+
+    For each file and a given field, and each file having a breakpoint and a function type,
     finds the best fit parameters for the function and saves them to a graph.
     """
     functions = ['26_quicksort', '17_edit_dist', '23_mergesort', '50_check_sorted_or_reverse']

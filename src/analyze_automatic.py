@@ -1,6 +1,8 @@
 """
-Perform regression to find the best fit function
-for Klee data and automatically find the best breakpoint.
+Perform regression on Klee data.
+
+Will try to automatically find the best breakpoint
+and the best function type.
 """
 import subprocess
 from functools import partial
@@ -14,22 +16,22 @@ plt.rcParams["figure.figsize"] = (10, 10)
 
 
 def ramp(val):
-    """Returns val if it is positive, 0 otherwise"""
+    """Return val if it is positive, 0 otherwise."""
     return np.maximum(val, 0)
 
 
 def step(val):
-    """Returns 1 if val is positive, 0 otherwise"""
+    """Return 1 if val is positive, 0 otherwise."""
     return (val > 0).astype(float)
 
 
 def rampdeg(val, degree):
-    """Returns val^deg if val is positive, 0 otherwise"""
+    """Return val^deg if val is positive, 0 otherwise."""
     return val ** degree if (val > 0) else 0
 
 
 def piecewise_eval(x_val, params, degree_one, degree_two, break_point):
-    """Evaluates a piecewise polynomial at a point."""
+    """Evaluate a piecewise polynomial at a point."""
     num_params = degree_one if degree_one is not None else 3
     num_params2 = degree_two if degree_two is not None else 3
     fns = [0, 0]
@@ -88,8 +90,10 @@ def fit(data_x, data_y, degree_one, degree_two):
 
 def main():
     """
-    Runs regression on each function and tried to automatically
-    find the breakpoints that minimize the loss.
+    Run regression on each function.
+
+    Tries to automatically find the breakpoints and function types
+    that minimize the loss.
     """
     subprocess.run(
         "mkdir /app/code/tests/cFiles/fse_2020_benchmark/autobpgraphs/", shell=True, check=False)

@@ -72,8 +72,10 @@ def klee_with_preferences(file_name, output_name, preferences, max_depth, input_
 
 def klee_compare(file_name, preferences, depths, inputs, function, remove=True):
     """
-    Run a Klee experiment on a certain function, and return the results
-    as a dictionary of dictionaries.
+    Run Klee on a certain function.
+
+    Runs Klee on the function with a variety of depths and preferences,
+    and return the results as a dictionary of dictionaries.
     """
     klee_path = "/app/build/bin/klee"
     results_dict = {}
@@ -132,7 +134,9 @@ def create_pandas(results, preference, input, max_depths, fields):
 
 def main():
     """
-    Runs a Klee experiment. For each function, runs Klee once with each maximum depth,
+    Run a Klee experiment.
+
+    For each function, runs Klee once with each maximum depth,
     saves the data as a csv, and creates a graph for each field.
     """
     preferences = ["--dump-states-on-halt=false --max-time=5min"]
