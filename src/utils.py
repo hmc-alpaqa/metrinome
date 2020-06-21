@@ -6,7 +6,7 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List
+from typing import List, Any
 import re
 from collections import Counter
 import signal
@@ -57,13 +57,13 @@ def classify(expr: str, var="n") -> str:
         return f"ExpBase:{val}"
 
 
-def get_solution_from_roots(roots):
+def get_solution_from_roots(roots: List[Any]):
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
-    roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
+    new_roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
 
     # Compute the multiplicy of each root.
-    roots_with_multiplicities = Counter(roots)
+    roots_with_multiplicities = Counter(new_roots)
 
     # Compute the coefficients of a_n as a list.
     solution = []
@@ -87,10 +87,6 @@ def get_recurrence_solution(recurrence: str):
 
     by finding the roots of the characteristic equation.
     """
-    # Define symbolic terms
-    # n = symbols('n')
-    # f = Function('f')
-
     # Regular expression to parse the recurrence relation expression.
     # RE matches a particular term: Coefficient + f(something)
     match_function = r'f\([ a-zA-Z0-9-+]*\)'

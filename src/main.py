@@ -73,17 +73,17 @@ class MyPrompt(Cmd):
         return [match for match in os.listdir(folder_path)
                 if match.startswith(text) and os.path.isdir(os.path.join(folder_path, match))]
 
-    def complete_list(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_list(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Auto-completion for the list command."""
         options = ["metrics", "graphs", "KLEE"]
         return [match for match in options if match.startswith(text)]
 
-    def complete_metrics(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_metrics(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Auto-completion for the metrics command."""
         options = list(self.command.data.graphs.keys())
         return [opt for opt in options if opt.startswith(text)]
 
-    def complete_repl_objects(self, line: str):
+    def complete_repl_objects(self, line: str) -> List[str]:
         """Auto-completion for commands that use objects the REPL knows about."""
         args = line.split(" ")
         logging.info(args)
@@ -108,35 +108,35 @@ class MyPrompt(Cmd):
 
         return []
 
-    def complete_import(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_import(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Auto-completion for the import command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_show(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_show(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Auto-completion for the show command."""
         return self.complete_repl_objects(line)
 
-    def complete_delete(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_delete(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Auto-complete for the delete command."""
         return self.complete_repl_objects(line)
 
-    def complete_cd(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_cd(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Completion for the cd command."""
         return self.complete_file_path(text, line, begin, end, True)
 
-    def complete_rm(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_rm(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Completion for the rm command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_mv(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_mv(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Completion for the mv command."""
         return []
 
-    def complete_convert(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_convert(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Completion for the convert command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_to_klee_format(self, text: str, line: str, begin, end) -> List[str]:
+    def complete_to_klee_format(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Completion for the to_klee_format command."""
         return self.complete_file_path(text, line, begin, end, False)
 
@@ -301,7 +301,7 @@ class MyPrompt(Cmd):
         self.command.data.bc_files = bc_files
 
 
-def main():
+def main() -> None:
     """Parse command line arguments and initialize the REPL."""
     parser = argparse.ArgumentParser(description='Arguments for APC REPL.')
     parser.add_argument('--debug', dest='debug_mode',

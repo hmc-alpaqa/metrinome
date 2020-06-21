@@ -21,7 +21,7 @@ class CyclomaticComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Cyclomatic Complexity"
 
-    def evaluate(self, graph: Graph):
+    def evaluate(self, graph: Graph) -> int:
         """
         Compute the cyclomatic complexity of the function.
 

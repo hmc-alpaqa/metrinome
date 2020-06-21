@@ -36,6 +36,6 @@ class Env:
             print(err)
 
     @staticmethod
-    def get_output_path(name):
+    def get_output_path(name: str):
         """For a given .jar file, determine what the output path should be for that file."""
         return join(Env.TMP_DOT_PATH, splitext(name)[0])

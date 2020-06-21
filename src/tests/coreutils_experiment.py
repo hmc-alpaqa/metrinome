@@ -186,7 +186,7 @@ if __name__ == "__main__":
             start_time = time.time()
             apc = "na"
             npath: Union[str, float] = "na"
-            cyclo = "na"
+            cyclo: Union[str, float] = "na"
             ex = False
             exception_type = "na"
             runtime = 0.0

@@ -39,7 +39,7 @@ class NPathComplexity(metric.MetricAbstract):
         i = edge_list.index(edge)
         return edge_list[:i] + edge_list[i + 1:]
 
-    def remove_edge_adj_list(self, edges, start, end):
+    def remove_edge_adj_list(self, edges, start: NodeType, end: NodeType):
         """Return an edgeDictionary with the specified edge removed."""
         i = edges[start].index(end)
         return edges[:start] + tuple([edges[start][:i] + edges[start][i + 1:]]) + edges[start + 1:]
@@ -80,7 +80,8 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def npath_adj_matrix(self, matrix, start: NodeType, end: NodeType, node_index) -> float:
+    def npath_adj_matrix(self, matrix, start: NodeType,
+                         end: NodeType, node_index: NodeType) -> float:
         """Compute NPath Complexity recursively."""
         # first call passes in start (node = node_index = 0), otherwise, pass in node_index
 

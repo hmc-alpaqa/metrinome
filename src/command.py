@@ -1,3 +1,4 @@
+
 """The main implementation of the REPL."""
 
 from typing import List, Dict, Any, Callable, Optional
@@ -65,7 +66,7 @@ class ObjTypes(Enum):
 def check_args(num_args, err, check_recursive=False, var_args=False):
     """Create decorators that verify REPL functions have valid arguments (factory method)."""
     def decorator(func):
-        def wrapper(self, args):
+        def wrapper(self, args: str):
             args_list = args.strip().split()
             if len(args_list) < num_args:
                 self.logger.v_msg(err)
@@ -105,7 +106,7 @@ class KnownExtensions(Enum):
     BC     = ".bc"
 
 
-def get_files_from_regex(logger, input_file, original_base, recursive_mode: bool):
+def get_files_from_regex(logger: Log, input_file, original_base, recursive_mode: bool):
     """Try to compile a path as a regular expression and get the matching files."""
     try:
         regexp = re.compile(input_file)
@@ -131,10 +132,10 @@ def get_files_from_regex(logger, input_file, original_base, recursive_mode: bool
     except re.error:
         # Try checking for just wildcard operators.
         logger.d_msg("Checking for wildcard operators")
-        file = file.replace(".", r"\.")
-        file = file.replace("*", ".*")
+        input_file = input_file.replace(".", r"\.")
+        input_file = input_file.replace("*", ".*")
         try:
-            regexp = re.compile(file)
+            regexp = re.compile(input_file)
             logger.d_msg("Successfully compiled as a regular expression")
             if os.path.exists(original_base):
                 all_files = [f for f in listdir(original_base) if
@@ -153,7 +154,7 @@ def get_files_from_regex(logger, input_file, original_base, recursive_mode: bool
         return []
 
 
-def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[str]):
+def get_files(path: str, recursive_mode: bool, logger: Log, allowed_extensions: List[str]):
     """
     get_files returns a list of files from the given path.
 
@@ -194,7 +195,7 @@ def get_files(path: str, recursive_mode: bool, logger, allowed_extensions: List[
 class Controller:
     """Store the file extension we know how to generate graphs for and the generators."""
 
-    def __init__(self, logger) -> None:
+    def __init__(self, logger: Log) -> None:
         """
         Create a new instance of Controller by initializing all of the converters.
 
@@ -231,7 +232,7 @@ class Controller:
 class Data:
     """Stores all of objects created during the use of the REPL."""
 
-    def __init__(self, logger):
+    def __init__(self, logger: Log):
         """Create a new instance of the REPL data."""
         self.metrics: Dict[str, Any] = {}
         self.graphs: Dict[str, Any] = {}
@@ -241,7 +242,7 @@ class Data:
         self.bc_files: Dict[str, Any] = dict()
         self.logger = logger
 
-    def export_metrics(self, name, new_name):
+    def export_metrics(self, name: str, new_name: str):
         """Save a metric  the REPL knows about to an external file."""
         if name in self.metrics:
             with open(f"/app/code/exports/{new_name}_metrics", "w+") as file:
@@ -258,7 +259,7 @@ class Data:
         else:
             self.logger.e_msg(f"{str(ObjTypes.METRIC).capitalize()} {name} not found.")
 
-    def export_graph(self, name, new_name) -> None:
+    def export_graph(self, name: str, new_name: str) -> None:
         """Save a Graph the REPL knows about to an external file."""
         if name in self.graphs:
             with open(f"/app/code/exports/{new_name}.dot", "w+") as file:
@@ -276,7 +277,7 @@ class Data:
         else:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")
 
-    def export_bc(self, name, new_name) -> None:
+    def export_bc(self, name: str, new_name: str) -> None:
         """Save a BC the REPL knows about to an external file."""
         if name in self.bc_files:
             with open(f"/app/code/exports/{new_name}.bc", "wb+") as file:
@@ -292,7 +293,7 @@ class Data:
         else:
             self.logger.e_msg(f"No {str(ObjTypes.KLEE_BC).capitalize()} {name} found.")
 
-    def export_klee_file(self, name, new_name) -> None:
+    def export_klee_file(self, name: str, new_name: str) -> None:
         """Save a Klee formatted file the REPL knows about."""
         if name in self.klee_formatted_files:
             with open(f"/app/code/exports/{new_name}_klee.c", "w+") as file:
@@ -360,7 +361,7 @@ class Data:
         self.list_klee_bc()
         self.list_klee_stats()
 
-    def show_graphs(self, name: str, names):
+    def show_graphs(self, name: str, names: List[str]):
         """Display a Graph we know about to the REPL."""
         if name == "*":
             names = list(self.graphs.keys())
@@ -371,7 +372,7 @@ class Data:
             else:
                 self.logger.v_msg(f"Graph {graph_name} not found.")
 
-    def show_metric(self, name, names):
+    def show_metric(self, name: str, names: List[str]):
         """Display a metric we know about to the REPL."""
         if name == "*":
             names = list(self.metrics.keys())
@@ -384,7 +385,7 @@ class Data:
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
-    def show_klee_files(self, names):
+    def show_klee_files(self, names: List[str]):
         """Display all files that are formatted to be converted to .bc files."""
         if names[0] == "*":
             names = list(self.klee_formatted_files.keys())
@@ -394,7 +395,7 @@ class Data:
                 self.logger.i_msg("KLEE FORMATTED FILES:")
                 self.logger.v_msg(str(self.klee_formatted_files[klee_file_name]))
 
-    def show_klee_bc(self, names):
+    def show_klee_bc(self, names: List[str]):
         """Display .bc files currently stored in the REPL."""
         if names[0] == "*":
             names = list(self.bc_files.keys())
@@ -404,7 +405,7 @@ class Data:
                 self.logger.i_msg("BC FILES:")
                 self.logger.v_msg(self.bc_files[klee_bc_name])
 
-    def show_klee_stats(self, names):
+    def show_klee_stats(self, names: List[str]):
         """Display statistics obtained from executing KLEE."""
         if names[0] == "*":
             names = list(self.klee_stats.keys())
@@ -414,7 +415,7 @@ class Data:
                 self.logger.i_msg("KLEE STATS:")
                 self.logger.v_msg(str(self.klee_stats[klee_stats_name]))
 
-    def show_klee(self, names):
+    def show_klee(self, names: List[str]):
         """Display Klee files or .bc files we know about to the REPL."""
         self.show_klee_files(names)
         self.show_klee_bc(names)
@@ -538,7 +539,7 @@ class Command:
                     self.data.graphs[filepath] = graph
 
     @check_args(1, MISSING_FILENAME, check_recursive=True, var_args=True)
-    def do_import(self, recursive_mode, *args_list: str) -> None:
+    def do_import(self, recursive_mode: bool, *args_list: str) -> None:
         """Convert .dot files into CFGs."""
         # Iterate through all file-like objects.
         all_files = []
@@ -650,7 +651,7 @@ class Command:
 
             self.data.metrics[name] = results
 
-    def do_show_klee(self, obj_type, names) -> bool:
+    def do_show_klee(self, obj_type, names: List[str]) -> bool:
         """Display the KLEE objects the REPL knows about."""
         if obj_type == ObjTypes.KLEE_BC:
             self.data.show_klee_bc(names)
@@ -762,11 +763,7 @@ class Command:
                                               **klee_formatted_files}
             self.logger.v_msg(f"Created {' '.join(list(klee_formatted_files.keys()))}")
 
-    # @check_args(0, NOT_IMPLEMENTED)
-    # def do_clean_klee_files(self, args_list: List[str]) -> None:
-    #    """Remove all KLEE-related files created by the REPL."""
-
-    def klee_output_indices(self, klee_output):
+    def klee_output_indices(self, klee_output: str):
         """Get the indicies of statistics we care about in the Klee output string."""
         string_one = "generated tests = "
         string_two = "completed paths = "
@@ -778,7 +775,7 @@ class Command:
 
         return generated_tests_index, completed_paths_index, total_instructions_index
 
-    def update_klee_stats(self, klee_output, name: str, delta_t) -> None:
+    def update_klee_stats(self, klee_output: str, name: str, delta_t) -> None:
         """Parse and store the results of running klee on some .bc file."""
         timed_out = "HaltTimer invoked" in klee_output
 
@@ -872,7 +869,7 @@ class Command:
         raise SystemExit
 
     @check_args(2, MISSING_TYPE_AND_NAME)
-    def do_export(self, export_type, name: str) -> None:
+    def do_export(self, export_type: str, name: str) -> None:
         """
         Save some object the REPL knows about to an external file.
 
@@ -941,7 +938,7 @@ class Command:
         self.logger.v_msg(self.curr_path)
 
     @check_args(2, MISSING_TYPE_AND_NAME)
-    def do_delete(self, obj_type, name: str) -> None:
+    def do_delete(self, obj_type: str, name: str) -> None:
         """Remove some object the REPL is storing from memory."""
         self.logger.d_msg(obj_type)
         known_types_dict = {

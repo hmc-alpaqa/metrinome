@@ -24,30 +24,31 @@ def step(val):
     return (val > 0).astype(float)
 
 
-def rampdeg(val, degree):
+def rampdeg(val, degree: int):
     """Return val^deg if val is positive, 0 otherwise."""
     return val ** degree if (val > 0) else 0
 
 
-def piecewise_eval(x_val, params, degree_one, degree_two, break_point):
+def piecewise_eval(x_val: float, params, degree_one: Optional[int],
+                   degree_two: Optional[int], break_point: float):
     """Evaluate a piecewise polynomial at a point."""
     num_params = degree_one if degree_one is not None else 3
     num_params2 = degree_two if degree_two is not None else 3
-    fns = [0, 0]
+    fns = []
     if degree_one is not None:
-        fns[0] = lambda x: sum([params[i] * x**i for i in range(num_params + 1)])
+        fns += [lambda x: sum([params[i] * x**i for i in range(num_params + 1)])]
     else:
-        fns[0] = lambda x: params[0] + params[1] * (params[2]**x)
+        fns += [lambda x: params[0] + params[1] * (params[2]**x)]
 
     if degree_two is not None:
-        fns[1] = lambda x: sum([params[i + num_params + 1] * x**i for i in range(num_params2 + 1)])
+        fns += [lambda x: sum([params[i + num_params + 1] * x**i for i in range(num_params2 + 1)])]
     else:
-        fns[1] = lambda x: params[num_params + 1] + params[num_params + 2] * \
-            (params[num_params + 3]**x)
+        fns += [lambda x: params[num_params + 1] + params[num_params + 2] * (
+            params[num_params + 3]**x)]
     return np.piecewise(x_val, [x_val < break_point, x_val >= break_point], fns)
 
 
-def fit(data_x, data_y, degree_one, degree_two):
+def fit(data_x, data_y, degree_one: Optional[int], degree_two: Optional[int]):
     """Find the best breakpoint."""
     # Initialize all of the parameters.
     # params = [initial_breakpoint] + \
@@ -117,7 +118,7 @@ def get_best_degree(data_x, data_y):
     return degree_one, degree_two, best_bp
 
 
-def regression(data_x, data_y, name):
+def regression(data_x, data_y, name: str) -> None:
     """Perform the regression with automatic breakpoints for a single function."""
     degree_one, degree_two, best_bp = get_best_degree(data_x, data_y)
 
@@ -174,7 +175,7 @@ def regression(data_x, data_y, name):
     plt.close()
 
 
-def main():
+def main() -> None:
     """
     Run regression on each function.
 

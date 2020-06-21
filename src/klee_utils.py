@@ -4,6 +4,7 @@ from typing import Dict, Set, Any
 from collections import defaultdict
 import uuid
 from pycparser import c_ast, parse_file, c_generator  # type: ignore
+from log import Log
 
 
 class FuncVisitor(c_ast.NodeVisitor):
@@ -14,7 +15,7 @@ class FuncVisitor(c_ast.NodeVisitor):
     definitions in the function definition in order to get their names and types.
     """
 
-    def __init__(self, logger) -> None:
+    def __init__(self, logger: Log) -> None:
         """Create a new instance of FuncVisitor."""
         self.logger = logger
         self.generator = c_generator.CGenerator()
@@ -57,7 +58,7 @@ class KleeUtils:
     source code in order to make static analysis much easier.
     """
 
-    def __init__(self, logger) -> None:
+    def __init__(self, logger: Log) -> None:
         """Create a new instance of KleeUtils."""
         self.logger = logger
 

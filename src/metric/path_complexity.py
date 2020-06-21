@@ -27,7 +27,7 @@ class PathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
-    def gen_func_taylor_coeffs(self, graph):
+    def gen_func_taylor_coeffs(self, graph: Graph) -> Any:
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
@@ -124,5 +124,6 @@ class PathComplexity(metric.MetricAbstract):
                 regex_cleaner = re.search(r'([0-9.]*\*\*n)', str(apc))
                 if regex_cleaner:
                     apc = regex_cleaner.groups()[0]
-            return(apc, terms)
-        return(expr_with_abs, expr_with_abs)
+            return (apc, terms)
+
+        return (expr_with_abs, expr_with_abs)
