@@ -15,7 +15,7 @@ from log import Log
 from graph import GraphType
 
 
-def apc_runtime(g_frac, f_frac, time):
+def apc_runtime(g_frac, f_frac, time) -> None:
     """Test the amount of time it takes to run APC analysis on different sized graphs."""
     log = Log()
     converter = path_complexity.PathComplexity(log)

@@ -11,7 +11,7 @@ from log import Log
 class TestNPATH(unittest.TestCase):
     """Test the the class able to compute the NPath metric for an arbitrary graph."""
 
-    def test_npath(self):
+    def test_npath(self) -> None:
         """
         Check NPath with actual CFGs obtained from Java code.
 
@@ -69,7 +69,7 @@ class TestNPATH(unittest.TestCase):
         expected_result = 1
         self.assertEqual(result, expected_result)
 
-    def test_npath_no_edges(self):
+    def test_npath_no_edges(self) -> None:
         """
         Check NPath in the case with no edges.
 

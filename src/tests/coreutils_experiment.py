@@ -88,7 +88,7 @@ def convert_file_to_standard(file: str) -> None:
         new_file.write("}")
 
 
-def clean(file):
+def clean(file) -> None:
     """Remove unecessary files."""
     filepath = os.path.split(file)
     fname = filepath[1]

@@ -9,21 +9,21 @@ class Testutils(unittest.TestCase):
     """Test all of the utils methods."""
 
     # === roundExpression ===
-    def test_round_expression_simple(self):
+    def test_round_expression_simple(self) -> None:
         """Check an expression with only numbers and binary operations."""
         # simpleExpression = '1.234567 * 1.123123 + 1.123123 / 1.123123'
         # result = utils.roundExpression(simpleExpression, 3)
         # expectedResult = "1.234 * 1.123 + 1.123 / 1.123"
         # self.assertEqual(result, expectedResult)
 
-    def test_round_expression_polynomial(self):
+    def test_round_expression_polynomial(self) -> None:
         """Check that a polynomial simplies correctly."""
         # polynomialExpression = '1.123123 * x**1 + x**1.123123'
         # simplifiedExpression = utils.roundExpression(polynomialExpression, 3)
         # expectedResult = '1.123 * x**1 + x**1.123'
         # self.assertEqual(simplifiedExpression, expectedResult)
 
-    def test_round_expression_exponential(self):
+    def test_round_expression_exponential(self) -> None:
         """
         Check that we can round numbers in an expression.
 
@@ -36,7 +36,7 @@ class Testutils(unittest.TestCase):
         # self.assertEqual(expectedResult, simplifiedExpression)
 
     # === classify ===
-    def classify_helper(self, expression, expected):
+    def classify_helper(self, expression, expected) -> None:
         """
         Check that the expression is classified correctly.
 
@@ -46,7 +46,7 @@ class Testutils(unittest.TestCase):
         # classified = utils.classify(expression)
         # self.assertEqual(classified, expected)
 
-    def test_classify_constant(self):
+    def test_classify_constant(self) -> None:
         """
         Verify that constant expressions are classified correctly.
 
@@ -74,7 +74,7 @@ class Testutils(unittest.TestCase):
 
         # self.classifyHelper('n', 'PolyDeg:1.0')
 
-    def test_classify_exponential(self):
+    def test_classify_exponential(self) -> None:
         """Check that classify returns the base of an exponential for exponential expressions."""
         # exponentialExpression = '1 + n + 2^n'
         # expectedClassification = 'ExpBase:2.0'
@@ -86,7 +86,7 @@ class Testutils(unittest.TestCase):
         # self.assertEqual(classified, expectedClassification)
 
     # === getSolutionFromRoots ===
-    def test_solution_from_roots(self):
+    def test_solution_from_roots(self) -> None:
         """
         Verify that we get the correct solution to recurrence solution.
 
@@ -97,13 +97,13 @@ class Testutils(unittest.TestCase):
         # self.assertEqual('1', '1')
 
     # === getRecurrenceSolution ===
-    def test_recurrence_solution(self):
+    def test_recurrence_solution(self) -> None:
         """Returns the solution to an arbitrary linear homogeneous recurrence relation."""
         # utils.getRecurrenceSolution()
         # self.assertEqual('1', '1')
 
     # === getTaylorCoeffs ===
-    def test_taylor_coeffs(self):
+    def test_taylor_coeffs(self) -> None:
         """
         Verify that we get the correct coefficients of a Taylor series.
 
@@ -115,7 +115,7 @@ class Testutils(unittest.TestCase):
         # self.assertEqual('1', '1')
 
     # === isExponential ===
-    def test_is_exponential(self):
+    def test_is_exponential(self) -> None:
         """
         Test exponential should return True if the expression contains any a^n.
 
@@ -128,7 +128,7 @@ class Testutils(unittest.TestCase):
         # self.assertEqual(resultTwo, False)
 
     # === getDegree ===
-    def test_get_degree(self):
+    def test_get_degree(self) -> None:
         """
         Test the get_degree function.
 
@@ -147,7 +147,7 @@ class Testutils(unittest.TestCase):
         # self.assertEqual(degreeResultTwo, 3)
 
     # === big_o===
-    def test_big_o_constant(self):
+    def test_big_o_constant(self) -> None:
         """The big_o of a constant should be O(1)."""
         constant_expression = ['1', '2', '3']
         constant_expression_two = ['3', '2', '1']
@@ -155,26 +155,27 @@ class Testutils(unittest.TestCase):
         big_o_one = utils.big_o(constant_expression)
         big_o_two = utils.big_o(constant_expression_two)
 
-        self.assertEqual(big_o_one, '1')
+        self.assertEqual(big_o_one, '3')
         self.assertEqual(big_o_two, '1')
 
-    def test_big_o_polynomial(self):
+    def test_big_o_polynomial(self) -> None:
         """The big_o of a polynomial should be O(x^n) where n is the degree of the polynomial."""
         # Expression One: "1 - x + 6*x^8"
         # Expression Two: = "1.2*x^(8.4) - 3.1*x"
 
-        polynomial_expression = ['1', '-x', '6*x^8']
-        polynomial_expression_two = ['1.2*x^(8.4)', '-3.1*x']
+        polynomial_expression = ['1', '-n', '6*n^8']
+        polynomial_expression_two = ['1.2 * n^(8.4)', '-3.1 * n']
 
         big_o_one = utils.big_o(polynomial_expression)
+        print("=== STARTING THIS TEST ===")
         big_o_two = utils.big_o(polynomial_expression_two)
 
-        expectedbig_o_one = 'x^8'
-        expectedbig_o_two = 'x^8.4'
+        expectedbig_o_one = '6*n^8'
+        expectedbig_o_two = '1.2 * n^(8.4)'
         self.assertEqual(expectedbig_o_one, big_o_one)
         self.assertEqual(expectedbig_o_two, big_o_two)
 
-    def test_big_o_exponential(self):
+    def test_big_o_exponential(self) -> None:
         """The big_o of an exponential should be O(a^x) where a is the base."""
         # Expression One: "1 + x + .5^x + 2^x"
         # Expression Two: "2*1.01^x + 1.02^x"
@@ -192,7 +193,7 @@ class Testutils(unittest.TestCase):
         self.assertEqual(expectedbig_o_two, big_o_two)
 
     # === Timeout ===
-    def test_timeout_notimetout(self):
+    def test_timeout_notimetout(self) -> None:
         """A function that is done before the timeout limit should behave normally."""
         # def foo():
         #     return 7
@@ -202,7 +203,7 @@ class Testutils(unittest.TestCase):
         #     result = foo()
         # self.assertEqual(result, 7)
 
-    def test_timeout_timeout(self):
+    def test_timeout_timeout(self) -> None:
         """A function that takes too long to execute should throw an error."""
         # def foo():
         #     sleep(2)

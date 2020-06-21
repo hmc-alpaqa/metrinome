@@ -2,6 +2,7 @@
 
 import unittest
 import sys
+from typing import List, Any
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph, GraphType
@@ -12,7 +13,7 @@ from log import Log
 class TestCyclomaticComplexity(unittest.TestCase):
     """Tests for the object that computes Cyclomatic Complexity for an arbitrary Graph."""
 
-    def test_cyclomatic_complexity_edge_list(self):
+    def test_cyclomatic_complexity_edge_list(self) -> None:
         """
         Verify cyclomatic complexity value for regular graph.
 
@@ -40,14 +41,14 @@ class TestCyclomaticComplexity(unittest.TestCase):
         result = CyclomaticComplexity(Log()).evaluate(graph)
         self.assertEqual(result, result)
 
-    def test_cyclomatic_complexity_no_edges(self):
+    def test_cyclomatic_complexity_no_edges(self) -> None:
         """
         Verify cyclomatic complexity value for graph with no edges.
 
         Compute the cyclomatic complexity for a graph with a non-zero number of vertices
         (where the start node is not the same as the end node) and zero number of edges.
         """
-        edges = []
+        edges: List[Any] = []
         vertices = set([0, 1])
         start_node = 0
         end_node = 1
@@ -59,15 +60,15 @@ class TestCyclomaticComplexity(unittest.TestCase):
         expected_result_edge = 0 - 2 + 2  # edges - nodes + 2
         self.assertEqual(result_edge, expected_result_edge)
 
-        # graph type is list
+        # graph type is list.
         graph_list = Graph(edges, vertices, start_node, end_node,
                            graph_type=GraphType.ADJACENCY_LIST)
         result_list = CyclomaticComplexity(Log()).evaluate(graph_list)
         expected_result_list = 0 - 0 + 2  # edges - nodes + 2
         self.assertEqual(result_list, expected_result_list)
 
-        # graph type is matrix
-        graph_matrix = Graph(edges, vertices, start_node, end_node,
+        # graph type is matrix.
+        graph_matrix = Graph(np.zeros((0, 0), dtype=np.int8), vertices, start_node, end_node,
                              graph_type=GraphType.ADJACENCY_MATRIX)
         result_matrix = CyclomaticComplexity(Log()).evaluate(graph_matrix)
         expected_result_matrix = 0 - 0 + 2  # edges - nodes + 2

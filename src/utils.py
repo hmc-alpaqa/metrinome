@@ -172,7 +172,6 @@ def big_o(terms):
         return 0.0
 
     if len(terms) == 1:
-
         return terms[0]
 
     term_one = terms[0]

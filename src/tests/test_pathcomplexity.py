@@ -11,7 +11,7 @@ import command
 class TestPathComplexity(unittest.TestCase):
     """Test PathComplexity object."""
 
-    def test(self):
+    def test(self) -> None:
         """Compute path complexity for a regular .dot file."""
         repl_wrapper = None
         repl = command.Command("/", False, False, repl_wrapper)

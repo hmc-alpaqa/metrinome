@@ -1,7 +1,7 @@
 
 """The main implementation of the REPL."""
 
-from typing import List, Dict, Any, Callable, Optional
+from typing import List, Dict, Any, Callable, Optional, Tuple
 import os.path
 from os import listdir
 import readline
@@ -232,7 +232,7 @@ class Controller:
 class Data:
     """Stores all of objects created during the use of the REPL."""
 
-    def __init__(self, logger: Log):
+    def __init__(self, logger: Log) -> None:
         """Create a new instance of the REPL data."""
         self.metrics: Dict[str, Any] = {}
         self.graphs: Dict[str, Any] = {}
@@ -242,7 +242,7 @@ class Data:
         self.bc_files: Dict[str, Any] = dict()
         self.logger = logger
 
-    def export_metrics(self, name: str, new_name: str):
+    def export_metrics(self, name: str, new_name: str) -> None:
         """Save a metric  the REPL knows about to an external file."""
         if name in self.metrics:
             with open(f"/app/code/exports/{new_name}_metrics", "w+") as file:
@@ -361,7 +361,7 @@ class Data:
         self.list_klee_bc()
         self.list_klee_stats()
 
-    def show_graphs(self, name: str, names: List[str]):
+    def show_graphs(self, name: str, names: List[str]) -> None:
         """Display a Graph we know about to the REPL."""
         if name == "*":
             names = list(self.graphs.keys())
@@ -372,7 +372,7 @@ class Data:
             else:
                 self.logger.v_msg(f"Graph {graph_name} not found.")
 
-    def show_metric(self, name: str, names: List[str]):
+    def show_metric(self, name: str, names: List[str]) -> None:
         """Display a metric we know about to the REPL."""
         if name == "*":
             names = list(self.metrics.keys())
@@ -385,7 +385,7 @@ class Data:
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
-    def show_klee_files(self, names: List[str]):
+    def show_klee_files(self, names: List[str]) -> None:
         """Display all files that are formatted to be converted to .bc files."""
         if names[0] == "*":
             names = list(self.klee_formatted_files.keys())
@@ -395,7 +395,7 @@ class Data:
                 self.logger.i_msg("KLEE FORMATTED FILES:")
                 self.logger.v_msg(str(self.klee_formatted_files[klee_file_name]))
 
-    def show_klee_bc(self, names: List[str]):
+    def show_klee_bc(self, names: List[str]) -> None:
         """Display .bc files currently stored in the REPL."""
         if names[0] == "*":
             names = list(self.bc_files.keys())
@@ -405,7 +405,7 @@ class Data:
                 self.logger.i_msg("BC FILES:")
                 self.logger.v_msg(self.bc_files[klee_bc_name])
 
-    def show_klee_stats(self, names: List[str]):
+    def show_klee_stats(self, names: List[str]) -> None:
         """Display statistics obtained from executing KLEE."""
         if names[0] == "*":
             names = list(self.klee_stats.keys())
@@ -415,7 +415,7 @@ class Data:
                 self.logger.i_msg("KLEE STATS:")
                 self.logger.v_msg(str(self.klee_stats[klee_stats_name]))
 
-    def show_klee(self, names: List[str]):
+    def show_klee(self, names: List[str]) -> None:
         """Display Klee files or .bc files we know about to the REPL."""
         self.show_klee_files(names)
         self.show_klee_bc(names)
@@ -593,7 +593,7 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
-    def do_metrics_multithreaded(self, graphs) -> None:
+    def do_metrics_multithreaded(self, graphs: List[Any]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
         pool = Pool(8)
         manager = Manager()
@@ -763,15 +763,13 @@ class Command:
                                               **klee_formatted_files}
             self.logger.v_msg(f"Created {' '.join(list(klee_formatted_files.keys()))}")
 
-    def klee_output_indices(self, klee_output: str):
+    def klee_output_indices(self, klee_output: str) -> Tuple[int, int, int]:
         """Get the indicies of statistics we care about in the Klee output string."""
-        string_one = "generated tests = "
-        string_two = "completed paths = "
-        string_three = "total instructions = "
+        strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
 
-        generated_tests_index    = klee_output.index(string_one) + len(string_one)
-        completed_paths_index    = klee_output.index(string_two) + len(string_two)
-        total_instructions_index = klee_output.index(string_three) + len(string_three)
+        generated_tests_index    = klee_output.index(strs_to_match[0]) + len(strs_to_match[0])
+        completed_paths_index    = klee_output.index(strs_to_match[1]) + len(strs_to_match[1])
+        total_instructions_index = klee_output.index(strs_to_match[2]) + len(strs_to_match[2])
 
         return generated_tests_index, completed_paths_index, total_instructions_index
 

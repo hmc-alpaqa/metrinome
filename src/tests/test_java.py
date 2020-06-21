@@ -6,7 +6,7 @@ import unittest
 class TestJavaConvert(unittest.TestCase):
     """All of the tests to verify that we can convert Java source code to Graph objects."""
 
-    def test_to_graph(self):
+    def test_to_graph(self) -> None:
         """Test that converting a file with code to a Graph results in the correct Graph."""
 
 
