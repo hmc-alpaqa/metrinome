@@ -7,8 +7,8 @@ import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
     simplify, sympify, Abs, Q  # type: ignore
 from mpmath import polyroots  # type: ignore
-sys.path.append("/app/code/")
 import numpy as np  # type: ignore
+sys.path.append("/app/code/")
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
 from metric import metric  # type: ignore
@@ -117,13 +117,15 @@ class PathComplexity(metric.MetricAbstract):
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))
         if apc != 0.0:
-            if degree(apc, gen=n_var) != 0:
-                return (sympy.LM(apc), terms)
-
-            if "n" in str(apc):
-                regex_cleaner = re.search(r'([0-9.]*\*\*n)', str(apc))
-                if regex_cleaner:
-                    apc = regex_cleaner.groups()[0]
-            return (apc, terms)
+            try:
+                if degree(apc, gen=n_var) != 0:
+                    return (sympy.LM(apc), terms)
+            except sympy.polys.polyerrors.PolynomialError:
+                # degree returns an error if apc is not a polynomial.
+                if "n" in str(apc):
+                    regex_cleaner = re.search(r'([0-9.]*\*\*n)', str(apc))
+                    if regex_cleaner:
+                        apc = regex_cleaner.groups()[0]
+                return (apc, terms)
 
         return (expr_with_abs, expr_with_abs)
