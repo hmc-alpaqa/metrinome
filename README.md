@@ -20,7 +20,7 @@ inside the 'src' directory. Building the image takes a while, so it is also poss
 https://hub.docker.com/repository/docker/gbessler/pathrepl.  
 with the command
 ```
-docker pull gbessler/pathrepl
+docker pull harveymudd/metrinome
 ```
 
 To run the image, do
