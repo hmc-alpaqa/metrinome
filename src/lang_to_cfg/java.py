@@ -2,11 +2,11 @@
 import sys
 sys.path.append("/app/code/")
 from typing import Dict, Optional
-from os.path import basename
 from glob2 import glob  # type: ignore
 from graph import Graph, GraphType
 from env import Env
 from lang_to_cfg import converter  # type: ignore
+from log import Log
 
 
 class JavaConvert(converter.ConverterAbstract):
@@ -17,9 +17,9 @@ class JavaConvert(converter.ConverterAbstract):
     """
 
     # pylint: disable=super-init-not-called
-    def __init__(self, logger) -> None:
+    def __init__(self, logger: Log) -> None:
         """Create a new Java coverter."""
-        self.logger = logger
+        self.logger: Log = logger
         self.output_folder = Env.TMP_DOT_PATH
 
     def name(self) -> str:
@@ -42,7 +42,7 @@ class JavaConvert(converter.ConverterAbstract):
             self.runcmd(f"jar xf {filename}", cwd=Env.TMP_PATH)
             filename = Env.TMP_PATH
 
-        output_path = Env.get_output_path(basename(filename))
+        output_path = Env.get_output_path(filename)
         self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}")
         self.logger.d_msg("Generated .dot files")
         graphs = {}

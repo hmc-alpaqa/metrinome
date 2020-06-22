@@ -1,6 +1,6 @@
 """This module manages the temporary directories used in the generation of CFGs."""
 import subprocess
-from os.path import join, splitext
+from os.path import join, splitext, basename
 
 
 class Env:
@@ -38,4 +38,4 @@ class Env:
     @staticmethod
     def get_output_path(name: str):
         """For a given .jar file, determine what the output path should be for that file."""
-        return join(Env.TMP_DOT_PATH, splitext(name)[0])
+        return join(Env.TMP_DOT_PATH, splitext(basename(name))[0])

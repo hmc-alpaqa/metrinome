@@ -167,7 +167,6 @@ class Testutils(unittest.TestCase):
         polynomial_expression_two = ['1.2 * n^(8.4)', '-3.1 * n']
 
         big_o_one = utils.big_o(polynomial_expression)
-        print("=== STARTING THIS TEST ===")
         big_o_two = utils.big_o(polynomial_expression_two)
 
         expectedbig_o_one = '6*n^8'

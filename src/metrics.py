@@ -3,17 +3,11 @@
 from typing import List, Dict, Any
 from math import log
 import os
-import argparse
 import logging
 from collections import defaultdict, Counter
-from multiprocessing import Pool
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
-import glob2  # type: ignore
-from graph import Graph
-from utils import round_expression, classify, Timeout
-
-NUM_PROCESSES = 4
+from utils import classify
 
 
 def adjusted_rand_index(function_list) -> float:
@@ -198,62 +192,12 @@ def check_argument_errors(params):
             raise ValueError("Recursive mode only applies to directories.")
 
 
-def set_logging(args) -> None:
-    """Configure logging according to the parameters specified by user."""
-    logfile = args['logfile']
-    if args['log']:
-        if logfile is not None:
-            # Will append to existing file by default
-            logging.basicConfig(filename=logfile, level=logging.INFO)
-        else:
-            logging.basicConfig(level=logging.INFO)
-
-
-def get_file_list(file_path: str, recursive: bool) -> List[str]:
-    """
-    Obtain a list of the paths to all .dot files from an initial file path.
-
-    Recursive mode will enable searching in subdirectories.
-    """
-    if os.path.isdir(file_path):
-        if recursive:
-            # recursive glob '**' operator matches 0 or more subdirectories
-            file_list = glob2.glob(os.path.join(file_path, "**/*.dot"), recursive=True)
-        else:
-            file_list = glob2.glob(os.path.join(file_path, "*.dot"), recursive=False)
-    else:
-        file_list = [file_path]
-
-    return file_list
-
-
 def log_class_sizes(cyc_to_aoc, apc_to_cyc, npath_to_apc, apc_to_npath) -> None:
     """Write the average class size for each metric to the log file."""
     logging.info(f"cyc_to_aoc: {str(cyc_to_aoc)}")
     logging.info(f"apc_to_cyc: {str(apc_to_cyc)}")
     logging.info(f"npath_to_apc: {str(npath_to_apc)}")
     logging.info(f"apc_to_npath: {str(apc_to_npath)}\n")
-
-
-def create_argument_parser():
-    """Create a parser to read command line arguments from the user."""
-    parser = argparse.ArgumentParser(description="")
-
-    recur_desc = "Recursive Mode: look for .dot files in all subfolders"
-    stats_desc = "Compute the metric for a given input file"
-    log_desc = "Print logging information to STD_OUT"
-    logf_desc = "Specify a file that logging information \
-                 will be written to (instead of STD_OUT)"
-
-    parser.add_argument('-f', '--filename', help="Input filename", required=True)
-    parser.add_argument('-r', '--recursive', help=recur_desc,
-                        action="store_true", required=False)
-    parser.add_argument('-o', '--output', help="Set an output file", required=False)
-    parser.add_argument('-s', '--statistics', help=stats_desc,
-                        action="store_true", required=False)
-    parser.add_argument('-l', '--log', help=log_desc, action="store_true", required=False)
-    parser.add_argument('--logfile', help=logf_desc, required=False)
-    return parser
 
 
 def joint_entropy(cluster_list_one, cluster_list_two) -> float:
@@ -402,7 +346,7 @@ class MetricsComparer:
 
         average_class_sizes = [0] * 4
         if self.dict_counter is None or len(self.dict_counter) < 4:
-            write_output("self.dict_counter is incorrect.")
+            print("self.dict_counter is incorrect.")
             return
 
         for i in range(0, 4):
@@ -421,12 +365,12 @@ class MetricsComparer:
         else:
             r_two = (npath_to_apc + apc_to_npath) / (npath_to_apc - apc_to_npath)
 
-        write_output(f"APC to Cyclomatic: {cyc_to_aoc}, \
-                    apc_to_cyc: {apc_to_cyc}", self.location)
-        write_output(f"APC to Cyclomatic: {npath_to_apc}, \
-                    apc_to_npath: {apc_to_npath}", self.location)
-        write_output(f"APC to Cyclomatic: {r_one}, \
-                    APC vs NPATH: {r_two}", self.location)
+        print(f"APC to Cyclomatic: {cyc_to_aoc}, \
+              apc_to_cyc: {apc_to_cyc}", self.location)
+        print(f"APC to Cyclomatic: {npath_to_apc}, \
+              apc_to_npath: {apc_to_npath}", self.location)
+        print(f"APC to Cyclomatic: {r_one}, \
+              APC vs NPATH: {r_two}", self.location)
 
     def aggregate(self):
         """
@@ -493,115 +437,3 @@ class MetricsComparer:
                     pass
 
         return MetricsComparer(results, location)
-
-
-class Main():
-    """
-    Obtains parameters from the user, computes the metrics, and compares them.
-
-    The metrics used are Path Complexity, Cyclomatic Complexity, and NPATH metrics.
-    Graphs are loaded from .dot files, and the MetricsComparer compares the three metrics.
-    if specified.
-    """
-
-    def __init__(self) -> None:
-        """Get the command line arguments from the user and verify that they are valid."""
-        # Get command line arguments
-        parser = create_argument_parser()
-        args = vars(parser.parse_args())
-
-        # params = Parameters(args['filename'], args['recursive'],
-        #  args['output'], args['statistics'])
-
-        # file_path     = params.getFilepath()
-        # recursive     = params.getRecursive()
-        # self.location = params.getOutputFile()
-        # stats_mode    = params.getStatsMode()
-
-        file_path = "tmp"
-        recursive = False
-        self.location = "tmp"
-        stats_mode = "tmp"
-
-        set_logging(args)
-        # self.check_argument_errors(params)
-        file_list = get_file_list(file_path, recursive)
-
-        if stats_mode:
-            self.compute_statistics(file_list[0])
-        else:
-            self.compute_results(file_list)
-
-    def compute_result(self, file_name: str):
-        """
-        Given a single file dot file, compute all metrics.
-
-        The metrics computed are: APC, Path Complexity, Cyclomatic Complexity, and NPATH.
-        """
-        digits = 2
-        graph = Graph.from_file(file_name)
-        write_output(f"Working on {file_name}", self.location)
-        with Timeout(seconds=10, error_message="Timeout"):
-            # npath_compl = n_path_complexity(graph)
-            pass
-
-        # TODO
-        # path_complexity_result = path_complexity(graph)
-        path_complexity_result = ("0", "0")
-        asymptotic_complexity = path_complexity_result[0]
-        full_path_complexity = path_complexity_result[1]
-
-        def cyclomatic_complexity(_):
-            return 0
-
-        n_path_compl = "tmp"
-        return (file_name, cyclomatic_complexity(graph), n_path_compl,
-                classify(asymptotic_complexity, "n"),
-                round_expression(asymptotic_complexity, digits),
-                round_expression(full_path_complexity, digits))
-
-    def compute_statistics(self, file_name: str) -> None:
-        """
-        Calculate the metrics used to compare APC, NPATH, and Cyclomatic Complexity.
-
-        This uses a CSV file with all of the results given by 'compute_results.'
-        """
-        metrics = MetricsComparer.from_csv(file_name, self.location)
-        metrics.compute_metric()
-
-    def compute_results(self, filelist) -> None:
-        """
-        Given a list of .dot files, compute the metrics and save the output for all files.
-
-        The metrics are Cyclomatic Complexity, NPATH Complexity, and Path Complexity.
-        The output can be written to a file or standard out.
-        """
-        write_output("test_number, cfg_file, cyclomatic_complexity, npath_complexity, \
-                     path_cplxty_class, path_cplxty_asym, path_cplxty", self.location)
-
-        split_file_list: List[Any] = [[] for _ in range(NUM_PROCESSES)]
-        for file_index, file in enumerate(filelist):
-            split_file_list[file_index % len(split_file_list)].append(file)
-
-        proc_pool = Pool(processes=NUM_PROCESSES)
-        results = proc_pool.imap_unordered(self.threadpool_mapper, split_file_list)
-        proc_pool.close()
-        proc_pool.join()
-
-        for result in results:
-            if len(result) != 0:
-                write_output("\n".join(list(map(lambda x: str(x)[1:-1], result))), self.location)
-
-    def threadpool_mapper(self, file_names):
-        """Map compute_result over a set of file names."""
-        return list(map(self.compute_result, file_names))
-
-
-def write_output(msg, location=None):
-    """Write a String to STDOUT or a file if specified."""
-    if location is None:
-        print(msg)
-    else:
-        if os.path.isfile(location):
-            with open(location, 'w') as file:
-                file.write(msg)

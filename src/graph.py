@@ -398,7 +398,7 @@ class Graph:
 
         return graph
 
-    def node_to_index(self, node):
+    def node_to_index(self, node: int):
         """Find the index for the row or column of an adjacency matrix."""
         if node == self.start_node:
             return 0

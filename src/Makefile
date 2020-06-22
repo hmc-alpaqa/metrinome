@@ -28,6 +28,9 @@ run:
 run-detached:
 	docker run --name detached_repl -d -t -v $(shell pwd):/app/code harveymudd/metrinome:latest
 
+stop-detached:
+	docker stop detached_repl -t 10
+
 # Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command.
 formatting:
 	# Remove trailing whitespace.
@@ -37,5 +40,5 @@ formatting:
 	# Replace ''' with """.
 	find . -type f -name "*.py" | xargs sed -i '' -e 's/'"'''"'/"""/g'
 
-.PHONY: lint tests formatting test build run
+.PHONY: lint tests formatting test build run run-detched stop-detached
 	

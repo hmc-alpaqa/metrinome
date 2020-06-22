@@ -366,7 +366,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.graphs['sample_name'] = 'a'
             self.command.data.graphs['sample_name'] = 'b'
             self.command.data.graphs['sample_name'] = 'c'
-
             self.command.data.metrics['sample_name'] = 'b'
 
             self.command.do_delete(str(obj_type) + " " + str(obj_name))

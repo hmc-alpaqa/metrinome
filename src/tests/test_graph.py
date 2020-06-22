@@ -14,11 +14,15 @@ class TestGraphGetters(unittest.TestCase):
     # === Graph::node_to_index ===
     def test_node_to_index(self) -> None:
         """Test the node_to_index helper function."""
+        graph = Graph([], [1], 0, 5, GraphType.EDGE_LIST)
+        self.assertTrue(graph.node_to_index(0) == 0)
+        self.assertTrue(graph.node_to_index(5) == 1)
+        self.assertTrue(graph.node_to_index(1) == 2)
 
     # === Graph::get_end ===
     def test_get_end_one_vertex(self) -> None:
         """Check that we can get the end vertex of a Graph with one vertex."""
-        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        graph = Graph([], [1], 0, 1, GraphType.EDGE_LIST)
         end_node = graph.get_end()
         expected = 1
         self.assertEqual(expected, end_node)
