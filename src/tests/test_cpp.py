@@ -2,8 +2,13 @@
 
 import unittest
 import sys
+import os
 import warnings
 sys.path.append("/app/code/")
+from lang_to_cfg.cpp import CPPConvert  # type: ignore
+from log import Log
+from graph import Graph, GraphType
+from env import Env
 
 
 def ignore_warnings(test_func):
@@ -17,6 +22,24 @@ def ignore_warnings(test_func):
 
 class TestCPPConvert(unittest.TestCase):
     """All tests for the object that converts arbitrary C++ code to Graph objects."""
+
+    # @ignore_warnings  # glob2 regex use is deprecated.
+    def test_to_graph(self):
+        """Check that it returns the correct graphs."""
+        converter = CPPConvert(Log())
+        self.assertEqual(converter.name(), "CPP")
+        Env.clean_temps()
+        graph1 = Graph([[0, 1], [1, 2]], [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
+        result = converter.to_graph("/app/code/tests/cppFiles/blank", ".cpp")
+        self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
+        self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
+        self.assertTrue("blank0" in result)
+        self.assertEqual(graph1, result["blank0"])
+
+        graph3 = Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
+                       [0, 1, 2, 3, 4, 5, 6], 0, 6, GraphType.EDGE_LIST)
+        graph4 = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")['names0']
+        self.assertEqual(graph3, graph4)
 
     # @ignore_warnings  # glob regex deprecation warnings.
     # def test_create_dot_files(self):
@@ -35,22 +58,6 @@ class TestCPPConvert(unittest.TestCase):
     #     temp_contents = glob2.glob("/app/code/tests/cppFiles/cppConverterTemps/*.dot")
     #     self.assertNotEqual(len(temp_contents), 0)
     #     converter.clean_temps()
-
-    # @ignore_warnings  # glob2 regex use is deprecated.
-    # def test_to_graph(self):
-    #     """Check that it returns the correct graphs."""
-    #     converter = CPPConvert(Log(log_level=LogLevel.DEBUG))
-
-    #     graph1 = Graph([], set([0, 1]), 0, 1)
-    #     graph2 = converter.to_graph("/app/code/tests/cppFiles/blank", ".cpp")
-    #     self.assertTrue('blank0' in graph2.keys())
-    #     graph2 = graph2['blank0']
-    #     self.assertEqual(graph1, graph2)
-
-    #     graph3 = Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
-    #                    set([0, 1, 2, 3, 4, 5, 6]), 0, 5)
-    #     graph4 = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")['names0']
-    #     self.assertEqual(graph3, graph4)
 
     # @ignore_warnings
     # def test_convert_to_standard_format(self):
