@@ -1,10 +1,12 @@
 """Test the conversion of Java source code to Graph objects representing its CFG."""
 import unittest
 import sys
+import os
 sys.path.append("/app/code/")
 sys.path.append("/app/code/lang_to_cfg/")
 from lang_to_cfg.java import JavaConvert  # type: ignore
 from log import Log
+from env import Env
 
 
 # JavaConvert::to_graph()
@@ -16,7 +18,16 @@ class TestJavaConvert(unittest.TestCase):
         converter = JavaConvert(Log())
         self.assertTrue(converter.name() == "Java")
 
-        # converter.to_graph("/app/code/", ".jar")
+        Env.clean_temps()
+        base_path = "/app/examples/src/apache_commons/bins/commons-math3-3.4.1"
+        filename = "commons-math3-3.4.1"
+        res = converter.to_graph(f"{base_path}/{filename}", ".jar")
+        self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
+        self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
+        self.assertIsNotNone(res)
+        if res is not None:
+            self.assertTrue(len(list(res.keys())) != 0)
+
         # converter.to_graph("/app/code/", ".class")
         # converter.to_graph("/app/code/", ".java")
 
