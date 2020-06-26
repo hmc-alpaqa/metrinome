@@ -498,10 +498,25 @@ class Command:
 
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
-    @check_args(1, MISSING_FILENAME, check_recursive=True, var_args=True)
-    def do_convert(self, recursive_mode: bool, *args_list: str) -> None:
+    def do_convert(self, args: str) -> None:
         """Convert source code into CFGs."""
         # Iterate through all file-like objects.
+        recursive_mode = False
+        multi_function = False
+
+        arguments = args.split(" ")
+        if len(arguments) > 0:
+            if arguments[0] == ("-r" or "--recursive"):
+                recursive_mode = True
+                args_list = arguments[1:]
+            elif arguments[0] == ("-m" or "--multi_function"):
+                multi_function = True
+                args_list = arguments[1:]
+            else:
+                args_list = arguments
+        else:
+            self.logger.v_msg("Not enough arguments!")
+        
         all_files = []
         allowed_extensions = list(self.controller.graph_generators.keys())
         for full_path in args_list:
@@ -524,6 +539,9 @@ class Command:
                     self.logger.v_msg(f"Cannot convert {file_extension} for {file}.")
                 return
 
+            if multi_function:
+                self.logger.v_msg("Placeholder for multi-function conversion :)")
+                return
             converter = self.controller.get_graph_generator(file_extension)
             graph = converter.to_graph(filepath.strip(), file_extension.strip())
             if graph is None:
