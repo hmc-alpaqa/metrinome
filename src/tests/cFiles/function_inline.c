@@ -4,39 +4,24 @@
 // another inline function
 __attribute__((always_inline)) static inline int foo2(int x) 
 { 
-    if (x > 5){
-        x = 6;
-        //printf("x is greater than 5"); 
-    } else {
-        x = 4;
-        //printf("x is not greater than 5"); 
-    }
+    ++x;
 } 
  
-// Inline function in C 
+// Inline function 
 __attribute__((always_inline)) static inline int foo(int x) 
 { 
-    //while (x < 15){
-    x = foo2(x);
-    ++x;
-        //++x;
-    //}
-
-    if (x < 0) {
-        return -1;
-    } else {
-        return 1;
+    while (x < 23) {
+        x = foo2(x);
+        ++x;
     }
+
 }  
-  
-// Driver code 
-int main() 
-{ 
-    int ret = 10; 
-  
+
+
+int main() {
     // inline function call 
-    ret = foo(ret); 
-  
-    printf("Output is: %d\n", ret); 
-    return 0; 
+    int ret = 0;
+    foo(ret);
+
+    return 0;
 }

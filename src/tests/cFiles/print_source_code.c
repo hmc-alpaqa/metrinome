@@ -1,5 +1,6 @@
 #include <stdio.h>
-// it prints function calls - does not replace inlining :( 
+// it prints function calls - does not print inlining :( 
+// does NOT work on inline calls that are inside loops 
 
 
 int bounded_fib(int n) {
