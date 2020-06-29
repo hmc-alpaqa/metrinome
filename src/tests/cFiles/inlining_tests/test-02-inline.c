@@ -1,4 +1,4 @@
-int __attribute__((always_inline)) inline foo(int x, int y){
+int foo(int x, int y){
     if(x < y){
         x++;
     }
