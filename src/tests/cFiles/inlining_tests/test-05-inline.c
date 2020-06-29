@@ -1,8 +1,8 @@
 # include <stdio.h> 
 
-int __attribute__((always_inline)) inline foo(int a, int b, int c){
+int __attribute__((always_inline)) inline static foo(int a, int b, int c){
     for (int i = 0; i < a; ++i){
-        for (int i = 0; i < b; ++i){
+        for (int j = 0; j < b; ++j){
             ++c;
         }
     }

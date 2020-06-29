@@ -7,7 +7,7 @@ int main(){
     int d;
 
     for (int i = 0; i < a; ++i){
-        for (int i = 0; i < b; ++i){
+        for (int j = 0; j < b; ++j){
             ++c;
         }
     }
