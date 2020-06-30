@@ -2,6 +2,7 @@
 
 import unittest
 import sys
+import tempfile
 import re
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
@@ -220,9 +221,19 @@ class TestGraph(unittest.TestCase):
     # # === Graph::to_prism ===
     def test_to_prism_one_vertex(self) -> None:
         """Test if we can convert a Graph with one vertex to a PRISM file."""
+        graph = Graph([], [0], start_node=0, end_node=1, graph_type=GraphType.ADJACENCY_LIST)
+        graph.convert_to_weighted()
+        with tempfile.NamedTemporaryFile() as file:
+            to_write = ''.join(graph.to_prism())
+            file.write(str.encode(to_write))
 
     def test_to_prism_normal_graph(self) -> None:
         """Test if we can convert a Graph with many vertices and many edges to a PRISM file."""
+        graph = Graph([], [0], start_node=0, end_node=1, graph_type=GraphType.ADJACENCY_LIST)
+        graph.convert_to_weighted()
+        with tempfile.NamedTemporaryFile() as file:
+            to_write = ''.join(graph.to_prism())
+            file.write(str.encode(to_write))
 
 
 if __name__ == '__main__':

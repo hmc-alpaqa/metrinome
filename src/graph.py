@@ -66,7 +66,7 @@ class Graph:
                f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
                f"\nEnd Node: {self.end_node}"
 
-    def __init__(self, edges, vertices: Any, start_node: int,
+    def __init__(self, edges: Any, vertices: Any, start_node: int,
                  end_node: int,
                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> None:
         """

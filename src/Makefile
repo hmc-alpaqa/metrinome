@@ -17,6 +17,10 @@ tests:
 	python tests/test_python.py
 	python tests/test_utils.py          
 
+coverage:
+	coverage run -m unittest discover
+	coverage report
+
 test:   formatting lint tests
 
 build: 
@@ -40,5 +44,5 @@ formatting:
 	# Replace ''' with """.
 	find . -type f -name "*.py" | xargs sed -i '' -e 's/'"'''"'/"""/g'
 
-.PHONY: lint tests formatting test build run run-detched stop-detached
+.PHONY: lint tests formatting test build run run-detched stop-detached coverage
 	

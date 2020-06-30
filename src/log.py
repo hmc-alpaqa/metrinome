@@ -46,7 +46,11 @@ class Log:
         """Use for debugging. Messages are only displayed if LOG_LEVEL is 'DEBUG'."""
         if self.display_output and self.log_level is LogLevel.DEBUG:
             for msg in msgs:
-                print(f"{Colors.OKBLUE.value} === DEBUG === {Colors.ENDC.value}: {msg}")
+                debug_str = " === DEBUG === "
+                if len(self.tag) == 0:
+                    print(f"{Colors.OKBLUE.value}{debug_str}{Colors.ENDC.value}: {msg}")
+                else:
+                    print(f"{self.tag}{Colors.OKBLUE.value}{debug_str}{Colors.ENDC.value}: {msg}")
 
     def i_msg(self, *msgs: str) -> None:
         """Log an information-level message."""

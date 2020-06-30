@@ -9,7 +9,7 @@ import unittest
 import sys
 sys.path.append("/app/code")
 from tests.unit_utils import captured_output
-from log import Log, Colors
+from log import Log, Colors, LogLevel
 
 
 class TestLog(unittest.TestCase):
@@ -54,6 +54,35 @@ class TestLog(unittest.TestCase):
         colors = f"{Colors.WARNING.value} !!! {Colors.ENDC.value}"
         expected_msg = f" test_tag > {colors} test_msg {colors}"
 
+        self.assertEqual(expected_msg, out.getvalue().rstrip())
+        self.assertTrue(len(err.read()) == 0)
+
+    def test_d(self) -> None:
+        """Test that d_msg works correctly."""
+        log = Log(tag="", display_output=True)
+        with captured_output() as (out, err):
+            log.d_msg("test_msg")
+
+        self.assertTrue(len(out.getvalue().rstrip()) == 0)
+        self.assertTrue(len(err.read()) == 0)
+
+        log = Log(tag="test_tag", display_output=True, log_level=LogLevel.DEBUG)
+        with captured_output() as (out, err):
+            log.d_msg("test_msg", "test_msg2")
+
+        colors = f"{Colors.OKBLUE.value} === DEBUG === {Colors.ENDC.value}"
+        expected_msg = f"test_tag{colors}: test_msg\n"
+        expected_msg2 = f"test_tag{colors}: test_msg2"
+
+        self.assertEqual(expected_msg + expected_msg2, out.getvalue().rstrip())
+        self.assertTrue(len(err.read()) == 0)
+
+        log.tag = ""
+        with captured_output() as (out, err):
+            log.d_msg("test_msg")
+        
+        colors = f"{Colors.OKBLUE.value} === DEBUG === {Colors.ENDC.value}"
+        expected_msg = f"{colors}: test_msg"
         self.assertEqual(expected_msg, out.getvalue().rstrip())
         self.assertTrue(len(err.read()) == 0)
 
