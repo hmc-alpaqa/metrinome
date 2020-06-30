@@ -1,4 +1,4 @@
-int foo(int x, int y){
+__attribute__((always_inline)) static inline int foo(int x, int y){
     if(x < y){
         x++;
     }
