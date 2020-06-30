@@ -11,6 +11,8 @@ int main(){
     } else {
         if (a < 0) {
             c = a + 10;
+        } else {
+            c = a;
         }
     }
 
