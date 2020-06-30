@@ -5,6 +5,7 @@
 __attribute__((always_inline)) static inline int foo2(int x) 
 { 
     ++x;
+    return x;
 } 
  
 // Inline function 
@@ -14,6 +15,7 @@ __attribute__((always_inline)) static inline int foo(int x)
         x = foo2(x);
         ++x;
     }
+    return x;
 
 }  
 
