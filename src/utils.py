@@ -188,9 +188,9 @@ def big_o(terms):
 def show_func_defs(filename):
     "Return a list of the functions defined in a file."
     ast = parse_file(filename, use_cpp=True,
-                     cpp_args=r'-Iutils/fake_libc_include')
+                     cpp_args=r'-I/app/pycparser/utils/fake_libc_include')
 
-    names = [i.decl.name for i in ast]
+    names = {i.decl.name:i.decl.coord for i in ast}
     return names
 
 
