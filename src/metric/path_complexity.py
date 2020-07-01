@@ -128,11 +128,16 @@ class PathComplexity(metric.MetricAbstract):
                 if degree(apc, gen=n_var) != 0:
                     return (sympy.LM(apc), terms)
             except sympy.polys.polyerrors.PolynomialError:
+                self.logger.d_msg("APC is not a polynomial.")
                 # degree returns an error if apc is not a polynomial.
                 if "n" in str(apc):
+                    self.logger.d_msg("n is in apc")
                     regex_cleaner = re.search(r'([0-9.]*\*\*n)', str(apc))
                     if regex_cleaner:
+                        self.logger.d_msg("regex_cleaner is true")
                         apc = regex_cleaner.groups()[0]
+                        self.logger.d_msg(f"apc is: {apc}")
+
                 return (apc, terms)
 
         return (expr_with_abs, expr_with_abs)
