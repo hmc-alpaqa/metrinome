@@ -107,16 +107,23 @@ class PathComplexity(metric.MetricAbstract):
             exp_term = exp_term.replace("exp", "0*")
             exp_terms[i] = exp_term.replace("I", "0")
 
+        self.logger.d_msg(f"exp terms before simplify: {exp_terms}")
+
         exp_terms = [simplify(sympify(arg)) for arg in exp_terms]
         exp_terms = [refine(term, Q.real(n_var)) for term in exp_terms]  # pylint: disable=E1121
         exp_terms = list(filter(lambda a: a != 0, exp_terms))
 
+        self.logger.d_msg(f"exp terms is: {exp_terms}")
+
         apc = big_o(exp_terms)
+
+        self.logger.d_msg(f"APC is {apc}")
 
         exp_terms_list = (*exp_terms, )
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))
         if apc != 0.0:
+            self.logger.d_msg("APC is not 0")
             try:
                 if degree(apc, gen=n_var) != 0:
                     return (sympy.LM(apc), terms)
