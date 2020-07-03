@@ -1,4 +1,4 @@
-int __attribute__((always_inline)) inline static foo(int a, int b){
+int foo(int a, int b){
     for (int i = 0; i < a; ++i){
         ++a;
     }

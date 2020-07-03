@@ -1,4 +1,4 @@
-int __attribute__((always_inline)) inline static foo1(int a, int b) {
+__attribute__((always_inline)) inline int foo1(int a, int b) {
     for (int i = 0; a < i; ++i) {
         if (a < b) {
             ++a;

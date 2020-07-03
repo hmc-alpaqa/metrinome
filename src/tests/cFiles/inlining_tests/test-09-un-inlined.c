@@ -1,4 +1,4 @@
-int __attribute__((always_inline)) inline static foo(int a, int b, int c){
+int foo(int a, int b, int c){
     if (a > b) {
         if (b > c) {
             ++c;

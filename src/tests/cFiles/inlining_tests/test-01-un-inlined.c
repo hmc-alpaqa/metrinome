@@ -1,12 +1,12 @@
 // another inline function
-__attribute__((always_inline)) static inline int foo2(int x) 
+int foo2(int x) 
 { 
     ++x;
     return x;
 } 
  
 // Inline function 
-__attribute__((always_inline)) static inline int foo(int x) 
+int foo(int x) 
 { 
     while (x < 23) {
         x = foo2(x);

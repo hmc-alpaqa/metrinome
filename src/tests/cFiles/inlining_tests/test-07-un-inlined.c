@@ -1,4 +1,4 @@
-int __attribute__((always_inline)) inline static foo2(int a){
+int foo2(int a){
     if (a < 0) {
         return a + 10;
     } else {
@@ -6,7 +6,7 @@ int __attribute__((always_inline)) inline static foo2(int a){
     }
 }
 
-int __attribute__((always_inline)) inline static foo1(int a, int b) {
+int foo1(int a, int b) {
     if (b > a) {
         return b;
     } else {

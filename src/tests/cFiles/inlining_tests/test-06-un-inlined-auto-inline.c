@@ -1,4 +1,4 @@
-int __attribute__((always_inline)) inline static foo(int a, int b, int c){
+__attribute__((always_inline)) inline int foo(int a, int b, int c){
     while (a < 10) {
         while (b < 10) {
             ++c;

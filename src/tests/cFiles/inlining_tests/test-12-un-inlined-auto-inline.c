@@ -1,11 +1,11 @@
 // another inline function
-__attribute__((always_inline)) static inline void foo2(int x) 
+__attribute__((always_inline)) inline void foo2(int x) 
 { 
     ++x;
 } 
  
 // Inline function 
-__attribute__((always_inline)) static inline void foo(int x) 
+__attribute__((always_inline)) inline void foo(int x) 
 { 
     while (x < 23) {
         foo2(x);

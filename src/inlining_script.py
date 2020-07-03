@@ -7,7 +7,7 @@ from utils import show_func_defs
 def in_lining(file):
     function_calls_dict = show_func_defs(file)
 
-    # store the line numbers of 
+    # store the line numbers 
     lines_to_inline = []
     for x in function_calls_dict.values():
         x = re.split('[-:]', x)
@@ -32,7 +32,13 @@ def in_lining(file):
     new_f.close()
 
 def main():
-    in_lining('inlining-test.c')
+    files_to_inline = ['test-01-un-inlined.c', 'test-02-un-inlined.c', 'test-03-un-inlined.c', 'test-04-un-inlined.c',
+                 'test-05-un-inlined.c', 'test-06-un-inlined.c', 'test-07-un-inlined.c', 'test-08-un-inlined.c',
+                 'test-09-un-inlined.c', 'test-10-un-inlined.c', 'test-11-un-inlined.c', 'test-12-un-inlined.c']
+    for file in files_to_inline:
+        print(file)
+        in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
+        #in_lining('/app/code/tests/cFiles/inlining_tests/'+str(file))
 
 if __name__ == "__main__":
     main()

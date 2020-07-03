@@ -1,11 +1,11 @@
-int __attribute__((always_inline)) inline static foo2(int a){
+int foo2(int a){
     for (int i = 0; i < a; ++i){
         ++a;
     }
     return a + 2;
 }
 
-int __attribute__((always_inline)) inline static foo1(int a){
+int foo1(int a){
     for (int i = 0; i < a; ++i){
         foo2(a);
     }

@@ -1,5 +1,3 @@
-# include <stdio.h> 
-
 int __attribute__((always_inline)) inline static foo(int a, int b, int c){
     for (int i = 0; i < a; ++i){
         for (int j = 0; j < b; ++j){
