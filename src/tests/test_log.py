@@ -80,7 +80,7 @@ class TestLog(unittest.TestCase):
         log.tag = ""
         with captured_output() as (out, err):
             log.d_msg("test_msg")
-        
+
         colors = f"{Colors.OKBLUE.value} === DEBUG === {Colors.ENDC.value}"
         expected_msg = f"{colors}: test_msg"
         self.assertEqual(expected_msg, out.getvalue().rstrip())

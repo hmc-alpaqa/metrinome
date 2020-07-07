@@ -12,7 +12,7 @@ from collections import Counter
 import signal
 from sympy import limit, Abs, sympify, series, symbols  # type: ignore
 from mpmath import polyroots  # type: ignore
-from pycparser import c_parser, c_ast, parse_file
+from pycparser import parse_file  # type: ignore
 
 
 def round_expression(expr: str, digits: int) -> str:
@@ -185,12 +185,13 @@ def big_o(terms):
 
     return big_o(terms[1:])
 
+
 def show_func_defs(filename):
-    "Return a list of the functions defined in a file."
+    """Return a list of the functions defined in a file."""
     ast = parse_file(filename, use_cpp=True,
                      cpp_args=r'-I/app/pycparser/utils/fake_libc_include')
 
-    names = {i.decl.name:str(i.decl.coord) for i in ast}
+    names = {i.decl.name: str(i.decl.coord) for i in ast}
     return names
 
 
