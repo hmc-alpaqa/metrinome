@@ -31,10 +31,11 @@ def in_lining(file):
 
 def main():
     """Create inline versions of all test files."""
-    files_to_inline = ['test-01-un-inlined.c', 'test-02-un-inlined.c', 'test-03-un-inlined.c',
-                       'test-04-un-inlined.c', 'test-05-un-inlined.c', 'test-06-un-inlined.c',
-                       'test-07-un-inlined.c', 'test-08-un-inlined.c', 'test-09-un-inlined.c',
-                       'test-10-un-inlined.c', 'test-11-un-inlined.c', 'test-12-un-inlined.c']
+    files_to_inline = ['newton-un-inlined.c']
+    # files_to_inline = ['test-01-un-inlined.c', 'test-02-un-inlined.c', 'test-03-un-inlined.c',
+    #                    'test-04-un-inlined.c', 'test-05-un-inlined.c', 'test-06-un-inlined.c',
+    #                    'test-07-un-inlined.c', 'test-08-un-inlined.c', 'test-09-un-inlined.c',
+    #                    'test-10-un-inlined.c', 'test-11-un-inlined.c', 'test-12-un-inlined.c']
     for file in files_to_inline:
         print(file)
         in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
