@@ -85,3 +85,4 @@ int main(int argc, char **argv)
     }
     printf("%s\n", longestPalindrom(argv[1]));
     return 0;
+}
