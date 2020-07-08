@@ -191,7 +191,12 @@ def show_func_defs(filename):
     ast = parse_file(filename, use_cpp=True,
                      cpp_args=r'-I/app/pycparser/utils/fake_libc_include')
 
-    names = {i.decl.name: str(i.decl.coord) for i in ast}
+    names = {}
+
+    for i in ast:
+        if str(type(i)) == "<class 'pycparser.c_ast.FuncDef'>":
+            print('here')
+            names[i.decl.name]=str(i.decl.coord)
     return names
 
 
