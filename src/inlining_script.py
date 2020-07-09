@@ -4,11 +4,11 @@ import re
 from utils import show_func_defs
 
 
-def in_lining(file):
+def in_lining(file: str) -> None:
     """Create inlined version of existing C file."""
     function_calls_dict = show_func_defs(file)
 
-    # store the line numbers
+    # store the line numbers.
     lines_to_inline = []
     for val in function_calls_dict.values():
         val = re.split('[-:]', val)
@@ -29,7 +29,7 @@ def in_lining(file):
                     new_f.write(line)
 
 
-def main():
+def main() -> None:
     """Create inline versions of all test files."""
     files_to_inline = ['test-20-un-inlined.c', 'test-21-un-inlined.c', 'test-22-un-inlined.c',
                        'test-23-un-inlined.c']

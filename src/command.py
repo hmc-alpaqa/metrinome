@@ -10,11 +10,11 @@ import re
 import subprocess
 import tempfile
 import time
-import inlining_script
 from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
 import numpy   # type: ignore
+import inlining_script
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 from graph import Graph
@@ -41,7 +41,7 @@ EXTENSION: Callable[[str, str], str] = lambda target_type, file_extension: \
 def check_args(num_args, err, check_recursive=False, var_args=False):
     """Create decorators that verify REPL functions have valid arguments (factory method)."""
     def decorator(func):
-        def wrapper(self, args: str):
+        def wrapper(self, args: str) -> None:
             args_list = args.strip().split()
             if len(args_list) < num_args:
                 self.logger.v_msg(err)
@@ -81,7 +81,8 @@ class KnownExtensions(Enum):
     BC     = ".bc"
 
 
-def get_files_from_regex(logger: Log, input_file, original_base, recursive_mode: bool):
+def get_files_from_regex(logger: Log, input_file,
+                         original_base, recursive_mode: bool) -> List[str]:
     """Try to compile a path as a regular expression and get the matching files."""
     try:
         regexp = re.compile(input_file)
@@ -129,7 +130,8 @@ def get_files_from_regex(logger: Log, input_file, original_base, recursive_mode:
         return []
 
 
-def get_files(path: str, recursive_mode: bool, logger: Log, allowed_extensions: List[str]):
+def get_files(path: str, recursive_mode: bool,
+              logger: Log, allowed_extensions: List[str]) -> List[str]:
     """
     get_files returns a list of files from the given path.
 
@@ -149,14 +151,13 @@ def get_files(path: str, recursive_mode: bool, logger: Log, allowed_extensions: 
     if os.path.isdir(path):
         logger.d_msg("This is a directory")
         if recursive_mode:
-            all_files: List[Any] = []
+            all_files: List[Path] = []
             for extension in allowed_extensions:
                 all_files += Path(path).rglob(f"*{extension}")
-            for file in all_files:
-                print(file)
-            return all_files
 
-        # Get all of the files in this directory
+            return [str(file) for file in all_files]
+
+        # Get all of the files in this directory.
         return [f for f in listdir(path) if os.path.isfile(os.path.join(path, f))]
 
     logger.d_msg("Checking if it's a regular expression")
@@ -308,19 +309,22 @@ class Command:
         if len(args_list) == 0:
             return
 
-        all_files = []
+        all_files: List[str] = []
         allowed_extensions = list(self.controller.graph_generators.keys())
         for full_path in args_list:
             files = get_files(full_path, recursive_mode, self.logger, allowed_extensions)
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
                 return
+
             all_files += files
 
         self.logger.d_msg(f"Convert files {all_files}")
         # Make sure files are valid (if using recursive mode
         #  this is done automatically in the previous step).
+
         for file in all_files:
+            file = str(file)  # used for typechecking.
             self.logger.d_msg(f"Looking at file {file}")
             filepath, file_extension = os.path.splitext(file)
             if file_extension not in self.controller.get_graph_generator_names():
@@ -333,8 +337,9 @@ class Command:
             if multi_function:
                 self.logger.v_msg(f"Converting {file}")
                 inlining_script.in_lining(file)
-                file = file.split('.')[0]+"-auto-inline.c"
-                filepath, file_extenson = os.path.splitext(file)
+                new_file = file.split('.')[0] + "-auto-inline.c"
+                filepath = os.path.splitext(new_file)[0]
+
             converter = self.controller.get_graph_generator(file_extension)
             graph = converter.to_graph(filepath.strip(), file_extension.strip())
             if graph is None:

@@ -13,6 +13,21 @@ from env import Env
 class TestJavaConvert(unittest.TestCase):
     """All of the tests to verify that we can convert Java source code to Graph objects."""
 
+    def test_run_cmd(self) -> None:
+        """
+        Check that running commands works.
+
+        Runcmd should never throw an error, even when the command doesn't workout.
+        """
+        converter = JavaConvert(Log())
+        out, err = converter.runcmd("mkdir /")
+        self.assertTrue(len(out) == 0)
+        self.assertTrue(len(err) != 0)
+
+        out, err = converter.runcmd("ls")
+        self.assertTrue(len(out) != 0)
+        self.assertTrue(len(err) == 0)
+
     def test_invalid_name(self) -> None:
         """Check that we cannot convert certain invalid files."""
         self.assertIsNone(JavaConvert(Log()).to_graph("javadoc", ".jar"))
