@@ -13,6 +13,12 @@ from env import Env
 class TestJavaConvert(unittest.TestCase):
     """All of the tests to verify that we can convert Java source code to Graph objects."""
 
+    def test_invalid_name(self) -> None:
+        """Check that we cannot convert certain invalid files."""
+        self.assertIsNone(JavaConvert(Log()).to_graph("javadoc", ".jar"))
+        self.assertIsNone(JavaConvert(Log()).to_graph("sources", ".jar"))
+        self.assertIsNone(JavaConvert(Log()).to_graph("tests", ".jar"))
+
     def test_to_graph(self) -> None:
         """Test that converting a file with code to a Graph results in the correct Graph."""
         converter = JavaConvert(Log())

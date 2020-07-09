@@ -56,7 +56,11 @@ class TestNPATH(unittest.TestCase):
         self.assertEqual(results_two, expected_results)
         self.assertEqual(results_three, expected_results)
 
-    def test_npath_single_node(self):
+    def test_name(self) -> None:
+        """Check that the object has the correct name."""
+        self.assertEqual(npath_complexity.NPathComplexity(Log()).name(), "NPath Complexity")
+
+    def test_npath_single_node(self) -> None:
         """
         Check NPath for single-node Graph.
 

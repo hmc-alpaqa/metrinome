@@ -13,6 +13,10 @@ from log import Log
 class TestCyclomaticComplexity(unittest.TestCase):
     """Tests for the object that computes Cyclomatic Complexity for an arbitrary Graph."""
 
+    def test_name(self) -> None:
+        """Verify that the converter has the correct name."""
+        self.assertEqual(CyclomaticComplexity(Log()).name(), "Cyclomatic Complexity")
+
     def test_cyclomatic_complexity_edge_list(self) -> None:
         """
         Verify cyclomatic complexity value for regular graph.

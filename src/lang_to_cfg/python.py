@@ -16,6 +16,7 @@ from typing import List, Optional, Dict, cast
 import ast
 import os
 # from pprintast import pprintast as ppast
+from log import Log
 from graph import Graph, GraphType
 from lang_to_cfg import converter  # type: ignore
 
@@ -35,7 +36,7 @@ class FunctionVisitor(ast.NodeVisitor):
     It includes visitor functions for each type of statement we are interested in.
     """
 
-    def __init__(self, logger=None) -> None:
+    def __init__(self, logger=Log()) -> None:
         """Create a new instance of the function visitor."""
         self.root: Optional[Node] = None
         self.end_node: Optional[Node] = None
@@ -60,7 +61,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def visit_Expr(self, node) -> None:
         """Visit a python expression."""
-        print(f"At expr {node}")
+        self.logger.d_msg(f"At expr {node}")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -69,7 +70,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def visit_Pass(self, node) -> None:
         """Visits a pass statement."""
-        print(f"At pass {node}")
+        self.logger.d_msg(f"At pass {node}")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -78,7 +79,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def visit_Return(self, node) -> None:
         """Visit a python return statement."""
-        print(f"At return {node}.")
+        self.logger.d_msg(f"At return {node}.")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -87,7 +88,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def visit_Assign(self, node) -> None:
         """Visit a python assign statement."""
-        print(f"At assignment {node}.")
+        self.logger.d_msg(f"At assignment {node}.")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -96,7 +97,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def visit_For(self, node) -> None:
         """Visit a python for loop."""
-        print(f"At for {node}")
+        self.logger.d_msg(f"At for {node}")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -106,7 +107,7 @@ class FunctionVisitor(ast.NodeVisitor):
         # Now visit EACH of the things in the loop.
         # This will give us the subgraph. We connect each expression to the next.
         for loop_node in node.body:
-            print(f"At for loop node {loop_node}")
+            self.logger.d_msg(f"At for loop node {loop_node}")
 
             visitor = FunctionVisitor()
             visitor.visit(loop_node)
@@ -123,7 +124,7 @@ class FunctionVisitor(ast.NodeVisitor):
     # pylint: disable=R0201
     def visit_With(self, node) -> None:
         """Visit a python with statement."""
-        print(f"At with {node}")
+        self.logger.d_msg(f"At with {node}")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -133,7 +134,7 @@ class FunctionVisitor(ast.NodeVisitor):
         # Visit everything inside the with block.
         # This follows the same pattern as the for loop visitor.
         for with_node in node.body:
-            print(f"At with node {with_node}")
+            self.logger.d_msg(f"At with node {with_node}")
 
             visitor = FunctionVisitor()
             visitor.visit(with_node)
@@ -142,7 +143,7 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def visit_If(self, node) -> None:
         """Visit a python if statement."""
-        print(f"At if {node}")
+        self.logger.d_msg(f"At if {node}")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -154,7 +155,7 @@ class FunctionVisitor(ast.NodeVisitor):
         new_frontier = []
 
         # This is the comparison in the if statement
-        print(f"{dir(node.test)}")
+        self.logger.d_msg(f"{dir(node.test)}")
 
         # Visit the body of the first if block
         visitor = FunctionVisitor()
@@ -173,7 +174,7 @@ class FunctionVisitor(ast.NodeVisitor):
         # (see visit_If @ https://github.com/python/cpython/blob/master/Lib/ast.py)
         while len(node.orelse) != 0 and isinstance(node.orelse[0], ast.If):
             node = node.orelse[0]
-            print(f"At the {i}th elif: {node}")
+            self.logger.d_msg(f"At the {i}th elif: {node}")
             # Visit the body of this elif block
             visitor = FunctionVisitor()
             visitor.visit(node.body[0])
@@ -201,16 +202,16 @@ class FunctionVisitor(ast.NodeVisitor):
     # pylint: disable=R0201
     def visit_Raise(self, node) -> None:
         """Visit a python raise."""
-        print(f"At raise {node}")
+        self.logger.d_msg(f"At raise {node}")
 
     # pylint: disable=R0201
     def visit_Try(self, node) -> None:
         """Visit a python try statement."""
-        print(f"At try {node}")
+        self.logger.d_msg(f"At try {node}")
 
     def visit_While(self, node) -> None:
         """Visit a python while loop."""
-        print(f"At while {node}")
+        self.logger.d_msg(f"At while {node}")
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
@@ -220,7 +221,7 @@ class FunctionVisitor(ast.NodeVisitor):
         # Now visit EACH of the things in the loop
         # This will give us the subgraph. We connect each expression to the next
         for loop_node in node.body:
-            print(f"At loop node {loop_node}")
+            self.logger.d_msg(f"At loop node {loop_node}")
 
             visitor = FunctionVisitor()
             visitor.visit(loop_node)
@@ -242,14 +243,15 @@ class Visitor(ast.NodeVisitor):
     It creates a FunctionVisitor for each function in the class.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, logger=Log()) -> None:
         """Create a new instance of the Python source code parser."""
         self.graphs: Dict[str, Graph] = {}
+        self.logger = logger
 
     def visit_FunctionDef(self, node) -> None:
         """Call this for each function in the python source file."""
         visitor = FunctionVisitor()
-        print(f"Visiting {node.name}")
+        self.logger.d_msg(f"Visiting {node.name}")
         visitor.visit(node)
 
         # Now take the representation and convert it to a graph.py by doing BFS.
@@ -285,7 +287,7 @@ class Visitor(ast.NodeVisitor):
             nodes_to_visit += children
 
         if len(visitor.frontier) != 1:
-            print("Frontier has more than one node.")
+            self.logger.d_msg("Frontier has more than one node.")
             new_node = Node()
             nodes[new_node] = len(node_list)
             node_list.append(len(node_list))

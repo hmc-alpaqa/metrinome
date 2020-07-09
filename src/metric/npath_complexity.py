@@ -109,7 +109,4 @@ class NPathComplexity(metric.MetricAbstract):
             return self.npath_adj_matrix(graph.adjacency_matrix(), graph.start_node,
                                          graph.end_node, graph.start_node)
 
-        if graph.graph_type is GraphType.EDGE_LIST:
-            return self.npath_edge_list(graph.start_node, graph.end_node, graph.edge_rules())
-
-        return 0.
+        return self.npath_edge_list(graph.start_node, graph.end_node, graph.edge_rules())
