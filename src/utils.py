@@ -195,8 +195,7 @@ def show_func_defs(filename):
 
     for i in ast:
         if str(type(i)) == "<class 'pycparser.c_ast.FuncDef'>":
-            print('here')
-            names[i.decl.name] = str(i.decl.coord)
+            names[i.decl.name]=str(i.decl.coord)
     return names
 
 

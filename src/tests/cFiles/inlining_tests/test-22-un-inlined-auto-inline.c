@@ -4,14 +4,14 @@
 #include <string.h>
 #include <stdbool.h>
 
-char ch2lower(char ch) {
+__attribute__((always_inline)) inline char ch2lower(char ch) {
     if (ch >= 'A' && ch <= 'Z')
         ch += 0x20;
 
     return ch;
 }
 
-bool isPalindrome(char *s) {
+__attribute__((always_inline)) inline bool isPalindrome(char *s) {
     int len = strlen(s);
     int head, tail;
     head = tail = 0;

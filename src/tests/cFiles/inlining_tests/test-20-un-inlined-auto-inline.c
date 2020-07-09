@@ -1,16 +1,17 @@
 // Newton
 
-// #include<stdio.h>
-// #include<math.h>
-float f(float x)
+#include<stdio.h>
+#include<math.h>
+
+__attribute__((always_inline)) inline float f(float x)
 {
     return x*log10(x) - 1.2;
 }
-float df (float x)
+__attribute__((always_inline)) inline float df (float x)
 {
     return log10(x) + 0.43429;
 }
-void main()
+int main()
 {
     int itr, maxmitr;
     float h, x0, x1, allerr;
