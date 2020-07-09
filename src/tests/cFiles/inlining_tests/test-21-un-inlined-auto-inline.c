@@ -11,7 +11,7 @@ void merge_array(int, int, int, int);
 
 int arr_sort[MAX_SIZE];
 
-int main() {
+__attribute__((always_inline)) inline int main() {
   int i;
 
   printf("Simple Merge Sort Example - Functions and Array\n");
@@ -34,7 +34,7 @@ int main() {
 
 }
 
-void merge_sort(int i, int j) {
+__attribute__((always_inline)) inline void merge_sort(int i, int j) {
   int m;
 
   if (i < j) {
