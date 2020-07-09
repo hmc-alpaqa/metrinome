@@ -10,6 +10,7 @@ import re
 import subprocess
 import tempfile
 import time
+import inlining_script
 from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
@@ -330,8 +331,10 @@ class Command:
                 return
 
             if multi_function:
-                self.logger.v_msg("Placeholder for multi-function conversion :)")
-                return
+                self.logger.v_msg(f"Converting {file}")
+                inlining_script.in_lining(file)
+                file = file.split('.')[0]+"-auto-inline.c"
+                filepath, file_extenson = os.path.splitext(file)
             converter = self.controller.get_graph_generator(file_extension)
             graph = converter.to_graph(filepath.strip(), file_extension.strip())
             if graph is None:
