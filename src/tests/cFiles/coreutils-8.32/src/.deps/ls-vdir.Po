@@ -1,0 +1,3 @@
+src/ls-vdir.o: src/ls-vdir.c src/ls.h
+
+src/ls.h:
