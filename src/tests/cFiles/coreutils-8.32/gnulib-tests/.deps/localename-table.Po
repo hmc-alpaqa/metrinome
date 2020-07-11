@@ -1,0 +1,3 @@
+localename-table.o: localename-table.c ../lib/config.h
+
+../lib/config.h:
