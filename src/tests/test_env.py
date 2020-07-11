@@ -36,6 +36,14 @@ class TestEnv(unittest.TestCase):
         self.assertTrue(len(out.getvalue().strip()) == 0)
         self.assertTrue(len(err.getvalue().strip()) == 0)
 
+        tmp_path = Env.TMP_PATH
+        Env.TMP_PATH = "/sys/tmp"
+        with captured_output() as (out, err):
+            Env.make_temp()
+        Env.TMP_PATH = tmp_path
+
+        self.assertTrue(len(out.getvalue().strip()) != 0)
+
     def test_get_output_path(self):
         """Test the get_output_path function."""
         self.assertTrue(Env.get_output_path("/app/code/test.foo") == "/app/code/tmp_dot/test")

@@ -30,34 +30,6 @@ def round_expression(expr: str, digits: int) -> str:
     return re.sub(reg_exp, replace_with_rounded, expr)
 
 
-def classify(expr: str, var="n") -> str:
-    """
-    Given an arbitrary expression represented as a string, return a value indicating its 'class'.
-
-    Note: the string cannot have other variables (e.g. we cannot classify '2m' in terms of 'n').
-
-    Exponentiation is represented by '^'.
-
-    Const: [Value]
-    PolyDeg: [Highest Degree of Polynomial]
-    ExpBase: [Return the base of expression of the form a^x]
-    """
-    if expr == '':
-        return "Const:0"
-
-    try:
-        val = float(str(expr))
-        return f"Const:{val}"
-    except ValueError:
-        # If we have anything to the power 'n', then it is exponential.
-        val = is_exponential(expr, var)
-        if val is None:
-            degree = get_degree(expr, var)
-            return f"PolyDeg:{degree}"
-
-        return f"ExpBase:{val}"
-
-
 def get_solution_from_roots(roots: List[Any]):
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
@@ -121,47 +93,6 @@ def get_taylor_coeffs(func, num_coeffs: int):
     return None
 
 
-def is_exponential(term: str, var='n'):
-    """If an expression contains an exponential, return its base. Otherwise, return None."""
-    # either ^n or ^(num*n)
-    num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
-    search_string = rf"({num})\^{var}"
-    results = re.findall(search_string, term)
-    max_base = None
-    if results:
-        max_base = max(map(lambda res: float(res[0]), results))
-
-    search_string_with_parens = rf"({num})\^\(({num})?\*{var}\)"
-    results = re.findall(search_string_with_parens, term)
-    if results:
-        # a^(bn) should be classified as a^b
-
-        def func(res):
-            return float(res[0])**float(res[4])
-
-        new_base = max(map(func, results))
-        if new_base is not None:
-            if max_base is None or new_base > max_base:
-                max_base = new_base
-
-    return max_base
-
-
-def get_degree(term: str, var="n") -> float:
-    """If an expression is a polynomial, return the degree. Otherwise, return 0."""
-    num = "([0-9][0-9]*[.][0-9]*)|([.][0-9][0-9]*)|([0-9][0-9]*)"
-    regexp = rf"{var}\^({num})"
-    res = re.findall(regexp, term)
-    found_deg = 0.
-    if res:
-        found_deg = max(map(lambda x: float(x[0]), res))
-
-    if found_deg == 0. and re.search(var, term) is not None:
-        return 1.
-
-    return found_deg
-
-
 def big_o(terms):
     """
     Compute the big O of some expression in terms of 'n'.
@@ -170,7 +101,7 @@ def big_o(terms):
     """
     n_var = symbols('n')
     if len(terms) == 0:
-        return 0.0
+        return '0'
 
     if len(terms) == 1:
         return terms[0]

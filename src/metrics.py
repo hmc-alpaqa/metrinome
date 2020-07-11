@@ -7,7 +7,6 @@ import logging
 from collections import defaultdict, Counter
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
-from utils import classify
 
 
 def adjusted_rand_index(function_list) -> float:
@@ -328,16 +327,18 @@ class MetricsComparer:
         self.log_dicts()
 
         # Convert APCs to correct complexity classes.
-        temp_dict = dict()
+        temp_dict: Dict[Any, Any] = dict()
         for i in range(0, 2):
             for key in self.dicts[i].keys():
-                temp_dict[key] = list(map(classify, self.dicts[i][key]))
+                temp_dict[key] = []
+                # temp_dict[key] = list(map(classify, self.dicts[i][key]))
             self.dicts[i] = temp_dict
 
         temp_dict = dict()
         for i in range(2, 4):
             for key in self.dicts[i].keys():
-                temp_dict[classify(key)] = self.dicts[i][key]
+                temp_dict[key] = []
+                # temp_dict[classify(key)] = self.dicts[i][key]
             self.dicts[i] = temp_dict
 
         self.log_dicts()

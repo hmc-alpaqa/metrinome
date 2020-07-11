@@ -2,13 +2,14 @@
 import sys
 sys.path.append("/app/code")
 import unittest
+from time import sleep
 import utils
 
 
 class Testutils(unittest.TestCase):
     """Test all of the utils methods."""
 
-    # === roundExpression ===
+    # === round_expression ===
     def test_round_expression_simple(self) -> None:
         """Check an expression with only numbers and binary operations."""
         # simpleExpression = '1.234567 * 1.123123 + 1.123123 / 1.123123'
@@ -85,7 +86,7 @@ class Testutils(unittest.TestCase):
         # expectedClassification = 'ExpBase:10.7611'
         # self.assertEqual(classified, expectedClassification)
 
-    # === getSolutionFromRoots ===
+    # === get_solution_from_roots ===
     def test_solution_from_roots(self) -> None:
         """
         Verify that we get the correct solution to recurrence solution.
@@ -96,13 +97,13 @@ class Testutils(unittest.TestCase):
         # utils.getSolutionFromRoots()
         # self.assertEqual('1', '1')
 
-    # === getRecurrenceSolution ===
+    # === get_recurrence_solution ===
     def test_recurrence_solution(self) -> None:
         """Returns the solution to an arbitrary linear homogeneous recurrence relation."""
         # utils.getRecurrenceSolution()
         # self.assertEqual('1', '1')
 
-    # === getTaylorCoeffs ===
+    # === get_taylor_coeffs ===
     def test_taylor_coeffs(self) -> None:
         """
         Verify that we get the correct coefficients of a Taylor series.
@@ -114,39 +115,12 @@ class Testutils(unittest.TestCase):
         # utils.getTaylorCoeffs()
         # self.assertEqual('1', '1')
 
-    # === isExponential ===
-    def test_is_exponential(self) -> None:
-        """
-        Test exponential should return True if the expression contains any a^n.
+    # === big_o ===
+    def test_big_o_empty(self) -> None:
+        """Check that we can get the big O of an empty expression."""
+        big_o = utils.big_o([])
+        self.assertEqual(big_o, '0')
 
-        This should also return True if it includes variants of a^n.
-        """
-        # result = utils.isExponential('n * 2 + 1.5 - 2^n')
-        # resultTwo = utils.isExponential('n + 1 / 2')
-
-        # self.assertEqual(result, True)
-        # self.assertEqual(resultTwo, False)
-
-    # === getDegree ===
-    def test_get_degree(self) -> None:
-        """
-        Test the get_degree function.
-
-        For an arbitrary expression, get_egree should return the maximum
-        value that 'x'is raised to. Expression with no 'x' have a degree
-        of 0. Expressions with other variables, such as (x^2) + n, should
-        only return the degree with respect to 'x'.
-        """
-        # degreeZeroPolynomial = '42'
-        # degreeTwoPolynomial = '42 + 1.3*x + 1.341*x^3'
-        # polynomialWithParenthesis = '42 + 1.3*x + 1.341*x^(3)'
-        # degreeResultOne = utils.getDegree(degreeZeroPolynomial)
-        # degreeResultTwo = utils.getDegree(degreeTwoPolynomial, 'x')
-
-        # self.assertEqual(degreeResultOne, 0)
-        # self.assertEqual(degreeResultTwo, 3)
-
-    # === big_o===
     def test_big_o_constant(self) -> None:
         """The big_o of a constant should be O(1)."""
         constant_expression = ['1', '2', '3']
@@ -194,22 +168,23 @@ class Testutils(unittest.TestCase):
     # === Timeout ===
     def test_timeout_notimetout(self) -> None:
         """A function that is done before the timeout limit should behave normally."""
-        # def foo():
-        #     return 7
+        def fast_func():
+            """Execute immediately."""
+            return 7
 
-        # result = 0
-        # with utils.Timeout(seconds = 5):
-        #     result = foo()
-        # self.assertEqual(result, 7)
+        result = 0
+        with utils.Timeout(seconds=1):
+            result = fast_func()
+        self.assertEqual(result, 7)
 
     def test_timeout_timeout(self) -> None:
         """A function that takes too long to execute should throw an error."""
-        # def foo():
-        #     sleep(2)
+        def slow_func():
+            sleep(2)
 
-        # with self.assertRaises(TimeoutError):
-        #     with utils.Timeout(seconds = 1):
-        #         foo()
+        with self.assertRaises(TimeoutError):
+            with utils.Timeout(seconds=1):
+                slow_func()
 
 
 if __name__ == '__main__':
