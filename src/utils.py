@@ -15,21 +15,6 @@ from mpmath import polyroots  # type: ignore
 from pycparser import parse_file  # type: ignore
 
 
-def round_expression(expr: str, digits: int) -> str:
-    """
-    Round all of the numbers in an expression to a given number of decimal places.
-
-    Take some sympy expression represented as a string
-    and round all numbers to the given number of decimal places.
-    """
-    reg_exp = r"([0-9]*)\.([0-9]*)"
-
-    def replace_with_rounded(match):
-        return match.groups()[0] + "." + match.groups()[1][0:digits]
-
-    return re.sub(reg_exp, replace_with_rounded, expr)
-
-
 def get_solution_from_roots(roots: List[Any]):
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.

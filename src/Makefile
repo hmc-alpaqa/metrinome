@@ -18,8 +18,8 @@ tests:
 	python tests/test_utils.py          
 
 coverage:
-	coverage run -m unittest discover
-	coverage report
+	coverage run -m unittest discover 
+	coverage report -m --omit=tests/*
 
 test:   formatting lint tests
 

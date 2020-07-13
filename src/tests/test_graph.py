@@ -70,6 +70,17 @@ class TestGraphGetters(unittest.TestCase):
         vertices = graph.get_vertices()
         self.assertEqual(vertices, [1, 2, 3, 4])
 
+    def test_get_parents(self) -> None:
+        """Check that we can get the parents of a graph in adjacency list format."""
+        graph = Graph([[0, 1], [1, 2], [1, 3]], [0, 1, 2, 3], 0, 3, GraphType.EDGE_LIST)
+        adj_list = graph.adjacency_list()
+        graph = Graph(adj_list, [0, 1, 2, 3], 0, 3, GraphType.ADJACENCY_LIST)
+        res = graph.get_parents()
+        self.assertTrue(0 not in res)
+        self.assertTrue(res[1] == [0])
+        self.assertTrue(res[2] == [1])
+        self.assertTrue(res[3] == [1])
+
 
 class TestGraph(unittest.TestCase):
     """Test Graph objects."""

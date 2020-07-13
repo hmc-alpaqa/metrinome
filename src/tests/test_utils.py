@@ -9,82 +9,12 @@ import utils
 class Testutils(unittest.TestCase):
     """Test all of the utils methods."""
 
-    # === round_expression ===
-    def test_round_expression_simple(self) -> None:
-        """Check an expression with only numbers and binary operations."""
-        # simpleExpression = '1.234567 * 1.123123 + 1.123123 / 1.123123'
-        # result = utils.roundExpression(simpleExpression, 3)
-        # expectedResult = "1.234 * 1.123 + 1.123 / 1.123"
-        # self.assertEqual(result, expectedResult)
-
-    def test_round_expression_polynomial(self) -> None:
-        """Check that a polynomial simplies correctly."""
-        # polynomialExpression = '1.123123 * x**1 + x**1.123123'
-        # simplifiedExpression = utils.roundExpression(polynomialExpression, 3)
-        # expectedResult = '1.123 * x**1 + x**1.123'
-        # self.assertEqual(simplifiedExpression, expectedResult)
-
-    def test_round_expression_exponential(self) -> None:
-        """
-        Check that we can round numbers in an expression.
-
-        Coefficients in an exponential expression should be rounded to
-        the appropriate number of decimal places
-        """
-        # exponentialExpression = '1.12 * e**(1.123123*x)'
-        # simplifiedExpression = utils.roundExpression(exponentialExpression, 3)
-        # expectedResult = '1.12 * e**(1.123*x)'
-        # self.assertEqual(expectedResult, simplifiedExpression)
-
-    # === classify ===
-    def classify_helper(self, expression, expected) -> None:
-        """
-        Check that the expression is classified correctly.
-
-        Given some expression and expected classification, verify that
-        classify() returns the correct classification
-        """
-        # classified = utils.classify(expression)
-        # self.assertEqual(classified, expected)
-
-    def test_classify_constant(self) -> None:
-        """
-        Verify that constant expressions are classified correctly.
-
-        Constants should always return 'Const:<val>' where value is the
-        contanst itself. Empty expressions should given us a constant of 0.
-        """
-        # constantExpression = '2'
-        # constantExpressionTwo = '2.0'
-        # expectedClassification = 'Const:2.0'
-        # self.classifyHelper(constantExpression, expectedClassification)
-        # self.classifyHelper(constantExpressionTwo, expectedClassification)
-
-        # emptyExpression = ''
-        # expectedClassification = 'Const:0'
-        # self.classifyHelper(emptyExpression, expectedClassification)
-
-    def test_classify_polynomial(self):
-        """Check that classify returns the degree of polynomial expressions."""
-        # polynomialExpression = '1 + n + n^2'
-        # expectedClassification = 'PolyDeg:2.0'
-        # self.classifyHelper(polynomialExpression, expectedClassification)
-
-        # polynomialExpression = 'n^2 - 1'
-        # self.classifyHelper(polynomialExpression, expectedClassification)
-
-        # self.classifyHelper('n', 'PolyDeg:1.0')
-
-    def test_classify_exponential(self) -> None:
-        """Check that classify returns the base of an exponential for exponential expressions."""
-        # exponentialExpression = '1 + n + 2^n'
-        # expectedClassification = 'ExpBase:2.0'
-        # self.classifyHelper(exponentialExpression, expectedClassification)
-
-        # exponentialExpression = '1 + n + 1.5 * 3.1^(2.1*n)'
-        # classified = utils.roundExpression(utils.classify(exponentialExpression), 4)
-        # expectedClassification = 'ExpBase:10.7611'
-        # self.assertEqual(classified, expectedClassification)
+    # === show_func_defs ===
+    def test_show_func_defs(self) -> None:
+        """Check that we can get the names of all functions in a C file."""
+        names = utils.show_func_defs("/app/code/tests/cFiles/collatz.c")
+        self.assertTrue(len(names.keys()) == 1)
+        self.assertTrue(list(names.keys())[0] == "countCollatz")
 
     # === get_solution_from_roots ===
     def test_solution_from_roots(self) -> None:
