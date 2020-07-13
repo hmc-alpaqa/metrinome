@@ -9,11 +9,11 @@ def in_lining(file):
         with open((file.split('.')[0]) + "-auto-inline.c", "w") as new_f:
             # write the new file
             for line in old_f:
-                prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static')
+                prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static', 'extern')
                 if any(line.startswith(prefix) for prefix in prefixes) and \
-                   ('(' in line) and (')' in line) and \
+                   ('(' in line) and \
                    ('main' not in line) and ('=' not in line):
-                    new_f.write("__attribute__((always_inline)) inline " + line)
+                   new_f.write("__attribute__((always_inline)) inline " + line)
                 else:
                     new_f.write(line)
 
@@ -28,15 +28,13 @@ def main():
     # files_to_inline = ['test-20-un-inlined.c', 'test-21-un-inlined.c', 'test-22-un-inlined.c',
     #                    'test-23-un-inlined.c', 'test-25-un-inlined.c']
 
-    file = "chgrp-un-inlined.c"
-    # in_lining(f"/app/code/tests/cFiles/coreutils-8.32/src/{file}")
-    in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
+    files_to_inline = ['basename.c', 'basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c', 'chown-core.c', 'chown.c']
 
-    # for file in files_to_inline:
-    #     print(file)
-    #     in_lining(f"/app/code/tests/cFiles/coreutils-8.32/src/{file}")
-    #     #in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
-    #     #in_lining('/app/code/tests/cFiles/inlining_tests/'+str(file))
+    for file in files_to_inline:
+        print(file)
+        in_lining(f"/app/code/tests/cFiles/coreutils-8.32/src/{file}")
+        #in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
+        #in_lining('/app/code/tests/cFiles/inlining_tests/'+str(file))
 
 
 if __name__ == "__main__":
