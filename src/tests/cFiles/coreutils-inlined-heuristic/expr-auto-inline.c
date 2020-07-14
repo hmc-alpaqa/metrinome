@@ -105,7 +105,7 @@ __attribute__((always_inline)) inline static char *_GL_ATTRIBUTE_MALLOC mpz_get_
   return xstrdup(imaxtostr(z[0], buf));
 }
 __attribute__((always_inline)) inline static int mpz_sgn(mpz_t z) { return z[0] < 0 ? -1 : 0 < z[0]; }
-static int mpz_fits_ulong_p(mpz_t z) { return 0 <= z[0] && z[0] <= ULONG_MAX; }
+__attribute__((always_inline)) inline static int mpz_fits_ulong_p(mpz_t z) { return 0 <= z[0] && z[0] <= ULONG_MAX; }
 __attribute__((always_inline)) inline static unsigned long int mpz_get_ui(mpz_t z) { return z[0]; }
 __attribute__((always_inline)) inline static int mpz_out_str(FILE *stream, int base, mpz_t z) {
   (void)base;
@@ -539,7 +539,7 @@ __attribute__((always_inline)) inline static bool nextarg(char const *str) {
 
 /* Return true if there no more tokens.  */
 
-static bool nomoreargs(void) { return *args == 0; }
+__attribute__((always_inline)) inline static bool nomoreargs(void) { return *args == 0; }
 
 /* Report missing operand.
    There is an implicit assumption that there was a previous argument,

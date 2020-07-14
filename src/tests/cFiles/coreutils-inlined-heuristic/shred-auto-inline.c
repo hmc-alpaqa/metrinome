@@ -337,7 +337,7 @@ __attribute__((always_inline)) inline static bool dorewind(int fd, struct stat c
 
 /* By convention, negative sizes represent unknown values.  */
 
-static bool known(off_t size) { return 0 <= size; }
+__attribute__((always_inline)) inline static bool known(off_t size) { return 0 <= size; }
 
 /*
  * Do pass number K of N, writing *SIZEP bytes of the given pattern TYPE

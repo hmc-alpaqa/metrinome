@@ -562,7 +562,7 @@ __attribute__((always_inline)) inline static struct cstring *find_line(uintmax_t
 
 /* Return true if at least one more line is available for input. */
 
-static bool no_more_lines(void) { return find_line(current_line + 1) == NULL; }
+__attribute__((always_inline)) inline static bool no_more_lines(void) { return find_line(current_line + 1) == NULL; }
 
 /* Open NAME as standard input.  */
 

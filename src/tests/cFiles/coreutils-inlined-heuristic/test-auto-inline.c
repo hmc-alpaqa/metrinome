@@ -510,7 +510,7 @@ __attribute__((always_inline)) inline static bool expr(void) {
   return or (); /* Same with this. */
 }
 
-static bool one_argument(void) { return argv[pos++][0] != '\0'; }
+__attribute__((always_inline)) inline static bool one_argument(void) { return argv[pos++][0] != '\0'; }
 
 __attribute__((always_inline)) inline static bool two_arguments(void) {
   bool value;

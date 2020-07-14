@@ -15,7 +15,7 @@ def in_lining(file):
             # write the new file
             for line in old_f:
                 prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static', 'extern', 'unsigned char', 'uint_fast32_t')
-                excludes = (' main', '=')
+                excludes = (' main', ' = ')
                 if 'inline' in line:
                     new_f.write("__attribute__((always_inline)) " + line)
                     num += 1
@@ -47,6 +47,8 @@ def main():
 
     # files_to_inline = ['basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c',
     #                    'chown-core.c', 'chown.c']
+
+    # files_to_inline = ['csplit.c']
 
     for file in os.listdir(INPUT_PATH):
         if file.endswith(".c"):
