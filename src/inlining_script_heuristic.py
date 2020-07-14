@@ -13,8 +13,8 @@ def in_lining(file):
         with open(DESTINATION_PATH + file.split('.')[0] + "-auto-inline.c", "w") as new_f:
             # write the new file
             for line in old_f:
-                prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static', 'extern')
-                excludes = ('main', '=')
+                prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static', 'extern', 'unsigned char', 'uint_fast32_t')
+                excludes = (' main', '=')
                 if 'inline' in line:
                     new_f.write("__attribute__((always_inline)) " + line)
                     num += 1
@@ -26,6 +26,8 @@ def in_lining(file):
                 else:
                     new_f.write(line)
             print(num)
+
+
 
 
 def main():

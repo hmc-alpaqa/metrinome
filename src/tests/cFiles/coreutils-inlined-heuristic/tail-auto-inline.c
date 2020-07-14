@@ -413,7 +413,7 @@ __attribute__((always_inline)) inline static void xwrite_stdout(char const *buff
    If N_BYTES is COPY_A_BUFFER, then copy at most one buffer's worth.
    Return the number of bytes read from the file.  */
 
-static uintmax_t dump_remainder(bool want_header, const char *pretty_filename,
+__attribute__((always_inline)) inline static uintmax_t dump_remainder(bool want_header, const char *pretty_filename,
                                 int fd, uintmax_t n_bytes) {
   uintmax_t n_written;
   uintmax_t n_remaining = n_bytes;

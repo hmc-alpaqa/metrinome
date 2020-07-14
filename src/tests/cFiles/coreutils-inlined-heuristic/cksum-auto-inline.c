@@ -70,7 +70,7 @@ __attribute__((always_inline)) inline static void fill_r(void) {
     r[i] = (r[i - 1] << 1) ^ ((r[i - 1] & SBIT) ? GEN : 0);
 }
 
-static uint_fast32_t crc_remainder(int m) {
+__attribute__((always_inline)) inline static uint_fast32_t crc_remainder(int m) {
   uint_fast32_t rem = 0;
 
   for (int i = 0; i < 8; i++)
