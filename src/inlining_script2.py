@@ -11,14 +11,14 @@ def in_lining(file):
             # write the new file
             for line in old_f:
                 prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static', 'extern')
-                if any(line.startswith(prefix) for prefix in prefixes) and \
+                if ('inline' in line):
+                   new_f.write("__attribute__((always_inline)) " + line)
+                   num += 1
+                   print(num)
+                elif any(line.startswith(prefix) for prefix in prefixes) and \
                    (('(' in line) and (('{' not in line) and (')' not in line) or (('{' in line) and (')' in line))))and \
                    ('main' not in line) and ('=' not in line):
                    new_f.write("__attribute__((always_inline)) inline " + line)
-                   num += 1
-                   print(num)
-                elif (line.startswith('inline')):
-                   new_f.write("__attribute__((always_inline)) " + line)
                    num += 1
                    print(num)
                 else:
@@ -35,7 +35,7 @@ def main():
     # files_to_inline = ['test-20-un-inlined.c', 'test-21-un-inlined.c', 'test-22-un-inlined.c',
     #                    'test-23-un-inlined.c', 'test-25-un-inlined.c']
 
-    files_to_inline = ['basenc.c']
+    files_to_inline = ['chroot.c']
     #files_to_inline = ['basename.c', 'basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c', 'chown-core.c', 'chown.c']
 
     for file in files_to_inline:
