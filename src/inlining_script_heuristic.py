@@ -1,4 +1,5 @@
 """Adds always inline attribute to C Files."""
+import os
 INPUT_PATH="/app/code/tests/cFiles/coreutils-8.32/src/"
 DESTINATION_PATH="/app/code/tests/cFiles/coreutils-inlined-heuristic/"
 
@@ -15,15 +16,14 @@ def in_lining(file):
                 if ('inline' in line):
                     new_f.write("__attribute__((always_inline)) " + line)
                     num += 1
-                    print(num)
                 elif any(line.startswith(prefix) for prefix in prefixes) and \
                    (('(' in line) and (('{' not in line) and (')' not in line) or (('{' in line) and (')' in line))))and \
                    ('main' not in line) and ('=' not in line):
                     new_f.write("__attribute__((always_inline)) inline " + line)
                     num += 1
-                    print(num)
                 else:
                     new_f.write(line)
+            print(num)
 
 
 def main():
@@ -36,11 +36,12 @@ def main():
     # files_to_inline = ['test-20-un-inlined.c', 'test-21-un-inlined.c', 'test-22-un-inlined.c',
     #                    'test-23-un-inlined.c', 'test-25-un-inlined.c']
 
-    files_to_inline = ['basename.c', 'basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c', 'chown-core.c', 'chown.c']
+    # files_to_inline = ['basename.c', 'basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c', 'chown-core.c', 'chown.c']
 
-    for file in files_to_inline:
-        print(file)
-        in_lining(file)
+    for file in os.listdir(INPUT_PATH):
+        if file.endswith(".c"):
+            print(file)
+            in_lining(file)
         #in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
 \
 
