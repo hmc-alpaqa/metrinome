@@ -18,30 +18,25 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-#include "system.h"
 #include "cl-strtod.h"
 #include "die.h"
 #include "error.h"
 #include "long-options.h"
 #include "quote.h"
+#include "system.h"
 #include "xnanosleep.h"
 #include "xstrtod.h"
 
 /* The official name of this program (e.g., no 'g' prefix).  */
 #define PROGRAM_NAME "sleep"
 
-#define AUTHORS \
-  proper_name ("Jim Meyering"), \
-  proper_name ("Paul Eggert")
+#define AUTHORS proper_name("Jim Meyering"), proper_name("Paul Eggert")
 
-void
-usage (int status)
-{
+void usage(int status) {
   if (status != EXIT_SUCCESS)
-    emit_try_help ();
-  else
-    {
-      printf (_("\
+    emit_try_help();
+  else {
+    printf(_("\
 Usage: %s NUMBER[SUFFIX]...\n\
   or:  %s OPTION\n\
 Pause for NUMBER seconds.  SUFFIX may be 's' for seconds (the default),\n\
@@ -50,12 +45,12 @@ integer.  Given two or more arguments, pause for the amount of time\n\
 specified by the sum of their values.\n\
 \n\
 "),
-              program_name, program_name);
-      fputs (HELP_OPTION_DESCRIPTION, stdout);
-      fputs (VERSION_OPTION_DESCRIPTION, stdout);
-      emit_ancillary_info (PROGRAM_NAME);
-    }
-  exit (status);
+           program_name, program_name);
+    fputs(HELP_OPTION_DESCRIPTION, stdout);
+    fputs(VERSION_OPTION_DESCRIPTION, stdout);
+    emit_ancillary_info(PROGRAM_NAME);
+  }
+  exit(status);
 }
 
 /* Given a floating point value *X, and a suffix character, SUFFIX_CHAR,
@@ -64,13 +59,10 @@ specified by the sum of their values.\n\
    hours, or 'd' for days.  If SUFFIX_CHAR is invalid, don't modify *X
    and return false.  Otherwise return true.  */
 
-static bool
-apply_suffix (double *x, char suffix_char)
-{
+static bool apply_suffix(double *x, char suffix_char) {
   int multiplier;
 
-  switch (suffix_char)
-    {
+  switch (suffix_char) {
     case 0:
     case 's':
       multiplier = 1;
@@ -86,61 +78,55 @@ apply_suffix (double *x, char suffix_char)
       break;
     default:
       return false;
-    }
+  }
 
   *x *= multiplier;
 
   return true;
 }
 
-int
-main (int argc, char **argv)
-{
+int main(int argc, char **argv) {
   double seconds = 0.0;
   bool ok = true;
 
-  initialize_main (&argc, &argv);
-  set_program_name (argv[0]);
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
+  initialize_main(&argc, &argv);
+  set_program_name(argv[0]);
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
 
-  atexit (close_stdout);
+  atexit(close_stdout);
 
-  parse_gnu_standard_options_only (argc, argv, PROGRAM_NAME, PACKAGE_NAME,
-                                   Version, true, usage, AUTHORS,
-                                   (char const *) NULL);
+  parse_gnu_standard_options_only(argc, argv, PROGRAM_NAME, PACKAGE_NAME,
+                                  Version, true, usage, AUTHORS,
+                                  (char const *)NULL);
 
-  if (argc == 1)
-    {
-      error (0, 0, _("missing operand"));
-      usage (EXIT_FAILURE);
+  if (argc == 1) {
+    error(0, 0, _("missing operand"));
+    usage(EXIT_FAILURE);
+  }
+
+  for (int i = optind; i < argc; i++) {
+    double s;
+    const char *p;
+    if (!(xstrtod(argv[i], &p, &s, cl_strtod) || errno == ERANGE)
+        /* Nonnegative interval.  */
+        || !(0 <= s)
+        /* No extra chars after the number and an optional s,m,h,d char.  */
+        || (*p && *(p + 1))
+        /* Check any suffix char and update S based on the suffix.  */
+        || !apply_suffix(&s, *p)) {
+      error(0, 0, _("invalid time interval %s"), quote(argv[i]));
+      ok = false;
     }
 
-  for (int i = optind; i < argc; i++)
-    {
-      double s;
-      const char *p;
-      if (! (xstrtod (argv[i], &p, &s, cl_strtod) || errno == ERANGE)
-          /* Nonnegative interval.  */
-          || ! (0 <= s)
-          /* No extra chars after the number and an optional s,m,h,d char.  */
-          || (*p && *(p+1))
-          /* Check any suffix char and update S based on the suffix.  */
-          || ! apply_suffix (&s, *p))
-        {
-          error (0, 0, _("invalid time interval %s"), quote (argv[i]));
-          ok = false;
-        }
+    seconds += s;
+  }
 
-      seconds += s;
-    }
+  if (!ok) usage(EXIT_FAILURE);
 
-  if (!ok)
-    usage (EXIT_FAILURE);
-
-  if (xnanosleep (seconds))
-    die (EXIT_FAILURE, errno, _("cannot read realtime clock"));
+  if (xnanosleep(seconds))
+    die(EXIT_FAILURE, errno, _("cannot read realtime clock"));
 
   return EXIT_SUCCESS;
 }

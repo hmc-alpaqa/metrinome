@@ -17,10 +17,10 @@
 /* Written by Pádraig Brady.  LD_PRELOAD idea from Brian Dessent.  */
 
 #include <config.h>
-#include <stdio.h>
 #include <stdint.h>
-#include "system.h"
+#include <stdio.h>
 #include "minmax.h"
+#include "system.h"
 
 /* Deactivate config.h's "rpl_"-prefixed definition of malloc,
    since we don't link gnulib here, and the replacement isn't
@@ -63,13 +63,10 @@
    However I think it's just a buggy implementation due to the various
    inconsistencies with write sizes and subsequent writes.  */
 
-static const char *
-fileno_to_name (const int fd)
-{
+static const char *fileno_to_name(const int fd) {
   const char *ret = NULL;
 
-  switch (fd)
-    {
+  switch (fd) {
     case 0:
       ret = "stdin";
       break;
@@ -82,14 +79,12 @@ fileno_to_name (const int fd)
     default:
       ret = "unknown";
       break;
-    }
+  }
 
   return ret;
 }
 
-static void
-apply_mode (FILE *stream, const char *mode)
-{
+static void apply_mode(FILE *stream, const char *mode) {
   char *buf = NULL;
   int setvbuf_mode;
   uintmax_t size = 0;
@@ -97,53 +92,43 @@ apply_mode (FILE *stream, const char *mode)
   if (*mode == '0')
     setvbuf_mode = _IONBF;
   else if (*mode == 'L')
-    setvbuf_mode = _IOLBF;      /* FIXME: should we allow 1ML  */
-  else
-    {
-      setvbuf_mode = _IOFBF;
-      char *mode_end;
-      size = strtoumax (mode, &mode_end, 10);
-      if (size == 0 || *mode_end)
-        {
-          fprintf (stderr, _("invalid buffering mode %s for %s\n"),
-                   mode, fileno_to_name (fileno (stream)));
-          return;
-        }
-
-      buf = size <= SIZE_MAX ? malloc (size) : NULL;
-      if (!buf)
-        {
-          /* We could defer the allocation to libc, however since
-             glibc currently ignores the combination of NULL buffer
-             with non zero size, we'll fail here.  */
-          fprintf (stderr,
-                   _("failed to allocate a %" PRIuMAX
-                     " byte stdio buffer\n"),
-                   size);
-          return;
-        }
-      /* buf will be freed by fclose.  */
+    setvbuf_mode = _IOLBF; /* FIXME: should we allow 1ML  */
+  else {
+    setvbuf_mode = _IOFBF;
+    char *mode_end;
+    size = strtoumax(mode, &mode_end, 10);
+    if (size == 0 || *mode_end) {
+      fprintf(stderr, _("invalid buffering mode %s for %s\n"), mode,
+              fileno_to_name(fileno(stream)));
+      return;
     }
 
-  if (setvbuf (stream, buf, setvbuf_mode, size) != 0)
-    {
-      fprintf (stderr, _("could not set buffering of %s to mode %s\n"),
-               fileno_to_name (fileno (stream)), mode);
-      free (buf);
+    buf = size <= SIZE_MAX ? malloc(size) : NULL;
+    if (!buf) {
+      /* We could defer the allocation to libc, however since
+         glibc currently ignores the combination of NULL buffer
+         with non zero size, we'll fail here.  */
+      fprintf(stderr,
+              _("failed to allocate a %" PRIuMAX " byte stdio buffer\n"), size);
+      return;
     }
+    /* buf will be freed by fclose.  */
+  }
+
+  if (setvbuf(stream, buf, setvbuf_mode, size) != 0) {
+    fprintf(stderr, _("could not set buffering of %s to mode %s\n"),
+            fileno_to_name(fileno(stream)), mode);
+    free(buf);
+  }
 }
 
 /* Use __attribute to avoid elision of __attribute__ on SUNPRO_C etc.  */
-static void __attribute ((constructor))
-stdbuf (void)
-{
-  char *e_mode = getenv ("_STDBUF_E");
-  char *i_mode = getenv ("_STDBUF_I");
-  char *o_mode = getenv ("_STDBUF_O");
+static void __attribute((constructor)) stdbuf(void) {
+  char *e_mode = getenv("_STDBUF_E");
+  char *i_mode = getenv("_STDBUF_I");
+  char *o_mode = getenv("_STDBUF_O");
   if (e_mode) /* Do first so can write errors to stderr  */
-    apply_mode (stderr, e_mode);
-  if (i_mode)
-    apply_mode (stdin, i_mode);
-  if (o_mode)
-    apply_mode (stdout, o_mode);
+    apply_mode(stderr, e_mode);
+  if (i_mode) apply_mode(stdin, i_mode);
+  if (o_mode) apply_mode(stdout, o_mode);
 }
