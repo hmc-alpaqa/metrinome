@@ -7,7 +7,8 @@ def in_lining(file):
     num = 0
     with open(file, 'r') as old_f:
         # open new file to write in-lined version into
-        with open((file.split('.')[0]) + "-auto-inline.c", "w") as new_f:
+        with open((file.split('/')[-1]).split('.')[0] + "-auto-inline.c", "w") as new_f:
+        #with open(file + "-auto-inline.c", "w") as new_f:
             # write the new file
             for line in old_f:
                 prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static', 'extern')
@@ -35,8 +36,8 @@ def main():
     # files_to_inline = ['test-20-un-inlined.c', 'test-21-un-inlined.c', 'test-22-un-inlined.c',
     #                    'test-23-un-inlined.c', 'test-25-un-inlined.c']
 
-    files_to_inline = ['chroot.c']
-    #files_to_inline = ['basename.c', 'basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c', 'chown-core.c', 'chown.c']
+    files_to_inline = ['basename.c', 'basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c', 'chown-core.c', 'chown.c', 'chroot.c',
+    'cksum.c', 'comm.c', 'copy.c', 'cp-hash.c', 'cp.c', 'csplit.c', 'cut.c', 'date.c', 'dd.c', 'df.c', 'dircolors.c', 'dirname.c', 'du.c']
 
     for file in files_to_inline:
         print(file)
