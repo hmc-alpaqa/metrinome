@@ -57,7 +57,7 @@ class TestGraphGetters(unittest.TestCase):
         graph.set_name("Test graph")
         self.assertEqual(graph.name, "Test graph")
 
-    # # === Graph::get_vertices ===
+    # === Graph::get_vertices ===
     def test_get_vertices_one_vertex(self) -> None:
         """Test if we can get all of the vertices from a Graph with a single vertex."""
         graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
@@ -81,9 +81,15 @@ class TestGraphGetters(unittest.TestCase):
         self.assertTrue(res[2] == [1])
         self.assertTrue(res[3] == [1])
 
+    def test_get_parents_edge_list(self) -> None:
+        """Check that we can get an error if we try to get parents of edge list."""
+        graph = Graph([[0, 1], [1, 2], [1, 3]], [0, 1, 2, 3], 0, 3, GraphType.EDGE_LIST)
+        with self.assertRaises(NotImplementedError):
+            graph.get_parents()
 
-class TestGraph(unittest.TestCase):
-    """Test Graph objects."""
+
+class TestGraphInfo(unittest.TestCase):
+    """Test Graph methods that count vertices / edges."""
 
     # === Graph::edge_count ===
     def test_edge_count_no_edges(self) -> None:
@@ -106,6 +112,23 @@ class TestGraph(unittest.TestCase):
         count = graph.edge_count()
         expected = 3
         self.assertEqual(expected, count)
+
+    # === Graph::vertex_count ===
+    def test_vertex_count_one_vertex(self) -> None:
+        """Test obtaining the number of vertices from a Graph for a Graph with a single vertex."""
+        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
+        vertex_count = graph.vertex_count()
+        self.assertEqual(vertex_count, 1)
+
+    def test_vertex_count_many_vertices(self) -> None:
+        """Test obtaining the number of vertices from a Graph for a multiple-vertex Graph."""
+        graph = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
+        vertex_count = graph.vertex_count()
+        self.assertEqual(vertex_count, 4)
+
+
+class TestGraph(unittest.TestCase):
+    """Test Graph objects."""
 
     # === Graph::dot ===
     def test_dot(self) -> None:
@@ -171,19 +194,6 @@ class TestGraph(unittest.TestCase):
         edge_list = graph.edge_rules()
         self.assertEqual(edge_list, [])
 
-    # === Graph::vertex_count ===
-    def test_vertex_count_one_vertex(self) -> None:
-        """Test obtaining the number of vertices from a Graph for a Graph with a single vertex."""
-        graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
-        vertex_count = graph.vertex_count()
-        self.assertEqual(vertex_count, 1)
-
-    def test_vertex_count_many_vertices(self) -> None:
-        """Test obtaining the number of vertices from a Graph for a multiple-vertex Graph."""
-        graph = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
-        vertex_count = graph.vertex_count()
-        self.assertEqual(vertex_count, 4)
-
     # # === Graph::adjacency_matrix ===
     def test_adjacency_matrix_no_edges(self) -> None:
         """Test if we can get the adjacency matrix for a Graph with no edges."""
@@ -227,9 +237,16 @@ class TestGraph(unittest.TestCase):
         graph = Graph.from_file("/app/code/tests/dotFiles/testgraph.dot",
                                 graph_type=GraphType.EDGE_LIST)
         self.assertEqual(expected, graph)
-    #     # Graph.fromFile(None)
 
-    # # === Graph::to_prism ===
+    # === Graph::convert_to_weighted ===
+    def test_convert_weighted_to_weighted(self) -> None:
+        """Check that converting a graph that is already weighted to weighted throws an error."""
+        graph = Graph([], [0], start_node=0, end_node=1, graph_type=GraphType.ADJACENCY_LIST)
+        graph.convert_to_weighted()
+        with self.assertRaises(ValueError):
+            graph.convert_to_weighted()
+
+    # === Graph::to_prism ===
     def test_to_prism_one_vertex(self) -> None:
         """Test if we can convert a Graph with one vertex to a PRISM file."""
         graph = Graph([], [0], start_node=0, end_node=1, graph_type=GraphType.ADJACENCY_LIST)
