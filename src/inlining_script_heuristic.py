@@ -20,6 +20,11 @@ def in_lining(file):
                 if 'inline' in line:
                     new_f.write("__attribute__((always_inline)) " + line)
                     num += 1
+                elif any(line.startswith(prefix) for prefix in prefixes) and \
+                        all(exclude not in line for exclude in excludes) and \
+                        '_GL_ATTRIBUTE' in line:
+                    new_f.write("__attribute__((always_inline)) inline " + line)
+                    num += 1
                 elif any(line.startswith(prefix) for prefix in prefixes) and ('(' in line) and \
                         not (('{' in line) ^ (')' in line)) and \
                         all(exclude not in line for exclude in excludes):
