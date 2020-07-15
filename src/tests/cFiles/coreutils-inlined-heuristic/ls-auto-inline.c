@@ -4394,7 +4394,7 @@ __attribute__((always_inline)) inline static bool print_color_indicator(const st
 }
 
 /* Returns color indicator or NULL if none.  */
-static const struct bin_str *_GL_ATTRIBUTE_PURE
+__attribute__((always_inline)) inline static const struct bin_str *_GL_ATTRIBUTE_PURE
 get_color_indicator(const struct fileinfo *f, bool symlink_target) {
   enum indicator_no type;
   struct color_ext_type *ext; /* Color extension */

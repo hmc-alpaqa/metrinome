@@ -550,7 +550,7 @@ __attribute__((always_inline)) inline static struct fstatus *get_input_fstatus(s
    recorded in FSTATUS.  Optimize the same special case that
    get_input_fstatus optimizes.  */
 
-static int _GL_ATTRIBUTE_PURE
+__attribute__((always_inline)) inline static int _GL_ATTRIBUTE_PURE
 compute_number_width(size_t nfiles, struct fstatus const *fstatus) {
   int width = 1;
 

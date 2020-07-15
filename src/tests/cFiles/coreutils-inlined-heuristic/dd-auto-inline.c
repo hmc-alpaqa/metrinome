@@ -487,7 +487,7 @@ __attribute__((always_inline)) inline static void maybe_close_stdout(void) {
 
 /* Like the 'error' function but handle any pending newline.  */
 
-static void _GL_ATTRIBUTE_FORMAT((__printf__, 3, 4))
+__attribute__((always_inline)) inline static void _GL_ATTRIBUTE_FORMAT((__printf__, 3, 4))
     nl_error(int status, int errnum, const char *fmt, ...) {
   if (0 < progress_len) {
     fputc('\n', stderr);

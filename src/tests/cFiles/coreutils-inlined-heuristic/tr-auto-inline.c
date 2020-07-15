@@ -515,7 +515,7 @@ __attribute__((always_inline)) inline static bool unquote(char const *s, struct 
 /* If CLASS_STR is a valid character class string, return its index
    in the global char_class_name array.  Otherwise, return CC_NO_CLASS.  */
 
-static enum Char_class _GL_ATTRIBUTE_PURE
+__attribute__((always_inline)) inline static enum Char_class _GL_ATTRIBUTE_PURE
 look_up_char_class(char const *class_str, size_t len) {
   enum Char_class i;
 
@@ -766,7 +766,7 @@ __attribute__((always_inline)) inline static int find_bracketed_repeat(const str
    expression '\*[0-9]*\]', false otherwise.  The string does not
    match if any of its characters are escaped.  */
 
-static bool _GL_ATTRIBUTE_PURE
+__attribute__((always_inline)) inline static bool _GL_ATTRIBUTE_PURE
 star_digits_closebracket(const struct E_string *es, size_t idx) {
   if (!es_match(es, idx, '*')) return false;
 
