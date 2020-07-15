@@ -180,6 +180,13 @@ class TestGraph(unittest.TestCase):
         graph2 = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
         self.assertFalse(graph1 == graph2)
 
+    def test_eq_different_types(self) -> None:
+        """Check that equality throws an error when Graphs are different types."""
+        graph1 = Graph([], [0], 0, 0, GraphType.EDGE_LIST)
+        graph2 = Graph([], [0], 0, 0, GraphType.ADJACENCY_LIST)
+        with self.assertRaises(ValueError):
+            graph1 == graph2  # pylint: disable=pointless-statement
+
     # === Graph::__str__ ===
     def test_to_str(self) -> None:
         """Test if we can correctly convert a Graph to a string."""
@@ -211,6 +218,16 @@ class TestGraph(unittest.TestCase):
                         [0, 1, 0, 1],
                         [0, 0, 0, 0]]
         self.assertTrue((adj_mat == expected_mat).all())
+
+    def test_adjacency_matrix_weighted_graph(self) -> None:
+        """Check that we can obtain the adjacency matrix for a weighted Graph."""
+        # graph = Graph([[1], [2, 3], []], [0, 1, 2, 3], 0, 3, GraphType.ADJACENCY_LIST)
+        # adj_mat = graph.adjacency_matrix()
+        # expected_mat = [[0, 0, 1, 0],
+        #                 [0, 0, 0, 0],
+        #                 [0, 1, 0, 1],
+        #                 [0, 0, 0, 0]]
+        # self.assertTrue((adj_mat == expected_mat).all())
 
     # # === Graph::adjacency_list ===
     def test_adjacency_list_no_edges(self) -> None:
@@ -245,6 +262,15 @@ class TestGraph(unittest.TestCase):
         graph.convert_to_weighted()
         with self.assertRaises(ValueError):
             graph.convert_to_weighted()
+
+    def test_convert_unweighted_to_weighted(self) -> None:
+        """Check that converting a an unweighted graph to weighted sets weights to 1."""
+        graph = Graph([[1, 2], [2]], [0, 1, 2], start_node=0, end_node=1,
+                      graph_type=GraphType.ADJACENCY_LIST)
+        graph.convert_to_weighted()
+        self.assertEqual(graph.edges, [[[1, 1], [2, 1]], [[2, 1]]])
+        self.assertEqual(graph.vertices, [0, 1, 2])
+        self.assertEqual(graph.start_node, 0)
 
     # === Graph::to_prism ===
     def test_to_prism_one_vertex(self) -> None:

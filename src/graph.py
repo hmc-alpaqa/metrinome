@@ -79,7 +79,7 @@ class Graph:
         edgeList = [(a, b, weight), (c, d, weight), (e, f, weight), ...]
 
         """
-        self.edges = edges
+        self.edges: Any = edges
         self.vertices: List[int] = vertices
         self.start_node: int = start_node
         self.end_node: int = end_node
@@ -274,7 +274,7 @@ class Graph:
         """Get the exit node for the graph."""
         return self.end_node
 
-    def adjacency_matrix(self):
+    def adjacency_matrix(self) -> Any:
         """
         Obtain the adjacency matrix from the edge list representation.
 
@@ -398,7 +398,7 @@ class Graph:
 
         return graph
 
-    def node_to_index(self, node: int):
+    def node_to_index(self, node: int) -> int:
         """Find the index for the row or column of an adjacency matrix."""
         if node == self.start_node:
             return 0
@@ -408,7 +408,7 @@ class Graph:
 
         return node + 1
 
-    def update_with_node(self, match):
+    def update_with_node(self, match) -> None:
         """Create a new vertex when the current line in the dot file is a node."""
         node = int(match.group(1))
         node_label = match.group(2)
@@ -425,7 +425,7 @@ class Graph:
             if len(self.edges) <= node:
                 self.edges += [[] for _ in range(((node + 1) - len(self.edges)))]
 
-    def update_with_edge(self, match):
+    def update_with_edge(self, match) -> None:
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))

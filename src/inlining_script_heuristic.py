@@ -14,7 +14,8 @@ def in_lining(file):
         with open(DESTINATION_PATH + file.split('.')[0] + "-auto-inline.c", "w") as new_f:
             # write the new file
             for line in old_f:
-                prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static', 'extern', 'unsigned char', 'uint_fast32_t')
+                prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static',
+                            'extern', 'unsigned char', 'uint_fast32_t')
                 excludes = (' main', ' = ')
                 if 'inline' in line:
                     new_f.write("__attribute__((always_inline)) " + line)
@@ -29,10 +30,8 @@ def in_lining(file):
 
                 if ('recurse' in line) or ('recursion' in line) or ('recursive' in line):
                     has_recursion = True
-                    
+
             print(file, num, has_recursion)
-
-
 
 
 def main():
