@@ -12,6 +12,7 @@ def in_lining(file):
     with open(INPUT_PATH + file, 'r') as old_f:
         # open new file to write in-lined version into
         with open(DESTINATION_PATH + file.split('.')[0] + "-auto-inline.c", "w") as new_f:
+        #with open(DESTINATION_PATH + file.split('.')[0] + "-auto-inline.h", "w") as new_f:
             # write the new file
             for line in old_f:
                 prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static',
@@ -61,6 +62,7 @@ def main():
 
     for file in os.listdir(INPUT_PATH):
         if file.endswith(".c"):
+        #if file.endswith(".h"):
             in_lining(file)
 
     # for file in files_to_inline:
