@@ -490,7 +490,7 @@ __attribute__((always_inline)) inline static enum RM_status rm_fts(FTS *fts, FTS
 
 /* Remove FILEs, honoring options specified via X.
    Return RM_OK if successful.  */
-enum RM_status rm(char *const *file, struct rm_options const *x) {
+__attribute__((always_inline)) inline enum RM_status rm(char *const *file, struct rm_options const *x) {
   enum RM_status rm_status = RM_OK;
 
   if (*file) {

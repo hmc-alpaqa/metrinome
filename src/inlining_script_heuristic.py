@@ -16,7 +16,7 @@ def in_lining(file):
             # write the new file
             for line in old_f:
                 prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static',
-                            'extern', 'unsigned char', 'uint_fast32_t')
+                            'extern', 'unsigned char', 'uint_fast32_t', 'enum', 'struct')
                 excludes = (' main', ' = ')
                 if 'inline' in line:
                     new_f.write("__attribute__((always_inline)) " + line)
