@@ -245,7 +245,7 @@ __attribute__((always_inline)) inline static bool print_stat(char *pformat, size
    Others have statfs.f_fstypename[MFSNAMELEN] (NetBSD 1.5.2).
    Still others have neither and have to get by with f_type (GNU/Linux).
    But f_type may only exist in statfs (Cygwin).  */
-static char const *ATTRIBUTE_WARN_UNUSED_RESULT
+__attribute__((always_inline)) inline static char const *ATTRIBUTE_WARN_UNUSED_RESULT
 human_fstype(STRUCT_STATVFS const *statfsbuf) {
 #ifdef STATXFS_FILE_SYSTEM_TYPE_MEMBER_NAME
   return statfsbuf->STATXFS_FILE_SYSTEM_TYPE_MEMBER_NAME;
@@ -606,7 +606,7 @@ human_fstype(STRUCT_STATVFS const *statfsbuf) {
 #endif
 }
 
-static char *ATTRIBUTE_WARN_UNUSED_RESULT
+__attribute__((always_inline)) inline static char *ATTRIBUTE_WARN_UNUSED_RESULT
 human_access(struct stat const *statbuf) {
   static char modebuf[12];
   filemodestring(statbuf, modebuf);
@@ -762,7 +762,7 @@ __attribute__((always_inline)) inline static void out_epoch_sec(char *pformat, s
 
 /* Print the context information of FILENAME, and return true iff the
    context could not be obtained.  */
-static bool ATTRIBUTE_WARN_UNUSED_RESULT
+__attribute__((always_inline)) inline static bool ATTRIBUTE_WARN_UNUSED_RESULT
 out_file_context(char *pformat, size_t prefix_len, char const *filename) {
   char *scontext;
   bool fail = false;
@@ -862,7 +862,7 @@ __attribute__((always_inline)) inline static bool ATTRIBUTE_WARN_UNUSED_RESULT p
 /* Return any bind mounted source for a path.
    The caller should not free the returned buffer.
    Return NULL if no bind mount found.  */
-static char const *ATTRIBUTE_WARN_UNUSED_RESULT
+__attribute__((always_inline)) inline static char const *ATTRIBUTE_WARN_UNUSED_RESULT
 find_bind_mount(char const *name) {
   char const *bind_mount = NULL;
 
@@ -896,7 +896,7 @@ find_bind_mount(char const *name) {
 }
 
 /* Print mount point.  Return zero upon success, nonzero upon failure.  */
-static bool ATTRIBUTE_WARN_UNUSED_RESULT
+__attribute__((always_inline)) inline static bool ATTRIBUTE_WARN_UNUSED_RESULT
 out_mount_point(char const *filename, char *pformat, size_t prefix_len,
                 const struct stat *statp) {
   char const *np = "?", *bp = NULL;
@@ -1017,7 +1017,7 @@ __attribute__((always_inline)) inline static size_t _GL_ATTRIBUTE_PURE format_co
 /* Print the information specified by the format string, FORMAT,
    calling PRINT_FUNC for each %-directive encountered.
    Return zero upon success, nonzero upon failure.  */
-static bool ATTRIBUTE_WARN_UNUSED_RESULT
+__attribute__((always_inline)) inline static bool ATTRIBUTE_WARN_UNUSED_RESULT
 print_it(char const *format, int fd, char const *filename,
          bool (*print_func)(char *, size_t, unsigned int, int, char const *,
                             void const *),
