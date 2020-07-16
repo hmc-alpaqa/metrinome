@@ -17,11 +17,10 @@
    Written by Jie Liu (jeff.liu@oracle.com).  */
 
 #ifndef EXTENT_SCAN_H
-# define EXTENT_SCAN_H
+#define EXTENT_SCAN_H
 
 /* Structure used to store information of each extent.  */
-struct extent_info
-{
+struct extent_info {
   /* Logical offset of an extent.  */
   off_t ext_logical;
 
@@ -33,8 +32,7 @@ struct extent_info
 };
 
 /* Structure used to reserve extent scan information per file.  */
-struct extent_scan
-{
+struct extent_scan {
   /* File descriptor of extent scan run against.  */
   int fd;
 
@@ -58,14 +56,12 @@ struct extent_scan
   struct extent_info *ext_info;
 };
 
-void extent_scan_init (int src_fd, struct extent_scan *scan);
+void extent_scan_init(int src_fd, struct extent_scan *scan);
 
-bool extent_scan_read (struct extent_scan *scan);
+bool extent_scan_read(struct extent_scan *scan);
 
-static inline void
-extent_scan_free (struct extent_scan *scan)
-{
-  free (scan->ext_info);
+static inline void extent_scan_free(struct extent_scan *scan) {
+  free(scan->ext_info);
   scan->ext_info = NULL;
   scan->ei_count = 0;
 }

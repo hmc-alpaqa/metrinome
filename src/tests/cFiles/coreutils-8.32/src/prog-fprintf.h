@@ -15,11 +15,11 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef PROG_FPRINTF_H
-# define PROG_FPRINTF_H
+#define PROG_FPRINTF_H
 
-# include <stdio.h>
+#include <stdio.h>
 
-extern void prog_fprintf (FILE *fp, char const *fmt, ...)
-  __attribute__ ((__format__ (__printf__, 2, 3)));
+extern void prog_fprintf(FILE *fp, char const *fmt, ...)
+    __attribute__((__format__(__printf__, 2, 3)));
 
 #endif

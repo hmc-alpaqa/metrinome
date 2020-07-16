@@ -17,15 +17,15 @@
    02110-1301, USA.  */
 
 #ifndef DIE_H
-# define DIE_H
+#define DIE_H
 
-# include <error.h>
-# include <stdbool.h>
-# include <verify.h>
+#include <error.h>
+#include <stdbool.h>
+#include <verify.h>
 
 /* Like 'error (STATUS, ...)', except STATUS must be a nonzero constant.
    This may pacify the compiler or help it generate better code.  */
-# define die(status, ...) \
-  verify_expr (status, (error (status, __VA_ARGS__), assume (false)))
+#define die(status, ...) \
+  verify_expr(status, (error(status, __VA_ARGS__), assume(false)))
 
 #endif /* DIE_H */

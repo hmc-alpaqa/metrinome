@@ -16,12 +16,11 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef REMOVE_H
-# define REMOVE_H
+#define REMOVE_H
 
-# include "dev-ino.h"
+#include "dev-ino.h"
 
-enum rm_interactive
-{
+enum rm_interactive {
   /* Start with any number larger than 1, so that any legacy tests
      against values of 0 or 1 will fail.  */
   RMI_ALWAYS = 3,
@@ -29,8 +28,7 @@ enum rm_interactive
   RMI_NEVER
 };
 
-struct rm_options
-{
+struct rm_options {
   /* If true, ignore nonexistent files.  */
   bool ignore_missing_files;
 
@@ -75,8 +73,7 @@ struct rm_options
   bool require_restore_cwd;
 };
 
-enum RM_status
-{
+enum RM_status {
   /* These must be listed in order of increasing seriousness. */
   RM_OK = 2,
   RM_USER_DECLINED,
@@ -84,18 +81,16 @@ enum RM_status
   RM_NONEMPTY_DIR
 };
 
-# define VALID_STATUS(S) \
+#define VALID_STATUS(S) \
   ((S) == RM_OK || (S) == RM_USER_DECLINED || (S) == RM_ERROR)
 
-# define UPDATE_STATUS(S, New_value)				\
-  do								\
-    {								\
-      if ((New_value) == RM_ERROR				\
-          || ((New_value) == RM_USER_DECLINED && (S) == RM_OK))	\
-        (S) = (New_value);					\
-    }								\
-  while (0)
+#define UPDATE_STATUS(S, New_value)                        \
+  do {                                                     \
+    if ((New_value) == RM_ERROR ||                         \
+        ((New_value) == RM_USER_DECLINED && (S) == RM_OK)) \
+      (S) = (New_value);                                   \
+  } while (0)
 
-extern enum RM_status rm (char *const *file, struct rm_options const *x);
+extern enum RM_status rm(char *const *file, struct rm_options const *x);
 
 #endif

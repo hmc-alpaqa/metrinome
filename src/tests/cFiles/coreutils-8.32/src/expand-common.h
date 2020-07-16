@@ -23,54 +23,42 @@ extern bool convert_entire_line;
 extern size_t max_column_width;
 
 /* Null-terminated array of input filenames.  */
-//extern char **file_list;
+// extern char **file_list;
 
 /* Default for 'file_list' if no files are given on the command line.  */
-//extern char *stdin_argv[];
+// extern char *stdin_argv[];
 
 /* True if we have ever read standard input.  */
-//extern bool have_read_stdin;
+// extern bool have_read_stdin;
 
 /* The desired exit status.  */
 extern int exit_status;
 
 /* Add tab stop TABVAL to the end of 'tab_list'.  */
-extern void
-add_tab_stop (uintmax_t tabval);
+extern void add_tab_stop(uintmax_t tabval);
 
 /* Add the comma or blank separated list of tab stops STOPS
    to the list of tab stops.  */
-extern void
-parse_tab_stops (char const *stops);
+extern void parse_tab_stops(char const *stops);
 
 /* TODO: Document */
-extern uintmax_t
-get_next_tab_column (const uintmax_t column, size_t* tab_index,
-                     bool* last_tab);
+extern uintmax_t get_next_tab_column(const uintmax_t column, size_t *tab_index,
+                                     bool *last_tab);
 
 /* Called after all command-line options have been parsed,
    sets the final tab-stops values */
-extern void
-finalize_tab_stops (void);
-
-
-
+extern void finalize_tab_stops(void);
 
 /* Sets new file-list */
-extern void
-set_file_list (char **file_list);
+extern void set_file_list(char **file_list);
 
 /* Close the old stream pointer FP if it is non-NULL,
    and return a new one opened to read the next input file.
    Open a filename of '-' as the standard input.
    Return NULL if there are no more input files.  */
-extern FILE *
-next_file (FILE *fp);
+extern FILE *next_file(FILE *fp);
 
 /* */
-extern void
-cleanup_file_list_stdin (void);
+extern void cleanup_file_list_stdin(void);
 
-
-extern void
-emit_tab_list_info (void);
+extern void emit_tab_list_info(void);

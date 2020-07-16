@@ -16,20 +16,18 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef CHOWN_CORE_H
-# define CHOWN_CORE_H
+#define CHOWN_CORE_H
 
-# include "dev-ino.h"
+#include "dev-ino.h"
 
-enum Change_status
-{
+enum Change_status {
   CH_NOT_APPLIED = 1,
   CH_SUCCEEDED,
   CH_FAILED,
   CH_NO_CHANGE_REQUESTED
 };
 
-enum Verbosity
-{
+enum Verbosity {
   /* Print a message for each file that is processed.  */
   V_high,
 
@@ -40,8 +38,7 @@ enum Verbosity
   V_off
 };
 
-struct Chown_option
-{
+struct Chown_option {
   /* Level of verbosity.  */
   enum Verbosity verbosity;
 
@@ -65,22 +62,16 @@ struct Chown_option
   char *group_name;
 };
 
-void
-chopt_init (struct Chown_option *);
+void chopt_init(struct Chown_option *);
 
-void
-chopt_free (struct Chown_option *);
+void chopt_free(struct Chown_option *);
 
-char *
-gid_to_name (gid_t) _GL_ATTRIBUTE_MALLOC;
+char *gid_to_name(gid_t) _GL_ATTRIBUTE_MALLOC;
 
-char *
-uid_to_name (uid_t) _GL_ATTRIBUTE_MALLOC;
+char *uid_to_name(uid_t) _GL_ATTRIBUTE_MALLOC;
 
-bool
-chown_files (char **files, int bit_flags,
-             uid_t uid, gid_t gid,
-             uid_t required_uid, gid_t required_gid,
-             struct Chown_option const *chopt);
+bool chown_files(char **files, int bit_flags, uid_t uid, gid_t gid,
+                 uid_t required_uid, gid_t required_gid,
+                 struct Chown_option const *chopt);
 
 #endif /* CHOWN_CORE_H */

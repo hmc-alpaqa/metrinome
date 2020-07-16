@@ -14,4 +14,4 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
-extern char *find_mount_point (char const *, struct stat const *);
+extern char *find_mount_point(char const *, struct stat const *);

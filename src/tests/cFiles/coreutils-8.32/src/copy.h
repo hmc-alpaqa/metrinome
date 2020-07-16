@@ -17,14 +17,13 @@
 /* Extracted from cp.c and librarified by Jim Meyering.  */
 
 #ifndef COPY_H
-# define COPY_H
+#define COPY_H
 
-# include <stdbool.h>
-# include "hash.h"
+#include <stdbool.h>
+#include "hash.h"
 
 /* Control creation of sparse files (files with holes).  */
-enum Sparse_type
-{
+enum Sparse_type {
   SPARSE_UNUSED,
 
   /* Never create holes in DEST.  */
@@ -44,8 +43,7 @@ enum Sparse_type
 };
 
 /* Control creation of COW files.  */
-enum Reflink_type
-{
+enum Reflink_type {
   /* Default to a standard copy.  */
   REFLINK_NEVER,
 
@@ -57,17 +55,10 @@ enum Reflink_type
 };
 
 /* This type is used to help mv (via copy.c) distinguish these cases.  */
-enum Interactive
-{
-  I_ALWAYS_YES = 1,
-  I_ALWAYS_NO,
-  I_ASK_USER,
-  I_UNSPECIFIED
-};
+enum Interactive { I_ALWAYS_YES = 1, I_ALWAYS_NO, I_ASK_USER, I_UNSPECIFIED };
 
 /* How to handle symbolic links.  */
-enum Dereference_symlink
-{
+enum Dereference_symlink {
   DEREF_UNDEFINED = 1,
 
   /* Copy the symbolic link itself.  -P  */
@@ -81,22 +72,18 @@ enum Dereference_symlink
   DEREF_ALWAYS
 };
 
-# define VALID_SPARSE_MODE(Mode)	\
-  ((Mode) == SPARSE_NEVER		\
-   || (Mode) == SPARSE_AUTO		\
-   || (Mode) == SPARSE_ALWAYS)
+#define VALID_SPARSE_MODE(Mode) \
+  ((Mode) == SPARSE_NEVER || (Mode) == SPARSE_AUTO || (Mode) == SPARSE_ALWAYS)
 
-# define VALID_REFLINK_MODE(Mode)	\
-  ((Mode) == REFLINK_NEVER		\
-   || (Mode) == REFLINK_AUTO		\
-   || (Mode) == REFLINK_ALWAYS)
+#define VALID_REFLINK_MODE(Mode)                        \
+  ((Mode) == REFLINK_NEVER || (Mode) == REFLINK_AUTO || \
+   (Mode) == REFLINK_ALWAYS)
 
 /* These options control how files are copied by at least the
    following programs: mv (when rename doesn't work), cp, install.
    So, if you add a new member, be sure to initialize it in
    mv.c, cp.c, and install.c.  */
-struct cp_options
-{
+struct cp_options {
   enum backup_type backup_type;
 
   /* How to handle symlinks in the source.  */
@@ -279,29 +266,28 @@ struct cp_options
 /* Arrange to make rename calls go through the wrapper function
    on systems with a rename function that fails for a source file name
    specified with a trailing slash.  */
-# if RENAME_TRAILING_SLASH_BUG
-int rpl_rename (const char *, const char *);
-#  undef rename
-#  define rename rpl_rename
-# endif
+#if RENAME_TRAILING_SLASH_BUG
+int rpl_rename(const char *, const char *);
+#undef rename
+#define rename rpl_rename
+#endif
 
-bool copy (char const *src_name, char const *dst_name,
-           bool nonexistent_dst, const struct cp_options *options,
-           bool *copy_into_self, bool *rename_succeeded);
+bool copy(char const *src_name, char const *dst_name, bool nonexistent_dst,
+          const struct cp_options *options, bool *copy_into_self,
+          bool *rename_succeeded);
 
-extern bool set_process_security_ctx (char const *src_name,
-                                      char const *dst_name,
-                                      mode_t mode, bool new_dst,
-                                      const struct cp_options *x);
+extern bool set_process_security_ctx(char const *src_name, char const *dst_name,
+                                     mode_t mode, bool new_dst,
+                                     const struct cp_options *x);
 
-extern bool set_file_security_ctx (char const *dst_name, bool process_local,
-                                   bool recurse, const struct cp_options *x);
+extern bool set_file_security_ctx(char const *dst_name, bool process_local,
+                                  bool recurse, const struct cp_options *x);
 
-void dest_info_init (struct cp_options *);
-void src_info_init (struct cp_options *);
+void dest_info_init(struct cp_options *);
+void src_info_init(struct cp_options *);
 
-void cp_options_default (struct cp_options *);
-bool chown_failure_ok (struct cp_options const *) _GL_ATTRIBUTE_PURE;
-mode_t cached_umask (void);
+void cp_options_default(struct cp_options *);
+bool chown_failure_ok(struct cp_options const *) _GL_ATTRIBUTE_PURE;
+mode_t cached_umask(void);
 
 #endif

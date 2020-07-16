@@ -19,7 +19,6 @@
 /* sys/stat.h will already have been included by system.h. */
 #include "stat-size.h"
 
-
 /* As of May 2014, 128KiB is determined to be the minimium
    blksize to best minimize system call overhead.
    This can be tested with this script:
@@ -70,9 +69,7 @@
    In the future we could use the above method if available
    and default to io_blksize() if not.
  */
-enum { IO_BUFSIZE = 128*1024 };
-static inline size_t
-io_blksize (struct stat sb)
-{
-  return MAX (IO_BUFSIZE, ST_BLKSIZE (sb));
+enum { IO_BUFSIZE = 128 * 1024 };
+static inline size_t io_blksize(struct stat sb) {
+  return MAX(IO_BUFSIZE, ST_BLKSIZE(sb));
 }
