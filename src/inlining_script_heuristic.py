@@ -30,6 +30,11 @@ def in_lining(file):
                         all(exclude not in line for exclude in excludes):
                     new_f.write("__attribute__((always_inline)) inline " + line)
                     num += 1
+                elif any(line.startswith(prefix) for prefix in prefixes) and ('(' in line) and \
+                        (')' in line) and \
+                        all(exclude not in line for exclude in excludes):
+                    new_f.write("__attribute__((always_inline)) inline " + line)
+                    num += 1
                 else:
                     new_f.write(line)
 

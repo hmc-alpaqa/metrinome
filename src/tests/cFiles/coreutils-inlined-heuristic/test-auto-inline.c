@@ -72,19 +72,19 @@ static int pos;     /* The offset of the current argument in ARGV. */
 static int argc;    /* The number of arguments present in ARGV. */
 static char **argv; /* The argument list. */
 
-static bool unary_operator(void);
-static bool binary_operator(bool);
-static bool two_arguments(void);
-static bool three_arguments(void);
-static bool posixtest(int);
+__attribute__((always_inline)) inline static bool unary_operator(void);
+__attribute__((always_inline)) inline static bool binary_operator(bool);
+__attribute__((always_inline)) inline static bool two_arguments(void);
+__attribute__((always_inline)) inline static bool three_arguments(void);
+__attribute__((always_inline)) inline static bool posixtest(int);
 
-static bool expr(void);
-static bool term(void);
-static bool and (void);
-static bool or (void);
+__attribute__((always_inline)) inline static bool expr(void);
+__attribute__((always_inline)) inline static bool term(void);
+__attribute__((always_inline)) inline static bool and (void);
+__attribute__((always_inline)) inline static bool or (void);
 
-static void test_syntax_error(char const *format, ...) ATTRIBUTE_NORETURN;
-static void beyond(void) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void test_syntax_error(char const *format, ...) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void beyond(void) ATTRIBUTE_NORETURN;
 
 __attribute__((always_inline)) inline static void test_syntax_error(char const *format, ...) {
   va_list ap;

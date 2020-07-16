@@ -218,9 +218,9 @@ verify(DEC_BLOCKSIZE % 12 == 0); /* So complete encoded blocks are used.  */
    is used, because of the memmove operation below.  */
 #define DEC_BLOCKSIZE (1024 * 5)
 
-static int (*base_length)(int i);
-static bool (*isbase)(char ch);
-static void (*base_encode)(const char *restrict in, size_t inlen,
+__attribute__((always_inline)) inline static int (*base_length)(int i);
+__attribute__((always_inline)) inline static bool (*isbase)(char ch);
+__attribute__((always_inline)) inline static void (*base_encode)(const char *restrict in, size_t inlen,
                            char *restrict out, size_t outlen);
 
 struct base16_decode_context {
@@ -249,8 +249,8 @@ struct base_decode_context {
   char *inbuf;
   size_t bufsize;
 };
-static void (*base_decode_ctx_init)(struct base_decode_context *ctx);
-static bool (*base_decode_ctx)(struct base_decode_context *ctx,
+__attribute__((always_inline)) inline static void (*base_decode_ctx_init)(struct base_decode_context *ctx);
+__attribute__((always_inline)) inline static bool (*base_decode_ctx)(struct base_decode_context *ctx,
                                const char *restrict in, size_t inlen,
                                char *restrict out, size_t *outlen);
 #endif

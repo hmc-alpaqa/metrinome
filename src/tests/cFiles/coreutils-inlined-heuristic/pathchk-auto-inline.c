@@ -60,7 +60,7 @@
 #endif
 #endif
 
-static bool validate_file_name(char *, bool, bool);
+__attribute__((always_inline)) inline static bool validate_file_name(char *, bool, bool);
 
 /* For long options that have no equivalent short option, use a
    non-character as a pseudo short option, starting with CHAR_MAX + 1.  */

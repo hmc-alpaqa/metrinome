@@ -52,7 +52,7 @@ verify(SIZE_MAX <= ULONG_MAX);
 #if HAVE_GMP
 #include <gmp.h>
 #else
-static void integer_overflow(char) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void integer_overflow(char) ATTRIBUTE_NORETURN;
 /* Approximate gmp.h well enough for expr.c's purposes.  */
 typedef intmax_t mpz_t[1];
 __attribute__((always_inline)) inline static void mpz_clear(mpz_t z) { (void)z; }
@@ -150,10 +150,10 @@ typedef struct valinfo VALUE;
 /* The arguments given to the program, minus the program name.  */
 static char **args;
 
-static VALUE *eval(bool);
-static bool nomoreargs(void);
-static bool null(VALUE *v);
-static void printv(VALUE *v);
+__attribute__((always_inline)) inline static VALUE *eval(bool);
+__attribute__((always_inline)) inline static bool nomoreargs(void);
+__attribute__((always_inline)) inline static bool null(VALUE *v);
+__attribute__((always_inline)) inline static void printv(VALUE *v);
 
 /*
    Find the first occurrence in the character string STRING of any character
@@ -553,7 +553,7 @@ __attribute__((always_inline)) inline static void require_more_args(void) {
 #ifdef EVAL_TRACE
 /* Print evaluation trace and args remaining.  */
 
-static void trace(fxn) char *fxn;
+__attribute__((always_inline)) inline static void trace(fxn) char *fxn;
 {
   char **a;
 

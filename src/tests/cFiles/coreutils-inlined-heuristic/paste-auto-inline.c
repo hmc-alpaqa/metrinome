@@ -147,7 +147,7 @@ done:
 
 /* Report a write error and exit.  */
 
-static void write_error(void) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void write_error(void) ATTRIBUTE_NORETURN;
 __attribute__((always_inline)) inline static void write_error(void) { die(EXIT_FAILURE, errno, _("write error")); }
 
 /* Output a single byte, reporting any write errors.  */

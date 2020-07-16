@@ -191,7 +191,7 @@ static uintmax_t pseudo_offset;
 
 /* Function that accepts an address and an optional following char,
    and prints the address and char to stdout.  */
-static void (*format_address)(uintmax_t, char);
+__attribute__((always_inline)) inline static void (*format_address)(uintmax_t, char);
 
 /* The number of input bytes to skip before formatting and writing.  */
 static uintmax_t n_bytes_to_skip = 0;

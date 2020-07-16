@@ -135,7 +135,7 @@ __attribute__((always_inline)) inline static bool copy_internal(char const *src_
                           const struct cp_options *x, bool command_line_arg,
                           bool *first_dir_created_per_command_line_arg,
                           bool *copy_into_self, bool *rename_succeeded);
-static bool owner_failure_ok(struct cp_options const *x);
+__attribute__((always_inline)) inline static bool owner_failure_ok(struct cp_options const *x);
 
 /* Pointers to the file names:  they're used in the diagnostic that is issued
    when we detect the user is trying to copy a directory into itself.  */

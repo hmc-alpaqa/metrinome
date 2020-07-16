@@ -104,10 +104,10 @@ struct buffer_record {
   struct buffer_record *next;
 };
 
-static void close_output_file(void);
-static void create_output_file(void);
-static void delete_all_files(bool);
-static void save_line_to_file(const struct cstring *line);
+__attribute__((always_inline)) inline static void close_output_file(void);
+__attribute__((always_inline)) inline static void create_output_file(void);
+__attribute__((always_inline)) inline static void delete_all_files(bool);
+__attribute__((always_inline)) inline static void save_line_to_file(const struct cstring *line);
 
 /* Start of buffer list. */
 static struct buffer_record *head = NULL;
@@ -206,7 +206,7 @@ __attribute__((always_inline)) inline static void cleanup(void) {
   sigprocmask(SIG_SETMASK, &oldset, NULL);
 }
 
-static void cleanup_fatal(void) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void cleanup_fatal(void) ATTRIBUTE_NORETURN;
 __attribute__((always_inline)) inline static void cleanup_fatal(void) {
   cleanup();
   exit(EXIT_FAILURE);
@@ -660,7 +660,7 @@ __attribute__((always_inline)) inline static void process_line_count(const struc
   if (no_more_lines() && !suppress_matched) handle_line_error(p, repetition);
 }
 
-static void regexp_error(struct control *, uintmax_t, bool) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void regexp_error(struct control *, uintmax_t, bool) ATTRIBUTE_NORETURN;
 __attribute__((always_inline)) inline static void regexp_error(struct control *p, uintmax_t repetition, bool ignore) {
   fprintf(stderr, _("%s: %s: match not found"), program_name,
           quote(global_argv[p->argnum]));

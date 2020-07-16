@@ -36,7 +36,7 @@
   proper_name("Mike Parker"), proper_name("Richard M. Stallman"), \
       proper_name("David MacKenzie")
 
-static bool tee_files(int nfiles, char **files);
+__attribute__((always_inline)) inline static bool tee_files(int nfiles, char **files);
 
 /* If true, append to output files rather than truncating them. */
 static bool append;

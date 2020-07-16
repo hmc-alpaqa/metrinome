@@ -412,34 +412,34 @@ struct COLUMN {
 
 typedef struct COLUMN COLUMN;
 
-static int char_to_clump(char c);
-static bool read_line(COLUMN *p);
-static bool print_page(void);
-static bool print_stored(COLUMN *p);
-static bool open_file(char *name, COLUMN *p);
-static bool skip_to_page(uintmax_t page);
-static void print_header(void);
-static void pad_across_to(int position);
-static void add_line_number(COLUMN *p);
-static void getoptnum(const char *n_str, int min, int *num, const char *errfmt);
+__attribute__((always_inline)) inline static int char_to_clump(char c);
+__attribute__((always_inline)) inline static bool read_line(COLUMN *p);
+__attribute__((always_inline)) inline static bool print_page(void);
+__attribute__((always_inline)) inline static bool print_stored(COLUMN *p);
+__attribute__((always_inline)) inline static bool open_file(char *name, COLUMN *p);
+__attribute__((always_inline)) inline static bool skip_to_page(uintmax_t page);
+__attribute__((always_inline)) inline static void print_header(void);
+__attribute__((always_inline)) inline static void pad_across_to(int position);
+__attribute__((always_inline)) inline static void add_line_number(COLUMN *p);
+__attribute__((always_inline)) inline static void getoptnum(const char *n_str, int min, int *num, const char *errfmt);
 __attribute__((always_inline)) inline static void getoptarg(char *arg, char switch_char, char *character,
                       int *number);
-static void print_files(int number_of_files, char **av);
-static void init_parameters(int number_of_files);
-static void init_header(char const *filename, int desc);
-static bool init_fps(int number_of_files, char **av);
-static void init_funcs(void);
-static void init_store_cols(void);
-static void store_columns(void);
-static void balance(int total_stored);
-static void store_char(char c);
-static void pad_down(unsigned int lines);
-static void read_rest_of_line(COLUMN *p);
-static void skip_read(COLUMN *p, int column_number);
-static void print_char(char c);
-static void cleanup(void);
-static void print_sep_string(void);
-static void separator_string(const char *optarg_S);
+__attribute__((always_inline)) inline static void print_files(int number_of_files, char **av);
+__attribute__((always_inline)) inline static void init_parameters(int number_of_files);
+__attribute__((always_inline)) inline static void init_header(char const *filename, int desc);
+__attribute__((always_inline)) inline static bool init_fps(int number_of_files, char **av);
+__attribute__((always_inline)) inline static void init_funcs(void);
+__attribute__((always_inline)) inline static void init_store_cols(void);
+__attribute__((always_inline)) inline static void store_columns(void);
+__attribute__((always_inline)) inline static void balance(int total_stored);
+__attribute__((always_inline)) inline static void store_char(char c);
+__attribute__((always_inline)) inline static void pad_down(unsigned int lines);
+__attribute__((always_inline)) inline static void read_rest_of_line(COLUMN *p);
+__attribute__((always_inline)) inline static void skip_read(COLUMN *p, int column_number);
+__attribute__((always_inline)) inline static void print_char(char c);
+__attribute__((always_inline)) inline static void cleanup(void);
+__attribute__((always_inline)) inline static void print_sep_string(void);
+__attribute__((always_inline)) inline static void separator_string(const char *optarg_S);
 
 /* All of the columns to print.  */
 static COLUMN *column_vector;

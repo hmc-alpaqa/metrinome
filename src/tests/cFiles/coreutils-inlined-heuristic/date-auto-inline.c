@@ -39,7 +39,7 @@
 
 #define AUTHORS proper_name("David MacKenzie")
 
-static bool show_date(const char *, struct timespec, timezone_t);
+__attribute__((always_inline)) inline static bool show_date(const char *, struct timespec, timezone_t);
 
 enum Time_spec {
   /* Display only the date.  */

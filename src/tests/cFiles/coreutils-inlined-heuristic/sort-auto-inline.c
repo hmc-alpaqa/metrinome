@@ -349,7 +349,7 @@ static unsigned int nmerge = NMERGE_DEFAULT;
    This can be used safely from signal handlers,
    and between fork and exec of multithreaded processes.  */
 
-static void async_safe_die(int, const char *) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void async_safe_die(int, const char *) ATTRIBUTE_NORETURN;
 __attribute__((always_inline)) inline static void async_safe_die(int errnum, const char *errstr) {
   ignore_value(write(STDERR_FILENO, errstr, strlen(errstr)));
 
@@ -373,7 +373,7 @@ __attribute__((always_inline)) inline static void async_safe_die(int errnum, con
 /* Report MESSAGE for FILE, then clean up and exit.
    If FILE is null, it represents standard output.  */
 
-static void sort_die(char const *, char const *) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void sort_die(char const *, char const *) ATTRIBUTE_NORETURN;
 __attribute__((always_inline)) inline static void sort_die(char const *message, char const *file) {
   die(SORT_FAILURE, errno, "%s: %s", message,
       quotef(file ? file : _("standard output")));
@@ -661,7 +661,7 @@ __attribute__((always_inline)) inline static bool proctab_comparator(void const 
 /* The number of unreaped child processes.  */
 static pid_t nprocs;
 
-static bool delete_proc(pid_t);
+__attribute__((always_inline)) inline static bool delete_proc(pid_t);
 
 /* If PID is positive, wait for the child process with that PID to
    exit, and assume that PID has already been removed from the process
@@ -3477,7 +3477,7 @@ __attribute__((always_inline)) inline static void insertkey(struct keyfield *key
 
 /* Report a bad field specification SPEC, with extra info MSGID.  */
 
-static void badfieldspec(char const *, char const *) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void badfieldspec(char const *, char const *) ATTRIBUTE_NORETURN;
 __attribute__((always_inline)) inline static void badfieldspec(char const *spec, char const *msgid) {
   die(SORT_FAILURE, 0, _("%s: invalid field specification %s"), _(msgid),
       quote(spec));
@@ -3485,7 +3485,7 @@ __attribute__((always_inline)) inline static void badfieldspec(char const *spec,
 
 /* Report incompatible options.  */
 
-static void incompatible_options(char const *) ATTRIBUTE_NORETURN;
+__attribute__((always_inline)) inline static void incompatible_options(char const *) ATTRIBUTE_NORETURN;
 __attribute__((always_inline)) inline static void incompatible_options(char const *opts) {
   die(SORT_FAILURE, 0, _("options '-%s' are incompatible"), (opts));
 }

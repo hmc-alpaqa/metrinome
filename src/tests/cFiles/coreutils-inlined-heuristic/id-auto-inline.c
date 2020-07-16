@@ -66,9 +66,9 @@ static gid_t rgid, egid;
    knows when 'context' has not been set to a meaningful value.  */
 static char *context = NULL;
 
-static void print_user(uid_t uid);
-static void print_full_info(const char *username);
-static void print_stuff(const char *pw_name);
+__attribute__((always_inline)) inline static void print_user(uid_t uid);
+__attribute__((always_inline)) inline static void print_full_info(const char *username);
+__attribute__((always_inline)) inline static void print_stuff(const char *pw_name);
 
 static struct option const longopts[] = {
     {"context", no_argument, NULL, 'Z'}, {"group", no_argument, NULL, 'g'},

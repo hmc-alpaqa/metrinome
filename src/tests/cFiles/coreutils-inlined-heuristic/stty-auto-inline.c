@@ -426,28 +426,28 @@ static struct control_info const control_info[] = {
     {"time", 0, VTIME},
     {NULL, 0, 0}};
 
-static char const *visible(cc_t ch);
-static unsigned long int baud_to_value(speed_t speed);
-static bool recover_mode(char const *arg, struct termios *mode);
-static int screen_columns(void);
+__attribute__((always_inline)) inline static char const *visible(cc_t ch);
+__attribute__((always_inline)) inline static unsigned long int baud_to_value(speed_t speed);
+__attribute__((always_inline)) inline static bool recover_mode(char const *arg, struct termios *mode);
+__attribute__((always_inline)) inline static int screen_columns(void);
 __attribute__((always_inline)) inline static bool set_mode(struct mode_info const *info, bool reversed,
                      struct termios *mode);
-static unsigned long int integer_arg(const char *s, unsigned long int max);
-static speed_t string_to_baud(const char *arg);
-static tcflag_t *mode_type_flag(enum mode_type type, struct termios *mode);
-static void display_all(struct termios *mode, char const *device_name);
-static void display_changed(struct termios *mode);
-static void display_recoverable(struct termios *mode);
+__attribute__((always_inline)) inline static unsigned long int integer_arg(const char *s, unsigned long int max);
+__attribute__((always_inline)) inline static speed_t string_to_baud(const char *arg);
+__attribute__((always_inline)) inline static tcflag_t *mode_type_flag(enum mode_type type, struct termios *mode);
+__attribute__((always_inline)) inline static void display_all(struct termios *mode, char const *device_name);
+__attribute__((always_inline)) inline static void display_changed(struct termios *mode);
+__attribute__((always_inline)) inline static void display_recoverable(struct termios *mode);
 __attribute__((always_inline)) inline static void display_settings(enum output_type output_type, struct termios *mode,
                              const char *device_name);
-static void display_speed(struct termios *mode, bool fancy);
-static void display_window_size(bool fancy, char const *device_name);
-static void sane_mode(struct termios *mode);
+__attribute__((always_inline)) inline static void display_speed(struct termios *mode, bool fancy);
+__attribute__((always_inline)) inline static void display_window_size(bool fancy, char const *device_name);
+__attribute__((always_inline)) inline static void sane_mode(struct termios *mode);
 __attribute__((always_inline)) inline static void set_control_char(struct control_info const *info, const char *arg,
                              struct termios *mode);
 __attribute__((always_inline)) inline static void set_speed(enum speed_setting type, const char *arg,
                       struct termios *mode);
-static void set_window_size(int rows, int cols, char const *device_name);
+__attribute__((always_inline)) inline static void set_window_size(int rows, int cols, char const *device_name);
 
 /* The width of the screen, for output wrapping. */
 static int max_col;
@@ -463,7 +463,7 @@ static struct option const longopts[] = {
     {"file", required_argument, NULL, 'F'}, {GETOPT_HELP_OPTION_DECL},
     {GETOPT_VERSION_OPTION_DECL},           {NULL, 0, NULL, 0}};
 
-static void wrapf(const char *message, ...)
+__attribute__((always_inline)) inline static void wrapf(const char *message, ...)
     __attribute__((__format__(__printf__, 1, 2)));
 
 /* Print format string MESSAGE and optional args.

@@ -264,7 +264,7 @@ static bool i_nocache, o_nocache;
 static bool i_nocache_eof, o_nocache_eof;
 
 /* Function used for read (to handle iflag=fullblock parameter).  */
-static ssize_t (*iread_fnc)(int fd, char *buf, size_t size);
+__attribute__((always_inline)) inline static ssize_t (*iread_fnc)(int fd, char *buf, size_t size);
 
 /* A longest symbol in the struct symbol_values tables below.  */
 #define LONGEST_SYMBOL "count_bytes"

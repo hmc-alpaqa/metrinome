@@ -148,23 +148,23 @@ struct Word {
 
 /* Forward declarations.  */
 
-static void set_prefix(char *p);
-static void fmt(FILE *f);
-static bool get_paragraph(FILE *f);
-static int get_line(FILE *f, int c);
-static int get_prefix(FILE *f);
-static int get_space(FILE *f, int c);
-static int copy_rest(FILE *f, int c);
-static bool same_para(int c);
-static void flush_paragraph(void);
-static void fmt_paragraph(void);
-static void check_punctuation(WORD *w);
-static COST base_cost(WORD *this);
-static COST line_cost(WORD *next, int len);
-static void put_paragraph(WORD *finish);
-static void put_line(WORD *w, int indent);
-static void put_word(WORD *w);
-static void put_space(int space);
+__attribute__((always_inline)) inline static void set_prefix(char *p);
+__attribute__((always_inline)) inline static void fmt(FILE *f);
+__attribute__((always_inline)) inline static bool get_paragraph(FILE *f);
+__attribute__((always_inline)) inline static int get_line(FILE *f, int c);
+__attribute__((always_inline)) inline static int get_prefix(FILE *f);
+__attribute__((always_inline)) inline static int get_space(FILE *f, int c);
+__attribute__((always_inline)) inline static int copy_rest(FILE *f, int c);
+__attribute__((always_inline)) inline static bool same_para(int c);
+__attribute__((always_inline)) inline static void flush_paragraph(void);
+__attribute__((always_inline)) inline static void fmt_paragraph(void);
+__attribute__((always_inline)) inline static void check_punctuation(WORD *w);
+__attribute__((always_inline)) inline static COST base_cost(WORD *this);
+__attribute__((always_inline)) inline static COST line_cost(WORD *next, int len);
+__attribute__((always_inline)) inline static void put_paragraph(WORD *finish);
+__attribute__((always_inline)) inline static void put_line(WORD *w, int indent);
+__attribute__((always_inline)) inline static void put_word(WORD *w);
+__attribute__((always_inline)) inline static void put_space(int space);
 
 /* Option values.  */
 

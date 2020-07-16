@@ -256,45 +256,45 @@ __attribute__((always_inline)) inline static size_t quote_name_buf(char **inbuf,
                              struct quoting_options const *options,
                              int needs_general_quoting, size_t *width,
                              bool *pad);
-static char *make_link_name(char const *name, char const *linkname);
-static int decode_switches(int argc, char **argv);
-static bool file_ignored(char const *name);
+__attribute__((always_inline)) inline static char *make_link_name(char const *name, char const *linkname);
+__attribute__((always_inline)) inline static int decode_switches(int argc, char **argv);
+__attribute__((always_inline)) inline static bool file_ignored(char const *name);
 __attribute__((always_inline)) inline static uintmax_t gobble_file(char const *name, enum filetype type, ino_t inode,
                              bool command_line_arg, char const *dirname);
 __attribute__((always_inline)) inline static const struct bin_str *get_color_indicator(const struct fileinfo *f,
                                                  bool symlink_target);
-static bool print_color_indicator(const struct bin_str *ind);
-static void put_indicator(const struct bin_str *ind);
-static void add_ignore_pattern(const char *pattern);
-static void attach(char *dest, const char *dirname, const char *name);
-static void clear_files(void);
-static void extract_dirs_from_files(char const *dirname, bool command_line_arg);
+__attribute__((always_inline)) inline static bool print_color_indicator(const struct bin_str *ind);
+__attribute__((always_inline)) inline static void put_indicator(const struct bin_str *ind);
+__attribute__((always_inline)) inline static void add_ignore_pattern(const char *pattern);
+__attribute__((always_inline)) inline static void attach(char *dest, const char *dirname, const char *name);
+__attribute__((always_inline)) inline static void clear_files(void);
+__attribute__((always_inline)) inline static void extract_dirs_from_files(char const *dirname, bool command_line_arg);
 __attribute__((always_inline)) inline static void get_link_name(char const *filename, struct fileinfo *f,
                           bool command_line_arg);
-static void indent(size_t from, size_t to);
-static size_t calculate_columns(bool by_columns);
-static void print_current_files(void);
+__attribute__((always_inline)) inline static void indent(size_t from, size_t to);
+__attribute__((always_inline)) inline static size_t calculate_columns(bool by_columns);
+__attribute__((always_inline)) inline static void print_current_files(void);
 __attribute__((always_inline)) inline static void print_dir(char const *name, char const *realname,
                       bool command_line_arg);
 __attribute__((always_inline)) inline static size_t print_file_name_and_frills(const struct fileinfo *f,
                                          size_t start_col);
-static void print_horizontal(void);
-static int format_user_width(uid_t u);
-static int format_group_width(gid_t g);
-static void print_long_format(const struct fileinfo *f);
-static void print_many_per_line(void);
+__attribute__((always_inline)) inline static void print_horizontal(void);
+__attribute__((always_inline)) inline static int format_user_width(uid_t u);
+__attribute__((always_inline)) inline static int format_group_width(gid_t g);
+__attribute__((always_inline)) inline static void print_long_format(const struct fileinfo *f);
+__attribute__((always_inline)) inline static void print_many_per_line(void);
 __attribute__((always_inline)) inline static size_t print_name_with_quoting(const struct fileinfo *f,
                                       bool symlink_target,
                                       struct obstack *stack, size_t start_col);
-static void prep_non_filename_text(void);
-static bool print_type_indicator(bool stat_ok, mode_t mode, enum filetype type);
-static void print_with_separator(char sep);
+__attribute__((always_inline)) inline static void prep_non_filename_text(void);
+__attribute__((always_inline)) inline static bool print_type_indicator(bool stat_ok, mode_t mode, enum filetype type);
+__attribute__((always_inline)) inline static void print_with_separator(char sep);
 __attribute__((always_inline)) inline static void queue_directory(char const *name, char const *realname,
                             bool command_line_arg);
-static void sort_files(void);
-static void parse_ls_color(void);
+__attribute__((always_inline)) inline static void sort_files(void);
+__attribute__((always_inline)) inline static void parse_ls_color(void);
 
-static void getenv_quoting_style(void);
+__attribute__((always_inline)) inline static void getenv_quoting_style(void);
 
 /* Initial size of hash table.
    Most hierarchies are likely to be shallower than this.  */

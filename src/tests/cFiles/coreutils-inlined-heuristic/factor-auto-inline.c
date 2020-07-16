@@ -246,7 +246,7 @@ struct mp_factors {
 };
 #endif
 
-static void factor(uintmax_t, uintmax_t, struct factors *);
+__attribute__((always_inline)) inline static void factor(uintmax_t, uintmax_t, struct factors *);
 
 #ifndef umul_ppmm
 #define umul_ppmm(w1, w0, u, v)                                       \
@@ -543,7 +543,7 @@ __attribute__((always_inline)) inline static void mpz_va_init(void (*mpz_single_
 }
 #endif
 
-static void mp_factor(mpz_t, struct mp_factors *);
+__attribute__((always_inline)) inline static void mp_factor(mpz_t, struct mp_factors *);
 
 __attribute__((always_inline)) inline static void mp_factor_init(struct mp_factors *factors) {
   factors->p = NULL;
