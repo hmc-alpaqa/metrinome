@@ -116,7 +116,7 @@ __attribute__((always_inline)) inline static void buf_free(Buf *x) {
   obstack_free(OBS, NULL);
 }
 
-Line_ptr line_ptr_decrement(const Buf *x, const Line_ptr *lp) {
+__attribute__((always_inline)) inline Line_ptr line_ptr_decrement(const Buf *x, const Line_ptr *lp) {
   Line_ptr lp_new;
 
   if (lp->ptr > x->p[lp->i].start) {
@@ -130,7 +130,7 @@ Line_ptr line_ptr_decrement(const Buf *x, const Line_ptr *lp) {
   return lp_new;
 }
 
-Line_ptr line_ptr_increment(const Buf *x, const Line_ptr *lp) {
+__attribute__((always_inline)) inline Line_ptr line_ptr_increment(const Buf *x, const Line_ptr *lp) {
   Line_ptr lp_new;
 
   assert(lp->ptr <= ONE_PAST_END(x, lp->i) - 1);

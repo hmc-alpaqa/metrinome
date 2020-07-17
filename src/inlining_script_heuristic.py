@@ -16,14 +16,15 @@ def in_lining(file):
             # write the new file
             for line in old_f:
                 prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static',
-                            'extern', 'unsigned char', 'uint_fast32_t', 'enum', 'struct')
+                            'extern', 'unsigned char', 'uint_fast32_t', 'enum', 'struct',
+                            'Line_ptr')
                 excludes = (' main', ' = ')
                 if 'inline' in line:
                     new_f.write("__attribute__((always_inline)) " + line)
                     num += 1
                 elif any(line.startswith(prefix) for prefix in prefixes) and \
                         all(exclude not in line for exclude in excludes) and \
-                        '_GL_ATTRIBUTE' in line:
+                        ('_GL_ATTRIBUTE' in line or 'ATTRIBUTE_' in line):
                     new_f.write("__attribute__((always_inline)) inline " + line)
                     num += 1
                 elif any(line.startswith(prefix) for prefix in prefixes) and ('(' in line) and \
