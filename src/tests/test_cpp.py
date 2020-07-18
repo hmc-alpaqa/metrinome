@@ -6,7 +6,7 @@ import os
 import warnings
 sys.path.append("/app/code/")
 from lang_to_cfg.cpp import CPPConvert  # type: ignore
-from log import Log
+from log import Log, LogLevel
 from graph import Graph, GraphType
 from env import Env
 
@@ -26,7 +26,7 @@ class TestCPPConvert(unittest.TestCase):
     # @ignore_warnings  # glob2 regex use is deprecated.
     def test_to_graph(self):
         """Check that it returns the correct graphs."""
-        converter = CPPConvert(Log())
+        converter = CPPConvert(Log(log_level=LogLevel.REGULAR))
         self.assertEqual(converter.name(), "CPP")
         Env.clean_temps()
         graph1 = Graph([[0, 1], [1, 2]], [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
@@ -36,10 +36,14 @@ class TestCPPConvert(unittest.TestCase):
         self.assertTrue("blank0" in result)
         self.assertEqual(graph1, result["blank0"])
 
-        graph3 = Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
-                       [0, 1, 2, 3, 4, 5, 6], 0, 6, GraphType.EDGE_LIST)
-        graph4 = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")['names0']
-        self.assertEqual(graph3, graph4)
+        expected_graph = Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
+                               [0, 1, 2, 3, 4, 5, 6], 0, 6, GraphType.EDGE_LIST)
+        graphs = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")
+
+        # Need to check all graphs since order can vary with environment.
+        graph_names = ['names0', 'names1', 'names2', 'names3']
+        obtained_graphs = [graphs[graph_name] for graph_name in graph_names]
+        self.assertTrue(any(expected_graph == res for res in obtained_graphs))
 
     # @ignore_warnings  # glob regex deprecation warnings.
     # def test_create_dot_files(self):
