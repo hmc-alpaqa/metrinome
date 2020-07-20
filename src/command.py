@@ -284,19 +284,19 @@ class Command:
     def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool, bool]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
-        multi_function = False
+        inline_functions = False
 
         if len(arguments) > 0:
             if arguments[0] == ("-r" or "--recursive"):
                 recursive_mode = True
                 args_list = arguments[1:]
-            elif arguments[0] == ("-m" or "--multi_function"):
-                multi_function = True
+            elif arguments[0] == ("-i" or "--inline_functions"):
+                inline_functions = True
                 args_list = arguments[1:]
             else:
                 args_list = arguments
 
-            return args_list, recursive_mode, multi_function
+            return args_list, recursive_mode, inline_functions
 
         self.logger.v_msg("Not enough arguments!")
         return [], False, False
@@ -305,8 +305,9 @@ class Command:
         """Convert source code into CFGs."""
         # Iterate through all file-like objects.
         arguments = args.split(" ")
-        args_list, recursive_mode, multi_function = self.parse_convert_args(arguments)
+        args_list, recursive_mode, inline_functions = self.parse_convert_args(arguments)
         if len(args_list) == 0:
+            self.logger.e_msg("Not enough parameters given")
             return
 
         all_files: List[str] = []
@@ -334,7 +335,7 @@ class Command:
                     self.logger.v_msg(f"Cannot convert {file_extension} for {file}.")
                 return
 
-            if multi_function:
+            if inline_functions:
                 self.logger.v_msg(f"Converting {file}")
                 inlining_script.in_lining(file)
                 new_file = file.split('.')[0] + "-auto-inline.c"
