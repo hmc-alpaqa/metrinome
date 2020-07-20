@@ -122,7 +122,7 @@ class PathComplexity(metric.MetricAbstract):
         exp_terms_list = (*exp_terms, )
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))
-        if apc != 0.0:
+        if apc != 0.0 and apc != "0":
             self.logger.d_msg("APC is not 0")
             try:
                 if degree(apc, gen=n_var) != 0:
