@@ -9,10 +9,10 @@ def in_lining(file):
     # open the file that needs to be inlined
     num = 0
     has_recursion = False
-    with open(INPUT_PATH + file, 'r') as old_f:
+    with open(file, 'r') as old_f:
         # open new file to write in-lined version into
         # with open(DESTINATION_PATH + file.split('.')[0] + "-auto-inline.h", "w") as new_f:
-        with open(DESTINATION_PATH + file.split('.')[0] + "-auto-inline.c", "w") as new_f:
+        with open(file.split('.')[0] + "-auto-inline.c", "w") as new_f:
             # write the new file
             for line in old_f:
                 prefixes = ('int', 'void', 'double', 'bool', 'float', 'char', 'static',
@@ -43,7 +43,7 @@ def in_lining(file):
                 if ('recurse' in line) or ('recursion' in line) or ('recursive' in line):
                     has_recursion = True
 
-            print(file, num, has_recursion)
+            # print(file, num, has_recursion)
 
 
 def main():

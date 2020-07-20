@@ -15,6 +15,7 @@ from functools import partial
 from multiprocessing import Pool, Manager
 import numpy   # type: ignore
 import inlining_script
+import inlining_script_heuristic
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 from graph import Graph
@@ -281,10 +282,11 @@ class Command:
 
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
-    def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool, bool]:
+    def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool, bool, bool]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
         inline_functions = False
+        heuristic_inline = False
 
         if len(arguments) > 0:
             if arguments[0] == ("-r" or "--recursive"):
@@ -293,10 +295,17 @@ class Command:
             elif arguments[0] == ("-i" or "--inline_functions"):
                 inline_functions = True
                 args_list = arguments[1:]
+            elif arguments[0] == ("-h" or "--heuristic_inline"):
+                heuristic_inline = True
+                args_list = arguments[1:]
             else:
                 args_list = arguments
 
-            return args_list, recursive_mode, inline_functions
+            if inline_functions and heuristic_inline:
+                self.logger.v_msg("Can't use inline and heuristic inline at the same time! Defaulting to basic inline.")
+                heuristic_inline = False
+
+            return args_list, recursive_mode, inline_functions, heuristic_inline
 
         self.logger.v_msg("Not enough arguments!")
         return [], False, False
@@ -305,9 +314,9 @@ class Command:
         """Convert source code into CFGs."""
         # Iterate through all file-like objects.
         arguments = args.split(" ")
-        args_list, recursive_mode, inline_functions = self.parse_convert_args(arguments)
+        args_list, recursive_mode, inline_functions, heuristic_inline = self.parse_convert_args(arguments)
         if len(args_list) == 0:
-            self.logger.e_msg("Not enough parameters given")
+            self.logger.v_msg("Not enough arguments!")
             return
 
         all_files: List[str] = []
@@ -338,6 +347,12 @@ class Command:
             if inline_functions:
                 self.logger.v_msg(f"Converting {file}")
                 inlining_script.in_lining(file)
+                new_file = file.split('.')[0] + "-auto-inline.c"
+                filepath = os.path.splitext(new_file)[0]
+
+            if heuristic_inline:
+                self.logger.v_msg(f"Converting {file}")
+                inlining_script_heuristic.in_lining(file)
                 new_file = file.split('.')[0] + "-auto-inline.c"
                 filepath = os.path.splitext(new_file)[0]
 
