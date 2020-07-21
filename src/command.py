@@ -82,6 +82,13 @@ class KnownExtensions(Enum):
     BC     = ".bc"
 
 
+class InlineType(Enum):
+    """Possible ways to work with inline functions in convert."""
+
+    Inline = partial(inlining_script.in_lining)
+    Heuristic = partial(inlining_script_heuristic.in_lining)
+
+
 def get_files_from_regex(logger: Log, input_file,
                          original_base, recursive_mode: bool) -> List[str]:
     """Try to compile a path as a regular expression and get the matching files."""
@@ -282,39 +289,41 @@ class Command:
 
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
-    def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool, bool, bool]:
+    def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool,
+                                                                Optional[InlineType]]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
-        inline_functions = False
-        heuristic_inline = False
+        inline_type = None
 
         if len(arguments) > 0:
             if arguments[0] == ("-r" or "--recursive"):
                 recursive_mode = True
                 args_list = arguments[1:]
             elif arguments[0] == ("-i" or "--inline_functions"):
-                inline_functions = True
+                inline_type = InlineType.Inline
                 args_list = arguments[1:]
             elif arguments[0] == ("-h" or "--heuristic_inline"):
-                heuristic_inline = True
+                if inline_type is InlineType.Inline:
+                    err_msg = "Can't use inline and heuristic inline at the same time! " + \
+                              "Defaulting to basic inline."
+                    self.logger.v_msg(err_msg)
+                    inline_type = None
+                else:
+                    inline_type = InlineType.Heuristic
                 args_list = arguments[1:]
             else:
                 args_list = arguments
 
-            if inline_functions and heuristic_inline:
-                self.logger.v_msg("Can't use inline and heuristic inline at the same time! Defaulting to basic inline.")
-                heuristic_inline = False
-
-            return args_list, recursive_mode, inline_functions, heuristic_inline
+            return args_list, recursive_mode, inline_type
 
         self.logger.v_msg("Not enough arguments!")
-        return [], False, False
+        return [], False, inline_type
 
     def do_convert(self, args: str) -> None:
         """Convert source code into CFGs."""
         # Iterate through all file-like objects.
         arguments = args.split(" ")
-        args_list, recursive_mode, inline_functions, heuristic_inline = self.parse_convert_args(arguments)
+        args_list, recursive_mode, inline_type = self.parse_convert_args(arguments)
         if len(args_list) == 0:
             self.logger.v_msg("Not enough arguments!")
             return
@@ -344,15 +353,9 @@ class Command:
                     self.logger.v_msg(f"Cannot convert {file_extension} for {file}.")
                 return
 
-            if inline_functions:
+            if inline_type is not None:
                 self.logger.v_msg(f"Converting {file}")
-                inlining_script.in_lining(file)
-                new_file = file.split('.')[0] + "-auto-inline.c"
-                filepath = os.path.splitext(new_file)[0]
-
-            if heuristic_inline:
-                self.logger.v_msg(f"Converting {file}")
-                inlining_script_heuristic.in_lining(file)
+                inline_type.value(file)
                 new_file = file.split('.')[0] + "-auto-inline.c"
                 filepath = os.path.splitext(new_file)[0]
 

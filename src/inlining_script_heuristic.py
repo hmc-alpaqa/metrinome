@@ -4,7 +4,7 @@ INPUT_PATH = "/app/code/tests/cFiles/coreutils-8.32/src/"
 DESTINATION_PATH = "/app/code/tests/cFiles/coreutils-inlined-heuristic/"
 
 
-def in_lining(file):
+def in_lining(file: str) -> bool:
     """Create inlined version of existing C file."""
     # open the file that needs to be inlined
     num = 0
@@ -45,8 +45,10 @@ def in_lining(file):
 
             # print(file, num, has_recursion)
 
+    return has_recursion
 
-def main():
+
+def main() -> None:
     """Create inline versions of all test files."""
     # files_to_inline = ['test-01-un-inlined.c', 'test-02-un-inlined.c', 'test-03-un-inlined.c',
     #                    'test-04-un-inlined.c', 'test-05-un-inlined.c', 'test-06-un-inlined.c',
