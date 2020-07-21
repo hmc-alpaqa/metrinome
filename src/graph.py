@@ -231,6 +231,8 @@ class Graph:
                     elif self.edges[i, j] == 1:
                         edges.append((i, j))
 
+            return edges
+
         return self.edges
 
     def edge_count(self) -> int:
@@ -316,10 +318,7 @@ class Graph:
 
             return adj_mat
 
-        if self.graph_type is GraphType.ADJACENCY_MATRIX:
-            return self.edge_rules()
-
-        return None
+        return self.edge_rules()
 
     def adjacency_list(self):
         """Compute the adjacency list for a Graph from its set of edges."""

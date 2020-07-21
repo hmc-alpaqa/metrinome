@@ -201,6 +201,21 @@ class TestGraph(unittest.TestCase):
         edge_list = graph.edge_rules()
         self.assertEqual(edge_list, [])
 
+    def test_edge_rules_with_edges(self) -> None:
+        """Test if we can get all of the edges from a Graph."""
+        graph = Graph([[0, 1], [0, 2]], [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
+        edge_list = graph.edge_rules()
+        self.assertEqual(edge_list, [[0, 1], [0, 2]])
+
+        adjacency_matrix = graph.adjacency_matrix()
+        graph = Graph(adjacency_matrix, [0, 1, 2], 0, 2, GraphType.ADJACENCY_MATRIX)
+        edge_list = graph.edge_rules()
+        self.assertEqual(edge_list, [(0, 1), (0, 2)])
+
+        graph = Graph([[1, 2]], [0, 1, 2], 0, 2, GraphType.ADJACENCY_LIST)
+        edge_list = graph.edge_rules()
+        self.assertEqual(edge_list, [(0, 1), (0, 2)])
+
     # # === Graph::adjacency_matrix ===
     def test_adjacency_matrix_no_edges(self) -> None:
         """Test if we can get the adjacency matrix for a Graph with no edges."""
@@ -263,6 +278,11 @@ class TestGraph(unittest.TestCase):
         with self.assertRaises(ValueError):
             graph.convert_to_weighted()
 
+        graph = Graph([], [0], start_node=0, end_node=1, graph_type=GraphType.ADJACENCY_MATRIX)
+        with self.assertRaises(NotImplementedError):
+            graph.convert_to_weighted()
+            
+
     def test_convert_unweighted_to_weighted(self) -> None:
         """Check that converting a an unweighted graph to weighted sets weights to 1."""
         graph = Graph([[1, 2], [2]], [0, 1, 2], start_node=0, end_node=1,
@@ -276,6 +296,9 @@ class TestGraph(unittest.TestCase):
     def test_to_prism_one_vertex(self) -> None:
         """Test if we can convert a Graph with one vertex to a PRISM file."""
         graph = Graph([], [0], start_node=0, end_node=1, graph_type=GraphType.ADJACENCY_LIST)
+        with self.assertRaises(ValueError):
+            graph.to_prism()  # Cannot convert non-weighted.
+
         graph.convert_to_weighted()
         with tempfile.NamedTemporaryFile() as file:
             to_write = ''.join(graph.to_prism())
