@@ -281,7 +281,6 @@ class TestGraph(unittest.TestCase):
         graph = Graph([], [0], start_node=0, end_node=1, graph_type=GraphType.ADJACENCY_MATRIX)
         with self.assertRaises(NotImplementedError):
             graph.convert_to_weighted()
-            
 
     def test_convert_unweighted_to_weighted(self) -> None:
         """Check that converting a an unweighted graph to weighted sets weights to 1."""

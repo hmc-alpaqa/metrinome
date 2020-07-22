@@ -9,13 +9,15 @@ tests:
 	python tests/test_cpp.py
 	python tests/test_cyclomatic.py     
 	python tests/test_graph.py          
-	python tests/test_java.py           
 	python tests/test_log.py            
 	python tests/test_metrics.py        
 	python tests/test_npath.py          
 	python tests/test_pathcomplexity.py 
 	python tests/test_python.py
-	python tests/test_utils.py          
+	python tests/test_utils.py
+ifndef fast
+	python tests/test_java.py
+endif
 
 coverage:
 	coverage run -m unittest discover 

@@ -318,7 +318,7 @@ class Graph:
 
             return adj_mat
 
-        return self.edge_rules()
+        return self.edges
 
     def adjacency_list(self):
         """Compute the adjacency list for a Graph from its set of edges."""
