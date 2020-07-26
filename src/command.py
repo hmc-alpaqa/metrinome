@@ -1,4 +1,3 @@
-
 """The main implementation of the REPL."""
 
 from typing import List, Dict, Any, Callable, Optional, Tuple

@@ -17,13 +17,6 @@ class TestCommandInvalid(unittest.TestCase):
         """Create a new instance of the Command object without the wrapping object."""
         self.command = command.Command("", False, False, None)
 
-    # ==== Test do_analyze ====
-    # def test_analyze_invalid_name(self):
-    #     """Test that we get an error when we pass a name for an object that does not exist."""
-    #     with captured_output() as (out, err):
-    #         self.command.do_analyze("invalid_name")
-    #         print(out, err)
-
     # ==== do_to_klee_format =====
     def test_to_klee_format_invalid_type(self) -> None:
         """
@@ -166,6 +159,13 @@ class TestCommand(unittest.TestCase):
             "klee": (1, 1),
             "export": (2, 2),
             "delete": (2, 2),
+            "import": (1, float('inf')),
+            "cd": (1, 1),
+            "ls": (0, 0),
+            "mv": (2, 2),
+            "rm": (1, 1),
+            "mkdir": (1, 1),
+            "pwd": (1, 1),
         }
 
     def setUp(self):
@@ -174,7 +174,8 @@ class TestCommand(unittest.TestCase):
 
         Note that in these tests we use the Command object directly.
         """
-        self.command = command.Command("", False, False, None)
+        self.command = command.Command(curr_path="/app/code/tests/dotFiles", debug_mode=False,
+                                       multi_threaded=False, repl_wrapper=None)
 
     def test_num_args_invalid(self):
         """Check that commands throw errors when given an incorrect number of arguments."""
@@ -194,18 +195,40 @@ class TestCommand(unittest.TestCase):
                     # TODO: assert that the result is none
             print(out, err)
 
-    # ==== Test do_analyze ====
-    # def test_analyze_all(self):
-    #     """Test the analyze command given input * (meaning we should analyze all)."""
-    #     with captured_output() as (out, err):
-    #         self.command.do_analyze("*")
-    #         print(out, err)
+    # === Test do_quit ===
+    # pylint: disable=E1121
+    def test_quit(self) -> None:
+        """Check that exiting the REPL works."""
+        with self.assertRaises(SystemExit):
+            self.command.do_quit("")
 
-    # def test_analyze_valid_name(self):
-    #     """Test that we can analyze a specific object."""
-    #     with captured_output() as (out, err):
-    #         self.command.do_analyze("some_name")
-    #         print(out, err)
+    # === directory functions. ===
+    # pylint: disable=E1121
+    def test_directories(self) -> None:
+        """Check that all functions related to working with directories work."""
+        with captured_output() as (out, err):
+            self.command.do_pwd("")
+
+        self.assertTrue("/app/code/tests/dotFiles" in out.getvalue())
+
+        with captured_output() as (out, err):
+            self.command.do_ls("")
+
+        expected_files = ["dotTest.dot", "testgraph.dot", "testsimple.dot"]
+        self.assertTrue(all(check_file in out.getvalue() for check_file in expected_files))
+
+        with captured_output() as (out, err):
+            self.command.do_cd("/app/code/tests/")
+            out.truncate(0)
+            out.seek(0)
+            self.command.do_pwd("")
+
+        self.assertTrue("/app/code/tests" in out.getvalue())
+        self.assertTrue(len(err.getvalue()) == 0)
+
+        # self.command.do_mkdir("")
+        # self.command.do_rm("")
+        # self.command.do_mv("")
 
     # ==== Test do_convert =====
     def test_convert_valid_type(self) -> None:

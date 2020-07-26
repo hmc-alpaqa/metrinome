@@ -13,3 +13,5 @@ src/.mypy_cache/
 /src/tests/cFiles/simpleAlgs/graphspandas
 /src/tests/cFiles/simpleAlgs/autobpgraphs
 /src/tandon-master/
+/src/.coverage
+/src/htmlcov/
