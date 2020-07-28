@@ -1,7 +1,7 @@
 /* Simple Merge Sort Program Using Functions and Array in C*/
 /* Data Structure Programs,C Functions and Array Examples */
 
-#include<stdio.h>
+#include <stdio.h>
 //#include<conio.h>
 
 #define MAX_SIZE 5
@@ -16,8 +16,7 @@ __attribute__((always_inline)) inline int main() {
 
   printf("Simple Merge Sort Example - Functions and Array\n");
   printf("\nEnter %d Elements for Sorting\n", MAX_SIZE);
-  for (i = 0; i < MAX_SIZE; i++)
-    scanf("%d", &arr_sort[i]);
+  for (i = 0; i < MAX_SIZE; i++) scanf("%d", &arr_sort[i]);
 
   printf("\nYour Data   :");
   for (i = 0; i < MAX_SIZE; i++) {
@@ -31,7 +30,6 @@ __attribute__((always_inline)) inline int main() {
     printf("\t%d", arr_sort[i]);
   }
   getch();
-
 }
 
 __attribute__((always_inline)) inline void merge_sort(int i, int j) {
@@ -57,13 +55,10 @@ void merge_array(int a, int b, int c, int d) {
       t[k++] = arr_sort[j++];
   }
 
-  //collect remaining elements 
-  while (i <= b)
-    t[k++] = arr_sort[i++];
+  // collect remaining elements
+  while (i <= b) t[k++] = arr_sort[i++];
 
-  while (j <= d)
-    t[k++] = arr_sort[j++];
+  while (j <= d) t[k++] = arr_sort[j++];
 
-  for (i = a, j = 0; i <= d; i++, j++)
-    arr_sort[i] = t[j];
+  for (i = a, j = 0; i <= d; i++, j++) arr_sort[i] = t[j];
 }

@@ -1,20 +1,19 @@
-int __attribute__((always_inline)) inline static foo(int a, int b, int c){
-    while (a < 10) {
-        while (b < 10) {
-            ++c;
-        }
+int __attribute__((always_inline)) inline static foo(int a, int b, int c) {
+  while (a < 10) {
+    while (b < 10) {
+      ++c;
     }
-    return a+b;
+  }
+  return a + b;
 }
 
-int main(){
-    int a;
-    int b;
-    int c;
-    int d;
+int main() {
+  int a;
+  int b;
+  int c;
+  int d;
 
-    d = foo(a, b,c);
+  d = foo(a, b, c);
 
-    return 0;
+  return 0;
 }
- 

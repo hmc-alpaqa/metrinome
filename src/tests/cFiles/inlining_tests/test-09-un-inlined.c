@@ -1,24 +1,23 @@
-int foo(int a, int b, int c){
-    if (a > b) {
-        if (b > c) {
-            ++c;
-        } else {
-            ++b;
-        }
+int foo(int a, int b, int c) {
+  if (a > b) {
+    if (b > c) {
+      ++c;
     } else {
-        ++ a;
+      ++b;
     }
-    return a + b + c;
+  } else {
+    ++a;
+  }
+  return a + b + c;
 }
 
-int main(){
-    int a;
-    int b;
-    int c;
-    int d;
+int main() {
+  int a;
+  int b;
+  int c;
+  int d;
 
-    d = foo(a, b,c);
+  d = foo(a, b, c);
 
-    return 0;
+  return 0;
 }
- 

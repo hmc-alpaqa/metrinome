@@ -1,19 +1,18 @@
-# include <stdio.h> 
+#include <stdio.h>
 
-int main(){
-    int a;
-    int b;
-    int c;
+int main() {
+  int a;
+  int b;
+  int c;
 
-    for (int i = 0; a < i; ++i) {
-        if (a < b) {
-            ++a;
-        } else {
-            ++b;
-        }
+  for (int i = 0; a < i; ++i) {
+    if (a < b) {
+      ++a;
+    } else {
+      ++b;
     }
-    c = a;
+  }
+  c = a;
 
-    return 0;
+  return 0;
 }
- 
