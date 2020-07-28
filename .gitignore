@@ -12,3 +12,4 @@ src/.mypy_cache/
 /src/tmp_dot/
 /src/tests/cFiles/simpleAlgs/graphspandas
 /src/tests/cFiles/simpleAlgs/autobpgraphs
+/src/tandon-master/

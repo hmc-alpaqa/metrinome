@@ -41,13 +41,23 @@ class JavaConvert(converter.ConverterAbstract):
         if not (file_extension in [".java", ".class"]):
             self.runcmd(f"jar xf {filename}", cwd=Env.TMP_PATH)
             filename = Env.TMP_PATH
-
-        output_path = Env.get_output_path(filename)
-        self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}")
-        self.logger.d_msg("Generated .dot files")
-        graphs = {}
-        dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")
-        for file in dot_files:
-            graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
-        Env.clean_temps()
-        return graphs
+            output_path = Env.get_output_path(filename)
+            self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}", cwd="/app/code")
+            self.logger.d_msg("Generated .dot files")
+            graphs = {}
+            dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")
+            for file in dot_files:
+                graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
+            Env.clean_temps()
+            return graphs
+        else:
+            output_path = Env.get_output_path(filename)
+            self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i /app/code/tests/javaFiles -o {output_path}", cwd="/app/code/tests/javaFiles")
+            self.logger.d_msg("Generated .dot files")
+            graphs = {}
+            dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")
+            for file in dot_files:
+                graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
+            Env.clean_temps()
+            return graphs
+            
