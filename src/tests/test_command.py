@@ -5,9 +5,41 @@ sys.path.append("/app/code/")
 import command
 from graph import Graph
 from tests.unit_utils import captured_output
+from log import Log
 
 # pylint does not understand decorators :(
 # pylint: disable=no-value-for-parameter
+
+
+class TestController(unittest.TestCase):
+    """Test the methods of the Controller object."""
+
+    def setUp(self) -> None:
+        """Create a new instance of the Controller."""
+        self.controller = command.Controller(Log())
+
+    def test_graph_generator_names(self) -> None:
+        """Check that we can get the names of all the files we can convert."""
+        names = self.controller.get_graph_generator_names()
+        expected_names = [".cpp", ".c", ".jar", ".class", ".java", ".py"]
+        self.assertEqual(list(names), expected_names)
+
+    def test_get_graph_generator(self) -> None:
+        """Check that we can get the converter from the file extension."""
+        converter = self.controller.get_graph_generator(".py")
+        self.assertEqual(converter.name(), "Python")
+
+
+class TestCommandMultithreading(unittest.TestCase):
+    """Test the multithreading implementation of the command object."""
+
+    def test_init(self) -> None:
+        """Test the initialization with multithreading."""
+        with captured_output() as (out, err):
+            command.Command("", False, True, None)
+        expected_msg = "MULTITHREADING ENABLED"
+        self.assertTrue(expected_msg in out.getvalue())
+        self.assertTrue(len(err.getvalue().strip()) == 0)
 
 
 class TestCommandInvalid(unittest.TestCase):
@@ -244,6 +276,17 @@ class TestCommand(unittest.TestCase):
 
     # TODO: convert recursive
 
+    # === Test do_metrics ===
+    def test_do_metrics_valid(self) -> None:
+        """Compute metrics for stored graphs."""
+        # TODO
+        with captured_output() as (out, err):
+            self.command.do_metrics("*")
+            self.command.do_metrics("foo")
+
+        self.assertTrue(len(out.getvalue()) == 0)
+        self.assertTrue(len(err.getvalue()) == 0)
+
     # ==== Test do_show =====
     def test_show_metric_valid(self) -> None:
         """
@@ -252,11 +295,28 @@ class TestCommand(unittest.TestCase):
         Verify that calling the show command with a valid metric name will
         display the metric value in the REPL.
         """
+        self.command.data.bc_files["foo"] = "bar"
+        self.command.data.klee_formatted_files["foo"] = "bar"
+        self.command.data.klee_stats["foo"] = "bar"
         with captured_output() as (out, err):
             self.command.data.metrics["foo"] = ["123", "123"]
             command_input = f"{command.ObjTypes.METRIC.value} foo"
             self.command.do_show(command_input)
-            print(out, err)
+        self.assertTrue(len(err.getvalue()) == 0)
+        # TODO
+        self.assertTrue(len(out.getvalue()) != 0)
+
+        with captured_output() as (out, err):
+            command_input = f"{command.ObjTypes.KLEE.value} foo"
+            self.command.do_show(command_input)
+        self.assertTrue(len(err.getvalue()) == 0)
+        self.assertTrue(len(out.getvalue()) != 0)
+
+        with captured_output() as (out, err):
+            command_input = f"{command.ObjTypes.ALL.value}"
+            self.command.do_show(command_input)
+        self.assertTrue(len(err.getvalue()) == 0)
+        self.assertTrue(len(out.getvalue()) != 0)
 
     def test_show_graph_valid(self) -> None:
         """
@@ -269,6 +329,19 @@ class TestCommand(unittest.TestCase):
             self.command.data.graphs["foo"] = Graph([], [], 0, 0)
             self.command.do_show(command.ObjTypes.GRAPH.value + " " + "foo")
             print(out, err)
+
+    def test_show_klee(self) -> None:
+        """Check that we can show klee objects."""
+        with captured_output() as (out, err):
+            self.command.do_show(command.ObjTypes.KLEE_BC.value + " foo")
+        with captured_output() as (out, err):
+            self.command.do_show(command.ObjTypes.KLEE_STATS.value + " foo")
+        with captured_output() as (out, err):
+            self.command.do_show(command.ObjTypes.KLEE_FILE.value + " foo")
+        with captured_output() as (out, err):
+            self.command.do_show(command.ObjTypes.KLEE.value + " foo")
+
+        print(out.getvalue(), err.getvalue())
 
     def test_show_all_types_valid(self) -> None:
         """
@@ -317,7 +390,33 @@ class TestCommand(unittest.TestCase):
         """
         with captured_output() as (out, err):
             self.command.do_list(command.ObjTypes.METRIC.value)
-            print(out, err)
+
+        # TODO
+        self.assertTrue(len(err.getvalue()) == 0)
+        self.assertTrue(len(out.getvalue()) != 0)
+
+    def test_list_klee(self) -> None:
+        """Check list command with klee arguments."""
+        # TODO
+        with captured_output() as (out, err):
+            self.command.do_list(command.ObjTypes.KLEE_BC.value)
+        self.assertTrue(len(err.getvalue()) == 0)
+        self.assertTrue(len(out.getvalue()) != 0)
+
+        with captured_output() as (out, err):
+            self.command.do_list(command.ObjTypes.KLEE_STATS.value)
+        self.assertTrue(len(err.getvalue()) == 0)
+        self.assertTrue(len(out.getvalue()) != 0)
+
+        with captured_output() as (out, err):
+            self.command.do_list(command.ObjTypes.KLEE_FILE.value)
+        self.assertTrue(len(err.getvalue()) == 0)
+        self.assertTrue(len(out.getvalue()) != 0)
+
+        with captured_output() as (out, err):
+            self.command.do_list(command.ObjTypes.KLEE.value)
+        self.assertTrue(len(err.getvalue()) == 0)
+        self.assertTrue(len(out.getvalue()) != 0)
 
     def test_list_all(self) -> None:
         """
