@@ -34,23 +34,39 @@ class TestJavaConvert(unittest.TestCase):
         self.assertIsNone(JavaConvert(Log()).to_graph("sources", ".jar"))
         self.assertIsNone(JavaConvert(Log()).to_graph("tests", ".jar"))
 
-    def test_to_graph(self) -> None:
-        """Test that converting a file with code to a Graph results in the correct Graph."""
+    # def test_to_graph(self) -> None:
+    #     """Test that converting a file with code to a Graph results in the correct Graph."""
+    #     converter = JavaConvert(Log())
+    #     self.assertTrue(converter.name() == "Java")
+
+    #     Env.clean_temps()
+    #     base_path = "/app/examples/src/apache_commons/bins/commons-math3-3.4.1"
+    #     filename = "commons-math3-3.4.1"
+    #     res = converter.to_graph(f"{base_path}/{filename}", ".jar")
+    #     self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
+    #     self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
+    #     self.assertIsNotNone(res)
+    #     if res is not None:
+    #         self.assertTrue(len(list(res.keys())) != 0)
+
+    #     # converter.to_graph("/app/code/", ".class")
+    #     # converter.to_graph("/app/code/", ".java")
+
+    def test_single_file(self) -> None:
+        """Test that converting a single .class file to a graph"""
         converter = JavaConvert(Log())
         self.assertTrue(converter.name() == "Java")
 
         Env.clean_temps()
-        base_path = "/app/examples/src/apache_commons/bins/commons-math3-3.4.1"
-        filename = "commons-math3-3.4.1"
-        res = converter.to_graph(f"{base_path}/{filename}", ".jar")
+        base_path = "/app/code/tests/javaFiles"
+        filename = "Factorial"
+        res = converter.to_graph(f"{base_path}/{filename}", ".class")
         self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
         self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
         self.assertIsNotNone(res)
         if res is not None:
             self.assertTrue(len(list(res.keys())) != 0)
 
-        # converter.to_graph("/app/code/", ".class")
-        # converter.to_graph("/app/code/", ".java")
 
 
 if __name__ == '__main__':

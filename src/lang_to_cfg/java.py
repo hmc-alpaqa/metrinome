@@ -18,7 +18,7 @@ class JavaConvert(converter.ConverterAbstract):
 
     # pylint: disable=super-init-not-called
     def __init__(self, logger: Log) -> None:
-        """Create a new Java coverter."""
+        """Create a new Java converter."""
         self.logger: Log = logger
         self.output_folder = Env.TMP_DOT_PATH
 
@@ -50,14 +50,14 @@ class JavaConvert(converter.ConverterAbstract):
                 graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
             Env.clean_temps()
             return graphs
-        else:
-            output_path = Env.get_output_path(filename)
-            self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i /app/code/tests/javaFiles -o {output_path}", cwd="/app/code/tests/javaFiles")
-            self.logger.d_msg("Generated .dot files")
-            graphs = {}
-            dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")
-            for file in dot_files:
-                graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
-            Env.clean_temps()
-            return graphs
-            
+
+        output_path = Env.get_output_path(filename)
+        self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}", cwd="/app/code")
+        self.logger.d_msg("Generated .dot files")
+        graphs = {}
+        dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")
+        for file in dot_files:
+            graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
+        Env.clean_temps()
+        return graphs
+        
