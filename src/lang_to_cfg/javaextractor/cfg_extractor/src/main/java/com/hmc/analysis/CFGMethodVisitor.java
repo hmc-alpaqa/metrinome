@@ -24,31 +24,23 @@ import java.io.OutputStreamWriter;
 public class CFGMethodVisitor extends MethodVisitor
 {
 
-    // private String mAccess;
     private String mOwner;
     private String mName;
-    // private String mDesc;
     private MethodVisitor next;
     private static Map<String, Integer> mIndexes;
-    // private static int keyIndex;
-    // private static Map<Frame, Integer> keys;
     private static int basicKeyIndex;
     private static Map<BasicBlock, Integer> basicKeys;
     
     static {
         CFGMethodVisitor.mIndexes = new HashMap<>();
-        // CFGMethodVisitor.keyIndex = 1;
-        // CFGMethodVisitor.keys = new HashMap<>();
         CFGMethodVisitor.basicKeyIndex = 1;
         CFGMethodVisitor.basicKeys = new HashMap<>();
     }
     
     CFGMethodVisitor(final MethodVisitor mv, final int access, final String owner, final String name, final String desc) {
         super(327680, new MethodNode(access, name, desc, null, null));
-        // this.mAccess = Integer.toString(access);
         this.mOwner = owner;
         this.mName = name;
-        // this.mDesc = desc;
         this.next = mv;
     }
 
@@ -86,7 +78,8 @@ public class CFGMethodVisitor extends MethodVisitor
                 if (owner.length() > 15) {
                     owner = String.valueOf(this.mOwner.substring(0, 15).replace("/", "_")) + owner;
                 }
-                outFile2 = String.valueOf(ComOptions.OUTPUT_FOLDER_PATH) + "/" + owner + "_" + this.mName + "_" + getKey(this.mName) + "_basic.dot";
+                outFile2 = String.valueOf(ComOptions.OUTPUT_FOLDER_PATH) + "/" + owner + "_" + this.mName + "_" +
+                           getKey(this.mName) + "_basic.dot";
             }
 
             // TODO(gbessler): fix this
@@ -101,16 +94,13 @@ public class CFGMethodVisitor extends MethodVisitor
                 System.out.println("Directory already exists... will output to it!");
             } else {
                 boolean ok = directory.mkdirs();
-                if (!ok) {
+                if (!ok)
                     System.out.println("Could not create parent dirs.");
-                }
                 ok = file.createNewFile();
-                if (!ok) {
+                if (!ok)
                     System.out.println("Could not create file");
-                }
             }
 
-            // final PrintWriter writer2 = new PrintWriter(outFile2, StandardCharsets.UTF_8);
             final PrintWriter writer2 = new PrintWriter(
                     new OutputStreamWriter(new FileOutputStream(outFile2), StandardCharsets.UTF_8),true
             );
@@ -134,7 +124,8 @@ public class CFGMethodVisitor extends MethodVisitor
             if (ComOptions.DB_MODE)
                 SqliteJDBC.updateMethod(ComOptions.DB_METHOD_ID, "dotfile", outFile2);
 
-            System.out.println(String.valueOf(this.mOwner) + "." + this.mName + ": frames --> " + frames.length + ": basic blocks --> " + basicBlocks.size());
+            System.out.println(String.valueOf(this.mOwner) + "." + this.mName + ": frames --> " +
+                               frames.length + ": basic blocks --> " + basicBlocks.size());
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -146,36 +137,20 @@ public class CFGMethodVisitor extends MethodVisitor
     
     private static String getKey(final String s) {
         Integer index = 0;
-        if (CFGMethodVisitor.mIndexes.containsKey(s)) {
+        if (CFGMethodVisitor.mIndexes.containsKey(s))
             index = CFGMethodVisitor.mIndexes.get(s);
-        }
-        else {
+        else
             CFGMethodVisitor.mIndexes.put(s, index);
-        }
         return index.toString();
     }
 
-    // TODO
-    /*
-    public static String getKey(final Frame f) {
-        System.out.println(f + " ---> " + CFGMethodVisitor.keyIndex);
-        if (!CFGMethodVisitor.keys.containsKey(f)) {
-            CFGMethodVisitor.keys.put(f, CFGMethodVisitor.keyIndex++);
-        }
-        return CFGMethodVisitor.keys.get(f).toString();
-    }
-    */
-    
     private static String getKey(final BasicBlock b) {
-        if (!CFGMethodVisitor.basicKeys.containsKey(b)) {
+        if (!CFGMethodVisitor.basicKeys.containsKey(b))
             CFGMethodVisitor.basicKeys.put(b, CFGMethodVisitor.basicKeyIndex++);
-        }
         return CFGMethodVisitor.basicKeys.get(b).toString();
     }
     
     private static void resetKeyMap() {
-        // CFGMethodVisitor.keys.clear();
-        // CFGMethodVisitor.keyIndex = 1;
         CFGMethodVisitor.basicKeys.clear();
         CFGMethodVisitor.basicKeyIndex = 1;
         CFGMethodVisitor.mIndexes.clear();
@@ -186,23 +161,11 @@ public class CFGMethodVisitor extends MethodVisitor
         for (int i = 0; i < frames.length; ++i) {
             if (frames[i] != null) {
                 final Node n = (Node)frames[i];
-                if (i == 0) {
+                if (i == 0)
                     n.isRoot = true;
+
+                if (i == 0 || n.predecessors.size() != 1 || n.predecessors.iterator().next().successors.size() > 1)
                     leaders.add(n);
-                }
-                else if (n.predecessors.size() == 0) {
-                    leaders.add(n);
-                }
-                else if (n.predecessors.size() > 1) {
-                    leaders.add(n);
-                }
-                else {
-                    for (final Node p : n.predecessors) {
-                        if (p.successors.size() > 1) {
-                            leaders.add(n);
-                        }
-                    }
-                }
             }
         }
         System.out.println("leaders size: " + leaders.size());
@@ -210,16 +173,14 @@ public class CFGMethodVisitor extends MethodVisitor
         final List<BasicBlock> basicBlocks = new ArrayList<>();
         for (final Node leader : leaders) {
             BasicBlock currBlock;
-            if (node2block.containsKey(leader)) {
+            if (node2block.containsKey(leader))
                 currBlock = node2block.get(leader);
-            }
             else {
                 currBlock = new BasicBlock();
                 basicBlocks.add(currBlock);
                 node2block.put(leader, currBlock);
-                if (leader.isRoot) {
+                if (leader.isRoot)
                     currBlock.isRoot = true;
-                }
             }
             for (final Node n2 : leader.successors) {
                 if (leaders.contains(n2)) {
