@@ -5,7 +5,6 @@ public class ComOptions
     static String INPUT_CLASS_FOLDER_PATH;
     public static String OUTPUT_FOLDER_PATH;
     static String PACKAGE_NAME;
-    // public static final String CLASS_FILE_REGEX = "[^\\s]+\\.class$";
     public static boolean DB_MODE;
     static String DB_URL;
     public static boolean SINGLE_METHOD_MODE;

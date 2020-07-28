@@ -15,16 +15,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import java.io.File;
-import java.util.List;
 
-import com.hmc.db.SqliteJDBC;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 
 public class Extractor
 {
-    public static void main(final String[] args) {
-        // Parse command line options
+
+    public static Options buildOptions() {
+        // Set the command line options to look for.
         final Options comOptions = new Options();
         comOptions.addOption("p", "package-name", true, "application package name");
         comOptions.addOption("d", "database", true, "database url");
@@ -33,97 +32,86 @@ public class Extractor
         comOptions.addOption("i", "input-classes", true, "folder of classes to be instrumented");
         comOptions.addOption("o", "output-folder", true, "output graphs");
         comOptions.addOption("h", "help", false, "list available options");
-        final CommandLineParser comParser = new PosixParser();
-        CommandLine com = null;
+
+        return comOptions;
+    }
+
+    public static void parseOptions(final Options comOptions, final String[] args) {
+        // Parse the command line arguments.
+        final CommandLineParser comParser = new DefaultParser();
+        CommandLine com;
         try {
             com = comParser.parse(comOptions, args);
         }
         catch (final Exception e2) {
             exit(comOptions);
+            return;
         }
-        if (com.hasOption('h')) {
+        if (com.hasOption('h'))
             exit(comOptions);
-        }
-        if (com.hasOption('i')) {
+        if (com.hasOption('i'))
             ComOptions.INPUT_CLASS_FOLDER_PATH = com.getOptionValue('i');
-        }
-        if (com.hasOption('o')) {
+        if (com.hasOption('o'))
             ComOptions.OUTPUT_FOLDER_PATH = com.getOptionValue('o');
-        }
-        if (com.hasOption('p')) {
+        if (com.hasOption('p'))
             ComOptions.PACKAGE_NAME = com.getOptionValue('p');
-        }
-        if (com.hasOption('s')) {
+        if (com.hasOption('s'))
             ComOptions.USER_SESSION = com.getOptionValue('s');
-        }
-        if (com.hasOption('d')) {
-            ComOptions.DB_URL = com.getOptionValue('d');
-            ComOptions.DB_MODE = true;
-            SqliteJDBC.connect(ComOptions.DB_URL);
-        }
-        if (com.hasOption('m')) {
-            ComOptions.DB_METHOD_ID = com.getOptionValue('m');
-            ComOptions.SINGLE_METHOD_MODE = true;
-            SqliteJDBC.select(ComOptions.DB_METHOD_ID);
-        }
+    }
 
-        final File classFolder = new File(ComOptions.INPUT_CLASS_FOLDER_PATH);
-        final File instrumentedClassFolder = new File(ComOptions.OUTPUT_FOLDER_PATH);
-        ConsoleMessage.info("input classes folder -> " + classFolder);
-        ConsoleMessage.info("output folder -> " + instrumentedClassFolder);
-
-        // classFolder can either be a single file or a directory
+    public static Collection<File> getFiles(File inputPath) {
         System.out.println("Working directory = " + System.getProperty("user.dir"));
         final Collection<File> classFiles;
-        if (classFolder.isDirectory()) {
+        if (inputPath.isDirectory()) {
             classFiles = FileUtils.listFiles(
-                    classFolder, new RegexFileFilter("[^\\s]+\\.class$"),
+                    inputPath, new RegexFileFilter("[^\\s]+\\.class$"),
                     DirectoryFileFilter.DIRECTORY
             );
         } else {
             classFiles = new ArrayList<>();
-            ((ArrayList<File>) classFiles).add(0, classFolder);
+            ((ArrayList<File>) classFiles).add(0, inputPath);
         }
 
+        return classFiles;
+    }
+
+    public static void main(final String[] args) {
+        // Get options from the command line.
+        final Options comOptions = buildOptions();
+        parseOptions(comOptions, args);
+
+        // inputPath can either be a single file or a directory.
+        final File inputPath = new File(ComOptions.INPUT_CLASS_FOLDER_PATH);
+        final File instrumentedClassFolder = new File(ComOptions.OUTPUT_FOLDER_PATH);
+        info("input classes folder -> " + inputPath);
+        info("output folder -> " + instrumentedClassFolder);
+        Collection<File> classFiles = getFiles(inputPath);
+
+        // Create CFG for each of the files in the list.
         for (final File classFile : classFiles) {
             try {
                 final byte[] inBytes = FileUtils.readFileToByteArray(classFile);
                 final ClassReader cr = new ClassReader(inBytes);
-                if (ComOptions.DB_MODE) {
-                    if (!ComOptions.SINGLE_METHOD_MODE) {
-                        ClassVisitor cv;
-                        final ClassWriter cw = new ClassWriter(1);
-                        cv = new CFGClassVisitor(cw);
-                        cr.accept(cv, 0);
-                    }
-                    else {
-                        if (cr.getClassName().equals(ComOptions.M_OWNER)) {
-                            ClassVisitor cv;
-                            final ClassWriter cw = new ClassWriter(1);
-                            cv = new CFGClassVisitor(cw);
-                            cr.accept(cv, 0);
-                            break;
-                        }
-                    }
-                }
-                else {
-                    ClassVisitor cv;
-                    final ClassWriter cw = new ClassWriter(1);
-                    cv = new CFGClassVisitor(cw);
-                    cr.accept(cv, 0);
-                }
+                final ClassWriter cw = new ClassWriter(1);
+                ClassVisitor cv = new CFGClassVisitor(cw);
+                cr.accept(cv, 0);
             }
             catch (final IOException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.toString());
                 e.printStackTrace();
                 System.exit(-1);
             }
         }
-        SqliteJDBC.close();
     }
     
     private static void exit(final Options options) {
         final HelpFormatter helpFormatter = new HelpFormatter();
         helpFormatter.printHelp("Available command line options", options, true);
         System.exit(0);
+    }
+
+    static void info(final String msg) {
+        System.out.println(String.format("\n%5sINFO: %s", " ", msg));
     }
 }
