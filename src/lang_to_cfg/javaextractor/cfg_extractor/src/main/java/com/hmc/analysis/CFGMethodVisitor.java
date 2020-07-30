@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.hmc.ComOptions;
-import com.hmc.db.SqliteJDBC;
 import java.io.PrintWriter;
 
 import org.objectweb.asm.tree.analysis.Analyzer;
@@ -45,9 +44,8 @@ public class CFGMethodVisitor extends MethodVisitor
     }
 
     public void visitEnd() {
-        if (CFGMethodVisitor.mIndexes.containsKey(this.mName)) {
+        if (CFGMethodVisitor.mIndexes.containsKey(this.mName))
             CFGMethodVisitor.mIndexes.put(this.mName, CFGMethodVisitor.mIndexes.get(this.mName) + 1);
-        }
         final MethodNode mn = (MethodNode)this.mv;
         final Analyzer a = new Analyzer(new BasicInterpreter()) {
             protected void newControlFlowEdge(final int src, final int dst) {
@@ -69,30 +67,28 @@ public class CFGMethodVisitor extends MethodVisitor
             a.analyze(this.mOwner, mn);
             final Frame[] frames = a.getFrames();
             final List<BasicBlock> basicBlocks = getBasicBlocks(frames);
-            String outFile2 = Paths.get(String.valueOf(ComOptions.OUTPUT_FOLDER_PATH),
+            String outFile = Paths.get(String.valueOf(ComOptions.OUTPUT_FOLDER_PATH),
                     this.mOwner.replace("/", "_") + "_" + this.mName + "_" + getKey(this.mName)
                     + "_basic.dot").toString();
             System.out.println("OUTPUT FOLDER PATH: " + String.valueOf(ComOptions.OUTPUT_FOLDER_PATH));
-            if (outFile2.length() > 190) {
+            if (outFile.length() > 190) {
                 String owner = Integer.toString(this.mOwner.hashCode());
-                if (owner.length() > 15) {
+                if (owner.length() > 15)
                     owner = String.valueOf(this.mOwner.substring(0, 15).replace("/", "_")) + owner;
-                }
-                outFile2 = String.valueOf(ComOptions.OUTPUT_FOLDER_PATH) + "/" + owner + "_" + this.mName + "_" +
+                outFile = String.valueOf(ComOptions.OUTPUT_FOLDER_PATH) + "/" + owner + "_" + this.mName + "_" +
                            getKey(this.mName) + "_basic.dot";
             }
 
-            // TODO(gbessler): fix this
-            System.out.println("Trying to create file: " + outFile2);
-            outFile2 = outFile2.replace("<", "");
-            outFile2 = outFile2.replace(">", "");
-            File file = new File(outFile2);
+            System.out.println("Trying to create file: " + outFile);
+            outFile = outFile.replace("<", "");
+            outFile = outFile.replace(">", "");
+            File file = new File(outFile);
             // Create all parent directories.
-            System.out.println("Trying to create file: " + outFile2);
+            System.out.println("Trying to create file: " + outFile);
             File directory = file.getParentFile();
-            if (directory.exists()) {
+            if (directory.exists())
                 System.out.println("Directory already exists... will output to it!");
-            } else {
+            else {
                 boolean ok = directory.mkdirs();
                 if (!ok)
                     System.out.println("Could not create parent dirs.");
@@ -101,29 +97,26 @@ public class CFGMethodVisitor extends MethodVisitor
                     System.out.println("Could not create file");
             }
 
-            final PrintWriter writer2 = new PrintWriter(
-                    new OutputStreamWriter(new FileOutputStream(outFile2), StandardCharsets.UTF_8),true
+            final PrintWriter writer = new PrintWriter(
+                    new OutputStreamWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8),true
             );
-            writer2.println("digraph {");
-            writer2.println("0 [label=\"START\"]");
+            writer.println("digraph {");
+            writer.println("0 [label=\"START\"]");
             final int exitBlock = basicBlocks.size() + 1;
-            writer2.println(String.valueOf(exitBlock) + " [label=\"EXIT\"]");
+            writer.println(String.valueOf(exitBlock) + " [label=\"EXIT\"]");
             for (final BasicBlock b : basicBlocks) {
                 if (b.predecessors.size() == 0 || b.isRoot)
-                    writer2.println(String.format("%s -> %s", "0", getKey(b)));
+                    writer.println(String.format("%s -> %s", "0", getKey(b)));
 
                 if (b.successors.size() == 0 || (b.successors.size() == 1 && b == b.successors.iterator().next()))
-                    writer2.println(String.format("%s -> %s", getKey(b), exitBlock));
+                    writer.println(String.format("%s -> %s", getKey(b), exitBlock));
 
                 for (final BasicBlock n : b.successors)
-                    writer2.println(String.format("%s -> %s", getKey(b), getKey(n)));
+                    writer.println(String.format("%s -> %s", getKey(b), getKey(n)));
 
             }
-            writer2.println("}");
-            writer2.close();
-            if (ComOptions.DB_MODE)
-                SqliteJDBC.updateMethod(ComOptions.DB_METHOD_ID, "dotfile", outFile2);
-
+            writer.println("}");
+            writer.close();
             System.out.println(String.valueOf(this.mOwner) + "." + this.mName + ": frames --> " +
                                frames.length + ": basic blocks --> " + basicBlocks.size());
         }

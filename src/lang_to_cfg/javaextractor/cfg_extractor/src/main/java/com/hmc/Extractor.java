@@ -90,8 +90,7 @@ public class Extractor
         // Create CFG for each of the files in the list.
         for (final File classFile : classFiles) {
             try {
-                final byte[] inBytes = FileUtils.readFileToByteArray(classFile);
-                final ClassReader cr = new ClassReader(inBytes);
+                final ClassReader cr = new ClassReader(FileUtils.readFileToByteArray(classFile));
                 final ClassWriter cw = new ClassWriter(1);
                 ClassVisitor cv = new CFGClassVisitor(cw);
                 cr.accept(cv, 0);
