@@ -55,21 +55,20 @@ def main() -> None:
     #                    'test-07-un-inlined.c', 'test-08-un-inlined.c', 'test-09-un-inlined.c',
     #                    'test-10-un-inlined.c', 'test-11-un-inlined.c', 'test-12-un-inlined.c']
 
-    # files_to_inline = ['test-20-un-inlined.c', 'test-21-un-inlined.c', 'test-22-un-inlined.c',
-    #                    'test-23-un-inlined.c', 'test-25-un-inlined.c']
+    files_to_inline = ['test-30-un-inlined.c', 'test-31-un-inlined.c', 'test-32-un-inlined.c',
+                       'test-33-un-inlined.c']
 
     # files_to_inline = ['basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c',
     #                    'chown-core.c', 'chown.c']
 
-    # files_to_inline = ['csplit.c']
+    # for file in os.listdir(INPUT_PATH):
+    #     # if file.endswith(".h"):
+    #     if file.endswith(".c"):
+    #         in_lining(file)
 
-    for file in os.listdir(INPUT_PATH):
-        # if file.endswith(".h"):
-        if file.endswith(".c"):
-            in_lining(file)
-
-    # for file in files_to_inline:
-    #     in_lining(file)
+    for file in files_to_inline:
+        #in_lining(file)
+        in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
 
 
 if __name__ == "__main__":

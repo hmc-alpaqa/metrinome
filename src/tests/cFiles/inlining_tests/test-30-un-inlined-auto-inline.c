@@ -39,8 +39,9 @@ __attribute__((always_inline)) inline void print_all_packages(town t) {
   }
 }
 
-__attribute__((always_inline)) inline void send_all_acceptable_packages(town* source, int source_office_index,
-                                  town* target, int target_office_index) {
+__attribute__((always_inline)) inline void send_all_acceptable_packages(
+    town* source, int source_office_index, town* target,
+    int target_office_index) {
   int min = target->offices[target_office_index].min_weight;
   int max = target->offices[target_office_index].max_weight;
 
@@ -72,7 +73,8 @@ __attribute__((always_inline)) inline void send_all_acceptable_packages(town* so
   }
 }
 
-__attribute__((always_inline)) inline town town_with_most_packages(town* towns, int towns_count) {
+__attribute__((always_inline)) inline town town_with_most_packages(
+    town* towns, int towns_count) {
   int index = 0, max = 0;
   for (int i = 0; i < towns_count; i++) {
     int sum = 0;
@@ -87,7 +89,9 @@ __attribute__((always_inline)) inline town town_with_most_packages(town* towns, 
   return towns[index];
 }
 
-__attribute__((always_inline)) inline town* find_town(town* towns, int towns_count, char* name) {
+__attribute__((always_inline)) inline town* find_town(town* towns,
+                                                      int towns_count,
+                                                      char* name) {
   int i;
   for (i = 0; i < towns_count; i++) {
     if (!(strcmp(towns[i].name, name))) break;

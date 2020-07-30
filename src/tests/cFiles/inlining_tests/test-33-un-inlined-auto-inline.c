@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-__attribute__((always_inline)) inline void check(int i, int j, int first, int last, int n) {
+__attribute__((always_inline)) void check(int i, int j, int first, int last,
+                                          int n) {
   if (n >= 1) {
     if (i == first || i == last || j == first || j == last)
       printf("%d ", n);

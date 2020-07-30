@@ -31,10 +31,8 @@ def in_lining(file: str) -> None:
 
 def main() -> None:
     """Create inline versions of all test files."""
-    # files_to_inline = ['chgrp-un-inlined.c'] # tried to test a core-util file
+    files_to_inline = ['test-40-un-inlined.c']
 
-    files_to_inline = ['test-20-un-inlined.c', 'test-21-un-inlined.c', 'test-22-un-inlined.c',
-                       'test-23-un-inlined.c', 'test-25-un-inlined.c']
 
     # files_to_inline = ['test-01-un-inlined.c', 'test-02-un-inlined.c', 'test-03-un-inlined.c',
     #                    'test-04-un-inlined.c', 'test-05-un-inlined.c', 'test-06-un-inlined.c',

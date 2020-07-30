@@ -5,6 +5,13 @@
 
 #define MIN_ELEMENT 1
 #define MAX_ELEMENT 1000000
+
+struct triangle {
+  int a;
+  int b;
+  int c;
+};
+
 __attribute__((always_inline)) inline int sum(int count, ...) {
   int sum = 0;
 
@@ -50,7 +57,8 @@ __attribute__((always_inline)) inline int max(int count, ...) {
   return max;
 }
 
-__attribute__((always_inline)) inline int test_implementations_by_sending_three_elements() {
+__attribute__((always_inline)) inline int
+test_implementations_by_sending_three_elements() {
   srand(time(NULL));
 
   int elements[3];
@@ -89,7 +97,8 @@ __attribute__((always_inline)) inline int test_implementations_by_sending_three_
   return elements_sum == expected_elements_sum;
 }
 
-__attribute__((always_inline)) inline int test_implementations_by_sending_five_elements() {
+__attribute__((always_inline)) inline int
+test_implementations_by_sending_five_elements() {
   srand(time(NULL));
 
   int elements[5];
@@ -133,7 +142,8 @@ __attribute__((always_inline)) inline int test_implementations_by_sending_five_e
   return elements_sum == expected_elements_sum;
 }
 
-__attribute__((always_inline)) inline int test_implementations_by_sending_ten_elements() {
+__attribute__((always_inline)) inline int
+test_implementations_by_sending_ten_elements() {
   srand(time(NULL));
 
   int elements[10];
