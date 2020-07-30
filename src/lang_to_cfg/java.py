@@ -18,7 +18,7 @@ class JavaConvert(converter.ConverterAbstract):
 
     # pylint: disable=super-init-not-called
     def __init__(self, logger: Log) -> None:
-        """Create a new Java coverter."""
+        """Create a new Java converter."""
         self.logger: Log = logger
         self.output_folder = Env.TMP_DOT_PATH
 
@@ -53,8 +53,7 @@ class JavaConvert(converter.ConverterAbstract):
             return graphs
 
         output_path = Env.get_output_path(filename)
-        cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i /app/code/tests/javaFiles -o {output_path}"
-        self.runcmd(cmd, cwd="/app/code/tests/javaFiles")
+        self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}", cwd="/app/code")
         self.logger.d_msg("Generated .dot files")
         graphs = {}
         dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")

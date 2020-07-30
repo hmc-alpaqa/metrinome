@@ -1,22 +1,21 @@
-# include <stdio.h> 
+#include <stdio.h>
 
-int main(){
-    int a;
-    int b;
-    int c;
-    int d;
+int main() {
+  int a;
+  int b;
+  int c;
+  int d;
 
-    if (a > b) {
-        if (b > c) {
-            ++c;
-        } else {
-            ++b;
-        }
+  if (a > b) {
+    if (b > c) {
+      ++c;
     } else {
-        ++ a;
+      ++b;
     }
-    d = a + b + c;
+  } else {
+    ++a;
+  }
+  d = a + b + c;
 
-    return 0;
+  return 0;
 }
- 
