@@ -53,7 +53,8 @@ class JavaConvert(converter.ConverterAbstract):
             return graphs
 
         output_path = Env.get_output_path(filename)
-        self.runcmd(f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}", cwd="/app/code")
+        cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}"
+        self.runcmd(cmd, cwd="/app/code")
         self.logger.d_msg("Generated .dot files")
         graphs = {}
         dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")

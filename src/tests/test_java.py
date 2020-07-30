@@ -53,7 +53,7 @@ class TestJavaConvert(unittest.TestCase):
     #     # converter.to_graph("/app/code/", ".java")
 
     def test_single_file(self) -> None:
-        """Test that converting a single .class file to a graph"""
+        """Test that converting a single .class file to a graph."""
         converter = JavaConvert(Log())
         self.assertTrue(converter.name() == "Java")
 
@@ -66,7 +66,6 @@ class TestJavaConvert(unittest.TestCase):
         self.assertIsNotNone(res)
         if res is not None:
             self.assertTrue(len(list(res.keys())) != 0)
-
 
 
 if __name__ == '__main__':

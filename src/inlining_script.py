@@ -33,7 +33,6 @@ def main() -> None:
     """Create inline versions of all test files."""
     files_to_inline = ['test-40-un-inlined.c']
 
-
     # files_to_inline = ['test-01-un-inlined.c', 'test-02-un-inlined.c', 'test-03-un-inlined.c',
     #                    'test-04-un-inlined.c', 'test-05-un-inlined.c', 'test-06-un-inlined.c',
     #                    'test-07-un-inlined.c', 'test-08-un-inlined.c', 'test-09-un-inlined.c',

@@ -1,5 +1,4 @@
 """Adds always inline attribute to C Files."""
-import os
 INPUT_PATH = "/app/code/tests/cFiles/coreutils-8.32/src/"
 DESTINATION_PATH = "/app/code/tests/cFiles/coreutils-inlined-heuristic/"
 
@@ -67,7 +66,7 @@ def main() -> None:
     #         in_lining(file)
 
     for file in files_to_inline:
-        #in_lining(file)
+        # in_lining(file)
         in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
 
 
