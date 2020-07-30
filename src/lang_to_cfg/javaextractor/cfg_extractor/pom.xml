@@ -22,7 +22,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
+        <version>3.2.0</version>
         <configuration>
           <archive>
             <manifest>
@@ -36,7 +36,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>1.6</version>
+        <version>3.2.4</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>ca.mcgill.sable</groupId>
       <artifactId>soot</artifactId>
-      <version>3.3.0</version>
+      <version>4.1.0</version>
     </dependency>
 
     <dependency>
@@ -80,12 +80,6 @@
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.32.3</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.ow2.asm</groupId>
-      <artifactId>asm-all</artifactId>
-      <version>5.2</version>
     </dependency>
 
   </dependencies>
