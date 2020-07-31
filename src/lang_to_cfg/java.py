@@ -1,5 +1,6 @@
 """This class knows how to convert from java source code to graph objects."""
 import sys
+import os
 sys.path.append("/app/code/")
 from typing import Dict, Optional
 from glob2 import glob  # type: ignore
@@ -36,28 +37,32 @@ class JavaConvert(converter.ConverterAbstract):
         if file_extension == '.jar' and check_ending:
             return None
 
-        filename += file_extension
-        self.logger.v_msg(f"processing {filename}")
-        if not (file_extension in [".java", ".class"]):
-            self.runcmd(f"jar xf {filename}", cwd=Env.TMP_PATH)
-            filename = Env.TMP_PATH
-            output_path = Env.get_output_path(filename)
-            cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}"
-            self.runcmd(cmd, cwd="/app/code")
-            self.logger.d_msg("Generated .dot files")
-            graphs = {}
-            dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")
-            for file in dot_files:
-                graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
-            Env.clean_temps()
-            return graphs
+        path = ""
+        fname = filename + file_extension
+        self.logger.v_msg(f"processing {fname}")
 
-        output_path = Env.get_output_path(filename)
-        cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {filename} -o {output_path}"
+        if file_extension == ".jar":
+            self.runcmd(f"jar xf {fname}", cwd=Env.TMP_PATH)
+            fname = Env.TMP_PATH
+            path = f"{Env.TMP_DOT_PATH}/tmp/*.dot"
+        
+
+        if file_extension == ".java":
+            self.runcmd(f"javac {fname} -d {Env.TMP_PATH}")
+            name = os.path.basename(filename)
+            fname = f"{Env.TMP_PATH}/{name}.class"
+
+        output_path = Env.get_output_path(fname)
+        cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {fname} -o {output_path}"
         self.runcmd(cmd, cwd="/app/code")
         self.logger.d_msg("Generated .dot files")
+        
         graphs = {}
-        dot_files = glob(f"{Env.TMP_DOT_PATH}/tmp/*.dot")
+        if path == "":
+            path = f"{output_path}/*.dot"
+        
+        dot_files = glob(path)
+        print(dot_files)
         for file in dot_files:
             graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
         Env.clean_temps()
