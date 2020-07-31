@@ -4,7 +4,7 @@ typedef struct complex {
     float imag;
 } complex;
 
-complex add(complex n1, complex n2);
+__attribute__((always_inline)) inline complex add(complex n1, complex n2);
 
 __attribute__((always_inline)) inline complex add(complex n1, complex n2) {
     complex temp;
