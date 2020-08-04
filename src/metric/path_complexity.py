@@ -68,8 +68,7 @@ class PathComplexity(metric.MetricAbstract):
         if taylor_coeffs is None:
             return (0.0, 0.0)
 
-        base_cases = np.matrix(taylor_coeffs[1: recurrence_degree + 1],
-                               dtype='complex')
+        base_cases = np.matrix(taylor_coeffs[1: recurrence_degree + 1], dtype='complex')
         n_var = symbols('n')
 
         # Solve the recurrence relation.

@@ -45,7 +45,6 @@ class JavaConvert(converter.ConverterAbstract):
             self.runcmd(f"jar xf {fname}", cwd=Env.TMP_PATH)
             fname = Env.TMP_PATH
             path = f"{Env.TMP_DOT_PATH}/tmp/*.dot"
-        
 
         if file_extension == ".java":
             self.runcmd(f"javac {fname} -d {Env.TMP_PATH}")
@@ -56,11 +55,11 @@ class JavaConvert(converter.ConverterAbstract):
         cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {fname} -o {output_path}"
         self.runcmd(cmd, cwd="/app/code")
         self.logger.d_msg("Generated .dot files")
-        
+
         graphs = {}
         if path == "":
             path = f"{output_path}/*.dot"
-        
+
         dot_files = glob(path)
         print(dot_files)
         for file in dot_files:
