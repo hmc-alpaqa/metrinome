@@ -17,7 +17,7 @@ def poly(input_, coef: List[Any], deg: int):
     return [sum([k * (i**j) for j, k in zip(list(range(deg + 1))[::-1], coef)]) for i in input_]
 
 
-def exp_function(x_val: float, coef1: float, coef2: float, const_term: float):
+def exp_function(x_val: float, coef1: float, coef2: float, const_term: float) -> float:
     """General exponential function with 3 parameters."""
     return coef1 * np.exp(-coef2 * x_val) + const_term
 
@@ -104,7 +104,7 @@ def klee_compare(file_name: str, preferences: List[Any], depths: List[Any],
     return results_dict
 
 
-def graph_stat(func: str, preference, max_depths: List[Any], inputs, results, field):
+def graph_stat(func: str, preference, max_depths: List[Any], inputs, results, field) -> None:
     """Create and save a graph for a certain statistic on a Klee experiment."""
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/",
                    shell=True, check=False)

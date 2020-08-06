@@ -43,7 +43,7 @@ def run_benchmark(converter, graph_type, show_info, graph_frac=5,
     print_overall_results(overall_time_list, timeout_total, timeout_threshold)
 
 
-def print_overall_results(overall_time_list, timeout_total, timeout_threshold):
+def print_overall_results(overall_time_list, timeout_total, timeout_threshold) -> None:
     """Print the results once the benchmark is done."""
     # print overall metrics for all cfgs.
     print(runtime_metrics(overall_time_list))

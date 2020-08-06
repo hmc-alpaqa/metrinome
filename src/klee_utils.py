@@ -62,7 +62,7 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self.logger = logger
 
-    def show_func_defs(self, filename: str, size: int = 10) -> Dict[Any, Any]:
+    def show_func_defs(self, filename: str, size: int = 10) -> Dict[str, str]:
         """
         Generate the set of klee-compatible files.
 
@@ -72,7 +72,7 @@ class KleeUtils:
         self.logger.d_msg(f"Going to parse file {filename}")
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc',
                          cpp_args=['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include'])
-        self.logger.d_msg(f"Going to visit functions.")
+        self.logger.d_msg("Going to visit functions.")
         func_visitor = FuncVisitor(self.logger)
         func_visitor.visit(ast)
 

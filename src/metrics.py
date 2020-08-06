@@ -131,7 +131,7 @@ def mutual_information(cluster_list_one, cluster_list_two) -> float:
     return cond_entropy
 
 
-def get_total_size(dictionary: Dict[Any, Any]):
+def get_total_size(dictionary: Dict[Any, Any]) -> int:
     """Get the sum of lengths of all values in a dictionary."""
     total_size = 0
     for cluster in dictionary:
@@ -373,7 +373,7 @@ class MetricsComparer:
         print(f"APC to Cyclomatic: {r_one}, \
               APC vs NPATH: {r_two}", self.location)
 
-    def aggregate(self):
+    def aggregate(self) -> None:
         """
         Count the number of differences between different metrics.
 

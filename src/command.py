@@ -38,7 +38,7 @@ EXTENSION: Callable[[str, str], str] = lambda target_type, file_extension: \
     f"File extension must be {target_type}, not {file_extension}."
 
 
-def check_args(num_args, err, check_recursive=False, var_args=False):
+def check_args(num_args: int, err, check_recursive=False, var_args=False):
     """Create decorators that verify REPL functions have valid arguments (factory method)."""
     def decorator(func):
         def wrapper(self, args: str) -> None:
@@ -88,7 +88,7 @@ class InlineType(Enum):
     Heuristic = partial(inlining_script_heuristic.in_lining)
 
 
-def get_files_from_regex(logger: Log, input_file,
+def get_files_from_regex(logger: Log, input_file: str,
                          original_base, recursive_mode: bool) -> List[str]:
     """Try to compile a path as a regular expression and get the matching files."""
     try:

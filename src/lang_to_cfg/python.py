@@ -227,7 +227,7 @@ class Visitor(ast.NodeVisitor):
     It creates a FunctionVisitor for each function in the class.
     """
 
-    def __init__(self, logger=Log()) -> None:
+    def __init__(self, logger: Log = Log()) -> None:
         """Create a new instance of the Python source code parser."""
         self.graphs: Dict[str, Graph] = {}
         self.logger = logger

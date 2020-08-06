@@ -24,7 +24,7 @@ class TestCPPConvert(unittest.TestCase):
     """All tests for the object that converts arbitrary C++ code to Graph objects."""
 
     # @ignore_warnings  # glob2 regex use is deprecated.
-    def test_to_graph(self):
+    def test_to_graph(self) -> None:
         """Check that it returns the correct graphs."""
         converter = CPPConvert(Log(log_level=LogLevel.REGULAR))
         self.assertEqual(converter.name(), "CPP")

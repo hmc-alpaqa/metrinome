@@ -32,7 +32,7 @@ class Log:
     """Log is used to print messages to standard out with additional formatting."""
 
     def __init__(self, tag: str = "", display_output: bool = True,
-                 log_level=LogLevel.REGULAR) -> None:
+                 log_level: LogLevel = LogLevel.REGULAR) -> None:
         """Create a new logger."""
         self.tag = tag
         self.display_output = display_output
