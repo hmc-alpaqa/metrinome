@@ -39,7 +39,7 @@ class FunctionVisitor(ast.NodeVisitor):
     It includes visitor functions for each type of statement we are interested in.
     """
 
-    def __init__(self, logger=Log()) -> None:
+    def __init__(self, logger: Log = Log()) -> None:
         """Create a new instance of the function visitor."""
         self.root: Optional[Node] = None
         self.end_node: Optional[Node] = None
@@ -295,7 +295,7 @@ class PythonConvert(converter.ConverterAbstract):
     """PythonConvert is able to convert from Python source files to graph objects."""
 
     # pylint: disable=super-init-not-called
-    def __init__(self, logger) -> None:
+    def __init__(self, logger: Log) -> None:
         """Create a new instance of the python converter."""
         self.logger = logger
 

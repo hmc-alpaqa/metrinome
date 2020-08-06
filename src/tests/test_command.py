@@ -1,6 +1,7 @@
 """Test the commands of the REPL."""
 import unittest
 import sys
+from typing import Tuple, Dict, Union
 sys.path.append("/app/code/")
 import command
 from graph import Graph
@@ -176,6 +177,8 @@ class TestCommandKlee(unittest.TestCase):
 class TestCommand(unittest.TestCase):
     """Test each command with valid inputs."""
 
+    valid_commands: Dict[str, Tuple[int, Union[float, int]]] = {}
+
     @classmethod
     def setUpClass(cls) -> None:
         """
@@ -229,7 +232,7 @@ class TestCommand(unittest.TestCase):
                     # res = method("a " * (max_num_args + 1))
                     pass
                     # TODO: assert that the result is none
-            print(out, err)
+            print(out.getvalue(), err.getvalue())
 
     # === Test do_quit ===
     # pylint: disable=E1121
@@ -276,7 +279,9 @@ class TestCommand(unittest.TestCase):
         """
         with captured_output() as (out, err):
             # self.command.do_convert("testfile.py") # TODO
-            print(out, err)
+            pass
+
+        print(out.getvalue(), err.getvalue())
 
     # TODO: convert recursive
 

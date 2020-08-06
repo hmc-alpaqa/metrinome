@@ -12,7 +12,7 @@ from klee_utils import KleeUtils
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-def poly(input_, coef: List[Any], deg: int):
+def poly(input_, coef: List[Any], deg: int) -> List[float]:
     """Apply a polynomial to an iterable."""
     return [sum([k * (i**j) for j, k in zip(list(range(deg + 1))[::-1], coef)]) for i in input_]
 
@@ -49,7 +49,8 @@ def parse_klee(klee_output: str) -> Tuple[Optional[int],
     return tests, paths, insts, real, user, sys
 
 
-def klee_with_preferences(file_name: str, output_name: str, preferences, max_depth: int, input_):
+def klee_with_preferences(file_name: str, output_name: str, preferences,
+                          max_depth: int, input_: str):
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
         klee_path = "/app/build/bin/klee"

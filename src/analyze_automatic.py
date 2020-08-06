@@ -6,7 +6,7 @@ and the best function type.
 """
 import subprocess
 from functools import partial
-from typing import Optional
+from typing import Optional, Tuple
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
@@ -14,17 +14,17 @@ from scipy import optimize  # type: ignore
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-def ramp(val):
+def ramp(val: float):
     """Return val if it is positive, 0 otherwise."""
     return np.maximum(val, 0)
 
 
-def step(val):
+def step(val: pd.Dataframe) -> pd.DataFrame:
     """Return 1 if val is positive, 0 otherwise."""
     return (val > 0).astype(float)
 
 
-def rampdeg(val, degree: int):
+def rampdeg(val: float, degree: int):
     """Return val^deg if val is positive, 0 otherwise."""
     return val ** degree if (val > 0) else 0
 
@@ -86,7 +86,7 @@ def fit(data_x, data_y, degree_one: Optional[int], degree_two: Optional[int]):
     return l2_loss, best_bp
 
 
-def get_best_degree(data_x, data_y):
+def get_best_degree(data_x, data_y) -> Tuple[Optional[int], Optional[int], int]:
     """."""
     try:
         err1, best_bp1 = fit(data_x, data_y, 1, 1)

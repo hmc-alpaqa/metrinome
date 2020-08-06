@@ -1,6 +1,6 @@
 """Store all of the objects the REPL needs to use."""
 from collections import namedtuple
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from enum import Enum
 import os
 from log import Log
@@ -25,7 +25,7 @@ class ObjTypes(Enum):
         return str(self.value)
 
     @staticmethod
-    def get_type(obj_type: str) -> Any:
+    def get_type(obj_type: str) -> Optional[ObjTypes]:
         """Given an input string, see if there is an enum type that matches it."""
         for i in ObjTypes:
             if str(i) == obj_type.lower() or str(i) + "s" == obj_type.lower():

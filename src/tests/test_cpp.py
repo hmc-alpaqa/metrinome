@@ -33,8 +33,10 @@ class TestCPPConvert(unittest.TestCase):
         result = converter.to_graph("/app/code/tests/cppFiles/blank", ".cpp")
         self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
         self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
-        self.assertTrue("blank0" in result)
-        self.assertEqual(graph1, result["blank0"])
+        self.assertIsNotNone(result)
+        if result is not None:
+            self.assertTrue("blank0" in result)
+            self.assertEqual(graph1, result["blank0"])
 
         expected_graph = Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
                                [0, 1, 2, 3, 4, 5, 6], 0, 6, GraphType.EDGE_LIST)
@@ -42,8 +44,10 @@ class TestCPPConvert(unittest.TestCase):
 
         # Need to check all graphs since order can vary with environment.
         graph_names = ['names0', 'names1', 'names2', 'names3']
-        obtained_graphs = [graphs[graph_name] for graph_name in graph_names]
-        self.assertTrue(any(expected_graph == res for res in obtained_graphs))
+        self.assertIsNotNone(graphs)
+        if graphs is not None:
+            obtained_graphs = [graphs[graph_name] for graph_name in graph_names]
+            self.assertTrue(any(expected_graph == res for res in obtained_graphs))
 
     # @ignore_warnings  # glob regex deprecation warnings.
     # def test_create_dot_files(self):

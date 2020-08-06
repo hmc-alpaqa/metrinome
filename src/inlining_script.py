@@ -11,8 +11,7 @@ def in_lining(file: str) -> None:
     # store the line numbers.
     lines_to_inline = []
     for val in function_calls_dict.values():
-        val = re.split('[-:]', val)
-        lines_to_inline.append(val[-2])
+        lines_to_inline.append(re.split('[-:]', val)[-2])
     lines_to_inline.pop()  # pop off main's line number
 
     # open the file that needs to be inlined

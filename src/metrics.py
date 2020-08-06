@@ -1,6 +1,6 @@
 """Compute aggregate metrics and compare them."""
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from math import log
 import os
 import logging
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 
 
-def adjusted_rand_index(function_list) -> float:
+def adjusted_rand_index(function_list: List[Any]) -> float:
     """
     Compute the adjusted rand index.
 
@@ -46,7 +46,7 @@ def adjusted_rand_index(function_list) -> float:
     return numerator / denominator
 
 
-def average_class_size(input_dict, use_frequencies: bool):
+def average_class_size(input_dict, use_frequencies: bool) -> float:
     """
     Compute the average class size for a dictionary.
 
@@ -100,7 +100,7 @@ def mutual_information(cluster_list_one, cluster_list_two) -> float:
 
     @see https://en.wikipedia.org/wiki/Mutual_information
     """
-    cond_entropy = 0
+    cond_entropy = 0.
     # Obtain the total size
     # TODO: is this supposed to be cluster_list_one?
     total_size = get_total_size(cluster_list_one)
@@ -163,7 +163,7 @@ def cluster_entropy(cluster_list) -> float:
     return total_entropy
 
 
-def entropy(probabilities) -> float:
+def entropy(probabilities: List[float]) -> float:
     """
     Return the total entropy of a list representing probability distributions.
 
@@ -174,14 +174,14 @@ def entropy(probabilities) -> float:
     if sum(probabilities) != 1:
         raise ValueError("Not a valid probability distribution - does not sum to one.")
 
-    total_entropy = 0
+    total_entropy = 0.
     for probability in probabilities:
         total_entropy -= probability * log(probability, 2)
 
     return total_entropy
 
 
-def check_argument_errors(params):
+def check_argument_errors(params) -> None:
     """Throws a ValueError if the set of command line arguments given by the user are invalid."""
     if os.path.isdir(params.getFilepath()):
         if params.getStatsMode():
@@ -191,7 +191,10 @@ def check_argument_errors(params):
             raise ValueError("Recursive mode only applies to directories.")
 
 
-def log_class_sizes(cyc_to_aoc, apc_to_cyc, npath_to_apc, apc_to_npath) -> None:
+def log_class_sizes(cyc_to_aoc: float,
+                    apc_to_cyc: float,
+                    npath_to_apc: float,
+                    apc_to_npath: float) -> None:
     """Write the average class size for each metric to the log file."""
     logging.info(f"cyc_to_aoc: {str(cyc_to_aoc)}")
     logging.info(f"apc_to_cyc: {str(apc_to_cyc)}")
@@ -300,8 +303,8 @@ class MetricsComparer:
         self.npath_complexities = []
         self.path_complexities = []
 
-        self.dicts = [dict_one, dict_two, dict_three, dict_four]
-        self.dict_counter = None
+        self.dicts: List[Dict[Any, Any]] = [dict_one, dict_two, dict_three, dict_four]
+        self.dict_counter: Optional[List[Dict[Any, Any]]] = None
 
         for res in results:
             cyc_compl = res[1]
@@ -345,7 +348,7 @@ class MetricsComparer:
         self.aggregate()
         self.log_dicts()
 
-        average_class_sizes = [0] * 4
+        average_class_sizes = [0.] * 4
         if self.dict_counter is None or len(self.dict_counter) < 4:
             print("self.dict_counter is incorrect.")
             return
@@ -386,7 +389,11 @@ class MetricsComparer:
         and creates a dictionary with the same key that maps to the number of different
         complexities (e.g. (Cyclomatic, len(APC Complexities)))
         """
+        if self.dicts is None:
+            raise ValueError("Empty dictionary.")
+
         self.dict_counter = self.dicts
+
         for dictionary in self.dict_counter:
             for key in dictionary.keys():
                 dictionary[key] = Counter(dictionary[key])
@@ -414,7 +421,7 @@ class MetricsComparer:
         plt.show()
 
     @staticmethod
-    def from_csv(file_name, location):
+    def from_csv(file_name: str, location: str) -> Any:
         """
         Create a MetricsComparer object from a results CSV file.
 
@@ -424,15 +431,15 @@ class MetricsComparer:
         test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class,
             path_cplxty_asym, path_cplxty
         """
-        results = []
+        results: List[Any] = []
         with open(file_name, "r") as file:
             content = file.readlines()[1:]
             for line in content:
                 try:
                     file_path = line.strip().split(",")[1]
                     # Don't need ID
-                    result = line.strip().split(",")[2:]
-                    result = [file_path] + [float(result[0])] + [float(result[1])] + result[2:]
+                    result: List[Any] = line.strip().split(",")[2:]
+                    result = [file_path] + [result[0]] + [result[1]] + result[2:]
                     results.append(result)
                 except (IndexError, ValueError) as _:
                     pass

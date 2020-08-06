@@ -7,13 +7,13 @@ import time
 import os
 import glob
 from math import floor
-from typing import List, Any
+from typing import List, Any, Tuple, Iterator
 from numpy import mean, std, median  # type: ignore
-from graph import Graph
+from graph import Graph, GraphType
 from utils import Timeout
 
 
-def run_benchmark(converter, graph_type, show_info, graph_frac=5,
+def run_benchmark(converter, graph_type: GraphType, show_info: bool, graph_frac: int = 5,
                   folders_frac=46, timeout_threshold=5):
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
@@ -43,7 +43,7 @@ def run_benchmark(converter, graph_type, show_info, graph_frac=5,
     print_overall_results(overall_time_list, timeout_total, timeout_threshold)
 
 
-def print_overall_results(overall_time_list, timeout_total, timeout_threshold) -> None:
+def print_overall_results(overall_time_list, timeout_total: int, timeout_threshold: int) -> None:
     """Print the results once the benchmark is done."""
     # print overall metrics for all cfgs.
     print(runtime_metrics(overall_time_list))
@@ -53,7 +53,8 @@ def print_overall_results(overall_time_list, timeout_total, timeout_threshold) -
     print(f"TIMEOUT THRESHOLD: {timeout_threshold} Seconds")
 
 
-def get_converter_time(graph_list, converter, folder, timeout_threshold, graph_type, show_info):
+def get_converter_time(graph_list: List[str], converter, folder, timeout_threshold: int,
+                       graph_type: GraphType, show_info: bool):
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -90,7 +91,8 @@ def get_converter_time(graph_list, converter, folder, timeout_threshold, graph_t
     return folder_time_list, overall_time_list, timeout_count
 
 
-def print_results(folder_time_list, folder, metric_collection, show_info):
+def print_results(folder_time_list: str, folder: str,
+                  metric_collection, show_info: bool) -> None:
     """Print out the results from the benchmark."""
     folder_metrics = runtime_metrics(folder_time_list)
     folder_outliers = runtime_outlier(folder_time_list, show_info)
@@ -110,7 +112,7 @@ def print_results(folder_time_list, folder, metric_collection, show_info):
 
 
 @contextmanager
-def captured_output():
+def captured_output() -> Iterator[Tuple[StringIO, StringIO]]:
     """
     Capture output printed to stdout and stderr.
 
@@ -128,7 +130,7 @@ def captured_output():
         sys.stdout, sys.stderr = old_out, old_err
 
 
-def runtime_metrics(time_list):
+def runtime_metrics(time_list) -> List[Tuple[str, float]]:
     """
     Given a list of run times compute a series of statistics.
 
@@ -144,7 +146,7 @@ def runtime_metrics(time_list):
             ("median", median_val), ("stdev", stdev_val)]
 
 
-def runtime_outlier(time_list, show_info):
+def runtime_outlier(time_list, show_info: bool):
     """
     Return all outlier elements.
 

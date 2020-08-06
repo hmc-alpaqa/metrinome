@@ -77,7 +77,7 @@ class PathComplexity(metric.MetricAbstract):
                             range(2 * dimension, 2 * dimension - recurrence_degree, -1)],
                            dtype='complex')
         base_cases = base_cases.transpose()
-        self.logger.d_msg(f"Got the base cases.")
+        self.logger.d_msg("Got the base cases.")
 
         self.logger.d_msg(f"Matrix: {matrix.shape}")
         self.logger.d_msg(f"Base Cases: {base_cases.shape}")

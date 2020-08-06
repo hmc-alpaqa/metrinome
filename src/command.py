@@ -1,6 +1,6 @@
 """The main implementation of the REPL."""
 
-from typing import List, Dict, Any, Callable, Optional, Tuple
+from typing import List, Dict, Any, Callable, Optional, Tuple, Iterable
 import os.path
 from os import listdir
 import readline
@@ -18,7 +18,7 @@ import inlining_script_heuristic
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 from graph import Graph
-from lang_to_cfg import cpp, java, python
+from lang_to_cfg import cpp, java, python, converter
 from klee_utils import KleeUtils
 from utils import Timeout
 from command_data import Data, ObjTypes
@@ -38,41 +38,6 @@ EXTENSION: Callable[[str, str], str] = lambda target_type, file_extension: \
     f"File extension must be {target_type}, not {file_extension}."
 
 
-def check_args(num_args: int, err, check_recursive=False, var_args=False):
-    """Create decorators that verify REPL functions have valid arguments (factory method)."""
-    def decorator(func):
-        def wrapper(self, args: str) -> None:
-            args_list = args.strip().split()
-            if len(args_list) < num_args:
-                self.logger.v_msg(err)
-                return
-
-            if len(args_list) > num_args:
-                if check_recursive:
-                    recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
-                    if not var_args and len(args) == num_args + 1 and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                    if var_args and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                if var_args:
-                    func(self, *args_list)
-                    return
-
-                self.logger.v_msg("Too many arguments provided.")
-            else:
-                if check_recursive:
-                    func(self, False, *args_list)
-                else:
-                    func(self, *args_list)
-
-        return wrapper
-    return decorator
-
-
 class KnownExtensions(Enum):
     """A list of all the file extensions we know how to work with."""
 
@@ -89,7 +54,7 @@ class InlineType(Enum):
 
 
 def get_files_from_regex(logger: Log, input_file: str,
-                         original_base, recursive_mode: bool) -> List[str]:
+                         original_base: str, recursive_mode: bool) -> List[str]:
     """Try to compile a path as a regular expression and get the matching files."""
     try:
         regexp = re.compile(input_file)
@@ -203,16 +168,16 @@ class Controller:
             ".py": python_converter,
         }
 
-    def get_graph_generator_names(self):
+    def get_graph_generator_names(self) -> Iterable[str]:
         """Get the names of all file extensions we know how to generate CFGs for."""
         return self.graph_generators.keys()
 
-    def get_graph_generator(self, file_extension: str):
+    def get_graph_generator(self, file_extension: str) -> converter.ConverterAbstract:
         """Given a file extension as a string, return the CFG generator for that file extension."""
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict, file) -> None:
+def worker_main(shared_dict, file: str) -> None:
     """Handle the multiprocessing of import."""
     graph = Graph.from_file(file)
     if isinstance(graph, dict):
@@ -222,11 +187,8 @@ def worker_main(shared_dict, file) -> None:
         shared_dict[filepath] = graph
 
 
-def worker_main_two(metrics_generator, shared_dict, graph) -> None:
-    """Handle the multiprocessing of convert."""
-    try:
+def worker_main_two(metrics_generator, shared_dict, graph: Graph) -> None:
         with Timeout(10, "Took too long!"):
-            result = metrics_generator.evaluate(graph)
         shared_dict[(graph.name, metrics_generator.name())] = result
     except IndexError as err:
         print(graph)
@@ -358,17 +320,17 @@ class Command:
                 new_file = file.split('.')[0] + "-auto-inline.c"
                 filepath = os.path.splitext(new_file)[0]
 
-            converter = self.controller.get_graph_generator(file_extension)
-            graph = converter.to_graph(filepath.strip(), file_extension.strip())
+            converter_inst = self.controller.get_graph_generator(file_extension)
+            graph = converter_inst.to_graph(filepath.strip(), file_extension.strip())
             if graph is None:
                 self.logger.i_msg("Conversion Failed. Maybe your code has an error?")
             else:
                 self.logger.i_msg("Converted successfully")
-                self.logger.d_msg(graph)
+                self.logger.d_msg(str(graph))
                 if isinstance(graph, dict):
                     self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
                     self.data.graphs.update(graph)
-                else:
+                elif isinstance(graph, Graph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
 
@@ -405,9 +367,13 @@ class Command:
                     self.data.graphs[filepath] = graph
 
     @check_args(1, "Must specify object type to list (metrics, graphs, or KLEE type).")
-    def do_list(self, list_type: str) -> None:
+    def do_list(self, list_typename: str) -> None:
         """List objects the REPL knows about."""
-        list_type = ObjTypes.get_type(list_type)
+        list_type = ObjTypes.get_type(list_typename)
+        if list_type is None:
+            self.logger.e_msg("Unrecognized type.")
+            return
+
         if list_type == ObjTypes.METRIC:
             self.data.list_metrics()
         elif list_type == ObjTypes.GRAPH:
@@ -502,7 +468,7 @@ class Command:
 
             self.data.metrics[name] = results
 
-    def do_show_klee(self, obj_type, names: List[str]) -> bool:
+    def do_show_klee(self, obj_type: ObjTypes, names: List[str]) -> bool:
         """Display the KLEE objects the REPL knows about."""
         if obj_type == ObjTypes.KLEE_BC:
             self.data.show_klee_bc(names)
@@ -517,11 +483,41 @@ class Command:
 
         return True
 
+    def log_name(self, name: str) -> bool:
+        """Log all objects of a given name."""
+        found = False
+        if name in self.data.graphs:
+            self.logger.i_msg("GRAPH")
+            self.logger.v_msg(self.data.graphs[name])
+            found = True
+        if name in self.data.metrics:
+            self.logger.i_msg("METRIC")
+            self.logger.v_msg(self.data.metrics[name])
+            found = True
+        if name in self.data.bc_files:
+            self.logger.i_msg("BC FILES")
+            self.logger.v_msg(self.data.bc_files[name])
+            found = True
+        if name in self.data.klee_formatted_files:
+            self.logger.i_msg("KLEE FILES")
+            self.logger.v_msg(self.data.klee_formatted_files[name])
+            found = True
+        if name in self.data.klee_stats:
+            self.logger.i_msg("KLEE STATS")
+            self.logger.v_msg(self.data.klee_stats[name])
+            found = True
+        if not found:
+            self.logger.v_msg(f"Object {name} not found.")
+        return found
+
     @check_args(2, "Must specify type (metric, graph, or any KLEE type) and name.")
-    def do_show(self, obj_type: str, arg_name: str) -> None:
+    def do_show(self, obj_typename: str, arg_name: str) -> None:
         """Display objects the REPL knows about."""
         names = [arg_name]
-        obj_type = ObjTypes.get_type(obj_type)
+        if (obj_type := ObjTypes.get_type(obj_typename)) is None:
+            self.logger.e_msg("Unrecognized type.")
+            return
+
         if self.do_show_klee(obj_type, names):
             return
 
@@ -538,29 +534,7 @@ class Command:
                 names = list(set(names))
 
             for name in names:
-                found = False
-                if name in self.data.graphs:
-                    self.logger.i_msg("GRAPH")
-                    self.logger.v_msg(self.data.graphs[name])
-                    found = True
-                if name in self.data.metrics:
-                    self.logger.i_msg("METRIC")
-                    self.logger.v_msg(self.data.metrics[name])
-                    found = True
-                if name in self.data.bc_files:
-                    self.logger.i_msg("BC FILES")
-                    self.logger.v_msg(self.data.bc_files[name])
-                    found = True
-                if name in self.data.klee_formatted_files:
-                    self.logger.i_msg("KLEE FILES")
-                    self.logger.v_msg(self.data.klee_formatted_files[name])
-                    found = True
-                if name in self.data.klee_stats:
-                    self.logger.i_msg("KLEE STATS")
-                    self.logger.v_msg(self.data.klee_stats[name])
-                    found = True
-                if not found:
-                    self.logger.v_msg(f"Object {name} not found.")
+                self.log_name(name)
         else:
             self.logger.v_msg(f"Type {obj_type} not recognized.")
 
@@ -624,7 +598,7 @@ class Command:
 
         return generated_tests_index, completed_paths_index, total_instructions_index
 
-    def update_klee_stats(self, klee_output: str, name: str, delta_t) -> None:
+    def update_klee_stats(self, klee_output: str, name: str, delta_t: float) -> None:
         """Parse and store the results of running klee on some .bc file."""
         timed_out = "HaltTimer invoked" in klee_output
 
@@ -718,14 +692,17 @@ class Command:
         raise SystemExit
 
     @check_args(2, MISSING_TYPE_AND_NAME)
-    def do_export(self, export_type: str, name: str) -> None:
+    def do_export(self, export_typename: str, name: str) -> None:
         """
         Save some object the REPL knows about to an external file.
 
         The format it is stored as depends on the object we are storing.
         """
         subprocess.check_call(["mkdir", "-p", "exports"])
-        export_type = ObjTypes.get_type(export_type)
+        export_type = ObjTypes.get_type(export_typename)
+        if export_type is None:
+            self.logger.e_msg("Unrecognized type.")
+            return
 
         new_name = name + "_export"
 
@@ -830,3 +807,38 @@ class Command:
                 self.logger.v_msg(f"No {name} found of any type.")
         else:
             self.logger.v_msg(f"Type {type} not recognized.")
+
+
+def check_args(num_args: int, err: str, check_recursive: bool = False, var_args: bool = False):
+    """Create decorators that verify REPL functions have valid arguments (factory method)."""
+    def decorator(func) -> Callable[[Command, str], None]:
+        def wrapper(self: Command, args: str) -> None:
+            args_list = args.strip().split()
+            if len(args_list) < num_args:
+                self.logger.v_msg(err)
+                return
+
+            if len(args_list) > num_args:
+                if check_recursive:
+                    recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
+                    if not var_args and len(args) == num_args + 1 and recursive_flag:
+                        func(self, True, *args_list[1:])
+                        return
+
+                    if var_args and recursive_flag:
+                        func(self, True, *args_list[1:])
+                        return
+
+                if var_args:
+                    func(self, *args_list)
+                    return
+
+                self.logger.v_msg("Too many arguments provided.")
+            else:
+                if check_recursive:
+                    func(self, False, *args_list)
+                else:
+                    func(self, *args_list)
+
+        return wrapper
+    return decorator

@@ -244,7 +244,7 @@ class Graph:
             return count
 
         if self.graph_type is GraphType.ADJACENCY_MATRIX:
-            return np.count_nonzero(self.edges)
+            return int(np.count_nonzero(self.edges))
 
         return len(self.edge_rules())
 
@@ -320,13 +320,13 @@ class Graph:
 
         return self.edges
 
-    def adjacency_list(self):
+    def adjacency_list(self) -> List[Any]:
         """Compute the adjacency list for a Graph from its set of edges."""
         if self.graph_type is GraphType.ADJACENCY_LIST:
             return self.edges
 
         if self.graph_type is GraphType.EDGE_LIST:
-            v_e_dict = [[] for _ in range(self.vertex_count())]
+            v_e_dict: List[Any] = [[] for _ in range(self.vertex_count())]
 
             for edge in self.edge_rules():
                 vertex_one = edge[0]
@@ -492,8 +492,11 @@ class Graph:
 
         return prism_lines
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Check that two Graphs are equal by checking their vertices and edges."""
+        if not isinstance(other, Graph):
+            return False
+
         if self.graph_type != other.graph_type:
             raise ValueError("Graph types must be the same.")
 
