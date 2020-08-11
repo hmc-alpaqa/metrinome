@@ -38,7 +38,8 @@ class MyPrompt(Cmd):
 
     # pylint: disable=unused-argument
     def complete_file_path(self, text: str, line: str,
-                           begin: int, start: int, folders_only=False) -> List[str]:
+                           begin: int, start: int,
+                           folders_only: bool = False) -> List[str]:
         """Enhanced auto-completion for the REPL."""
         # Try to do tab completion on a directory. Text contains the latest paremeter
         # text only contains the latest segment, which splits on / (and other characters)

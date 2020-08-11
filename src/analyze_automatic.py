@@ -29,8 +29,10 @@ def rampdeg(val: float, degree: int):
     return val ** degree if (val > 0) else 0
 
 
-def piecewise_eval(x_val: float, params, degree_one: Optional[int],
-                   degree_two: Optional[int], break_point: float):
+def piecewise_eval(x_val: float, params: List[int],
+                   degree_one: Optional[int],
+                   degree_two: Optional[int],
+                   break_point: float):
     """Evaluate a piecewise polynomial at a point."""
     num_params = degree_one if degree_one is not None else 3
     num_params2 = degree_two if degree_two is not None else 3
@@ -48,7 +50,8 @@ def piecewise_eval(x_val: float, params, degree_one: Optional[int],
     return np.piecewise(x_val, [x_val < break_point, x_val >= break_point], fns)
 
 
-def fit(data_x, data_y, degree_one: Optional[int], degree_two: Optional[int]):
+def fit(data_x: np.ndarray, data_y: np.ndarray,
+        degree_one: Optional[int], degree_two: Optional[int]) -> Tuple[float, int]:
     """Find the best breakpoint."""
     # Initialize all of the parameters.
     # params = [initial_breakpoint] + \
@@ -86,7 +89,8 @@ def fit(data_x, data_y, degree_one: Optional[int], degree_two: Optional[int]):
     return l2_loss, best_bp
 
 
-def get_best_degree(data_x, data_y) -> Tuple[Optional[int], Optional[int], int]:
+def get_best_degree(data_x: np.ndarray,
+                    data_y: np.ndarray) -> Tuple[Optional[int], Optional[int], int]:
     """."""
     try:
         err1, best_bp1 = fit(data_x, data_y, 1, 1)
@@ -118,7 +122,7 @@ def get_best_degree(data_x, data_y) -> Tuple[Optional[int], Optional[int], int]:
     return degree_one, degree_two, best_bp
 
 
-def regression(data_x, data_y, name: str) -> None:
+def regression(data_x: np.ndarray, data_y: np.ndarray, name: str) -> None:
     """Perform the regression with automatic breakpoints for a single function."""
     degree_one, degree_two, best_bp = get_best_degree(data_x, data_y)
 

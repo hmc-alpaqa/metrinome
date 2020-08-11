@@ -29,7 +29,7 @@ class FuncVisitor(c_ast.NodeVisitor):
 
     # pylint: disable=C0103
     # disable invalid-name as this name is required by the library.
-    def visit_FuncDef(self, node) -> None:
+    def visit_FuncDef(self, node: c_ast.Node) -> None:
         """
         Determine all of the arguments to functions.
 

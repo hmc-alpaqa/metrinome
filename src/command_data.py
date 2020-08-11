@@ -12,13 +12,13 @@ KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
 class ObjTypes(Enum):
     """All of the object types that are stored by the REPL while it is running."""
 
-    GRAPH  = "graph"
+    GRAPH = "graph"
     METRIC = "metric"
-    KLEE   = "klee"
+    KLEE = "klee"
     KLEE_STATS = "klee_stat"
     KLEE_BC = "klee_bc"
     KLEE_FILE = "klee_file"
-    ALL    = "*"
+    ALL = "*"
 
     def __str__(self) -> str:
         """Convert one of the enum objects to a string."""
