@@ -31,7 +31,7 @@ class MyPrompt(Cmd):
 
         super(MyPrompt, self).__init__()
 
-    def postcmd(self, stop, line) -> bool:
+    def postcmd(self, stop: int, line: str) -> bool:
         """Execute after any command is executed to update the prompt."""
         self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
         return False

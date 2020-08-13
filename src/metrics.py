@@ -46,7 +46,8 @@ def adjusted_rand_index(function_list: List[Any]) -> float:
     return numerator / denominator
 
 
-def average_class_size(input_dict, use_frequencies: bool) -> float:
+def average_class_size(input_dict: Dict[Any, Any],
+                       use_frequencies: bool) -> float:
     """
     Compute the average class size for a dictionary.
 
@@ -94,14 +95,14 @@ def average_class_size(input_dict, use_frequencies: bool) -> float:
     return sum_averages / num_classes
 
 
-def mutual_information(cluster_list_one, cluster_list_two) -> float:
+def mutual_information(cluster_list_one: Any, cluster_list_two: Any) -> float:
     """
     Calculate I(cluster_list_one, cluster_list_two).
 
     @see https://en.wikipedia.org/wiki/Mutual_information
     """
     cond_entropy = 0.
-    # Obtain the total size
+    # Obtain the total size.
     # TODO: is this supposed to be cluster_list_one?
     total_size = get_total_size(cluster_list_one)
 
@@ -140,7 +141,7 @@ def get_total_size(dictionary: Dict[Any, Any]) -> int:
     return total_size
 
 
-def cluster_entropy(cluster_list) -> float:
+def cluster_entropy(cluster_list: Any) -> float:
     """
     Calculate the entropy H(X) of a given clustering on a set.
 
@@ -181,7 +182,7 @@ def entropy(probabilities: List[float]) -> float:
     return total_entropy
 
 
-def check_argument_errors(params) -> None:
+def check_argument_errors(params: Any) -> None:
     """Throws a ValueError if the set of command line arguments given by the user are invalid."""
     if os.path.isdir(params.getFilepath()):
         if params.getStatsMode():
@@ -202,7 +203,7 @@ def log_class_sizes(cyc_to_aoc: float,
     logging.info(f"apc_to_npath: {str(apc_to_npath)}\n")
 
 
-def joint_entropy(cluster_list_one, cluster_list_two) -> float:
+def joint_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
     """
     Compute H(X, Y).
 
@@ -228,7 +229,7 @@ def joint_entropy(cluster_list_one, cluster_list_two) -> float:
     return result
 
 
-def conditional_entropy(cluster_list_one, cluster_list_two) -> float:
+def conditional_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
     """
     Calculate H(cluster_list_one | cluster_list_two).
 
@@ -270,7 +271,7 @@ def conditional_entropy(cluster_list_one, cluster_list_two) -> float:
 class MetricsComparer:
     """Allows the comparison between different metrics such as NPath and APC."""
 
-    def __init__(self, results, location) -> None:
+    def __init__(self, results: Any, location: Any) -> None:
         """
         Create a new MetricsComparer object from a list of results.
 

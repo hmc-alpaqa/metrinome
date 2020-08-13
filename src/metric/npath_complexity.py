@@ -5,13 +5,15 @@ This works with both the adjacency list representation and edge list.
 """
 
 import copy
-from typing import List
+from typing import List, Any, Tuple
+import numpy as np  # type: ignore
 from graph import Graph, GraphType
 from metric import metric
 from log import Log
 
 EdgeType = List[int]
 NodeType = int
+AdjList = Tuple[Tuple[int, ...], ...]
 
 
 class NPathComplexity(metric.MetricAbstract):
@@ -30,7 +32,8 @@ class NPathComplexity(metric.MetricAbstract):
         """Return a list of all the nodes we can get to from a given 'start' node."""
         return [edge[1] for edge in edges if edge[0] == start]
 
-    def neighbors_adj_list(self, start: NodeType, edges):
+    def neighbors_adj_list(self, start: NodeType,
+                           edges: AdjList) -> Tuple[NodeType, ...]:
         """Return a list of all the nodes we can get to from a given 'start' node."""
         return edges[start]
 
@@ -39,18 +42,21 @@ class NPathComplexity(metric.MetricAbstract):
         i = edge_list.index(edge)
         return edge_list[:i] + edge_list[i + 1:]
 
-    def remove_edge_adj_list(self, edges, start: NodeType, end: NodeType):
+    def remove_edge_adj_list(self, edges: AdjList,
+                             start: NodeType, end: NodeType) -> AdjList:
         """Return an edgeDictionary with the specified edge removed."""
         i = edges[start].index(end)
         return edges[:start] + tuple([edges[start][:i] + edges[start][i + 1:]]) + edges[start + 1:]
 
-    def remove_edge_adj_matrix(self, matrix, node: NodeType, edge: NodeType):
+    def remove_edge_adj_matrix(self, matrix: np.ndarray,
+                               node: NodeType, edge: NodeType) -> np.ndarray:
         """Return copy of matrix with the specified edge removed."""
         matrix_copy = copy.deepcopy(matrix)
         matrix_copy[node][edge] = 0
         return matrix_copy
 
-    def npath_adj_list(self, start: NodeType, end: NodeType, edges) -> float:
+    def npath_adj_list(self, start: NodeType, end: NodeType,
+                       edges: AdjList) -> float:
         """Compute NPath Complexity recursively."""
         if start == end:
             return 1.
@@ -65,7 +71,7 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def npath_edge_list(self, start: NodeType, end: NodeType, edges) -> float:
+    def npath_edge_list(self, start: NodeType, end: NodeType, edges: List[Any]) -> float:
         """Compute NPath Complexity recursively."""
         if start == end:
             return 1.
@@ -80,7 +86,7 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def npath_adj_matrix(self, matrix, start: NodeType,
+    def npath_adj_matrix(self, matrix: np.ndarray, start: NodeType,
                          end: NodeType, node_index: NodeType) -> float:
         """Compute NPath Complexity recursively."""
         # first call passes in start (node = node_index = 0), otherwise, pass in node_index

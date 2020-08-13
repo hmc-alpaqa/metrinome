@@ -3,7 +3,7 @@ import subprocess
 import time
 import re
 from subprocess import PIPE
-from typing import Any, List, Optional, Tuple, Dict
+from typing import Any, List, Optional, Tuple, Dict, Union
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
@@ -12,13 +12,13 @@ from klee_utils import KleeUtils
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-KleeCompareResults = Dict[Tuple[str, str, str], Dict[Any, float]]
+KleeCompareResults = Dict[Tuple[str, str, str], Dict[Any, Optional[Union[float, int]]]]
 KleeOutputInfo = Tuple[Optional[int], Optional[int], Optional[int], float, float, float]
 KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
                                   float, float, float, float]
 
 
-def poly(input_, coef: List[Any], deg: int) -> List[float]:
+def poly(input_: Any, coef: List[Any], deg: int) -> List[float]:
     """Apply a polynomial to an iterable."""
     return [sum([k * (i**j) for j, k in zip(list(range(deg + 1))[::-1], coef)]) for i in input_]
 
@@ -54,7 +54,7 @@ def parse_klee(klee_output: str) -> KleeOutputInfo:
 
 def klee_with_preferences(file_name: str, output_name: str,
                           preferences: str,
-                          max_depth: str, input_: str) -> KleeOutputInfo:
+                          max_depth: str, input_: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
         klee_path = "/app/build/bin/klee"
@@ -101,7 +101,7 @@ def klee_compare(file_name: str, preferences: List[str], depths: List[str],
                 stats_decoded = stats.stdout.decode().split("\n")
                 headers = stats_decoded[0].split()[1:]
                 values = map(float, stats_decoded[2].split()[1:])
-                stats_dict = dict(zip(headers, values))
+                stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
                 stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
                     stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
                     stats_dict["PythonTime"] = results

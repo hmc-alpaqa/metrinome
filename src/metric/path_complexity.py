@@ -52,6 +52,8 @@ class PathComplexity(metric.MetricAbstract):
         roots = polyroots(test, maxsteps=250, extraprec=250)
         self.logger.d_msg(f"Getting {2 * dimension + 1} many coeffs.")
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
+        if taylor_coeffs is None:
+            raise ValueError("Could not obtain taylor coefficients.")
 
         self.logger.d_msg(f"Got taylor coeffs: {taylor_coeffs}, len: {len(taylor_coeffs)}")
 

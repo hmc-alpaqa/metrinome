@@ -12,10 +12,10 @@ from graph import Graph, GraphType
 from utils import Timeout
 sys.path.append("/app/code/lang_to_cfg")
 sys.path.append("/app/code/metric")
-from metric import path_complexity, cyclomatic_complexity, npath_complexity
+from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 
 
-def parse_original(file: str) -> Tuple[Any, Any, Any, Any]:
+def parse_original(file: str) -> Tuple[List[Any], List[Any], Dict[str, str], int]:
     """Obtain all of the Graph information from an existing dot file in the original format."""
     # Read the original files.
     nodes, edges = [], []
@@ -97,8 +97,11 @@ def clean(file: str) -> None:
         convert_file_to_standard(fname)
 
 
-def get_converter_time(graph_list: List[str], converter, folder: str,
-                       timeout_threshold: int, show_info: bool = False):
+def get_converter_time(graph_list: List[str],
+                       converter: metric.MetricAbstract,
+                       folder: str,
+                       timeout_threshold: int, show_info: bool = False
+                       ) -> Tuple[Any, Any, Any]:
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -134,7 +137,8 @@ def get_converter_time(graph_list: List[str], converter, folder: str,
     return folder_time_list, overall_time_list, timeout_count
 
 
-def run_benchmark(converter, timeout_threshold: int,
+def run_benchmark(converter: metric.MetricAbstract,
+                  timeout_threshold: int,
                   show_info: bool = False) -> None:
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob2.glob("/app/code/tests/core/separate/*/"))

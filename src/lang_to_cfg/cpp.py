@@ -1,6 +1,6 @@
 """This module converts C++ source code into Graph objects representing the CFG for the code."""
 
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple, Any
 import subprocess
 import shlex  # type: ignore
 import sys
@@ -56,7 +56,7 @@ class CPPConvert(converter.ConverterAbstract):
         Env.clean_temps()
         return graphs
 
-    def parse_original(self, file):
+    def parse_original(self, file: str) -> Tuple[Any, Any, Any, Any]:
         """Obtain all of the Graph information from an existing dot file in the original format."""
         # Read the original files.
         nodes, edges = [], []

@@ -2,7 +2,7 @@
 """Used for testing the python converter."""
 
 
-def assign_func():
+def assign_func() -> None:
     """Contains an assignment."""
     var_one = 77
     var_two = 66

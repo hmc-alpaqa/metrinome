@@ -2,7 +2,7 @@
 """Used for testing the python converter."""
 
 
-def if_func():
+def if_func() -> None:
     """Contains an if statement."""
     var_one = False
     if var_one == 2:

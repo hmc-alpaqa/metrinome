@@ -6,7 +6,7 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Any, Dict
+from typing import List, Any, Dict, Optional
 import re
 from collections import Counter
 import signal
@@ -64,7 +64,8 @@ def get_recurrence_solution(recurrence: str) -> List[Any]:
     return get_solution_from_roots(roots)
 
 
-def get_taylor_coeffs(func, num_coeffs: int):
+def get_taylor_coeffs(func: Any,
+                      num_coeffs: int) -> Optional[List[Any]]:
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
     series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')[::-1]

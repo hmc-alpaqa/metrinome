@@ -11,16 +11,20 @@ from typing import List, Any, Tuple, Iterator
 from numpy import mean, std, median  # type: ignore
 from graph import Graph, GraphType
 from utils import Timeout
+from metric import metric
+
+TimeList = List[Tuple[Any, Any, Any]]
 
 
-def run_benchmark(converter, graph_type: GraphType, show_info: bool, graph_frac: int = 5,
-                  folders_frac=46, timeout_threshold=5):
+def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
+                  show_info: bool, graph_frac: int = 5,
+                  folders_frac: int = 46, timeout_threshold: int = 5) -> None:
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
     print(f"number of folders: {len(folders)}\n")
     metric_collection: List[Any] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
-    overall_time_list = []
+    overall_time_list: TimeList = []
     timeout_total = 0
     # test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {floor(len(folders) / folders_frac)}")
@@ -43,7 +47,9 @@ def run_benchmark(converter, graph_type: GraphType, show_info: bool, graph_frac:
     print_overall_results(overall_time_list, timeout_total, timeout_threshold)
 
 
-def print_overall_results(overall_time_list, timeout_total: int, timeout_threshold: int) -> None:
+def print_overall_results(overall_time_list: Any,
+                          timeout_total: int,
+                          timeout_threshold: int) -> None:
     """Print the results once the benchmark is done."""
     # print overall metrics for all cfgs.
     print(runtime_metrics(overall_time_list))
@@ -53,8 +59,11 @@ def print_overall_results(overall_time_list, timeout_total: int, timeout_thresho
     print(f"TIMEOUT THRESHOLD: {timeout_threshold} Seconds")
 
 
-def get_converter_time(graph_list: List[str], converter, folder, timeout_threshold: int,
-                       graph_type: GraphType, show_info: bool):
+def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
+                       folder: str, timeout_threshold: int,
+                       graph_type: GraphType,
+                       show_info: bool
+                       ) -> Tuple[List[Tuple[Any, Any]], TimeList, int]:
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -91,8 +100,8 @@ def get_converter_time(graph_list: List[str], converter, folder, timeout_thresho
     return folder_time_list, overall_time_list, timeout_count
 
 
-def print_results(folder_time_list: str, folder: str,
-                  metric_collection, show_info: bool) -> None:
+def print_results(folder_time_list: List[Any], folder: str,
+                  metric_collection: Any, show_info: bool) -> None:
     """Print out the results from the benchmark."""
     folder_metrics = runtime_metrics(folder_time_list)
     folder_outliers = runtime_outlier(folder_time_list, show_info)
@@ -130,7 +139,7 @@ def captured_output() -> Iterator[Tuple[StringIO, StringIO]]:
         sys.stdout, sys.stderr = old_out, old_err
 
 
-def runtime_metrics(time_list) -> List[Tuple[str, float]]:
+def runtime_metrics(time_list: TimeList) -> List[Tuple[str, float]]:
     """
     Given a list of run times compute a series of statistics.
 
@@ -146,7 +155,7 @@ def runtime_metrics(time_list) -> List[Tuple[str, float]]:
             ("median", median_val), ("stdev", stdev_val)]
 
 
-def runtime_outlier(time_list, show_info: bool):
+def runtime_outlier(time_list: List[List[float]], show_info: bool) -> List[List[float]]:
     """
     Return all outlier elements.
 
@@ -161,4 +170,5 @@ def runtime_outlier(time_list, show_info: bool):
     for time_tuple in time_list:
         if time_tuple[0] > (average + (2 * stdev_val)):
             outliers.append(time_tuple)
+
     return outliers

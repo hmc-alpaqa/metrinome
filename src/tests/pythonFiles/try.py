@@ -2,7 +2,7 @@
 """Used for testing the python converter."""
 
 
-def try_func():
+def try_func() -> None:
     """Contains a try."""
     try:
         pass

@@ -177,7 +177,7 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict, file: str) -> None:
+def worker_main(shared_dict: Dict[Any, Any], file: str) -> None:
     """Handle the multiprocessing of import."""
     graph = Graph.from_file(file)
     if isinstance(graph, dict):
@@ -187,7 +187,10 @@ def worker_main(shared_dict, file: str) -> None:
         shared_dict[filepath] = graph
 
 
-def worker_main_two(metrics_generator, shared_dict, graph: Graph) -> None:
+def worker_main_two(metrics_generator: metric.MetricAbstract,
+                    shared_dict: Dict[Any, Any], graph: Graph) -> None:
+    """Handle the multiprocessing of convert."""
+    try:
         with Timeout(10, "Took too long!"):
         shared_dict[(graph.name, metrics_generator.name())] = result
     except IndexError as err:
@@ -202,7 +205,7 @@ class Command:
     """Command is the implementation of the REPL commands."""
 
     def __init__(self, curr_path: str, debug_mode: bool,
-                 multi_threaded: bool, repl_wrapper) -> None:
+                 multi_threaded: bool, repl_wrapper: Any) -> None:
         """Create a new instance of the REPL implementation."""
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
@@ -360,7 +363,7 @@ class Command:
             for file in all_files:
                 filepath, _ = os.path.splitext(file)
                 graph = Graph.from_file(file)
-                self.logger.v_msg(graph)
+                self.logger.v_msg(str(graph))
                 if isinstance(graph, dict):
                     self.data.graphs.update(graph)
                 else:
@@ -809,9 +812,13 @@ class Command:
             self.logger.v_msg(f"Type {type} not recognized.")
 
 
-def check_args(num_args: int, err: str, check_recursive: bool = False, var_args: bool = False):
+def check_args(num_args: int,
+               err: str,
+               check_recursive: bool = False,
+               var_args: bool = False
+               ) -> Any:
     """Create decorators that verify REPL functions have valid arguments (factory method)."""
-    def decorator(func) -> Callable[[Command, str], None]:
+    def decorator(func: Any) -> Callable[[Command, str], None]:
         def wrapper(self: Command, args: str) -> None:
             args_list = args.strip().split()
             if len(args_list) < num_args:

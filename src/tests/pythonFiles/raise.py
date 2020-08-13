@@ -2,6 +2,6 @@
 """Used for testing the python converter."""
 
 
-def raise_func():
+def raise_func() -> None:
     """Contains a raise."""
     raise ValueError

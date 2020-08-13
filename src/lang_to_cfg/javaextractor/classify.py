@@ -16,22 +16,27 @@ import math
 from log import Log
 from env import Env
 
+from typing import Optional, Any, List
+
 
 class Classifier:
     """This helps parse the output fromt the Java CFG generator."""
 
-    def __init__(self, input_path=None, output_path=None, ext="*.input", TAG=""):
+    def __init__(self, input_path: Optional[str],
+                 output_path: Optional[str] = None,
+                 ext: str = "*.input", TAG: str = "") -> None:
         """Create a new Classifier."""
         self.log = Log(tag=TAG)
         self.input_path = input_path
         self.output_path = output_path
-        self.file_list = [self.input_path]
-        if os.path.isdir(self.input_path):
+        if self.input_path is not None:
+            self.file_list = [self.input_path]
+        if self.input_path is not None and os.path.isdir(self.input_path):
             self.file_list = sorted(glob.glob(os.path.join(self.input_path, ext)))
 
-        self.result = None
+        self.result: Optional[Any] = None
 
-    def match_csv_line(self, string):
+    def match_csv_line(self, string: str) -> Any:
         """Extract the individual values from a single line of output using a regex."""
         expr = r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*," + \
                r"\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*," + \
@@ -39,18 +44,26 @@ class Classifier:
         self.result = re.match(expr, string, re.IGNORECASE)
         return self.result
 
-    def match_const_large_number(self, string):
+    def match_const_large_number(self, string: str) -> Any:
         """Use a regex to get a number to some power."""
         expr = r".*(?P<num>\d+)\.(?P<dec>\d+)\*\^(?P<exp>\d+).*"
         self.result = re.match(expr, string)
         return self.result
 
-    def run(self):
+    def run(self) -> None:
         """Clean up the results obtained by computing path complexity."""
+        if self.result is None:
+            raise ValueError("Result must be non-nil.")
+        if self.file_list is None:
+            raise ValueError("File-list must be non-nil.")
+        if self.input_path is None:
+            raise ValueError("Input path must be non-nil")
+
         self.log.i_msg("start")
         for file_name in self.file_list:
-            self.log.v_msg("processing {}".format(file_name))
-            file_base = Env.get_base_filename(self.input_path)
+            self.log.v_msg(f"processing {file_name}")
+            # Get the filename
+            file_base = os.path.basename(self.input_path)[:-4]
             outfile = open(file_base + '_classified_all.csv', 'w')
             c1file = open(file_base + '_c1.csv', 'w')
             cgt1file = open(file_base + '_cgt1.csv', 'w')
@@ -212,7 +225,7 @@ class Classifier:
         self.log.i_msg("end")
 
 
-def main(argv):
+def main(argv: List[str]) -> None:
     """Run the classifier with the set of command line arguments passed it."""
     try:
         opts, args = getopt.getopt(argv, "hi:o:", ["input=", "output="])
@@ -233,7 +246,8 @@ def main(argv):
         elif opt in ("-o", "--output"):
             arg_output = arg
 
-    classifier = Classifier(input_path=arg_input, output_path=arg_output, ext=ext, TAG="Classifier")
+    classifier = Classifier(input_path=arg_input, output_path=arg_output,
+                            ext=ext, TAG="Classifier")
     classifier.run()
 
 

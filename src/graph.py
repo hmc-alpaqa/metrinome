@@ -1,6 +1,6 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from typing import List, Any, Optional, DefaultDict, Sequence
+from typing import List, Any, Optional, DefaultDict, Sequence, Set
 from enum import Enum
 import re
 import os
@@ -101,7 +101,7 @@ class Graph:
 
         return parents
 
-    def delete_nodes(self, removed_nodes) -> None:
+    def delete_nodes(self, removed_nodes: Set[int]) -> None:
         """
         Given a set of nodes to delete, update the graph.
 
@@ -347,7 +347,7 @@ class Graph:
 
     @staticmethod
     def from_file(filename: str, weighted: bool = False,
-                  graph_type: GraphType = GraphType.ADJACENCY_LIST):
+                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> Any:
         """
         Return a Graph object from a .dot file of format.
 
@@ -405,7 +405,7 @@ class Graph:
 
         return node + 1
 
-    def update_with_node(self, match) -> None:
+    def update_with_node(self, match: Any) -> None:
         """Create a new vertex when the current line in the dot file is a node."""
         node = int(match.group(1))
         node_label = match.group(2)
@@ -422,7 +422,7 @@ class Graph:
             if len(self.edges) <= node:
                 self.edges += [[] for _ in range(((node + 1) - len(self.edges)))]
 
-    def update_with_edge(self, match) -> None:
+    def update_with_edge(self, match: Any) -> None:
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
