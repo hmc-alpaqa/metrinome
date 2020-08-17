@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append("/app/code/")
 sys.path.append("/app/code/lang_to_cfg/")
-from lang_to_cfg.java import JavaConvert  # type: ignore
+from lang_to_cfg.java import JavaConvert
 from log import Log
 from env import Env
 

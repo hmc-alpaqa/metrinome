@@ -16,7 +16,7 @@ import math
 from log import Log
 from env import Env
 
-from typing import Optional, Any, List
+from typing import Optional, Any, List, Match
 
 
 class Classifier:
@@ -34,9 +34,9 @@ class Classifier:
         if self.input_path is not None and os.path.isdir(self.input_path):
             self.file_list = sorted(glob.glob(os.path.join(self.input_path, ext)))
 
-        self.result: Optional[Any] = None
+        self.result: Optional[Match[str]] = None
 
-    def match_csv_line(self, string: str) -> Any:
+    def match_csv_line(self, string: str) -> Optional[Match[str]]:
         """Extract the individual values from a single line of output using a regex."""
         expr = r"\s*(?P<id>.+)\s*,\s*(?P<name>.+)\s*," + \
                r"\s*(?P<cyclo>.+)\s*,\s*(?P<npath>.+)\s*," + \
@@ -44,7 +44,7 @@ class Classifier:
         self.result = re.match(expr, string, re.IGNORECASE)
         return self.result
 
-    def match_const_large_number(self, string: str) -> Any:
+    def match_const_large_number(self, string: str) -> Optional[Match[str]]:
         """Use a regex to get a number to some power."""
         expr = r".*(?P<num>\d+)\.(?P<dec>\d+)\*\^(?P<exp>\d+).*"
         self.result = re.match(expr, string)

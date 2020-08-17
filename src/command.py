@@ -1,5 +1,6 @@
 """The main implementation of the REPL."""
 
+from __future__ import annotations
 from typing import List, Dict, Any, Callable, Optional, Tuple, Iterable
 import os.path
 from os import listdir
@@ -38,6 +39,45 @@ EXTENSION: Callable[[str, str], str] = lambda target_type, file_extension: \
     f"File extension must be {target_type}, not {file_extension}."
 
 
+def check_args(num_args: int,
+               err: str,
+               check_recursive: bool = False,
+               var_args: bool = False
+               ) -> Callable[..., Callable[[Command, str], None]]:
+    """Create decorators that verify REPL functions have valid arguments (factory method)."""
+    def decorator(func: Callable[..., None]) -> Callable[[Command, str], None]:
+        def wrapper(self: Command, args: str) -> None:
+            args_list = args.strip().split()
+            if len(args_list) < num_args:
+                self.logger.v_msg(err)
+                return
+
+            if len(args_list) > num_args:
+                if check_recursive:
+                    recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
+                    if not var_args and len(args) == num_args + 1 and recursive_flag:
+                        func(self, True, *args_list[1:])
+                        return
+
+                    if var_args and recursive_flag:
+                        func(self, True, *args_list[1:])
+                        return
+
+                if var_args:
+                    func(self, *args_list)
+                    return
+
+                self.logger.v_msg("Too many arguments provided.")
+            else:
+                if check_recursive:
+                    func(self, False, *args_list)
+                else:
+                    func(self, *args_list)
+
+        return wrapper
+    return decorator
+
+
 class KnownExtensions(Enum):
     """A list of all the file extensions we know how to work with."""
 
@@ -58,8 +98,8 @@ def get_files_from_regex(logger: Log, input_file: str,
     """Try to compile a path as a regular expression and get the matching files."""
     try:
         regexp = re.compile(input_file)
-        logger.d_msg(f"Successfully compiled as a regular expression")
-        all_files: List[Any] = []
+        logger.d_msg("Successfully compiled as a regular expression")
+        all_files: List[str] = []
         if os.path.exists(original_base):
             if recursive_mode:
                 # Get all files in all subdirectories.
@@ -177,7 +217,7 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict: Dict[Any, Any], file: str) -> None:
+def worker_main(shared_dict: Dict[str, Graph], file: str) -> None:
     """Handle the multiprocessing of import."""
     graph = Graph.from_file(file)
     if isinstance(graph, dict):
@@ -188,7 +228,8 @@ def worker_main(shared_dict: Dict[Any, Any], file: str) -> None:
 
 
 def worker_main_two(metrics_generator: metric.MetricAbstract,
-                    shared_dict: Dict[Any, Any], graph: Graph) -> None:
+                    shared_dict: Dict[Tuple[Optional[str], str], Any],
+                    graph: Graph) -> None:
     """Handle the multiprocessing of convert."""
     try:
         with Timeout(10, "Took too long!"):
@@ -205,7 +246,7 @@ class Command:
     """Command is the implementation of the REPL commands."""
 
     def __init__(self, curr_path: str, debug_mode: bool,
-                 multi_threaded: bool, repl_wrapper: Any) -> None:
+                 multi_threaded: bool, repl_wrapper: object) -> None:
         """Create a new instance of the REPL implementation."""
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
@@ -355,7 +396,7 @@ class Command:
         #  this is done automatically in the previous step).
         if self.multi_threaded:
             manager = Manager()
-            shared_dict: Dict[Any, Any] = manager.dict()
+            shared_dict: Dict[str, Graph] = manager.dict()
             pool = Pool(8)
             pool.map(partial(worker_main, shared_dict), all_files)
             self.data.graphs.update(shared_dict)
@@ -396,11 +437,11 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
-    def do_metrics_multithreaded(self, graphs: List[Any]) -> None:
+    def do_metrics_multithreaded(self, graphs: List[Graph]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
         pool = Pool(8)
         manager = Manager()
-        shared_dict: Dict[Any, Any] = manager.dict()
+        shared_dict: Dict[str, Any] = manager.dict()
         for metrics_generator in self.controller.metrics_generators:
             pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
             self.logger.v_msg(str(shared_dict))
@@ -491,7 +532,7 @@ class Command:
         found = False
         if name in self.data.graphs:
             self.logger.i_msg("GRAPH")
-            self.logger.v_msg(self.data.graphs[name])
+            self.logger.v_msg(str(self.data.graphs[name]))
             found = True
         if name in self.data.metrics:
             self.logger.i_msg("METRIC")
@@ -810,42 +851,3 @@ class Command:
                 self.logger.v_msg(f"No {name} found of any type.")
         else:
             self.logger.v_msg(f"Type {type} not recognized.")
-
-
-def check_args(num_args: int,
-               err: str,
-               check_recursive: bool = False,
-               var_args: bool = False
-               ) -> Any:
-    """Create decorators that verify REPL functions have valid arguments (factory method)."""
-    def decorator(func: Any) -> Callable[[Command, str], None]:
-        def wrapper(self: Command, args: str) -> None:
-            args_list = args.strip().split()
-            if len(args_list) < num_args:
-                self.logger.v_msg(err)
-                return
-
-            if len(args_list) > num_args:
-                if check_recursive:
-                    recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
-                    if not var_args and len(args) == num_args + 1 and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                    if var_args and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                if var_args:
-                    func(self, *args_list)
-                    return
-
-                self.logger.v_msg("Too many arguments provided.")
-            else:
-                if check_recursive:
-                    func(self, False, *args_list)
-                else:
-                    func(self, *args_list)
-
-        return wrapper
-    return decorator

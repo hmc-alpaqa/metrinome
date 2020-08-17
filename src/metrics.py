@@ -1,6 +1,7 @@
 """Compute aggregate metrics and compare them."""
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, DefaultDict, Union, Tuple, Set, cast
+import typing
 from math import log
 import os
 import logging
@@ -9,7 +10,7 @@ import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 
 
-def adjusted_rand_index(function_list: List[Any]) -> float:
+def adjusted_rand_index(function_list: List[int]) -> float:
     """
     Compute the adjusted rand index.
 
@@ -21,7 +22,7 @@ def adjusted_rand_index(function_list: List[Any]) -> float:
     n_01 = 0  # Different in the first clustering but not in the second
     n_10 = 0  # Same in the first clustering but not in the second
     # Iterate through all of the (N choose 2) possible pairs
-    for func_one, func_one_index in enumerate(function_list):
+    for func_one_index, func_one in enumerate(function_list):
         for func_two_index in range(func_one_index, len(function_list)):
             pair = (func_one, function_list[func_two_index])
             point_one_apc = pair[0]  # TODO
@@ -46,7 +47,10 @@ def adjusted_rand_index(function_list: List[Any]) -> float:
     return numerator / denominator
 
 
-def average_class_size(input_dict: Dict[Any, Any],
+CountingDict = Dict[Union[str, int], typing.Counter[Union[str, int]]]
+
+
+def average_class_size(input_dict: CountingDict,
                        use_frequencies: bool) -> float:
     """
     Compute the average class size for a dictionary.
@@ -65,7 +69,7 @@ def average_class_size(input_dict: Dict[Any, Any],
     logging.info(f"Number of Classes: {num_classes}")
     for key in input_dict.keys():
         total_counts = 0
-        entropy_value = 0
+        entropy_value = 0.
 
         for count_index in input_dict[key]:
             total_counts += input_dict[key][count_index]
@@ -95,7 +99,8 @@ def average_class_size(input_dict: Dict[Any, Any],
     return sum_averages / num_classes
 
 
-def mutual_information(cluster_list_one: Any, cluster_list_two: Any) -> float:
+def mutual_information(cluster_list_one: Dict[int, Set[int]],
+                       cluster_list_two: Dict[int, Set[int]]) -> float:
     """
     Calculate I(cluster_list_one, cluster_list_two).
 
@@ -107,10 +112,10 @@ def mutual_information(cluster_list_one: Any, cluster_list_two: Any) -> float:
     total_size = get_total_size(cluster_list_one)
 
     # Create a table of all the overlaps
-    overlaps: List[List[Any]] = [[[0] for i in range(len(cluster_list_one))]
+    overlaps: List[List[int]] = [[0 for i in range(len(cluster_list_one))]
                                  for j in range(len(cluster_list_two))]
-    for i, cluster_one in enumerate(cluster_list_one):
-        for j, cluster_two in enumerate(cluster_list_two):
+    for i, cluster_one in cluster_list_one.items():
+        for j, cluster_two in cluster_list_two.items():
             cluster_overlap = len(cluster_one.intersection(cluster_two))
             overlaps[i][j] = cluster_overlap
 
@@ -132,7 +137,7 @@ def mutual_information(cluster_list_one: Any, cluster_list_two: Any) -> float:
     return cond_entropy
 
 
-def get_total_size(dictionary: Dict[Any, Any]) -> int:
+def get_total_size(dictionary: Dict[int, Set[int]]) -> int:
     """Get the sum of lengths of all values in a dictionary."""
     total_size = 0
     for cluster in dictionary:
@@ -141,7 +146,7 @@ def get_total_size(dictionary: Dict[Any, Any]) -> int:
     return total_size
 
 
-def cluster_entropy(cluster_list: Any) -> float:
+def cluster_entropy(cluster_list: Dict[int, Set[int]]) -> float:
     """
     Calculate the entropy H(X) of a given clustering on a set.
 
@@ -182,16 +187,6 @@ def entropy(probabilities: List[float]) -> float:
     return total_entropy
 
 
-def check_argument_errors(params: Any) -> None:
-    """Throws a ValueError if the set of command line arguments given by the user are invalid."""
-    if os.path.isdir(params.getFilepath()):
-        if params.getStatsMode():
-            raise ValueError("StatsComputer takes a CSV file of results.")
-
-        if params.getRecursive():
-            raise ValueError("Recursive mode only applies to directories.")
-
-
 def log_class_sizes(cyc_to_aoc: float,
                     apc_to_cyc: float,
                     npath_to_apc: float,
@@ -203,7 +198,8 @@ def log_class_sizes(cyc_to_aoc: float,
     logging.info(f"apc_to_npath: {str(apc_to_npath)}\n")
 
 
-def joint_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
+def joint_entropy(cluster_list_one: Dict[int, Set[int]],
+                  cluster_list_two: Dict[int, Set[int]]) -> float:
     """
     Compute H(X, Y).
 
@@ -219,8 +215,8 @@ def joint_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
     for cluster in cluster_list_one.keys():
         total_size += len(cluster_list_one[cluster])
 
-    for cluster_one in cluster_list_one:
-        for cluster_two in cluster_list_two:
+    for cluster_one in cluster_list_one.values():
+        for cluster_two in cluster_list_two.values():
             # Calculate the elements in common between both clusters
             cluster_overlap = len(cluster_one.intersection(cluster_two))
             result -= (cluster_overlap / total_size) * \
@@ -229,7 +225,8 @@ def joint_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
     return result
 
 
-def conditional_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
+def conditional_entropy(cluster_list_one: Dict[int, Set[int]],
+                        cluster_list_two: Dict[int, Set[int]]) -> float:
     """
     Calculate H(cluster_list_one | cluster_list_two).
 
@@ -243,10 +240,10 @@ def conditional_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
         total_size += len(cluster_list_one[cluster])
 
     # Create a table of all the overlaps.
-    overlaps: List[List[Any]] = [[[0] for i in range(len(cluster_list_one))]
+    overlaps: List[List[int]] = [[0 for i in range(len(cluster_list_one))]
                                  for j in range(len(cluster_list_two))]
-    for i, cluster_one in enumerate(cluster_list_one):
-        for j, cluster_two in enumerate(cluster_list_two):
+    for i, cluster_one in cluster_list_one.items():
+        for j, cluster_two in cluster_list_two.items():
             cluster_overlap = len(cluster_one.intersection(cluster_two))
             overlaps[i][j] = cluster_overlap
 
@@ -268,10 +265,16 @@ def conditional_entropy(cluster_list_one: Any, cluster_list_two: Any) -> float:
     return cond_entropy
 
 
+MetricsDictOne = DefaultDict[int, List[str]]
+MetricsDictTwo = DefaultDict[str, List[int]]
+
+
 class MetricsComparer:
     """Allows the comparison between different metrics such as NPath and APC."""
 
-    def __init__(self, results: Any, location: Any) -> None:
+    # TODO: revisit the typing here, since we need (str, int, int, str, str) and not a union.
+    def __init__(self, results: List[List[Union[str, int]]],
+                 location: str) -> None:
         """
         Create a new MetricsComparer object from a list of results.
 
@@ -289,28 +292,29 @@ class MetricsComparer:
         self.results = results
 
         # Classify by cyclomatic complexity -> path complexity.
-        dict_one: Dict[Any, Any] = defaultdict(list)
+        dict_one: MetricsDictOne = defaultdict(list)
 
         # Classify by npath complexity -> path complexity.
-        dict_two: Dict[Any, Any] = defaultdict(list)
+        dict_two: MetricsDictOne = defaultdict(list)
 
         # Classify by path complexity -> cyclomatic complexity.
-        dict_three: Dict[Any, Any] = defaultdict(list)
+        dict_three: MetricsDictTwo = defaultdict(list)
 
         # Classify by path complexity -> npath.
-        dict_four: Dict[Any, Any] = defaultdict(list)
+        dict_four: MetricsDictTwo = defaultdict(list)
 
         self.cyclomatic_complexities = []
         self.npath_complexities = []
         self.path_complexities = []
 
-        self.dicts: List[Dict[Any, Any]] = [dict_one, dict_two, dict_three, dict_four]
-        self.dict_counter: Optional[List[Dict[Any, Any]]] = None
+        self.dicts: List[Union[MetricsDictOne,
+                               MetricsDictTwo]] = [dict_one, dict_two, dict_three, dict_four]
+        self.dict_counter: Optional[List[CountingDict]] = None
 
         for res in results:
-            cyc_compl = res[1]
-            npath_compl = res[2]
-            path_compl = res[4]
+            cyc_compl = int(res[1])
+            npath_compl = int(res[2])
+            path_compl = str(res[4])
             dict_one[cyc_compl] += [path_compl]
             dict_two[npath_compl] += [path_compl]
             dict_three[path_compl] += [cyc_compl]
@@ -331,19 +335,21 @@ class MetricsComparer:
         self.log_dicts()
 
         # Convert APCs to correct complexity classes.
-        temp_dict: Dict[Any, Any] = dict()
+        temp_dict: MetricsDictOne = defaultdict(list)
         for i in range(0, 2):
-            for key in self.dicts[i].keys():
+            apc_dict = cast(MetricsDictOne, self.dicts[i])
+            for key in apc_dict.keys():
                 temp_dict[key] = []
                 # temp_dict[key] = list(map(classify, self.dicts[i][key]))
             self.dicts[i] = temp_dict
 
-        temp_dict = dict()
+        temp_dict_2: MetricsDictTwo = defaultdict(list)
         for i in range(2, 4):
-            for key in self.dicts[i].keys():
-                temp_dict[key] = []
+            metrics_dict = cast(MetricsDictTwo, self.dicts[i])
+            for metrics_key in metrics_dict.keys():
+                temp_dict_2[metrics_key] = []
                 # temp_dict[classify(key)] = self.dicts[i][key]
-            self.dicts[i] = temp_dict
+            self.dicts[i] = temp_dict_2
 
         self.log_dicts()
         self.aggregate()
@@ -422,7 +428,7 @@ class MetricsComparer:
         plt.show()
 
     @staticmethod
-    def from_csv(file_name: str, location: str) -> Any:
+    def from_csv(file_name: str, location: str) -> MetricsComparer:
         """
         Create a MetricsComparer object from a results CSV file.
 
@@ -432,15 +438,18 @@ class MetricsComparer:
         test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class,
             path_cplxty_asym, path_cplxty
         """
-        results: List[Any] = []
+        results: List[List[Union[int, str]]] = []
         with open(file_name, "r") as file:
             content = file.readlines()[1:]
             for line in content:
                 try:
                     file_path = line.strip().split(",")[1]
-                    # Don't need ID
-                    result: List[Any] = line.strip().split(",")[2:]
-                    result = [file_path] + [result[0]] + [result[1]] + result[2:]
+                    complexity_results = line.strip().split(",")[2:]
+                    result: List[Union[int, str]] = [file_path,
+                                                     complexity_results[0],
+                                                     complexity_results[1],
+                                                     *complexity_results[2:]]
+
                     results.append(result)
                 except (IndexError, ValueError) as _:
                     pass

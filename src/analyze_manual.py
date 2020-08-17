@@ -7,7 +7,7 @@ from scipy.optimize import curve_fit  # type: ignore
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-def exp_function(x_val: float, coef1: float, coef2: float, const_term: float) -> float:
+def exp_function(x_val: np.ndarray, coef1: float, coef2: float, const_term: float) -> np.ndarray:
     """General exponential function with 3 parameters."""
     return coef1 * np.exp(coef2 * x_val) + const_term
 

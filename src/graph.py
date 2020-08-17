@@ -1,11 +1,17 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from typing import List, Any, Optional, DefaultDict, Sequence, Set
+from __future__ import annotations
+from typing import List, Any, Optional, DefaultDict, Sequence, Set, Match
 from enum import Enum
 import re
 import os
 import collections
 import numpy as np  # type: ignore
+
+
+AdjMatrixType = np.ndarray
+AdjListType = List[List[int]]
+EdgeListType = List[List[int]]
 
 
 class GraphType(Enum):
@@ -64,7 +70,7 @@ class Graph:
                f"{self.get_vertices()}\nStart Node: {self.start_node}" + \
                f"\nEnd Node: {self.end_node}"
 
-    def __init__(self, edges: Any, vertices: Any, start_node: int,
+    def __init__(self, edges: Any, vertices: List[int], start_node: int,
                  end_node: int,
                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> None:
         """
@@ -82,19 +88,19 @@ class Graph:
         self.start_node: int = start_node
         self.end_node: int = end_node
         self.weighted: bool = False
-        self.name: Optional[str]  = None
+        self.name: Optional[str] = None
         self.graph_type = graph_type
 
     def set_name(self, name: str) -> None:
         """Set the name of the Graph."""
         self.name = name
 
-    def get_parents(self) -> Any:
+    def get_parents(self) -> DefaultDict[int, List[int]]:
         """Create a dictionary which maps a node to a list of its parents."""
         if self.graph_type is not GraphType.ADJACENCY_LIST:
             raise NotImplementedError(f"Not possible for graph type {self.graph_type}")
 
-        parents: DefaultDict[str, list] = collections.defaultdict(list)
+        parents: DefaultDict[int, List[int]] = collections.defaultdict(list)
         for vertex in self.get_vertices():
             for child in self.edges[vertex]:
                 parents[child] += [vertex]
@@ -254,7 +260,7 @@ class Graph:
             return len(self.edges)
 
         if self.graph_type is GraphType.ADJACENCY_MATRIX:
-            return self.edges.shape[0]
+            return int(self.edges.shape[0])
 
         return len(self.vertices)
 
@@ -274,7 +280,7 @@ class Graph:
         """Get the node for the graph."""
         return self.end_node
 
-    def adjacency_matrix(self) -> Any:
+    def adjacency_matrix(self) -> np.ndarray:
         """
         Obtain the adjacency matrix from the edge list representation.
 
@@ -347,7 +353,7 @@ class Graph:
 
     @staticmethod
     def from_file(filename: str, weighted: bool = False,
-                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> Any:
+                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> Graph:
         """
         Return a Graph object from a .dot file of format.
 
@@ -364,14 +370,14 @@ class Graph:
         if graph_type is GraphType.ADJACENCY_LIST:
             # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
             # graph = Graph(v_e_dict, None, -1, -1, graph_type)
-            graph = Graph([], None, -1, -1, graph_type)
+            graph = Graph([], [], -1, -1, graph_type)
         elif graph_type is GraphType.EDGE_LIST:
             edges: List[List[int]] = []
             graph = Graph(edges, [], -1, -1, graph_type)
         elif graph_type is GraphType.ADJACENCY_MATRIX:
             # We create the graph using an adjacency list and then convert it.
             # There is probably a better way to do this.
-            graph = Graph([], None, -1, -1, GraphType.ADJACENCY_LIST)
+            graph = Graph([], [], -1, -1, GraphType.ADJACENCY_LIST)
 
         graph.set_name(os.path.splitext(name)[0])
 
@@ -405,7 +411,7 @@ class Graph:
 
         return node + 1
 
-    def update_with_node(self, match: Any) -> None:
+    def update_with_node(self, match: Match[str]) -> None:
         """Create a new vertex when the current line in the dot file is a node."""
         node = int(match.group(1))
         node_label = match.group(2)
@@ -422,7 +428,7 @@ class Graph:
             if len(self.edges) <= node:
                 self.edges += [[] for _ in range(((node + 1) - len(self.edges)))]
 
-    def update_with_edge(self, match: Any) -> None:
+    def update_with_edge(self, match: Match[str]) -> None:
         """Create new vertices and edges when the current line in the dot file is an edge."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))

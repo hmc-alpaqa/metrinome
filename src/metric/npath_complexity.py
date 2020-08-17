@@ -11,7 +11,7 @@ from graph import Graph, GraphType
 from metric import metric
 from log import Log
 
-EdgeType = List[int]
+EdgeType = Tuple[int]
 NodeType = int
 AdjList = Tuple[Tuple[int, ...], ...]
 
@@ -71,7 +71,7 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def npath_edge_list(self, start: NodeType, end: NodeType, edges: List[Any]) -> float:
+    def npath_edge_list(self, start: NodeType, end: NodeType, edges: List[EdgeType]) -> float:
         """Compute NPath Complexity recursively."""
         if start == end:
             return 1.
@@ -105,14 +105,14 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def evaluate(self, graph: Graph) -> float:
+    def evaluate(self, graph: Graph) -> int:
         """Compute the NPath complexity of a function given its CFG."""
         if graph.graph_type is GraphType.ADJACENCY_LIST:
             edges_tuple = tuple(tuple(edges) for edges in graph.edges)
-            return self.npath_adj_list(graph.start_node, graph.end_node, edges_tuple)
+            return int(self.npath_adj_list(graph.start_node, graph.end_node, edges_tuple))
 
         if graph.graph_type is GraphType.ADJACENCY_MATRIX:
-            return self.npath_adj_matrix(graph.adjacency_matrix(), graph.start_node,
-                                         graph.end_node, graph.start_node)
+            return int(self.npath_adj_matrix(graph.adjacency_matrix(), graph.start_node,
+                                             graph.end_node, graph.start_node))
 
-        return self.npath_edge_list(graph.start_node, graph.end_node, graph.edge_rules())
+        return int(self.npath_edge_list(graph.start_node, graph.end_node, graph.edge_rules()))

@@ -7,13 +7,15 @@ import time
 import os
 import glob
 from math import floor
-from typing import List, Any, Tuple, Iterator
+from typing import List, Any, Tuple, Iterator, Union
 from numpy import mean, std, median  # type: ignore
 from graph import Graph, GraphType
 from utils import Timeout
 from metric import metric
 
-TimeList = List[Tuple[Any, Any, Any]]
+OverallTimeList = List[Tuple[float, str, str]]
+FolderTimeList = List[Tuple[float, str]]
+RuntimeMetrics = List[Tuple[str, float]]
 
 
 def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
@@ -22,9 +24,9 @@ def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
     print(f"number of folders: {len(folders)}\n")
-    metric_collection: List[Any] = []
+    metric_collection: List[Tuple[str, Any, Any]] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
-    overall_time_list: TimeList = []
+    overall_time_list: OverallTimeList = []
     timeout_total = 0
     # test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {floor(len(folders) / folders_frac)}")
@@ -47,7 +49,7 @@ def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
     print_overall_results(overall_time_list, timeout_total, timeout_threshold)
 
 
-def print_overall_results(overall_time_list: Any,
+def print_overall_results(overall_time_list: OverallTimeList,
                           timeout_total: int,
                           timeout_threshold: int) -> None:
     """Print the results once the benchmark is done."""
@@ -63,7 +65,7 @@ def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
                        folder: str, timeout_threshold: int,
                        graph_type: GraphType,
                        show_info: bool
-                       ) -> Tuple[List[Tuple[Any, Any]], TimeList, int]:
+                       ) -> Tuple[FolderTimeList, OverallTimeList, int]:
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -74,11 +76,11 @@ def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
         if show_info:
             print(os.path.splitext(graph)[0].split("/")[-1],
                   f"{round(100*(i / len(graph_list)))}% done")
-        graph_zero = Graph.from_file(graph, graph_type=graph_type)
+        graph_obj = Graph.from_file(graph, graph_type=graph_type)
         start_time = time.time()
         try:
             with Timeout(timeout_threshold, f'{converter.name()} took too long'):
-                res = converter.evaluate(graph_zero)
+                res = converter.evaluate(graph_obj)
                 print(res)
 
             # Calculate the run time.
@@ -100,8 +102,9 @@ def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
     return folder_time_list, overall_time_list, timeout_count
 
 
-def print_results(folder_time_list: List[Any], folder: str,
-                  metric_collection: Any, show_info: bool) -> None:
+def print_results(folder_time_list: FolderTimeList, folder: str,
+                  metric_collection: List[Tuple[str, RuntimeMetrics, Any]],
+                  show_info: bool) -> None:
     """Print out the results from the benchmark."""
     folder_metrics = runtime_metrics(folder_time_list)
     folder_outliers = runtime_outlier(folder_time_list, show_info)
@@ -139,7 +142,7 @@ def captured_output() -> Iterator[Tuple[StringIO, StringIO]]:
         sys.stdout, sys.stderr = old_out, old_err
 
 
-def runtime_metrics(time_list: TimeList) -> List[Tuple[str, float]]:
+def runtime_metrics(time_list: Union[OverallTimeList, FolderTimeList]) -> RuntimeMetrics:
     """
     Given a list of run times compute a series of statistics.
 
@@ -155,7 +158,8 @@ def runtime_metrics(time_list: TimeList) -> List[Tuple[str, float]]:
             ("median", median_val), ("stdev", stdev_val)]
 
 
-def runtime_outlier(time_list: List[List[float]], show_info: bool) -> List[List[float]]:
+def runtime_outlier(time_list: Union[FolderTimeList, OverallTimeList],
+                    show_info: bool) -> Union[FolderTimeList, OverallTimeList]:
     """
     Return all outlier elements.
 

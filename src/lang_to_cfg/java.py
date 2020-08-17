@@ -6,7 +6,7 @@ from typing import Dict, Optional
 from glob2 import glob  # type: ignore
 from graph import Graph, GraphType
 from env import Env
-from lang_to_cfg import converter  # type: ignore
+from lang_to_cfg import converter
 from log import Log
 
 

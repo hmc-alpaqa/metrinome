@@ -67,7 +67,7 @@ class TestNPATH(unittest.TestCase):
         single node. The start node is equal to the end node,
         so there is a single path from the beginning to the end.
         """
-        graph = Graph([], set([0]), 0, 0, GraphType.EDGE_LIST)
+        graph = Graph([], [0], 0, 0, GraphType.EDGE_LIST)
         result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 1
         self.assertEqual(result, expected_result)
@@ -80,7 +80,7 @@ class TestNPATH(unittest.TestCase):
         and end nodes but no edges is 0, since there are no paths from the
         beginning to the end.
         """
-        graph = Graph([], set([0, 1]), 0, 1, GraphType.EDGE_LIST)
+        graph = Graph([], [0, 1], 0, 1, GraphType.EDGE_LIST)
         result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 0
         self.assertEqual(result, expected_result)

@@ -1,18 +1,21 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
-from typing import Any
+from typing import Any, Tuple, List, Union
 import sys
 import re
 import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
-    simplify, sympify, Abs, Q  # type: ignore
+    simplify, sympify, Abs, Q
 from mpmath import polyroots  # type: ignore
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import Graph
-from metric import metric  # type: ignore
+from metric import metric
 from log import Log
+
+
+PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 
 
 class PathComplexity(metric.MetricAbstract):
@@ -27,7 +30,10 @@ class PathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
-    def gen_func_taylor_coeffs(self, graph: Graph) -> Any:
+    def gen_func_taylor_coeffs(self, graph: Graph) -> Tuple[List[Any],
+                                                            int,
+                                                            int,
+                                                            Any]:
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
@@ -60,7 +66,7 @@ class PathComplexity(metric.MetricAbstract):
         return taylor_coeffs, dimension, degree(denominator, gen=t_var), roots
 
     # pylint: disable=too-many-locals
-    def evaluate(self, graph: Graph) -> Any:
+    def evaluate(self, graph: Graph) -> PathComplexityRes:
         """
         Compute the path complexity given the CFG of some function.
 

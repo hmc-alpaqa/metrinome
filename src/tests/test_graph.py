@@ -148,6 +148,9 @@ class TestGraph(unittest.TestCase):
         """Check that we can add a node to a Graph."""
         graph = Graph([], [1], 1, 1, GraphType.EDGE_LIST)
         update = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", "2 [label=\"EXIT\"]")
+        if update is None:
+            self.fail("Node cannot be None.")
+
         graph.update_with_node(update)
         expected = Graph([], [1, 2], 1, 2, GraphType.EDGE_LIST)
         self.assertEqual(expected, graph)
@@ -157,6 +160,9 @@ class TestGraph(unittest.TestCase):
         """Check that we can add an edge to a Graph."""
         graph = Graph([], [1, 2], 1, 2, GraphType.EDGE_LIST)
         update = re.search(r"([0-9]*)\s*->\s*([0-9]*)", "1 -> 2")
+        if update is None:
+            self.fail("Node cannot be None.")
+
         graph.update_with_edge(update)
         expected = Graph([[1, 2]], [1, 2], 1, 2, GraphType.EDGE_LIST)
         self.assertEqual(expected, graph)

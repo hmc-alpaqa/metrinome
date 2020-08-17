@@ -1,6 +1,6 @@
 """Handles work with klee, which does symbollic execution and test generation of C code."""
 
-from typing import Dict, Set, Any, List
+from typing import Dict, Set, Any, List, DefaultDict, Tuple
 from collections import defaultdict
 import uuid
 from pycparser import c_ast, parse_file, c_generator  # type: ignore
@@ -19,8 +19,8 @@ class FuncVisitor(c_ast.NodeVisitor):
         """Create a new instance of FuncVisitor."""
         self.logger = logger
         self.generator = c_generator.CGenerator()
-        self.vars: Dict[str, List[Any]] = defaultdict(list)
-        self.types: Dict[str, str] = defaultdict(str)
+        self.vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
+        self.types: DefaultDict[str, str] = defaultdict(str)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str) -> None:
@@ -76,7 +76,7 @@ class KleeUtils:
         func_visitor = FuncVisitor(self.logger)
         func_visitor.visit(ast)
 
-        uuids: Set[Any] = set()  # TODO: change type
+        uuids: Set[uuid.UUID] = set()  # TODO: change type
         klee_formatted_files = dict()
         for func_name in func_visitor.vars.keys():
             variables = [list(v) for v in func_visitor.vars[func_name]]

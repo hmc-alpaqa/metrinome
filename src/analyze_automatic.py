@@ -65,7 +65,7 @@ def fit(data_x: np.ndarray, data_y: np.ndarray,
     # Create a function that takes as make arguments as we have parameters, as well as the
     # independent variable and the breakpoint value.
 
-    def func_to_optimize(var_x: Any, *params: Any) -> np.ndarray:
+    def func_to_optimize(var_x: np.ndarray, *params: Any) -> np.ndarray:
         return fit_func(var_x, params)
 
     for i in data_x:
@@ -143,7 +143,7 @@ def regression(data_x: np.ndarray, data_y: np.ndarray, name: str) -> None:
              [1 for j in range((degree_two if degree_two is not None else 3) + 1)]
 
     # pylint: disable=W0640
-    def func_to_optimize(var_x: Any, *params: Any) -> Any:
+    def func_to_optimize(var_x: np.ndarray, *params: Any) -> Any:
         """."""
         return fit_func(var_x, params)
 

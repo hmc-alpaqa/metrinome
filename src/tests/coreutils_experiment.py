@@ -15,7 +15,10 @@ sys.path.append("/app/code/metric")
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 
 
-def parse_original(file: str) -> Tuple[List[Any], List[Any], Dict[str, str], int]:
+PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
+
+
+def parse_original(file: str) -> Tuple[List[str], List[str], Dict[str, str], int]:
     """Obtain all of the Graph information from an existing dot file in the original format."""
     # Read the original files.
     nodes, edges = [], []
@@ -101,7 +104,9 @@ def get_converter_time(graph_list: List[str],
                        converter: metric.MetricAbstract,
                        folder: str,
                        timeout_threshold: int, show_info: bool = False
-                       ) -> Tuple[Any, Any, Any]:
+                       ) -> Tuple[List[Tuple[float, str]],
+                                  List[Tuple[float, str, str]],
+                                  int]:
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -112,11 +117,11 @@ def get_converter_time(graph_list: List[str],
         if show_info:
             print(os.path.splitext(graph)[0].split("/")[-1],
                   f"{round(100*(i / len(graph_list)))}% done")
-        graph_zero = Graph.from_file(graph)
+        graph_obj = Graph.from_file(graph)
         start_time = time.time()
         try:
             with Timeout(timeout_threshold, f'{converter.name()} took too long'):
-                apc = converter.evaluate(graph_zero)
+                apc = converter.evaluate(graph_obj)
 
             # Calculate the run time.
             runtime = time.time() - start_time
@@ -143,7 +148,6 @@ def run_benchmark(converter: metric.MetricAbstract,
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob2.glob("/app/code/tests/core/separate/*/"))
     print(f"number of folders: {len(folders)}\n")
-    metric_collection: List[Any] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
 
     # test the metrics for each folder in apache_cfgs.
@@ -192,7 +196,7 @@ def main() -> None:
             graph = Graph.from_file(file)
 
             start_time = time.time()
-            apc = "na"
+            apc: Union[str, PathComplexityRes] = "na"
             npath: Union[str, float] = "na"
             cyclo: Union[str, float] = "na"
             ex = False

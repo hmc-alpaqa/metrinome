@@ -6,16 +6,17 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Any, Dict, Optional
+from typing import List, Any, Dict, Optional, Union, Type
+from types import FrameType, TracebackType
 import re
 from collections import Counter
 import signal
 from sympy import limit, Abs, sympify, series, symbols  # type: ignore
-from mpmath import polyroots  # type: ignore
+from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
 
 
-def get_solution_from_roots(roots: List[Any]) -> List[Any]:
+def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Any]:
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
     new_roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
@@ -35,7 +36,7 @@ def get_solution_from_roots(roots: List[Any]) -> List[Any]:
     return solution
 
 
-def get_recurrence_solution(recurrence: str) -> List[Any]:
+def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
     """
     Return the coefficients to a homogeneous linear recurrence relation.
 
@@ -131,7 +132,7 @@ class Timeout:
         self.seconds = seconds
         self.error_message = error_message
 
-    def handle_timeout(self, signum: Any, frame: Any) -> None:
+    def handle_timeout(self, signum: int, frame: FrameType) -> None:
         """Execute after self.seconds have passed if the block within it is not done."""
         raise TimeoutError(self.error_message)
 
@@ -140,6 +141,9 @@ class Timeout:
         signal.signal(signal.SIGALRM, self.handle_timeout)
         signal.alarm(self.seconds)
 
-    def __exit__(self, err_type: Any, value: Any, traceback: Any) -> None:
+    def __exit__(self,
+                 err_type: Optional[Type[BaseException]],
+                 value: Optional[BaseException],
+                 traceback: Optional[TracebackType]) -> None:
         """Stop the timer once the code block is done executing."""
         signal.alarm(0)

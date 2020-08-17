@@ -19,7 +19,7 @@ import os
 import uuid
 from log import Log
 from graph import Graph, GraphType
-from lang_to_cfg import converter  # type: ignore
+from lang_to_cfg import converter
 
 
 class Node:

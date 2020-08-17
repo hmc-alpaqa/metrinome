@@ -4,6 +4,7 @@ from typing import Dict, Any, List, Optional
 from enum import Enum
 import os
 from log import Log
+from graph import Graph
 
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
@@ -25,7 +26,7 @@ class ObjTypes(Enum):
         return str(self.value)
 
     @staticmethod
-    def get_type(obj_type: str) -> Optional[ObjTypes]:
+    def get_type(obj_type: str) -> Any:
         """Given an input string, see if there is an enum type that matches it."""
         for i in ObjTypes:
             if str(i) == obj_type.lower() or str(i) + "s" == obj_type.lower():
@@ -40,7 +41,7 @@ class Data:
     def __init__(self, logger: Log) -> None:
         """Create a new instance of the REPL data."""
         self.metrics: Dict[str, Any] = {}
-        self.graphs: Dict[str, Any] = {}
+        self.graphs: Dict[str, Graph] = {}
         self.klee_stats: Dict[str, Any] = {}
         self.klee_stat = KleeStat
         self.klee_formatted_files: Dict[str, str] = dict()
@@ -174,7 +175,7 @@ class Data:
         for graph_name in names:
             if graph_name in self.graphs:
                 self.logger.d_msg(self.graphs[graph_name].graph_type)
-                self.logger.v_msg(self.graphs[graph_name])
+                self.logger.v_msg(str(self.graphs[graph_name]))
             else:
                 self.logger.v_msg(f"Graph {graph_name} not found.")
 

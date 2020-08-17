@@ -52,8 +52,8 @@ class TestCyclomaticComplexity(unittest.TestCase):
         Compute the cyclomatic complexity for a graph with a non-zero number of vertices
         (where the start node is not the same as the end node) and zero number of edges.
         """
-        edges: List[Any] = []
-        vertices = set([0, 1])
+        edges: List[List[int]] = []
+        vertices = [0, 1]
         start_node = 0
         end_node = 1
 

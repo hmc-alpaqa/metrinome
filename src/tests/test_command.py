@@ -5,8 +5,10 @@ from typing import Tuple, Dict, Union
 sys.path.append("/app/code/")
 import command
 from graph import Graph
+import command_data
 from tests.unit_utils import captured_output
 from log import Log
+from graph import Graph
 
 # pylint does not understand decorators :(
 # pylint: disable=no-value-for-parameter
@@ -123,7 +125,7 @@ class TestCommandInvalid(unittest.TestCase):
         an inexistant object.
         """
         with captured_output() as (out, err):
-            self.command.do_show(command.ObjTypes.METRIC.value + " foo")
+            self.command.do_show(command_data.ObjTypes.METRIC.value + " foo")
             print(out, err)
 
     def test_list_invalid_type(self) -> None:
@@ -309,7 +311,7 @@ class TestCommand(unittest.TestCase):
         self.command.data.klee_stats["foo"] = "bar"
         with captured_output() as (out, err):
             self.command.data.metrics["foo"] = ["123", "123"]
-            command_input = f"{command.ObjTypes.METRIC.value} foo"
+            command_input = f"{command_data.ObjTypes.METRIC.value} foo"
             self.command.do_show(command_input)
         self.assertTrue(len(err.getvalue()) == 0)
         # TODO
@@ -342,13 +344,13 @@ class TestCommand(unittest.TestCase):
     def test_show_klee(self) -> None:
         """Check that we can show klee objects."""
         with captured_output() as (out, err):
-            self.command.do_show(command.ObjTypes.KLEE_BC.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE_BC.value + " foo")
         with captured_output() as (out, err):
-            self.command.do_show(command.ObjTypes.KLEE_STATS.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE_STATS.value + " foo")
         with captured_output() as (out, err):
-            self.command.do_show(command.ObjTypes.KLEE_FILE.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE_FILE.value + " foo")
         with captured_output() as (out, err):
-            self.command.do_show(command.ObjTypes.KLEE.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE.value + " foo")
 
         print(out.getvalue(), err.getvalue())
 
@@ -360,9 +362,9 @@ class TestCommand(unittest.TestCase):
         of all types) for a given name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph([], [], 0, 0)
-            self.command.data.metrics["foo"] = Graph([], [], 0, 0)
-            self.command.do_show(command.ObjTypes.ALL.value + " foo")
+            self.command.data.graphs["foo"] = Graph(None, [], 0, 0)
+            self.command.data.metrics["foo"] = "123"
+            self.command.do_show(command_data.ObjTypes.ALL.value + " foo")
             print(out, err)
 
     def test_show_all_names_valid(self) -> None:
@@ -373,9 +375,10 @@ class TestCommand(unittest.TestCase):
         of a given type.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph([], [], 0, 0)
-            self.command.data.graphs["bar"] = Graph([], [], 0, 0)
-            self.command.do_show(command.ObjTypes.GRAPH.value + " " + command.ObjTypes.ALL.value)
+            self.command.data.graphs["foo"] = Graph(None, [], 0, 0)
+            self.command.data.graphs["bar"] = Graph(None, [], 0, 0)
+            show_str = command_data.ObjTypes.GRAPH.value + " " + command.ObjTypes.ALL.value
+            self.command.do_show(show_str)
             print(out, err)
 
     # ==== Test do_list =====
@@ -387,7 +390,7 @@ class TestCommand(unittest.TestCase):
         REPL knows about.
         """
         with captured_output() as (out, err):
-            self.command.do_list(command.ObjTypes.GRAPH.value)
+            self.command.do_list(command_data.ObjTypes.GRAPH.value)
             print(out, err)
 
     def test_list_metrics(self) -> None:
@@ -398,7 +401,7 @@ class TestCommand(unittest.TestCase):
         REPL knows about.
         """
         with captured_output() as (out, err):
-            self.command.do_list(command.ObjTypes.METRIC.value)
+            self.command.do_list(command_data.ObjTypes.METRIC.value)
 
         # TODO
         self.assertTrue(len(err.getvalue()) == 0)
@@ -408,22 +411,22 @@ class TestCommand(unittest.TestCase):
         """Check list command with klee arguments."""
         # TODO
         with captured_output() as (out, err):
-            self.command.do_list(command.ObjTypes.KLEE_BC.value)
+            self.command.do_list(command_data.ObjTypes.KLEE_BC.value)
         self.assertTrue(len(err.getvalue()) == 0)
         self.assertTrue(len(out.getvalue()) != 0)
 
         with captured_output() as (out, err):
-            self.command.do_list(command.ObjTypes.KLEE_STATS.value)
+            self.command.do_list(command_data.ObjTypes.KLEE_STATS.value)
         self.assertTrue(len(err.getvalue()) == 0)
         self.assertTrue(len(out.getvalue()) != 0)
 
         with captured_output() as (out, err):
-            self.command.do_list(command.ObjTypes.KLEE_FILE.value)
+            self.command.do_list(command_data.ObjTypes.KLEE_FILE.value)
         self.assertTrue(len(err.getvalue()) == 0)
         self.assertTrue(len(out.getvalue()) != 0)
 
         with captured_output() as (out, err):
-            self.command.do_list(command.ObjTypes.KLEE.value)
+            self.command.do_list(command_data.ObjTypes.KLEE.value)
         self.assertTrue(len(err.getvalue()) == 0)
         self.assertTrue(len(out.getvalue()) != 0)
 
@@ -435,7 +438,7 @@ class TestCommand(unittest.TestCase):
         the list command.
         """
         with captured_output() as (out, err):
-            self.command.do_list(command.ObjTypes.ALL.value)
+            self.command.do_list(command_data.ObjTypes.ALL.value)
             print(out, err)
 
     # ==== Test do_delete ======
@@ -449,8 +452,8 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.GRAPH
             obj_name = "sample_graph"
-            self.command.data.graphs['sample_graph'] = 'foo'
-            self.command.data.graphs['sample_graph'] = 'bar'
+            self.command.data.graphs['sample_graph'] = Graph(None, [], 0, 0)
+            self.command.data.graphs['sample_graph'] = Graph(None, [], 0, 0)
             self.command.data.metrics['sample_graph'] = 'abc'
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
@@ -465,9 +468,10 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.METRIC
             obj_name = "sample_metric"
+            graph = Graph(None, [], 0, 0)
             self.command.data.metrics['sample_metric'] = 'foo'
             self.command.data.metrics['sample_metric'] = 'bar'
-            self.command.data.graphs['sample_metric'] = 'a'
+            self.command.data.graphs['sample_metric'] = graph
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
 
@@ -481,10 +485,11 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.ALL
             obj_name = "sample_name"
-            self.command.data.graphs['sample_name'] = 'foo'
+            graph = Graph(None, [], 0, 0)
+            self.command.data.graphs['sample_name'] = graph
             self.command.data.metrics['sample_name'] = 'foo'
 
-            self.command.data.graphs['sample_name'] = 'a'
+            self.command.data.graphs['sample_name'] = graph
             self.command.data.metrics['sample_name'] = 'b'
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
@@ -495,10 +500,10 @@ class TestCommand(unittest.TestCase):
             # Delete * name
             obj_type = command.ObjTypes.GRAPH
             obj_name = "*"
-            self.command.data.graphs['sample_name'] = 'a'
-            self.command.data.graphs['sample_name'] = 'b'
-            self.command.data.graphs['sample_name'] = 'c'
-            self.command.data.metrics['sample_name'] = 'b'
+            self.command.data.graphs['sample_name'] = Graph(None, [], 0, 0)
+            self.command.data.graphs['sample_name'] = Graph(None, [], 0, 0)
+            self.command.data.graphs['sample_name'] = Graph(None, [], 0, 0)
+            self.command.data.metrics['sample_name'] = Graph(None, [], 0, 0)
 
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
