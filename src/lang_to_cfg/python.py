@@ -282,7 +282,7 @@ class Visitor(ast.NodeVisitor):
                     nodes[child] = len(node_list)
                     node_list.append(len(node_list))
 
-                edge_list.append((nodes[curr_node], nodes[child]))
+                edge_list.append([nodes[curr_node], nodes[child]])
 
             nodes_to_visit += children
 
@@ -293,7 +293,7 @@ class Visitor(ast.NodeVisitor):
             node_list.append(len(node_list))
             visitor.end_node = new_node
             for frontier_node in visitor.frontier:
-                edge_list.append((nodes[frontier_node], nodes[new_node]))
+                edge_list.append([nodes[frontier_node], nodes[new_node]])
 
         graph = Graph(edge_list, node_list, nodes[visitor.root],
                       nodes[visitor.end_node], GraphType.EDGE_LIST)
