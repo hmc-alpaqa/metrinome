@@ -3,29 +3,24 @@ import subprocess
 import time
 import re
 from subprocess import PIPE
-from typing import Any, List, Optional, Tuple, Dict, Union
+from typing import List, Optional, Tuple, Dict, Union
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
 from log import Log
 from klee_utils import KleeUtils
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-KleeCompareResults = Dict[Tuple[str, str, str], Dict[Any, Optional[Union[float, int]]]]
-KleeOutputInfo = Tuple[Optional[int], Optional[int], Optional[int], float, float, float]
-KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
+KleeCompareResults = Dict[Tuple[str, str, str],
+                          Dict[str, Optional[Union[float, int]]]]
+KleeOutputInfo = Tuple[Optional[int],
+                       Optional[int],
+                       Optional[int],
+                       float, float, float]
+KleeOutputPreferencesInfo = Tuple[Optional[int],
+                                  Optional[int],
+                                  Optional[int],
                                   float, float, float, float]
-
-
-def poly(input_: Any, coef: List[Any], deg: int) -> List[float]:
-    """Apply a polynomial to an iterable."""
-    return [sum([k * (i**j) for j, k in zip(list(range(deg + 1))[::-1], coef)]) for i in input_]
-
-
-def exp_function(x_val: float, coef1: float, coef2: float, const_term: float) -> Any:
-    """General exponential function with 3 parameters."""
-    return coef1 * np.exp(-coef2 * x_val) + const_term
 
 
 def parse_klee(klee_output: str) -> KleeOutputInfo:

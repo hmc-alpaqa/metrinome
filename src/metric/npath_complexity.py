@@ -5,13 +5,13 @@ This works with both the adjacency list representation and edge list.
 """
 
 import copy
-from typing import List, Any, Tuple
+from typing import List, Tuple
 import numpy as np  # type: ignore
-from graph import Graph, GraphType
+from graph import GraphType, AnyGraph, EdgeListType
 from metric import metric
 from log import Log
 
-EdgeType = Tuple[int]
+EdgeType = List[int]
 NodeType = int
 AdjList = Tuple[Tuple[int, ...], ...]
 
@@ -71,7 +71,7 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def npath_edge_list(self, start: NodeType, end: NodeType, edges: List[EdgeType]) -> float:
+    def npath_edge_list(self, start: NodeType, end: NodeType, edges: EdgeListType) -> float:
         """Compute NPath Complexity recursively."""
         if start == end:
             return 1.
@@ -105,7 +105,7 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def evaluate(self, graph: Graph) -> int:
+    def evaluate(self, graph: AnyGraph) -> int:
         """Compute the NPath complexity of a function given its CFG."""
         if graph.graph_type is GraphType.ADJACENCY_LIST:
             edges_tuple = tuple(tuple(edges) for edges in graph.edges)

@@ -1,6 +1,6 @@
 lint:
 	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
-	find . -type f -name "*.py" | xargs mypy --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs --warn-return-any --warn-unused-ignores --warn-redundant-casts --disallow-any-generics --disallow-any-explicit # Type checking.
+	find . -type f -name "*.py" | xargs mypy # Type checking.
 	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
 	find . -type f -name "*.py" | xargs pylint --rcfile=.pylintrc -r n -f parseable	# Linting.
 

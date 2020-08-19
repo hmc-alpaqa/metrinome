@@ -1,13 +1,13 @@
 """Compute aggregate metrics and compare them."""
 
-from typing import List, Dict, Any, Optional, DefaultDict, Union, Tuple, Set, cast
+from typing import List, Dict, Optional, DefaultDict, Union, Tuple, Set, cast
 import typing
 from math import log
-import os
 import logging
 from collections import defaultdict, Counter
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
+from scipy.stats import entropy  # type: ignore
 
 
 def adjusted_rand_index(function_list: List[int]) -> float:
@@ -169,35 +169,6 @@ def cluster_entropy(cluster_list: Dict[int, Set[int]]) -> float:
     return total_entropy
 
 
-def entropy(probabilities: List[float]) -> float:
-    """
-    Return the total entropy of a list representing probability distributions.
-
-    Input: [p_0, p_1, ..., p_n]
-    Output: H(p)
-    """
-    # Check that it is a valid probability distribution.
-    if sum(probabilities) != 1:
-        raise ValueError("Not a valid probability distribution - does not sum to one.")
-
-    total_entropy = 0.
-    for probability in probabilities:
-        total_entropy -= probability * log(probability, 2)
-
-    return total_entropy
-
-
-def log_class_sizes(cyc_to_aoc: float,
-                    apc_to_cyc: float,
-                    npath_to_apc: float,
-                    apc_to_npath: float) -> None:
-    """Write the average class size for each metric to the log file."""
-    logging.info(f"cyc_to_aoc: {str(cyc_to_aoc)}")
-    logging.info(f"apc_to_cyc: {str(apc_to_cyc)}")
-    logging.info(f"npath_to_apc: {str(npath_to_apc)}")
-    logging.info(f"apc_to_npath: {str(apc_to_npath)}\n")
-
-
 def joint_entropy(cluster_list_one: Dict[int, Set[int]],
                   cluster_list_two: Dict[int, Set[int]]) -> float:
     """
@@ -267,12 +238,12 @@ def conditional_entropy(cluster_list_one: Dict[int, Set[int]],
 
 MetricsDictOne = DefaultDict[int, List[str]]
 MetricsDictTwo = DefaultDict[str, List[int]]
+MetricsCounter = Dict[Union[str, int], typing.Counter[Union[str, int]]]
 
 
 class MetricsComparer:
     """Allows the comparison between different metrics such as NPath and APC."""
 
-    # TODO: revisit the typing here, since we need (str, int, int, str, str) and not a union.
     def __init__(self, results: List[List[Union[str, int]]],
                  location: str) -> None:
         """
@@ -307,8 +278,9 @@ class MetricsComparer:
         self.npath_complexities = []
         self.path_complexities = []
 
-        self.dicts: List[Union[MetricsDictOne,
-                               MetricsDictTwo]] = [dict_one, dict_two, dict_three, dict_four]
+        self.dicts: Tuple[MetricsDictOne, MetricsDictOne,
+                          MetricsDictTwo, MetricsDictTwo] = \
+            (dict_one, dict_two, dict_three, dict_four)
         self.dict_counter: Optional[List[CountingDict]] = None
 
         for res in results:
@@ -323,37 +295,31 @@ class MetricsComparer:
             self.npath_complexities += [npath_compl]
             self.path_complexities += [npath_compl]
 
-    def log_dicts(self) -> None:
-        """Log the dictionaries mapping between complexity metrics to the log file."""
-        logging.info("C to APC: ----- " + str(self.dicts[0]))
-        logging.info("NPATH to APC: ----- " + str(self.dicts[1]))
-        logging.info("APC to C: ------ " + str(self.dicts[2]))
-        logging.info("APC to NPATH: ------ " + str(self.dicts[3]) + "\n")
+    def update_graphs(self) -> None:
+        """Update dictionaries."""
+        # Convert APCs to correct complexity classes.
+        temp_dict: MetricsDictOne = defaultdict(list)
+        temp_dicts: List[MetricsDictOne] = []
+        temp_dicts2: List[MetricsDictTwo] = []
+        for metrics_dict in self.dicts[:2]:
+            for key in metrics_dict.keys():
+                temp_dict[key] = []
+                # temp_dict[key] = list(map(classify, self.dicts[i][key]))
+            temp_dicts.append(temp_dict)
+
+        temp_dict_2: MetricsDictTwo = defaultdict(list)
+        for metrics_dict2 in self.dicts[2:]:
+            for metrics_key in metrics_dict2.keys():
+                temp_dict_2[metrics_key] = []
+                # temp_dict[classify(key)] = self.dicts[i][key]
+            temp_dicts2.append(temp_dict_2)
+
+        self.dicts = (temp_dicts[0], temp_dicts[1], temp_dicts2[0], temp_dicts2[1])
 
     def compute_metric(self, use_frequencies: bool = True) -> None:
         """Calculate the metrics used to compare APC to Cyclomatic Complexity and NPATH."""
-        self.log_dicts()
-
-        # Convert APCs to correct complexity classes.
-        temp_dict: MetricsDictOne = defaultdict(list)
-        for i in range(0, 2):
-            apc_dict = cast(MetricsDictOne, self.dicts[i])
-            for key in apc_dict.keys():
-                temp_dict[key] = []
-                # temp_dict[key] = list(map(classify, self.dicts[i][key]))
-            self.dicts[i] = temp_dict
-
-        temp_dict_2: MetricsDictTwo = defaultdict(list)
-        for i in range(2, 4):
-            metrics_dict = cast(MetricsDictTwo, self.dicts[i])
-            for metrics_key in metrics_dict.keys():
-                temp_dict_2[metrics_key] = []
-                # temp_dict[classify(key)] = self.dicts[i][key]
-            self.dicts[i] = temp_dict_2
-
-        self.log_dicts()
+        self.update_graphs()
         self.aggregate()
-        self.log_dicts()
 
         average_class_sizes = [0.] * 4
         if self.dict_counter is None or len(self.dict_counter) < 4:
@@ -363,8 +329,6 @@ class MetricsComparer:
         for i in range(0, 4):
             average_class_sizes[i] = average_class_size(self.dict_counter[i], use_frequencies)
         cyc_to_aoc, apc_to_cyc, npath_to_apc, apc_to_npath = average_class_sizes
-
-        log_class_sizes(*average_class_sizes)
 
         if cyc_to_aoc == apc_to_cyc:
             r_one = 0.
@@ -399,11 +363,15 @@ class MetricsComparer:
         if self.dicts is None:
             raise ValueError("Empty dictionary.")
 
-        self.dict_counter = self.dicts
+        dict_counter: List[MetricsCounter] = \
+            [{} for i in range(len(self.dicts))]
 
-        for dictionary in self.dict_counter:
-            for key in dictionary.keys():
-                dictionary[key] = Counter(dictionary[key])
+        for i, dictionary in enumerate(self.dicts):
+            metrics_dict = cast(Union[MetricsDictOne, MetricsDictTwo], dictionary)
+            for key, val in metrics_dict.items():
+                dict_counter[i][key] = Counter(val)
+
+        self.dict_counter = dict_counter
 
     def show_plot(self) -> None:
         """Create a histogram for distributions of Cyc. Complexity and NPath over all functions."""
@@ -426,32 +394,3 @@ class MetricsComparer:
         plt.xlabel("NPath Complexity")
         plt.legend()
         plt.show()
-
-    @staticmethod
-    def from_csv(file_name: str, location: str) -> MetricsComparer:
-        """
-        Create a MetricsComparer object from a results CSV file.
-
-        Tihs generates the MetricsComparer by obtaining the relevant entries from each line.
-        Expected file format:
-
-        test_number, cfg_file, cyclomatic_complexity, npath_complexity, path_cplxty_class,
-            path_cplxty_asym, path_cplxty
-        """
-        results: List[List[Union[int, str]]] = []
-        with open(file_name, "r") as file:
-            content = file.readlines()[1:]
-            for line in content:
-                try:
-                    file_path = line.strip().split(",")[1]
-                    complexity_results = line.strip().split(",")[2:]
-                    result: List[Union[int, str]] = [file_path,
-                                                     complexity_results[0],
-                                                     complexity_results[1],
-                                                     *complexity_results[2:]]
-
-                    results.append(result)
-                except (IndexError, ValueError) as _:
-                    pass
-
-        return MetricsComparer(results, location)

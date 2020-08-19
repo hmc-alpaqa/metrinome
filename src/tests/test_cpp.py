@@ -3,8 +3,6 @@
 import unittest
 import sys
 import os
-import warnings
-from typing import Callable, Any
 sys.path.append("/app/code/")
 from lang_to_cfg.cpp import CPPConvert
 from log import Log, LogLevel

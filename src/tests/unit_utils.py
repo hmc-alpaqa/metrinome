@@ -7,7 +7,7 @@ import time
 import os
 import glob
 from math import floor
-from typing import List, Any, Tuple, Iterator, Union
+from typing import List, Tuple, Iterator, Union, TypeVar
 from numpy import mean, std, median  # type: ignore
 from graph import Graph, GraphType
 from utils import Timeout
@@ -24,7 +24,6 @@ def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
     """Run all CFGs through the converter to create a benchmark."""
     folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
     print(f"number of folders: {len(folders)}\n")
-    metric_collection: List[Tuple[str, Any, Any]] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
     overall_time_list: OverallTimeList = []
     timeout_total = 0
@@ -43,7 +42,7 @@ def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
                                                                                 show_info)
         timeout_total += timeout_count
 
-        print_results(folder_time_list, folder, metric_collection, show_info)
+        print_results(folder_time_list, folder, [], show_info)
 
     print("======= OVERALL ==========")
     print_overall_results(overall_time_list, timeout_total, timeout_threshold)
@@ -103,7 +102,8 @@ def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
 
 
 def print_results(folder_time_list: FolderTimeList, folder: str,
-                  metric_collection: List[Tuple[str, RuntimeMetrics, Any]],
+                  metric_collection: List[Tuple[str, RuntimeMetrics,
+                                                Union[FolderTimeList, OverallTimeList]]],
                   show_info: bool) -> None:
     """Print out the results from the benchmark."""
     folder_metrics = runtime_metrics(folder_time_list)
@@ -158,8 +158,11 @@ def runtime_metrics(time_list: Union[OverallTimeList, FolderTimeList]) -> Runtim
             ("median", median_val), ("stdev", stdev_val)]
 
 
-def runtime_outlier(time_list: Union[FolderTimeList, OverallTimeList],
-                    show_info: bool) -> Union[FolderTimeList, OverallTimeList]:
+RunTimeOutlierType = TypeVar('RunTimeOutlierType', FolderTimeList, OverallTimeList)
+
+
+def runtime_outlier(time_list: RunTimeOutlierType,
+                    show_info: bool) -> RunTimeOutlierType:
     """
     Return all outlier elements.
 

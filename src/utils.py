@@ -6,17 +6,17 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Any, Dict, Optional, Union, Type
+from typing import List, Dict, Optional, Union, Type
 from types import FrameType, TracebackType
 import re
 from collections import Counter
 import signal
-from sympy import limit, Abs, sympify, series, symbols  # type: ignore
+from sympy import limit, Abs, sympify, series, symbols, Basic  # type: ignore
 from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
 
 
-def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Any]:
+def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Basic]:
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
     new_roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
@@ -65,8 +65,8 @@ def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
     return get_solution_from_roots(roots)
 
 
-def get_taylor_coeffs(func: Any,
-                      num_coeffs: int) -> Optional[List[Any]]:
+def get_taylor_coeffs(func: Basic,
+                      num_coeffs: int) -> Optional[List[Basic]]:
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
     series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')[::-1]

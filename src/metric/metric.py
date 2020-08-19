@@ -1,9 +1,12 @@
 """The interface that all classes able to compute metrics should inherit from."""
 
 from abc import ABC, abstractmethod
-from typing import Any
-from graph import Graph
+from typing import Union, Tuple
+from graph import AnyGraph
 from log import Log
+
+
+PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 
 
 class MetricAbstract(ABC):
@@ -18,5 +21,5 @@ class MetricAbstract(ABC):
         """Obtain the name of the metric that we are computing."""
 
     @abstractmethod
-    def evaluate(self, graph: Graph) -> Any:
+    def evaluate(self, graph: AnyGraph) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""

@@ -8,7 +8,7 @@ from graph import Graph
 import command_data
 from tests.unit_utils import captured_output
 from log import Log
-from graph import Graph
+from graph import Graph, EdgeListType
 
 # pylint does not understand decorators :(
 # pylint: disable=no-value-for-parameter
@@ -306,11 +306,13 @@ class TestCommand(unittest.TestCase):
         Verify that calling the show command with a valid metric name will
         display the metric value in the REPL.
         """
-        self.command.data.bc_files["foo"] = "bar"
+        self.command.data.bc_files["foo"] = b"bar"
         self.command.data.klee_formatted_files["foo"] = "bar"
-        self.command.data.klee_stats["foo"] = "bar"
+        self.command.data.klee_stats["foo"] = self.command.data.klee_stat(tests=0, paths=0,
+                                                                          instructions=0, delta_t=0,
+                                                                          timeout=0)
         with captured_output() as (out, err):
-            self.command.data.metrics["foo"] = ["123", "123"]
+            self.command.data.metrics["foo"] = [("123", 1), ("123", 1)]
             command_input = f"{command_data.ObjTypes.METRIC.value} foo"
             self.command.do_show(command_input)
         self.assertTrue(len(err.getvalue()) == 0)
@@ -337,7 +339,7 @@ class TestCommand(unittest.TestCase):
         for a valid graph name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph([], [], 0, 0)
+            self.command.data.graphs["foo"] = Graph(EdgeListType([]), [], 0, 0)
             self.command.do_show(command.ObjTypes.GRAPH.value + " " + "foo")
             print(out, err)
 
@@ -362,8 +364,8 @@ class TestCommand(unittest.TestCase):
         of all types) for a given name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(None, [], 0, 0)
-            self.command.data.metrics["foo"] = "123"
+            self.command.data.graphs["foo"] = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.metrics["foo"] = [("123", 1)]
             self.command.do_show(command_data.ObjTypes.ALL.value + " foo")
             print(out, err)
 
@@ -375,8 +377,8 @@ class TestCommand(unittest.TestCase):
         of a given type.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(None, [], 0, 0)
-            self.command.data.graphs["bar"] = Graph(None, [], 0, 0)
+            self.command.data.graphs["foo"] = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.graphs["bar"] = Graph(EdgeListType([]), [], 0, 0)
             show_str = command_data.ObjTypes.GRAPH.value + " " + command.ObjTypes.ALL.value
             self.command.do_show(show_str)
             print(out, err)
@@ -452,9 +454,9 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.GRAPH
             obj_name = "sample_graph"
-            self.command.data.graphs['sample_graph'] = Graph(None, [], 0, 0)
-            self.command.data.graphs['sample_graph'] = Graph(None, [], 0, 0)
-            self.command.data.metrics['sample_graph'] = 'abc'
+            self.command.data.graphs['sample_graph'] = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.graphs['sample_graph'] = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.metrics['sample_graph'] = [('abc', 1)]
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
 
@@ -468,9 +470,9 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.METRIC
             obj_name = "sample_metric"
-            graph = Graph(None, [], 0, 0)
-            self.command.data.metrics['sample_metric'] = 'foo'
-            self.command.data.metrics['sample_metric'] = 'bar'
+            graph = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.metrics['sample_metric'] = [('foo', 1)]
+            self.command.data.metrics['sample_metric'] = [('bar', 1)]
             self.command.data.graphs['sample_metric'] = graph
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
@@ -485,12 +487,12 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.ALL
             obj_name = "sample_name"
-            graph = Graph(None, [], 0, 0)
+            graph = Graph(EdgeListType([]), [], 0, 0)
             self.command.data.graphs['sample_name'] = graph
-            self.command.data.metrics['sample_name'] = 'foo'
+            self.command.data.metrics['sample_name'] = [('foo', 1)]
 
             self.command.data.graphs['sample_name'] = graph
-            self.command.data.metrics['sample_name'] = 'b'
+            self.command.data.metrics['sample_name'] = [('b', 1)]
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)
 
@@ -500,10 +502,10 @@ class TestCommand(unittest.TestCase):
             # Delete * name
             obj_type = command.ObjTypes.GRAPH
             obj_name = "*"
-            self.command.data.graphs['sample_name'] = Graph(None, [], 0, 0)
-            self.command.data.graphs['sample_name'] = Graph(None, [], 0, 0)
-            self.command.data.graphs['sample_name'] = Graph(None, [], 0, 0)
-            self.command.data.metrics['sample_name'] = Graph(None, [], 0, 0)
+            self.command.data.graphs['sample_name'] = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.graphs['sample_name'] = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.graphs['sample_name'] = Graph(EdgeListType([]), [], 0, 0)
+            self.command.data.metrics['sample_name'] = [("123", 1)]
 
             self.command.do_delete(str(obj_type) + " " + str(obj_name))
             print(out, err)

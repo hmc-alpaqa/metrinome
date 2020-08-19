@@ -2,9 +2,9 @@
 
 import shlex
 from abc import ABC, abstractmethod
-from typing import Any, Optional, Dict, Tuple
+from typing import Optional, Dict, Tuple
 from subprocess import Popen, PIPE
-from graph import Graph
+from graph import AnyGraph
 from log import Log
 
 
@@ -22,10 +22,10 @@ class ConverterAbstract(ABC):
         """Return the name of the current converter."""
 
     @abstractmethod
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, AnyGraph]]:
         """Given a graph, compute the metric."""
 
-    def runcmd(self, cmd: str, cwd: Optional[str] = None) -> Tuple[Any, Any]:
+    def runcmd(self, cmd: str, cwd: Optional[str] = None) -> Tuple[bytes, bytes]:
         """Run a command in the shell."""
         self.logger.d_msg(f"cmd: {cmd}\n  with params: cwd={cwd}")
         process = Popen(shlex.split(cmd), stdout=PIPE, stderr=PIPE, cwd=cwd, shell=False)

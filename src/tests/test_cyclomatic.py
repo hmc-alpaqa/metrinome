@@ -2,10 +2,10 @@
 
 import unittest
 import sys
-from typing import List, Any
+from typing import List
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph, GraphType
+from graph import Graph, GraphType, AdjListType
 from metric.cyclomatic_complexity import CyclomaticComplexity
 from log import Log
 
@@ -33,7 +33,7 @@ class TestCyclomaticComplexity(unittest.TestCase):
         expected_result = 3 - 5 + 2  # edges - nodes + 2
         self.assertEqual(result, expected_result)
 
-        adjacencies = [[1], [2], [], [4], []]
+        adjacencies: AdjListType = [[1], [2], [], [4], []]
         graph = Graph(adjacencies, vertices, start_node, end_node,
                       graph_type=GraphType.ADJACENCY_LIST)
         result = CyclomaticComplexity(Log()).evaluate(graph)

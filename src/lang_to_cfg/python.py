@@ -18,7 +18,7 @@ import os
 # from pprintast import pprintast as ppast
 import uuid
 from log import Log
-from graph import Graph, GraphType
+from graph import Graph, GraphType, AnyGraph
 from lang_to_cfg import converter
 
 
@@ -237,7 +237,7 @@ class Visitor(ast.NodeVisitor):
 
     def __init__(self, logger: Log = Log()) -> None:
         """Create a new instance of the Python source code parser."""
-        self.graphs: Dict[str, Graph] = {}
+        self.graphs: Dict[str, AnyGraph] = {}
         self.logger = logger
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
@@ -312,14 +312,14 @@ class PythonConvert(converter.ConverterAbstract):
         return "Python"
 
     # pylint: disable=R0201
-    def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
+    def to_graph(self, filename: str, file_extension: str) -> Dict[str, AnyGraph]:
         """Create a CFG from a Python source file."""
         self.logger.d_msg(file_extension)
 
         path = os.path.join(os.getcwd(), filename) + ".py"
         self.logger.d_msg(path)
         visitor = Visitor()
-        graphs: Dict[str, Graph]
+        graphs: Dict[str, AnyGraph]
         with open(path, "r") as src:
             root = ast.parse(src.read())
             visitor.visit(root)
