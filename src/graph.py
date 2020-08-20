@@ -271,7 +271,7 @@ class Graph:
         return self.start_node
 
     def get_end(self) -> int:
-        """Get the exit node for the graph."""
+        """Get the node for the graph."""
         return self.end_node
 
     def adjacency_matrix(self) -> Any:

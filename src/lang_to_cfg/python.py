@@ -286,17 +286,18 @@ class Visitor(ast.NodeVisitor):
 
             nodes_to_visit += children
 
-        if len(visitor.frontier) != 1:
-            self.logger.d_msg("Frontier has more than one node.")
-            new_node = Node()
-            nodes[new_node] = len(node_list)
-            node_list.append(len(node_list))
-            visitor.end_node = new_node
-            for frontier_node in visitor.frontier:
-                edge_list.append([nodes[frontier_node], nodes[new_node]])
+        
+    
+        new_node = Node()
+        nodes[new_node] = len(node_list)
+        node_list.append(len(node_list))
+
+        for frontier_node in visitor.frontier:
+            edge_list.append([nodes[frontier_node], nodes[new_node]])
 
         graph = Graph(edge_list, node_list, nodes[visitor.root],
-                      nodes[visitor.end_node], GraphType.EDGE_LIST)
+                      new_node, GraphType.EDGE_LIST)
+        graph.set_name(node.name)
 
         self.graphs[node.name] = graph
 
