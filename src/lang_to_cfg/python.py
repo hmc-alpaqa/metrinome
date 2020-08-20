@@ -24,9 +24,10 @@ from lang_to_cfg import converter  # type: ignore
 class Node:
     """A single node in the graph we convert the code to."""
 
-    def __init__(self) -> None:
+    def __init__(self, exit_node: bool = False) -> None:
         """Create a new instance of the Graph node."""
         self.children: List[Node] = []
+        self.exit_node: bool = exit_node
 
 
 class FunctionVisitor(ast.NodeVisitor):
@@ -80,7 +81,7 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_Return(self, node) -> None:
         """Visit a python return statement."""
         self.logger.d_msg(f"At return {node}.")
-        new_node = Node()
+        new_node = Node(exit_node=True)
         if not self.update_root(new_node):
             self.update_frontier(new_node)
 
@@ -264,6 +265,7 @@ class Visitor(ast.NodeVisitor):
         node_list = [0]
 
         visited = set()
+        return_nodes = []
 
         while len(nodes_to_visit) != 0:
             curr_node = nodes_to_visit[0]
@@ -285,13 +287,19 @@ class Visitor(ast.NodeVisitor):
                 edge_list.append([nodes[curr_node], nodes[child]])
 
             nodes_to_visit += children
- 
-        new_node = Node()
-        nodes[new_node] = len(node_list)
+
+            if curr_node.exit_node:
+                return_nodes.append(curr_node)
+
+        exit_node = Node()
+        nodes[exit_node] = len(node_list)
         node_list.append(len(node_list))
-        visitor.end_node = new_node
+        visitor.end_node = exit_node
         for frontier_node in visitor.frontier:
-            edge_list.append([nodes[frontier_node], nodes[new_node]])
+            edge_list.append([nodes[frontier_node], nodes[exit_node]])
+
+        for return_node in return_nodes:
+            edge_list.append([nodes[return_node], nodes[exit_node]])
 
         graph = Graph(edge_list, node_list, nodes[visitor.root],
                       nodes[visitor.end_node], GraphType.EDGE_LIST)

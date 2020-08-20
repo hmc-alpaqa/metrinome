@@ -188,7 +188,9 @@ class Data:
                 self.logger.i_msg(f"Metrics for {metric_name}:")
                 for metric_data in self.metrics[metric_name]:
                     if metric_data[0] == "Path Complexity":
-                        self.logger.v_msg(f"{metric_data[0]}: (APC: {metric_data[1][0]}, Path Complexity: {metric_data[1][1]})")
+                        apc, path_compl = metric_data[1][0], metric_data[1][1]
+                        path_out = f"(APC: {apc}, Path Complexity: {path_compl})"
+                        self.logger.v_msg(f"{metric_data[0]}: {path_out}")
                     else:
                         self.logger.v_msg(f"{metric_data[0]}: {metric_data[1]}")
             else:
