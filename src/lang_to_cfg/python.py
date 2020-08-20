@@ -285,8 +285,6 @@ class Visitor(ast.NodeVisitor):
                 edge_list.append([nodes[curr_node], nodes[child]])
 
             nodes_to_visit += children
-
-        
     
         new_node = Node()
         nodes[new_node] = len(node_list)
@@ -296,7 +294,7 @@ class Visitor(ast.NodeVisitor):
             edge_list.append([nodes[frontier_node], nodes[new_node]])
 
         graph = Graph(edge_list, node_list, nodes[visitor.root],
-                      new_node, GraphType.EDGE_LIST)
+                      nodes[new_node], GraphType.EDGE_LIST)
         graph.set_name(node.name)
 
         self.graphs[node.name] = graph
