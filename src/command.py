@@ -474,7 +474,11 @@ class Command:
                         result = metric_generator.evaluate(graph)
                         runtime = time.time() - start_time
                     results.append((metric_generator.name(), result))
-                    self.logger.v_msg(f"Got {result}, took {runtime} seconds")
+                    if metric_generator.name() == "Path Complexity":
+                        self.logger.v_msg(f"Got (APC: {result[0]}, Path Complexity: {result[1]})," + \
+                                          f" took {runtime:.3f} seconds")
+                    else:
+                        self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
                 except TimeoutError:
                     self.logger.e_msg("Timeout!")
                 except IndexError as err:

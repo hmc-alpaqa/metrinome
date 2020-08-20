@@ -187,7 +187,10 @@ class Data:
             if metric_name in self.metrics:
                 self.logger.i_msg(f"Metrics for {metric_name}:")
                 for metric_data in self.metrics[metric_name]:
-                    self.logger.v_msg(f"{metric_data[0]}: {metric_data[1]}")
+                    if metric_data[0] == "Path Complexity":
+                        self.logger.v_msg(f"{metric_data[0]}: (APC: {metric_data[1][0]}, Path Complexity: {metric_data[1][1]})")
+                    else:
+                        self.logger.v_msg(f"{metric_data[0]}: {metric_data[1]}")
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
