@@ -82,6 +82,13 @@ Convert a file containing source code to a Graph object. If a directory is passe
 code within that directory will be converted.
 The recursive flag (-r) can also be used to convert all files in a given directory *or any of its subdirectories*.
 
+Note - Language Support:
+
+The REPL current supports C/C++ (using clang6), Java (JDK13), and Python 3.
+However, only a subset of Python 3 keywords / features are supported: 
+assignment, expressions (e.g. 'a + b'), if/else/elif, return, while, and with
+(NOTE: this does not include list/dictionary comprehensions, lambda expressions, or try/catch/raise).
+
 Usage: 
 convert \<file-like>
   
@@ -106,6 +113,7 @@ The recursive flag (-r) can also be used to import all graphs from a directory
 and subdirectories.
 
 Usage: 
+
 import \<file-like>
   
 import -r \<file-like>
