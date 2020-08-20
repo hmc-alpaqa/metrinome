@@ -132,6 +132,10 @@ class MyPrompt(Cmd):
         """Completion for the mv command."""
         return []
 
+    def complete_export(self, text: str, line: str, begin: int, end: int) -> List[str]:
+        """Completion for the export command."""
+        return []
+
     def complete_convert(self, text: str, line: str, begin: int, end: int) -> List[str]:
         """Completion for the convert command."""
         return self.complete_file_path(text, line, begin, end, False)
