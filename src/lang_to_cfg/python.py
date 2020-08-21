@@ -12,14 +12,14 @@ thing after the statement returns.
 # pylint: disable=C0103
 import sys
 sys.path.append("/app/code/")
-from typing import List, Optional, Dict, cast
+from typing import List, Optional, Dict, cast, Any
 import ast
 import os
 # from pprintast import pprintast as ppast
+import uuid
 from log import Log
 from graph import Graph, GraphType
 from lang_to_cfg import converter  # type: ignore
-import uuid
 
 
 class Node:
@@ -62,23 +62,24 @@ class FunctionVisitor(ast.NodeVisitor):
             if frontier_node == self.end_node:
                 self.end_node = node
 
-    def standard_visit(self, node) -> None:
-        """The most common time of visit action."""
+    def standard_visit(self) -> Any:
+        """Create a new node and update the graph accordingly."""
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
 
         self.frontier = [new_node]
+        return new_node
 
     def visit_Expr(self, node) -> None:
         """Visit a python expression."""
         self.logger.d_msg(f"At expr {node}")
-        self.standard_visit(node)
+        self.standard_visit()
 
     def visit_Pass(self, node) -> None:
         """Visits a pass statement."""
         self.logger.d_msg(f"At pass {node}")
-        self.standard_visit(node)
+        self.standard_visit()
 
     def visit_Return(self, node) -> None:
         """Visit a python return statement."""
@@ -92,12 +93,12 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_Assign(self, node) -> None:
         """Visit a python assign statement."""
         self.logger.d_msg(f"At assignment {node}.")
-        self.standard_visit(node)
+        self.standard_visit()
 
     def visit_For(self, node) -> None:
         """Visit a python for loop."""
         self.logger.d_msg(f"At for {node}")
-        self.standard_visit(node)
+        new_node = self.standard_visit()
 
         # Now visit EACH of the things in the loop.
         # This will give us the subgraph. We connect each expression to the next.
@@ -120,7 +121,7 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_With(self, node) -> None:
         """Visit a python with statement."""
         self.logger.d_msg(f"At with {node}")
-        self.standard_visit(node)
+        self.standard_visit()
 
         # Visit everything inside the with block.
         # This follows the same pattern as the for loop visitor.
@@ -135,7 +136,7 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_If(self, node) -> None:
         """Visit a python if statement."""
         self.logger.d_msg(f"At if {node}")
-        self.standard_visit(node)
+        self.standard_visit()
 
         # Keep track of elements that will become the new frontier once we have looked
         # at ALL the if statements
@@ -199,7 +200,7 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_While(self, node) -> None:
         """Visit a python while loop."""
         self.logger.d_msg(f"At while {node}")
-        self.standard_visit(node)
+        new_node = self.standard_visit()
 
         # Now visit EACH of the things in the loop
         # This will give us the subgraph. We connect each expression to the next
@@ -272,7 +273,7 @@ class Visitor(ast.NodeVisitor):
 
             if curr_node.exit_node:
                 return_nodes.append(curr_node)
-  
+
         new_node = Node()
         nodes[new_node] = len(node_list)
         node_list.append(len(node_list))

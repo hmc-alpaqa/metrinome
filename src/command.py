@@ -438,9 +438,12 @@ class Command:
             self.logger.v_msg(str(shared_dict))
         # TODO: save the results.
 
-    @check_args(1, "Must provide graph name.")
-    def do_metrics(self, name: str) -> None:
-        """Compute of one of the known objects for a stored Graph object."""
+    def get_graphs_from_name(self, name: str) -> Tuple[bool, List[Graph]]:
+        """
+        Return a list of graph objects from the given name.
+
+        Also returns a boolean to indicate if the operation succeeded.
+        """
         if name == "*":
             args_list = list(self.data.graphs.keys())
         elif name in self.data.graphs:
@@ -455,9 +458,18 @@ class Command:
                         args_list.append(graph_name)
             except re.error:
                 self.logger.v_msg(f"Error, Graph {name} not found.")
-                return
+                return False, []
 
         graphs = [self.data.graphs[name] for name in args_list]
+        return True, graphs
+
+    @check_args(1, "Must provide graph name.")
+    def do_metrics(self, name: str) -> None:
+        """Compute of one of the known objects for a stored Graph object."""
+        success, graphs = self.get_graphs_from_name(name)
+        if not success:
+            return
+
         if self.multi_threaded:
             self.do_metrics_multithreaded(graphs)
             return
