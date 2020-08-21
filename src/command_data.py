@@ -77,7 +77,7 @@ class Data:
                 f_name = os.path.split(graph_name)[1]
                 with open(f"/app/code/exports/{f_name}.dot", "w+") as file:
                     graph = self.graphs[graph_name]
-                    file.write(graph.dot(True))
+                    file.write(graph.dot())
                     self.logger.i_msg(f"Made file {f_name}.dot in /app/code/exports/")
         else:
             self.logger.e_msg(f"{str(ObjTypes.GRAPH).capitalize()} {name} not found.")

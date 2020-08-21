@@ -19,6 +19,7 @@ import os
 from log import Log
 from graph import Graph, GraphType
 from lang_to_cfg import converter  # type: ignore
+import uuid
 
 
 class Node:
@@ -28,6 +29,7 @@ class Node:
         """Create a new instance of the Graph node."""
         self.children: List[Node] = []
         self.exit_node: bool = exit_node
+        self.id = uuid.uuid4()
 
 
 class FunctionVisitor(ast.NodeVisitor):
@@ -60,23 +62,23 @@ class FunctionVisitor(ast.NodeVisitor):
             if frontier_node == self.end_node:
                 self.end_node = node
 
-    def visit_Expr(self, node) -> None:
-        """Visit a python expression."""
-        self.logger.d_msg(f"At expr {node}")
+    def standard_visit(self, node) -> None:
+        """The most common time of visit action."""
         new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
 
         self.frontier = [new_node]
+
+    def visit_Expr(self, node) -> None:
+        """Visit a python expression."""
+        self.logger.d_msg(f"At expr {node}")
+        self.standard_visit(node)
 
     def visit_Pass(self, node) -> None:
         """Visits a pass statement."""
         self.logger.d_msg(f"At pass {node}")
-        new_node = Node()
-        if not self.update_root(new_node):
-            self.update_frontier(new_node)
-
-        self.frontier = [new_node]
+        self.standard_visit(node)
 
     def visit_Return(self, node) -> None:
         """Visit a python return statement."""
@@ -90,20 +92,12 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_Assign(self, node) -> None:
         """Visit a python assign statement."""
         self.logger.d_msg(f"At assignment {node}.")
-        new_node = Node()
-        if not self.update_root(new_node):
-            self.update_frontier(new_node)
-
-        self.frontier = [new_node]
+        self.standard_visit(node)
 
     def visit_For(self, node) -> None:
         """Visit a python for loop."""
         self.logger.d_msg(f"At for {node}")
-        new_node = Node()
-        if not self.update_root(new_node):
-            self.update_frontier(new_node)
-
-        self.frontier = [new_node]
+        self.standard_visit(node)
 
         # Now visit EACH of the things in the loop.
         # This will give us the subgraph. We connect each expression to the next.
@@ -126,11 +120,7 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_With(self, node) -> None:
         """Visit a python with statement."""
         self.logger.d_msg(f"At with {node}")
-        new_node = Node()
-        if not self.update_root(new_node):
-            self.update_frontier(new_node)
-
-        self.frontier = [new_node]
+        self.standard_visit(node)
 
         # Visit everything inside the with block.
         # This follows the same pattern as the for loop visitor.
@@ -145,11 +135,7 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_If(self, node) -> None:
         """Visit a python if statement."""
         self.logger.d_msg(f"At if {node}")
-        new_node = Node()
-        if not self.update_root(new_node):
-            self.update_frontier(new_node)
-
-        self.frontier = [new_node]
+        self.standard_visit(node)
 
         # Keep track of elements that will become the new frontier once we have looked
         # at ALL the if statements
@@ -213,11 +199,7 @@ class FunctionVisitor(ast.NodeVisitor):
     def visit_While(self, node) -> None:
         """Visit a python while loop."""
         self.logger.d_msg(f"At while {node}")
-        new_node = Node()
-        if not self.update_root(new_node):
-            self.update_frontier(new_node)
-
-        self.frontier = [new_node]
+        self.standard_visit(node)
 
         # Now visit EACH of the things in the loop
         # This will give us the subgraph. We connect each expression to the next
@@ -290,19 +272,20 @@ class Visitor(ast.NodeVisitor):
 
             if curr_node.exit_node:
                 return_nodes.append(curr_node)
-
-        exit_node = Node()
-        nodes[exit_node] = len(node_list)
+  
+        new_node = Node()
+        nodes[new_node] = len(node_list)
         node_list.append(len(node_list))
-        visitor.end_node = exit_node
+
         for frontier_node in visitor.frontier:
-            edge_list.append([nodes[frontier_node], nodes[exit_node]])
+            edge_list.append([nodes[frontier_node], nodes[new_node]])
 
         for return_node in return_nodes:
-            edge_list.append([nodes[return_node], nodes[exit_node]])
+            edge_list.append([nodes[return_node], nodes[new_node]])
 
         graph = Graph(edge_list, node_list, nodes[visitor.root],
-                      nodes[visitor.end_node], GraphType.EDGE_LIST)
+                      nodes[new_node], GraphType.EDGE_LIST)
+        graph.set_name(node.name)
 
         self.graphs[node.name] = graph
 
