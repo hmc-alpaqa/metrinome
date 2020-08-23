@@ -10,8 +10,9 @@ from graph import AnyGraph
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
+MetricRes = Union[int, PathComplexityRes]
 
-MetricsDict = Dict[str, List[Tuple[str, Union[int, PathComplexityRes]]]]
+MetricsDict = Dict[str, List[Tuple[str, MetricRes]]]
 GraphDict = Dict[str, AnyGraph]
 KleeStatsDict = Dict[str, KleeStat]
 KleeFormattedFilesDict = Dict[str, str]
