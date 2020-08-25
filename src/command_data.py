@@ -1,7 +1,7 @@
 """Store all of the objects the REPL needs to use."""
 from __future__ import annotations
 from collections import namedtuple
-from typing import Dict, List, Optional, Union, Tuple
+from typing import Dict, List, Optional, Union, Tuple, cast
 from enum import Enum
 import os
 from log import Log
@@ -185,7 +185,7 @@ class Data:
 
         for graph_name in names:
             if graph_name in self.graphs:
-                self.logger.d_msg(self.graphs[graph_name].graph_type)
+                self.logger.d_msg(str(self.graphs[graph_name].graph_type))
                 self.logger.v_msg(str(self.graphs[graph_name]))
             else:
                 self.logger.v_msg(f"Graph {graph_name} not found.")
@@ -200,7 +200,9 @@ class Data:
                 self.logger.i_msg(f"Metrics for {metric_name}:")
                 for metric_data in self.metrics[metric_name]:
                     if metric_data[0] == "Path Complexity":
-                        apc, path_compl = metric_data[1][0], metric_data[1][1]
+                        metric_data_ = cast(Tuple[str, Tuple[Union[float, str], Union[float, str]]],
+                                            metric_data)
+                        apc, path_compl = metric_data_[1][0], metric_data_[1][1]
                         path_out = f"(APC: {apc}, Path Complexity: {path_compl})"
                         self.logger.v_msg(f"{metric_data[0]}: {path_out}")
                     else:

@@ -1,7 +1,7 @@
 """The main implementation of the REPL."""
 
 from __future__ import annotations
-from typing import List, Dict, Callable, Optional, Tuple, Iterable, Union
+from typing import List, Dict, Callable, Optional, Tuple, Iterable, Union, cast
 import os.path
 from os import listdir
 import readline
@@ -502,9 +502,12 @@ class Command:
                         runtime = time.time() - start_time
                     results.append((metric_generator.name(), result))
                     if metric_generator.name() == "Path Complexity":
-                        time_out = f"took {runtime:.3f} seconds"
-                        path_out = f"(APC: {result[0]}, Path Complexity: {result[1]})"
-                        self.logger.v_msg(f"Got {path_out}, {time_out}")
+                        result_ = cast(Tuple[Union[float, str], Union[float, str]],
+                                       result)
+                        res = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
+                        to_print = f"Got {res}, took {runtime:.3f} seconds"
+                        self.logger.v_msg(to_print)
+>>>>>>> restructuring
                     else:
                         self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
                 except TimeoutError:

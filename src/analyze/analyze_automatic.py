@@ -112,8 +112,7 @@ def get_best_degree(data_x: np.ndarray,
     degree_one: Optional[int]
     degree_two: Optional[int]
     if min_val == err1:
-        degree_one = 1
-        degree_two = 1
+        degree_one, degree_two = 1, 1
         best_bp = best_bp1
     elif min_val == err2:
         degree_one = None

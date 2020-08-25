@@ -1,6 +1,5 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from __future__ import annotations
 from typing import List, Optional, DefaultDict, Set, \
     Match, TypeVar, Generic, Union, Dict, cast, Any
 from enum import Enum
@@ -20,8 +19,6 @@ EdgeListType = List[List[int]]
 
 # GRAPH TYPES
 GraphEdgeType = TypeVar("GraphEdgeType", AllAdjList, EdgeListType)
-# pylint: disable=E0601
-AnyGraph = Union[Graph[AllAdjList], Graph[EdgeListType]]
 
 
 class GraphType(Enum):
@@ -176,7 +173,7 @@ class Graph(Generic[GraphEdgeType]):
         self.edges = new_edges
         self.weighted = True
 
-    def simplify(self: Graph[AdjListType]) -> None:
+    def simplify(self: 'Graph[AdjListType]') -> None:
         """Make the graph smaller."""
         parents = self.get_parents()
         self.convert_to_weighted()
@@ -367,7 +364,7 @@ class Graph(Generic[GraphEdgeType]):
 
     @staticmethod
     def from_file(filename: str, weighted: bool = False,
-                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> AnyGraph:
+                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> 'AnyGraph':
         """
         Return a Graph object from a .dot file of format.
 
@@ -526,3 +523,7 @@ class Graph(Generic[GraphEdgeType]):
         vertices_equal = set(self.vertices) == set(other.get_vertices())
         labels_equal = (self.start_node == other.get_start() and self.end_node == other.get_end())
         return edges_equal and vertices_equal and labels_equal
+
+
+# pylint: disable=E0601
+AnyGraph = Union[Graph[AllAdjList], Graph[EdgeListType]]
