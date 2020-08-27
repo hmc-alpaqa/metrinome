@@ -1,12 +1,10 @@
 """Compute aggregate metrics and compare them."""
 
-from typing import List, Dict, Optional, DefaultDict, Union, Tuple, Set, cast
+from typing import List, Dict, DefaultDict, Union, Tuple, Set
 import typing
 from math import log
 import logging
-from collections import defaultdict, Counter
-import matplotlib.pyplot as plt  # type: ignore
-import numpy as np  # type: ignore
+from collections import defaultdict
 from scipy.stats import entropy  # type: ignore
 
 
@@ -281,7 +279,7 @@ class MetricsComparer:
         self.dicts: Tuple[MetricsDictOne, MetricsDictOne,
                           MetricsDictTwo, MetricsDictTwo] = \
             (dict_one, dict_two, dict_three, dict_four)
-        self.dict_counter: Optional[List[CountingDict]] = None
+        self.dict_counter: List[CountingDict] = []
 
         for res in results:
             cyc_compl = int(res[1])
@@ -319,7 +317,7 @@ class MetricsComparer:
     def compute_metric(self, use_frequencies: bool = True) -> None:
         """Calculate the metrics used to compare APC to Cyclomatic Complexity and NPATH."""
         self.update_graphs()
-        self.aggregate()
+        # self.aggregate()
 
         average_class_sizes = [0.] * 4
         if self.dict_counter is None or len(self.dict_counter) < 4:

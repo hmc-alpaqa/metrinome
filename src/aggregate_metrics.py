@@ -19,7 +19,6 @@ from itertools import combinations
 from log import Log
 from command_data import MetricsDict, MetricRes
 from command import Controller, Command
-# from graph import Graph
 
 
 AggregateMetricsDict = Dict[MetricRes, List[MetricRes]]
@@ -33,9 +32,7 @@ class MetricsComparer:
         self.metrics_dict = metrics_dict
         self.metric_names = [x.name() for x in Controller(Log()).metrics_generators]
         aggregate_metrics = self.aggregate()
-        counter_dict = self.counter(aggregate_metrics)
-        print(counter_dict)
-        
+        self.counter_dict = self.counter(aggregate_metrics)
 
     def aggregate(self) -> Dict[Tuple[str, str], AggregateMetricsDict]:
         """TODO."""
@@ -75,6 +72,7 @@ def test_analysis() -> None:
     command.do_convert("/app/code/tests/cFiles/*")
     command.do_metrics("*")
     metrics_comparer = MetricsComparer(command.data.metrics)
+    print(metrics_comparer.counter_dict)
 
 
 if __name__ == "__main__":

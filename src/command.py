@@ -453,38 +453,31 @@ class Command:
             self.logger.v_msg(str(shared_dict))
         # TODO: save the results.
 
-    def get_graphs_from_name(self, name: str) -> Tuple[bool, List[Graph]]:
-        """
-        Return a list of graph objects from the given name.
-
-        Also returns a boolean to indicate if the operation succeeded.
-        """
+    def get_metrics_list(self, name: str) -> List[str]:
+        """Get the list of metric names from command argument."""
         if name == "*":
-            args_list = list(self.data.graphs.keys())
-        elif name in self.data.graphs:
-            args_list = [name]
-        else:
-            try:
-                self.logger.d_msg(f"Trying to compile {name} to regexp")
-                pattern = re.compile(name)
-                args_list = []
-                for graph_name in self.data.graphs:
-                    if pattern.match(graph_name):
-                        args_list.append(graph_name)
-            except re.error:
-                self.logger.v_msg(f"Error, Graph {name} not found.")
-                return False, []
+            return list(self.data.graphs.keys())
 
-        graphs = [self.data.graphs[name] for name in args_list]
-        return True, graphs
+        if name in self.data.graphs:
+            return [name]
+
+        try:
+            self.logger.d_msg(f"Trying to compile {name} to regexp")
+            pattern = re.compile(name)
+            args_list = []
+            for graph_name in self.data.graphs:
+                if pattern.match(graph_name):
+                    args_list.append(graph_name)
+
+            return args_list
+        except re.error:
+            self.logger.v_msg(f"Error, Graph {name} not found.")
+            return []
 
     @check_args(1, "Must provide graph name.")
     def do_metrics(self, name: str) -> None:
         """Compute of one of the known objects for a stored Graph object."""
-        success, graphs = self.get_graphs_from_name(name)
-        if not success:
-            return
-
+        graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
         if self.multi_threaded:
             self.do_metrics_multithreaded(graphs)
             return
@@ -504,35 +497,7 @@ class Command:
                     if metric_generator.name() == "Path Complexity":
                         result_ = cast(Tuple[Union[float, str], Union[float, str]],
                                        result)
-                        res = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
-                        to_print = f"Got {res}, took {runtime:.3f} seconds"
-                        self.logger.v_msg(to_print)
->>>>>>> restructuring
-                    else:
-                        self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
-                except TimeoutError:
-                    self.logger.e_msg("Timeout!")
-                except IndexError as err:
-                    self.logger.e_msg("Index Error")
-                    self.logger.e_msg(str(err))
-                except numpy.linalg.LinAlgError as err:
-                    self.logger.e_msg("Lin Alg Error")
-                    self.logger.e_msg(str(err))
-
-            self.data.metrics[name] = results
-
-    def do_show_klee(self, obj_type: ObjTypes, names: List[str]) -> bool:
-        """Display the KLEE objects the REPL knows about."""
-        if obj_type == ObjTypes.KLEE_BC:
-            self.data.show_klee_bc(names)
-        elif obj_type == ObjTypes.KLEE_FILE:
-            self.data.show_klee_files(names)
-        elif obj_type == ObjTypes.KLEE_STATS:
-            self.data.show_klee_stats(names)
-        elif obj_type == ObjTypes.KLEE:
-            self.data.show_klee(names)
         else:
-            return False
 
         return True
 
