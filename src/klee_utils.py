@@ -1,6 +1,6 @@
 """Handles work with klee, which does symbollic execution and test generation of C code."""
 
-from typing import Dict, Set, Any
+from typing import Dict, Set, Any, List
 from collections import defaultdict
 import uuid
 from pycparser import c_ast, parse_file, c_generator  # type: ignore
@@ -19,17 +19,17 @@ class FuncVisitor(c_ast.NodeVisitor):
         """Create a new instance of FuncVisitor."""
         self.logger = logger
         self.generator = c_generator.CGenerator()
-        self.vars: Dict[str, list] = defaultdict(list)
+        self.vars: Dict[str, List[Any]] = defaultdict(list)
         self.types: Dict[str, str] = defaultdict(str)
         super().__init__()
 
-    def define_var(self, name: str, declaration: str, varname: str):
+    def define_var(self, name: str, declaration: str, varname: str) -> None:
         """Look at a single variable declaration in the C code."""
         self.vars[name].append((f"{declaration};\n", varname))
 
     # pylint: disable=C0103
     # disable invalid-name as this name is required by the library.
-    def visit_FuncDef(self, node):
+    def visit_FuncDef(self, node) -> None:
         """
         Determine all of the arguments to functions.
 
@@ -62,7 +62,7 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self.logger = logger
 
-    def show_func_defs(self, filename: str, size: int = 10):
+    def show_func_defs(self, filename: str, size: int = 10) -> Dict[Any, Any]:
         """
         Generate the set of klee-compatible files.
 
@@ -82,8 +82,7 @@ class KleeUtils:
             variables = [list(v) for v in func_visitor.vars[func_name]]
             var_names = []
 
-            file_str = ""
-            file_str += "#include <klee/klee.h>\n"
+            file_str = "#include <klee/klee.h>\n"
             file_str += f"#include <{filename}>\n"
             file_str += f"#define SIZE {size}\n"
             file_str += "int main() {\n"
@@ -91,9 +90,7 @@ class KleeUtils:
                 if var[0][-4:] == "[];\n":
                     var[0] = var[0].replace("[]", "[SIZE]")
 
-                file_str += "\n"
-
-                file_str += f"\t{var[0]}"
+                file_str += f"\n\t{var[0]}"
 
                 name = uuid.uuid4()
                 while name in uuids:

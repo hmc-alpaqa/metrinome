@@ -12,7 +12,7 @@ from env import Env
 class TestEnv(unittest.TestCase):
     """Test all of the functions relating to the environment."""
 
-    def test_clean_temp(self):
+    def test_clean_temp(self) -> None:
         """Test the clean_temps function."""
         path_one = Env.TMP_DOT_PATH
         path_two = Env.TMP_PATH
@@ -27,7 +27,7 @@ class TestEnv(unittest.TestCase):
         self.assertTrue(len(listdir(path_one)) == 0)
         self.assertTrue(len(listdir(path_two)) == 0)
 
-    def test_make_temp(self):
+    def test_make_temp(self) -> None:
         """Test the make_temp function."""
         with captured_output() as (out, err):
             Env.make_temp()
@@ -44,7 +44,7 @@ class TestEnv(unittest.TestCase):
 
         self.assertTrue(len(out.getvalue().strip()) != 0)
 
-    def test_get_output_path(self):
+    def test_get_output_path(self) -> None:
         """Test the get_output_path function."""
         self.assertTrue(Env.get_output_path("/app/code/test.foo") == "/app/code/tmp_dot/test")
 

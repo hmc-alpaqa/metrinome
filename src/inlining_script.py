@@ -41,7 +41,6 @@ def main() -> None:
     for file in files_to_inline:
         print(file)
         in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
-        # in_lining('/app/code/tests/cFiles/inlining_tests/'+str(file))
 
 
 if __name__ == "__main__":

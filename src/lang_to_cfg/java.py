@@ -61,7 +61,6 @@ class JavaConvert(converter.ConverterAbstract):
             path = f"{output_path}/*.dot"
 
         dot_files = glob(path)
-        print(dot_files)
         for file in dot_files:
             graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
         Env.clean_temps()

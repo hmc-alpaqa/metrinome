@@ -59,12 +59,11 @@ class CPPConvert(converter.ConverterAbstract):
     def parse_original(self, file):
         """Obtain all of the Graph information from an existing dot file in the original format."""
         # Read the original files.
-        nodes = []
-        edges = []
+        nodes, edges = [], []
         node_map: Dict[str, str] = {}
         counter = 0
 
-        with open(f'{file}', "r") as old_file:
+        with open(file, "r") as old_file:
             content = old_file.readlines()
             for line in content[1:]:
                 line = line.strip()

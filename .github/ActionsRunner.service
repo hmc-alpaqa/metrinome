@@ -1,0 +1,11 @@
+[Unit]
+Description=Execute the GitHub actions runner
+After=network.target
+
+[Service]
+User=gabe
+ExecStart=/home/gabe/actions-runner/ActionsRunner.sh
+ExecStop=pgrep ActionsRunner | kill -9
+
+[Install]
+WantedBy=multi-user.target

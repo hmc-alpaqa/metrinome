@@ -25,7 +25,7 @@ class ObjTypes(Enum):
         return str(self.value)
 
     @staticmethod
-    def get_type(obj_type: str):
+    def get_type(obj_type: str) -> Any:
         """Given an input string, see if there is an enum type that matches it."""
         for i in ObjTypes:
             if str(i) == obj_type.lower() or str(i) + "s" == obj_type.lower():

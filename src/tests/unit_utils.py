@@ -39,7 +39,7 @@ def run_benchmark(converter, graph_type, show_info, graph_frac=5,
 
         print_results(folder_time_list, folder, metric_collection, show_info)
 
-    print(f"======= OVERALL ==========")
+    print("======= OVERALL ==========")
     print_overall_results(overall_time_list, timeout_total, timeout_threshold)
 
 

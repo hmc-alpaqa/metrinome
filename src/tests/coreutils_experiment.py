@@ -3,7 +3,7 @@ import os
 import time
 import sys
 import re
-from typing import List, Any, Union
+from typing import List, Any, Union, Tuple, Dict, Optional
 import glob2  # type: ignore
 import pandas as pd  # type: ignore
 sys.path.append("/app/code")
@@ -15,15 +15,14 @@ sys.path.append("/app/code/metric")
 from metric import path_complexity, cyclomatic_complexity, npath_complexity
 
 
-def parse_original(file):
+def parse_original(file) -> Tuple[Any, Any, Any, Any]:
     """Obtain all of the Graph information from an existing dot file in the original format."""
     # Read the original files.
-    nodes = []
-    edges = []
+    nodes, edges = [], []
     node_map: Dict[str, str] = {}
     counter = 0
 
-    with open(f'{file}', "r") as old_file:
+    with open(file, "r") as old_file:
         content = old_file.readlines()
         for line in content[1:]:
             line = line.strip()
@@ -154,16 +153,19 @@ def run_benchmark(converter):
                                                                                 show_info)
 
 
-def get_name(path, type):
+def get_name(path: str, path_type: str) -> Optional[str]:
     """Get the name of a file given its path."""
-    if type == "folder":
+    if path_type == "folder":
         return os.path.split(os.path.split(path)[0])[1].replace(".o", ".c")
 
-    if type == "file":
+    if path_type == "file":
         return os.path.split(path)[1].split("cleaned_cfg.")[1]
 
+    return None
 
-if __name__ == "__main__":
+
+def main() -> None:
+    """Run the coreutils experiment."""
     # Get all the folders
     # Establish our lists: file_name, dot_name, apc, cyclo, npath, time, exception?
     log = Log()
@@ -230,6 +232,10 @@ if __name__ == "__main__":
 
             data = data.append(new_row, ignore_index=True)
             data.to_csv("/app/code/tests/core/final.csv")
+
+
+if __name__ == "__main__":
+    main()
 
 # """Run all CFGs through the converter to create a benchmark."""
 # files = (glob2.glob("/app/code/tests/core/separate/*"))

@@ -183,7 +183,7 @@ def main() -> None:
     that minimize the loss.
     """
     subprocess.run(
-        f"mkdir /app/code/tests/cFiles/fse_2020_benchmark/autobpgraphs/", shell=True, check=False)
+        "mkdir /app/code/tests/cFiles/fse_2020_benchmark/autobpgraphs/", shell=True, check=False)
     functions = ['01_greatestof3', '13_check_arrays_equal', '22_selectionsort', '02_fib',
                  '14_lexicographic_array_compare', '23_mergesort', '03_sign',
                  '15_check_heap_order', '04_prime', '16_binary_search', '25_heapsort', '05_parity',
@@ -191,7 +191,7 @@ def main() -> None:
                  '19_longest_common_increasing_subsequence', '31_sieve_of_eratosthenes',
                  '11_array_max', '20_bubblesort', '32_newtons_method', '12_check_sorted_array',
                  '21_insertionsort', '51_variance']
-    field = f"CompletedPaths"
+    field = "CompletedPaths"
     for func in functions:
         data = pd.read_csv(f"/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}.csv")
         data_x = np.array([float(i.split()[2]) for i in data.iloc[:, 0]])

@@ -213,7 +213,7 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict, file):
+def worker_main(shared_dict, file) -> None:
     """Handle the multiprocessing of import."""
     graph = Graph.from_file(file)
     if isinstance(graph, dict):
@@ -223,7 +223,7 @@ def worker_main(shared_dict, file):
         shared_dict[filepath] = graph
 
 
-def worker_main_two(metrics_generator, shared_dict, graph):
+def worker_main_two(metrics_generator, shared_dict, graph) -> None:
     """Handle the multiprocessing of convert."""
     try:
         with Timeout(10, "Took too long!"):

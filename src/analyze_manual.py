@@ -22,7 +22,7 @@ def quadratic_function(x_val: float, coef1: float, coef2: float, const_term: flo
     return coef1 * (x_val**2) + coef2 * x_val + const_term
 
 
-def main():
+def main() -> None:
     """
     Find the best fit function.
 

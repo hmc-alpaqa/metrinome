@@ -3,6 +3,7 @@ import unittest
 import sys
 sys.path.append("/app/code/")
 import command
+from graph import Graph
 from tests.unit_utils import captured_output
 
 # pylint does not understand decorators :(
@@ -242,7 +243,7 @@ class TestCommand(unittest.TestCase):
         for a valid graph name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = "123"
+            self.command.data.graphs["foo"] = Graph([], [], 0, 0)
             self.command.do_show(command.ObjTypes.GRAPH.value + " " + "foo")
             print(out, err)
 
@@ -254,8 +255,8 @@ class TestCommand(unittest.TestCase):
         of all types) for a given name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = "123"
-            self.command.data.metrics["foo"] = "123"
+            self.command.data.graphs["foo"] = Graph([], [], 0, 0)
+            self.command.data.metrics["foo"] = Graph([], [], 0, 0)
             self.command.do_show(command.ObjTypes.ALL.value + " foo")
             print(out, err)
 
@@ -267,8 +268,8 @@ class TestCommand(unittest.TestCase):
         of a given type.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = "123"
-            self.command.data.graphs["bar"] = "456"
+            self.command.data.graphs["foo"] = Graph([], [], 0, 0)
+            self.command.data.graphs["bar"] = Graph([], [], 0, 0)
             self.command.do_show(command.ObjTypes.GRAPH.value + " " + command.ObjTypes.ALL.value)
             print(out, err)
 

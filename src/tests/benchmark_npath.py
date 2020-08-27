@@ -15,7 +15,7 @@ from tests import unit_utils
 from graph import GraphType
 
 
-def npath_runtime(graph_type, show_info: bool) -> None:
+def npath_runtime(graph_type: GraphType, show_info: bool) -> None:
     """Test the amount of time it takes to run NPath analysis on different sized graphs."""
     converter = npath_complexity.NPathComplexity(Log())
     unit_utils.run_benchmark(converter, graph_type, show_info)

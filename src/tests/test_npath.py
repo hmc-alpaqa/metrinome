@@ -32,8 +32,7 @@ class TestNPATH(unittest.TestCase):
         6,/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test6_0_basic.dot,4,8,
             Polynomial,0.02*n^3.,4. + 2.17*n + 0.38*n^2. + 0.02*n^3.
         """
-        path_to_cfgs = "/app/examples"
-        base_path = f"{path_to_cfgs}/cfgs/simple_test_cfgs/"
+        base_path = "/app/examples/cfgs/simple_test_cfgs/"
         prefix = "vlab_cs_ucsb_test_SimpleExample_test"
 
         results_one = []

@@ -18,18 +18,16 @@ class GraphType(Enum):
 
 class Graph:
     """
-    Store a directed graph using an adjacency list.
+    Store a directed graph using an adjacency list, edge list, or adjacency matrix.
 
     Since this is used to store Control Flow Graphs, we also store a start and end node.
     Each vertex is represented as a number, such that
 
-    self.vertices = [1, 2, 3, 4, 5, ...]
+    self.vertices = [0, 1, 2, 3, 4, ...]
 
     Each edge is represented as a list of two nodes, e.g.
 
     edge = [1, 2].
-
-    We store a list of these edges.
     """
 
     def dot(self) -> str:

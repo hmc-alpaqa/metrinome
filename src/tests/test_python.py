@@ -78,16 +78,6 @@ class TestPythonConvert(unittest.TestCase):
         expected = Graph([(0, 1), (1, 2)], [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
         self.assertTrue(res['with_func'] == expected)
 
-    # Raise and Try not implemented.
-    # def test_raise(self):
-    #     """Test that we can correctly parse raise expressions."""
-    #     self.converter.to_graph(f"{self.base_path}/pythonFiles/raise", ".py")
-
-    # def test_try(self):
-    #     """Test that we can correctly parse try-except blocks."""
-    #     self.converter.to_graph(f"{self.base_path}/pythonFiles/try", ".py")
-    # """
-
 
 if __name__ == '__main__':
     unittest.main()

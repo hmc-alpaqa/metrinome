@@ -3,7 +3,7 @@ import subprocess
 import time
 import re
 from subprocess import PIPE
-from typing import Any, List
+from typing import Any, List, Tuple, Optional
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
@@ -22,7 +22,10 @@ def exp_function(x_val: float, coef1: float, coef2: float, const_term: float):
     return coef1 * np.exp(-coef2 * x_val) + const_term
 
 
-def parse_klee(klee_output: str):
+def parse_klee(klee_output: str) -> Tuple[Optional[int],
+                                          Optional[int],
+                                          Optional[int],
+                                          float, float, float]:
     """Parse output from running Klee."""
     strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
     string_four = "real"
@@ -122,13 +125,14 @@ def graph_stat(func: str, preference, max_depths: List[Any], inputs, results, fi
 def create_pandas(results, preference, input_, max_depths: List[Any], fields: List[Any]):
     """Create a pandas dataframe from the results of a Klee experiment."""
     index = [f'max depth {i}' for i in max_depths]
-    columns = fields
     data = [[results[(preference, depth, input_)][field] for field in fields]
             for depth in max_depths]
-    return pd.DataFrame(data, index=index, columns=columns)
+    return pd.DataFrame(data, index=index, columns=fields)
 
 
-def run_klee_experiment(func, array_size, max_depths, preferences, fields, inputs) -> None:
+def run_klee_experiment(func, array_size: int, max_depths: List[str],
+                        preferences: List[str],
+                        fields: List[str], inputs: List[str]) -> None:
     """Run the KLEE experiment for a single function."""
     filename = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}.c"
     output = KleeUtils(Log()).show_func_defs(filename, size=array_size)
