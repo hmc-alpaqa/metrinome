@@ -1,6 +1,6 @@
 """Handles work with klee, which does symbollic execution and test generation of C code."""
 
-from typing import Dict, Set, Any, List
+from typing import Dict, Set, List, DefaultDict, Tuple
 from collections import defaultdict
 import uuid
 from pycparser import c_ast, parse_file, c_generator  # type: ignore
@@ -19,8 +19,8 @@ class FuncVisitor(c_ast.NodeVisitor):
         """Create a new instance of FuncVisitor."""
         self.logger = logger
         self.generator = c_generator.CGenerator()
-        self.vars: Dict[str, List[Any]] = defaultdict(list)
-        self.types: Dict[str, str] = defaultdict(str)
+        self.vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
+        self.types: DefaultDict[str, str] = defaultdict(str)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str) -> None:
@@ -29,7 +29,7 @@ class FuncVisitor(c_ast.NodeVisitor):
 
     # pylint: disable=C0103
     # disable invalid-name as this name is required by the library.
-    def visit_FuncDef(self, node) -> None:
+    def visit_FuncDef(self, node: c_ast.Node) -> None:
         """
         Determine all of the arguments to functions.
 
@@ -62,7 +62,7 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self.logger = logger
 
-    def show_func_defs(self, filename: str, size: int = 10) -> Dict[Any, Any]:
+    def show_func_defs(self, filename: str, size: int = 10) -> Dict[str, str]:
         """
         Generate the set of klee-compatible files.
 
@@ -72,11 +72,11 @@ class KleeUtils:
         self.logger.d_msg(f"Going to parse file {filename}")
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc',
                          cpp_args=['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include'])
-        self.logger.d_msg(f"Going to visit functions.")
+        self.logger.d_msg("Going to visit functions.")
         func_visitor = FuncVisitor(self.logger)
         func_visitor.visit(ast)
 
-        uuids: Set[Any] = set()  # TODO: change type
+        uuids: Set[uuid.UUID] = set()
         klee_formatted_files = dict()
         for func_name in func_visitor.vars.keys():
             variables = [list(v) for v in func_visitor.vars[func_name]]

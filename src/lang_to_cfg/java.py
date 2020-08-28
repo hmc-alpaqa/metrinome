@@ -4,9 +4,9 @@ import os
 sys.path.append("/app/code/")
 from typing import Dict, Optional
 from glob2 import glob  # type: ignore
-from graph import Graph, GraphType
+from graph import Graph, GraphType, AnyGraph
 from env import Env
-from lang_to_cfg import converter  # type: ignore
+from lang_to_cfg import converter
 from log import Log
 
 
@@ -28,7 +28,7 @@ class JavaConvert(converter.ConverterAbstract):
         return "Java"
 
     # pylint: disable=R0201
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, AnyGraph]]:
         """Create a CFG from a Java source file."""
         Env.clean_temps()
 

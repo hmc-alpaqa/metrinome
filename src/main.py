@@ -31,14 +31,15 @@ class MyPrompt(Cmd):
 
         super(MyPrompt, self).__init__()
 
-    def postcmd(self, stop, line) -> bool:
+    def postcmd(self, stop: int, line: str) -> bool:
         """Execute after any command is executed to update the prompt."""
         self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
         return False
 
     # pylint: disable=unused-argument
     def complete_file_path(self, text: str, line: str,
-                           begin, start, folders_only=False) -> List[str]:
+                           begin: int, start: int,
+                           folders_only: bool = False) -> List[str]:
         """Enhanced auto-completion for the REPL."""
         # Try to do tab completion on a directory. Text contains the latest paremeter
         # text only contains the latest segment, which splits on / (and other characters)

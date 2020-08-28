@@ -3,29 +3,27 @@ import subprocess
 import time
 import re
 from subprocess import PIPE
-from typing import Any, List, Tuple, Optional
+from typing import List, Optional, Tuple, Dict, Union
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
 from log import Log
 from klee_utils import KleeUtils
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-def poly(input_, coef: List[Any], deg: int):
-    """Apply a polynomial to an iterable."""
-    return [sum([k * (i**j) for j, k in zip(list(range(deg + 1))[::-1], coef)]) for i in input_]
+KleeCompareResults = Dict[Tuple[str, str, str],
+                          Dict[str, Optional[Union[float, int]]]]
+KleeOutputInfo = Tuple[Optional[int],
+                       Optional[int],
+                       Optional[int],
+                       float, float, float]
+KleeOutputPreferencesInfo = Tuple[Optional[int],
+                                  Optional[int],
+                                  Optional[int],
+                                  float, float, float, float]
 
 
-def exp_function(x_val: float, coef1: float, coef2: float, const_term: float):
-    """General exponential function with 3 parameters."""
-    return coef1 * np.exp(-coef2 * x_val) + const_term
-
-
-def parse_klee(klee_output: str) -> Tuple[Optional[int],
-                                          Optional[int],
-                                          Optional[int],
-                                          float, float, float]:
+def parse_klee(klee_output: str) -> KleeOutputInfo:
     """Parse output from running Klee."""
     strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
     string_four = "real"
@@ -49,7 +47,9 @@ def parse_klee(klee_output: str) -> Tuple[Optional[int],
     return tests, paths, insts, real, user, sys
 
 
-def klee_with_preferences(file_name: str, output_name: str, preferences, max_depth: int, input_):
+def klee_with_preferences(file_name: str, output_name: str,
+                          preferences: str,
+                          max_depth: str, input_: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
         klee_path = "/app/build/bin/klee"
@@ -67,8 +67,9 @@ def klee_with_preferences(file_name: str, output_name: str, preferences, max_dep
 
 
 # pylint: disable=too-many-locals
-def klee_compare(file_name: str, preferences: List[Any], depths: List[Any],
-                 inputs, function, remove: bool = True):
+def klee_compare(file_name: str, preferences: List[str], depths: List[str],
+                 inputs: List[str], function: str,
+                 remove: bool = True) -> KleeCompareResults:
     """
     Run Klee on a certain function.
 
@@ -95,7 +96,7 @@ def klee_compare(file_name: str, preferences: List[Any], depths: List[Any],
                 stats_decoded = stats.stdout.decode().split("\n")
                 headers = stats_decoded[0].split()[1:]
                 values = map(float, stats_decoded[2].split()[1:])
-                stats_dict = dict(zip(headers, values))
+                stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
                 stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
                     stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
                     stats_dict["PythonTime"] = results
@@ -104,7 +105,9 @@ def klee_compare(file_name: str, preferences: List[Any], depths: List[Any],
     return results_dict
 
 
-def graph_stat(func: str, preference, max_depths: List[Any], inputs, results, field):
+def graph_stat(func: str, preference: str, max_depths: List[str],
+               inputs: List[str], results: KleeCompareResults,
+               field: str) -> None:
     """Create and save a graph for a certain statistic on a Klee experiment."""
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/",
                    shell=True, check=False)
@@ -122,7 +125,8 @@ def graph_stat(func: str, preference, max_depths: List[Any], inputs, results, fi
     plt.close(fig1)
 
 
-def create_pandas(results, preference, input_, max_depths: List[Any], fields: List[Any]):
+def create_pandas(results: KleeCompareResults, preference: str, input_: str,
+                  max_depths: List[str], fields: List[str]) -> pd.DataFrame:
     """Create a pandas dataframe from the results of a Klee experiment."""
     index = [f'max depth {i}' for i in max_depths]
     data = [[results[(preference, depth, input_)][field] for field in fields]
@@ -130,7 +134,7 @@ def create_pandas(results, preference, input_, max_depths: List[Any], fields: Li
     return pd.DataFrame(data, index=index, columns=fields)
 
 
-def run_klee_experiment(func, array_size: int, max_depths: List[str],
+def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
                         preferences: List[str],
                         fields: List[str], inputs: List[str]) -> None:
     """Run the KLEE experiment for a single function."""

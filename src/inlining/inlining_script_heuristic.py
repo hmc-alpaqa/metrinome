@@ -66,7 +66,6 @@ def main() -> None:
     #         in_lining(file)
 
     for file in files_to_inline:
-        # in_lining(file)
         in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
 
 

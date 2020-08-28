@@ -1,18 +1,21 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
-from typing import Any
+from typing import Tuple, List, Union
 import sys
 import re
 import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
-    simplify, sympify, Abs, Q  # type: ignore
+    simplify, sympify, Abs, Q, Basic
 from mpmath import polyroots  # type: ignore
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
-from graph import Graph
-from metric import metric  # type: ignore
+from graph import AnyGraph
+from metric import metric
 from log import Log
+
+
+PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 
 
 class PathComplexity(metric.MetricAbstract):
@@ -27,7 +30,10 @@ class PathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
-    def gen_func_taylor_coeffs(self, graph: Graph) -> Any:
+    def gen_func_taylor_coeffs(self, graph: AnyGraph) -> Tuple[List[Basic],
+                                                               int,
+                                                               int,
+                                                               Basic]:
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
@@ -52,13 +58,15 @@ class PathComplexity(metric.MetricAbstract):
         roots = polyroots(test, maxsteps=250, extraprec=250)
         self.logger.d_msg(f"Getting {2 * dimension + 1} many coeffs.")
         taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
+        if taylor_coeffs is None:
+            raise ValueError("Could not obtain taylor coefficients.")
 
         self.logger.d_msg(f"Got taylor coeffs: {taylor_coeffs}, len: {len(taylor_coeffs)}")
 
         return taylor_coeffs, dimension, degree(denominator, gen=t_var), roots
 
     # pylint: disable=too-many-locals
-    def evaluate(self, graph: Graph) -> Any:
+    def evaluate(self, graph: AnyGraph) -> PathComplexityRes:
         """
         Compute the path complexity given the CFG of some function.
 
@@ -77,7 +85,7 @@ class PathComplexity(metric.MetricAbstract):
                             range(2 * dimension, 2 * dimension - recurrence_degree, -1)],
                            dtype='complex')
         base_cases = base_cases.transpose()
-        self.logger.d_msg(f"Got the base cases.")
+        self.logger.d_msg("Got the base cases.")
 
         self.logger.d_msg(f"Matrix: {matrix.shape}")
         self.logger.d_msg(f"Base Cases: {base_cases.shape}")

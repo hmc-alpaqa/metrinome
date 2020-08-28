@@ -1,17 +1,17 @@
 """This module converts C++ source code into Graph objects representing the CFG for the code."""
 
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple, List
 import subprocess
-import shlex  # type: ignore
+import shlex
 import sys
 import os
 import re
 import glob2  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph, GraphType
+from graph import Graph, GraphType, AnyGraph
 from log import Log
 from env import Env
-from lang_to_cfg import converter  # type: ignore
+from lang_to_cfg import converter
 
 # pylint: disable=R0201
 
@@ -30,7 +30,7 @@ class CPPConvert(converter.ConverterAbstract):
         """Get the name of the CPP converter."""
         return "CPP"
 
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, Graph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, AnyGraph]]:
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
@@ -56,7 +56,10 @@ class CPPConvert(converter.ConverterAbstract):
         Env.clean_temps()
         return graphs
 
-    def parse_original(self, file):
+    def parse_original(self, file: str) -> Tuple[List[str],
+                                                 List[str],
+                                                 Dict[str, str],
+                                                 int]:
         """Obtain all of the Graph information from an existing dot file in the original format."""
         # Read the original files.
         nodes, edges = [], []

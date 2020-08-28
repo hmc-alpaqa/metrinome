@@ -98,7 +98,7 @@ class Testutils(unittest.TestCase):
     # === Timeout ===
     def test_timeout_notimetout(self) -> None:
         """A function that is done before the timeout limit should behave normally."""
-        def fast_func():
+        def fast_func() -> int:
             """Execute immediately."""
             return 7
 
@@ -109,7 +109,7 @@ class Testutils(unittest.TestCase):
 
     def test_timeout_timeout(self) -> None:
         """A function that takes too long to execute should throw an error."""
-        def slow_func():
+        def slow_func() -> None:
             sleep(2)
 
         with self.assertRaises(TimeoutError):

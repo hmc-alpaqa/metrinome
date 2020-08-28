@@ -6,16 +6,17 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Any
+from typing import List, Dict, Optional, Union, Type
+from types import FrameType, TracebackType
 import re
 from collections import Counter
 import signal
-from sympy import limit, Abs, sympify, series, symbols  # type: ignore
-from mpmath import polyroots  # type: ignore
+from sympy import limit, Abs, sympify, series, symbols, Basic  # type: ignore
+from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
 
 
-def get_solution_from_roots(roots: List[Any]):
+def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Basic]:
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
     new_roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
@@ -35,7 +36,7 @@ def get_solution_from_roots(roots: List[Any]):
     return solution
 
 
-def get_recurrence_solution(recurrence: str):
+def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
     """
     Return the coefficients to a homogeneous linear recurrence relation.
 
@@ -64,7 +65,8 @@ def get_recurrence_solution(recurrence: str):
     return get_solution_from_roots(roots)
 
 
-def get_taylor_coeffs(func, num_coeffs: int):
+def get_taylor_coeffs(func: Basic,
+                      num_coeffs: int) -> Optional[List[Basic]]:
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
     series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')[::-1]
@@ -78,7 +80,7 @@ def get_taylor_coeffs(func, num_coeffs: int):
     return None
 
 
-def big_o(terms):
+def big_o(terms: List[str]) -> str:
     """
     Compute the big O of some expression in terms of 'n'.
 
@@ -102,7 +104,7 @@ def big_o(terms):
     return big_o(terms[1:])
 
 
-def show_func_defs(filename):
+def show_func_defs(filename: str) -> Dict[str, str]:
     """Return a list of the functions defined in a file."""
     ast = parse_file(filename, use_cpp=True,
                      cpp_args=r'-I/app/pycparser/utils/fake_libc_include')
@@ -125,12 +127,12 @@ class Timeout:
     it does not finish within a given amount of time.
     """
 
-    def __init__(self, seconds=1, error_message='Timeout') -> None:
+    def __init__(self, seconds: int = 1, error_message: str = 'Timeout') -> None:
         """Create a new instance of Timeout."""
         self.seconds = seconds
         self.error_message = error_message
 
-    def handle_timeout(self, signum, frame):
+    def handle_timeout(self, signum: int, frame: FrameType) -> None:
         """Execute after self.seconds have passed if the block within it is not done."""
         raise TimeoutError(self.error_message)
 
@@ -139,6 +141,9 @@ class Timeout:
         signal.signal(signal.SIGALRM, self.handle_timeout)
         signal.alarm(self.seconds)
 
-    def __exit__(self, err_type, value, traceback) -> None:
+    def __exit__(self,
+                 err_type: Optional[Type[BaseException]],
+                 value: Optional[BaseException],
+                 traceback: Optional[TracebackType]) -> None:
         """Stop the timer once the code block is done executing."""
         signal.alarm(0)

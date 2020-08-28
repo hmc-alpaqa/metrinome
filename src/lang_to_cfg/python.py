@@ -12,14 +12,14 @@ thing after the statement returns.
 # pylint: disable=C0103
 import sys
 sys.path.append("/app/code/")
-from typing import List, Optional, Dict, cast, Any
+from typing import List, Optional, Dict, cast
 import ast
 import os
 # from pprintast import pprintast as ppast
 import uuid
 from log import Log
-from graph import Graph, GraphType
-from lang_to_cfg import converter  # type: ignore
+from graph import Graph, GraphType, AnyGraph
+from lang_to_cfg import converter
 
 
 class Node:
@@ -39,14 +39,14 @@ class FunctionVisitor(ast.NodeVisitor):
     It includes visitor functions for each type of statement we are interested in.
     """
 
-    def __init__(self, logger=Log()) -> None:
+    def __init__(self, logger: Log = Log()) -> None:
         """Create a new instance of the function visitor."""
         self.root: Optional[Node] = None
         self.end_node: Optional[Node] = None
         self.frontier: List[Node] = []
         self.logger = logger
 
-    def update_root(self, node) -> bool:
+    def update_root(self, node: Node) -> bool:
         """Given a new node, set it as the root if a root does not exist."""
         if self.root is None:
             self.root = node
@@ -55,14 +55,14 @@ class FunctionVisitor(ast.NodeVisitor):
 
         return False
 
-    def update_frontier(self, node) -> None:
+    def update_frontier(self, node: Node) -> None:
         """Given a next node, set it as the child of all nodes in the frontier."""
         for frontier_node in self.frontier:
             frontier_node.children += [node]
             if frontier_node == self.end_node:
                 self.end_node = node
 
-    def standard_visit(self) -> Any:
+    def standard_visit(self) -> Node:
         """Create a new node and update the graph accordingly."""
         new_node = Node()
         if not self.update_root(new_node):
@@ -71,17 +71,17 @@ class FunctionVisitor(ast.NodeVisitor):
         self.frontier = [new_node]
         return new_node
 
-    def visit_Expr(self, node) -> None:
+    def visit_Expr(self, node: ast.AST) -> None:
         """Visit a python expression."""
         self.logger.d_msg(f"At expr {node}")
         self.standard_visit()
 
-    def visit_Pass(self, node) -> None:
+    def visit_Pass(self, node: ast.AST) -> None:
         """Visits a pass statement."""
         self.logger.d_msg(f"At pass {node}")
         self.standard_visit()
 
-    def visit_Return(self, node) -> None:
+    def visit_Return(self, node: ast.Return) -> None:
         """Visit a python return statement."""
         self.logger.d_msg(f"At return {node}.")
         new_node = Node(exit_node=True)
@@ -90,12 +90,12 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = []  # Nothing can come after a return
 
-    def visit_Assign(self, node) -> None:
+    def visit_Assign(self, node: ast.Assign) -> None:
         """Visit a python assign statement."""
         self.logger.d_msg(f"At assignment {node}.")
         self.standard_visit()
 
-    def visit_For(self, node) -> None:
+    def visit_For(self, node: ast.For) -> None:
         """Visit a python for loop."""
         self.logger.d_msg(f"At for {node}")
         new_node = self.standard_visit()
@@ -118,7 +118,7 @@ class FunctionVisitor(ast.NodeVisitor):
         self.frontier = [new_node]
 
     # pylint: disable=R0201
-    def visit_With(self, node) -> None:
+    def visit_With(self, node: ast.With) -> None:
         """Visit a python with statement."""
         self.logger.d_msg(f"At with {node}")
         self.standard_visit()
@@ -130,10 +130,13 @@ class FunctionVisitor(ast.NodeVisitor):
 
             visitor = FunctionVisitor()
             visitor.visit(with_node)
+            if visitor.root is None:
+                raise ValueError("Root must be non-nil.")
+
             self.update_frontier(visitor.root)
             self.frontier = visitor.frontier
 
-    def visit_If(self, node) -> None:
+    def visit_If(self, node: ast.If) -> None:
         """Visit a python if statement."""
         self.logger.d_msg(f"At if {node}")
         self.standard_visit()
@@ -176,9 +179,9 @@ class FunctionVisitor(ast.NodeVisitor):
         # Check if there is an else statement
         if len(node.orelse) != 0:
             # Get the body of the else
-            node = node.orelse
+            node_list = node.orelse
             visitor = FunctionVisitor()
-            visitor.visit(node[0])
+            visitor.visit(node_list[0])
             for frontier_node in self.frontier:
                 if visitor.root is not None:
                     frontier_node.children += [visitor.root]
@@ -188,16 +191,16 @@ class FunctionVisitor(ast.NodeVisitor):
         self.frontier = new_frontier
 
     # pylint: disable=R0201
-    def visit_Raise(self, node) -> None:
+    def visit_Raise(self, node: ast.Raise) -> None:
         """Visit a python raise."""
         self.logger.d_msg(f"At raise {node}")
 
     # pylint: disable=R0201
-    def visit_Try(self, node) -> None:
+    def visit_Try(self, node: ast.Try) -> None:
         """Visit a python try statement."""
         self.logger.d_msg(f"At try {node}")
 
-    def visit_While(self, node) -> None:
+    def visit_While(self, node: ast.While) -> None:
         """Visit a python while loop."""
         self.logger.d_msg(f"At while {node}")
         new_node = self.standard_visit()
@@ -227,12 +230,12 @@ class Visitor(ast.NodeVisitor):
     It creates a FunctionVisitor for each function in the class.
     """
 
-    def __init__(self, logger=Log()) -> None:
+    def __init__(self, logger: Log = Log()) -> None:
         """Create a new instance of the Python source code parser."""
-        self.graphs: Dict[str, Graph] = {}
+        self.graphs: Dict[str, AnyGraph] = {}
         self.logger = logger
 
-    def visit_FunctionDef(self, node) -> None:
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
         """Call this for each function in the python source file."""
         visitor = FunctionVisitor()
         self.logger.d_msg(f"Visiting {node.name}")
@@ -295,7 +298,7 @@ class PythonConvert(converter.ConverterAbstract):
     """PythonConvert is able to convert from Python source files to graph objects."""
 
     # pylint: disable=super-init-not-called
-    def __init__(self, logger) -> None:
+    def __init__(self, logger: Log) -> None:
         """Create a new instance of the python converter."""
         self.logger = logger
 
@@ -304,14 +307,14 @@ class PythonConvert(converter.ConverterAbstract):
         return "Python"
 
     # pylint: disable=R0201
-    def to_graph(self, filename: str, file_extension: str) -> Dict[str, Graph]:
+    def to_graph(self, filename: str, file_extension: str) -> Dict[str, AnyGraph]:
         """Create a CFG from a Python source file."""
         self.logger.d_msg(file_extension)
 
         path = os.path.join(os.getcwd(), filename) + ".py"
         self.logger.d_msg(path)
         visitor = Visitor()
-        graphs: Dict[str, Graph]
+        graphs: Dict[str, AnyGraph]
         with open(path, "r") as src:
             root = ast.parse(src.read())
             visitor.visit(root)

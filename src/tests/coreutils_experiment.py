@@ -8,14 +8,17 @@ import glob2  # type: ignore
 import pandas as pd  # type: ignore
 sys.path.append("/app/code")
 from log import Log
-from graph import Graph
+from graph import Graph, GraphType
 from utils import Timeout
 sys.path.append("/app/code/lang_to_cfg")
 sys.path.append("/app/code/metric")
-from metric import path_complexity, cyclomatic_complexity, npath_complexity
+from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 
 
-def parse_original(file) -> Tuple[Any, Any, Any, Any]:
+PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
+
+
+def parse_original(file: str) -> Tuple[List[str], List[str], Dict[str, str], int]:
     """Obtain all of the Graph information from an existing dot file in the original format."""
     # Read the original files.
     nodes, edges = [], []
@@ -87,7 +90,7 @@ def convert_file_to_standard(file: str) -> None:
         new_file.write("}")
 
 
-def clean(file) -> None:
+def clean(file: str) -> None:
     """Remove unecessary files."""
     filepath = os.path.split(file)
     fname = filepath[1]
@@ -97,7 +100,13 @@ def clean(file) -> None:
         convert_file_to_standard(fname)
 
 
-def get_converter_time(graph_list, converter, folder):
+def get_converter_time(graph_list: List[str],
+                       converter: metric.MetricAbstract,
+                       folder: str,
+                       timeout_threshold: int, show_info: bool = False
+                       ) -> Tuple[List[Tuple[float, str]],
+                                  List[Tuple[float, str, str]],
+                                  int]:
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
     folder_time_list = []
@@ -108,11 +117,11 @@ def get_converter_time(graph_list, converter, folder):
         if show_info:
             print(os.path.splitext(graph)[0].split("/")[-1],
                   f"{round(100*(i / len(graph_list)))}% done")
-        graph_zero = Graph.from_file(graph)
+        graph_obj = Graph.from_file(graph)
         start_time = time.time()
         try:
             with Timeout(timeout_threshold, f'{converter.name()} took too long'):
-                apc = converter.evaluate(graph_zero)
+                apc = converter.evaluate(graph_obj)
 
             # Calculate the run time.
             runtime = time.time() - start_time
@@ -133,27 +142,27 @@ def get_converter_time(graph_list, converter, folder):
     return folder_time_list, overall_time_list, timeout_count
 
 
-def run_benchmark(converter):
+def run_benchmark(converter: metric.MetricAbstract,
+                  timeout_threshold: int,
+                  show_info: bool = False) -> None:
     """Run all CFGs through the converter to create a benchmark."""
-    folders = (glob.glob("/app/code/tests/core/separate/*/"))
+    folders = (glob2.glob("/app/code/tests/core/separate/*/"))
     print(f"number of folders: {len(folders)}\n")
-    metric_collection: List[Any] = []
     # list of tuples for all cfgs in all folders (seconds, folder, cfg).
 
     # test the metrics for each folder in apache_cfgs.
     print(f"Num Folders: {len(folders)}")
     for folder in folders:
         print(f"On folder {folder}")
-        graph_list = (glob.glob(folder + "*.dot"))
+        graph_list = (glob2.glob(folder + "*.dot"))
         # list of tuples for each cfg in folder(seconds, cfg).
         folder_time_list, overall_time_list, timeout_count = get_converter_time(graph_list,
                                                                                 converter, folder,
                                                                                 timeout_threshold,
-                                                                                graph_type,
                                                                                 show_info)
 
 
-def get_name(path: str, path_type: str) -> Optional[str]:
+def get_name(path: str, path_type: str) -> str:
     """Get the name of a file given its path."""
     if path_type == "folder":
         return os.path.split(os.path.split(path)[0])[1].replace(".o", ".c")
@@ -161,7 +170,7 @@ def get_name(path: str, path_type: str) -> Optional[str]:
     if path_type == "file":
         return os.path.split(path)[1].split("cleaned_cfg.")[1]
 
-    return None
+    return ""
 
 
 def main() -> None:
@@ -186,7 +195,7 @@ def main() -> None:
             graph = Graph.from_file(file)
 
             start_time = time.time()
-            apc = "na"
+            apc: Union[str, PathComplexityRes] = "na"
             npath: Union[str, float] = "na"
             cyclo: Union[str, float] = "na"
             ex = False

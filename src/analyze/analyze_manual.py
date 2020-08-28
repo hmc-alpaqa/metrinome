@@ -7,17 +7,18 @@ from scipy.optimize import curve_fit  # type: ignore
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-def exp_function(x_val: float, coef1: float, coef2: float, const_term: float):
+def exp_function(x_val: np.ndarray, coef1: float, coef2: float, const_term: float) -> np.ndarray:
     """General exponential function with 3 parameters."""
     return coef1 * np.exp(coef2 * x_val) + const_term
 
 
-def cubic_function(x_val: float, coef1: float, coef2: float, coef3: float, const_term: float):
+def cubic_function(x_val: float, coef1: float, coef2: float,
+                   coef3: float, const_term: float) -> float:
     """General cubic function with 4 parameters."""
     return coef1 * (x_val**3) + coef2 * (x_val**2) + coef3 * x_val + const_term
 
 
-def quadratic_function(x_val: float, coef1: float, coef2: float, const_term: float):
+def quadratic_function(x_val: float, coef1: float, coef2: float, const_term: float) -> float:
     """General quadratic function with 3 parameters."""
     return coef1 * (x_val**2) + coef2 * x_val + const_term
 

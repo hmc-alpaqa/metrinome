@@ -1,7 +1,7 @@
-
 """The main implementation of the REPL."""
 
-from typing import List, Dict, Any, Callable, Optional, Tuple
+from __future__ import annotations
+from typing import List, Dict, Callable, Optional, Tuple, Iterable, Union, cast
 import os.path
 from os import listdir
 import readline
@@ -13,16 +13,18 @@ import time
 from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
+import sys
 import numpy   # type: ignore
+sys.path.append('/app/code/inlining')
 import inlining_script
 import inlining_script_heuristic
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
-from graph import Graph
-from lang_to_cfg import cpp, java, python
+from graph import Graph, AnyGraph
+from lang_to_cfg import cpp, java, python, converter
 from klee_utils import KleeUtils
 from utils import Timeout
-from command_data import Data, ObjTypes
+from command_data import Data, ObjTypes, AnyDict, PathComplexityRes
 
 # pylint: disable=pointless-string-statement
 """
@@ -39,10 +41,14 @@ EXTENSION: Callable[[str, str], str] = lambda target_type, file_extension: \
     f"File extension must be {target_type}, not {file_extension}."
 
 
-def check_args(num_args, err, check_recursive=False, var_args=False):
+def check_args(num_args: int,
+               err: str,
+               check_recursive: bool = False,
+               var_args: bool = False
+               ) -> Callable[[Callable[..., None]], Callable[[Command, str], None]]:
     """Create decorators that verify REPL functions have valid arguments (factory method)."""
-    def decorator(func):
-        def wrapper(self, args: str) -> None:
+    def decorator(func: Callable[..., None]) -> Callable[[Command, str], None]:
+        def wrapper(self: Command, args: str) -> None:
             args_list = args.strip().split()
             if len(args_list) < num_args:
                 self.logger.v_msg(err)
@@ -89,17 +95,18 @@ class InlineType(Enum):
     Heuristic = partial(inlining_script_heuristic.in_lining)
 
 
-def get_files_from_regex(logger: Log, input_file,
-                         original_base, recursive_mode: bool) -> List[str]:
+def get_files_from_regex(logger: Log, input_file: str,
+                         original_base: str, recursive_mode: bool) -> List[str]:
     """Try to compile a path as a regular expression and get the matching files."""
     try:
         regexp = re.compile(input_file)
-        logger.d_msg(f"Successfully compiled as a regular expression")
-        all_files: List[Any] = []
+        logger.d_msg("Successfully compiled as a regular expression")
+        all_files: List[str] = []
         if os.path.exists(original_base):
             if recursive_mode:
                 # Get all files in all subdirectories.
-                all_files += Path(original_base).rglob("*")
+                file_list = list(Path(original_base).rglob("*"))
+                all_files += [str(file_path) for file_path in file_list]
             else:
                 all_files = [f for f in listdir(original_base) if
                              os.path.isfile(os.path.join(original_base, f))]
@@ -204,16 +211,16 @@ class Controller:
             ".py": python_converter,
         }
 
-    def get_graph_generator_names(self):
+    def get_graph_generator_names(self) -> Iterable[str]:
         """Get the names of all file extensions we know how to generate CFGs for."""
         return self.graph_generators.keys()
 
-    def get_graph_generator(self, file_extension: str):
+    def get_graph_generator(self, file_extension: str) -> converter.ConverterAbstract:
         """Given a file extension as a string, return the CFG generator for that file extension."""
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict, file) -> None:
+def worker_main(shared_dict: Dict[str, AnyGraph], file: str) -> None:
     """Handle the multiprocessing of import."""
     graph = Graph.from_file(file)
     if isinstance(graph, dict):
@@ -223,11 +230,17 @@ def worker_main(shared_dict, file) -> None:
         shared_dict[filepath] = graph
 
 
-def worker_main_two(metrics_generator, shared_dict, graph) -> None:
+def worker_main_two(metrics_generator: metric.MetricAbstract,
+                    shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]],
+                    graph: AnyGraph) -> None:
     """Handle the multiprocessing of convert."""
     try:
         with Timeout(10, "Took too long!"):
             result = metrics_generator.evaluate(graph)
+
+        if graph.name is None:
+            raise ValueError("No Graph name.")
+
         shared_dict[(graph.name, metrics_generator.name())] = result
     except IndexError as err:
         print(graph)
@@ -241,7 +254,7 @@ class Command:
     """Command is the implementation of the REPL commands."""
 
     def __init__(self, curr_path: str, debug_mode: bool,
-                 multi_threaded: bool, repl_wrapper) -> None:
+                 multi_threaded: bool, repl_wrapper: object) -> None:
         """Create a new instance of the REPL implementation."""
         if debug_mode:
             self.logger = Log(log_level=LogLevel.DEBUG)
@@ -359,17 +372,17 @@ class Command:
                 new_file = file.split('.')[0] + "-auto-inline.c"
                 filepath = os.path.splitext(new_file)[0]
 
-            converter = self.controller.get_graph_generator(file_extension)
-            graph = converter.to_graph(filepath.strip(), file_extension.strip())
+            converter_inst = self.controller.get_graph_generator(file_extension)
+            graph = converter_inst.to_graph(filepath.strip(), file_extension.strip())
             if graph is None:
                 self.logger.i_msg("Conversion Failed. Maybe your code has an error?")
             else:
                 self.logger.i_msg("Converted successfully")
-                self.logger.d_msg(graph)
+                self.logger.d_msg(str(graph))
                 if isinstance(graph, dict):
                     self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
                     self.data.graphs.update(graph)
-                else:
+                elif isinstance(graph, Graph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
 
@@ -391,7 +404,7 @@ class Command:
         #  this is done automatically in the previous step).
         if self.multi_threaded:
             manager = Manager()
-            shared_dict: Dict[Any, Any] = manager.dict()
+            shared_dict: Dict[str, AnyGraph] = manager.dict()
             pool = Pool(8)
             pool.map(partial(worker_main, shared_dict), all_files)
             self.data.graphs.update(shared_dict)
@@ -399,16 +412,20 @@ class Command:
             for file in all_files:
                 filepath, _ = os.path.splitext(file)
                 graph = Graph.from_file(file)
-                self.logger.v_msg(graph)
+                self.logger.v_msg(str(graph))
                 if isinstance(graph, dict):
                     self.data.graphs.update(graph)
                 else:
                     self.data.graphs[filepath] = graph
 
     @check_args(1, "Must specify object type to list (metrics, graphs, or KLEE type).")
-    def do_list(self, list_type: str) -> None:
+    def do_list(self, list_typename: str) -> None:
         """List objects the REPL knows about."""
-        list_type = ObjTypes.get_type(list_type)
+        list_type = ObjTypes.get_type(list_typename)
+        if list_type is None:
+            self.logger.e_msg("Unrecognized type.")
+            return
+
         if list_type == ObjTypes.METRIC:
             self.data.list_metrics()
         elif list_type == ObjTypes.GRAPH:
@@ -428,48 +445,41 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
-    def do_metrics_multithreaded(self, graphs: List[Any]) -> None:
+    def do_metrics_multithreaded(self, graphs: List[AnyGraph]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
         pool = Pool(8)
         manager = Manager()
-        shared_dict: Dict[Any, Any] = manager.dict()
+        shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
         for metrics_generator in self.controller.metrics_generators:
             pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
             self.logger.v_msg(str(shared_dict))
         # TODO: save the results.
 
-    def get_graphs_from_name(self, name: str) -> Tuple[bool, List[Graph]]:
-        """
-        Return a list of graph objects from the given name.
-
-        Also returns a boolean to indicate if the operation succeeded.
-        """
+    def get_metrics_list(self, name: str) -> List[str]:
+        """Get the list of metric names from command argument."""
         if name == "*":
-            args_list = list(self.data.graphs.keys())
-        elif name in self.data.graphs:
-            args_list = [name]
-        else:
-            try:
-                self.logger.d_msg(f"Trying to compile {name} to regexp")
-                pattern = re.compile(name)
-                args_list = []
-                for graph_name in self.data.graphs:
-                    if pattern.match(graph_name):
-                        args_list.append(graph_name)
-            except re.error:
-                self.logger.v_msg(f"Error, Graph {name} not found.")
-                return False, []
+            return list(self.data.graphs.keys())
 
-        graphs = [self.data.graphs[name] for name in args_list]
-        return True, graphs
+        if name in self.data.graphs:
+            return [name]
+
+        try:
+            self.logger.d_msg(f"Trying to compile {name} to regexp")
+            pattern = re.compile(name)
+            args_list = []
+            for graph_name in self.data.graphs:
+                if pattern.match(graph_name):
+                    args_list.append(graph_name)
+
+            return args_list
+        except re.error:
+            self.logger.v_msg(f"Error, Graph {name} not found.")
+            return []
 
     @check_args(1, "Must provide graph name.")
     def do_metrics(self, name: str) -> None:
         """Compute of one of the known objects for a stored Graph object."""
-        success, graphs = self.get_graphs_from_name(name)
-        if not success:
-            return
-
+        graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
         if self.multi_threaded:
             self.do_metrics_multithreaded(graphs)
             return
@@ -487,8 +497,10 @@ class Command:
                         runtime = time.time() - start_time
                     results.append((metric_generator.name(), result))
                     if metric_generator.name() == "Path Complexity":
+                        result_ = cast(Tuple[Union[float, str], Union[float, str]],
+                                       result)
                         time_out = f"took {runtime:.3f} seconds"
-                        path_out = f"(APC: {result[0]}, Path Complexity: {result[1]})"
+                        path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
                         self.logger.v_msg(f"Got {path_out}, {time_out}")
                     else:
                         self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
@@ -503,7 +515,34 @@ class Command:
 
             self.data.metrics[name] = results
 
-    def do_show_klee(self, obj_type, names: List[str]) -> bool:
+    def log_name(self, name: str) -> bool:
+        """Log all objects of a given name."""
+        found = False
+        if name in self.data.graphs:
+            self.logger.i_msg("GRAPH")
+            self.logger.v_msg(str(self.data.graphs[name]))
+            found = True
+        if name in self.data.metrics:
+            self.logger.i_msg("METRIC")
+            self.logger.v_msg(str(self.data.metrics[name]))
+            found = True
+        if name in self.data.bc_files:
+            self.logger.i_msg("BC FILES")
+            self.logger.v_msg(str(self.data.bc_files[name]))
+            found = True
+        if name in self.data.klee_formatted_files:
+            self.logger.i_msg("KLEE FILES")
+            self.logger.v_msg(self.data.klee_formatted_files[name])
+            found = True
+        if name in self.data.klee_stats:
+            self.logger.i_msg("KLEE STATS")
+            self.logger.v_msg(str(self.data.klee_stats[name]))
+            found = True
+        if not found:
+            self.logger.v_msg(f"Object {name} not found.")
+        return found
+
+    def do_show_klee(self, obj_type: ObjTypes, names: List[str]) -> bool:
         """Display the KLEE objects the REPL knows about."""
         if obj_type == ObjTypes.KLEE_BC:
             self.data.show_klee_bc(names)
@@ -519,10 +558,13 @@ class Command:
         return True
 
     @check_args(2, "Must specify type (metric, graph, or any KLEE type) and name.")
-    def do_show(self, obj_type: str, arg_name: str) -> None:
+    def do_show(self, obj_typename: str, arg_name: str) -> None:
         """Display objects the REPL knows about."""
         names = [arg_name]
-        obj_type = ObjTypes.get_type(obj_type)
+        if (obj_type := ObjTypes.get_type(obj_typename)) is None:
+            self.logger.e_msg("Unrecognized type.")
+            return
+
         if self.do_show_klee(obj_type, names):
             return
 
@@ -539,29 +581,7 @@ class Command:
                 names = list(set(names))
 
             for name in names:
-                found = False
-                if name in self.data.graphs:
-                    self.logger.i_msg("GRAPH")
-                    self.logger.v_msg(self.data.graphs[name])
-                    found = True
-                if name in self.data.metrics:
-                    self.logger.i_msg("METRIC")
-                    self.logger.v_msg(self.data.metrics[name])
-                    found = True
-                if name in self.data.bc_files:
-                    self.logger.i_msg("BC FILES")
-                    self.logger.v_msg(self.data.bc_files[name])
-                    found = True
-                if name in self.data.klee_formatted_files:
-                    self.logger.i_msg("KLEE FILES")
-                    self.logger.v_msg(self.data.klee_formatted_files[name])
-                    found = True
-                if name in self.data.klee_stats:
-                    self.logger.i_msg("KLEE STATS")
-                    self.logger.v_msg(self.data.klee_stats[name])
-                    found = True
-                if not found:
-                    self.logger.v_msg(f"Object {name} not found.")
+                self.log_name(name)
         else:
             self.logger.v_msg(f"Type {obj_type} not recognized.")
 
@@ -625,7 +645,7 @@ class Command:
 
         return generated_tests_index, completed_paths_index, total_instructions_index
 
-    def update_klee_stats(self, klee_output: str, name: str, delta_t) -> None:
+    def update_klee_stats(self, klee_output: str, name: str, delta_t: float) -> None:
         """Parse and store the results of running klee on some .bc file."""
         timed_out = "HaltTimer invoked" in klee_output
 
@@ -719,14 +739,17 @@ class Command:
         raise SystemExit
 
     @check_args(2, MISSING_TYPE_AND_NAME)
-    def do_export(self, export_type: str, name: str) -> None:
+    def do_export(self, export_typename: str, name: str) -> None:
         """
         Save some object the REPL knows about to an external file.
 
         The format it is stored as depends on the object we are storing.
         """
         subprocess.check_call(["mkdir", "-p", "exports"])
-        export_type = ObjTypes.get_type(export_type)
+        export_type = ObjTypes.get_type(export_typename)
+        if export_type is None:
+            self.logger.e_msg("Unrecognized type.")
+            return
 
         new_name = name + "_export"
 
@@ -791,7 +814,7 @@ class Command:
     def do_delete(self, obj_type: str, name: str) -> None:
         """Remove some object the REPL is storing from memory."""
         self.logger.d_msg(obj_type)
-        known_types_dict = {
+        known_types_dict: Dict[str, AnyDict] = {
             ObjTypes.GRAPH.value: self.data.graphs,
             ObjTypes.METRIC.value: self.data.metrics,
             ObjTypes.KLEE_BC.value: self.data.bc_files,
@@ -808,8 +831,10 @@ class Command:
 
         if obj_type == ObjTypes.KLEE.value:
             found = False
-            for dictionary in [self.data.klee_stats, self.data.klee_formatted_files,
-                               self.data.bc_files]:
+            dictionary_list: List[AnyDict] = [self.data.klee_stats,
+                                              self.data.klee_formatted_files,
+                                              self.data.bc_files]
+            for dictionary in dictionary_list:
                 try:
                     del dictionary[name]
                     found = True
@@ -819,9 +844,10 @@ class Command:
                 self.logger.v_msg(f"No {name} found of any KLEE type.")
         elif obj_type == ObjTypes.ALL.value:
             found = False
-            for dictionary in [self.data.graphs, self.data.metrics,
+            dictionary_list = [self.data.graphs, self.data.metrics,
                                self.data.klee_stats, self.data.klee_formatted_files,
-                               self.data.bc_files]:
+                               self.data.bc_files]
+            for dictionary in dictionary_list:
                 try:
                     del dictionary[name]
                     found = True
