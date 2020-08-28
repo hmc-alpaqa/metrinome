@@ -238,9 +238,9 @@ class Graph(Generic[GraphEdgeType]):
             for i in range(vertex_count):
                 for j in range(vertex_count):
                     if self.weighted and self.edges[i, j] != 0:
-                        edges.append([i, j, self.edges[i, j]])
+                        edge_list.append([i, j, self.edges[i, j]])
                     elif self.edges[i, j] == 1:
-                        edges.append([i, j])
+                        edge_list.append([i, j])
 
             return edge_list
 
@@ -334,13 +334,13 @@ class Graph(Generic[GraphEdgeType]):
     def adjacency_list(self) -> Union[AdjListType, WeightedAdjList]:
         """Compute the adjacency list for a Graph from its set of edges."""
         if self.graph_type is GraphType.ADJACENCY_LIST:
-            return AdjListType(self.edges)
+            return cast(AdjListType, self.edges)
 
         if self.graph_type is GraphType.EDGE_LIST:
             if self.weighted:
-                v_e_dict: AdjListType = [[] for _ in range(self.vertex_count())]
+                v_e_dict: WeightedAdjList = [[] for _ in range(self.vertex_count())]
             else:
-                v_e_dict_2: WeightedAdjList = [[] for _ in range(self.vertex_count())]
+                v_e_dict_2: AdjListType = [[] for _ in range(self.vertex_count())]
 
             for edge in self.edge_rules():
                 vertex_one = edge[0]
@@ -348,14 +348,14 @@ class Graph(Generic[GraphEdgeType]):
                 weight = 1
                 if self.weighted:
                     weight = edge[2]
-                    v_e_dict_2[vertex_one].append([vertex_two, weight])
+                    v_e_dict[vertex_one].append([vertex_two, weight])
                 else:
-                    v_e_dict[vertex_one].append(vertex_two)
+                    v_e_dict_2[vertex_one].append(vertex_two)
 
             if self.weighted:
-                return v_e_dict_2
+                return v_e_dict
 
-            return v_e_dict
+            return v_e_dict_2
 
         if self.graph_type is GraphType.ADJACENCY_MATRIX:
             pass
@@ -381,7 +381,7 @@ class Graph(Generic[GraphEdgeType]):
         if graph_type is GraphType.ADJACENCY_LIST:
             # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
             # graph = Graph(v_e_dict, None, -1, -1, graph_type)
-            graph = Graph(AdjListType([]), [], -1, -1, graph_type)
+            graph = Graph(cast(AdjListType, []), [], -1, -1, graph_type)
         elif graph_type is GraphType.EDGE_LIST:
             edges: List[List[int]] = []
             graph = Graph(edges, [], -1, -1, graph_type)

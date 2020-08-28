@@ -134,7 +134,7 @@ def create_pandas(results: KleeCompareResults, preference: str, input_: str,
     return pd.DataFrame(data, index=index, columns=fields)
 
 
-def run_klee_experiment(func, array_size: int, max_depths: List[str],
+def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
                         preferences: List[str],
                         fields: List[str], inputs: List[str]) -> None:
     """Run the KLEE experiment for a single function."""

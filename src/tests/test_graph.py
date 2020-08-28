@@ -4,6 +4,7 @@ import unittest
 import sys
 import tempfile
 import re
+from typing import cast
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph, GraphType, EdgeListType, AdjListType
@@ -15,7 +16,7 @@ class TestGraphGetters(unittest.TestCase):
     # === Graph::node_to_index ===
     def test_node_to_index(self) -> None:
         """Test the node_to_index helper function."""
-        graph = Graph(EdgeListType([]), [1], 0, 5, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 0, 5, GraphType.EDGE_LIST)
         self.assertTrue(graph.node_to_index(0) == 0)
         self.assertTrue(graph.node_to_index(5) == 1)
         self.assertTrue(graph.node_to_index(1) == 2)
@@ -23,7 +24,7 @@ class TestGraphGetters(unittest.TestCase):
     # === Graph::get_end ===
     def test_get_end_one_vertex(self) -> None:
         """Check that we can get the end vertex of a Graph with one vertex."""
-        graph = Graph(EdgeListType([]), [1], 0, 1, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 0, 1, GraphType.EDGE_LIST)
         end_node = graph.get_end()
         expected = 1
         self.assertEqual(expected, end_node)
@@ -38,7 +39,7 @@ class TestGraphGetters(unittest.TestCase):
     # === Graph::get_start ===
     def test_get_start_one_vertex(self) -> None:
         """Check that we can get the start vertex of a Graph with one vertex."""
-        graph = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         start_node = graph.get_start()
         expected = 1
         self.assertEqual(expected, start_node)
@@ -53,14 +54,14 @@ class TestGraphGetters(unittest.TestCase):
     # === Graph::set_name ===
     def test_set_name(self) -> None:
         """Check that can set the name of a Graph."""
-        graph = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         graph.set_name("Test graph")
         self.assertEqual(graph.name, "Test graph")
 
     # === Graph::get_vertices ===
     def test_get_vertices_one_vertex(self) -> None:
         """Test if we can get all of the vertices from a Graph with a single vertex."""
-        graph = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         vertices = graph.get_vertices()
         self.assertEqual(vertices, [1])
 
@@ -94,7 +95,7 @@ class TestGraphInfo(unittest.TestCase):
     # === Graph::edge_count ===
     def test_edge_count_no_edges(self) -> None:
         """Check that we can get the number of edges for a Graph with no edges."""
-        graph = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         count = graph.edge_count()
         expected = 0
         self.assertEqual(expected, count)
@@ -116,7 +117,7 @@ class TestGraphInfo(unittest.TestCase):
     # === Graph::vertex_count ===
     def test_vertex_count_one_vertex(self) -> None:
         """Test obtaining the number of vertices from a Graph for a Graph with a single vertex."""
-        graph = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         vertex_count = graph.vertex_count()
         self.assertEqual(vertex_count, 1)
 
@@ -146,19 +147,19 @@ class TestGraph(unittest.TestCase):
     # === Graph::update_with_node ===
     def test_update_with_node(self) -> None:
         """Check that we can add a node to a Graph."""
-        graph = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         update = re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", "2 [label=\"EXIT\"]")
         if update is None:
             self.fail("Node cannot be None.")
 
         graph.update_with_node(update)
-        expected = Graph(EdgeListType([]), [1, 2], 1, 2, GraphType.EDGE_LIST)
+        expected = Graph(cast(EdgeListType, []), [1, 2], 1, 2, GraphType.EDGE_LIST)
         self.assertEqual(expected, graph)
 
     # === Graph::update_with_edge ===
     def test_update_with_edge(self) -> None:
         """Check that we can add an edge to a Graph."""
-        graph = Graph(EdgeListType([]), [1, 2], 1, 2, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1, 2], 1, 2, GraphType.EDGE_LIST)
         update = re.search(r"([0-9]*)\s*->\s*([0-9]*)", "1 -> 2")
         if update is None:
             self.fail("Node cannot be None.")
@@ -170,8 +171,8 @@ class TestGraph(unittest.TestCase):
     # === Graph::__eq__ ===
     def test_eq_same_simple(self) -> None:
         """Verify that equality works."""
-        graph1 = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
-        graph2 = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph1 = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
+        graph2 = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         self.assertTrue(graph1 == graph2)
 
     def test_eq_same_complicated(self) -> None:
@@ -182,14 +183,14 @@ class TestGraph(unittest.TestCase):
 
     def test_eq_different(self) -> None:
         """Check that equality fails when the Graphs are different."""
-        graph1 = Graph(EdgeListType([]), [1], 1, 1, GraphType.EDGE_LIST)
+        graph1 = Graph(cast(EdgeListType, []), [1], 1, 1, GraphType.EDGE_LIST)
         graph2 = Graph([[1, 2], [2, 3], [2, 4]], [1, 2, 3, 4], 1, 4, GraphType.EDGE_LIST)
         self.assertFalse(graph1 == graph2)
 
     def test_eq_different_types(self) -> None:
         """Check that equality throws an error when Graphs are different types."""
-        graph1 = Graph(EdgeListType([]), [0], 0, 0, GraphType.EDGE_LIST)
-        graph2 = Graph(AdjListType([]), [0], 0, 0, GraphType.ADJACENCY_LIST)
+        graph1 = Graph(cast(EdgeListType, []), [0], 0, 0, GraphType.EDGE_LIST)
+        graph2 = Graph(cast(AdjListType, []), [0], 0, 0, GraphType.ADJACENCY_LIST)
         with self.assertRaises(ValueError):
             graph1 == graph2  # pylint: disable=pointless-statement
 
@@ -197,13 +198,14 @@ class TestGraph(unittest.TestCase):
     def test_to_str(self) -> None:
         """Test if we can correctly convert a Graph to a string."""
         graph = Graph([[1, 2]], [1, 2, 3], 1, 3, graph_type=GraphType.EDGE_LIST)
-        expected = "Edges: [1, 2]\nTotal Edges: 2\nVertices: [1, 2, 3]\nStart Node: 1\nEnd Node: 3"
+        edge_str = "Edges: [[1, 2]]"
+        expected = f"{edge_str}\nTotal Edges: 1\nVertices: [1, 2, 3]\nStart Node: 1\nEnd Node: 3"
         self.assertEqual(expected, str(graph))
 
     # # === Graph::edge_rules ===
     def test_edge_rules_no_edges(self) -> None:
         """Test if we can get all of the edges from a Graph."""
-        graph = Graph(EdgeListType([]), [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
         edge_list = graph.edge_rules()
         self.assertEqual(edge_list, [])
 
@@ -216,16 +218,16 @@ class TestGraph(unittest.TestCase):
         adjacency_matrix = graph.adjacency_matrix()
         graph = Graph(adjacency_matrix, [0, 1, 2], 0, 2, GraphType.ADJACENCY_MATRIX)
         edge_list = graph.edge_rules()
-        self.assertEqual(edge_list, [(0, 1), (0, 2)])
+        self.assertEqual(edge_list, [[0, 1], [0, 2]])
 
         graph = Graph([[1, 2]], [0, 1, 2], 0, 2, GraphType.ADJACENCY_LIST)
         edge_list = graph.edge_rules()
-        self.assertEqual(edge_list, [(0, 1), (0, 2)])
+        self.assertEqual(edge_list, [[0, 1], [0, 2]])
 
     # # === Graph::adjacency_matrix ===
     def test_adjacency_matrix_no_edges(self) -> None:
         """Test if we can get the adjacency matrix for a Graph with no edges."""
-        graph = Graph(EdgeListType([]), [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [1, 2, 3], 1, 3, GraphType.EDGE_LIST)
         adj_mat = graph.adjacency_matrix()
         empty_mat = np.zeros((3, 3))
         self.assertTrue((adj_mat == empty_mat).all())
@@ -253,7 +255,7 @@ class TestGraph(unittest.TestCase):
     # === Graph::adjacency_list ===
     def test_adjacency_list_no_edges(self) -> None:
         """Test if we can get the adjacency list for a graph with no edges."""
-        graph = Graph(EdgeListType([]), [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
+        graph = Graph(cast(EdgeListType, []), [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
         adj_list = graph.adjacency_list()
         for i in adj_list:
             self.assertTrue(len(i) == 0)
@@ -261,7 +263,7 @@ class TestGraph(unittest.TestCase):
     # === Graph::from_file ===
     def test_from_file_one_vertex(self) -> None:
         """Test if we can get the adjacency list for a graph with no edges."""
-        expected = Graph(EdgeListType([]), [0, 1], 0, 1, GraphType.EDGE_LIST)
+        expected = Graph(cast(EdgeListType, []), [0, 1], 0, 1, GraphType.EDGE_LIST)
         graph = Graph.from_file("/app/code/tests/dotFiles/testsimple.dot",
                                 graph_type=GraphType.EDGE_LIST)
         self.assertEqual(expected, graph)
@@ -279,13 +281,13 @@ class TestGraph(unittest.TestCase):
     # === Graph::convert_to_weighted ===
     def test_convert_weighted_to_weighted(self) -> None:
         """Check that converting a graph that is already weighted to weighted throws an error."""
-        graph = Graph(AdjListType([]), [0], start_node=0,
+        graph = Graph(cast(AdjListType, []), [0], start_node=0,
                       end_node=1, graph_type=GraphType.ADJACENCY_LIST)
         graph.convert_to_weighted()
         with self.assertRaises(ValueError):
             graph.convert_to_weighted()
 
-        graph = Graph(EdgeListType([]), [0], start_node=0, end_node=1,
+        graph = Graph(cast(EdgeListType, []), [0], start_node=0, end_node=1,
                       graph_type=GraphType.ADJACENCY_MATRIX)
         with self.assertRaises(NotImplementedError):
             graph.convert_to_weighted()
@@ -302,7 +304,7 @@ class TestGraph(unittest.TestCase):
     # === Graph::to_prism ===
     def test_to_prism_one_vertex(self) -> None:
         """Test if we can convert a Graph with one vertex to a PRISM file."""
-        graph = Graph(AdjListType([]), [0], start_node=0, end_node=1,
+        graph = Graph(cast(EdgeListType, []), [0], start_node=0, end_node=1,
                       graph_type=GraphType.ADJACENCY_LIST)
         with self.assertRaises(ValueError):
             graph.to_prism()  # Cannot convert non-weighted.
@@ -314,7 +316,7 @@ class TestGraph(unittest.TestCase):
 
     def test_to_prism_normal_graph(self) -> None:
         """Test if we can convert a Graph with many vertices and many edges to a PRISM file."""
-        graph = Graph(AdjListType([]), [0], start_node=0, end_node=1,
+        graph = Graph(cast(AdjListType, []), [0], start_node=0, end_node=1,
                       graph_type=GraphType.ADJACENCY_LIST)
         graph.convert_to_weighted()
         with tempfile.NamedTemporaryFile() as file:

@@ -162,7 +162,7 @@ def run_benchmark(converter: metric.MetricAbstract,
                                                                                 show_info)
 
 
-def get_name(path: str, type: str) -> str:
+def get_name(path: str, path_type: str) -> str:
     """Get the name of a file given its path."""
     if path_type == "folder":
         return os.path.split(os.path.split(path)[0])[1].replace(".o", ".c")
@@ -171,7 +171,6 @@ def get_name(path: str, type: str) -> str:
         return os.path.split(path)[1].split("cleaned_cfg.")[1]
 
     return ""
-
 
 
 def main() -> None:

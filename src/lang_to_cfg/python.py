@@ -12,7 +12,7 @@ thing after the statement returns.
 # pylint: disable=C0103
 import sys
 sys.path.append("/app/code/")
-from typing import List, Optional, Dict, cast, Any
+from typing import List, Optional, Dict, cast
 import ast
 import os
 # from pprintast import pprintast as ppast
@@ -64,19 +64,14 @@ class FunctionVisitor(ast.NodeVisitor):
 
     def standard_visit(self) -> Node:
         """Create a new node and update the graph accordingly."""
-         new_node = Node()
+        new_node = Node()
         if not self.update_root(new_node):
             self.update_frontier(new_node)
 
         self.frontier = [new_node]
         return new_node
-    
-    def visit_Expr(self, node: ast.AST) -> None:
-        """Visit a python expression."""
-        self.logger.d_msg(f"At expr {node}")
-        self.standard_visit()
 
-    def visit_Expr(self, node) -> None:
+    def visit_Expr(self, node: ast.AST) -> None:
         """Visit a python expression."""
         self.logger.d_msg(f"At expr {node}")
         self.standard_visit()

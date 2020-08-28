@@ -13,7 +13,9 @@ import time
 from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
+import sys
 import numpy   # type: ignore
+sys.path.append('/app/code/inlining')
 import inlining_script
 import inlining_script_heuristic
 from log import Log, LogLevel
@@ -235,7 +237,7 @@ def worker_main_two(metrics_generator: metric.MetricAbstract,
     try:
         with Timeout(10, "Took too long!"):
             result = metrics_generator.evaluate(graph)
-        
+
         if graph.name is None:
             raise ValueError("No Graph name.")
 
@@ -497,9 +499,21 @@ class Command:
                     if metric_generator.name() == "Path Complexity":
                         result_ = cast(Tuple[Union[float, str], Union[float, str]],
                                        result)
-        else:
+                        time_out = f"took {runtime:.3f} seconds"
+                        path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
+                        self.logger.v_msg(f"Got {path_out}, {time_out}")
+                    else:
+                        self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
+                except TimeoutError:
+                    self.logger.e_msg("Timeout!")
+                except IndexError as err:
+                    self.logger.e_msg("Index Error")
+                    self.logger.e_msg(str(err))
+                except numpy.linalg.LinAlgError as err:
+                    self.logger.e_msg("Lin Alg Error")
+                    self.logger.e_msg(str(err))
 
-        return True
+            self.data.metrics[name] = results
 
     def log_name(self, name: str) -> bool:
         """Log all objects of a given name."""
@@ -527,6 +541,21 @@ class Command:
         if not found:
             self.logger.v_msg(f"Object {name} not found.")
         return found
+
+    def do_show_klee(self, obj_type: ObjTypes, names: List[str]) -> bool:
+        """Display the KLEE objects the REPL knows about."""
+        if obj_type == ObjTypes.KLEE_BC:
+            self.data.show_klee_bc(names)
+        elif obj_type == ObjTypes.KLEE_FILE:
+            self.data.show_klee_files(names)
+        elif obj_type == ObjTypes.KLEE_STATS:
+            self.data.show_klee_stats(names)
+        elif obj_type == ObjTypes.KLEE:
+            self.data.show_klee(names)
+        else:
+            return False
+
+        return True
 
     @check_args(2, "Must specify type (metric, graph, or any KLEE type) and name.")
     def do_show(self, obj_typename: str, arg_name: str) -> None:
