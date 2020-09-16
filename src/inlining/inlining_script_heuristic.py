@@ -54,8 +54,7 @@ def main() -> None:
     #                    'test-07-un-inlined.c', 'test-08-un-inlined.c', 'test-09-un-inlined.c',
     #                    'test-10-un-inlined.c', 'test-11-un-inlined.c', 'test-12-un-inlined.c']
 
-    files_to_inline = ['test-30-un-inlined.c', 'test-31-un-inlined.c', 'test-32-un-inlined.c',
-                       'test-33-un-inlined.c']
+    files_to_inline = ['04_prime_helper.c']
 
     # files_to_inline = ['basenc.c', 'cat.c', 'chcon.c', 'chgrp.c', 'chmod.c',
     #                    'chown-core.c', 'chown.c']
@@ -66,7 +65,7 @@ def main() -> None:
     #         in_lining(file)
 
     for file in files_to_inline:
-        in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
+        in_lining(f"/app/code/tests/cFiles/in_lining_tests_on_fse/{file}")
 
 
 if __name__ == "__main__":
