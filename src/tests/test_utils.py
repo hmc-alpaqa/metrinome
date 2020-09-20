@@ -1,6 +1,4 @@
 """This is used to test the utils that are primarily used in computing APC and path complexity."""
-import sys
-sys.path.append("/app/code")
 import unittest
 from time import sleep
 import utils

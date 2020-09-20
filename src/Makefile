@@ -39,6 +39,14 @@ start-detached:
 stop-detached:
 	docker stop detached_repl -t 10
 
+clean:
+	rm -r __pycache__ || true
+	rm -r inlining/__pycache__ || true
+	rm -r lang_to_cfg/__pycache__ || true
+	rm -r metric/__pycache__ || true
+	rm -r tests/__pycache__ || true
+
+
 # Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command.
 formatting:
 	# Remove trailing whitespace.
@@ -48,5 +56,5 @@ formatting:
 	# Replace ''' with """.
 	find . -type f -name "*.py" | xargs sed -i '' -e 's/'"'''"'/"""/g'
 
-.PHONY: lint tests formatting test build run run-detched stop-detached coverage
+.PHONY: lint tests formatting test build run run-detched stop-detached coverage clean
 	

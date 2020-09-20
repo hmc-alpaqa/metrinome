@@ -1,8 +1,6 @@
 """Test that we can convert Python files to CFGs."""
 
 import unittest
-import sys
-sys.path.append("/app/code/")
 from lang_to_cfg.python import PythonConvert
 from graph import Graph, GraphType
 from log import Log

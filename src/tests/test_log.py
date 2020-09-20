@@ -6,8 +6,6 @@ and how this information is displayed.
 """
 
 import unittest
-import sys
-sys.path.append("/app/code")
 from tests.unit_utils import captured_output
 from log import Log, Colors, LogLevel
 

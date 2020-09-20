@@ -3,12 +3,10 @@
 from typing import Dict, Optional, Tuple, List
 import subprocess
 import shlex
-import sys
 import os
 import re
 import signal
 import glob2  # type: ignore
-sys.path.append("/app/code/")
 from graph import GraphType
 from control_flow_graph import ControlFlowGraph
 from log import Log

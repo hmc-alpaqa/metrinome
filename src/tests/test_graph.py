@@ -1,12 +1,10 @@
 """Test methods associated with Graph objects and their conversion to Prism files."""
 
 import unittest
-import sys
 import tempfile
 import re
 from typing import cast
 import numpy as np  # type: ignore
-sys.path.append("/app/code/")
 from graph import Graph, GraphType, EdgeListType, AdjListType
 from control_flow_graph import ControlFlowGraph as CFG
 
