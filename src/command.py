@@ -1,7 +1,7 @@
 """The main implementation of the REPL."""
 
 from __future__ import annotations
-from typing import List, Dict, Callable, Optional, Tuple, Iterable, Union, cast
+from typing import List, Dict, Optional, Tuple, Iterable, Union, cast
 import os.path
 from os import listdir
 import readline
@@ -25,59 +25,7 @@ from lang_to_cfg import cpp, java, python, converter
 from klee_utils import KleeUtils
 from utils import Timeout
 from command_data import Data, ObjTypes, AnyDict, PathComplexityRes
-
-# pylint: disable=pointless-string-statement
-"""
-List of all the error messages the REPL can throw.
-Use these for maintaining consistency, rather than putting strings directly in the log messages.
-"""
-MISSING_FILENAME: str = "Must provide file name."
-MISSING_TYPE_AND_NAME: str = "Must specify type and name."
-MISSING_NAME: str = "Must specify name."
-NO_FILE_EXT: Callable[[str], str] = lambda f_name: \
-    f"No file extension found for {f_name}."
-NOT_IMPLEMENTED: str = "Not implemened."
-EXTENSION: Callable[[str, str], str] = lambda target_type, file_extension: \
-    f"File extension must be {target_type}, not {file_extension}."
-
-
-def check_args(num_args: int,
-               err: str,
-               check_recursive: bool = False,
-               var_args: bool = False
-               ) -> Callable[[Callable[..., None]], Callable[[Command, str], None]]:
-    """Create decorators that verify REPL functions have valid arguments (factory method)."""
-    def decorator(func: Callable[..., None]) -> Callable[[Command, str], None]:
-        def wrapper(self: Command, args: str) -> None:
-            args_list = args.strip().split()
-            if len(args_list) < num_args:
-                self.logger.v_msg(err)
-                return
-
-            if len(args_list) > num_args:
-                if check_recursive:
-                    recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
-                    if not var_args and len(args) == num_args + 1 and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                    if var_args and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                if var_args:
-                    func(self, *args_list)
-                    return
-
-                self.logger.v_msg("Too many arguments provided.")
-            else:
-                if check_recursive:
-                    func(self, False, *args_list)
-                else:
-                    func(self, *args_list)
-
-        return wrapper
-    return decorator
+from repl_errors import NO_FILE_EXT, EXTENSION
 
 
 class KnownExtensions(Enum):
@@ -290,7 +238,6 @@ class Command:
 
         return args[0]
 
-    @check_args(1, MISSING_FILENAME)
     def do_klee_replay(self, file_name: str) -> None:
         """Run a generated unit tests against the C source code by providing a ktest file."""
         if (result := self.verify_file_type(file_name, "ktest")) is None:
@@ -386,7 +333,6 @@ class Command:
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
 
-    @check_args(1, MISSING_FILENAME, check_recursive=True, var_args=True)
     def do_import(self, recursive_mode: bool, *args_list: str) -> None:
         """Convert .dot files into CFGs."""
         # Iterate through all file-like objects.
@@ -418,7 +364,6 @@ class Command:
                 else:
                     self.data.graphs[filepath] = graph
 
-    @check_args(1, "Must specify object type to list (metrics, graphs, or KLEE type).")
     def do_list(self, list_typename: str) -> None:
         """List objects the REPL knows about."""
         list_type = ObjTypes.get_type(list_typename)
@@ -476,7 +421,6 @@ class Command:
             self.logger.v_msg(f"Error, Graph {name} not found.")
             return []
 
-    @check_args(1, "Must provide graph name.")
     def do_metrics(self, name: str) -> None:
         """Compute of one of the known objects for a stored Graph object."""
         graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
@@ -557,7 +501,6 @@ class Command:
 
         return True
 
-    @check_args(2, "Must specify type (metric, graph, or any KLEE type) and name.")
     def do_show(self, obj_typename: str, arg_name: str) -> None:
         """Display objects the REPL knows about."""
         names = [arg_name]
@@ -585,7 +528,6 @@ class Command:
         else:
             self.logger.v_msg(f"Type {obj_type} not recognized.")
 
-    @check_args(1, "Must provide KLEE formatted name.")
     def do_klee_to_bc(self, name: str) -> None:
         """
         Convert a file that is already in a klee-compatible format to a file KLEE can be called on.
@@ -618,7 +560,6 @@ class Command:
                 self.data.bc_files[f_name] = res.stdout
                 self.logger.v_msg(f"Created {f_name}")
 
-    @check_args(1, MISSING_FILENAME, check_recursive=True)
     def do_to_klee_format(self, recursive_mode: bool, file_path: str) -> None:
         """Convert a file with C source code to a format compatible with klee."""
         self.logger.d_msg(f"Recursive Mode is {recursive_mode}")
@@ -672,7 +613,6 @@ class Command:
                                                          timeout=timed_out)
         self.logger.i_msg("Updated!")
 
-    @check_args(1, MISSING_FILENAME, check_recursive=False, var_args=True)
     def do_klee(self, name: str, *extra_args: str) -> None:
         """Execute klee on a .bc file stored as an object in the REPL."""
         if name in self.data.bc_files or name == "*":
@@ -732,13 +672,11 @@ class Command:
                 self.logger.d_msg(output.decode())
                 self.update_klee_stats(output.decode(), name, delta_t)
 
-    @check_args(0, "Quit does not accept arguments.")
     def do_quit(self) -> None:
         """Quit the repl."""
         readline.write_history_file()
         raise SystemExit
 
-    @check_args(2, MISSING_TYPE_AND_NAME)
     def do_export(self, export_typename: str, name: str) -> None:
         """
         Save some object the REPL knows about to an external file.
@@ -768,7 +706,6 @@ class Command:
         else:
             self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
 
-    @check_args(1, MISSING_NAME)
     def do_cd(self, new_path: str) -> None:
         """Change the working directory in the REPL."""
         if new_path[0] == "/" and not os.path.isdir(new_path):
@@ -781,22 +718,18 @@ class Command:
 
         self.curr_path = os.path.abspath(os.path.join(self.curr_path, new_path))
 
-    @check_args(0, "Cannot accept arguments.")
     def do_ls(self) -> None:
         """List the arguments in the current working directory."""
         self.logger.v_msg(" ".join(os.listdir(self.curr_path)))
 
-    @check_args(1, "Missing directory name.")
     def do_mkdir(self, dirname: str) -> None:
         """Create a new directory from the given name."""
         subprocess.check_call(["mkdir", "-p", dirname])
 
-    @check_args(2, "Missing name one and name two.")
     def do_mv(self, name_one: str, name_two: str) -> None:
         """Move a file to a new location."""
         subprocess.check_call(["mv", name_one, name_two])
 
-    @check_args(1, "Missing name of file/directory to delete.", check_recursive=True, var_args=True)
     def do_rm(self, recursive_mode: bool, *names: str) -> None:
         """Remove a file or directory."""
         for name in names:
@@ -805,12 +738,10 @@ class Command:
             else:
                 subprocess.check_call(["rm", name])
 
-    @check_args(0, "Cannot accept arguments.")
     def do_pwd(self) -> None:
         """Print out the current working directory."""
         self.logger.v_msg(self.curr_path)
 
-    @check_args(2, MISSING_TYPE_AND_NAME)
     def do_delete(self, obj_type: str, name: str) -> None:
         """Remove some object the REPL is storing from memory."""
         self.logger.d_msg(obj_type)
