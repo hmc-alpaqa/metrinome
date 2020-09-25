@@ -26,7 +26,7 @@ class TestCPPConvert(unittest.TestCase):
         self.assertIsNotNone(result)
         if result is not None:
             self.assertTrue("blank0" in result)
-            self.assertEqual(graph1, result["blank0"])
+            self.assertEqual(graph1, result["blank0"].graph)
 
         expected_graph = Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
                                [0, 1, 2, 3, 4, 5, 6], 0, 6, GraphType.EDGE_LIST)
@@ -36,7 +36,7 @@ class TestCPPConvert(unittest.TestCase):
         graph_names = ['names0', 'names1', 'names2', 'names3']
         self.assertIsNotNone(graphs)
         if graphs is not None:
-            obtained_graphs = [graphs[graph_name] for graph_name in graph_names]
+            obtained_graphs = [graphs[graph_name].graph for graph_name in graph_names]
             self.assertTrue(any(expected_graph == res for res in obtained_graphs))
 
     # @ignore_warnings  # glob regex deprecation warnings.

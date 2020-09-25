@@ -19,8 +19,8 @@ sys.path.append('/app/code/inlining')
 import inlining_script
 import inlining_script_heuristic
 from log import Log, LogLevel
-from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
-from graph import Graph, AnyGraph
+from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric, loc
+from control_flow_graph import ControlFlowGraph
 from lang_to_cfg import cpp, java, python, converter
 from klee_utils import KleeUtils
 from utils import Timeout
@@ -145,7 +145,9 @@ class Controller:
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
         npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
-        self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath, pathcomplexity]
+        lines_of_code = loc.LinesOfCode(self.logger)
+        self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath,
+                                                                pathcomplexity, lines_of_code]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -168,9 +170,9 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict: Dict[str, AnyGraph], file: str) -> None:
+def worker_main(shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
     """Handle the multiprocessing of import."""
-    graph = Graph.from_file(file)
+    graph = ControlFlowGraph.from_file(file)
     if isinstance(graph, dict):
         shared_dict.update(graph)
     else:
@@ -180,7 +182,7 @@ def worker_main(shared_dict: Dict[str, AnyGraph], file: str) -> None:
 
 def worker_main_two(metrics_generator: metric.MetricAbstract,
                     shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]],
-                    graph: AnyGraph) -> None:
+                    graph: ControlFlowGraph) -> None:
     """Handle the multiprocessing of convert."""
     try:
         with Timeout(10, "Took too long!"):
@@ -329,7 +331,7 @@ class Command:
                 if isinstance(graph, dict):
                     self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
                     self.data.graphs.update(graph)
-                elif isinstance(graph, Graph):
+                elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
 
@@ -350,14 +352,14 @@ class Command:
         #  this is done automatically in the previous step).
         if self.multi_threaded:
             manager = Manager()
-            shared_dict: Dict[str, AnyGraph] = manager.dict()
+            shared_dict: Dict[str, ControlFlowGraph] = manager.dict()
             pool = Pool(8)
             pool.map(partial(worker_main, shared_dict), all_files)
             self.data.graphs.update(shared_dict)
         else:
             for file in all_files:
                 filepath, _ = os.path.splitext(file)
-                graph = Graph.from_file(file)
+                graph = ControlFlowGraph.from_file(file)
                 self.logger.v_msg(str(graph))
                 if isinstance(graph, dict):
                     self.data.graphs.update(graph)
@@ -390,7 +392,7 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
-    def do_metrics_multithreaded(self, graphs: List[AnyGraph]) -> None:
+    def do_metrics_multithreaded(self, graphs: List[ControlFlowGraph]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
         pool = Pool(8)
         manager = Manager()
@@ -437,17 +439,23 @@ class Command:
 
                 try:
                     with Timeout(60, "Took too long!"):
-                        result = metric_generator.evaluate(graph)
+                        try:
+                            result = metric_generator.evaluate(graph)
+                        except:
+                            result = None
                         runtime = time.time() - start_time
-                    results.append((metric_generator.name(), result))
-                    if metric_generator.name() == "Path Complexity":
-                        result_ = cast(Tuple[Union[float, str], Union[float, str]],
-                                       result)
-                        time_out = f"took {runtime:.3f} seconds"
-                        path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
-                        self.logger.v_msg(f"Got {path_out}, {time_out}")
+                    if result is not None:
+                        results.append((metric_generator.name(), result))
+                        if metric_generator.name() == "Path Complexity":
+                            result_ = cast(Tuple[Union[float, str], Union[float, str]],
+                                        result)
+                            time_out = f"took {runtime:.3f} seconds"
+                            path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
+                            self.logger.v_msg(f"Got {path_out}, {time_out}")
+                        else:
+                            self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
                     else:
-                        self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
+                        self.logger.v_msg("Got None")
                 except TimeoutError:
                     self.logger.e_msg("Timeout!")
                 except IndexError as err:

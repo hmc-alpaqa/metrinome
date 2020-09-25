@@ -5,6 +5,7 @@ from typing import Tuple, Dict, Union, cast
 sys.path.append("/app/code/")
 import command
 from graph import Graph, EdgeListType
+from control_flow_graph import ControlFlowGraph as CFG
 import command_data
 from tests.unit_utils import captured_output
 from log import Log
@@ -336,7 +337,8 @@ class TestCommand(unittest.TestCase):
         for a valid graph name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(cast(EdgeListType, []), [], 0, 0)
+            graph = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs["foo"] = CFG(graph)
             self.command.do_show(command.ObjTypes.GRAPH.value, "foo")
             print(out, err)
 
@@ -361,7 +363,7 @@ class TestCommand(unittest.TestCase):
         of all types) for a given name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs["foo"] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics["foo"] = [("123", 1)]
             self.command.do_show(command_data.ObjTypes.ALL.value, "foo")
             print(out, err)
@@ -374,8 +376,8 @@ class TestCommand(unittest.TestCase):
         of a given type.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs["bar"] = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs["foo"] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs["bar"] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.do_show(command_data.ObjTypes.GRAPH.value,
                                  command.ObjTypes.ALL.value)
             print(out, err)
@@ -451,8 +453,8 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.GRAPH
             obj_name = "sample_graph"
-            self.command.data.graphs['sample_graph'] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs['sample_graph'] = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs['sample_graph'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs['sample_graph'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics['sample_graph'] = [('abc', 1)]
             self.command.do_delete(str(obj_type), str(obj_name))
             print(out, err)
@@ -467,7 +469,7 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.METRIC
             obj_name = "sample_metric"
-            graph = Graph(cast(EdgeListType, []), [], 0, 0)
+            graph = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics['sample_metric'] = [('foo', 1)]
             self.command.data.metrics['sample_metric'] = [('bar', 1)]
             self.command.data.graphs['sample_metric'] = graph
@@ -484,7 +486,7 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.ALL
             obj_name = "sample_name"
-            graph = Graph(cast(EdgeListType, []), [], 0, 0)
+            graph = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.graphs['sample_name'] = graph
             self.command.data.metrics['sample_name'] = [('foo', 1)]
 
@@ -499,9 +501,9 @@ class TestCommand(unittest.TestCase):
             # Delete * name
             obj_type = command.ObjTypes.GRAPH
             obj_name = "*"
-            self.command.data.graphs['sample_name'] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs['sample_name'] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs['sample_name'] = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs['sample_name'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs['sample_name'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs['sample_name'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics['sample_name'] = [("123", 1)]
 
             self.command.do_delete(str(obj_type), str(obj_name))

@@ -7,7 +7,8 @@ This works with both the adjacency list representation and edge list.
 import copy
 from typing import List, Tuple
 import numpy as np  # type: ignore
-from graph import GraphType, AnyGraph, EdgeListType
+from graph import GraphType, EdgeListType
+from control_flow_graph import ControlFlowGraph
 from metric import metric
 from log import Log
 
@@ -105,8 +106,9 @@ class NPathComplexity(metric.MetricAbstract):
 
         return total
 
-    def evaluate(self, graph: AnyGraph) -> int:
+    def evaluate(self, cfg: ControlFlowGraph) -> int:
         """Compute the NPath complexity of a function given its CFG."""
+        graph = cfg.graph
         if graph.graph_type is GraphType.ADJACENCY_LIST:
             edges_tuple = tuple(tuple(edges) for edges in graph.edges)
             return int(self.npath_adj_list(graph.start_node, graph.end_node, edges_tuple))
