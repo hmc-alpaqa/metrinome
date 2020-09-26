@@ -6,6 +6,7 @@ import shlex
 import sys
 import os
 import re
+import signal
 import glob2  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph, GraphType, AnyGraph
@@ -172,9 +173,24 @@ class CPPConvert(converter.ConverterAbstract):
         with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, shell=False) as line1:
             command = line1.stdout
-
             if line1.stderr is not None:
-                err_msg = line1.stderr.read()
+                def handler(signum, frame):
+                    raise Exception("Timed out.")
+
+                signal.signal(signal.SIGALRM, handler)
+                error_lines = []
+                try:
+                    for line in line1.stderr:
+                        signal.alarm(5)
+                        error_lines.append(str(line))
+                except Exception as e:
+                    self.logger.d_msg(str(e))
+
+                signal.alarm(0)
+                err_msg = ''.join(error_lines)
+
+                # err_msg = line1.stderr.read()
+                # what it originally was
                 if len(err_msg) == 0:
                     self.logger.d_msg(f"Got the following error msg: {str(err_msg)}")
 
