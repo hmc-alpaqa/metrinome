@@ -4,7 +4,7 @@
 # Disable 'useless super delegation of __init__' because
 # this inherits from an abstract class.
 
-from graph import AnyGraph
+from control_flow_graph import ControlFlowGraph
 from metric import metric
 from log import Log
 
@@ -21,11 +21,11 @@ class CyclomaticComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Cyclomatic Complexity"
 
-    def evaluate(self, graph: AnyGraph) -> int:
+    def evaluate(self, cfg: ControlFlowGraph) -> int:
         """
         Compute the cyclomatic complexity of the function.
 
         The input graph is the CFG of some function.
         Refer to https://en.wikipedia.org/wiki/Cyclomatic_complexity.
         """
-        return graph.edge_count() - graph.vertex_count() + 2
+        return cfg.graph.edge_count() - cfg.graph.vertex_count() + 2

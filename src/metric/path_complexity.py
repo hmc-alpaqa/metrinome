@@ -11,6 +11,7 @@ import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import AnyGraph
+from control_flow_graph import ControlFlowGraph
 from metric import metric
 from log import Log
 
@@ -66,13 +67,13 @@ class PathComplexity(metric.MetricAbstract):
         return taylor_coeffs, dimension, degree(denominator, gen=t_var), roots
 
     # pylint: disable=too-many-locals
-    def evaluate(self, graph: AnyGraph) -> PathComplexityRes:
+    def evaluate(self, cfg: ControlFlowGraph) -> PathComplexityRes:
         """
         Compute the path complexity given the CFG of some function.
 
         Return both the path complexity and the asymptotic path complexity.
         """
-        taylor_coeffs, dimension, recurrence_degree, roots = self.gen_func_taylor_coeffs(graph)
+        taylor_coeffs, dimension, recurrence_degree, roots = self.gen_func_taylor_coeffs(cfg.graph)
         if taylor_coeffs is None:
             return (0.0, 0.0)
 

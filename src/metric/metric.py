@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Union, Tuple
-from graph import AnyGraph
+from control_flow_graph import ControlFlowGraph
 from log import Log
 
 
@@ -21,5 +21,5 @@ class MetricAbstract(ABC):
         """Obtain the name of the metric that we are computing."""
 
     @abstractmethod
-    def evaluate(self, graph: AnyGraph) -> Union[int, PathComplexityRes]:
+    def evaluate(self, cfg: ControlFlowGraph) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""

@@ -9,7 +9,8 @@ import re
 import signal
 import glob2  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph, GraphType, AnyGraph
+from graph import GraphType
+from control_flow_graph import ControlFlowGraph
 from log import Log
 from env import Env
 from lang_to_cfg import converter
@@ -31,7 +32,7 @@ class CPPConvert(converter.ConverterAbstract):
         """Get the name of the CPP converter."""
         return "CPP"
 
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, AnyGraph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
@@ -52,7 +53,7 @@ class CPPConvert(converter.ConverterAbstract):
             graph_name = os.path.splitext(f_name)[0]
             graph_name = os.path.split(graph_name)[1]
             self.logger.d_msg(f"graph_name: {graph_name}")
-            graphs[graph_name] = Graph.from_file(f_name, False, GraphType.EDGE_LIST)
+            graphs[graph_name] = ControlFlowGraph.from_file(f_name, False, GraphType.EDGE_LIST)
 
         Env.clean_temps()
         return graphs

@@ -18,7 +18,8 @@ import os
 # from pprintast import pprintast as ppast
 import uuid
 from log import Log
-from graph import Graph, GraphType, AnyGraph
+from graph import Graph, GraphType
+from control_flow_graph import ControlFlowGraph, Metadata
 from lang_to_cfg import converter
 
 
@@ -232,11 +233,16 @@ class Visitor(ast.NodeVisitor):
 
     def __init__(self, logger: Log = Log()) -> None:
         """Create a new instance of the Python source code parser."""
-        self.graphs: Dict[str, AnyGraph] = {}
+        self.graphs: Dict[str, ControlFlowGraph] = {}
         self.logger = logger
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
         """Call this for each function in the python source file."""
+        if node.end_lineno is None:
+            raise ValueError("we have a problem")
+
+        md = Metadata(int(node.end_lineno) - node.lineno)
+
         visitor = FunctionVisitor()
         self.logger.d_msg(f"Visiting {node.name}")
         visitor.visit(node)
@@ -277,21 +283,19 @@ class Visitor(ast.NodeVisitor):
             if curr_node.exit_node:
                 return_nodes.append(curr_node)
 
-        new_node = Node()
-        nodes[new_node] = len(node_list)
         node_list.append(len(node_list))
 
         for frontier_node in visitor.frontier:
-            edge_list.append([nodes[frontier_node], nodes[new_node]])
+            edge_list.append([nodes[frontier_node], len(node_list) - 1])
 
         for return_node in return_nodes:
-            edge_list.append([nodes[return_node], nodes[new_node]])
+            edge_list.append([nodes[return_node], len(node_list) - 1])
 
-        graph = Graph(edge_list, node_list, nodes[visitor.root],
-                      nodes[new_node], GraphType.EDGE_LIST)
-        graph.set_name(node.name)
+        cfg = ControlFlowGraph(Graph(edge_list, node_list, nodes[visitor.root],
+                                     len(node_list) - 1, GraphType.EDGE_LIST), md)
+        cfg.graph.set_name(node.name)
 
-        self.graphs[node.name] = graph
+        self.graphs[node.name] = cfg
 
 
 class PythonConvert(converter.ConverterAbstract):
@@ -307,14 +311,14 @@ class PythonConvert(converter.ConverterAbstract):
         return "Python"
 
     # pylint: disable=R0201
-    def to_graph(self, filename: str, file_extension: str) -> Dict[str, AnyGraph]:
+    def to_graph(self, filename: str, file_extension: str) -> Dict[str, ControlFlowGraph]:
         """Create a CFG from a Python source file."""
         self.logger.d_msg(file_extension)
 
         path = os.path.join(os.getcwd(), filename) + ".py"
         self.logger.d_msg(path)
         visitor = Visitor()
-        graphs: Dict[str, AnyGraph]
+        graphs: Dict[str, ControlFlowGraph]
         with open(path, "r") as src:
             root = ast.parse(src.read())
             visitor.visit(root)

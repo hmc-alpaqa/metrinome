@@ -18,10 +18,6 @@ int main()
 	int A[] = { 2, 3, 5, 8, 10 };
 	int n = sizeof(A) / sizeof(int);
 
-	if (checkMinHeap(A, n))
-		cout << "Given array is a min heap";
-	else
-		cout << "Given array is not a min heap";
-
+	checkMinHeap(A, n);
 	return 0;
 }

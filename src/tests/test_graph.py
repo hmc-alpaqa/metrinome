@@ -8,6 +8,7 @@ from typing import cast
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph, GraphType, EdgeListType, AdjListType
+from control_flow_graph import ControlFlowGraph as CFG
 
 
 class TestGraphGetters(unittest.TestCase):
@@ -140,9 +141,9 @@ class TestGraph(unittest.TestCase):
         dot = graph.dot()
         with open("/app/code/tests/dotFiles/dotTest.dot", "w+") as file:
             file.write(dot)
-        frmfile = graph.from_file("/app/code/tests/dotFiles/dotTest.dot",
-                                  graph_type=GraphType.EDGE_LIST)
-        self.assertEqual(frmfile, graph)
+        frmfile = CFG.from_file("/app/code/tests/dotFiles/dotTest.dot",
+                                graph_type=GraphType.EDGE_LIST)
+        self.assertEqual(frmfile.graph, graph)
 
     # === Graph::update_with_node ===
     def test_update_with_node(self) -> None:
@@ -264,9 +265,9 @@ class TestGraph(unittest.TestCase):
     def test_from_file_one_vertex(self) -> None:
         """Test if we can get the adjacency list for a graph with no edges."""
         expected = Graph(cast(EdgeListType, []), [0, 1], 0, 1, GraphType.EDGE_LIST)
-        graph = Graph.from_file("/app/code/tests/dotFiles/testsimple.dot",
-                                graph_type=GraphType.EDGE_LIST)
-        self.assertEqual(expected, graph)
+        cfg = CFG.from_file("/app/code/tests/dotFiles/testsimple.dot",
+                            graph_type=GraphType.EDGE_LIST)
+        self.assertEqual(expected, cfg.graph)
         # Graph.fromFile(None)
 
     def test_from_file_normal_graph(self) -> None:
@@ -274,9 +275,9 @@ class TestGraph(unittest.TestCase):
         expected = Graph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5],
                           [2, 7], [4, 6], [5, 6], [6, 7]],
                          [0, 1, 2, 3, 4, 5, 6, 7], 0, 7, GraphType.EDGE_LIST)
-        graph = Graph.from_file("/app/code/tests/dotFiles/testgraph.dot",
-                                graph_type=GraphType.EDGE_LIST)
-        self.assertEqual(expected, graph)
+        cfg = CFG.from_file("/app/code/tests/dotFiles/testgraph.dot",
+                            graph_type=GraphType.EDGE_LIST)
+        self.assertEqual(expected, cfg.graph)
 
     # === Graph::convert_to_weighted ===
     def test_convert_weighted_to_weighted(self) -> None:

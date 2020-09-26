@@ -9,7 +9,8 @@ import glob
 from math import floor
 from typing import List, Tuple, Iterator, Union, TypeVar
 from numpy import mean, std, median  # type: ignore
-from graph import Graph, GraphType
+from graph import GraphType
+from control_flow_graph import ControlFlowGraph as CFG
 from utils import Timeout
 from metric import metric
 
@@ -75,11 +76,11 @@ def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
         if show_info:
             print(os.path.splitext(graph)[0].split("/")[-1],
                   f"{round(100*(i / len(graph_list)))}% done")
-        graph_obj = Graph.from_file(graph, graph_type=graph_type)
+        cfg = CFG.from_file(graph, graph_type=graph_type)
         start_time = time.time()
         try:
             with Timeout(timeout_threshold, f'{converter.name()} took too long'):
-                res = converter.evaluate(graph_obj)
+                res = converter.evaluate(cfg)
                 print(res)
 
             # Calculate the run time.

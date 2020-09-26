@@ -9,6 +9,7 @@ import pandas as pd  # type: ignore
 sys.path.append("/app/code")
 from log import Log
 from graph import Graph, GraphType
+from control_flow_graph import ControlFlowGraph as CFG
 from utils import Timeout
 sys.path.append("/app/code/lang_to_cfg")
 sys.path.append("/app/code/metric")
@@ -117,7 +118,7 @@ def get_converter_time(graph_list: List[str],
         if show_info:
             print(os.path.splitext(graph)[0].split("/")[-1],
                   f"{round(100*(i / len(graph_list)))}% done")
-        graph_obj = Graph.from_file(graph)
+        graph_obj = CFG.from_file(graph)
         start_time = time.time()
         try:
             with Timeout(timeout_threshold, f'{converter.name()} took too long'):
@@ -192,7 +193,7 @@ def main() -> None:
         files = glob2.glob(f"{folder}/cleaned_*.dot")
         for file in files:
             file_name = get_name(file, "file")
-            graph = Graph.from_file(file)
+            cfg = CFG.from_file(file)
 
             start_time = time.time()
             apc: Union[str, PathComplexityRes] = "na"
@@ -203,7 +204,7 @@ def main() -> None:
             runtime = 0.0
             try:
                 with Timeout(300, ""):
-                    apc = Apc.evaluate(graph)
+                    apc = Apc.evaluate(cfg)
                 runtime = time.time() - start_time
 
             except TimeoutError as exception:
@@ -216,7 +217,7 @@ def main() -> None:
             if not ex:
                 try:
                     with Timeout(200, ""):
-                        cyclo = Cyclo.evaluate(graph)
+                        cyclo = Cyclo.evaluate(cfg)
 
                 except TimeoutError as exception:
                     ex = True
@@ -227,7 +228,7 @@ def main() -> None:
                 if not ex:
                     try:
                         with Timeout(200, ""):
-                            npath = Npath.evaluate(graph)
+                            npath = Npath.evaluate(cfg)
 
                     except TimeoutError as exception:
                         ex = True

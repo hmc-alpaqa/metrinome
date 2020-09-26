@@ -4,7 +4,8 @@ import os
 sys.path.append("/app/code/")
 from typing import Dict, Optional
 from glob2 import glob  # type: ignore
-from graph import Graph, GraphType, AnyGraph
+from graph import GraphType
+from control_flow_graph import ControlFlowGraph
 from env import Env
 from lang_to_cfg import converter
 from log import Log
@@ -28,7 +29,7 @@ class JavaConvert(converter.ConverterAbstract):
         return "Java"
 
     # pylint: disable=R0201
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, AnyGraph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
         """Create a CFG from a Java source file."""
         Env.clean_temps()
 
@@ -62,6 +63,6 @@ class JavaConvert(converter.ConverterAbstract):
 
         dot_files = glob(path)
         for file in dot_files:
-            graphs[file] = Graph.from_file(file, False, GraphType.EDGE_LIST)
+            graphs[file] = ControlFlowGraph.from_file(file, False, GraphType.EDGE_LIST)
         Env.clean_temps()
         return graphs
