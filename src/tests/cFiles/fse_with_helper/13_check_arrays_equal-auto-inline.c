@@ -1,6 +1,6 @@
 // C++ program to find given two array
 // are equal or not
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
 using namespace std;
 
 // Returns true if arr1[0..n-1] and arr2[0..m-1]
