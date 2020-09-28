@@ -62,6 +62,7 @@ confidence=
 # --disable=W".
 disable=C0326, # disable space before bracket
 	W0511, # TODOs
+	W1203, # % for lazy evaluation in logging
 	W1202, # % for lazy evaluation in logging
 	W1201, # % for lazy evaluation in logging
 	R0903, # too few public methods

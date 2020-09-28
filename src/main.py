@@ -29,7 +29,7 @@ class MyPrompt(Cmd):
 
         self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
 
-        super(MyPrompt, self).__init__()
+        super().__init__()
 
     def postcmd(self, stop: int, line: str) -> bool:
         """Execute after any command is executed to update the prompt."""
@@ -322,7 +322,7 @@ def main() -> None:
         readline.read_history_file()
     except FileNotFoundError:
         pass
-    prompt = MyPrompt(f"/app/code",
+    prompt = MyPrompt("/app/code",
                       parsed_args.debug_mode, parsed_args.multi_threaded)
     prompt.cmdloop(r"""
 

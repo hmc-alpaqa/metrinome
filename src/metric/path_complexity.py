@@ -30,6 +30,27 @@ class PathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Path Complexity"
 
+    def faddeev_leverrier(self, adj_mat: np.array) -> np.array:
+        """Use the Faddeev-Leverrier algorithm to find coefficients of characteristic poly."""
+        dimension = adj_mat.shape[0]
+        coefs = np.array([1.])  # coeffs starting from highest degree
+        matrix = np.array(adj_mat, dtype="float64")
+        for k in range(1, dimension + 1):
+            tot = -matrix.trace() / k
+            coefs = np.append(coefs, tot)
+            matrix += np.diag(np.repeat(tot, dimension))
+            matrix = np.dot(adj_mat, matrix)
+        return coefs[::-1]
+
+    def get_det_from_char_coefs(self, coefs: np.array, dimension: int) -> Basic:
+        """Get determinant from coefs of char. poly and the size of the matrix."""
+        terms = []
+        for i, coef in enumerate(coefs):
+            terms.append(f"{coef} * t**{i}")
+        poly = sympify(" + ".join(terms).replace("t", "(1/t)"))
+        det = simplify(poly * sympify(f"t**{dimension}"))
+        return det
+
     def gen_func_taylor_coeffs(self, graph: AnyGraph) -> Tuple[List[Basic],
                                                                int,
                                                                int,
@@ -93,7 +114,7 @@ class PathComplexity(metric.MetricAbstract):
         self.logger.d_msg(f"Recurrence Degree: {recurrence_degree}")
 
         bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
-        self.logger.d_msg(f"Got the bounding solution terms.")
+        self.logger.d_msg("Got the bounding solution terms.")
 
         bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(factors))
 

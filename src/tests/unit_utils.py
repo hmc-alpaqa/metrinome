@@ -34,7 +34,7 @@ def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
         graph_list = (glob.glob(folder + "*.dot"))
         graph_list = graph_list[0:floor(len(graph_list) / graph_frac)]
         # list of tuples for each cfg in folder(seconds, cfg).
-        print(f"Num Graphs: ", len(graph_list))
+        print(f"Num Graphs: {len(graph_list)}")
         folder_time_list, overall_time_list, timeout_count = get_converter_time(graph_list,
                                                                                 converter, folder,
                                                                                 timeout_threshold,

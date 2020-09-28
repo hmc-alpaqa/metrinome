@@ -181,7 +181,7 @@ def regression(data_x: np.ndarray, data_y: np.ndarray, name: str) -> None:
     plt.plot(xd2, func_to_optimize(xd2, *fit_res), "b")
     plt.legend(["it's a graph", f"Line 1: {fit_res[0: num_params + 1]}",
                 f"Line 2: {fit_res[num_params + 1:]}"])
-    root_dir = f"/app/code/tests/cFiles/fse_2020_benchmark/"
+    root_dir = "/app/code/tests/cFiles/fse_2020_benchmark/"
     plt.savefig((f"{root_dir}autobpgraphs/{name}").replace("%", "percent"))
     plt.close()
 

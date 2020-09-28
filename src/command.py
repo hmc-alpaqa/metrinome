@@ -684,12 +684,12 @@ class Command:
             for key in keys:
                 with tempfile.NamedTemporaryFile(delete=True, suffix=".bc") as file:
                     self.logger.d_msg(f"Created temporary file {file.name}")
-                    self.logger.d_msg(f"Writing")
+                    self.logger.d_msg("Writing")
                     file.write(self.data.bc_files[key])
                     file.seek(0)
 
-                    cmd = f"/app/build/bin/klee --max-time=30s " + \
-                          f"--dump-states-on-halt=false " + \
+                    cmd = "/app/build/bin/klee --max-time=30s " + \
+                          "--dump-states-on-halt=false " + \
                           f"{' '.join(extra_args)} {file.name}"
                     self.logger.d_msg(f"Going to execute {cmd}")
                     start_time = time.time()

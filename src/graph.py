@@ -125,7 +125,6 @@ class Graph(Generic[GraphEdgeType]):
             raise NotImplementedError(f"Not possible for graph type {self.graph_type}")
 
         # First, we have to figure out what each node will map to in the new graph.
-        new_num_nodes = self.vertex_count() - len(removed_nodes)
         node_mapping: Dict[int, int] = dict()
         removed_count = 0
         for vertex in self.get_vertices():
