@@ -3,8 +3,6 @@
 from typing import List, Optional, DefaultDict, Set, \
     Match, TypeVar, Generic, Union, Dict, cast, Any
 from enum import Enum
-import re
-import os
 import collections
 import numpy as np  # type: ignore
 
@@ -360,57 +358,6 @@ class Graph(Generic[GraphEdgeType]):
             pass
 
         raise ValueError("Not yet implemented.")
-
-    @staticmethod
-    def from_file(filename: str, weighted: bool = False,
-                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> 'AnyGraph':
-        """
-        Return a Graph object from a .dot file of format.
-
-        digraph {
-            0 [label="START"]
-            2 [label="EXIT"]
-            a_i -> a_j
-            ...
-            a_k  -> a_m
-        }
-        """
-        name = os.path.split(filename)[1]
-        # Initialize graph based on type.
-        if graph_type is GraphType.ADJACENCY_LIST:
-            # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
-            # graph = Graph(v_e_dict, None, -1, -1, graph_type)
-            graph = Graph(cast(AdjListType, []), [], -1, -1, graph_type)
-        elif graph_type is GraphType.EDGE_LIST:
-            edges: List[List[int]] = []
-            graph = Graph(edges, [], -1, -1, graph_type)
-        elif graph_type is GraphType.ADJACENCY_MATRIX:
-            # We create the graph using an adjacency list and then convert it.
-            # There is probably a better way to do this.
-            graph = Graph([], [], -1, -1, GraphType.ADJACENCY_LIST)
-
-        graph.set_name(os.path.splitext(name)[0])
-
-        with open(filename, "r") as file:
-            line: str
-            for line in file.readlines()[1:]:
-                if (match := re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)) is not None:
-                    # The current line in the text file represents an edge.
-                    graph.update_with_edge(cast(Match[str], match))
-                # Current line is not an edge - check if it defines a node.
-                elif (match := re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", line)) is not None:
-                    graph.update_with_node(cast(Match[str], match))
-
-            if graph.start_node == -1 or graph.end_node == -1:
-                raise ValueError("Start and end nodes must both be defined.")
-
-            graph.weighted = weighted
-
-        if graph_type is GraphType.ADJACENCY_MATRIX:
-            graph.edges = graph.adjacency_matrix()
-            graph.graph_type = GraphType.ADJACENCY_MATRIX
-
-        return graph
 
     def node_to_index(self, node: int) -> int:
         """Find the index for the row or column of an adjacency matrix."""

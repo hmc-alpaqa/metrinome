@@ -6,9 +6,11 @@ import shlex
 import sys
 import os
 import re
+import signal
 import glob2  # type: ignore
 sys.path.append("/app/code/")
-from graph import Graph, GraphType, AnyGraph
+from graph import GraphType
+from control_flow_graph import ControlFlowGraph
 from log import Log
 from env import Env
 from lang_to_cfg import converter
@@ -30,7 +32,7 @@ class CPPConvert(converter.ConverterAbstract):
         """Get the name of the CPP converter."""
         return "CPP"
 
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, AnyGraph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
@@ -51,7 +53,7 @@ class CPPConvert(converter.ConverterAbstract):
             graph_name = os.path.splitext(f_name)[0]
             graph_name = os.path.split(graph_name)[1]
             self.logger.d_msg(f"graph_name: {graph_name}")
-            graphs[graph_name] = Graph.from_file(f_name, False, GraphType.EDGE_LIST)
+            graphs[graph_name] = ControlFlowGraph.from_file(f_name, False, GraphType.EDGE_LIST)
 
         Env.clean_temps()
         return graphs
@@ -172,9 +174,24 @@ class CPPConvert(converter.ConverterAbstract):
         with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, shell=False) as line1:
             command = line1.stdout
-
             if line1.stderr is not None:
-                err_msg = line1.stderr.read()
+                def handler(signum, frame):
+                    raise Exception("Timed out.")
+
+                signal.signal(signal.SIGALRM, handler)
+                error_lines = []
+                try:
+                    for line in line1.stderr:
+                        signal.alarm(5)
+                        error_lines.append(str(line))
+                except Exception as e:
+                    self.logger.d_msg(str(e))
+
+                signal.alarm(0)
+                err_msg = ''.join(error_lines)
+
+                # err_msg = line1.stderr.read()
+                # what it originally was
                 if len(err_msg) == 0:
                     self.logger.d_msg(f"Got the following error msg: {str(err_msg)}")
 

@@ -30,34 +30,34 @@ class TestPythonConvert(unittest.TestCase):
         """
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/expr", ".py")
         expected = Graph([[0, 1], [1, 2], [2, 3]], [0, 1, 2, 3], 0, 3, GraphType.EDGE_LIST)
-        self.assertTrue(expected == res['expr_func'])
+        self.assertTrue(expected == res['expr_func'].graph)
 
     def test_assign(self) -> None:
         """Test that we can correct parse assignment of variables."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/assign", ".py")
         expected = Graph([[0, 1], [1, 2], [2, 3], [3, 4]],
                          [0, 1, 2, 3, 4], 0, 4, GraphType.EDGE_LIST)
-        self.assertTrue(expected == res['assign_func'])
+        self.assertTrue(expected == res['assign_func'].graph)
 
     def test_return(self) -> None:
         """Test that we can correctly parse return statements."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/return", ".py")
         expected = Graph([[0, 1], [1, 2], [2, 3]], [0, 1, 2, 3], 0, 3, GraphType.EDGE_LIST)
-        self.assertTrue(expected == res['return_func'])
+        self.assertTrue(expected == res['return_func'].graph)
 
     def test_for(self) -> None:
         """Test that we can correctly parse for loops."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/for", ".py")
         expected = Graph([[0, 1], [1, 2], [1, 3], [2, 4], [4, 1], [3, 5]],
                          [0, 1, 2, 3, 4, 5], 0, 5, GraphType.EDGE_LIST)
-        self.assertTrue(expected == res['for_func'])
+        self.assertTrue(expected == res['for_func'].graph)
 
     def test_while(self) -> None:
         """Test that we can correctly parse while loops."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/while", ".py")
         expected = Graph([[0, 1], [1, 2], [2, 3], [3, 2], [2, 4]],
                          [0, 1, 2, 3, 4], 0, 4, GraphType.EDGE_LIST)
-        self.assertTrue(expected == res['while_func'])
+        self.assertTrue(expected == res['while_func'].graph)
 
     def test_if(self) -> None:
         """Test that we can correctly parse if statements."""

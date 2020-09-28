@@ -6,6 +6,7 @@ from typing import List
 import numpy as np  # type: ignore
 sys.path.append("/app/code/")
 from graph import Graph, GraphType, AdjListType
+from control_flow_graph import ControlFlowGraph as CFG
 from metric.cyclomatic_complexity import CyclomaticComplexity
 from log import Log
 
@@ -28,20 +29,21 @@ class TestCyclomaticComplexity(unittest.TestCase):
         vertices = [0, 1, 2, 3, 4]
         start_node = 0
         end_node = 4
-        graph = Graph(edges, vertices, start_node, end_node, graph_type=GraphType.EDGE_LIST)
+        graph = CFG(Graph(edges, vertices, start_node, end_node, graph_type=GraphType.EDGE_LIST))
         result = CyclomaticComplexity(Log()).evaluate(graph)
         expected_result = 3 - 5 + 2  # edges - nodes + 2
         self.assertEqual(result, expected_result)
 
         adjacencies: AdjListType = [[1], [2], [], [4], []]
-        graph = Graph(adjacencies, vertices, start_node, end_node,
-                      graph_type=GraphType.ADJACENCY_LIST)
+        graph = CFG(Graph(adjacencies, vertices, start_node, end_node,
+                          graph_type=GraphType.ADJACENCY_LIST))
         result = CyclomaticComplexity(Log()).evaluate(graph)
         self.assertEqual(result, expected_result)
 
         edges = np.array([[0, 1, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 0, 0],
                           [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
-        graph = Graph(edges, vertices, start_node, end_node, graph_type=GraphType.ADJACENCY_MATRIX)
+        graph = CFG(Graph(edges, vertices, start_node, end_node,
+                          graph_type=GraphType.ADJACENCY_MATRIX))
         result = CyclomaticComplexity(Log()).evaluate(graph)
         self.assertEqual(result, result)
 
@@ -58,22 +60,22 @@ class TestCyclomaticComplexity(unittest.TestCase):
         end_node = 1
 
         # graph type is edge_list.
-        graph_edge = Graph(edges, vertices, start_node, end_node,
-                           graph_type=GraphType.EDGE_LIST)
+        graph_edge = CFG(Graph(edges, vertices, start_node, end_node,
+                               graph_type=GraphType.EDGE_LIST))
         result_edge = CyclomaticComplexity(Log()).evaluate(graph_edge)
         expected_result_edge = 0 - 2 + 2  # edges - nodes + 2
         self.assertEqual(result_edge, expected_result_edge)
 
         # graph type is list.
-        graph_list = Graph(edges, vertices, start_node, end_node,
-                           graph_type=GraphType.ADJACENCY_LIST)
+        graph_list = CFG(Graph(edges, vertices, start_node, end_node,
+                               graph_type=GraphType.ADJACENCY_LIST))
         result_list = CyclomaticComplexity(Log()).evaluate(graph_list)
         expected_result_list = 0 - 0 + 2  # edges - nodes + 2
         self.assertEqual(result_list, expected_result_list)
 
         # graph type is matrix.
-        graph_matrix = Graph(np.zeros((0, 0), dtype=np.int8), vertices, start_node, end_node,
-                             graph_type=GraphType.ADJACENCY_MATRIX)
+        graph_matrix = CFG(Graph(np.zeros((0, 0), dtype=np.int8), vertices, start_node, end_node,
+                                 graph_type=GraphType.ADJACENCY_MATRIX))
         result_matrix = CyclomaticComplexity(Log()).evaluate(graph_matrix)
         expected_result_matrix = 0 - 0 + 2  # edges - nodes + 2
         self.assertEqual(result_matrix, expected_result_matrix)

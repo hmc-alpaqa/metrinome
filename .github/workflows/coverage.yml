@@ -1,0 +1,16 @@
+name: Coverage
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+jobs:
+    coverage-job:
+        name: Coverage Job
+        runs-on: self-hosted
+        timeout-minutes: 30
+        steps:
+        - id: step1
+          run: docker exec -w /app/code detached_repl make coverage

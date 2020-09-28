@@ -4,7 +4,7 @@ import shlex
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, Tuple
 from subprocess import Popen, PIPE
-from graph import AnyGraph
+from control_flow_graph import ControlFlowGraph
 from log import Log
 
 
@@ -22,7 +22,7 @@ class ConverterAbstract(ABC):
         """Return the name of the current converter."""
 
     @abstractmethod
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, AnyGraph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
         """Given a graph, compute the metric."""
 
     def runcmd(self, cmd: str, cwd: Optional[str] = None) -> Tuple[bytes, bytes]:

@@ -5,6 +5,7 @@ from typing import Tuple, Dict, Union, cast
 sys.path.append("/app/code/")
 import command
 from graph import Graph, EdgeListType
+from control_flow_graph import ControlFlowGraph as CFG
 import command_data
 from tests.unit_utils import captured_output
 from log import Log
@@ -123,7 +124,7 @@ class TestCommandInvalid(unittest.TestCase):
         an inexistant object.
         """
         with captured_output() as (out, err):
-            self.command.do_show(command_data.ObjTypes.METRIC.value + " foo")
+            self.command.do_show(command_data.ObjTypes.METRIC.value, "foo")
             print(out, err)
 
     def test_list_invalid_type(self) -> None:
@@ -153,7 +154,7 @@ class TestCommandKlee(unittest.TestCase):
     def test_to_klee_format_valid(self) -> None:
         """Verify that we can convert a valid file to a KLEE-compatible format."""
         with captured_output() as (out, err):
-            self.command.do_to_klee_format("examplefile.c")
+            self.command.do_to_klee_format(False, "examplefile.c")
         self.assertTrue(len(err.getvalue()) == 0)
         print(out.getvalue())
 
@@ -239,19 +240,19 @@ class TestCommand(unittest.TestCase):
     def test_quit(self) -> None:
         """Check that exiting the REPL works."""
         with self.assertRaises(SystemExit):
-            self.command.do_quit("")
+            self.command.do_quit()
 
     # === directory functions. ===
     # pylint: disable=E1121
     def test_directories(self) -> None:
         """Check that all functions related to working with directories work."""
         with captured_output() as (out, err):
-            self.command.do_pwd("")
+            self.command.do_pwd()
 
         self.assertTrue("/app/code/tests/dotFiles" in out.getvalue())
 
         with captured_output() as (out, err):
-            self.command.do_ls("")
+            self.command.do_ls()
 
         expected_files = ["dotTest.dot", "testgraph.dot", "testsimple.dot"]
         self.assertTrue(all(check_file in out.getvalue() for check_file in expected_files))
@@ -260,7 +261,7 @@ class TestCommand(unittest.TestCase):
             self.command.do_cd("/app/code/tests/")
             out.truncate(0)
             out.seek(0)
-            self.command.do_pwd("")
+            self.command.do_pwd()
 
         self.assertTrue("/app/code/tests" in out.getvalue())
         self.assertTrue(len(err.getvalue()) == 0)
@@ -311,21 +312,20 @@ class TestCommand(unittest.TestCase):
                                                                           timeout=0)
         with captured_output() as (out, err):
             self.command.data.metrics["foo"] = [("123", 1), ("123", 1)]
-            command_input = f"{command_data.ObjTypes.METRIC.value} foo"
-            self.command.do_show(command_input)
+            self.command.do_show(command_data.ObjTypes.METRIC.value,
+                                 "foo")
         self.assertTrue(len(err.getvalue()) == 0)
         # TODO
         self.assertTrue(len(out.getvalue()) != 0)
 
         with captured_output() as (out, err):
-            command_input = f"{command.ObjTypes.KLEE.value} foo"
-            self.command.do_show(command_input)
+            self.command.do_show(command.ObjTypes.KLEE.value,
+                                 "foo")
         self.assertTrue(len(err.getvalue()) == 0)
         self.assertTrue(len(out.getvalue()) != 0)
 
         with captured_output() as (out, err):
-            command_input = f"{command.ObjTypes.ALL.value}"
-            self.command.do_show(command_input)
+            self.command.do_show(command.ObjTypes.ALL.value, "")
         self.assertTrue(len(err.getvalue()) == 0)
         self.assertTrue(len(out.getvalue()) != 0)
 
@@ -337,20 +337,21 @@ class TestCommand(unittest.TestCase):
         for a valid graph name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.do_show(command.ObjTypes.GRAPH.value + " " + "foo")
+            graph = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs["foo"] = CFG(graph)
+            self.command.do_show(command.ObjTypes.GRAPH.value, "foo")
             print(out, err)
 
     def test_show_klee(self) -> None:
         """Check that we can show klee objects."""
         with captured_output() as (out, err):
-            self.command.do_show(command_data.ObjTypes.KLEE_BC.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE_BC.value, "foo")
         with captured_output() as (out, err):
-            self.command.do_show(command_data.ObjTypes.KLEE_STATS.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE_STATS.value, "foo")
         with captured_output() as (out, err):
-            self.command.do_show(command_data.ObjTypes.KLEE_FILE.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE_FILE.value, "foo")
         with captured_output() as (out, err):
-            self.command.do_show(command_data.ObjTypes.KLEE.value + " foo")
+            self.command.do_show(command_data.ObjTypes.KLEE.value, "foo")
 
         print(out.getvalue(), err.getvalue())
 
@@ -362,9 +363,9 @@ class TestCommand(unittest.TestCase):
         of all types) for a given name.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs["foo"] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics["foo"] = [("123", 1)]
-            self.command.do_show(command_data.ObjTypes.ALL.value + " foo")
+            self.command.do_show(command_data.ObjTypes.ALL.value, "foo")
             print(out, err)
 
     def test_show_all_names_valid(self) -> None:
@@ -375,10 +376,10 @@ class TestCommand(unittest.TestCase):
         of a given type.
         """
         with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs["bar"] = Graph(cast(EdgeListType, []), [], 0, 0)
-            show_str = command_data.ObjTypes.GRAPH.value + " " + command.ObjTypes.ALL.value
-            self.command.do_show(show_str)
+            self.command.data.graphs["foo"] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs["bar"] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.do_show(command_data.ObjTypes.GRAPH.value,
+                                 command.ObjTypes.ALL.value)
             print(out, err)
 
     # ==== Test do_list =====
@@ -452,10 +453,10 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.GRAPH
             obj_name = "sample_graph"
-            self.command.data.graphs['sample_graph'] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs['sample_graph'] = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs['sample_graph'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs['sample_graph'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics['sample_graph'] = [('abc', 1)]
-            self.command.do_delete(str(obj_type) + " " + str(obj_name))
+            self.command.do_delete(str(obj_type), str(obj_name))
             print(out, err)
 
     def test_delete_metric_valid(self) -> None:
@@ -468,11 +469,11 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.METRIC
             obj_name = "sample_metric"
-            graph = Graph(cast(EdgeListType, []), [], 0, 0)
+            graph = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics['sample_metric'] = [('foo', 1)]
             self.command.data.metrics['sample_metric'] = [('bar', 1)]
             self.command.data.graphs['sample_metric'] = graph
-            self.command.do_delete(str(obj_type) + " " + str(obj_name))
+            self.command.do_delete(str(obj_type), str(obj_name))
             print(out, err)
 
     def test_delete_all_types_valid(self) -> None:
@@ -485,13 +486,13 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             obj_type = command.ObjTypes.ALL
             obj_name = "sample_name"
-            graph = Graph(cast(EdgeListType, []), [], 0, 0)
+            graph = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.graphs['sample_name'] = graph
             self.command.data.metrics['sample_name'] = [('foo', 1)]
 
             self.command.data.graphs['sample_name'] = graph
             self.command.data.metrics['sample_name'] = [('b', 1)]
-            self.command.do_delete(str(obj_type) + " " + str(obj_name))
+            self.command.do_delete(str(obj_type), str(obj_name))
             print(out, err)
 
     def test_delete_all_names_valid(self) -> None:
@@ -500,12 +501,12 @@ class TestCommand(unittest.TestCase):
             # Delete * name
             obj_type = command.ObjTypes.GRAPH
             obj_name = "*"
-            self.command.data.graphs['sample_name'] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs['sample_name'] = Graph(cast(EdgeListType, []), [], 0, 0)
-            self.command.data.graphs['sample_name'] = Graph(cast(EdgeListType, []), [], 0, 0)
+            self.command.data.graphs['sample_name'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs['sample_name'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
+            self.command.data.graphs['sample_name'] = CFG(Graph(cast(EdgeListType, []), [], 0, 0))
             self.command.data.metrics['sample_name'] = [("123", 1)]
 
-            self.command.do_delete(str(obj_type) + " " + str(obj_name))
+            self.command.do_delete(str(obj_type), str(obj_name))
             print(out, err)
 
     # TODO: test invalid

@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, Union, Tuple, cast
 from enum import Enum
 import os
 from log import Log
-from graph import AnyGraph
+from control_flow_graph import ControlFlowGraph
 
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
@@ -13,7 +13,7 @@ PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 MetricRes = Union[int, PathComplexityRes]
 
 MetricsDict = Dict[str, List[Tuple[str, MetricRes]]]
-GraphDict = Dict[str, AnyGraph]
+GraphDict = Dict[str, ControlFlowGraph]
 KleeStatsDict = Dict[str, KleeStat]
 KleeFormattedFilesDict = Dict[str, str]
 BcFilesDict = Dict[str, bytes]
@@ -80,7 +80,7 @@ class Data:
         """Save a Graph the REPL knows about to an external file."""
         if name in self.graphs:
             with open(f"/app/code/exports/{new_name}.dot", "w+") as file:
-                graph = self.graphs[name]
+                graph = self.graphs[name].graph
                 self.logger.d_msg(graph.dot())
                 file.write(graph.dot())
                 self.logger.i_msg(f"Made file {new_name}.dot in /app/code/exports/")
@@ -88,7 +88,7 @@ class Data:
             for graph_name in self.graphs:
                 f_name = os.path.split(graph_name)[1]
                 with open(f"/app/code/exports/{f_name}.dot", "w+") as file:
-                    graph = self.graphs[graph_name]
+                    graph = self.graphs[graph_name].graph
                     file.write(graph.dot())
                     self.logger.i_msg(f"Made file {f_name}.dot in /app/code/exports/")
         else:
@@ -185,7 +185,7 @@ class Data:
 
         for graph_name in names:
             if graph_name in self.graphs:
-                self.logger.d_msg(str(self.graphs[graph_name].graph_type))
+                self.logger.d_msg(str(self.graphs[graph_name].graph.graph_type))
                 self.logger.v_msg(str(self.graphs[graph_name]))
             else:
                 self.logger.v_msg(f"Graph {graph_name} not found.")

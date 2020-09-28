@@ -5,6 +5,7 @@ import sys
 from typing import cast
 sys.path.append('/app/code')
 from graph import Graph, GraphType, EdgeListType
+from control_flow_graph import ControlFlowGraph as CFG
 from metric import npath_complexity
 from log import Log
 
@@ -41,9 +42,9 @@ class TestNPATH(unittest.TestCase):
         results_three = []
         for file_index in range(1, 7):
             file = base_path + prefix + str(file_index) + "_0_basic.dot"
-            graph_one = Graph.from_file(file, graph_type=GraphType.EDGE_LIST)
-            graph_two = Graph.from_file(file, graph_type=GraphType.ADJACENCY_LIST)
-            graph_three = Graph.from_file(file, graph_type=GraphType.ADJACENCY_MATRIX)
+            graph_one = CFG.from_file(file, graph_type=GraphType.EDGE_LIST)
+            graph_two = CFG.from_file(file, graph_type=GraphType.ADJACENCY_LIST)
+            graph_three = CFG.from_file(file, graph_type=GraphType.ADJACENCY_MATRIX)
             res_one   = npath_complexity.NPathComplexity(Log()).evaluate(graph_one)
             res_two   = npath_complexity.NPathComplexity(Log()).evaluate(graph_two)
             res_three = npath_complexity.NPathComplexity(Log()).evaluate(graph_three)
@@ -68,7 +69,7 @@ class TestNPATH(unittest.TestCase):
         single node. The start node is equal to the end node,
         so there is a single path from the beginning to the end.
         """
-        graph = Graph(cast(EdgeListType, []), [0], 0, 0, GraphType.EDGE_LIST)
+        graph = CFG(Graph(cast(EdgeListType, []), [0], 0, 0, GraphType.EDGE_LIST))
         result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 1
         self.assertEqual(result, expected_result)
@@ -81,7 +82,7 @@ class TestNPATH(unittest.TestCase):
         and end nodes but no edges is 0, since there are no paths from the
         beginning to the end.
         """
-        graph = Graph(cast(EdgeListType, []), [0, 1], 0, 1, GraphType.EDGE_LIST)
+        graph = CFG(Graph(cast(EdgeListType, []), [0, 1], 0, 1, GraphType.EDGE_LIST))
         result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 0
         self.assertEqual(result, expected_result)
