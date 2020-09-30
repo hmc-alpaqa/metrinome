@@ -12,10 +12,20 @@ jobs:
         runs-on: self-hosted
         timeout-minutes: 30
         steps:
-        - id: step1
-          run: docker exec -w /app/code detached_repl make coverage
-        - id: step2
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Stop existing docker image 
+          run: cd $GITHUB_WORKSPACE/src && make stop-detached
+        - name: Start new docker image
+          run: cd $GITHUB_WORKSPACE/src && make start-detached
+        - name: Execute coverage check
+          run: cd src && pwd && docker exec -w /app/code detached_repl make coverage
+        - name: Upload coverage
           uses: codecov/codecov-action@v1
           with:
             token: ${{ secrets.CODECOV_TOKEN }}
-            file: /app/code/.coverage
+            file: $GITHUB_WORKSPACE/src/.coverage
+        - name: test
+          run: ls -la $GITHUB_WORKSPACE/src
+        - name: test2
+          run: ls -la $GITHUB_WORKSPACE

@@ -35,7 +35,7 @@ run-detached:
 	docker run --name detached_repl -d -t -v $(shell pwd):/app/code harveymudd/metrinome:latest
 
 start-detached:
-	docker run detached_repl
+	docker start detached_repl
 
 stop-detached:
 	docker stop detached_repl -t 10
