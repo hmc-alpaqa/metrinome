@@ -10,8 +10,6 @@ thing after the statement returns.
 """
 
 # pylint: disable=C0103
-import sys
-sys.path.append("/app/code/")
 from typing import List, Optional, Dict, cast
 import ast
 import os

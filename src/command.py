@@ -13,11 +13,8 @@ import time
 from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
-import sys
 import numpy   # type: ignore
-sys.path.append('/app/code/inlining')
-import inlining_script
-import inlining_script_heuristic
+from inlining import inlining_script, inlining_script_heuristic
 from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric, loc
 from control_flow_graph import ControlFlowGraph

@@ -50,6 +50,7 @@ def piecewise_eval(x_val: np.ndarray, params: List[int],
     return np.piecewise(x_val, [x_val < break_point, x_val >= break_point], fns)
 
 
+# pylint: disable=unbalanced-tuple-unpacking
 def fit(data_x: np.ndarray, data_y: np.ndarray,
         degree_one: Optional[int], degree_two: Optional[int]) -> Tuple[float, int]:
     """Find the best breakpoint."""

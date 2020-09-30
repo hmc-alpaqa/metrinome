@@ -1,9 +1,7 @@
 """This module tests that we can convert C++ to Graph objects representing its CFG."""
 
 import unittest
-import sys
 import os
-sys.path.append("/app/code/")
 from lang_to_cfg.cpp import CPPConvert
 from log import Log, LogLevel
 from graph import Graph, GraphType

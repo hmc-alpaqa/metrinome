@@ -6,13 +6,10 @@ import re
 from typing import List, Any, Union, Tuple, Dict, Optional
 import glob2  # type: ignore
 import pandas as pd  # type: ignore
-sys.path.append("/app/code")
 from log import Log
 from graph import Graph, GraphType
 from control_flow_graph import ControlFlowGraph as CFG
 from utils import Timeout
-sys.path.append("/app/code/lang_to_cfg")
-sys.path.append("/app/code/metric")
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 
 

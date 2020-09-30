@@ -62,15 +62,12 @@ confidence=
 # --disable=W".
 disable=C0326, # disable space before bracket
 	W0511, # TODOs
-	W1203, # % for lazy evaluation in logging
+	W1203, # % for lazy evaluation in logging (f-strings)
 	W1202, # % for lazy evaluation in logging
 	W1201, # % for lazy evaluation in logging
 	R0903, # too few public methods
 	W0235, # useless super() delegation
 	R0201, # method could be a function
-	C0413, # import should be at the top of the file (this should probably be
-	       # re-enabled later, but currently we use sys.path.append to get
-	       # the imports to work properly, which causes this error.
 	print-statement,
         parameter-unpacking,
         unpacking-in-except,

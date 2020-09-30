@@ -1,10 +1,8 @@
 """This module tests that we can compute cyclomatic complexity for any Graph."""
 
 import unittest
-import sys
 from typing import List
 import numpy as np  # type: ignore
-sys.path.append("/app/code/")
 from graph import Graph, GraphType, AdjListType
 from control_flow_graph import ControlFlowGraph as CFG
 from metric.cyclomatic_complexity import CyclomaticComplexity
