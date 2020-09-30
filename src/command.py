@@ -437,15 +437,16 @@ class Command:
                 try:
                     with Timeout(60, "Took too long!"):
                         try:
-                            result = metric_generator.evaluate(graph)
-                        except:
+                            result: Optional[Union[int, PathComplexityRes]] = \
+                                metric_generator.evaluate(graph)
+                        except ValueError:
                             result = None
                         runtime = time.time() - start_time
                     if result is not None:
                         results.append((metric_generator.name(), result))
                         if metric_generator.name() == "Path Complexity":
                             result_ = cast(Tuple[Union[float, str], Union[float, str]],
-                                        result)
+                                           result)
                             time_out = f"took {runtime:.3f} seconds"
                             path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
                             self.logger.v_msg(f"Got {path_out}, {time_out}")

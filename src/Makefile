@@ -14,6 +14,7 @@ tests:
 	python tests/test_pathcomplexity.py 
 	python tests/test_python.py
 	python tests/test_utils.py
+	python tests/test_env.py
 ifndef fast
 	python tests/test_java.py
 endif

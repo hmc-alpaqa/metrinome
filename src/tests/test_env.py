@@ -2,7 +2,7 @@
 from os.path import join
 from os import listdir
 import unittest
-from unit_utils import captured_output  # type: ignore
+from tests.unit_utils import captured_output
 from env import Env
 
 
