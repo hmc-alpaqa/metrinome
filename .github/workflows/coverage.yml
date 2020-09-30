@@ -14,3 +14,7 @@ jobs:
         steps:
         - id: step1
           run: docker exec -w /app/code detached_repl make coverage
+        - id: step2
+          uses: codecov/codecov-action@v1
+          with:
+            token: ${{ secrets.CODECOV_TOKEN }}
