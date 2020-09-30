@@ -22,6 +22,7 @@ endif
 coverage:
 	coverage run -m unittest discover 
 	coverage report -m --omit=tests/*
+	coverage xml
 
 test:   formatting lint tests
 
@@ -32,7 +33,7 @@ run:
 	docker run -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
 
 run-detached:
-	docker run --name detached_repl -d -t -v $(shell pwd):/app/code harveymudd/metrinome:latest
+	docker run --name detached_repl -d -it -v $(shell pwd):/app/code harveymudd/metrinome:latest /bin/zsh
 
 start-detached:
 	docker start detached_repl

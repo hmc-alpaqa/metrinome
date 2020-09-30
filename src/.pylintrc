@@ -68,6 +68,7 @@ disable=C0326, # disable space before bracket
 	R0903, # too few public methods
 	W0235, # useless super() delegation
 	R0201, # method could be a function
+	R0801, # duplicate code
 	print-statement,
         parameter-unpacking,
         unpacking-in-except,

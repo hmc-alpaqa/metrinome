@@ -12,20 +12,20 @@ jobs:
         runs-on: self-hosted
         timeout-minutes: 30
         steps:
+        - name: Take ownership of repo directory
+          run: echo ${{ secrets.SUDO_PW }} | sudo -S chown -R $USER:$USER /home/gabe/actions-runner/_work/metrinome
         - name: Checkout code
           uses: actions/checkout@v2
         - name: Stop existing docker image 
-          run: cd $GITHUB_WORKSPACE/src && make stop-detached
-        - name: Start new docker image
-          run: cd $GITHUB_WORKSPACE/src && make start-detached
+          run: cd $GITHUB_WORKSPACE/src && make stop-detached || echo continuing
+        - name: Delete existing image
+          run: docker rm detached_repl || echo continuing
+        - name: Run new docker image
+          run: cd $GITHUB_WORKSPACE/src && make run-detached
         - name: Execute coverage check
-          run: cd src && pwd && docker exec -w /app/code detached_repl make coverage
+          run: docker exec -w /app/code -e PYTHONDONTWRITEBYTECODE=1 -e MYPY_CACHE_DIR=/dev/null detached_repl make coverage
         - name: Upload coverage
           uses: codecov/codecov-action@v1
           with:
             token: ${{ secrets.CODECOV_TOKEN }}
-            file: $GITHUB_WORKSPACE/src/.coverage
-        - name: test
-          run: ls -la $GITHUB_WORKSPACE/src
-        - name: test2
-          run: ls -la $GITHUB_WORKSPACE
+            file: /home/gabe/actions-runner/_work/metrinome/metrinome/src/coverage.xml
