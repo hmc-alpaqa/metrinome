@@ -9,6 +9,7 @@ import re
 import signal
 import glob2  # type: ignore
 import pycparser
+import sys
 sys.path.append("/app/code/")
 from graph import Graph, GraphType, AnyGraph
 from log import Log
