@@ -381,8 +381,6 @@ class Graph(Generic[GraphEdgeType]):
             self.start_node = node
         if node_label == "EXIT":
             self.end_node = node
-        
-
         if self.graph_type is GraphType.EDGE_LIST:
             if node not in self.vertices:
                 self.vertices.append(node)

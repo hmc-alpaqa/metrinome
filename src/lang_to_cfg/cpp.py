@@ -60,7 +60,7 @@ class CPPConvert(converter.ConverterAbstract):
             self.logger.d_msg(f"graph_name: {graph_name}")
             graphs[graph_name] = ControlFlowGraph.from_file(file, False, GraphType.EDGE_LIST)
 
-        #Env.clean_temps()
+        Env.clean_temps()
         return graphs
 
     def parse_original(self, file: str) -> Tuple[List[str],

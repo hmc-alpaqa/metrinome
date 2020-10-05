@@ -109,7 +109,8 @@ class ControlFlowGraph:
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
                         simple_funcs.append(func_pair[0])
-        return graphs[simple_funcs[-1]]
+        stitched_graph = graphs[simple_funcs[-1]]
+        return stitched_graph
 
         
                     
