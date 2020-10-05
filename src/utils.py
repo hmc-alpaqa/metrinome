@@ -14,6 +14,7 @@ import signal
 from sympy import limit, Abs, sympify, series, symbols, Basic  # type: ignore
 from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
+import os
 
 
 def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Basic]:
@@ -118,6 +119,15 @@ def show_func_defs(filename: str) -> Dict[str, str]:
             names[i.name + '_decl'] = str(i.coord)
     return names
 
+def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
+    """ checks if a CFG contains a call to another function """
+
+    nodes = []
+    func_name = os.path.splitext(os.path.splitext(function_cfg)[0])[1][1:]
+    for node in calls_dict.keys():
+        if calls_dict[node].endswith(func_name):
+            nodes.append(node)
+    return nodes
 
 class Timeout:
     """
