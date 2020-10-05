@@ -384,13 +384,8 @@ def main() -> None:
         readline.read_history_file()
     except FileNotFoundError:
         pass
-<<<<<<< HEAD
-    prompt = MyPrompt("/app/code",
-                      parsed_args.debug_mode, parsed_args.multi_threaded)
-=======
     prompt = Prompt("/app/code",
                     parsed_args.debug_mode, parsed_args.multi_threaded)
->>>>>>> 306f0ef6e4c8e2e364d81bdd15ec0dcee6301b40
     prompt.cmdloop(r"""
 
              _        _

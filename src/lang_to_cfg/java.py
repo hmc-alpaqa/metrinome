@@ -1,7 +1,5 @@
 """This class knows how to convert from java source code to graph objects."""
-import sys
 import os
-sys.path.append("/app/code/")
 from typing import Dict, Optional
 from glob2 import glob  # type: ignore
 from graph import GraphType

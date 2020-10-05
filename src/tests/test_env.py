@@ -1,11 +1,8 @@
 """Tests for env.py."""
-import sys
-sys.path.append("/app/code/")
-sys.path.append("/app/code/tests")
 from os.path import join
 from os import listdir
 import unittest
-from unit_utils import captured_output  # type: ignore
+from tests.unit_utils import captured_output
 from env import Env
 
 
