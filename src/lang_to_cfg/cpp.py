@@ -54,11 +54,7 @@ class CPPConvert(converter.ConverterAbstract):
         for file in files:
             graph_name = os.path.basename(file)
             self.logger.d_msg(f"graph_name: {graph_name}")
-<<<<<<< HEAD
-            graphs[graph_name] = ControlFlowGraph.from_file(f_name, False, GraphType.EDGE_LIST)
-=======
             graphs[graph_name] = Graph.from_file(file, False, GraphType.EDGE_LIST)
->>>>>>> 468df6f08b70cd84480dea96b4a1f5f781a79d65
 
         #Env.clean_temps()
         return graphs
