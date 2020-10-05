@@ -35,7 +35,7 @@ if __name__ == "__main__":
     Apc = path_complexity.PathComplexity(log)
     Cyclo = cyclomatic_complexity.CyclomaticComplexity(log)
     Npath = npath_complexity.NPathComplexity(log)
-    files = glob2.glob("/app/code/tests/cFiles/simple_c_functions/*.c")
+    files = glob2.glob("/app/code/tests/cFiles/fse_2020_benchmark/*.c")
     for file in files:
         print(file)
         graphs = Converter.to_graph(os.path.splitext(file)[0], ".c")
