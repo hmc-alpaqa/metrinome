@@ -10,6 +10,7 @@ import re
 import subprocess
 import tempfile
 import time
+from graph import Graph
 from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
@@ -142,9 +143,9 @@ class Controller:
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
         npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
-        lines_of_code = loc.LinesOfCode(self.logger)
+
         self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity, lines_of_code]
+                                                                pathcomplexity]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -337,7 +338,7 @@ class Command:
                     self.data.graphs[filepath] = graph
                 if graph_stitching:
                     self.logger.v_msg(f"Created {filepath}_stitched")
-                    main = Graph.stitch(graph)
+                    main = ControlFlowGraph.stitch(graph)
                     self.data.graphs[filepath+"_stitched"] = main
 
 

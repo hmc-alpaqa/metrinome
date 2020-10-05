@@ -10,12 +10,15 @@ import signal
 import glob2  # type: ignore
 import pycparser
 import sys
+
 sys.path.append("/app/code/")
 from graph import Graph, GraphType, AnyGraph
 from log import Log
 from env import Env
 from lang_to_cfg import converter
 from utils import show_func_defs
+from control_flow_graph import ControlFlowGraph
+
 
 # pylint: disable=R0201
 
@@ -55,7 +58,7 @@ class CPPConvert(converter.ConverterAbstract):
         for file in files:
             graph_name = os.path.basename(file)
             self.logger.d_msg(f"graph_name: {graph_name}")
-            graphs[graph_name] = Graph.from_file(file, False, GraphType.EDGE_LIST)
+            graphs[graph_name] = ControlFlowGraph.from_file(file, False, GraphType.EDGE_LIST)
 
         #Env.clean_temps()
         return graphs
