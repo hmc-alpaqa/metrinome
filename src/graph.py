@@ -476,7 +476,6 @@ class Graph(Generic[GraphEdgeType]):
             for func_pair in calls_list:
                 if func_pair[1] in simple_funcs:
                     for call in range(len(calls_function(graphs[func_pair[0]].calls, func_pair[1]))):
-            
                         graphs[func_pair[0]] = Graph.compose(graphs[func_pair[0]], graphs[func_pair[1]], calls_function(graphs[func_pair[0]].calls, func_pair[1])[0])
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
