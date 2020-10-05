@@ -5,6 +5,7 @@ from typing import List, Optional, DefaultDict, Set, \
 from enum import Enum
 import collections
 import numpy as np  # type: ignore
+from utils import calls_function
 
 
 # ADJ LIST
@@ -61,6 +62,7 @@ class Graph(Generic[GraphEdgeType]):
         self.weighted: bool = False
         self.name: Optional[str] = None
         self.graph_type = graph_type
+        self.calls: Dict[int, str] = {}
 
     def dot(self) -> str:
         """Convert a Graph object to a .dot file."""
@@ -373,11 +375,13 @@ class Graph(Generic[GraphEdgeType]):
         """Create a new vertex when the current line in the dot file is a node."""
         node = int(match.group(1))
         node_label = match.group(2)
-
-        if node_label == "START":
+        if "CALLS" in node_label:
+            self.calls[node] = node_label
+        if "START" in node_label:
             self.start_node = node
         elif node_label == "EXIT":
             self.end_node = node
+        
 
         if self.graph_type is GraphType.EDGE_LIST:
             if node not in self.vertices:
@@ -401,6 +405,69 @@ class Graph(Generic[GraphEdgeType]):
                 self.edges += [[] for _ in range(((node_one + 1) - len(self.edges)))]
 
             self.edges[node_one] += [node_two]
+
+    @staticmethod
+    def stitch(graphs: Dict[str, Any]) -> Any:
+        """ Composes a set of graphs to accurately represent a program's CFG"""
+        calls_list = []
+        simple_funcs = []
+        for func1 in graphs.keys():
+            for func2 in graphs.keys():
+                if calls_function(graphs[func1].calls, func2):
+                    calls_list.append([func1, func2])
+                if graphs[func2].calls == {}:
+                    simple_funcs.append(func2)
+
+        while calls_list:
+            for func_pair in calls_list:
+                if func_pair[1] in simple_funcs:
+                    for call in range(len(calls_function(graphs[func_pair[0]].calls, func_pair[1]))):
+                        graphs[func_pair[0]] = Graph.compose(graphs[func_pair[0]], graphs[func_pair[1]], calls_function(graphs[func_pair[0]].calls, func_pair[1])[0])
+                    calls_list.remove(func_pair)
+                    if func_pair[0] not in [i[0] for i in calls_list]:
+                        simple_funcs.append(func_pair[0])
+        return graphs[simple_funcs[-1]]
+
+        
+
+                    
+    @staticmethod
+    def compose(graph1: Any, graph2: Any, node: int) -> Any:
+        """ Replaces a vertex in graph1 with graph2 """
+
+        graph1.calls.pop(node)
+
+        shift = graph2.vertex_count() - 1
+        vertices = list(range(graph1.vertex_count() + shift))
+
+        e2 = [[i+node, j+node] for [i,j] in graph2.edges] # ensures that exit node in subgraph has all the same edges as the replaced node
+
+        e1 = []
+        for edge in graph1.edges:
+            vertex_1 = edge[0]
+            vertex_2 = edge[1]
+            if edge[0] >= node:
+                vertex_1 += shift
+            if edge[1] > node:
+                vertex_2 += shift
+
+            e1.append([vertex_1, vertex_2])
+
+        e1 += e2
+
+        stitched_graph = Graph(e1, vertices, 0, len(vertices) - 1, GraphType.EDGE_LIST)
+
+        new_calls = {}
+        for vertex in graph1.calls.keys():
+            if vertex > node:
+                new_calls[vertex+shift] = graph1.calls[vertex]
+            else:
+                new_calls[vertex] = graph1.calls[vertex]
+
+
+        stitched_graph.calls = new_calls
+        return stitched_graph
+
 
     def to_prism(self) -> List[str]:
         """

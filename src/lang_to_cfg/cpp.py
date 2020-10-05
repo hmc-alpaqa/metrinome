@@ -8,11 +8,13 @@ import os
 import re
 import signal
 import glob2  # type: ignore
-from graph import GraphType
-from control_flow_graph import ControlFlowGraph
+import pycparser
+sys.path.append("/app/code/")
+from graph import Graph, GraphType, AnyGraph
 from log import Log
 from env import Env
 from lang_to_cfg import converter
+from utils import show_func_defs
 
 # pylint: disable=R0201
 
@@ -26,6 +28,7 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger = logger
         self.edge_pattern = "->"
         self.name_pattern = "([a-zA-Z0-9]+ )"
+        self.call_pattern = "(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
 
     def name(self) -> str:
         """Get the name of the CPP converter."""
@@ -47,14 +50,17 @@ class CPPConvert(converter.ConverterAbstract):
         name = os.path.split(filename)[1]
         graphs = {}
         filename = f"{Env.TMP_DOT_PATH}/{name}"
-        for i in range(file_count):
-            f_name = filename + (str(i) + ".dot")
-            graph_name = os.path.splitext(f_name)[0]
-            graph_name = os.path.split(graph_name)[1]
+        files = glob2.glob(f"{Env.TMP_DOT_PATH}/*.dot")
+        for file in files:
+            graph_name = os.path.basename(file)
             self.logger.d_msg(f"graph_name: {graph_name}")
+<<<<<<< HEAD
             graphs[graph_name] = ControlFlowGraph.from_file(f_name, False, GraphType.EDGE_LIST)
+=======
+            graphs[graph_name] = Graph.from_file(file, False, GraphType.EDGE_LIST)
+>>>>>>> 468df6f08b70cd84480dea96b4a1f5f781a79d65
 
-        Env.clean_temps()
+        #Env.clean_temps()
         return graphs
 
     def parse_original(self, file: str) -> Tuple[List[str],
@@ -76,6 +82,7 @@ class CPPConvert(converter.ConverterAbstract):
                 # for the graph and remove whitespace.
                 if line.startswith("label") or line == "":
                     continue
+            
 
                 # If it contains a label (denoted by '[]'), it is a vertex.
                 is_edge = re.search(self.edge_pattern, line)
@@ -87,8 +94,19 @@ class CPPConvert(converter.ConverterAbstract):
                     node_name_str = node_name.groups()[0].strip()
                     node_map[node_name_str] = str(counter)
                     node_to_add = str(counter)
-                    if counter == 0:
-                        node_to_add += " [label=\"START\"]"
+                    call = re.search(self.call_pattern, line.lstrip())
+                    label = ""
+                    
+                    if counter == 0 and call is not None:
+                        call_label = call.group(0)[1:-1]
+                        label = f" [label=\"START CALLS {call_label}\"]"
+                    elif counter == 0:
+                        label = " [label=\"START\"]"
+                    elif call is not None:
+                        call_label = call.group(0)[1:-1]
+                        label = f" [label=\"CALLS {call_label}\"]"
+                
+                    node_to_add += label
 
                     nodes.append(node_to_add)
 
@@ -112,19 +130,15 @@ class CPPConvert(converter.ConverterAbstract):
             counter += 2
 
         # Make a temporary file (with the new content).
-        name = os.path.split(filename)[1]
-        if f_num is not None:
-            output_name = f'{Env.TMP_DOT_PATH}/{name}{f_num}.dot'
-        else:
-            output_name = f'{Env.TMP_DOT_PATH}/{name}.dot'
-
-        with open(output_name, 'w') as new_file:
+        source_name = os.path.basename(filename)
+        f_name = os.path.basename(file)
+        with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w') as new_file:
             new_file.write("digraph { \n")
 
             # Create the nodes and then the edges.
             for i, node in enumerate(nodes):
                 if i == counter - 1:
-                    node += "[label=\"EXIT\"]"
+                    node += " [label=\"EXIT\"]"
                 new_file.write(node + ";" + "\n")
 
             for edge in edges:
@@ -202,3 +216,4 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger.d_msg(f"Found the following .dot files: {files}")
         for file in files:
             subprocess.call(["mv", file, Env.TMP_PATH])
+    
