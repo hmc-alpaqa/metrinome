@@ -445,7 +445,7 @@ class Command:
                 start_time = time.time()
 
                 try:
-                    with Timeout(600, "Took too long!"):
+                    with Timeout(2000, "Took too long!"):
                         result = metric_generator.evaluate(graph)
                         runtime = time.time() - start_time
                     if result is not None:
