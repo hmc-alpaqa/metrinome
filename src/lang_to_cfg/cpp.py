@@ -1,6 +1,7 @@
 """This module converts C++ source code into Graph objects representing the CFG for the code."""
 
 from typing import Dict, Optional, Tuple, List
+from types import FrameType
 import subprocess
 import shlex
 import os
@@ -173,8 +174,8 @@ class CPPConvert(converter.ConverterAbstract):
                               stderr=subprocess.PIPE, shell=False) as line1:
             command = line1.stdout
             if line1.stderr is not None:
-                def handler(signum, frame):
-                    raise Exception("Timed out.")
+                def handler(signum: int, frame: FrameType) -> None:
+                    raise TimeoutError("Timed out.")
 
                 signal.signal(signal.SIGALRM, handler)
                 error_lines = []
@@ -182,8 +183,8 @@ class CPPConvert(converter.ConverterAbstract):
                     for line in line1.stderr:
                         signal.alarm(5)
                         error_lines.append(str(line))
-                except Exception as e:
-                    self.logger.d_msg(str(e))
+                except TimeoutError as err:
+                    self.logger.d_msg(str(err))
 
                 signal.alarm(0)
                 err_msg = ''.join(error_lines)
