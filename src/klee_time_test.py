@@ -11,7 +11,7 @@ from klee_utils import KleeUtils
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-KleeCompareResults = Dict[Tuple[str, str, str],
+KleeCompareResults = Dict[Tuple[str, str],
                           Dict[str, Optional[Union[float, int]]]]
 KleeOutputInfo = Tuple[Optional[int],
                        Optional[int],
@@ -48,8 +48,8 @@ def parse_klee(klee_output: str) -> KleeOutputInfo:
 
 
 def klee_with_time(file_name: str, output_name: str,
-                          preferences: str,
-                          max_time: str) -> KleeOutputPreferencesInfo:
+                   preferences: str,
+                   max_time: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
         klee_path = "/app/build/bin/klee"
@@ -66,12 +66,25 @@ def klee_with_time(file_name: str, output_name: str,
         return (*parsed, final_time)
 
 
+def get_stats_dict(stats_decoded: List[str],
+                   results: KleeOutputPreferencesInfo) -> Dict[str, Optional[Union[float, int]]]:
+    """Gather the data from Klee into a stats dictionary."""
+    headers = stats_decoded[0].split()[1:]
+    values = map(float, stats_decoded[2].split()[1:])
+    stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
+    stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
+        stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
+        stats_dict["PythonTime"] = results
+
+    return stats_dict
+
 
 # def klee_compare_time(file_name: str, preferences: List[str], depths: List[str],
 #                  inputs: List[str], function: str,
 #                  remove: bool = True) -> KleeCompareResults:
-def klee_compare_time(file_name, preferences, max_times, function,
-                 remove: bool = True) -> KleeCompareResults:
+def klee_compare_time(file_name: str, preferences: List[str],
+                      max_times: List[str], function: str,
+                      remove: bool = True) -> KleeCompareResults:
     """
     Run Klee on a certain function.
 
@@ -95,20 +108,14 @@ def klee_compare_time(file_name, preferences, max_times, function,
                 subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done",
                                shell=True, check=True)
             stats_decoded = stats.stdout.decode().split("\n")
-            headers = stats_decoded[0].split()[1:]
-            values = map(float, stats_decoded[2].split()[1:])
-            stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
-            stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
-                stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
-                stats_dict["PythonTime"] = results
-            results_dict[(preference, max_time)] = stats_dict
+            results_dict[(preference, max_time)] = get_stats_dict(stats_decoded, results)
 
     return results_dict
 
 
 def graph_stat_time(func: str, preference: str, max_times: List[str],
-               results: KleeCompareResults,
-               field: str) -> None:
+                    results: KleeCompareResults,
+                    field: str) -> None:
     """Create and save a graph for a certain statistic on a Klee experiment."""
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs_time/",
                    shell=True, check=False)
@@ -126,17 +133,20 @@ def graph_stat_time(func: str, preference: str, max_times: List[str],
 
 
 def create_pandas_time(results: KleeCompareResults, preference: str,
-                  max_times: List[str], fields: List[str]) -> pd.DataFrame:
+                       max_times: List[str], fields: List[str]) -> pd.DataFrame:
     """Create a pandas dataframe from the results of a Klee experiment."""
     index = [f'max time {i}' for i in max_times]
     data = [[results[(preference, max_time)][field] for field in fields]
             for max_time in max_times]
     return pd.DataFrame(data, index=index, columns=fields)
 
+
 # def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
 #                         preferences: List[str],
 #                         fields: List[str], inputs: List[str]) -> None:
-def run_klee_time(func, array_size, max_times, preferences, fields):
+def run_klee_time(func: str, array_size: int,
+                  max_times: List[str], preferences: List[str],
+                  fields: List[str]) -> None:
     """Run the KLEE experiment for a single function."""
     filename = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}.c"
     output = KleeUtils(Log()).show_func_defs(filename, size=array_size)
@@ -163,7 +173,7 @@ def main() -> None:
     For each function, runs Klee once with each maximum depth,
     saves the data as a csv, and creates a graph for each field.
     """
-    max_times = ["1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
+    max_times = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
     # max_times = ["1","2"]
     preferences = ["--dump-states-on-halt=false"]
     # max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
@@ -172,7 +182,6 @@ def main() -> None:
     # max_depths = ['1', '2']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"]
-    inputs = [""]
     array_size = 100
     # functions = ['04_prime']
     functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
