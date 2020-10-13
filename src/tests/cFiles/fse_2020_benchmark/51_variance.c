@@ -1,4 +1,4 @@
-double variance(double values[], int n)
+__attribute__((always_inline)) inline double variance(double values[], int n)
 {
     double sum = 0; 
     for (int  i = 0; i < n; i++ )

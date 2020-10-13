@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int binary_search(int search, int array[], int n) {
+__attribute__((always_inline)) inline int binary_search(int search, int array[], int n) {
   int first = 0;
   int last = n - 1;
   int middle = (first + last) / 2;

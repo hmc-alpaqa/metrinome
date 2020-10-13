@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void array_summary (int arr[], int num, int results[]) {
+__attribute__((always_inline)) inline void array_summary (int arr[], int num, int results[]) {
     int i, max_element;
 
     max_element = arr[0];

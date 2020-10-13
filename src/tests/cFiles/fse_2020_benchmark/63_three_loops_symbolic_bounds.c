@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-void three_loops_bounds(int a, int b, int c){
+__attribute__((always_inline)) inline void three_loops_bounds(int a, int b, int c){
 	for(int i = 0; i < a; ++i){
 		printf("%d ", i);
 	}

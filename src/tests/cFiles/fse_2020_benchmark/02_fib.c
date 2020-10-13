@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int fib(int count) {
+__attribute__((always_inline)) inline int fib(int count) {
   int first_term = 0;
   int second_term = 1;
   int next_term, i;

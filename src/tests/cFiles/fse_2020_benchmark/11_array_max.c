@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int largest_element(int arr[], int num) {
+__attribute__((always_inline)) inline int largest_element(int arr[], int num) {
   int i, max_element;
   max_element = arr[0];
   for (i = 1; i < num; i++)

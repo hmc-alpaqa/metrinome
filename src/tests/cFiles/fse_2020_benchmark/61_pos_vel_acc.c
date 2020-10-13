@@ -2,7 +2,7 @@
 
 #define MAXSIZE 100
 
-void motion(double pos[], int num_samples, double delta_t) {
+__attribute__((always_inline)) inline void motion(double pos[], int num_samples, double delta_t) {
 
     double vel[MAXSIZE];
     double acc[MAXSIZE];
