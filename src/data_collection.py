@@ -39,9 +39,6 @@ if __name__ == "__main__":
     for file in files:
         print(file)
         graphs = Converter.to_graph(os.path.splitext(file)[0], ".c")
-        stitched_graph = ControlFlowGraph.stitch(graphs)
-        stitched_graph.name = os.path.splitext(file)[0] + "_stitched"
-        graphs[stitched_graph.name] = stitched_graph
 
         for graph in graphs.values():
             start_time = time.time()
