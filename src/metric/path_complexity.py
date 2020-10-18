@@ -1,14 +1,12 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
 from typing import Tuple, List, Union
-import sys
 import re
 import sympy  # type: ignore
 from sympy import refine, preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
     simplify, sympify, Abs, Q, Basic
 from mpmath import polyroots  # type: ignore
 import numpy as np  # type: ignore
-sys.path.append("/app/code/")
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots
 from graph import AnyGraph
 from control_flow_graph import ControlFlowGraph

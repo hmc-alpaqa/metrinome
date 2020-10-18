@@ -8,7 +8,7 @@
 // use a single array, fill it with 1s, and then put 0s on all the numbers that
 // are not primes. The program below prints the first 650,000 or so primes using
 // this method
-void sieve(int primes[], int n) {
+__attribute__((always_inline)) inline void sieve(int primes[], int n) {
   int i, j;
 
   for (i = 2; i < n; i++) primes[i] = 1;

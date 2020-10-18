@@ -2,7 +2,7 @@
 
 #define MAXTEMPSIZE 100
 
-void mergesort(int arr[], int n) {
+__attribute__((always_inline)) inline void mergesort(int arr[], int n) {
   int temp[MAXTEMPSIZE];
   int size;
   int l1, l2, h1, h2, k, i, j;

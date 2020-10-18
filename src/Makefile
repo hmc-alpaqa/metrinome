@@ -14,6 +14,7 @@ tests:
 	python tests/test_pathcomplexity.py 
 	python tests/test_python.py
 	python tests/test_utils.py
+	python tests/test_env.py
 ifndef fast
 	python tests/test_java.py
 endif
@@ -21,6 +22,7 @@ endif
 coverage:
 	coverage run -m unittest discover 
 	coverage report -m --omit=tests/*
+	coverage xml
 
 test:   formatting lint tests
 
@@ -31,13 +33,21 @@ run:
 	docker run -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
 
 run-detached:
-	docker run --name detached_repl -d -t -v $(shell pwd):/app/code harveymudd/metrinome:latest
+	docker run --name detached_repl -d -it -v $(shell pwd):/app/code harveymudd/metrinome:latest /bin/zsh
 
 start-detached:
-	docker run detached_repl
+	docker start detached_repl
 
 stop-detached:
 	docker stop detached_repl -t 10
+
+clean:
+	rm -r __pycache__ || true
+	rm -r inlining/__pycache__ || true
+	rm -r lang_to_cfg/__pycache__ || true
+	rm -r metric/__pycache__ || true
+	rm -r tests/__pycache__ || true
+
 
 # Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command.
 formatting:
@@ -48,5 +58,5 @@ formatting:
 	# Replace ''' with """.
 	find . -type f -name "*.py" | xargs sed -i '' -e 's/'"'''"'/"""/g'
 
-.PHONY: lint tests formatting test build run run-detched stop-detached coverage
+.PHONY: lint tests formatting test build run run-detched stop-detached coverage clean
 	

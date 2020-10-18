@@ -1,8 +1,6 @@
 """All of the tests for the path complexity and APC computer."""
 
 import unittest
-import sys
-sys.path.append("/app/code/")
 import command
 
 # pylint: disable=no-value-for-parameter

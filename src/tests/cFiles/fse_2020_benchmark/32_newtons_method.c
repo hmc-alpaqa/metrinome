@@ -1,11 +1,11 @@
 // https://www.codewithc.com/c-program-for-newton-raphson-method/
 
 #include <stdio.h>
-float f(float x) { return 3 * x * x + 2 * x - 15.7; }
+__attribute__((always_inline)) inline float f(float x) { return 3 * x * x + 2 * x - 15.7; }
 
-float df(float x) { return 6 * x + 2; }
+__attribute__((always_inline)) inline float df(float x) { return 6 * x + 2; }
 
-float newton_root(float x0, float allerr, int maxmitr) {
+__attribute__((always_inline)) inline float newton_root(float x0, float allerr, int maxmitr) {
   float h, abs_h, x1;
   for (int itr = 1; itr <= maxmitr; itr++) {
     h = f(x0) / df(x0);

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void bubble_sort(long list[], long n) {
+__attribute__((always_inline)) inline void bubble_sort(long list[], long n) {
   long c, d, t;
 
   for (c = 0; c < n - 1; c++) {

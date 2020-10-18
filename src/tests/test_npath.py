@@ -1,9 +1,7 @@
 """Test all methods associated with computing NPath complexity."""
 
 import unittest
-import sys
 from typing import cast
-sys.path.append('/app/code')
 from graph import Graph, GraphType, EdgeListType
 from control_flow_graph import ControlFlowGraph as CFG
 from metric import npath_complexity

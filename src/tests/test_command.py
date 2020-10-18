@@ -1,8 +1,6 @@
 """Test the commands of the REPL."""
 import unittest
-import sys
 from typing import Tuple, Dict, Union, cast
-sys.path.append("/app/code/")
 import command
 from graph import Graph, EdgeListType
 from control_flow_graph import ControlFlowGraph as CFG

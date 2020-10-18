@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int palindrome(int num) {
+__attribute__((always_inline)) inline int palindrome(int num) {
   int reverse_num = 0, remainder, temp;
   temp = num;
   while (temp != 0) {

@@ -6,9 +6,6 @@ compute npath recursively, recursively using memoization, or iteratively through
 programming.
 """
 
-import sys
-sys.path.append("/app/code/")
-sys.path.append("/app/code/metric")
 from log import Log
 from metric import npath_complexity
 from tests import unit_utils

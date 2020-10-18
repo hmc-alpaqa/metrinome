@@ -58,6 +58,7 @@ def main() -> None:
         times = [time for time in [float(i.split()[2])
                                    for i in data.iloc[:, 0]] if time <= breakpoint_]
         data_field = data[field][0:len(times)]
+        # pylint: disable=unbalanced-tuple-unpacking
         fitted_coeffs, _ = curve_fit(function_type, times, data_field)
         if function_type is quadratic_function:
             function_text = f"{fitted_coeffs[0]}x^2+{fitted_coeffs[1]}x+{fitted_coeffs[2]}"

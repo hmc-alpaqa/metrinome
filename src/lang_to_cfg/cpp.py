@@ -1,15 +1,13 @@
 """This module converts C++ source code into Graph objects representing the CFG for the code."""
 
 from typing import Dict, Optional, Tuple, List
+from types import FrameType
 import subprocess
 import shlex
-import sys
 import os
 import re
 import signal
 import glob2  # type: ignore
-import pycparser
-sys.path.append("/app/code/")
 from graph import GraphType
 from control_flow_graph import ControlFlowGraph
 from log import Log
@@ -56,11 +54,7 @@ class CPPConvert(converter.ConverterAbstract):
         for file in files:
             graph_name = os.path.basename(file)
             self.logger.d_msg(f"graph_name: {graph_name}")
-<<<<<<< Updated upstream
             graphs[graph_name] = ControlFlowGraph.from_file(f_name, False, GraphType.EDGE_LIST)
-=======
-            graphs[graph_name] = Graph.from_file(file, False, GraphType.EDGE_LIST)
->>>>>>> Stashed changes
 
         #Env.clean_temps()
         return graphs
@@ -190,8 +184,8 @@ class CPPConvert(converter.ConverterAbstract):
                               stderr=subprocess.PIPE, shell=False) as line1:
             command = line1.stdout
             if line1.stderr is not None:
-                def handler(signum, frame):
-                    raise Exception("Timed out.")
+                def handler(signum: int, frame: FrameType) -> None:
+                    raise TimeoutError("Timed out.")
 
                 signal.signal(signal.SIGALRM, handler)
                 error_lines = []
@@ -199,8 +193,8 @@ class CPPConvert(converter.ConverterAbstract):
                     for line in line1.stderr:
                         signal.alarm(5)
                         error_lines.append(str(line))
-                except Exception as e:
-                    self.logger.d_msg(str(e))
+                except TimeoutError as err:
+                    self.logger.d_msg(str(err))
 
                 signal.alarm(0)
                 err_msg = ''.join(error_lines)

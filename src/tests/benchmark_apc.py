@@ -7,8 +7,6 @@ programming.
 """
 
 import sys
-sys.path.append("/app/code/")
-sys.path.append("/app/code/metric")
 from metric import path_complexity
 from tests import unit_utils
 from log import Log
