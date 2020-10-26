@@ -253,6 +253,7 @@ class Command:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
         inline_type = None
+        graph_stitching = False
 
         if len(arguments) > 0:
             if arguments[0] == ("-r" or "--recursive"):
@@ -270,10 +271,13 @@ class Command:
                 else:
                     inline_type = InlineType.Heuristic
                 args_list = arguments[1:]
+            elif arguments[0] == ("-gs" or "--graph_stitch"):
+                graph_stitching = True
+                args_list = arguments[1:]
             else:
                 args_list = arguments
 
-            return args_list, recursive_mode, inline_type
+            return args_list, recursive_mode, inline_type, graph_stitching
 
         self.logger.v_msg("Not enough arguments!")
         return [], False, inline_type
@@ -282,7 +286,7 @@ class Command:
         """Convert source code into CFGs."""
         # Iterate through all file-like objects.
         arguments = args.split(" ")
-        args_list, recursive_mode, inline_type = self.parse_convert_args(arguments)
+        args_list, recursive_mode, inline_type, graph_stitching = self.parse_convert_args(arguments)
         if len(args_list) == 0:
             self.logger.v_msg("Not enough arguments!")
             return
@@ -331,6 +335,10 @@ class Command:
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
+                if graph_stitching:
+                    self.logger.v_msg(f"Created {filepath}_stitched")
+                    main = ControlFlowGraph.stitch(graph)
+                    self.data.graphs[filepath+"_stitched"] = main
 
     def do_import(self, recursive_mode: bool, *args_list: str) -> None:
         """Convert .dot files into CFGs."""
