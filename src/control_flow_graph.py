@@ -88,7 +88,7 @@ class ControlFlowGraph:
 
         return ControlFlowGraph(graph)
     
-        @staticmethod
+    @staticmethod
     def compose(graph1: 'ControlFlowGraph', graph2: 'ControlFlowGraph', node: int) -> 'ControlFlowGraph':
         """ Replaces a vertex in graph1 with graph2 """
 
