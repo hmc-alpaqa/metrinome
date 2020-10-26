@@ -56,7 +56,7 @@ class CPPConvert(converter.ConverterAbstract):
             self.logger.d_msg(f"graph_name: {graph_name}")
             graphs[graph_name] = ControlFlowGraph.from_file(file, False, GraphType.EDGE_LIST)
 
-        # Env.clean_temps()
+        Env.clean_temps()
         return graphs
 
     def parse_original(self, file: str) -> Tuple[List[str],
@@ -210,19 +210,3 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger.d_msg(f"Found the following .dot files: {files}")
         for file in files:
             subprocess.call(["mv", file, Env.TMP_PATH])
-
-    def stitch_graphs(self, file: str) -> None:
-        """TODO."""
-        function_defs = show_func_defs(file)
-        func_to_files = {}
-        for function in function_defs:
-            for dot_file in glob2.glob(f"{Env.TMP_DOT_PATH}/*.dot"):
-                if function in dot_file:
-                    func_to_files[function] = dot_file
-        for val in func_to_files.values():
-            print(val + " is simple: " + str(self.is_simple_function(val)))
-
-    def is_simple_function(self, file: str) -> bool:
-        """Check if CALLs is present in the file."""
-        with open(file, "r") as graph:
-            return any("CALLS" in line for line in graph.readlines())
