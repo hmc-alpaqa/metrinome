@@ -142,18 +142,19 @@ def run_klee_time(func, array_size, max_times, preferences, fields):
     output = KleeUtils(Log()).show_func_defs(filename, size=array_size)
 
     for i in output:
-        new_name = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.c"
-        bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.bc"
+        func_actual = func+f"_{i}"
+        new_name = f"/app/code/tests/cFiles/fse_2020_benchmark/{func_actual}.c"
+        bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func_actual}.bc"
         with open(new_name, "w+") as file:
             file.write(output[i])
         cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
                 -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
         subprocess.run(cmd, shell=True, capture_output=True, check=True)
-        results = klee_compare_time(bcname, preferences, max_times, f"{func}_{i}")
+        results = klee_compare_time(bcname, preferences, max_times, func_actual)
         results_frame = create_pandas_time(results, preferences[0], max_times, fields)
-        results_frame.to_csv(f'/app/code/tests/cFiles/fse_2020_benchmark/frames_time/{func}.csv')
+        results_frame.to_csv(f'/app/code/tests/cFiles/fse_2020_benchmark/frames_time/{func_actual}.csv')
         for field in fields:
-            graph_stat_time(func, preferences[0], max_times, results, field)
+            graph_stat_time(func_actual, preferences[0], max_times, results, field)
 
 
 def main() -> None:
@@ -175,15 +176,16 @@ def main() -> None:
     inputs = [""]
     array_size = 100
     # functions = ['04_prime']
-    functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
-                 '16_binary_search', '12_check_sorted_array', '11_array_max',
-                 '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
-                 '19_longest_common_increasing_subsequence', '14_lexicographic_array_compare',
-                 '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
-                 '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
-                 '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
-                 '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
-                 '63_three_loops_symbolic_bounds']
+    # functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
+    #              '16_binary_search', '12_check_sorted_array', '11_array_max',
+    #              '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
+    #              '19_longest_common_increasing_subsequence', '14_lexicographic_array_compare',
+    #              '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
+    #              '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
+    #              '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
+    #              '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
+    #              '63_three_loops_symbolic_bounds']
+    functions = ["32_newtons_method"]
 
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames_time/",
                    shell=True, check=False)
