@@ -48,7 +48,6 @@ class CPPConvert(converter.ConverterAbstract):
 
         name = os.path.split(filename)[1]
         graphs = {}
-        self.stitch_graphs(name + file_extension)
         filename = f"{Env.TMP_DOT_PATH}/{name}"
         files = glob2.glob(f"{Env.TMP_DOT_PATH}/*.dot")
         for file in files:
