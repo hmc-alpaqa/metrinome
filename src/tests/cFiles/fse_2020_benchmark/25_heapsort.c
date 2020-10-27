@@ -2,7 +2,7 @@
 
 #define uint unsigned int
 
-void heap_sort(int a[], uint len) {
+__attribute__((always_inline)) inline void heap_sort(int a[], uint len) {
   /* heap sort */
   uint half;
   uint parents;
