@@ -182,6 +182,7 @@ def main() -> None:
     max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
                   '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
                   '100']
+    max_depths = ['1', '2', '3', '4']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"]
     inputs = [""]
@@ -195,7 +196,7 @@ def main() -> None:
                  '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
                  '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
                  '63_three_loops_symbolic_bounds']
-
+    funcitons = ['04_prime', '05_parity']
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
                    shell=True, check=False)
     for func in functions:
