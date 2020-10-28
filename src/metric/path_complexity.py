@@ -1,5 +1,6 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
+from collections import deque
 from typing import Tuple, List, Union
 import re
 import sympy  # type: ignore
@@ -16,6 +17,35 @@ from log import Log
 
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 
+class BaseCaseBFS:
+    def __init__(self):
+        pass
+
+    def get(self, cfg: ControlFlowGraph, start_idx: int, end_idx: int):
+        depth = 0
+        base_cases = [0] * end_idx
+        graph = cfg.graph.adjacency_list()
+        q = deque([cfg.graph.start_node])
+        while depth < end_idx:
+            new_q = deque()
+            while q:
+                curr_node = q.pop()
+                for next_node in graph[curr_node]:
+                    new_q.appendleft(next_node)
+
+                if curr_node == cfg.graph.end_node:
+                    base_cases[depth] += 1
+
+            if depth > 0:
+                print("DEPTH: ", depth, end_idx)
+                base_cases[depth] += base_cases[depth - 1]
+
+            depth += 1
+            q = new_q
+
+        print("BASE CASES: ", base_cases[start_idx: end_idx])
+        return base_cases[start_idx: end_idx]
+
 
 class PathComplexity(metric.MetricAbstract):
     """Compute the path complexity and asymptotic path complexity metrics."""
@@ -24,6 +54,8 @@ class PathComplexity(metric.MetricAbstract):
     def __init__(self, logger: Log) -> None:
         """Create a new instance of PathComplexity."""
         self.logger = logger
+        self.base_case_getter = BaseCaseBFS()
+        #self.base_case_getter = None
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
@@ -77,7 +109,11 @@ class PathComplexity(metric.MetricAbstract):
         test = [round(-x, 2) for x in recurrence_kernel]
         roots = polyroots(test, maxsteps=250, extraprec=250)
         self.logger.d_msg(f"Getting {2 * dimension + 1} many coeffs.")
-        taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
+        if self.base_case_getter is None:
+            taylor_coeffs = get_taylor_coeffs(generating_function, 2 * dimension + 1)
+        else: 
+            taylor_coeffs = []
+
         if taylor_coeffs is None:
             raise ValueError("Could not obtain taylor coefficients.")
 
@@ -96,13 +132,17 @@ class PathComplexity(metric.MetricAbstract):
         if taylor_coeffs is None:
             return (0.0, 0.0)
 
-        base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree], dtype='complex')
+        if self.base_case_getter is None:
+            base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree], dtype='complex')
+        else:
+            base_cases = np.matrix(self.base_case_getter.get(cfg, dimension, dimension + recurrence_degree))
+
         n_var = symbols('n')
 
         # Solve the recurrence relation.
         factors, simplified_factors = get_solution_from_roots(roots)
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors] for nval in
-                            range(1, recurrence_degree + 1)],
+                            range(dimension, dimension + recurrence_degree)],
                            dtype='complex')
         base_cases = base_cases.transpose()
         self.logger.d_msg("Got the base cases.")
