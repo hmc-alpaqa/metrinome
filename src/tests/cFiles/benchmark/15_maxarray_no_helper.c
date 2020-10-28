@@ -1,25 +1,5 @@
 #include <stdio.h>
  
-/*  This is our function to find the largest
- * element in the array arr[]
- */
-int largest_element(int arr[], int num)
-{
-    int i, max_element;
-    
-    // Initialization to the first array element
-    max_element = arr[0];
- 
-    /* Here we are comparing max_element with
-     * all other elements of array to store the 
-     * largest element in the max_element variable
-     */
-    for (i = 1; i < num; i++)         
-        if (arr[i] > max_element)
-            max_element = arr[i];
- 
-    return max_element;
-}
  
 int main()
 {
