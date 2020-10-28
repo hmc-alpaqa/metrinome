@@ -12,11 +12,10 @@ class TestPathComplexity(unittest.TestCase):
     def test(self) -> None:
         """Compute path complexity for a regular .dot file."""
         repl_wrapper = None
-        repl = command.Command("/", False, False, repl_wrapper)
-        repl.do_import(True,
-                       "/app/code/tests/core/cfg.add_field_list.dot3.dot")
+        repl = command.Command("/", True, False, repl_wrapper)
+        repl.do_import(False,
+                       "/app/examples/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test4_0_basic.dot")
         repl.do_list("*")
-        repl.do_show("graph", "/app/code/tests/core/new_cleaned_subset/cfg.add_field_list.dot3")
         repl.do_metrics("*")
 
 

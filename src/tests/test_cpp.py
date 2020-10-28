@@ -6,7 +6,7 @@ from lang_to_cfg.cpp import CPPConvert
 from log import Log, LogLevel
 from graph import Graph, GraphType
 from env import Env
-
+from control_flow_graph import ControlFlowGraph
 
 class TestCPPConvert(unittest.TestCase):
     """All tests for the object that converts arbitrary C++ code to Graph objects."""
@@ -26,8 +26,8 @@ class TestCPPConvert(unittest.TestCase):
             self.assertTrue("blank0" in result)
             self.assertEqual(graph1, result["blank0"].graph)
 
-        expected_graph = Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
-                               [0, 1, 2, 3, 4, 5, 6], 0, 6, GraphType.EDGE_LIST)
+        expected_graph = ControlFlowGraph(Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
+                               [0, 1, 2, 3, 4, 5, 6], 0, 6, GraphType.EDGE_LIST))
         graphs = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")
 
         # Need to check all graphs since order can vary with environment.

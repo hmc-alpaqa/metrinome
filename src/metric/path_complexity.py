@@ -96,50 +96,38 @@ class PathComplexity(metric.MetricAbstract):
         if taylor_coeffs is None:
             return (0.0, 0.0)
 
-        base_cases = np.matrix(taylor_coeffs[1: recurrence_degree + 1], dtype='complex')
+        base_cases = np.matrix(taylor_coeffs[dimension: dimension + recurrence_degree], dtype='complex')
         n_var = symbols('n')
 
         # Solve the recurrence relation.
-        factors = get_solution_from_roots(roots)
+        factors, simplified_factors = get_solution_from_roots(roots)
         matrix = np.matrix([[fact.replace(n_var, nval) for fact in factors] for nval in
-                            range(2 * dimension, 2 * dimension - recurrence_degree, -1)],
+                            range(1, recurrence_degree + 1)],
                            dtype='complex')
         base_cases = base_cases.transpose()
         self.logger.d_msg("Got the base cases.")
 
         self.logger.d_msg(f"Matrix: {matrix.shape}")
-        self.logger.d_msg(f"Base Cases: {base_cases.shape}")
+        self.logger.d_msg(f"Base Cases: {base_cases}")
         self.logger.d_msg(f"Dimension: {dimension}")
         self.logger.d_msg(f"Recurrence Degree: {recurrence_degree}")
 
         bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
         self.logger.d_msg("Got the bounding solution terms.")
 
-        bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(factors))
+        bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(simplified_factors))[0, 0]
 
-        expr_without_abs = bounding_solution_terms[0][0]
-        self.logger.d_msg(f"bounding_solution_terms: {expr_without_abs}")
-        expr_without_abs = str(expr_without_abs)[2:-2]
-        expr_without_abs = simplify(sympify(expr_without_abs))
-        expr_with_abs = expr_without_abs
-        for expr_term in preorder_traversal(expr_without_abs):
+        self.logger.d_msg(f"bounding_solution_terms: {bounding_solution_terms}")
+        unrounded_expr = simplify(sympify(bounding_solution_terms))
+        expr_with_abs = unrounded_expr
+        for expr_term in preorder_traversal(unrounded_expr):
             if isinstance(expr_term, Float):
-                expr_with_abs = expr_with_abs.subs(expr_term, round(expr_term, 2))
+                expr_with_abs = expr_with_abs.subs(expr_term, round(expr_term, 4))
 
-        exp_terms = [str(Abs(k)) for k in list(expr_with_abs.args)]
-        for i, exp_term in enumerate(exp_terms):
-            exp_term = exp_term.replace("Abs(n)", 'n')
-            exp_term = exp_term.replace("re(n)", 'n')
-            exp_term = exp_term.replace("im(n)", '0')
-            exp_term = exp_term.replace("exp", "0*")
-            exp_terms[i] = exp_term.replace("I", "0")
-
-        self.logger.d_msg(f"exp terms before simplify: {exp_terms}")
-
-        exp_terms = [simplify(sympify(arg)) for arg in exp_terms]
-        exp_terms = [refine(term, Q.real(n_var)) for term in exp_terms]  # pylint: disable=E1121
-        exp_terms = list(filter(lambda a: a != 0, exp_terms))
-
+        self.logger.d_msg(f"exp terms: {expr_with_abs}")
+        
+        exp_terms = [simplify(arg) for arg in expr_with_abs.args]
+        
         self.logger.d_msg(f"exp terms is: {exp_terms}")
 
         apc = big_o(exp_terms)

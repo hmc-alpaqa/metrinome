@@ -6,18 +6,18 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Dict, Optional, Union, Type
+from typing import List, Dict, Optional, Union, Type, cast, Tuple
 from types import FrameType, TracebackType
 import re
 from collections import Counter
 import signal
-from sympy import limit, Abs, sympify, series, symbols, Basic  # type: ignore
+from sympy import limit, Abs, sympify, series, symbols, Basic, Poly  # type: ignore
 from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
 import os
 
 
-def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Basic]:
+def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], List[Basic]]:
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
     new_roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
@@ -27,14 +27,23 @@ def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Basic]:
 
     # Compute the coefficients of a_n as a list.
     solution = []
+    simplified_solution = []
     for root in roots_with_multiplicities.keys():
         for i in range(roots_with_multiplicities[root]):
             if root == 1:
-                solution += [sympify(f"(n**{i})")]
+                term = sympify(f"(n**{i})")
+                solution += [term]
+                simplified_solution += [term]
             else:
                 solution += [sympify(f"(n**{i})*{root}**n")]
+                abs_root = Abs(root)
+                if abs_root == 1:
+                    simplified_solution += [sympify(f"(n**{i})")]
+                else:
+                    simplified_solution += [sympify(f"(n**{i})*{Abs(root)}**n")]
 
-    return solution
+
+    return solution, simplified_solution
 
 
 def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
@@ -67,18 +76,17 @@ def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
 
 
 def get_taylor_coeffs(func: Basic,
-                      num_coeffs: int) -> Optional[List[Basic]]:
+                      num_coeffs: int) -> List[Basic]:
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
-    series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')[::-1]
-    first_element = series_list[0]
-    first_power = re.search(r"\*\*([0-9]*)", str(first_element))
 
-    if first_power is not None:
-        taylor_coeffs = [sympify(f).subs(t_var, 1) for f in series_list]
-        return taylor_coeffs
+    # Get the series but ignore the big-O term that is added by sympy.
+    # Note: removeO() makes it go from high order -> low order
+    taylor_series = series(func, x=t_var, x0=0, n=num_coeffs).removeO()
 
-    return None
+    # Workaround to get all coeffs, since sympy does not return 0 coeffs,
+    # Make sure to return coeffs from low -> high order.
+    return Poly(taylor_series).all_coeffs()[::-1]
 
 
 def big_o(terms: List[str]) -> str:
