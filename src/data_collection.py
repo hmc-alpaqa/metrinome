@@ -28,7 +28,7 @@ if __name__ == "__main__":
     # Establish our lists: file_name, dot_name, apc, cyclo, npath, time, exception?
     log = Log()
     data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], 
-      "cyclo": [], "npath": [], "apc_time": [], "exception": [], "exception_type": []})
+      "cyclo": [], "npath": [], "apc_time": [], "graph_size": [], "exception": [], "exception_type": []})
 
 
     Converter = CPPConvert(log)
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     Cyclo = cyclomatic_complexity.CyclomaticComplexity(log)
     Npath = npath_complexity.NPathComplexity(log)
     files = glob2.glob("/app/code/tests/cFiles/fse_2020_benchmark/*.c")
-    for file in files:
+    for file in files[2:]:
         print(file)
         graphs = Converter.to_graph(os.path.splitext(file)[0], ".c")
 
@@ -50,7 +50,8 @@ if __name__ == "__main__":
             runtime = 0.0
             try:
                 with Timeout(600, ""):
-                    apc = Apc.evaluate(graph)
+                    if len(graph.graph.vertices) < 25:
+                        apc = Apc.evaluate(graph)
                 runtime = time.time() - start_time
 
             except TimeoutError as exception:
@@ -82,10 +83,10 @@ if __name__ == "__main__":
                         ex = True
                         exception_type = "Other"
             new_row = {"file_name": file, "graph_name": graph.name, "apc": apc, 
-        "cyclo": cyclo, "npath": npath, "apc_time": runtime, "exception": ex, "exception_type": exception_type}
+        "cyclo": cyclo, "npath": npath, "apc_time": runtime, "graph_size": len(graph.graph.vertices), "exception": ex, "exception_type": exception_type}
 
             data = data.append(new_row, ignore_index = True)
-            data.to_csv("/app/code/stitching_data_collection.csv")
+            data.to_csv("/app/code/data_collection_bfs.csv")
     
 
    
