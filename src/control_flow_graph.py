@@ -87,41 +87,42 @@ class ControlFlowGraph:
             graph.graph_type = GraphType.ADJACENCY_MATRIX
 
         return ControlFlowGraph(graph)
-    
-    @staticmethod
-    def compose(graph1: 'ControlFlowGraph', graph2: 'ControlFlowGraph', node: int) -> 'ControlFlowGraph':
-        """ Replaces a vertex in graph1 with graph2 """
 
-        graph1.graph.calls.pop(node)
+    # @staticmethod
+    # def compose(graph1: 'ControlFlowGraph',
+    #             graph2: 'ControlFlowGraph',
+    #             node: int) -> 'ControlFlowGraph':
+    #     """ Replaces a vertex in graph1 with graph2 """
+    #     graph1.graph.calls.pop(node)
 
-        shift = graph2.graph.vertex_count() - 1
-        vertices = list(range(graph1.graph.vertex_count() + shift))
+    #     shift = graph2.graph.vertex_count() - 1
+    #     vertices = list(range(graph1.graph.vertex_count() + shift))
 
-        e2 = [[i+node, j+node] for [i,j] in graph2.graph.edges] # ensures that exit node in subgraph has all the same edges as the replaced node
+    #     # ensures that exit node in subgraph has all the same edges as the replaced node
+    #     e2 = [[i + node, j + node] for [i, j] in graph2.graph.edges]
 
-        e1 = []
-        for edge in graph1.graph.edges:
-            vertex_1 = edge[0]
-            vertex_2 = edge[1]
-            if edge[0] >= node:
-                vertex_1 += shift
-            if edge[1] > node:
-                vertex_2 += shift
+    #     e1 = []
+    #     for edge in graph1.graph.edges:
+    #         vertex_1 = edge[0]
+    #         vertex_2 = edge[1]
+    #         if edge[0] >= node:
+    #             vertex_1 += shift
+    #         if edge[1] > node:
+    #             vertex_2 += shift
 
-            e1.append([vertex_1, vertex_2])
+    #         e1.append([vertex_1, vertex_2])
 
-        e1 += e2
+    #     e1 += e2
 
-        stitched_graph = Graph(e1, vertices, 0, len(vertices) - 1, GraphType.EDGE_LIST)
+    #     stitched_graph = Graph(e1, vertices, 0, len(vertices) - 1, GraphType.EDGE_LIST)
 
-        new_calls = {}
-        for vertex in graph1.graph.calls.keys():
-            if vertex > node:
-                new_calls[vertex+shift] = graph1.graph.calls[vertex]
-            else:
-                new_calls[vertex] = graph1.graph.calls[vertex]
+    #     new_calls = {}
+    #     for vertex in graph1.graph.calls.keys():
+    #         if vertex > node:
+    #             new_calls[vertex + shift] = graph1.graph.calls[vertex]
+    #         else:
+    #             new_calls[vertex] = graph1.graph.calls[vertex]
 
-        
-        stitched_graph.calls = new_calls
+    #     stitched_graph.calls = new_calls
 
-        return ControlFlowGraph(stitched_graph)
+    #     return ControlFlowGraph(stitched_graph)

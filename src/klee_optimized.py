@@ -105,6 +105,7 @@ def klee_compare(file_name: str, preferences: List[str], depths: List[str],
     return results_dict
 
 
+# pylint: disable=too-many-arguments
 def graph_stat(func: str, preference: str, max_depths: List[str],
                inputs: List[str], results: KleeCompareResults, results2: KleeCompareResults,
                field: str) -> None:
@@ -117,7 +118,7 @@ def graph_stat(func: str, preference: str, max_depths: List[str],
         stats = [results[(preference, i, input_)][field] for i in max_depths]
         ax1.plot(depths, stats, label=func)
         stats2 = [results2[(preference, i, input_)][field] for i in max_depths]
-        ax1.plot(depths, stats2, label=func+" optimized")
+        ax1.plot(depths, stats2, label=func + " optimized")
 
     ax1.set(xlabel='depth', ylabel=field, title=func)
     ax1.legend()
@@ -145,7 +146,7 @@ def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
     output = KleeUtils(Log()).show_func_defs(filename, size=array_size)
     output2 = KleeUtils(Log()).show_func_defs(filename, size=array_size, optimized=True)
 
-    for i,j in zip(output, output2):
+    for i, j in zip(output, output2):
         new_name = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.c"
         bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.bc"
         with open(new_name, "w+") as file:
@@ -166,7 +167,8 @@ def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
         subprocess.run(cmd2, shell=True, capture_output=True, check=True)
         results2 = klee_compare(bcname2, preferences, max_depths, inputs, f"{func}_{j}_optimized")
         results_frame2 = create_pandas(results2, preferences[0], inputs[0], max_depths, fields)
-        results_frame2.to_csv(f'/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}_{j}_optimized.csv')
+        filename = f'/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}_{j}_optimized.csv'
+        results_frame2.to_csv(filename)
         for field in fields:
             graph_stat(func, preferences[0], max_depths, inputs, results, results2, field)
 
@@ -196,7 +198,7 @@ def main() -> None:
                  '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
                  '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
                  '63_three_loops_symbolic_bounds']
-    funcitons = ['04_prime', '05_parity']
+    # functions = ['04_prime', '05_parity']
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
                    shell=True, check=False)
     for func in functions:

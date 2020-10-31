@@ -13,7 +13,6 @@ from control_flow_graph import ControlFlowGraph
 from log import Log
 from env import Env
 from lang_to_cfg import converter
-from utils import show_func_defs
 
 # pylint: disable=R0201
 

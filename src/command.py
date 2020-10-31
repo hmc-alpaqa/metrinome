@@ -249,7 +249,8 @@ class Command:
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
     def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool,
-                                                                Optional[InlineType]]:
+                                                                Optional[InlineType],
+                                                                bool]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
         inline_type = None
@@ -280,7 +281,7 @@ class Command:
             return args_list, recursive_mode, inline_type, graph_stitching
 
         self.logger.v_msg("Not enough arguments!")
-        return [], False, inline_type
+        return [], False, inline_type, graph_stitching
 
     def do_convert(self, args: str) -> None:
         """Convert source code into CFGs."""
@@ -319,8 +320,7 @@ class Command:
             if inline_type is not None:
                 self.logger.v_msg(f"Converting {file}")
                 inline_type.value(file)
-                new_file = file.split('.')[0] + "-auto-inline.c"
-                filepath = os.path.splitext(new_file)[0]
+                filepath = os.path.splitext(file.split('.')[0] + "-auto-inline.c")[0]
 
             converter_inst = self.controller.get_graph_generator(file_extension)
             graph = converter_inst.to_graph(filepath.strip(), file_extension.strip())
@@ -337,8 +337,7 @@ class Command:
                     self.data.graphs[filepath] = graph
                 if graph_stitching:
                     self.logger.v_msg(f"Created {filepath}_stitched")
-                    main = ControlFlowGraph.stitch(graph)
-                    self.data.graphs[filepath+"_stitched"] = main
+                    self.data.graphs[filepath + "_stitched"] = ControlFlowGraph.stitch(graph)
 
     def do_import(self, recursive_mode: bool, *args_list: str) -> None:
         """Convert .dot files into CFGs."""

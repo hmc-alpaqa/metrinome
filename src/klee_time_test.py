@@ -152,7 +152,7 @@ def run_klee_time(func: str, array_size: int,
     output = KleeUtils(Log()).show_func_defs(filename, size=array_size)
 
     for i in output:
-        func_actual = func+f"_{i}"
+        func_actual = func + f"_{i}"
         new_name = f"/app/code/tests/cFiles/fse_2020_benchmark/{func_actual}.c"
         bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func_actual}.bc"
         with open(new_name, "w+") as file:
@@ -162,7 +162,8 @@ def run_klee_time(func: str, array_size: int,
         subprocess.run(cmd, shell=True, capture_output=True, check=True)
         results = klee_compare_time(bcname, preferences, max_times, func_actual)
         results_frame = create_pandas_time(results, preferences[0], max_times, fields)
-        results_frame.to_csv(f'/app/code/tests/cFiles/fse_2020_benchmark/frames_time/{func_actual}.csv')
+        filename = f'/app/code/tests/cFiles/fse_2020_benchmark/frames_time/{func_actual}.csv'
+        results_frame.to_csv(filename)
         for field in fields:
             graph_stat_time(func_actual, preferences[0], max_times, results, field)
 
