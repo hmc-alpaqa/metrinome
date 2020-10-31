@@ -1,8 +1,8 @@
 """All information that needs to be stored aside from the graph to compute complexity metrics."""
 import os
 import re
-from utils import calls_function
 from typing import cast, List
+from utils import calls_function
 from graph import AnyGraph, GraphType, Graph, AdjListType, Dict
 
 
@@ -91,7 +91,7 @@ class ControlFlowGraph:
 
     @staticmethod
     def stitch(graphs: Dict[str, 'ControlFlowGraph']) -> 'ControlFlowGraph':
-        """ Composes a set of graphs to accurately represent a program's CFG"""
+        """Compose a set of graphs to accurately represent a program's CFG."""
         calls_list = []
         simple_funcs = []
         for func1 in graphs.keys():
@@ -104,28 +104,32 @@ class ControlFlowGraph:
         while calls_list:
             for func_pair in calls_list:
                 if func_pair[1] in simple_funcs:
-                    for call in range(len(calls_function(graphs[func_pair[0]].graph.calls, func_pair[1]))):
-                        graphs[func_pair[0]] = ControlFlowGraph.compose(graphs[func_pair[0]], graphs[func_pair[1]], calls_function(graphs[func_pair[0]].graph.calls, func_pair[1])[0])
+                    for _ in range(len(
+                        calls_function(graphs[func_pair[0]].graph.calls, func_pair[1])
+                    )):
+                        graph1, graph2 = graphs[func_pair[0]], graphs[func_pair[1]]
+                        node = calls_function(graphs[func_pair[0]].graph.calls, func_pair[1])[0]
+                        graphs[func_pair[0]] = ControlFlowGraph.compose(graph1, graph2, node)
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
                         simple_funcs.append(func_pair[0])
         stitched_graph = graphs[simple_funcs[-1]]
         return stitched_graph
 
-        
-                    
     @staticmethod
-    def compose(graph1: 'ControlFlowGraph', graph2: 'ControlFlowGraph', node: int) -> 'ControlFlowGraph':
-        """ Replaces a vertex in graph1 with graph2 """
-
+    def compose(graph1: 'ControlFlowGraph',
+                graph2: 'ControlFlowGraph',
+                node: int) -> 'ControlFlowGraph':
+        """Replace a vertex in graph1 with graph2."""
         graph1.graph.calls.pop(node)
 
         shift = graph2.graph.vertex_count() - 1
         vertices = list(range(graph1.graph.vertex_count() + shift))
 
-        e2 = [[i+node, j+node] for [i,j] in graph2.graph.edges] # ensures that exit node in subgraph has all the same edges as the replaced node
+        # ensures that exit node in subgraph has all the same edges as the replaced node
+        edges_2 = [[i + node, j + node] for [i, j] in graph2.graph.edges]
 
-        e1 = []
+        edges_1 = []
         for edge in graph1.graph.edges:
             vertex_1 = edge[0]
             vertex_2 = edge[1]
@@ -134,20 +138,20 @@ class ControlFlowGraph:
             if edge[1] > node:
                 vertex_2 += shift
 
-            e1.append([vertex_1, vertex_2])
+            edges_1.append([vertex_1, vertex_2])
 
-        e1 += e2
+        edges_1 += edges_2
 
-        stitched_graph = Graph(e1, vertices, 0, len(vertices) - 1, GraphType.EDGE_LIST)
+        stitched_graph = Graph(edges_1, vertices, 0,
+                               len(vertices) - 1, GraphType.EDGE_LIST)
 
         new_calls = {}
         for vertex in graph1.graph.calls.keys():
             if vertex > node:
-                new_calls[vertex+shift] = graph1.graph.calls[vertex]
+                new_calls[vertex + shift] = graph1.graph.calls[vertex]
             else:
                 new_calls[vertex] = graph1.graph.calls[vertex]
 
-        
         stitched_graph.calls = new_calls
 
         return ControlFlowGraph(stitched_graph)

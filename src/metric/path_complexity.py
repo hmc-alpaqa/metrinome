@@ -1,23 +1,24 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
 from collections import deque
-from typing import Tuple, List, Union
+from typing import Tuple, List, Union, Deque, cast
 import re
+from abc import ABC, abstractmethod
 import sympy  # type: ignore
-from sympy import refine, preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
-    simplify, sympify, Abs, Q, Basic
-from mpmath import polyroots  # type: ignore
+from sympy import preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
+    simplify, sympify, Basic
+from mpmath import polyroots, mpc, mpf  # type: ignore
 import numpy as np  # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots, Timeout
 from graph import AnyGraph
 from control_flow_graph import ControlFlowGraph
 from metric import metric
 from log import Log
-from abc import ABC, abstractmethod
 
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 
-class BaseCaseGetter():
+
+class BaseCaseGetter(ABC):
     """Object capable of computing base cases for path complexity."""
 
     def __init__(self, logger: Log) -> None:
@@ -25,7 +26,8 @@ class BaseCaseGetter():
         self.logger = logger
 
     @abstractmethod
-    def get(self, cfg: ControlFlowGraph, start_idx: int, end_idx: int) -> List[int]:
+    def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
+            start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
         """Get path(start_idx) throught path(end_idx)."""
 
 
@@ -33,19 +35,19 @@ class BaseCaseBFS(BaseCaseGetter):
     """Get base cases using a breadth first search on the control flow graph."""
 
     def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> List[int]:
+            start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
         """Use a BFS to count all of the paths through the CFG up to a certain depth."""
         end_idx = start_idx + num_coeffs
         depth = 0
         base_cases = [0] * end_idx
         graph_adj = graph.adjacency_list()
-        q = deque([graph.start_node])
+        queue = deque([graph.start_node])
         while depth < end_idx:
-            new_q = deque()
-            while q:
-                curr_node = q.pop()
+            new_q: Deque[int] = deque()
+            while queue:
+                curr_node = queue.pop()
                 for next_node in graph_adj[curr_node]:
-                    new_q.appendleft(next_node)
+                    new_q.appendleft(cast(int, next_node))
 
                 if curr_node == graph.end_node:
                     base_cases[depth] += 1
@@ -54,15 +56,16 @@ class BaseCaseBFS(BaseCaseGetter):
                 base_cases[depth] += base_cases[depth - 1]
 
             depth += 1
-            q = new_q
+            queue = new_q
 
         return np.matrix(base_cases[start_idx: end_idx], dtype="complex"), start_idx
 
+
 class BaseCaseTaylor(BaseCaseGetter):
     """Get base cases using the generating function; significantly slower than BFS."""
-    
+
     def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> Tuple[List[int], int]:
+            start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
         """Use taylor coefficients of the generating function to get base cases."""
         x_sub = x_mat.copy()
         x_sub.col_del(0)
@@ -70,13 +73,17 @@ class BaseCaseTaylor(BaseCaseGetter):
         generating_function = x_sub.det(method="det_LU") / denominator
         self.logger.d_msg(f"Getting {num_coeffs} many coeffs.")
 
-        taylor_coeffs, new_start_idx = get_taylor_coeffs(generating_function, num_coeffs, num_coeffs)
-    
+        taylor_coeffs, new_start_idx = get_taylor_coeffs(generating_function,
+                                                         num_coeffs, num_coeffs)
+
         if taylor_coeffs is None:
             raise ValueError("Could not obtain taylor coefficients.")
         self.logger.d_msg(f"Got taylor coeffs: {taylor_coeffs}, len: {len(taylor_coeffs)}")
 
-        return np.matrix(taylor_coeffs[new_start_idx: new_start_idx + num_coeffs], dtype='complex'), new_start_idx
+        new_start_idx = new_start_idx if new_start_idx is not None else start_idx
+        return np.matrix(taylor_coeffs[new_start_idx: new_start_idx + num_coeffs],
+                         dtype='complex'), new_start_idx
+
 
 class BaseCaseSmart(BaseCaseGetter):
     """Dispatches call to optimal BaseCaseGetter for the given input."""
@@ -85,17 +92,18 @@ class BaseCaseSmart(BaseCaseGetter):
         """Create a new instance of BaseCaseSmart."""
         self.base_case_bfs = BaseCaseBFS(logger)
         self.base_case_taylor = BaseCaseTaylor(logger)
-    
+        super().__init__(logger)
+
     def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
-            start_idx: int, end_idx: int) -> List[int]:
+            start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
         """Try to use BFS and switch to Taylor method if it takes too long."""
         try:
             with Timeout(seconds=10, error_message="BFS Timed Out"):
-                return self.base_case_bfs.get(graph, x_mat, denominator, start_idx, end_idx)
-            
+                return self.base_case_bfs.get(graph, x_mat, denominator, start_idx, num_coeffs)
+
         except TimeoutError as err:
             print(err)
-            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, end_idx)
+            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, num_coeffs)
 
 
 class PathComplexity(metric.MetricAbstract):
@@ -135,28 +143,26 @@ class PathComplexity(metric.MetricAbstract):
         det = simplify(poly * sympify(f"t**{dimension}"))
         return det
 
-    def get_matrix(self, graph: AnyGraph) -> Tuple[List[Basic],
-                                                               int,
-                                                               int,
-                                                               Basic]:
+    def get_matrix(self, graph: AnyGraph) -> Tuple[Basic,
+                                                   int]:
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
         new_adjacency = Matrix(adj_mat)
 
-        
         dimension = adj_mat.shape[0]
         x_mat = eye(dimension) - new_adjacency * self._t_var
         self.logger.d_msg(f"Matrix shape: {x_mat.shape}")
 
         return x_mat, dimension
 
-    def get_roots(self, x_mat):
+    def get_roots(self, x_mat: Basic) -> Tuple[int, Poly, List[Union[mpf, mpc]]]:
+        """Get the denominator of the generating function and its roots/degree."""
         x_det = x_mat.det()
         denominator = Poly(sympify(-x_det))
         recurrence_kernel = denominator.all_coeffs()[::-1]
         test = [round(-x, 2) for x in recurrence_kernel]
-        roots = polyroots(test, maxsteps=250, extraprec=250)    
+        roots = polyroots(test, maxsteps=250, extraprec=250)
 
         return degree(denominator, gen=self._t_var), denominator, roots
 
@@ -169,8 +175,9 @@ class PathComplexity(metric.MetricAbstract):
         """
         x_mat, dimension = self.get_matrix(cfg.graph)
         recurrence_degree, denominator, roots = self.get_roots(x_mat)
-        
-        base_cases, start_idx = self.base_case_getter.get(cfg.graph, x_mat, denominator, dimension, recurrence_degree)
+
+        base_cases, start_idx = self.base_case_getter.get(cfg.graph, x_mat, denominator,
+                                                          dimension, recurrence_degree)
         base_cases = base_cases.transpose()
         # Solve the recurrence relation.
         factors, simplified_factors = get_solution_from_roots(roots)
@@ -182,12 +189,12 @@ class PathComplexity(metric.MetricAbstract):
         self.logger.d_msg(f"Base Cases: {base_cases}, dimension: {dimension}")
         self.logger.d_msg(f"Recurrence Degree: {recurrence_degree}")
 
-        bounding_solution_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
-        bounding_solution_terms = bounding_solution_terms.transpose().dot(Matrix(simplified_factors))[0, 0]
+        bound_sol_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
+        bound_sol_terms = bound_sol_terms.transpose().dot(Matrix(simplified_factors))[0, 0]
 
-        self.logger.d_msg(f"bounding_solution_terms: {bounding_solution_terms}")
+        self.logger.d_msg(f"bounding_solution_terms: {bound_sol_terms}")
 
-        unrounded_expr = simplify(sympify(bounding_solution_terms))
+        unrounded_expr = simplify(sympify(bound_sol_terms))
         expr_with_abs = unrounded_expr
         for expr_term in preorder_traversal(unrounded_expr):
             if isinstance(expr_term, Float):

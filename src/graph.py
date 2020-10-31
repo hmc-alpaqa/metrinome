@@ -5,7 +5,6 @@ from typing import List, Optional, DefaultDict, Set, \
 from enum import Enum
 import collections
 import numpy as np  # type: ignore
-from utils import calls_function
 
 
 # ADJ LIST
@@ -403,8 +402,6 @@ class Graph(Generic[GraphEdgeType]):
                 self.edges += [[] for _ in range(((node_one + 1) - len(self.edges)))]
 
             self.edges[node_one] += [node_two]
-
-
 
     def to_prism(self) -> List[str]:
         """

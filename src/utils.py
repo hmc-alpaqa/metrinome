@@ -6,15 +6,15 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Dict, Optional, Union, Type, cast, Tuple
+from typing import List, Dict, Optional, Union, Type, Tuple
 from types import FrameType, TracebackType
 import re
 from collections import Counter
 import signal
-from sympy import limit, Abs, sympify, series, symbols, Basic, Poly, Mul, Pow  # type: ignore
+import os
+from sympy import limit, Abs, sympify, symbols, Basic, Poly, Mul, Pow  # type: ignore
 from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
-import os
 
 
 def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], List[Basic]]:
@@ -42,11 +42,10 @@ def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], 
                 else:
                     simplified_solution += [sympify(f"(n**{i})*{Abs(root)}**n")]
 
-
     return solution, simplified_solution
 
 
-def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
+def get_recurrence_solution(recurrence: str) -> Tuple[List[Basic], List[Basic]]:
     """
     Return the coefficients to a homogeneous linear recurrence relation.
 
@@ -78,13 +77,13 @@ def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
 def get_taylor_coeffs(func: Basic,
                       max_num_coeffs: int,
                       num_coeffs: int,
-                      lazy: bool=True) -> Tuple[List[int], Optional[int]]:
+                      lazy: bool = True) -> Tuple[List[int], Optional[int]]:
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
 
     if lazy:
         taylor_series_generator = func.series(t_var, x0=0, n=None)
-        
+
         first_nonzero_term = next(taylor_series_generator)
         if isinstance(first_nonzero_term, Pow):
             curr_term_exp = first_nonzero_term.exp
@@ -95,19 +94,19 @@ def get_taylor_coeffs(func: Basic,
         taylor_series = [0] * curr_term_exp + \
             [first_nonzero_term.args[0] if isinstance(first_nonzero_term, Mul) else 1]
         taylor_series += list(map(
-            lambda x: x.args[0] if isinstance(x, Mul) else 1,
+            lambda x: int(x.args[0]) if isinstance(x, Mul) else 1,
             [next(taylor_series_generator) for _ in range(num_coeffs)]
         ))
 
         # Workaround to get all coeffs, since sympy does not return 0 coeffs,
         # Make sure to return coeffs from low -> high order.
         return taylor_series, new_start_idx
-    else:
-        # Get the series but ignore the big-O term that is added by sympy.
-        # Note: removeO() makes it go from high order -> low order
-        # taylor_series = func.series(t_var, x0=0, n=max_num_coeffs).removeO()
 
-        return Poly(taylor_series).all_coeffs()[::-1], None
+    # Get the series but ignore the big-O term that is added by sympy.
+    # Note: removeO() makes it go from high order -> low order
+    # taylor_series = func.series(t_var, x0=0, n=max_num_coeffs).removeO()
+    taylor_series = func.series(t_var, x0=0, n=max_num_coeffs).removeO()
+    return Poly(taylor_series).all_coeffs()[::-1], None
 
 
 def big_o(terms: List[str]) -> str:
@@ -148,15 +147,16 @@ def show_func_defs(filename: str) -> Dict[str, str]:
             names[i.name + '_decl'] = str(i.coord)
     return names
 
-def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
-    """ checks if a CFG contains a call to another function """
 
+def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
+    """Check if a CFG contains a call to another function."""
     nodes = []
     func_name = os.path.splitext(os.path.splitext(function_cfg)[0])[1][1:]
     for node in calls_dict.keys():
         if calls_dict[node].endswith(func_name):
             nodes.append(node)
     return nodes
+
 
 class Timeout:
     """

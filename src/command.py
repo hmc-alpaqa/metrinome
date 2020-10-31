@@ -10,14 +10,13 @@ import re
 import subprocess
 import tempfile
 import time
-from graph import Graph
 from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
 import numpy   # type: ignore
 from inlining import inlining_script, inlining_script_heuristic
 from log import Log, LogLevel
-from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric, loc
+from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 from control_flow_graph import ControlFlowGraph
 from lang_to_cfg import cpp, java, python, converter
 from klee_utils import KleeUtils
@@ -281,7 +280,7 @@ class Command:
             return args_list, recursive_mode, inline_type, graph_stitching
 
         self.logger.v_msg("Not enough arguments!")
-        return [], False, inline_type
+        return [], False, inline_type, graph_stitching
 
     def do_convert(self, args: str) -> None:
         """Convert source code into CFGs."""
@@ -293,9 +292,9 @@ class Command:
             return
 
         all_files: List[str] = []
-        allowed_extensions = list(self.controller.graph_generators.keys())
         for full_path in args_list:
-            files = get_files(full_path, recursive_mode, self.logger, allowed_extensions)
+            files = get_files(full_path, recursive_mode, self.logger,
+                              list(self.controller.graph_generators.keys()))
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
                 return
@@ -320,8 +319,7 @@ class Command:
             if inline_type is not None:
                 self.logger.v_msg(f"Converting {file}")
                 inline_type.value(file)
-                new_file = file.split('.')[0] + "-auto-inline.c"
-                filepath = os.path.splitext(new_file)[0]
+                filepath = os.path.splitext(file.split('.')[0] + "-auto-inline.c")[0]
 
             converter_inst = self.controller.get_graph_generator(file_extension)
             graph = converter_inst.to_graph(filepath.strip(), file_extension.strip())
@@ -339,8 +337,7 @@ class Command:
                 if graph_stitching:
                     self.logger.v_msg(f"Created {filepath}_stitched")
                     main = ControlFlowGraph.stitch(graph)
-                    self.data.graphs[filepath+"_stitched"] = main
-
+                    self.data.graphs[filepath + "_stitched"] = main
 
     def do_import(self, recursive_mode: bool, *args_list: str) -> None:
         """Convert .dot files into CFGs."""
