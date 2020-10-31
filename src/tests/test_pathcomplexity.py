@@ -15,7 +15,7 @@ class TestPathComplexity(unittest.TestCase):
         repl = command.Command("/", True, False, repl_wrapper)
         repl.do_import(False,
                        "/app/examples/cfgs/simple_test_cfgs/vlab_cs_ucsb_test_SimpleExample_test6_0_basic.dot")
-        repl.do_list("*")
+        # repl.do_list("*")
         repl.do_metrics("*")
 
 

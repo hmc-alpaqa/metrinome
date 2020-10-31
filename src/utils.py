@@ -11,7 +11,7 @@ from types import FrameType, TracebackType
 import re
 from collections import Counter
 import signal
-from sympy import limit, Abs, sympify, series, symbols, Basic, Poly  # type: ignore
+from sympy import limit, Abs, sympify, series, symbols, Basic, Poly, Mul, Pow  # type: ignore
 from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
 import os
@@ -76,17 +76,38 @@ def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
 
 
 def get_taylor_coeffs(func: Basic,
-                      num_coeffs: int) -> List[Basic]:
+                      max_num_coeffs: int,
+                      num_coeffs: int,
+                      lazy: bool=True) -> Tuple[List[int], Optional[int]]:
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
 
-    # Get the series but ignore the big-O term that is added by sympy.
-    # Note: removeO() makes it go from high order -> low order
-    taylor_series = series(func, x=t_var, x0=0, n=num_coeffs).removeO()
+    if lazy:
+        taylor_series_generator = func.series(t_var, x0=0, n=None)
+        
+        first_nonzero_term = next(taylor_series_generator)
+        if isinstance(first_nonzero_term, Pow):
+            curr_term_exp = first_nonzero_term.exp
+        else:
+            # must be Mul
+            curr_term_exp = first_nonzero_term.args[1].exp
+        new_start_idx = curr_term_exp
+        taylor_series = [0] * curr_term_exp + \
+            [first_nonzero_term.args[0] if isinstance(first_nonzero_term, Mul) else 1]
+        taylor_series += list(map(
+            lambda x: x.args[0] if isinstance(x, Mul) else 1,
+            [next(taylor_series_generator) for _ in range(num_coeffs)]
+        ))
 
-    # Workaround to get all coeffs, since sympy does not return 0 coeffs,
-    # Make sure to return coeffs from low -> high order.
-    return Poly(taylor_series).all_coeffs()[::-1]
+        # Workaround to get all coeffs, since sympy does not return 0 coeffs,
+        # Make sure to return coeffs from low -> high order.
+        return taylor_series, new_start_idx
+    else:
+        # Get the series but ignore the big-O term that is added by sympy.
+        # Note: removeO() makes it go from high order -> low order
+        # taylor_series = func.series(t_var, x0=0, n=max_num_coeffs).removeO()
+
+        return Poly(taylor_series).all_coeffs()[::-1], None
 
 
 def big_o(terms: List[str]) -> str:
