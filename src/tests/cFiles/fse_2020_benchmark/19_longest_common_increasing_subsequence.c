@@ -4,7 +4,7 @@
 
 // Returns the length and the LCIS of two
 // arrays arr1[0..n-1] and arr2[0..m-1]
-int LCIS(int arr1[], int n, int arr2[], int m) {
+__attribute__((always_inline)) inline int LCIS(int arr1[], int n, int arr2[], int m) {
   // table[j] is going to store length of LCIS
   // ending with arr2[j]. We initialize it as 0,
   int table[m];

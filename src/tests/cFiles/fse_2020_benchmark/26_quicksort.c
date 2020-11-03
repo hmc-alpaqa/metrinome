@@ -11,7 +11,7 @@
 
 #define MAXSTACKSIZE 100
   
-void quickSortIterative(int arr[], int l, int h) 
+__attribute__((always_inline)) inline void quickSortIterative(int arr[], int l, int h) 
 { 
     // Create an auxiliary stack 
     int stack[MAXSTACKSIZE]; 

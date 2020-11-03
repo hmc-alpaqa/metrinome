@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void selection_sort(int list[], int count) {
+__attribute__((always_inline)) inline void selection_sort(int list[], int count) {
   int i, j, temp;
   for (i = 0; i < count; i++) {
     for (j = i + 1; j < count; j++) {

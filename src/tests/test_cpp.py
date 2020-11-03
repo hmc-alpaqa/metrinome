@@ -24,8 +24,8 @@ class TestCPPConvert(unittest.TestCase):
         self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
         self.assertIsNotNone(result)
         if result is not None:
-            self.assertTrue("blank0" in result)
-            self.assertEqual(graph1, result["blank0"].graph)
+            self.assertTrue("blank_cfg.main.dot" in result)
+            self.assertEqual(graph1, result['blank_cfg.main.dot'].graph)
 
         expected_graph = ControlFlowGraph(
             Graph([[0, 1], [0, 2], [1, 5], [2, 3], [2, 4], [3, 5], [4, 6]],
@@ -34,7 +34,7 @@ class TestCPPConvert(unittest.TestCase):
         graphs = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")
 
         # Need to check all graphs since order can vary with environment.
-        graph_names = ['names0', 'names1', 'names2', 'names3']
+        graph_names = ['names_cfg._ZN3Jar4pullB5cxx11Ei.dot', 'names_cfg._ZN3JarD2Ev.dot', 'names_cfg.main.dot', 'names_cfg._ZN3JarC2Ev.dot']
         self.assertIsNotNone(graphs)
         if graphs is not None:
             obtained_graphs = [graphs[graph_name].graph for graph_name in graph_names]

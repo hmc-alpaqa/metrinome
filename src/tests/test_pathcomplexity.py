@@ -9,6 +9,7 @@ import command
 class TestPathComplexity(unittest.TestCase):
     """Test PathComplexity object."""
 
+
     def test(self) -> None:
         """Compute path complexity for a regular .dot file."""
         repl_wrapper = None
@@ -19,6 +20,7 @@ class TestPathComplexity(unittest.TestCase):
         filename = "17_edit_dist.c"
         repl.do_convert(f"{root_dir}/{filename}")
         repl.do_metrics("*")
+
 
 
 if __name__ == '__main__':

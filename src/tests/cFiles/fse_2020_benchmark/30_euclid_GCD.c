@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int gcd(int a, int b) {
+__attribute__((always_inline)) inline  int gcd(int a, int b) {
   while (a != b) {
     if (a > b) {
       a = a - b;

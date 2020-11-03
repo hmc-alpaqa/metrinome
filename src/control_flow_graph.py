@@ -89,6 +89,7 @@ class ControlFlowGraph:
 
         return ControlFlowGraph(graph)
 
+
     @staticmethod
     def stitch(graphs: Dict[str, 'ControlFlowGraph']) -> 'ControlFlowGraph':
         """Compose a set of graphs to accurately represent a program's CFG."""
@@ -155,3 +156,4 @@ class ControlFlowGraph:
         stitched_graph.calls = new_calls
 
         return ControlFlowGraph(stitched_graph)
+ 
