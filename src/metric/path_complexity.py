@@ -6,7 +6,7 @@ import re
 from abc import ABC, abstractmethod
 import sympy  # type: ignore
 from sympy import preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
-    simplify, sympify, Basic
+    simplify, sympify, Basic, Q, refine
 from mpmath import polyroots, mpc, mpf  # type: ignore
 import numpy as np  # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots, Timeout
@@ -37,12 +37,16 @@ class BaseCaseBFS(BaseCaseGetter):
     def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
         """Use a BFS to count all of the paths through the CFG up to a certain depth."""
+        lazy = False
         end_idx = start_idx + num_coeffs
         depth = 0
         base_cases = [0] * end_idx
+        first_nonzero_index = float("inf")
         graph_adj = graph.adjacency_list()
         queue = deque([graph.start_node])
-        while depth < end_idx:
+        while (lazy and depth < first_nonzero_index + num_coeffs) or \
+              (not lazy and depth < end_idx):
+            
             new_q: Deque[int] = deque()
             while queue:
                 curr_node = queue.pop()
@@ -51,16 +55,23 @@ class BaseCaseBFS(BaseCaseGetter):
 
                 if curr_node == graph.end_node:
                     base_cases[depth] += 1
+                    if first_nonzero_index == float("inf"):
+                        first_nonzero_index = depth
 
             if depth > 0:
                 base_cases[depth] += base_cases[depth - 1]
 
             depth += 1
             queue = new_q
+        if lazy:
+            print(base_cases, base_cases[first_nonzero_index: first_nonzero_index + num_coeffs], first_nonzero_index)
+            return np.matrix(base_cases[first_nonzero_index: first_nonzero_index + num_coeffs], dtype="float64"), first_nonzero_index
+        
+        print(base_cases, base_cases[start_idx: end_idx], start_idx)
+        return np.matrix(base_cases[start_idx: end_idx], dtype="float64"), start_idx
 
-        return np.matrix(base_cases[start_idx: end_idx], dtype="complex"), start_idx
-
-
+#NON LAZY: [0, 0, 0, 1, 2, 2, 2, 3, 4, 4, 4, 5, 6] [4, 4, 4, 5, 6] 8
+#LAZY: [0, 0, 0, 1, 2, 2, 2, 3, 0, 0, 0, 0, 0] [1, 2, 2, 2, 3] 3
 class BaseCaseTaylor(BaseCaseGetter):
     """Get base cases using the generating function; significantly slower than BFS."""
 
@@ -84,7 +95,7 @@ class BaseCaseTaylor(BaseCaseGetter):
 
         new_start_idx = new_start_idx if new_start_idx is not None else start_idx
         return np.matrix(taylor_coeffs[new_start_idx: new_start_idx + num_coeffs],
-                         dtype='complex'), new_start_idx
+                         dtype='float64'), new_start_idx
 
 
 class BaseCaseSmart(BaseCaseGetter):
@@ -105,11 +116,11 @@ class BaseCaseSmart(BaseCaseGetter):
 
         except TimeoutError as err:
             self.logger.d_msg("BFS timed out, using taylor coeff method")
-            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, end_idx)
+            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, num_coeffs)
 
         except Exception as err:
             self.logger.d_msg("BFS Failed, trying taylor coeff method")
-            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, end_idx)
+            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, num_coeffs)
             
 
 
@@ -188,6 +199,8 @@ class PathComplexity(metric.MetricAbstract):
         base_cases = base_cases.transpose()
         # Solve the recurrence relation.
         factors, simplified_factors = get_solution_from_roots(roots)
+
+        self.logger.d_msg(f"Simplified Factors: {simplified_factors}")
         
         matrix = np.matrix([[fact.replace(self._n_var, nval) for fact in factors] for nval in
                             range(start_idx, start_idx + recurrence_degree)],
@@ -198,6 +211,9 @@ class PathComplexity(metric.MetricAbstract):
         self.logger.d_msg(f"Recurrence Degree: {recurrence_degree}")
 
         bound_sol_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
+        bound_sol_terms = np.absolute(bound_sol_terms)
+        self.logger.d_msg(f"Coeffs: {bound_sol_terms}")
+
         bound_sol_terms = bound_sol_terms.transpose().dot(Matrix(simplified_factors))[0, 0]
 
         self.logger.d_msg(f"bounding_solution_terms: {bound_sol_terms}")
@@ -209,21 +225,14 @@ class PathComplexity(metric.MetricAbstract):
                 expr_with_abs = expr_with_abs.subs(expr_term, round(expr_term, 4))
         
         self.logger.d_msg(f"exp terms: {expr_with_abs}")
-
-        exp_terms = [arg.as_real_imag()[0] for arg in expr_with_abs.args]
-        exp_terms = [refine(arg, Q.real(self._n_var)) for arg in exp_terms]
-
-        self.logger.d_msg(f"exp terms is: {exp_terms}")
-        
-        apc = big_o(exp_terms)
-
+        exp_terms_list = list(expr_with_abs.args)
+        self.logger.d_msg(f"exp terms is: {exp_terms_list}")       
+        apc = big_o(exp_terms_list)
         self.logger.d_msg(f"APC is {apc}")
         
-        exp_terms_list = (*exp_terms, )
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))
         if apc not in (0.0, "0"):
-            self.logger.d_msg("APC is not 0")
             try:
                 if degree(apc, gen=self._n_var) != 0:
                     return (sympy.LM(apc), terms)

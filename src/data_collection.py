@@ -76,7 +76,7 @@ class DataCollector:
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
-                data.to_csv("/app/code/data_collection_full.csv")
+                data.to_csv("/app/code/data_collection_test.csv")
 
 
 def main() -> None:

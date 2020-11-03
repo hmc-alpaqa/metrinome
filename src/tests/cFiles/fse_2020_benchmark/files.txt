@@ -1,3 +1,4 @@
+04_prime.c
 05_parity.c
 03_sign.c
 01_greatestof3.c
