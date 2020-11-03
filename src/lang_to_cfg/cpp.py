@@ -90,14 +90,10 @@ class CPPConvert(converter.ConverterAbstract):
                     call = re.search(self.call_pattern, line.lstrip())
                     label = ""
 
-                    if counter == 0 and call is not None:
-                        call_label = call.group(0)[1:-1]
-                        label = f" [label=\"START CALLS {call_label}\"]"
-                    elif counter == 0:
+
+                    if counter == 0:
                         label = " [label=\"START\"]"
-                    elif call is not None:
-                        call_label = call.group(0)[1:-1]
-                        label = f" [label=\"CALLS {call_label}\"]"
+                  
 
                     node_to_add += label
 
