@@ -91,7 +91,7 @@ def get_taylor_coeffs(func: Basic,
             # must be Mul or Symbol
             try:
                 curr_term_exp = first_nonzero_term.args[1].exp
-            except Exception as ex:
+            except IndexError:
                 curr_term_exp = 1
         new_start_idx = curr_term_exp
         taylor_series = [0] * curr_term_exp + \
@@ -100,7 +100,6 @@ def get_taylor_coeffs(func: Basic,
             lambda x: int(x.args[0]) if isinstance(x, Mul) else 1,
             [next(taylor_series_generator) for _ in range(num_coeffs)]
         ))
-        
         # Workaround to get all coeffs, since sympy does not return 0 coeffs,
         # Make sure to return coeffs from low -> high order.
         return taylor_series, new_start_idx
@@ -127,13 +126,12 @@ def big_o(terms: List[str]) -> str:
 
     term_one = terms[0]
     term_two = terms[1]
-    
+
     lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
 
     if lim == 0:
         terms.remove(term_two)
         return big_o(terms)
-   
 
     return big_o(terms[1:])
 

@@ -6,7 +6,7 @@ import re
 from abc import ABC, abstractmethod
 import sympy  # type: ignore
 from sympy import preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
-    simplify, sympify, Basic, Q, refine
+    simplify, sympify, Basic
 from mpmath import polyroots, mpc, mpf  # type: ignore
 import numpy as np  # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots, Timeout
@@ -41,12 +41,12 @@ class BaseCaseBFS(BaseCaseGetter):
         end_idx = start_idx + num_coeffs
         depth = 0
         base_cases = [0] * end_idx
-        first_nonzero_index = float("inf")
+        first_nonzero_index: Union[int, float] = float("inf")
         graph_adj = graph.adjacency_list()
         queue = deque([graph.start_node])
         while (lazy and depth < first_nonzero_index + num_coeffs) or \
               (not lazy and depth < end_idx):
-            
+
             new_q: Deque[int] = deque()
             while queue:
                 curr_node = queue.pop()
@@ -64,14 +64,12 @@ class BaseCaseBFS(BaseCaseGetter):
             depth += 1
             queue = new_q
         if lazy:
-            print(base_cases, base_cases[first_nonzero_index: first_nonzero_index + num_coeffs], first_nonzero_index)
-            return np.matrix(base_cases[first_nonzero_index: first_nonzero_index + num_coeffs], dtype="float64"), first_nonzero_index
-        
-        print(base_cases, base_cases[start_idx: end_idx], start_idx)
+            start_idx = cast(int, first_nonzero_index)
+            end_idx = start_idx + num_coeffs
+
         return np.matrix(base_cases[start_idx: end_idx], dtype="float64"), start_idx
 
-#NON LAZY: [0, 0, 0, 1, 2, 2, 2, 3, 4, 4, 4, 5, 6] [4, 4, 4, 5, 6] 8
-#LAZY: [0, 0, 0, 1, 2, 2, 2, 3, 0, 0, 0, 0, 0] [1, 2, 2, 2, 3] 3
+
 class BaseCaseTaylor(BaseCaseGetter):
     """Get base cases using the generating function; significantly slower than BFS."""
 
@@ -114,14 +112,13 @@ class BaseCaseSmart(BaseCaseGetter):
             with Timeout(seconds=10, error_message="BFS Timed Out"):
                 return self.base_case_bfs.get(graph, x_mat, denominator, start_idx, num_coeffs)
 
-        except TimeoutError as err:
+        except TimeoutError:
             self.logger.d_msg("BFS timed out, using taylor coeff method")
             return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, num_coeffs)
 
-        except Exception as err:
+        except Exception:  # pylint: disable=broad-except
             self.logger.d_msg("BFS Failed, trying taylor coeff method")
             return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, num_coeffs)
-            
 
 
 class PathComplexity(metric.MetricAbstract):
@@ -201,11 +198,11 @@ class PathComplexity(metric.MetricAbstract):
         factors, simplified_factors = get_solution_from_roots(roots)
 
         self.logger.d_msg(f"Simplified Factors: {simplified_factors}")
-        
+
         matrix = np.matrix([[fact.replace(self._n_var, nval) for fact in factors] for nval in
                             range(start_idx, start_idx + recurrence_degree)],
                            dtype='complex')
-        
+
         self.logger.d_msg(f"Matrix: {matrix.shape}")
         self.logger.d_msg(f"Base Cases: {base_cases}, dimension: {dimension}")
         self.logger.d_msg(f"Recurrence Degree: {recurrence_degree}")
@@ -223,13 +220,13 @@ class PathComplexity(metric.MetricAbstract):
         for expr_term in preorder_traversal(unrounded_expr):
             if isinstance(expr_term, Float):
                 expr_with_abs = expr_with_abs.subs(expr_term, round(expr_term, 4))
-        
+
         self.logger.d_msg(f"exp terms: {expr_with_abs}")
         exp_terms_list = list(expr_with_abs.args)
-        self.logger.d_msg(f"exp terms is: {exp_terms_list}")       
+        self.logger.d_msg(f"exp terms is: {exp_terms_list}")
         apc = big_o(exp_terms_list)
         self.logger.d_msg(f"APC is {apc}")
-        
+
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))
         if apc not in (0.0, "0"):

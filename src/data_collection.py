@@ -2,7 +2,6 @@
 import os
 import time
 from typing import Union
-import glob2  # type: ignore
 import pandas as pd  # type: ignore
 from log import Log
 from utils import Timeout
@@ -30,8 +29,8 @@ class DataCollector:
                              "vertex_count": [], "edge_count": [], "exception": [],
                              "exception_type": []})
 
-        with open('/app/code/tests/cFiles/fse_2020_benchmark/files.txt') as f:
-            files = ["/app/code/tests/cFiles/fse_2020_benchmark/" + line.rstrip() for line in f]
+        with open('/app/code/tests/cFiles/fse_2020_benchmark/files.txt') as funcs:
+            files = ["/app/code/tests/cFiles/fse_2020_benchmark/" + line.rstrip() for line in funcs]
         for file in files:
             print(file)
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
@@ -72,7 +71,8 @@ class DataCollector:
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
                            "cyclo": cyclo, "npath": npath, "apc_time": runtime,
-                           "vertex_count": graph.graph.vertex_count(), "edge_count": graph.graph.edge_count(), "exception": ex,
+                           "vertex_count": graph.graph.vertex_count(),
+                           "edge_count": graph.graph.edge_count(), "exception": ex,
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
