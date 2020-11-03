@@ -6,17 +6,18 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Dict, Optional, Union, Type
+from typing import List, Dict, Optional, Union, Type, Tuple
 from types import FrameType, TracebackType
 import re
 from collections import Counter
 import signal
-from sympy import limit, Abs, sympify, series, symbols, Basic  # type: ignore
+import os
+from sympy import limit, Abs, sympify, symbols, Basic, Poly, Mul, Pow  # type: ignore
 from mpmath import polyroots, mpc, mpf  # type: ignore
 from pycparser import parse_file  # type: ignore
 
 
-def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Basic]:
+def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], List[Basic]]:
     """Return the solution to a recurrence relation given roots of the characteristic equation."""
     # Round to 4 digits.
     new_roots = (complex(round(root.real, 6), round(root.imag, 6)) for root in roots)
@@ -26,17 +27,25 @@ def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> List[Basic]:
 
     # Compute the coefficients of a_n as a list.
     solution = []
+    simplified_solution = []
     for root in roots_with_multiplicities.keys():
         for i in range(roots_with_multiplicities[root]):
             if root == 1:
-                solution += [sympify(f"(n**{i})")]
+                term = sympify(f"(n**{i})")
+                solution += [term]
+                simplified_solution += [term]
             else:
                 solution += [sympify(f"(n**{i})*{root}**n")]
+                abs_root = Abs(root)
+                if abs_root == 1:
+                    simplified_solution += [sympify(f"(n**{i})")]
+                else:
+                    simplified_solution += [sympify(f"(n**{i})*{Abs(root)}**n")]
 
-    return solution
+    return solution, simplified_solution
 
 
-def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
+def get_recurrence_solution(recurrence: str) -> Tuple[List[Basic], List[Basic]]:
     """
     Return the coefficients to a homogeneous linear recurrence relation.
 
@@ -66,18 +75,40 @@ def get_recurrence_solution(recurrence: str) -> List[Union[mpf, mpc]]:
 
 
 def get_taylor_coeffs(func: Basic,
-                      num_coeffs: int) -> Optional[List[Basic]]:
+                      max_num_coeffs: int,
+                      num_coeffs: int,
+                      lazy: bool = True) -> Tuple[List[int], Optional[int]]:
     """Given an arbitrary rational function, get its Taylor series coefficients."""
     t_var = symbols('t')
-    series_list = str(series(func, x=t_var, x0=0, n=num_coeffs)).split('+')[::-1]
-    first_element = series_list[0]
-    first_power = re.search(r"\*\*([0-9]*)", str(first_element))
 
-    if first_power is not None:
-        taylor_coeffs = [sympify(f).subs(t_var, 1) for f in series_list]
-        return taylor_coeffs
+    if lazy:
+        taylor_series_generator = func.series(t_var, x0=0, n=None)
 
-    return None
+        first_nonzero_term = next(taylor_series_generator)
+        if isinstance(first_nonzero_term, Pow):
+            curr_term_exp = first_nonzero_term.exp
+        else:
+            # must be Mul or Symbol
+            try:
+                curr_term_exp = first_nonzero_term.args[1].exp
+            except IndexError:
+                curr_term_exp = 1
+        new_start_idx = curr_term_exp
+        taylor_series = [0] * curr_term_exp + \
+            [first_nonzero_term.args[0] if isinstance(first_nonzero_term, Mul) else 1]
+        taylor_series += list(map(
+            lambda x: int(x.args[0]) if isinstance(x, Mul) else 1,
+            [next(taylor_series_generator) for _ in range(num_coeffs)]
+        ))
+        # Workaround to get all coeffs, since sympy does not return 0 coeffs,
+        # Make sure to return coeffs from low -> high order.
+        return taylor_series, new_start_idx
+
+    # Get the series but ignore the big-O term that is added by sympy.
+    # Note: removeO() makes it go from high order -> low order
+    # taylor_series = func.series(t_var, x0=0, n=max_num_coeffs).removeO()
+    taylor_series = func.series(t_var, x0=0, n=max_num_coeffs).removeO()
+    return Poly(taylor_series).all_coeffs()[::-1], None
 
 
 def big_o(terms: List[str]) -> str:
@@ -95,6 +126,7 @@ def big_o(terms: List[str]) -> str:
 
     term_one = terms[0]
     term_two = terms[1]
+
     lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
 
     if lim == 0:
@@ -117,6 +149,16 @@ def show_func_defs(filename: str) -> Dict[str, str]:
         elif str(type(i)) == "<class 'pycparser.c_ast.Decl'>":
             names[i.name + '_decl'] = str(i.coord)
     return names
+
+
+def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
+    """Check if a CFG contains a call to another function."""
+    nodes = []
+    func_name = os.path.splitext(os.path.splitext(function_cfg)[0])[1][1:]
+    for node in calls_dict.keys():
+        if calls_dict[node].endswith(func_name):
+            nodes.append(node)
+    return nodes
 
 
 class Timeout:

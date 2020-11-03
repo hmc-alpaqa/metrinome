@@ -16,7 +16,7 @@ from multiprocessing import Pool, Manager
 import numpy   # type: ignore
 from inlining import inlining_script, inlining_script_heuristic
 from log import Log, LogLevel
-from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric, loc
+from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 from control_flow_graph import ControlFlowGraph
 from lang_to_cfg import cpp, java, python, converter
 from klee_utils import KleeUtils
@@ -142,9 +142,9 @@ class Controller:
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
         npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
-        lines_of_code = loc.LinesOfCode(self.logger)
+
         self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity, lines_of_code]
+                                                                pathcomplexity]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -249,10 +249,11 @@ class Command:
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
     def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool,
-                                                                Optional[InlineType]]:
+                                                                Optional[InlineType], bool]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
         inline_type = None
+        graph_stitching = False
 
         if len(arguments) > 0:
             if arguments[0] == ("-r" or "--recursive"):
@@ -270,27 +271,30 @@ class Command:
                 else:
                     inline_type = InlineType.Heuristic
                 args_list = arguments[1:]
+            elif arguments[0] == ("-gs" or "--graph_stitch"):
+                graph_stitching = True
+                args_list = arguments[1:]
             else:
                 args_list = arguments
 
-            return args_list, recursive_mode, inline_type
+            return args_list, recursive_mode, inline_type, graph_stitching
 
         self.logger.v_msg("Not enough arguments!")
-        return [], False, inline_type
+        return [], False, inline_type, graph_stitching
 
     def do_convert(self, args: str) -> None:
         """Convert source code into CFGs."""
         # Iterate through all file-like objects.
         arguments = args.split(" ")
-        args_list, recursive_mode, inline_type = self.parse_convert_args(arguments)
+        args_list, recursive_mode, inline_type, graph_stitching = self.parse_convert_args(arguments)
         if len(args_list) == 0:
             self.logger.v_msg("Not enough arguments!")
             return
 
         all_files: List[str] = []
-        allowed_extensions = list(self.controller.graph_generators.keys())
         for full_path in args_list:
-            files = get_files(full_path, recursive_mode, self.logger, allowed_extensions)
+            files = get_files(full_path, recursive_mode, self.logger,
+                              list(self.controller.graph_generators.keys()))
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
                 return
@@ -330,6 +334,10 @@ class Command:
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
+                if graph_stitching:
+                    self.logger.v_msg(f"Created {filepath}_stitched")
+                    main = ControlFlowGraph.stitch(graph)
+                    self.data.graphs[filepath + "_stitched"] = main
 
     def do_import(self, recursive_mode: bool, *args_list: str) -> None:
         """Convert .dot files into CFGs."""
@@ -434,12 +442,8 @@ class Command:
                 start_time = time.time()
 
                 try:
-                    with Timeout(600, "Took too long!"):
-                        try:
-                            result: Optional[Union[int, PathComplexityRes]] = \
-                                metric_generator.evaluate(graph)
-                        except ValueError:
-                            result = None
+                    with Timeout(6000, "Took too long!"):
+                        result = metric_generator.evaluate(graph)
                         runtime = time.time() - start_time
                     if result is not None:
                         results.append((metric_generator.name(), result))

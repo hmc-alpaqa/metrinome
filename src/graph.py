@@ -61,6 +61,7 @@ class Graph(Generic[GraphEdgeType]):
         self.weighted: bool = False
         self.name: Optional[str] = None
         self.graph_type = graph_type
+        self.calls: Dict[int, str] = {}
 
     def dot(self) -> str:
         """Convert a Graph object to a .dot file."""
@@ -373,12 +374,12 @@ class Graph(Generic[GraphEdgeType]):
         """Create a new vertex when the current line in the dot file is a node."""
         node = int(match.group(1))
         node_label = match.group(2)
-
-        if node_label == "START":
+        if "CALLS" in node_label:
+            self.calls[node] = node_label
+        if "START" in node_label:
             self.start_node = node
-        elif node_label == "EXIT":
+        if node_label == "EXIT":
             self.end_node = node
-
         if self.graph_type is GraphType.EDGE_LIST:
             if node not in self.vertices:
                 self.vertices.append(node)

@@ -9,10 +9,11 @@ import re
 import signal
 import glob2  # type: ignore
 from graph import GraphType
-from control_flow_graph import ControlFlowGraph
 from log import Log
 from env import Env
 from lang_to_cfg import converter
+from control_flow_graph import ControlFlowGraph
+
 
 # pylint: disable=R0201
 
@@ -26,7 +27,8 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger = logger
         self.edge_pattern = "->"
         self.name_pattern = "([a-zA-Z0-9]+ )"
-        self.call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9]*\("
+
+        self.call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
 
     def name(self) -> str:
         """Get the name of the CPP converter."""
@@ -91,9 +93,15 @@ class CPPConvert(converter.ConverterAbstract):
                     label = ""
 
 
-                    if counter == 0:
+                    if counter == 0 and call is not None:
+                        call_label = call.group(0)[1:-1]
+                        label = f" [label=\"START CALLS {call_label}\"]"
+                    elif counter == 0:
                         label = " [label=\"START\"]"
-                  
+                    elif call is not None:
+                        call_label = call.group(0)[1:-1]
+                        label = f" [label=\"CALLS {call_label}\"]"
+
 
                     node_to_add += label
 
@@ -105,7 +113,10 @@ class CPPConvert(converter.ConverterAbstract):
 
         return nodes, edges, node_map, counter
 
-    def convert_file_to_standard(self, file: str, filename: str) -> None:
+
+    def convert_file_to_standard(self, file: str,
+                                 filename: str) -> None:
+
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
 
