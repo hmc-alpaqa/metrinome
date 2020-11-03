@@ -27,11 +27,12 @@ class DataCollector:
         """Compute the metrics for all files and store the data."""
         data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [],
                              "cyclo": [], "npath": [], "apc_time": [],
-                             "graph_size": [], "basecasetype": [], "exception": [],
+                             "vertex_count": [], "edge_count": [], "exception": [],
                              "exception_type": []})
 
-        files = glob2.glob("/app/code/tests/cFiles/fse_2020_benchmark/*.c")
-        for file in files[2:]:
+        with open('/app/code/tests/cFiles/fse_2020_benchmark/files.txt') as f:
+            files = ["/app/code/tests/cFiles/fse_2020_benchmark/" + line.rstrip() for line in f]
+        for file in files:
             print(file)
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
             if graphs is None:
@@ -44,7 +45,6 @@ class DataCollector:
                 cyclo: Union[str, int] = "na"
                 ex = False
                 exception_type = "na"
-                basecasetype = "BFS"
                 runtime = 0.0
                 try:
                     with Timeout(300):
@@ -72,8 +72,7 @@ class DataCollector:
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
                            "cyclo": cyclo, "npath": npath, "apc_time": runtime,
-                           "graph_size": len(graph.graph.vertices),
-                           "basecasetype": basecasetype, "exception": ex,
+                           "vertex_count": graph.graph.vertex_count(), "edge_count": graph.graph.edge_count(), "exception": ex,
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)

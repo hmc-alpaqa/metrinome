@@ -78,6 +78,8 @@ class BaseCaseTaylor(BaseCaseGetter):
 
         if taylor_coeffs is None:
             raise ValueError("Could not obtain taylor coefficients.")
+        if new_start_idx is None:
+            new_start_idx = 1
         self.logger.d_msg(f"Got taylor coeffs: {taylor_coeffs}, len: {len(taylor_coeffs)}")
 
         new_start_idx = new_start_idx if new_start_idx is not None else start_idx
@@ -102,8 +104,13 @@ class BaseCaseSmart(BaseCaseGetter):
                 return self.base_case_bfs.get(graph, x_mat, denominator, start_idx, num_coeffs)
 
         except TimeoutError as err:
-            print(err)
-            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, num_coeffs)
+            self.logger.d_msg("BFS timed out, using taylor coeff method")
+            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, end_idx)
+
+        except Exception as err:
+            self.logger.d_msg("BFS Failed, trying taylor coeff method")
+            return self.base_case_taylor.get(graph, x_mat, denominator, start_idx, end_idx)
+            
 
 
 class PathComplexity(metric.MetricAbstract):
@@ -181,10 +188,11 @@ class PathComplexity(metric.MetricAbstract):
         base_cases = base_cases.transpose()
         # Solve the recurrence relation.
         factors, simplified_factors = get_solution_from_roots(roots)
+        
         matrix = np.matrix([[fact.replace(self._n_var, nval) for fact in factors] for nval in
                             range(start_idx, start_idx + recurrence_degree)],
                            dtype='complex')
-
+        
         self.logger.d_msg(f"Matrix: {matrix.shape}")
         self.logger.d_msg(f"Base Cases: {base_cases}, dimension: {dimension}")
         self.logger.d_msg(f"Recurrence Degree: {recurrence_degree}")
@@ -199,17 +207,18 @@ class PathComplexity(metric.MetricAbstract):
         for expr_term in preorder_traversal(unrounded_expr):
             if isinstance(expr_term, Float):
                 expr_with_abs = expr_with_abs.subs(expr_term, round(expr_term, 4))
-
+        
         self.logger.d_msg(f"exp terms: {expr_with_abs}")
 
-        exp_terms = [simplify(arg) for arg in expr_with_abs.args]
+        exp_terms = [arg.as_real_imag()[0] for arg in expr_with_abs.args]
+        exp_terms = [refine(arg, Q.real(self._n_var)) for arg in exp_terms]
 
         self.logger.d_msg(f"exp terms is: {exp_terms}")
-
+        
         apc = big_o(exp_terms)
 
         self.logger.d_msg(f"APC is {apc}")
-
+        
         exp_terms_list = (*exp_terms, )
         exp_terms_list = sympify(exp_terms_list)
         terms = str(sum(exp_terms_list))

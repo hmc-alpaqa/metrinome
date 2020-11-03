@@ -170,7 +170,7 @@ class CPPConvert(converter.ConverterAbstract):
 
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
-        c1_str = f"clang++-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+        c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
 
         commands = [shlex.split(c1_str), shlex.split(c2_str)]

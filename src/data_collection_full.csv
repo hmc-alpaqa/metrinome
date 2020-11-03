@@ -1,91 +1,31 @@
-,file_name,graph_name,apc,cyclo,npath,apc_time,graph_size,basecasetype,exception,exception_type
-0,/app/code/tests/cFiles/fse_2020_benchmark/05_parity_main.c,05_parity_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.07233142852783203,3.0,BFS,0.0,na
-1,/app/code/tests/cFiles/fse_2020_benchmark/05_parity_main.c,05_parity_main_cfg._Z6parityi,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.0037713050842285156,3.0,BFS,0.0,na
-2,/app/code/tests/cFiles/fse_2020_benchmark/04_prime.c,04_prime_cfg._Z11check_primei,"(n, '1.0*n - 1.0')",4.0,4.0,0.3082296848297119,5.0,BFS,0.0,na
-3,/app/code/tests/cFiles/fse_2020_benchmark/22_selectionsort_main.c,22_selectionsort_main_cfg._Z14selection_sortPii,"('1.8197**n', '4636606.507*0.6608**n - 1286760.6056*0.7039**n + 703.5437*0.953**n - 418.2739*0.9873**n + 18361.6048*1.0189**n + 7.6711*1.1978**n - 0.7312*1.297**n + 0.0022*1.8197**n - 25799.2809')",10.0,24.0,2.300131320953369,16.0,BFS,0.0,na
-4,/app/code/tests/cFiles/fse_2020_benchmark/22_selectionsort_main.c,22_selectionsort_main_cfg.main,"('1.2207**n', '-644.5866*0.7245**n - 2.6101*1.0633**n + 24.1971*1.2207**n - 256.0001')",39.0,1024.0,77.22158074378967,78.0,BFS,0.0,na
-5,/app/code/tests/cFiles/fse_2020_benchmark/01_greatestof3_main.c,01_greatestof3_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.008415460586547852,3.0,BFS,0.0,na
-6,/app/code/tests/cFiles/fse_2020_benchmark/01_greatestof3_main.c,01_greatestof3_main_cfg._Z11greatestof3iii,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.0031883716583251953,3.0,BFS,0.0,na
-7,/app/code/tests/cFiles/fse_2020_benchmark/50_check_sorted_or_reverse.c,50_check_sorted_or_reverse_cfg._Z20is_sorted_or_reversePii,"(n**2, '1.0*n**2 - 10.0*n + 28.0')",8.0,25.0,0.30336952209472656,11.0,BFS,0.0,na
-8,/app/code/tests/cFiles/fse_2020_benchmark/16_binary_search.c,16_binary_search_cfg._Z13binary_searchiPii,"('1.3532**n', '-0.3165*1.2157**n + 0.8165*1.3532**n - 1.0')",6.0,10.0,0.4537353515625,9.0,BFS,0.0,na
-9,/app/code/tests/cFiles/fse_2020_benchmark/12_check_sorted_array.c,12_check_sorted_array_cfg._Z9is_sortedPii,"(n, '1.0*n - 1.0')",4.0,4.0,0.06187295913696289,5.0,BFS,0.0,na
-10,/app/code/tests/cFiles/fse_2020_benchmark/62_three_loops_w_break_main.c,62_three_loops_w_break_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.006663799285888672,3.0,BFS,0.0,na
-11,/app/code/tests/cFiles/fse_2020_benchmark/62_three_loops_w_break_main.c,62_three_loops_w_break_main_cfg._Z11three_loopsiiii,"(n**3, '0.1667*n**3 - 3.0*n**2 + 19.8333*n - 44.0')",7.0,15.0,0.3057434558868408,12.0,BFS,0.0,na
-12,/app/code/tests/cFiles/fse_2020_benchmark/63_three_loops_symbolic_bounds_main.c,63_three_loops_symbolic_bounds_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.006348133087158203,3.0,BFS,0.0,na
-13,/app/code/tests/cFiles/fse_2020_benchmark/63_three_loops_symbolic_bounds_main.c,63_three_loops_symbolic_bounds_main_cfg._Z18three_loops_boundsiii,"(n**2, '3.5*n**2 - 50.5*n + 202.0')",7.0,9.0,0.2875659465789795,10.0,BFS,0.0,na
-14,/app/code/tests/cFiles/fse_2020_benchmark/21_insertionsort.c,21_insertionsort_cfg._Z14insertion_sortPii,"('1.5129**n', '0.3051*1.5129**n')",5.0,8.0,0.5451207160949707,7.0,BFS,0.0,na
-15,/app/code/tests/cFiles/fse_2020_benchmark/02_fib_main.c,02_fib_main_cfg._Z3fibi,"(n**2, '0.5*n**2 - 3.5*n + 9.0')",6.0,10.0,0.16585707664489746,8.0,BFS,0.0,na
-16,/app/code/tests/cFiles/fse_2020_benchmark/02_fib_main.c,02_fib_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.0032308101654052734,3.0,BFS,0.0,na
-17,/app/code/tests/cFiles/fse_2020_benchmark/04_prime_main.c,04_prime_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.006231546401977539,3.0,BFS,0.0,na
-18,/app/code/tests/cFiles/fse_2020_benchmark/04_prime_main.c,04_prime_main_cfg._Z11check_primei,"(n, '1.0*n - 1.0')",4.0,4.0,0.048058509826660156,5.0,BFS,0.0,na
-19,/app/code/tests/cFiles/fse_2020_benchmark/20_bubblesort.c,20_bubblesort_cfg._Z11bubble_sortPll,"('1.8313**n', '19329.7635*0.6976**n + 4415.6547*0.8103**n + 1670.0258*0.9367**n + 8107.8247*1.0211**n + 3.4316*1.2381**n - 1.5751*1.2444**n + 0.0031*1.8313**n - 11489.0212')",10.0,8.0,1.945101022720337,15.0,BFS,0.0,na
-20,/app/code/tests/cFiles/fse_2020_benchmark/05_parity.c,05_parity_cfg._Z6parityi,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.008649110794067383,3.0,BFS,0.0,na
-21,/app/code/tests/cFiles/fse_2020_benchmark/06_palindrome.c,06_palindrome_cfg._Z10palindromei,"(n, '1.0*n - 1.0')",3.0,3.0,0.04431271553039551,4.0,BFS,0.0,na
-22,/app/code/tests/cFiles/fse_2020_benchmark/19_longest_common_increasing_subsequence.c,19_longest_common_increasing_subsequence_cfg._Z4LCISPiiS_i,"('1.6372**n', '70.3419*0.8365**n + 66.8386*0.8578**n + 44.0951*0.8838**n + 0.171*1.1271**n + 0.0342*1.6372**n + 39.1033*n - 628.1209')",16.0,210.0,4.833549737930298,24.0,BFS,0.0,na
-23,/app/code/tests/cFiles/fse_2020_benchmark/31_sieve_of_eratosthenes_main.c,31_sieve_of_eratosthenes_main_cfg.main,"('1.618**n', '0.0055*1.618**n')",8.0,1.0,2.0004048347473145,14.0,BFS,0.0,na
-24,/app/code/tests/cFiles/fse_2020_benchmark/31_sieve_of_eratosthenes_main.c,31_sieve_of_eratosthenes_main_cfg._Z5sievePii,na,na,na,0.0,15.0,BFS,1.0,Other
-25,/app/code/tests/cFiles/fse_2020_benchmark/11_array_max.c,11_array_max_cfg._Z15largest_elementPii,"(n**2, '0.5*n**2 - 3.5*n + 9.0')",6,9,0.12264609336853027,8.0,BFS,0.0,na
-26,/app/code/tests/cFiles/fse_2020_benchmark/16_binary_search_main.c,16_binary_search_main_cfg._Z13binary_searchiPii,"('1.3532**n', '-0.3165*1.2157**n + 0.8165*1.3532**n - 1.0')",6,10,0.2844419479370117,9.0,BFS,0.0,na
-27,/app/code/tests/cFiles/fse_2020_benchmark/16_binary_search_main.c,16_binary_search_main_cfg.main,"('1.2207**n', '-0.2541*0.7245**n + 1.0633**n*(0.03 - 0.0737*I) + 1.0633**n*(0.03 + 0.0737*I) + 2.194*1.2207**n - 3.0')",4,6,0.6233127117156982,7.0,BFS,0.0,na
-28,/app/code/tests/cFiles/fse_2020_benchmark/26_quicksort_main.c,26_quicksort_main_cfg.main,na,na,na,0.0,21.0,BFS,1.0,Other
-29,/app/code/tests/cFiles/fse_2020_benchmark/26_quicksort_main.c,26_quicksort_main_cfg._Z8printArrPii,"(n, '1.0*n - 1.0')",3,3,0.036687374114990234,4.0,BFS,0.0,na
-30,/app/code/tests/cFiles/fse_2020_benchmark/26_quicksort_main.c,26_quicksort_main_cfg._Z18quickSortIterativePiii,na,na,na,0.0,21.0,BFS,1.0,Other
-31,/app/code/tests/cFiles/fse_2020_benchmark/10_find_val_in_array_main.c,10_find_val_in_array_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.008522510528564453,3.0,BFS,0.0,na
-32,/app/code/tests/cFiles/fse_2020_benchmark/10_find_val_in_array_main.c,10_find_val_in_array_main_cfg._Z10find_firstiPii,"(n, '1.0*n - 1.0')",4,4,0.07042551040649414,6.0,BFS,0.0,na
-33,/app/code/tests/cFiles/fse_2020_benchmark/10_find_val_in_array.c,10_find_val_in_array_cfg._Z10find_firstiPii,"(n, '1.0*n - 1.0')",4,4,0.04416847229003906,6.0,BFS,0.0,na
-34,/app/code/tests/cFiles/fse_2020_benchmark/25_heapsort.c,25_heapsort_cfg._Z9heap_sortPij,na,na,na,0.0,26.0,BFS,1.0,Other
-35,/app/code/tests/cFiles/fse_2020_benchmark/50_check_sorted_or_reverse_main.c,50_check_sorted_or_reverse_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.008104324340820312,3.0,BFS,0.0,na
-36,/app/code/tests/cFiles/fse_2020_benchmark/50_check_sorted_or_reverse_main.c,50_check_sorted_or_reverse_main_cfg._Z20is_sorted_or_reversePii,"(n**2, '1.0*n**2 - 10.0*n + 28.0')",8,25,0.2512478828430176,11.0,BFS,0.0,na
-37,/app/code/tests/cFiles/fse_2020_benchmark/11_array_max_main.c,11_array_max_main_cfg._Z15largest_elementPii,"(n**2, '0.5*n**2 - 3.5*n + 9.0')",6,9,0.1141047477722168,8.0,BFS,0.0,na
-38,/app/code/tests/cFiles/fse_2020_benchmark/11_array_max_main.c,11_array_max_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.0031807422637939453,3.0,BFS,0.0,na
-39,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method_main.c,32_newtons_method_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.005784749984741211,3.0,BFS,0.0,na
-40,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method_main.c,32_newtons_method_main_cfg._Z1ff,"(1.00000000000000, 1.00000000000000)",1,1,0.003763914108276367,3.0,BFS,0.0,na
-41,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method_main.c,32_newtons_method_main_cfg._Z2dff,"(1.00000000000000, 1.00000000000000)",1,1,0.0032134056091308594,3.0,BFS,0.0,na
-42,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method_main.c,32_newtons_method_main_cfg._Z11newton_rootffi,"(n, '1.0*n - 2.0')",4,4,0.0763711929321289,7.0,BFS,0.0,na
-43,/app/code/tests/cFiles/fse_2020_benchmark/03_sign_main.c,03_sign_main_cfg._Z4signi,"(1.00000000000000, 1.00000000000000)",1,1,0.0062944889068603516,3.0,BFS,0.0,na
-44,/app/code/tests/cFiles/fse_2020_benchmark/03_sign_main.c,03_sign_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.0051610469818115234,3.0,BFS,0.0,na
-45,/app/code/tests/cFiles/fse_2020_benchmark/14_lexicographic_array_compare_main.c,14_lexicographic_array_compare_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.00627589225769043,3.0,BFS,0.0,na
-46,/app/code/tests/cFiles/fse_2020_benchmark/14_lexicographic_array_compare_main.c,14_lexicographic_array_compare_main_cfg._Z14compare_arraysPiS_i,"(n, '1.0*n - 1.0')",5,5,0.1489276885986328,6.0,BFS,0.0,na
-47,/app/code/tests/cFiles/fse_2020_benchmark/23_mergesort_main.c,23_mergesort_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.00679326057434082,3.0,BFS,0.0,na
-48,/app/code/tests/cFiles/fse_2020_benchmark/23_mergesort_main.c,23_mergesort_main_cfg._Z9mergesortPii,"('1.5883**n', '-1.1695*0.7114**n - 1.0329*0.7302**n - 0.0101*0.9448**n - 1.0917*0.9659**n - 0.0594*1.1114**n - 0.0383*1.3027**n + 0.0626*1.5883**n + 0.9963')",10,171,4.088931560516357,17.0,BFS,0.0,na
-49,/app/code/tests/cFiles/fse_2020_benchmark/31_sieve_of_eratosthenes.c,31_sieve_of_eratosthenes_cfg._Z5sievePii,na,na,na,0.0,15.0,BFS,1.0,Other
-50,/app/code/tests/cFiles/fse_2020_benchmark/61_pos_vel_acc_main.c,61_pos_vel_acc_main_cfg._Z6motionPdid,na,na,na,0.0,24.0,BFS,1.0,Other
-51,/app/code/tests/cFiles/fse_2020_benchmark/61_pos_vel_acc_main.c,61_pos_vel_acc_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.004210233688354492,3.0,BFS,0.0,na
-52,/app/code/tests/cFiles/fse_2020_benchmark/51_variance.c,51_variance_cfg._Z8variancePdi,"(n**3, '0.1667*n**3 - 3.0*n**2 + 19.8333*n - 47.0')",11,9,0.3426320552825928,15.0,BFS,0.0,na
-53,/app/code/tests/cFiles/fse_2020_benchmark/13_check_arrays_equal.c,13_check_arrays_equal_cfg._Z12equal_arraysPiS_i,"(n, '1.0*n - 1.0')",4,4,0.06276655197143555,5.0,BFS,0.0,na
-54,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method.c,32_newtons_method_cfg._Z11newton_rootffi,"(n, '1.0*n - 2.0')",4,4,0.06569814682006836,7.0,BFS,0.0,na
-55,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method.c,32_newtons_method_cfg._Z1ff,"(1.00000000000000, 1.00000000000000)",1,1,0.00334930419921875,3.0,BFS,0.0,na
-56,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method.c,32_newtons_method_cfg._Z2dff,"(1.00000000000000, 1.00000000000000)",1,1,0.003599882125854492,3.0,BFS,0.0,na
-57,/app/code/tests/cFiles/fse_2020_benchmark/02_fib.c,02_fib_cfg._Z3fibi,"(n**2, '0.5*n**2 - 3.5*n + 9.0')",6,10,0.11496448516845703,8.0,BFS,0.0,na
-58,/app/code/tests/cFiles/fse_2020_benchmark/30_euclid_GCD_main.c,30_euclid_GCD_main_cfg._Z3gcdii,"(n, '1.0*n - 1.0')",3,3,0.04476022720336914,4.0,BFS,0.0,na
-59,/app/code/tests/cFiles/fse_2020_benchmark/30_euclid_GCD_main.c,30_euclid_GCD_main_cfg.main,"(n, '1.0*n - 1.0')",2,2,0.029596805572509766,3.0,BFS,0.0,na
-60,/app/code/tests/cFiles/fse_2020_benchmark/19_longest_common_increasing_subsequence_main.c,19_longest_common_increasing_subsequence_main_cfg._Z4LCISPiiS_i,"('1.6372**n', '70.3419*0.8365**n + 66.8386*0.8578**n + 44.0951*0.8838**n + 0.171*1.1271**n + 0.0342*1.6372**n + 39.1033*n - 628.1209')",16,210,4.222248554229736,24.0,BFS,0.0,na
-61,/app/code/tests/cFiles/fse_2020_benchmark/19_longest_common_increasing_subsequence_main.c,19_longest_common_increasing_subsequence_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.0053424835205078125,3.0,BFS,0.0,na
-62,/app/code/tests/cFiles/fse_2020_benchmark/15_check_heap_order_main.c,15_check_heap_order_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.009706258773803711,3.0,BFS,0.0,na
-63,/app/code/tests/cFiles/fse_2020_benchmark/15_check_heap_order_main.c,15_check_heap_order_main_cfg._Z13is_heap_orderPii,"(n, '1.0*n - 1.0')",5,5,0.1745762825012207,6.0,BFS,0.0,na
-64,/app/code/tests/cFiles/fse_2020_benchmark/03_sign.c,03_sign_cfg._Z4signi,"(1.00000000000000, 1.00000000000000)",1,1,0.006618499755859375,3.0,BFS,0.0,na
-65,/app/code/tests/cFiles/fse_2020_benchmark/23_mergesort.c,23_mergesort_cfg._Z9mergesortPii,"('1.5883**n', '-1.1695*0.7114**n - 1.0329*0.7302**n - 0.0101*0.9448**n - 1.0917*0.9659**n - 0.0594*1.1114**n - 0.0383*1.3027**n + 0.0626*1.5883**n + 0.9963')",10,171,3.1657230854034424,17.0,BFS,0.0,na
-66,/app/code/tests/cFiles/fse_2020_benchmark/15_check_heap_order.c,15_check_heap_order_cfg._Z13is_heap_orderPii,"(n, '1.0*n - 1.0')",5,5,0.15277886390686035,6.0,BFS,0.0,na
-67,/app/code/tests/cFiles/fse_2020_benchmark/14_lexicographic_array_compare.c,14_lexicographic_array_compare_cfg._Z14compare_arraysPiS_i,"(n, '1.0*n - 1.0')",5,5,0.10525989532470703,6.0,BFS,0.0,na
-68,/app/code/tests/cFiles/fse_2020_benchmark/30_euclid_GCD.c,30_euclid_GCD_cfg._Z3gcdii,"(n, '1.0*n - 1.0')",3,3,0.04621243476867676,4.0,BFS,0.0,na
-69,/app/code/tests/cFiles/fse_2020_benchmark/21_insertionsort_main.c,21_insertionsort_main_cfg._Z14insertion_sortPii,"('1.5129**n', '0.3051*1.5129**n')",5,8,0.43317365646362305,7.0,BFS,0.0,na
-70,/app/code/tests/cFiles/fse_2020_benchmark/21_insertionsort_main.c,21_insertionsort_main_cfg.main,"(1.00000000000000, 1.00000000000000)",38,1,7.121546268463135,46.0,BFS,0.0,na
-71,/app/code/tests/cFiles/fse_2020_benchmark/26_quicksort.c,26_quicksort_cfg._Z18quickSortIterativePiii,na,na,na,0.0,21.0,BFS,1.0,Other
-72,/app/code/tests/cFiles/fse_2020_benchmark/13_check_arrays_equal_main.c,13_check_arrays_equal_main_cfg._Z12equal_arraysPiS_i,"(n, '1.0*n - 1.0')",4,4,0.06514930725097656,5.0,BFS,0.0,na
-73,/app/code/tests/cFiles/fse_2020_benchmark/13_check_arrays_equal_main.c,13_check_arrays_equal_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.003489255905151367,3.0,BFS,0.0,na
-74,/app/code/tests/cFiles/fse_2020_benchmark/25_heapsort_main.c,25_heapsort_main_cfg._Z9heap_sortPij,na,na,na,0.0,26.0,BFS,1.0,Other
-75,/app/code/tests/cFiles/fse_2020_benchmark/25_heapsort_main.c,25_heapsort_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.006471872329711914,3.0,BFS,0.0,na
-76,/app/code/tests/cFiles/fse_2020_benchmark/25_heapsort_main.c,25_heapsort_main_cfg._Z7displayPii,"(n, '1.0*n - 1.0')",3,3,0.03669452667236328,4.0,BFS,0.0,na
-77,/app/code/tests/cFiles/fse_2020_benchmark/63_three_loops_symbolic_bounds.c,63_three_loops_symbolic_bounds_cfg._Z18three_loops_boundsiii,"(n**2, '3.5*n**2 - 50.5*n + 202.0')",7,9,0.18691611289978027,10.0,BFS,0.0,na
-78,/app/code/tests/cFiles/fse_2020_benchmark/62_three_loops_w_break.c,62_three_loops_w_break_cfg._Z11three_loopsiiii,"(n**3, '0.1667*n**3 - 3.0*n**2 + 19.8333*n - 44.0')",7,15,0.21980619430541992,12.0,BFS,0.0,na
-79,/app/code/tests/cFiles/fse_2020_benchmark/06_palindrome_main.c,06_palindrome_main_cfg._Z10palindromei,"(n, '1.0*n - 1.0')",3,3,0.036809682846069336,4.0,BFS,0.0,na
-80,/app/code/tests/cFiles/fse_2020_benchmark/06_palindrome_main.c,06_palindrome_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.003513813018798828,3.0,BFS,0.0,na
-81,/app/code/tests/cFiles/fse_2020_benchmark/17_edit_dist.c,17_edit_dist_cfg._Z16editDistArraysDPPiS_ii,"('1.8011**n', '-0.0705*0.6843**n - 0.1325*0.7109**n - 0.05*1.0968**n - 0.059*1.1116**n - 0.0462*1.1539**n + 0.2035*1.1569**n + 0.0924*1.2045**n - 0.0298*1.495**n + 0.0319*1.8011**n')",14,90,62.65845799446106,23.0,BFS,0.0,na
-82,/app/code/tests/cFiles/fse_2020_benchmark/17_edit_dist_main.c,17_edit_dist_main_cfg.main,"('1.4875**n', '0.042*1.4875**n')",8,36,1.760268211364746,19.0,BFS,0.0,na
-83,/app/code/tests/cFiles/fse_2020_benchmark/17_edit_dist_main.c,17_edit_dist_main_cfg._Z16editDistArraysDPPiS_ii,"('1.8011**n', '-0.0705*0.6843**n - 0.1325*0.7109**n - 0.05*1.0968**n - 0.059*1.1116**n - 0.0462*1.1539**n + 0.2035*1.1569**n + 0.0924*1.2045**n - 0.0298*1.495**n + 0.0319*1.8011**n')",14,90,61.52944493293762,23.0,BFS,0.0,na
-84,/app/code/tests/cFiles/fse_2020_benchmark/01_greatestof3.c,01_greatestof3_cfg._Z11greatestof3iii,"(1.00000000000000, 1.00000000000000)",1,1,0.009135723114013672,3.0,BFS,0.0,na
-85,/app/code/tests/cFiles/fse_2020_benchmark/12_check_sorted_array_main.c,12_check_sorted_array_main_cfg._Z9is_sortedPii,"(n, '1.0*n - 1.0')",4,4,0.09058952331542969,5.0,BFS,0.0,na
-86,/app/code/tests/cFiles/fse_2020_benchmark/12_check_sorted_array_main.c,12_check_sorted_array_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.0038650035858154297,3.0,BFS,0.0,na
-87,/app/code/tests/cFiles/fse_2020_benchmark/51_variance_main.c,51_variance_main_cfg._Z8variancePdi,"(n**3, '0.1667*n**3 - 3.0*n**2 + 19.8333*n - 47.0')",11,9,0.4566962718963623,15.0,BFS,0.0,na
-88,/app/code/tests/cFiles/fse_2020_benchmark/51_variance_main.c,51_variance_main_cfg.main,"(1.00000000000000, 1.00000000000000)",1,1,0.003290891647338867,3.0,BFS,0.0,na
-89,/app/code/tests/cFiles/fse_2020_benchmark/22_selectionsort.c,22_selectionsort_cfg._Z14selection_sortPii,"('1.8197**n', '4636606.507*0.6608**n - 1286760.6056*0.7039**n + 703.5437*0.953**n - 418.2739*0.9873**n + 18361.6048*1.0189**n + 7.6711*1.1978**n - 0.7312*1.297**n + 0.0022*1.8197**n - 25799.2809')",10,24,1.4913291931152344,16.0,BFS,0.0,na
+,file_name,graph_name,apc,cyclo,npath,apc_time,Vertex Count,Edge Count,exception,exception_type
+0,/app/code/tests/cFiles/fse_2020_benchmark/05_parity.c,05_parity_cfg._Z6parityi,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.0652153491973877,3.0,2.0,0.0,na
+1,/app/code/tests/cFiles/fse_2020_benchmark/03_sign.c,03_sign_cfg._Z4signi,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.005890846252441406,3.0,2.0,0.0,na
+2,/app/code/tests/cFiles/fse_2020_benchmark/01_greatestof3.c,01_greatestof3_cfg._Z11greatestof3iii,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.005894184112548828,3.0,2.0,0.0,na
+3,/app/code/tests/cFiles/fse_2020_benchmark/04_prime.c,04_prime_cfg._Z11check_primei,"(n, '1.0*n - 1.0')",4.0,4.0,0.2928917407989502,5.0,7.0,0.0,na
+4,/app/code/tests/cFiles/fse_2020_benchmark/14_lexicographic_array_compare.c,14_lexicographic_array_compare_cfg._Z14compare_arraysPiS_i,"(n, '1.0*n - 1.0')",5.0,5.0,0.16240239143371582,6.0,9.0,0.0,na
+5,/app/code/tests/cFiles/fse_2020_benchmark/12_check_sorted_array.c,12_check_sorted_array_cfg._Z9is_sortedPii,"(n, '1.0*n - 1.0')",4.0,4.0,0.0346531867980957,5.0,7.0,0.0,na
+6,/app/code/tests/cFiles/fse_2020_benchmark/13_check_arrays_equal.c,13_check_arrays_equal_cfg._Z12equal_arraysPiS_i,"(n, '1.0*n - 1.0')",4.0,4.0,0.03264880180358887,5.0,7.0,0.0,na
+7,/app/code/tests/cFiles/fse_2020_benchmark/10_find_val_in_array.c,10_find_val_in_array_cfg._Z10find_firstiPii,"(n, '1.0*n - 1.0')",4.0,4.0,0.042584896087646484,6.0,8.0,0.0,na
+8,/app/code/tests/cFiles/fse_2020_benchmark/15_check_heap_order.c,15_check_heap_order_cfg._Z13is_heap_orderPii,"(n, '1.0*n - 1.0')",5.0,5.0,0.08174562454223633,6.0,9.0,0.0,na
+9,/app/code/tests/cFiles/fse_2020_benchmark/50_check_sorted_or_reverse.c,50_check_sorted_or_reverse_cfg._Z20is_sorted_or_reversePii,"(n**2, '1.0*n**2 - 10.0*n + 28.0')",8.0,25.0,0.25443100929260254,11.0,17.0,0.0,na
+10,/app/code/tests/cFiles/fse_2020_benchmark/63_three_loops_symbolic_bounds.c,63_three_loops_symbolic_bounds_cfg._Z18three_loops_boundsiii,"(n**2, '3.5*n**2 - 50.5*n + 202.0')",7.0,9.0,0.18947792053222656,10.0,15.0,0.0,na
+11,/app/code/tests/cFiles/fse_2020_benchmark/62_three_loops_w_break.c,62_three_loops_w_break_cfg._Z11three_loopsiiii,"(n**3, '0.1667*n**3 - 3.0*n**2 + 19.8333*n - 44.0')",7.0,15.0,0.2519559860229492,12.0,17.0,0.0,na
+12,/app/code/tests/cFiles/fse_2020_benchmark/11_array_max.c,11_array_max_cfg._Z15largest_elementPii,"(n**2, '0.5*n**2 - 3.5*n + 9.0')",6.0,9.0,0.13301753997802734,8.0,12.0,0.0,na
+13,/app/code/tests/cFiles/fse_2020_benchmark/30_euclid_GCD.c,30_euclid_GCD_cfg._Z3gcdii,"(n, '1.0*n - 1.0')",3.0,3.0,0.03287005424499512,4.0,5.0,0.0,na
+14,/app/code/tests/cFiles/fse_2020_benchmark/16_binary_search.c,16_binary_search_cfg._Z13binary_searchiPii,"('1.3532**n', '-0.3165*1.2157**n + 0.8165*1.3532**n - 1.0')",6.0,10.0,0.4127616882324219,9.0,13.0,0.0,na
+15,/app/code/tests/cFiles/fse_2020_benchmark/20_bubblesort.c,20_bubblesort_cfg._Z11bubble_sortPll,"('1.8313**n', '19329.7635*0.6976**n + 4415.6547*0.8103**n + 1670.0258*0.9367**n + 8107.8247*1.0211**n + 3.4316*1.2381**n - 1.5751*1.2444**n + 0.0031*1.8313**n - 11489.0212')",10.0,8.0,2.9904658794403076,15.0,23.0,0.0,na
+16,/app/code/tests/cFiles/fse_2020_benchmark/22_selectionsort.c,22_selectionsort_cfg._Z14selection_sortPii,"('1.8197**n', '4636606.507*0.6608**n - 1286760.6056*0.7039**n + 703.5437*0.953**n - 418.2739*0.9873**n + 18361.6048*1.0189**n + 7.6711*1.1978**n - 0.7312*1.297**n + 0.0022*1.8197**n - 25799.2809')",10.0,24.0,3.1644556522369385,16.0,24.0,0.0,na
+17,/app/code/tests/cFiles/fse_2020_benchmark/17_edit_dist.c,17_edit_dist_cfg._Z16editDistArraysDPPiS_ii,"('1.8011**n', '-0.0705*0.6843**n - 0.1325*0.7109**n - 0.05*1.0968**n - 0.059*1.1116**n - 0.0462*1.1539**n + 0.2035*1.1569**n + 0.0924*1.2045**n - 0.0298*1.495**n + 0.0319*1.8011**n')",14.0,90.0,75.8446798324585,23.0,35.0,0.0,na
+18,/app/code/tests/cFiles/fse_2020_benchmark/21_insertionsort.c,21_insertionsort_cfg._Z14insertion_sortPii,"('1.5129**n', '0.3051*1.5129**n')",5.0,8.0,0.6178138256072998,7.0,10.0,0.0,na
+19,/app/code/tests/cFiles/fse_2020_benchmark/26_quicksort.c,26_quicksort_cfg._Z18quickSortIterativePiii,"('1.7838**n', '0.0003*1.7838**n')",11.0,60.0,13.008072137832642,21.0,30.0,0.0,na
+20,/app/code/tests/cFiles/fse_2020_benchmark/23_mergesort.c,23_mergesort_cfg._Z9mergesortPii,"('1.5883**n', '-1.1695*0.7114**n - 1.0329*0.7302**n - 0.0101*0.9448**n - 1.0917*0.9659**n - 0.0594*1.1114**n - 0.0383*1.3027**n + 0.0626*1.5883**n + 0.9963')",10.0,171.0,3.865710735321045,17.0,25.0,0.0,na
+21,/app/code/tests/cFiles/fse_2020_benchmark/06_palindrome.c,06_palindrome_cfg._Z10palindromei,"(n, '1.0*n - 1.0')",3.0,3.0,0.0402226448059082,4.0,5.0,0.0,na
+22,/app/code/tests/cFiles/fse_2020_benchmark/51_variance.c,51_variance_cfg._Z8variancePdi,"(n**3, '0.1667*n**3 - 3.0*n**2 + 19.8333*n - 47.0')",11.0,9.0,0.3752589225769043,15.0,24.0,0.0,na
+23,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method.c,32_newtons_method_cfg._Z11newton_rootffi,"(n, '1.0*n - 2.0')",4.0,4.0,0.07873868942260742,7.0,9.0,0.0,na
+24,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method.c,32_newtons_method_cfg._Z1ff,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.0033338069915771484,3.0,2.0,0.0,na
+25,/app/code/tests/cFiles/fse_2020_benchmark/32_newtons_method.c,32_newtons_method_cfg._Z2dff,"(1.00000000000000, 1.00000000000000)",1.0,1.0,0.003088235855102539,3.0,2.0,0.0,na
+26,/app/code/tests/cFiles/fse_2020_benchmark/02_fib.c,02_fib_cfg._Z3fibi,"(n**2, '0.5*n**2 - 3.5*n + 9.0')",6.0,10.0,0.08578372001647949,8.0,12.0,0.0,na
+27,/app/code/tests/cFiles/fse_2020_benchmark/31_sieve_of_eratosthenes.c,31_sieve_of_eratosthenes_cfg._Z5sievePii,"('1.5499**n', '0.7252*0.7687**n - 0.0904*1.0449**n + 0.3635*1.5499**n + 0.0007*n - 2.0053')",11.0,89.0,1.0591776371002197,15.0,24.0,0.0,na
+28,/app/code/tests/cFiles/fse_2020_benchmark/19_longest_common_increasing_subsequence.c,19_longest_common_increasing_subsequence_cfg._Z4LCISPiiS_i,"('1.6372**n', '70.3419*0.8365**n + 66.8386*0.8578**n + 44.0951*0.8838**n + 0.171*1.1271**n + 0.0342*1.6372**n + 39.1033*n - 628.1209')",16.0,210.0,4.771829605102539,24.0,38.0,0.0,na
+29,/app/code/tests/cFiles/fse_2020_benchmark/25_heapsort.c,25_heapsort_cfg._Z9heap_sortPij,"('1.6452**n', '5.9162*0.7399**n + 11.0655*0.7751**n + 0.3447*0.812**n - 22.8983*0.8258**n + 0.2095*0.8605**n + 0.1081*1.0417**n - 0.6533*1.0425**n - 0.1478*1.1651**n + 0.0792*1.2548**n + 0.0985*1.3424**n - 0.105*1.5987**n + 0.1406*1.6452**n - 1.1579')",18.0,6165.0,128.17632007598877,26.0,42.0,0.0,na
