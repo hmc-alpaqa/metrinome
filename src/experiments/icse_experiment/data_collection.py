@@ -29,8 +29,8 @@ class DataCollector:
                              "vertex_count": [], "edge_count": [], "exception": [],
                              "exception_type": []})
 
-        with open('/app/code/tests/cFiles/fse_2020_benchmark/files.txt') as funcs:
-            files = ["/app/code/tests/cFiles/fse_2020_benchmark/" + line.rstrip() for line in funcs]
+        with open('/app/code/experiments/icse_experiment/files/files.txt') as funcs:
+            files = ["/app/code/experiments/icse_experiment/files/" + line.rstrip() for line in funcs]
         for file in files:
             print(file)
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
@@ -76,7 +76,7 @@ class DataCollector:
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
-                data.to_csv("/app/code/data_collection_test.csv")
+                data.to_csv("/app/code/experiments/icse_experiment/data/Optimized.csv")
 
 
 def main() -> None:

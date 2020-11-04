@@ -4,7 +4,7 @@ from collections import deque
 from typing import Tuple, List, Union, Deque, cast
 import re
 from abc import ABC, abstractmethod
-import sympy  # type: ignore
+import sympy
 from sympy import preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
     simplify, sympify, Basic
 from mpmath import polyroots, mpc, mpf  # type: ignore
