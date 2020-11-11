@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #define MAXTEMPSIZE 100
 
 void nestedWhiles(int arr[], int l1, int h1, int h2, int k, int i, int j, int temp[]);
@@ -48,4 +47,20 @@ void forLoops(int arr[], int n, int l1, int k, int temp[]){
   int i = 0;
   for (i = l1; k < n; i++) temp[k++] = arr[i];
   for (i = 0; i < n; i++) arr[i] = temp[i];
+}
+
+int main() {
+  int const n = 10;
+  int arr[n] = {5, 9, 1, 0, 2, 5, 11, 67, 4, 3};
+
+  printf("Unsorted list is :\n");
+  for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+
+  mergesort(arr, n);
+
+  printf("\nSorted list is :\n");
+  for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+  printf("\n");
+
+  return 0;
 }

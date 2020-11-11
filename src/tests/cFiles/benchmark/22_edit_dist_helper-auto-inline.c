@@ -2,9 +2,9 @@
 
 #define MAXSIZE 100
 
-void helperFunction(int a[], int b[], int m, int n, int dp[][MAXSIZE + 1], int i);
+__attribute__((always_inline)) inline void helperFunction(int a[], int b[], int m, int n, int dp[][MAXSIZE + 1], int i);
 
-int editDistArraysDP(int a[], int b[], int m, int n) {
+__attribute__((always_inline)) inline int editDistArraysDP(int a[], int b[], int m, int n) {
   // Create a table to store results of subproblems
   int dp[MAXSIZE + 1][MAXSIZE + 1];
   // int u = 0, v = 0, w = 0;
@@ -18,7 +18,7 @@ int editDistArraysDP(int a[], int b[], int m, int n) {
 }
 
 // should edit dp in place (hence void)
-void helperFunction(int a[], int b[], int m, int n, int dp[][MAXSIZE + 1], int i){
+__attribute__((always_inline)) inline void helperFunction(int a[], int b[], int m, int n, int dp[][MAXSIZE + 1], int i){
   for (int j = 0; j <= n; j++) {
       // If first string is empty, only option is to
       // insert all characters of second string
@@ -54,4 +54,17 @@ void helperFunction(int a[], int b[], int m, int n, int dp[][MAXSIZE + 1], int i
         dp[i][j] = 1 + minimum;
       }
   }
+}
+
+// Driver program
+int main() {
+  int a[] = {115, 117, 110, 100, 97, 120};
+  int l_a = 6;
+  int b[] = {115, 97, 116, 117, 114, 100, 97, 120};
+  int l_b = 8;
+
+  int d = editDistArraysDP(a, b, l_a, l_b);
+  printf("%d", d);
+
+  return 0;
 }
