@@ -1,6 +1,6 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
-from collections import deque
+from collections import deque, defaultdict
 from typing import Tuple, List, Union, Deque, cast
 import re
 from abc import ABC, abstractmethod
@@ -29,6 +29,36 @@ class BaseCaseGetter(ABC):
     def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
         """Get path(start_idx) throught path(end_idx)."""
+
+
+class BetterBaseCaseBFS(BaseCaseGetter):
+    """Get base cases using a breadth first search on the control flow graph."""
+
+    def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
+            start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
+        """Use a BFS to count all of the paths through the CFG up to a certain depth."""
+        end_idx = start_idx + num_coeffs
+        depth = 1
+        base_cases = [0] * end_idx
+        graph_adj = graph.adjacency_list()
+        # Count how many paths of length 'depth' can reach each node.
+        num_paths = defaultdict(int)
+        num_paths[graph.start_node] = 1
+        while depth < end_idx:
+            # Compute how many paths of length 'depth + 1' can reach each node.
+            new_num_paths = defaultdict(int)
+            for curr_node, curr_paths in num_paths.items():
+                for next_node in graph_adj[curr_node]:
+                    new_num_paths[next_node] += curr_paths
+
+            # Check how many of these reach the end node.
+            base_cases[depth] = new_num_paths[graph.end_node]
+            if depth > 0:
+                base_cases[depth] += base_cases[depth - 1]
+            depth += 1
+            num_paths = new_num_paths
+
+        return np.matrix(base_cases[start_idx: end_idx], dtype="float64"), start_idx
 
 
 class BaseCaseBFS(BaseCaseGetter):
@@ -128,7 +158,7 @@ class PathComplexity(metric.MetricAbstract):
     def __init__(self, logger: Log) -> None:
         """Create a new instance of PathComplexity."""
         self.logger = logger
-        self.base_case_getter = BaseCaseSmart(logger)
+        self.base_case_getter = BetterBaseCaseBFS(logger)
 
         self._t_var = symbols('t')
         self._n_var = symbols('n')
