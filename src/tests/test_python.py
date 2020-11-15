@@ -2,8 +2,8 @@
 
 import unittest
 from lang_to_cfg.python import PythonConvert
-from graph import Graph, GraphType
-from log import Log
+from graph.graph import Graph, GraphType
+from core.log import Log
 
 
 class TestPythonConvert(unittest.TestCase):

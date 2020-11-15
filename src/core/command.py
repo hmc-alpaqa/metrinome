@@ -14,15 +14,15 @@ from enum import Enum
 from functools import partial
 from multiprocessing import Pool, Manager
 import numpy   # type: ignore
+from klee.klee_utils import KleeUtils
 from inlining import inlining_script, inlining_script_heuristic
-from log import Log, LogLevel
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
-from control_flow_graph import ControlFlowGraph
+from graph.control_flow_graph import ControlFlowGraph
 from lang_to_cfg import cpp, java, python, converter
-from klee_utils import KleeUtils
 from utils import Timeout
-from command_data import Data, ObjTypes, AnyDict, PathComplexityRes
-from repl_errors import NO_FILE_EXT, EXTENSION
+from core.log import Log, LogLevel
+from core.command_data import Data, ObjTypes, AnyDict, PathComplexityRes
+from core.error_messages import NO_FILE_EXT, EXTENSION
 
 
 class KnownExtensions(Enum):
@@ -466,7 +466,8 @@ class Command:
                     self.logger.e_msg("Lin Alg Error")
                     self.logger.e_msg(str(err))
 
-            self.data.metrics[name] = results
+            if graph.name is not None:
+                self.data.metrics[graph.name] = results
 
     def log_name(self, name: str) -> bool:
         """Log all objects of a given name."""

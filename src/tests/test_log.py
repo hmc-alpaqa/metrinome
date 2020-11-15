@@ -7,7 +7,7 @@ and how this information is displayed.
 
 import unittest
 from tests.unit_utils import captured_output
-from log import Log, Colors, LogLevel
+from core.log import Log, Colors, LogLevel
 
 
 class TestLog(unittest.TestCase):

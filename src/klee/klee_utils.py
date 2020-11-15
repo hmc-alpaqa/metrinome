@@ -4,7 +4,7 @@ from typing import Dict, Set, List, DefaultDict, Tuple
 from collections import defaultdict
 import uuid
 from pycparser import c_ast, parse_file, c_generator  # type: ignore
-from log import Log
+from core.log import Log
 
 
 class FuncVisitor(c_ast.NodeVisitor):

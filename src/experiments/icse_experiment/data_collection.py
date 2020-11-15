@@ -3,7 +3,7 @@ import os
 import time
 from typing import Union
 import pandas as pd  # type: ignore
-from log import Log
+from core.log import Log
 from utils import Timeout
 from lang_to_cfg.cpp import CPPConvert
 from metric import path_complexity, cyclomatic_complexity, npath_complexity
@@ -20,7 +20,6 @@ class DataCollector:
         self.apc_computer = path_complexity.PathComplexity(log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)
-
         self.base_path = "/app/code/experiments/icse_experiment/files/"
 
     # pylint: disable=broad-except
@@ -33,6 +32,7 @@ class DataCollector:
 
         with open('/app/code/experiments/icse_experiment/files/files.txt') as funcs:
             files = [self.base_path + line.rstrip() for line in funcs]
+
         for file in files:
             print(file)
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")

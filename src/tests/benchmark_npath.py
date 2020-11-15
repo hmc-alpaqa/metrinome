@@ -6,10 +6,10 @@ compute npath recursively, recursively using memoization, or iteratively through
 programming.
 """
 
-from log import Log
+from core.log import Log
 from metric import npath_complexity
 from tests import unit_utils
-from graph import GraphType
+from graph.graph import GraphType
 
 
 def npath_runtime(graph_type: GraphType, show_info: bool) -> None:

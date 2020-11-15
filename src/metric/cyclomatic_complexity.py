@@ -4,9 +4,9 @@
 # Disable 'useless super delegation of __init__' because
 # this inherits from an abstract class.
 
-from control_flow_graph import ControlFlowGraph
+from graph.control_flow_graph import ControlFlowGraph
 from metric import metric
-from log import Log
+from core.log import Log
 
 
 class CyclomaticComplexity(metric.MetricAbstract):

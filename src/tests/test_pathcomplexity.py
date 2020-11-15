@@ -1,7 +1,7 @@
 """All of the tests for the path complexity and APC computer."""
 
 import unittest
-import command
+import core.command as command
 
 # pylint: disable=no-value-for-parameter
 
@@ -15,7 +15,7 @@ class TestPathComplexity(unittest.TestCase):
         repl = command.Command("/", True, False, repl_wrapper)
         # root_dir = "/app/examples/cfgs/simple_test_cfgs"
         # filename = "vlab_cs_ucsb_test_SimpleExample_test6_0_basic.dot"
-        root_dir = "/app/code/tests/cFiles/fse_2020_benchmark"
+        root_dir = "/app/code/experiments/icse_experiment/files"
         filename = "17_edit_dist.c"
         repl.do_convert(f"{root_dir}/{filename}")
         repl.do_metrics("*")

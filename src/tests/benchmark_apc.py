@@ -9,8 +9,8 @@ programming.
 import sys
 from metric import path_complexity
 from tests import unit_utils
-from log import Log
-from graph import GraphType
+from core.log import Log
+from graph.graph import GraphType
 
 
 def apc_runtime(g_frac: int, f_frac: int, time: int) -> None:

@@ -6,8 +6,8 @@ from subprocess import PIPE
 from typing import List, Optional, Tuple, Dict, Union
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
-from log import Log
-from klee_utils import KleeUtils
+from klee.klee_utils import KleeUtils
+from core.log import Log
 plt.rcParams["figure.figsize"] = (10, 10)
 
 

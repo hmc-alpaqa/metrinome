@@ -8,11 +8,11 @@ import os
 import re
 import signal
 import glob2  # type: ignore
-from graph import GraphType
-from log import Log
-from env import Env
+from core.log import Log
+from core.env import Env
 from lang_to_cfg import converter
-from control_flow_graph import ControlFlowGraph
+from graph.graph import GraphType
+from graph.control_flow_graph import ControlFlowGraph
 
 
 # pylint: disable=R0201
@@ -34,7 +34,9 @@ class CPPConvert(converter.ConverterAbstract):
         """Get the name of the CPP converter."""
         return "CPP"
 
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
+    def to_graph(self,
+                 filename: str,
+                 file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()

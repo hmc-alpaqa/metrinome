@@ -1,8 +1,8 @@
 lint:
 	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
-	find . -type f -name "*.py" | xargs mypy # Type checking.
+	find . -type f -name "*.py" | xargs mypy --config-file=./config/.mypy.ini # Type checking.
 	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
-	find . -type f -name "*.py" | xargs pylint --rcfile=.pylintrc -r n -f parseable	# Linting.
+	find . -type f -name "*.py" | xargs pylint --rcfile=config/pylintrc -r n -f parseable # Linting.
 
 tests:
 	python tests/test_command.py       

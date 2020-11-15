@@ -16,9 +16,9 @@ from collections import Counter, defaultdict
 import typing
 from typing import Dict, List, Tuple
 from itertools import combinations
-from log import Log
-from command_data import MetricsDict, MetricRes
-from command import Controller, Command
+from core.log import Log
+from core.command_data import MetricsDict, MetricRes
+from core.command import Controller, Command
 
 
 AggregateMetricsDict = Dict[MetricRes, List[MetricRes]]

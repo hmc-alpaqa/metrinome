@@ -3,7 +3,7 @@ from os.path import join
 from os import listdir
 import unittest
 from tests.unit_utils import captured_output
-from env import Env
+from core.env import Env
 
 
 class TestEnv(unittest.TestCase):

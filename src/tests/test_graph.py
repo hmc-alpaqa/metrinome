@@ -5,8 +5,8 @@ import tempfile
 import re
 from typing import cast
 import numpy as np  # type: ignore
-from graph import Graph, GraphType, EdgeListType, AdjListType
-from control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import Graph, GraphType, EdgeListType, AdjListType
+from graph.control_flow_graph import ControlFlowGraph as CFG
 
 
 class TestGraphGetters(unittest.TestCase):

@@ -2,8 +2,8 @@
 
 from abc import ABC, abstractmethod
 from typing import Union, Tuple
-from control_flow_graph import ControlFlowGraph
-from log import Log
+from graph.control_flow_graph import ControlFlowGraph
+from core.log import Log
 
 
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]

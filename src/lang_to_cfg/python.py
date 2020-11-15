@@ -15,9 +15,9 @@ import ast
 import os
 # from pprintast import pprintast as ppast
 import uuid
-from log import Log
-from graph import Graph, GraphType
-from control_flow_graph import ControlFlowGraph, Metadata
+from core.log import Log
+from graph.graph import Graph, GraphType
+from graph.control_flow_graph import ControlFlowGraph, Metadata
 from lang_to_cfg import converter
 
 

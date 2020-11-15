@@ -4,8 +4,8 @@ import shlex
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, Tuple
 from subprocess import Popen, PIPE
-from control_flow_graph import ControlFlowGraph
-from log import Log
+from graph.control_flow_graph import ControlFlowGraph
+from core.log import Log
 
 
 class ConverterAbstract(ABC):

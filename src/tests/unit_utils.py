@@ -9,8 +9,8 @@ import glob
 from math import floor
 from typing import List, Tuple, Iterator, Union, TypeVar
 from numpy import mean, std, median  # type: ignore
-from graph import GraphType
-from control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import GraphType
+from graph.control_flow_graph import ControlFlowGraph as CFG
 from utils import Timeout
 from metric import metric
 

@@ -2,8 +2,8 @@
 import unittest
 import os
 from lang_to_cfg.java import JavaConvert
-from log import Log
-from env import Env
+from core.log import Log
+from core.env import Env
 
 
 # JavaConvert::to_graph()

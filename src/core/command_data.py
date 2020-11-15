@@ -4,8 +4,8 @@ from collections import namedtuple
 from typing import Dict, List, Optional, Union, Tuple, cast
 from enum import Enum
 import os
-from log import Log
-from control_flow_graph import ControlFlowGraph
+from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph
 
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")

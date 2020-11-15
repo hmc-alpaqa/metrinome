@@ -6,9 +6,9 @@ import re
 from typing import List, Any, Union, Tuple, Dict, Optional
 import glob2  # type: ignore
 import pandas as pd  # type: ignore
-from log import Log
-from graph import Graph, GraphType
-from control_flow_graph import ControlFlowGraph as CFG
+from core.log import Log
+from graph.graph import Graph, GraphType
+from graph.control_flow_graph import ControlFlowGraph as CFG
 from utils import Timeout
 from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 

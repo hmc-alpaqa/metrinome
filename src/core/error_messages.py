@@ -1,5 +1,5 @@
 """
-List of all the error messages the REPL can throw.
+List of all the error messages Metrino can throw.
 
 Use these for maintaining consistency, rather than putting strings directly in the log messages.
 """

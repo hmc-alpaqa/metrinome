@@ -3,7 +3,7 @@ import os
 import re
 from typing import cast, List
 from utils import calls_function
-from graph import AnyGraph, GraphType, Graph, AdjListType, Dict
+from graph.graph import AnyGraph, GraphType, Graph, AdjListType, Dict
 
 
 class Metadata:

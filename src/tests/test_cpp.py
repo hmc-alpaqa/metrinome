@@ -3,10 +3,10 @@
 import unittest
 import os
 from lang_to_cfg.cpp import CPPConvert
-from log import Log, LogLevel
-from graph import Graph, GraphType
-from env import Env
-from control_flow_graph import ControlFlowGraph
+from core.log import Log, LogLevel
+from core.env import Env
+from graph.graph import Graph, GraphType
+from graph.control_flow_graph import ControlFlowGraph
 
 
 class TestCPPConvert(unittest.TestCase):

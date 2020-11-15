@@ -7,10 +7,10 @@ This works with both the adjacency list representation and edge list.
 import copy
 from typing import List, Tuple
 import numpy as np  # type: ignore
-from graph import GraphType, EdgeListType
-from control_flow_graph import ControlFlowGraph
+from graph.graph import GraphType, EdgeListType
+from graph.control_flow_graph import ControlFlowGraph
 from metric import metric
-from log import Log
+from core.log import Log
 
 EdgeType = List[int]
 NodeType = int

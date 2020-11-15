@@ -1,7 +1,7 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
-from collections import deque, defaultdict
-from typing import Tuple, List, Union, Deque, cast, DefaultDict
+from collections import defaultdict
+from typing import Tuple, List, Union, cast, DefaultDict
 import re
 from abc import ABC, abstractmethod
 import sympy  # type: ignore
@@ -10,10 +10,10 @@ from sympy import preorder_traversal, Float, Matrix, eye, symbols, degree, Poly,
 from mpmath import polyroots, mpc, mpf  # type: ignore
 import numpy as np  # type: ignore
 from utils import big_o, get_taylor_coeffs, get_solution_from_roots, Timeout
-from graph import AnyGraph
-from control_flow_graph import ControlFlowGraph
+from graph.graph import AnyGraph
+from graph.control_flow_graph import ControlFlowGraph
 from metric import metric
-from log import Log
+from core.log import Log
 
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 
@@ -67,35 +67,26 @@ class BaseCaseBFS(BaseCaseGetter):
     def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
         """Use a BFS to count all of the paths through the CFG up to a certain depth."""
-        lazy = False
         end_idx = start_idx + num_coeffs
-        depth = 0
+        depth = 1
         base_cases = [0] * end_idx
-        first_nonzero_index: Union[int, float] = float("inf")
         graph_adj = graph.adjacency_list()
-        queue = deque([graph.start_node])
-        while (lazy and depth < first_nonzero_index + num_coeffs) or \
-              (not lazy and depth < end_idx):
-
-            new_q: Deque[int] = deque()
-            while queue:
-                curr_node = queue.pop()
+        # Count how many paths of length 'depth' can reach each node.
+        num_paths = defaultdict(int)
+        num_paths[graph.start_node] = 1
+        while depth < end_idx:
+            # Compute how many paths of length 'depth + 1' can reach each node.
+            new_num_paths: DefaultDict[int, int] = defaultdict(int)
+            for curr_node, curr_paths in num_paths.items():
                 for next_node in graph_adj[curr_node]:
-                    new_q.appendleft(cast(int, next_node))
+                    new_num_paths[cast(int, next_node)] += curr_paths
 
-                if curr_node == graph.end_node:
-                    base_cases[depth] += 1
-                    if first_nonzero_index == float("inf"):
-                        first_nonzero_index = depth
-
+            # Check how many of these reach the end node.
+            base_cases[depth] = new_num_paths[graph.end_node]
             if depth > 0:
                 base_cases[depth] += base_cases[depth - 1]
-
             depth += 1
-            queue = new_q
-        if lazy:
-            start_idx = cast(int, first_nonzero_index)
-            end_idx = start_idx + num_coeffs
+            num_paths = new_num_paths
 
         return np.matrix(base_cases[start_idx: end_idx], dtype="float64"), start_idx
 
@@ -158,7 +149,7 @@ class PathComplexity(metric.MetricAbstract):
     def __init__(self, logger: Log) -> None:
         """Create a new instance of PathComplexity."""
         self.logger = logger
-        self.base_case_getter = BetterBaseCaseBFS(logger)
+        self.base_case_getter = BaseCaseBFS(logger)
 
         self._t_var = symbols('t')
         self._n_var = symbols('n')

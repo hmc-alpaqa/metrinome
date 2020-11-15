@@ -2,10 +2,10 @@
 
 import unittest
 from typing import cast
-from graph import Graph, GraphType, EdgeListType
-from control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import Graph, GraphType, EdgeListType
+from graph.control_flow_graph import ControlFlowGraph as CFG
 from metric import npath_complexity
-from log import Log
+from core.log import Log
 
 
 class TestNPATH(unittest.TestCase):

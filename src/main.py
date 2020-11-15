@@ -9,9 +9,9 @@ from cmd import Cmd
 import os
 from typing import List, Callable, Any
 from functools import wraps
-import command
-from log import Colors
-from repl_errors import MISSING_FILENAME, MISSING_TYPE_AND_NAME, MISSING_NAME
+from core import command
+from core.log import Colors
+from core.error_messages import MISSING_FILENAME, MISSING_TYPE_AND_NAME, MISSING_NAME
 
 TESTING_MODE = True
 

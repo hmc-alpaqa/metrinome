@@ -2,11 +2,11 @@
 import os
 from typing import Dict, Optional
 from glob2 import glob  # type: ignore
-from graph import GraphType
-from control_flow_graph import ControlFlowGraph
-from env import Env
+from graph.graph import GraphType
+from graph.control_flow_graph import ControlFlowGraph
 from lang_to_cfg import converter
-from log import Log
+from core.env import Env
+from core.log import Log
 
 
 class JavaConvert(converter.ConverterAbstract):
