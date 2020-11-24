@@ -11,7 +11,7 @@ RUN apt-get update
 RUN apt-get install -y curl libcap-dev git unzip doxygen libsqlite3-dev libgoogle-perftools-dev libtcmalloc-minimal4 cmake libncurses5-dev
 RUN pip install tabulate
 RUN apt-get install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
-
+RUN apt-get install -y g++-multilib
 # Install z3 
 RUN git clone https://github.com/Z3Prover/z3/ 
 RUN cd /app/z3 && python scripts/mk_make.py 
@@ -32,7 +32,7 @@ RUN cd /app/klee-uclibc && make -j2
 RUN mkdir /app/build
 RUN git clone https://github.com/klee/klee.git
 RUN apt-get install zlib1g-dev
-RUN cd /app/build && cmake -DENABLE_SOLVER_STP=OFF -DENABLE_POSIX_RUNTIME=ON -DENABLE_KLEE_UCLIBC=ON -DKLEE_UCLIBC_PATH=/app/klee-uclibc -DENABLE_UNIT_TESTS=OFF -DLLVMCC=/usr/bin/clang-6.0 -ENABLE_ZLIB=OFF -DLLVMCXX=/usr/bin/clang++-6.0 /app/klee
+RUN cd /app/build && cmake -DENABLE_SOLVER_STP=OFF -DENABLE_POSIX_RUNTIME=ON -DENABLE_KLEE_UCLIBC=ON -DKLEE_UCLIBC_PATH=/app/klee-uclibc -DENABLE_UNIT_TESTS=OFF -DLLVMCC=/usr/bin/clang-6.0 -ENABLE_ZLIB=ON -DLLVMCXX=/usr/bin/clang++-6.0 /app/klee
 RUN cd /app/build && make
 
 # Build LibC++
