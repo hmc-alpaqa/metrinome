@@ -32,7 +32,7 @@ RUN cd /app/klee-uclibc && make -j2
 RUN mkdir /app/build
 RUN git clone https://github.com/klee/klee.git
 RUN apt-get install zlib1g-dev
-RUN cd /app/build && cmake -DENABLE_SOLVER_STP=OFF -DENABLE_POSIX_RUNTIME=ON -DENABLE_KLEE_UCLIBC=ON -DKLEE_UCLIBC_PATH=/app/klee-uclibc -DENABLE_UNIT_TESTS=OFF -DLLVMCC=/usr/bin/clang-6.0 -ENABLE_ZLIB=ON -DLLVMCXX=/usr/bin/clang++-6.0 /app/klee
+RUN cd /app/build && cmake -DENABLE_SOLVER_STP=OFF -DENABLE_POSIX_RUNTIME=ON -DENABLE_KLEE_UCLIBC=ON -DKLEE_UCLIBC_PATH=/app/klee-uclibc -DENABLE_UNIT_TESTS=OFF -DLLVMCC=/usr/bin/clang-6.0 -ENABLE_ZLIB=OFF -DLLVMCXX=/usr/bin/clang++-6.0 /app/klee
 RUN cd /app/build && make
 
 # Build LibC++
