@@ -21,6 +21,8 @@ class DataCollector:
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)
 
+        self.base_path = "/app/code/experiments/icse_experiment/files/"
+
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
@@ -30,7 +32,7 @@ class DataCollector:
                              "exception_type": []})
 
         with open('/app/code/experiments/icse_experiment/files/files.txt') as funcs:
-            files = ["/app/code/experiments/icse_experiment/files/" + line.rstrip() for line in funcs]
+            files = [self.base_path + line.rstrip() for line in funcs]
         for file in files:
             print(file)
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")

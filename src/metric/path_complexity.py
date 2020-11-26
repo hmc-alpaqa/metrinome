@@ -1,10 +1,10 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
 from collections import deque, defaultdict
-from typing import Tuple, List, Union, Deque, cast
+from typing import Tuple, List, Union, Deque, cast, DefaultDict
 import re
 from abc import ABC, abstractmethod
-import sympy
+import sympy  # type: ignore
 from sympy import preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
     simplify, sympify, Basic
 from mpmath import polyroots, mpc, mpf  # type: ignore
@@ -46,10 +46,10 @@ class BetterBaseCaseBFS(BaseCaseGetter):
         num_paths[graph.start_node] = 1
         while depth < end_idx:
             # Compute how many paths of length 'depth + 1' can reach each node.
-            new_num_paths = defaultdict(int)
+            new_num_paths: DefaultDict[int, int] = defaultdict(int)
             for curr_node, curr_paths in num_paths.items():
                 for next_node in graph_adj[curr_node]:
-                    new_num_paths[next_node] += curr_paths
+                    new_num_paths[cast(int, next_node)] += curr_paths
 
             # Check how many of these reach the end node.
             base_cases[depth] = new_num_paths[graph.end_node]

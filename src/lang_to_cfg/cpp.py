@@ -92,7 +92,6 @@ class CPPConvert(converter.ConverterAbstract):
                     call = re.search(self.call_pattern, line.lstrip())
                     label = ""
 
-
                     if counter == 0 and call is not None:
                         call_label = call.group(0)[1:-1]
                         label = f" [label=\"START CALLS {call_label}\"]"
@@ -102,9 +101,7 @@ class CPPConvert(converter.ConverterAbstract):
                         call_label = call.group(0)[1:-1]
                         label = f" [label=\"CALLS {call_label}\"]"
 
-
                     node_to_add += label
-
                     nodes.append(node_to_add)
 
                     counter += 1
@@ -113,10 +110,8 @@ class CPPConvert(converter.ConverterAbstract):
 
         return nodes, edges, node_map, counter
 
-
     def convert_file_to_standard(self, file: str,
                                  filename: str) -> None:
-
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
 
