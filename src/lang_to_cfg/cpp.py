@@ -27,7 +27,7 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger = logger
         self.edge_pattern = "->"
         self.name_pattern = "([a-zA-Z0-9]+ )"
-
+        self.optimize = False
         self.call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
 
     def name(self) -> str:
@@ -170,7 +170,12 @@ class CPPConvert(converter.ConverterAbstract):
 
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
-        c1_str = f"clang++-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+
+        if self.optimize:
+            c1_str = f"clang++-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+        else:
+            c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"\
+
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
 
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
@@ -197,8 +202,6 @@ class CPPConvert(converter.ConverterAbstract):
                 signal.alarm(0)
                 err_msg = ''.join(error_lines)
 
-                # err_msg = line1.stderr.read()
-                # what it originally was
                 if len(err_msg) == 0:
                     self.logger.d_msg(f"Got the following error msg: {str(err_msg)}")
 

@@ -151,7 +151,7 @@ class TestGraph(unittest.TestCase):
         if update is None:
             self.fail("Node cannot be None.")
 
-        graph.update_with_node(update)
+        graph.update_with_node(update, True)
         expected = Graph(cast(EdgeListType, []), [1, 2], 1, 2, GraphType.EDGE_LIST)
         self.assertEqual(expected, graph)
 

@@ -13,6 +13,12 @@ class Metadata:
         """Create a new metadata object."""
         self.loc = loc
 
+    def __str__(self) -> str:
+        """Return metadata as string."""
+        if self.loc is not None:
+            return f"Lines of code: {self.loc}"
+        return ""
+
 
 class ControlFlowGraph:
     """
@@ -37,6 +43,13 @@ class ControlFlowGraph:
             return self.graph == other.graph and self.name == other.name
 
         return False
+
+    def __str__(self) -> str:
+        """Return string representation of the CFG."""
+        if self.metadata is not None:
+            return str(self.metadata) + "\n" + str(self.graph)
+
+        return str(self.graph)
 
     @staticmethod
     def from_file(filename: str, weighted: bool = False,
@@ -71,12 +84,18 @@ class ControlFlowGraph:
         with open(filename, "r") as file:
             line: str
             for line in file.readlines()[1:]:
-                if (match := re.search(r"([0-9]*)\s*->\s*([0-9]*)", line)) is not None:
+
+                edge_regex = r"([0-9]*)\s*->\s*([0-9]*)"
+                node_with_label_regex = r"([0-9]*)\s*\[label=\"(.*)\"\]"
+                node_without_label_regex = r"([0-9]+)"
+                if (match := re.search(edge_regex, line)) is not None:
                     # The current line in the text file represents an edge.
                     graph.update_with_edge(match)
                 # Current line is not an edge - check if it defines a node.
-                elif (match := re.search(r"([0-9]*)\s*\[label=\"(.*)\"\]", line)) is not None:
-                    graph.update_with_node(match)
+                elif (match := re.search(node_with_label_regex, line)) is not None:
+                    graph.update_with_node(match, True)
+                elif (match := re.search(node_without_label_regex, line)) is not None:
+                    graph.update_with_node(match, False)
 
             if graph.start_node == -1 or graph.end_node == -1:
                 raise ValueError("Start and end nodes must both be defined.")
