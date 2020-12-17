@@ -29,7 +29,7 @@ class DataCollector:
         """Compute the metrics for all files and store the data."""
         data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [],
                              "cyclo": [], "npath": [], "apc_time": [],
-                             "vertex_count": [], "edge_count": [], "exception": [],
+                             "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
 
         with open('/app/code/experiments/icse_experiment/files/files.txt') as funcs:
@@ -75,7 +75,7 @@ class DataCollector:
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
                            "cyclo": cyclo, "npath": npath, "apc_time": runtime,
-                           "vertex_count": graph.graph.vertex_count(),
+                           "num_vertices": graph.graph.num_vertices,
                            "edge_count": graph.graph.edge_count(), "exception": ex,
                            "exception_type": exception_type}
 

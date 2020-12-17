@@ -28,4 +28,4 @@ class CyclomaticComplexity(metric.MetricAbstract):
         The input graph is the CFG of some function.
         Refer to https://en.wikipedia.org/wiki/Cyclomatic_complexity.
         """
-        return cfg.graph.edge_count() - cfg.graph.vertex_count() + 2
+        return cfg.graph.edge_count() - cfg.graph.num_vertices + 2

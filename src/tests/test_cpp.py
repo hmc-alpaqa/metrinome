@@ -20,7 +20,7 @@ class TestCPPConvert(unittest.TestCase):
         converter = CPPConvert(Log(log_level=LogLevel.REGULAR))
         self.assertEqual(converter.name(), "CPP")
         Env.clean_temps()
-        graph1 = Graph([[0, 1], [1, 2]], [0, 1, 2], 0, 2, GraphType.EDGE_LIST)
+        graph1 = Graph([[0, 1], [1, 2]], 3, GraphType.EDGE_LIST)
         result = converter.to_graph("/app/code/tests/cppFiles/blank", ".cpp")
         self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
         self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)

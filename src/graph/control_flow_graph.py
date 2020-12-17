@@ -69,14 +69,14 @@ class ControlFlowGraph:
         if graph_type is GraphType.ADJACENCY_LIST:
             # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
             # graph = Graph(v_e_dict, None, -1, -1, graph_type)
-            graph = Graph(cast(AdjListType, []), [], -1, -1, graph_type)
+            graph = Graph(cast(AdjListType, []), 0, graph_type)
         elif graph_type is GraphType.EDGE_LIST:
             edges: List[List[int]] = []
-            graph = Graph(edges, [], -1, -1, graph_type)
+            graph = Graph(edges, 0, graph_type)
         elif graph_type is GraphType.ADJACENCY_MATRIX:
             # We create the graph using an adjacency list and then convert it.
             # There is probably a better way to do this.
-            graph = Graph([], [], -1, -1, GraphType.ADJACENCY_LIST)
+            graph = Graph([], 0, GraphType.ADJACENCY_LIST)
 
         graph.set_name(os.path.splitext(name)[0])
 
@@ -145,8 +145,8 @@ class ControlFlowGraph:
 
         The new CFG generated will have the proper function call metadata based on cfg1 and cfg2.
         """
-        shift = cfg2.graph.vertex_count() - 1
-        vertices = list(range(cfg1.graph.vertex_count() + shift))
+        shift = cfg2.graph.num_vertices - 1
+        vertices = list(range(cfg1.graph.num_vertices + shift))
 
         # Ensures that exit node in subgraph has all the same edges as the replaced node.
         edges_2 = [[i + node, j + node] for [i, j] in cfg2.graph.edges]
@@ -164,8 +164,7 @@ class ControlFlowGraph:
 
         edges_1 += edges_2
 
-        stitched_graph = Graph(edges_1, vertices, 0,
-                               len(vertices) - 1, GraphType.EDGE_LIST)
+        stitched_graph = Graph(edges_1, len(vertices), GraphType.EDGE_LIST)
 
         new_calls = {}
         for vertex in cfg1.graph.calls.keys():

@@ -290,8 +290,7 @@ class Visitor(ast.NodeVisitor):
         for return_node in return_nodes:
             edge_list.append([nodes[return_node], len(node_list) - 1])
 
-        cfg = ControlFlowGraph(Graph(edge_list, node_list, nodes[visitor.root],
-                                     len(node_list) - 1, GraphType.EDGE_LIST), md)
+        cfg = ControlFlowGraph(Graph(edge_list, len(node_list), GraphType.EDGE_LIST), md)
         cfg.graph.set_name(node.name)
 
         self.graphs[node.name] = cfg

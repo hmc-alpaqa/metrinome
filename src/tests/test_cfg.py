@@ -1,4 +1,4 @@
-"""Test methods associated with Graph objects and their conversion to Prism files."""
+"""Test methods associated with ControlFlowGraph objects."""
 
 import unittest
 from typing import cast
@@ -35,7 +35,7 @@ class TestControlFlowGraph(unittest.TestCase):
     # === Graph::from_file ===
     def test_from_file_one_vertex(self) -> None:
         """Test if we can get the adjacency list for a graph with no edges."""
-        expected = Graph(cast(EdgeListType, []), [0, 1], 0, 1, GraphType.EDGE_LIST)
+        expected = Graph(cast(EdgeListType, []), 2, GraphType.EDGE_LIST)
         cfg = CFG.from_file("/app/code/tests/dotFiles/testsimple.dot",
                             graph_type=GraphType.EDGE_LIST)
         self.assertEqual(expected, cfg.graph)
@@ -55,7 +55,7 @@ class TestControlFlowGraph(unittest.TestCase):
         callee = CFG(get_second_test_graph())
         expected = CFG(Graph([[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
                               [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]],
-                             list(range(12)), 0, 11, graph_type=GraphType.EDGE_LIST))
+                             12, graph_type=GraphType.EDGE_LIST))
 
         graphs = {"caller": caller, "callee": callee}
         caller.graph.calls = {3: "callee"}  # TODO: add {5: "callee"}
@@ -72,8 +72,7 @@ class TestControlFlowGraph(unittest.TestCase):
         callee = CFG(get_second_test_graph())
         edges = [[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
                  [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]]
-        expected = CFG(Graph(edges,
-                             list(range(12)), 0, 11, graph_type=GraphType.EDGE_LIST))
+        expected = CFG(Graph(edges, 12, graph_type=GraphType.EDGE_LIST))
         res = CFG.compose(caller, callee, 3)
 
         self.assertEqual(res, expected)
