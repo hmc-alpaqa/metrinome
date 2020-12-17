@@ -259,24 +259,6 @@ class TestGraph(unittest.TestCase):
         for i in adj_list:
             self.assertTrue(len(i) == 0)
 
-    # === Graph::from_file ===
-    def test_from_file_one_vertex(self) -> None:
-        """Test if we can get the adjacency list for a graph with no edges."""
-        expected = Graph(cast(EdgeListType, []), [0, 1], 0, 1, GraphType.EDGE_LIST)
-        cfg = CFG.from_file("/app/code/tests/dotFiles/testsimple.dot",
-                            graph_type=GraphType.EDGE_LIST)
-        self.assertEqual(expected, cfg.graph)
-        # Graph.fromFile(None)
-
-    def test_from_file_normal_graph(self) -> None:
-        """Test if we can get the adjacency list for a graph with many edges and vertices."""
-        expected = Graph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5],
-                          [2, 7], [4, 6], [5, 6], [6, 7]],
-                         [0, 1, 2, 3, 4, 5, 6, 7], 0, 7, GraphType.EDGE_LIST)
-        cfg = CFG.from_file("/app/code/tests/dotFiles/testgraph.dot",
-                            graph_type=GraphType.EDGE_LIST)
-        self.assertEqual(expected, cfg.graph)
-
     # === Graph::convert_to_weighted ===
     def test_convert_weighted_to_weighted(self) -> None:
         """Check that converting a graph that is already weighted to weighted throws an error."""

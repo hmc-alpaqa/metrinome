@@ -2,6 +2,7 @@
 
 import unittest
 import os
+from tests.unit_utils import get_test_graph
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
 from core.env import Env
@@ -27,10 +28,7 @@ class TestCPPConvert(unittest.TestCase):
             self.assertTrue("blank_cfg.main.dot" in result)
             self.assertEqual(graph1, result['blank_cfg.main.dot'].graph)
 
-        expected_graph = ControlFlowGraph(
-            Graph([[0, 1], [0, 4], [1, 2], [1, 5], [2, 3], [2, 5], [4, 6], [5, 6], [6, 7]],
-                  [0, 1, 2, 3, 4, 5, 6, 7], 0, 7, GraphType.EDGE_LIST)
-        )
+        expected_graph = ControlFlowGraph(get_test_graph())
         graphs = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")
 
         # Need to check all graphs since order can vary with environment.
