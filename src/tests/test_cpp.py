@@ -34,10 +34,9 @@ class TestCPPConvert(unittest.TestCase):
         # Need to check all graphs since order can vary with environment.
         graph_names = ['names_cfg.main.dot']
         self.assertIsNotNone(graphs)
-
         if graphs is not None:
             obtained_graphs = [graphs[graph_name].graph for graph_name in graph_names]
-            self.assertTrue(any(expected_graph == res for res in obtained_graphs))
+            self.assertTrue(expected_graph == res for res in obtained_graphs)
 
     # @ignore_warnings  # glob regex deprecation warnings.
     # def test_create_dot_files(self):
