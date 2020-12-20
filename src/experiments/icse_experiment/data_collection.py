@@ -2,12 +2,14 @@
 import os
 import time
 from typing import Union
+
 import pandas as pd  # type: ignore
+
 from core.log import Log
-from utils import Timeout
 from lang_to_cfg.cpp import CPPConvert
-from metric import path_complexity, cyclomatic_complexity, npath_complexity
+from metric import cyclomatic_complexity, npath_complexity, path_complexity
 from metric.path_complexity import PathComplexityRes
+from utils import Timeout
 
 
 class DataCollector:

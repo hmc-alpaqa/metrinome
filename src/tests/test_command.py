@@ -1,12 +1,14 @@
 """Test the commands of the REPL."""
 import unittest
-from typing import Tuple, Dict, Union, cast
-from graph.graph import Graph, EdgeListType
-from graph.control_flow_graph import ControlFlowGraph as CFG
-from tests.unit_utils import captured_output
+from typing import Dict, Tuple, Union, cast
+
 import core.command as command
 import core.command_data as command_data
 from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import EdgeListType, Graph
+from tests.unit_utils import captured_output
+
 # pylint does not understand decorators :(
 # pylint: disable=no-value-for-parameter
 

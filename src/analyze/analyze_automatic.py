@@ -6,11 +6,13 @@ and the best function type.
 """
 import subprocess
 from functools import partial
-from typing import Optional, Tuple, List
+from typing import List, Optional, Tuple
+
 import matplotlib.pyplot as plt  # type: ignore
-import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 from scipy import optimize  # type: ignore
+
 plt.rcParams["figure.figsize"] = (10, 10)
 
 

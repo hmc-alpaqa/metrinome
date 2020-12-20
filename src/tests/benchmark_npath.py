@@ -7,9 +7,9 @@ programming.
 """
 
 from core.log import Log
+from graph.graph import GraphType
 from metric import npath_complexity
 from tests import unit_utils
-from graph.graph import GraphType
 
 
 def npath_runtime(graph_type: GraphType, show_info: bool) -> None:

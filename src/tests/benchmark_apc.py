@@ -7,10 +7,11 @@ programming.
 """
 
 import sys
-from metric import path_complexity
-from tests import unit_utils
+
 from core.log import Log
 from graph.graph import GraphType
+from metric import path_complexity
+from tests import unit_utils
 
 
 def apc_runtime(g_frac: int, f_frac: int, time: int) -> None:

@@ -1,6 +1,7 @@
 """All of the tests for the path complexity and APC computer."""
 
 import unittest
+
 import core.command as command
 
 # pylint: disable=no-value-for-parameter

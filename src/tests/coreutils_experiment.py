@@ -1,17 +1,19 @@
 """Various utilities used only for testing and not the main REPL."""
 import os
-import time
-import sys
 import re
-from typing import List, Any, Union, Tuple, Dict, Optional
+import sys
+import time
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import glob2  # type: ignore
 import pandas as pd  # type: ignore
-from core.log import Log
-from graph.graph import Graph, GraphType
-from graph.control_flow_graph import ControlFlowGraph as CFG
-from utils import Timeout
-from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
 
+from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import Graph, GraphType
+from metric import (cyclomatic_complexity, metric, npath_complexity,
+                    path_complexity)
+from utils import Timeout
 
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 

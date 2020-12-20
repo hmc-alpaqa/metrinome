@@ -1,13 +1,16 @@
 """Script for running Klee on a series of functions and saving data."""
+import re
 import subprocess
 import time
-import re
 from subprocess import PIPE
-from typing import List, Optional, Tuple, Dict, Union
+from typing import Dict, List, Optional, Tuple, Union
+
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
-from klee.klee_utils import KleeUtils
+
 from core.log import Log
+from klee.klee_utils import KleeUtils
+
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
