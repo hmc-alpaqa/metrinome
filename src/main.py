@@ -1,17 +1,20 @@
 """Run the APC REPL."""
 
 from __future__ import annotations
-import readline
-import logging
+
 import argparse
 import importlib
-from cmd import Cmd
+import logging
 import os
-from typing import List, Callable, Any
+import readline
+from cmd import Cmd
 from functools import wraps
+from typing import Any, Callable, List
+
 from core import command
+from core.error_messages import (MISSING_FILENAME, MISSING_NAME,
+                                 MISSING_TYPE_AND_NAME)
 from core.log import Colors
-from core.error_messages import MISSING_FILENAME, MISSING_TYPE_AND_NAME, MISSING_NAME
 
 TESTING_MODE = True
 

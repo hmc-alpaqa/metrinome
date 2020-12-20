@@ -1,12 +1,14 @@
 """Test methods associated with Graph objects and their conversion to Prism files."""
 
-import unittest
-import tempfile
 import re
+import tempfile
+import unittest
 from typing import cast
+
 import numpy as np  # type: ignore
-from graph.graph import Graph, GraphType, EdgeListType, AdjListType
+
 from graph.control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import AdjListType, EdgeListType, Graph, GraphType
 
 
 class TestGraphGetters(unittest.TestCase):

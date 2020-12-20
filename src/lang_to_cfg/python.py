@@ -9,15 +9,16 @@ all of the connections. It will return ALL of its leaf nodes that should be conn
 thing after the statement returns.
 """
 
-# pylint: disable=C0103
-from typing import List, Optional, Dict, cast
 import ast
 import os
 # from pprintast import pprintast as ppast
 import uuid
+# pylint: disable=C0103
+from typing import Dict, List, Optional, cast
+
 from core.log import Log
-from graph.graph import Graph, GraphType
 from graph.control_flow_graph import ControlFlowGraph, Metadata
+from graph.graph import Graph, GraphType
 from lang_to_cfg import converter
 
 

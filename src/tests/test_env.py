@@ -1,9 +1,10 @@
 """Tests for env.py."""
-from os.path import join
-from os import listdir
 import unittest
-from tests.unit_utils import captured_output
+from os import listdir
+from os.path import join
+
 from core.env import Env
+from tests.unit_utils import captured_output
 
 
 class TestEnv(unittest.TestCase):
