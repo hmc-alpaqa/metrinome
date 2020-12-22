@@ -6,7 +6,7 @@ with open("../README.md", "r") as f:
 
 setup(
     name="metrinome",
-    version="0.0.1",
+    version="1.0.1",
     description="Compute code complexity metrics and generate CFGs for Python, \
                  C++, and Java easily.",
     keywords="cfg cyclomatic npath path apc code complexity",

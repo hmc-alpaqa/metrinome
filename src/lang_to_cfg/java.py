@@ -22,7 +22,8 @@ class JavaConvert(converter.ConverterAbstract):
     def __init__(self, logger: Log) -> None:
         """Create a new Java converter."""
         self.logger: Log = logger
-        self.output_folder = Env.TMP_DOT_PATH
+        self._output_folder = Env.TMP_DOT_PATH
+        self._input_folder = Env.TMP_PATH
 
     def name(self) -> str:
         """Get the name of the Java converter."""
@@ -43,14 +44,14 @@ class JavaConvert(converter.ConverterAbstract):
         self.logger.v_msg(f"processing {fname}")
 
         if file_extension == ".jar":
-            self.runcmd(f"jar xf {fname}", cwd=Env.TMP_PATH)
-            fname = Env.TMP_PATH
-            path = f"{Env.TMP_DOT_PATH}/tmp/*.dot"
+            self.runcmd(f"jar xf {fname}", cwd=self._input_folder)
+            fname = self._input_folder
+            path = f"{self._output_folder}/tmp/*.dot"
 
         if file_extension == ".java":
-            self.runcmd(f"javac {fname} -d {Env.TMP_PATH}")
+            self.runcmd(f"javac {fname} -d {self._input_folder}")
             name = os.path.basename(filename)
-            fname = f"{Env.TMP_PATH}/{name}.class"
+            fname = f"{self._input_folder}/{name}.class"
 
         output_path = Env.get_output_path(fname)
         cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {fname} -o {output_path}"

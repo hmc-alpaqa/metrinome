@@ -1,13 +1,17 @@
 """This module tests that we can convert C++ to Graph objects representing its CFG."""
 
 import os
+
+from tests.unit_utils import get_test_graph
+from lang_to_cfg.cpp import CPPConvert
+from core.log import Log, LogLevel
+
 import unittest
 
 from core.env import Env
-from core.log import Log, LogLevel
 from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph, GraphType
-from lang_to_cfg.cpp import CPPConvert
+
 
 
 class TestCPPConvert(unittest.TestCase):
@@ -28,19 +32,15 @@ class TestCPPConvert(unittest.TestCase):
             self.assertTrue("blank_cfg.main.dot" in result)
             self.assertEqual(graph1, result['blank_cfg.main.dot'].graph)
 
-        expected_graph = ControlFlowGraph(
-            Graph([[0, 1], [0, 4], [1, 2], [1, 5], [2, 3], [2, 5], [4, 6], [5, 6], [6, 7]],
-                  [0, 1, 2, 3, 4, 5, 6, 7], 0, 7, GraphType.EDGE_LIST)
-        )
+        expected_graph = ControlFlowGraph(get_test_graph())
         graphs = converter.to_graph("/app/code/tests/cppFiles/names", ".cpp")
 
         # Need to check all graphs since order can vary with environment.
         graph_names = ['names_cfg.main.dot']
         self.assertIsNotNone(graphs)
-
         if graphs is not None:
             obtained_graphs = [graphs[graph_name].graph for graph_name in graph_names]
-            self.assertTrue(any(expected_graph == res for res in obtained_graphs))
+            self.assertTrue(expected_graph == res for res in obtained_graphs)
 
     # @ignore_warnings  # glob regex deprecation warnings.
     # def test_create_dot_files(self):

@@ -25,7 +25,7 @@ class NPathComplexity(metric.MetricAbstract):
     # pylint: disable=super-init-not-called
     def __init__(self, logger: Log) -> None:
         """Create a new NPathComplexity to compute NPath for arbitrary Graph objects."""
-        self.log = logger
+        self.logger = logger
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""

@@ -12,13 +12,11 @@ class Metadata:
 
     def __init__(self, loc: int):
         """Create a new metadata object."""
-        self.loc = loc
+        self._loc = loc
 
     def __str__(self) -> str:
         """Return metadata as string."""
-        if self.loc is not None:
-            return f"Lines of code: {self.loc}"
-        return ""
+        return f"Lines of code: {self._loc}"
 
 
 class ControlFlowGraph:
@@ -33,7 +31,7 @@ class ControlFlowGraph:
         """Create a new CFG from any Graph object."""
         self.graph = graph
         self.name = graph.name
-        self.metadata = metadata
+        self._metadata = metadata
 
     def __eq__(self, other: object) -> bool:
         """Check for equality of graphs and metadata."""
@@ -47,8 +45,8 @@ class ControlFlowGraph:
 
     def __str__(self) -> str:
         """Return string representation of the CFG."""
-        if self.metadata is not None:
-            return str(self.metadata) + "\n" + str(self.graph)
+        if self._metadata is not None:
+            return str(self._metadata) + "\n" + str(self.graph)
 
         return str(self.graph)
 
@@ -111,13 +109,14 @@ class ControlFlowGraph:
 
     @staticmethod
     def stitch(graphs: Dict[str, 'ControlFlowGraph']) -> 'ControlFlowGraph':
-        """Compose a set of graphs to accurately represent a program's CFG."""
+        """Create new CFG by substituting function calls with their graphs."""
         calls_list = []
         simple_funcs = []
-        for func1 in graphs.keys():
-            for func2 in graphs.keys():
+        for func1 in graphs:
+            for func2 in graphs:
                 if calls_function(graphs[func1].graph.calls, func2):
-                    calls_list.append([func1, func2])
+                    if func1 != func2:
+                        calls_list.append([func1, func2])
                 if graphs[func2].graph.calls == {}:
                     simple_funcs.append(func2)
 
@@ -127,30 +126,33 @@ class ControlFlowGraph:
                     for _ in range(len(
                         calls_function(graphs[func_pair[0]].graph.calls, func_pair[1])
                     )):
-                        graph1, graph2 = graphs[func_pair[0]], graphs[func_pair[1]]
+                        cfg1, cfg2 = graphs[func_pair[0]], graphs[func_pair[1]]
                         node = calls_function(graphs[func_pair[0]].graph.calls, func_pair[1])[0]
-                        graphs[func_pair[0]] = ControlFlowGraph.compose(graph1, graph2, node)
+                        cfg1.graph.calls.pop(node)
+                        graphs[func_pair[0]] = ControlFlowGraph.compose(cfg1, cfg2, node)
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
                         simple_funcs.append(func_pair[0])
-        stitched_graph = graphs[simple_funcs[-1]]
-        return stitched_graph
+
+        return graphs[simple_funcs[-1]]
 
     @staticmethod
-    def compose(graph1: 'ControlFlowGraph',
-                graph2: 'ControlFlowGraph',
+    def compose(cfg1: 'ControlFlowGraph',
+                cfg2: 'ControlFlowGraph',
                 node: int) -> 'ControlFlowGraph':
-        """Replace a vertex in graph1 with graph2."""
-        graph1.graph.calls.pop(node)
+        """
+        Create a graph by replacing a node of cfg1 with the graph of cfg2.
 
-        shift = graph2.graph.vertex_count() - 1
-        vertices = list(range(graph1.graph.vertex_count() + shift))
+        The new CFG generated will have the proper function call metadata based on cfg1 and cfg2.
+        """
+        shift = cfg2.graph.vertex_count() - 1
+        vertices = list(range(cfg1.graph.vertex_count() + shift))
 
-        # ensures that exit node in subgraph has all the same edges as the replaced node
-        edges_2 = [[i + node, j + node] for [i, j] in graph2.graph.edges]
+        # Ensures that exit node in subgraph has all the same edges as the replaced node.
+        edges_2 = [[i + node, j + node] for [i, j] in cfg2.graph.edges]
 
         edges_1 = []
-        for edge in graph1.graph.edges:
+        for edge in cfg1.graph.edges:
             vertex_1 = edge[0]
             vertex_2 = edge[1]
             if edge[0] >= node:
@@ -166,11 +168,11 @@ class ControlFlowGraph:
                                len(vertices) - 1, GraphType.EDGE_LIST)
 
         new_calls = {}
-        for vertex in graph1.graph.calls.keys():
+        for vertex in cfg1.graph.calls.keys():
             if vertex > node:
-                new_calls[vertex + shift] = graph1.graph.calls[vertex]
+                new_calls[vertex + shift] = cfg1.graph.calls[vertex]
             else:
-                new_calls[vertex] = graph1.graph.calls[vertex]
+                new_calls[vertex] = cfg1.graph.calls[vertex]
 
         stitched_graph.calls = new_calls
 

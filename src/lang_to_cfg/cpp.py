@@ -26,10 +26,10 @@ class CPPConvert(converter.ConverterAbstract):
     def __init__(self, logger: Log) -> None:
         """Create a new instance of the C++ converter."""
         self.logger = logger
-        self.edge_pattern = "->"
-        self.name_pattern = "([a-zA-Z0-9]+ )"
-        self.optimize = False
-        self.call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
+        self._edge_pattern = "->"
+        self._name_pattern = "([a-zA-Z0-9]+ )"
+        self._optimize = False
+        self._call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
 
     def name(self) -> str:
         """Get the name of the CPP converter."""
@@ -83,16 +83,16 @@ class CPPConvert(converter.ConverterAbstract):
                     continue
 
                 # If it contains a label (denoted by '[]'), it is a vertex.
-                is_edge = re.search(self.edge_pattern, line)
+                is_edge = re.search(self._edge_pattern, line)
                 if is_edge is None:
-                    node_name = re.match(self.name_pattern, line.lstrip())
+                    node_name = re.match(self._name_pattern, line.lstrip())
                     if node_name is None:
                         continue
 
                     node_name_str = node_name.groups()[0].strip()
                     node_map[node_name_str] = str(counter)
                     node_to_add = str(counter)
-                    call = re.search(self.call_pattern, line.lstrip())
+                    call = re.search(self._call_pattern, line.lstrip())
                     label = ""
 
                     if counter == 0 and call is not None:
@@ -174,7 +174,7 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
 
-        if self.optimize:
+        if self._optimize:
             c1_str = f"clang++-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
         else:
             c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"\

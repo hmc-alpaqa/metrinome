@@ -25,7 +25,7 @@ class Classifier:
                  output_path: Optional[str] = None,
                  ext: str = "*.input", TAG: str = "") -> None:
         """Create a new Classifier."""
-        self.log = Log(tag=TAG)
+        self.logger = Log(tag=TAG)
         self.input_path = input_path
         self.output_path = output_path
         if self.input_path is not None:
@@ -58,9 +58,9 @@ class Classifier:
         if self.input_path is None:
             raise ValueError("Input path must be non-nil")
 
-        self.log.i_msg("start")
+        self.logger.i_msg("start")
         for file_name in self.file_list:
-            self.log.v_msg(f"processing {file_name}")
+            self.logger.v_msg(f"processing {file_name}")
             # Get the filename
             file_base = os.path.basename(self.input_path)[:-4]
             outfile = open(file_base + '_classified_all.csv', 'w')
@@ -221,7 +221,7 @@ class Classifier:
             e3file.close()
             egte4file.close()
             fixfile.close()
-        self.log.i_msg("end")
+        self.logger.i_msg("end")
 
 
 def main(argv: List[str]) -> None:

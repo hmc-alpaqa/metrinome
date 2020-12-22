@@ -76,7 +76,7 @@ class TestLog(unittest.TestCase):
         self.assertEqual(expected_msg + expected_msg2, out.getvalue().rstrip())
         self.assertTrue(len(err.read()) == 0)
 
-        log.tag = ""
+        log._tag = ""
         with captured_output() as (out, err):
             log.d_msg("test_msg")
 
