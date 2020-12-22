@@ -1,12 +1,13 @@
 """Store all of the objects the REPL needs to use."""
 from __future__ import annotations
-from collections import namedtuple
-from typing import Dict, List, Optional, Union, Tuple, cast
-from enum import Enum
+
 import os
+from collections import namedtuple
+from enum import Enum
+from typing import Dict, List, Optional, Tuple, Union, cast
+
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
-
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]

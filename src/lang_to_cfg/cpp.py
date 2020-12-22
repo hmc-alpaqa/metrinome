@@ -1,19 +1,20 @@
 """This module converts C++ source code into Graph objects representing the CFG for the code."""
 
-from typing import Dict, Optional, Tuple, List
-from types import FrameType
-import subprocess
-import shlex
 import os
 import re
+import shlex
 import signal
-import glob2  # type: ignore
-from core.log import Log
-from core.env import Env
-from lang_to_cfg import converter
-from graph.graph import GraphType
-from graph.control_flow_graph import ControlFlowGraph
+import subprocess
+from types import FrameType
+from typing import Dict, List, Optional, Tuple
 
+import glob2  # type: ignore
+
+from core.env import Env
+from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph
+from graph.graph import GraphType
+from lang_to_cfg import converter
 
 # pylint: disable=R0201
 

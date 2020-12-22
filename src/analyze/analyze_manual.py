@@ -1,9 +1,11 @@
 """Perform regression to find the best fit function for Klee data."""
 import subprocess
+
 import matplotlib.pyplot as plt  # type: ignore
-import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 from scipy.optimize import curve_fit  # type: ignore
+
 plt.rcParams["figure.figsize"] = (10, 10)
 
 

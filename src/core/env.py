@@ -1,6 +1,6 @@
 """This module manages the temporary directories used in the generation of CFGs."""
 import subprocess
-from os.path import join, splitext, basename
+from os.path import basename, join, splitext
 
 
 class Env:

@@ -12,14 +12,14 @@ Once this is done, we then count how many instances of each value show up.
 """
 
 
-from collections import Counter, defaultdict
 import typing
-from typing import Dict, List, Tuple
+from collections import Counter, defaultdict
 from itertools import combinations
-from core.log import Log
-from core.command_data import MetricsDict, MetricRes
-from core.command import Controller, Command
+from typing import Dict, List, Tuple
 
+from core.command import Command, Controller
+from core.command_data import MetricRes, MetricsDict
+from core.log import Log
 
 AggregateMetricsDict = Dict[MetricRes, List[MetricRes]]
 

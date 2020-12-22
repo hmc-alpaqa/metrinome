@@ -1,6 +1,7 @@
 """Adds always inline attribute to C Files."""
 
 import re
+
 from utils import show_func_defs
 
 

@@ -1,4 +1,5 @@
 lint:
+	isort .
 	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
 	find . -type f -name "*.py" | xargs mypy --config-file=./config/.mypy.ini # Type checking.
 	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.

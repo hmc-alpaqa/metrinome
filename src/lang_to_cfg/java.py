@@ -1,12 +1,14 @@
 """This class knows how to convert from java source code to graph objects."""
 import os
 from typing import Dict, Optional
+
 from glob2 import glob  # type: ignore
-from graph.graph import GraphType
-from graph.control_flow_graph import ControlFlowGraph
-from lang_to_cfg import converter
+
 from core.env import Env
 from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph
+from graph.graph import GraphType
+from lang_to_cfg import converter
 
 
 class JavaConvert(converter.ConverterAbstract):

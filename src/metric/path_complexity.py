@@ -1,19 +1,21 @@
 """Compute the path complexity and asymptotic path complexity metrics."""
 
-from collections import defaultdict
-from typing import Tuple, List, Union, cast, DefaultDict
 import re
 from abc import ABC, abstractmethod
-import sympy  # type: ignore
-from sympy import preorder_traversal, Float, Matrix, eye, symbols, degree, Poly, \
-    simplify, sympify, Basic
-from mpmath import polyroots, mpc, mpf  # type: ignore
+from collections import defaultdict
+from typing import DefaultDict, List, Tuple, Union, cast
+
 import numpy as np  # type: ignore
-from utils import big_o, get_taylor_coeffs, get_solution_from_roots, Timeout
-from graph.graph import AnyGraph
-from graph.control_flow_graph import ControlFlowGraph
-from metric import metric
+import sympy  # type: ignore
+from mpmath import mpc, mpf, polyroots  # type: ignore
+from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal,
+                   simplify, symbols, sympify)
+
 from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph
+from graph.graph import AnyGraph
+from metric import metric
+from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs
 
 PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
 

@@ -7,16 +7,15 @@ Created on Fri Mar 13 09:04:16 2015.
 """
 
 import getopt
-import sys
-import os
 import glob
-import re
 import math
+import os
+import re
+import sys
+from typing import Any, List, Match, Optional
 
-from core.log import Log
 from core.env import Env
-
-from typing import Optional, Any, List, Match
+from core.log import Log
 
 
 class Classifier:

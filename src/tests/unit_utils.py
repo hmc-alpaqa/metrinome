@@ -1,18 +1,20 @@
 """Various utilities used only for testing and not the main REPL."""
 
-from contextlib import contextmanager
-from io import StringIO
+import glob
+import os
 import sys
 import time
-import os
-import glob
+from contextlib import contextmanager
+from io import StringIO
 from math import floor
+
 from typing import List, Tuple, Iterator, Union, TypeVar
 from numpy import mean, std, median  # type: ignore
 from graph.graph import Graph, GraphType, AdjListType
+
 from graph.control_flow_graph import ControlFlowGraph as CFG
-from utils import Timeout
 from metric import metric
+from utils import Timeout
 
 OverallTimeList = List[Tuple[float, str, str]]
 FolderTimeList = List[Tuple[float, str]]

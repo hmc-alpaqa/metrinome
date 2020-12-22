@@ -1,9 +1,10 @@
 """Test the conversion of Java source code to Graph objects representing its CFG."""
-import unittest
 import os
-from lang_to_cfg.java import JavaConvert
-from core.log import Log
+import unittest
+
 from core.env import Env
+from core.log import Log
+from lang_to_cfg.java import JavaConvert
 
 
 # JavaConvert::to_graph()

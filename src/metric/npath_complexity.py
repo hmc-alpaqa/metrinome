@@ -6,11 +6,13 @@ This works with both the adjacency list representation and edge list.
 
 import copy
 from typing import List, Tuple
+
 import numpy as np  # type: ignore
-from graph.graph import GraphType, EdgeListType
-from graph.control_flow_graph import ControlFlowGraph
-from metric import metric
+
 from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph
+from graph.graph import EdgeListType, GraphType
+from metric import metric
 
 EdgeType = List[int]
 NodeType = int

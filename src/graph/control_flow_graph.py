@@ -1,9 +1,10 @@
 """All information that needs to be stored aside from the graph to compute complexity metrics."""
 import os
 import re
-from typing import cast, List
+from typing import List, cast
+
+from graph.graph import AdjListType, AnyGraph, Dict, Graph, GraphType
 from utils import calls_function
-from graph.graph import AnyGraph, GraphType, Graph, AdjListType, Dict
 
 
 class Metadata:

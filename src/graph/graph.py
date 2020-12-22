@@ -1,11 +1,11 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from typing import List, Optional, DefaultDict, Set, \
-    Match, TypeVar, Generic, Union, Dict, cast, Any
-from enum import Enum
 import collections
-import numpy as np  # type: ignore
+from enum import Enum
+from typing import (Any, DefaultDict, Dict, Generic, List, Match, Optional,
+                    Set, TypeVar, Union, cast)
 
+import numpy as np  # type: ignore
 
 # ADJ LIST
 AdjListType = List[List[int]]

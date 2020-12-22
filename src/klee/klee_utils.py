@@ -1,9 +1,11 @@
 """Handles work with klee, which does symbollic execution and test generation of C code."""
 
-from typing import Dict, Set, List, DefaultDict, Tuple
-from collections import defaultdict
 import uuid
-from pycparser import c_ast, parse_file, c_generator  # type: ignore
+from collections import defaultdict
+from typing import DefaultDict, Dict, List, Set, Tuple
+
+from pycparser import c_ast, c_generator, parse_file  # type: ignore
+
 from core.log import Log
 
 

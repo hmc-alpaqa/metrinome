@@ -2,11 +2,13 @@
 
 import unittest
 from typing import List
+
 import numpy as np  # type: ignore
-from graph.graph import Graph, GraphType, AdjListType
-from graph.control_flow_graph import ControlFlowGraph as CFG
-from metric.cyclomatic_complexity import CyclomaticComplexity
+
 from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import AdjListType, Graph, GraphType
+from metric.cyclomatic_complexity import CyclomaticComplexity
 
 
 class TestCyclomaticComplexity(unittest.TestCase):

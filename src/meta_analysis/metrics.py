@@ -1,10 +1,11 @@
 """Compute aggregate metrics and compare them."""
 
-from typing import List, Dict, DefaultDict, Union, Tuple, Set
-import typing
-from math import log
 import logging
+import typing
 from collections import defaultdict
+from math import log
+from typing import DefaultDict, Dict, List, Set, Tuple, Union
+
 from scipy.stats import entropy  # type: ignore
 
 

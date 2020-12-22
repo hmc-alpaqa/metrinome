@@ -6,15 +6,17 @@ It also allows us to execute a block of code such that an error will be thrown
 if the execution takes too long by using the Timeout class.
 """
 
-from typing import List, Dict, Optional, Union, Type, Tuple
-from types import FrameType, TracebackType
-import re
-from collections import Counter
-import signal
 import os
-from sympy import limit, Abs, sympify, symbols, Basic, Poly, Mul, Pow  # type: ignore
-from mpmath import polyroots, mpc, mpf  # type: ignore
+import re
+import signal
+from collections import Counter
+from types import FrameType, TracebackType
+from typing import Dict, List, Optional, Tuple, Type, Union
+
+from mpmath import mpc, mpf, polyroots  # type: ignore
 from pycparser import parse_file  # type: ignore
+from sympy import (Abs, Basic, Mul, Poly, Pow, limit, symbols,  # type: ignore
+                   sympify)
 
 
 def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], List[Basic]]:

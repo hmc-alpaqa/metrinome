@@ -4,9 +4,9 @@ Computes NPathComplexity for a given Graph object.
 This works with both the adjacency list representation and edge list.
 """
 
+from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
 from metric import metric
-from core.log import Log
 
 
 class LinesOfCode(metric.MetricAbstract):

@@ -1,28 +1,32 @@
 """The main implementation of the REPL."""
 
 from __future__ import annotations
-from typing import List, Dict, Optional, Tuple, Iterable, Union, cast
+
 import os.path
-from os import listdir
-import readline
-from pathlib import Path
 import re
+import readline
 import subprocess
 import tempfile
 import time
 from enum import Enum
 from functools import partial
-from multiprocessing import Pool, Manager
-import numpy   # type: ignore
-from klee.klee_utils import KleeUtils
-from inlining import inlining_script, inlining_script_heuristic
-from metric import path_complexity, cyclomatic_complexity, npath_complexity, metric
-from graph.control_flow_graph import ControlFlowGraph
-from lang_to_cfg import cpp, java, python, converter
-from utils import Timeout
+from multiprocessing import Manager, Pool
+from os import listdir
+from pathlib import Path
+from typing import Dict, Iterable, List, Optional, Tuple, Union, cast
+
+import numpy  # type: ignore
+
+from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
+from core.error_messages import EXTENSION, NO_FILE_EXT
 from core.log import Log, LogLevel
-from core.command_data import Data, ObjTypes, AnyDict, PathComplexityRes
-from core.error_messages import NO_FILE_EXT, EXTENSION
+from graph.control_flow_graph import ControlFlowGraph
+from inlining import inlining_script, inlining_script_heuristic
+from klee.klee_utils import KleeUtils
+from lang_to_cfg import converter, cpp, java, python
+from metric import (cyclomatic_complexity, metric, npath_complexity,
+                    path_complexity)
+from utils import Timeout
 
 
 class KnownExtensions(Enum):
