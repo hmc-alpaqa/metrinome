@@ -153,7 +153,7 @@ class Controller:
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
         python_converter = python.PythonConvert(self.logger)
-        self._graph_generators = {
+        self.graph_generators = {
             ".cpp": cpp_converter,
             ".c": cpp_converter,
             ".jar": java_converter,
@@ -164,11 +164,11 @@ class Controller:
 
     def get_graph_generator_names(self) -> Iterable[str]:
         """Get the names of all file extensions we know how to generate CFGs for."""
-        return self._graph_generators.keys()
+        return self.graph_generators.keys()
 
     def get_graph_generator(self, file_extension: str) -> converter.ConverterAbstract:
         """Given a file extension as a string, return the CFG generator for that file extension."""
-        return self._graph_generators[file_extension]
+        return self.graph_generators[file_extension]
 
 
 def worker_main(shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
@@ -298,7 +298,7 @@ class Command:
         all_files: List[str] = []
         for full_path in args_list:
             files = get_files(full_path, recursive_mode, self.logger,
-                              list(self.controller._graph_generators.keys()))
+                              list(self.controller.graph_generators.keys()))
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
                 return

@@ -12,11 +12,11 @@ class Metadata:
 
     def __init__(self, loc: int):
         """Create a new metadata object."""
-        self._loc = loc
+        self.loc = loc
 
     def __str__(self) -> str:
         """Return metadata as string."""
-        return f"Lines of code: {self._loc}"
+        return f"Lines of code: {self.loc}"
 
 
 class ControlFlowGraph:
@@ -31,7 +31,7 @@ class ControlFlowGraph:
         """Create a new CFG from any Graph object."""
         self.graph = graph
         self.name = graph.name
-        self._metadata = metadata
+        self.metadata = metadata
 
     def __eq__(self, other: object) -> bool:
         """Check for equality of graphs and metadata."""
@@ -45,8 +45,8 @@ class ControlFlowGraph:
 
     def __str__(self) -> str:
         """Return string representation of the CFG."""
-        if self._metadata is not None:
-            return str(self._metadata) + "\n" + str(self.graph)
+        if self.metadata is not None:
+            return str(self.metadata) + "\n" + str(self.graph)
 
         return str(self.graph)
 

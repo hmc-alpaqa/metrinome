@@ -21,13 +21,13 @@ class FuncVisitor(c_ast.NodeVisitor):
         """Create a new instance of FuncVisitor."""
         self.logger = logger
         self._generator = c_generator.CGenerator()
-        self._vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
-        self._types: DefaultDict[str, str] = defaultdict(str)
+        self.vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
+        self.types: DefaultDict[str, str] = defaultdict(str)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str) -> None:
         """Look at a single variable declaration in the C code."""
-        self._vars[name].append((f"{declaration};\n", varname))
+        self.vars[name].append((f"{declaration};\n", varname))
 
     # pylint: disable=C0103
     # disable invalid-name as this name is required by the library.
@@ -42,7 +42,7 @@ class FuncVisitor(c_ast.NodeVisitor):
         args = node.decl.type.args  # type ParamList.
         return_type = node.decl.type.type.type.names[0]
         self.logger.i_msg(f"Looking at {node.decl.name}()")
-        self._types[node.decl.name] = return_type
+        self.types[node.decl.name] = return_type
         if args is not None:
             params = args.params  # List of TypeDecl.
             for i, param in enumerate(params):
@@ -84,8 +84,8 @@ class KleeUtils:
 
         uuids: Set[uuid.UUID] = set()
         klee_formatted_files = dict()
-        for func_name in func_visitor._vars.keys():
-            variables = [list(v) for v in func_visitor._vars[func_name]]
+        for func_name in func_visitor.vars.keys():
+            variables = [list(v) for v in func_visitor.vars[func_name]]
             var_names = []
 
             file_str = "#include <klee/klee.h>\n"
@@ -108,7 +108,7 @@ class KleeUtils:
 
                 var_names.append(var[1])
 
-            if func_visitor._types[func_name] == 'void':
+            if func_visitor.types[func_name] == 'void':
                 file_str += f"\t{func_name}({', '.join(var_names)});\n"
                 file_str += "\treturn 0;\n"
             else:

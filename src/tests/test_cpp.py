@@ -1,17 +1,14 @@
 """This module tests that we can convert C++ to Graph objects representing its CFG."""
 
 import os
-
-from tests.unit_utils import get_test_graph
-from lang_to_cfg.cpp import CPPConvert
-from core.log import Log, LogLevel
-
 import unittest
 
 from core.env import Env
+from core.log import Log, LogLevel
 from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph, GraphType
-
+from lang_to_cfg.cpp import CPPConvert
+from tests.unit_utils import get_test_graph
 
 
 class TestCPPConvert(unittest.TestCase):

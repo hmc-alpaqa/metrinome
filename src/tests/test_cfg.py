@@ -2,10 +2,11 @@
 
 import unittest
 from typing import cast
-from graph.graph import Graph, GraphType, EdgeListType
+
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.control_flow_graph import Metadata
-from tests.unit_utils import get_test_graph, get_second_test_graph
+from graph.graph import EdgeListType, Graph, GraphType
+from tests.unit_utils import get_second_test_graph, get_test_graph
 
 
 class TestMetadata(unittest.TestCase):

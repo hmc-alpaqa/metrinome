@@ -7,12 +7,12 @@ import time
 from contextlib import contextmanager
 from io import StringIO
 from math import floor
+from typing import Iterator, List, Tuple, TypeVar, Union
 
-from typing import List, Tuple, Iterator, Union, TypeVar
-from numpy import mean, std, median  # type: ignore
-from graph.graph import Graph, GraphType, AdjListType
+from numpy import mean, median, std  # type: ignore
 
 from graph.control_flow_graph import ControlFlowGraph as CFG
+from graph.graph import AdjListType, Graph, GraphType
 from metric import metric
 from utils import Timeout
 
