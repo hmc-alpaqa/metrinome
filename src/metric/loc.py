@@ -15,7 +15,7 @@ class LinesOfCode(metric.MetricAbstract):
     # pylint: disable=super-init-not-called
     def __init__(self, logger: Log) -> None:
         """Create a new NPathComplexity to compute LoC for CFGs."""
-        self.log = logger
+        self.logger = logger
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""

@@ -28,7 +28,7 @@ class Node:
         """Create a new instance of the Graph node."""
         self.children: List[Node] = []
         self.exit_node: bool = exit_node
-        self.id = uuid.uuid4()
+        self._id = uuid.uuid4()
 
 
 class FunctionVisitor(ast.NodeVisitor):
