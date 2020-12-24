@@ -13,7 +13,7 @@ from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal,
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
-from graph.graph import AnyGraph
+from graph.graph import BaseGraph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs
 
@@ -28,7 +28,7 @@ class BaseCaseGetter(ABC):
         self.logger = logger
 
     @abstractmethod
-    def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
+    def get(self, graph: BaseGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
         """Get path(start_idx) throught path(end_idx)."""
 
@@ -36,7 +36,7 @@ class BaseCaseGetter(ABC):
 class BetterBaseCaseBFS(BaseCaseGetter):
     """Get base cases using a breadth first search on the control flow graph."""
 
-    def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
+    def get(self, graph: BaseGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
         """Use a BFS to count all of the paths through the CFG up to a certain depth."""
         end_idx = start_idx + num_coeffs
@@ -66,7 +66,7 @@ class BetterBaseCaseBFS(BaseCaseGetter):
 class BaseCaseBFS(BaseCaseGetter):
     """Get base cases using a breadth first search on the control flow graph."""
 
-    def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
+    def get(self, graph: BaseGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
         """Use a BFS to count all of the paths through the CFG up to a certain depth."""
         end_idx = start_idx + num_coeffs
@@ -96,7 +96,7 @@ class BaseCaseBFS(BaseCaseGetter):
 class BaseCaseTaylor(BaseCaseGetter):
     """Get base cases using the generating function; significantly slower than BFS."""
 
-    def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
+    def get(self, graph: BaseGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
         """Use taylor coefficients of the generating function to get base cases."""
         x_sub = x_mat.copy()
@@ -128,7 +128,7 @@ class BaseCaseSmart(BaseCaseGetter):
         self.base_case_taylor = BaseCaseTaylor(logger)
         super().__init__(logger)
 
-    def get(self, graph: AnyGraph, x_mat: Basic, denominator: Basic,
+    def get(self, graph: BaseGraph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
         """Try to use BFS and switch to Taylor method if it takes too long."""
         try:
@@ -181,8 +181,7 @@ class PathComplexity(metric.MetricAbstract):
         det = simplify(poly * sympify(f"t**{dimension}"))
         return det
 
-    def get_matrix(self, graph: AnyGraph) -> Tuple[Basic,
-                                                   int]:
+    def get_matrix(self, graph: BaseGraph) -> Tuple[Basic, int]:
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1

@@ -12,7 +12,7 @@ from typing import Iterator, List, Tuple, TypeVar, Union
 from numpy import mean, median, std  # type: ignore
 
 from graph.control_flow_graph import ControlFlowGraph as CFG
-from graph.graph import AdjListType, Graph, GraphType
+from graph.graph import AdjListType, BaseGraph, EdgeListGraph
 from metric import metric
 from utils import Timeout
 
@@ -21,17 +21,15 @@ FolderTimeList = List[Tuple[float, str]]
 RuntimeMetrics = List[Tuple[str, float]]
 
 
-def get_test_graph() -> Graph[AdjListType]:
+def get_test_graph() -> BaseGraph:
     """Return ordinary CFG for testing."""
-    return Graph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5],
-                          [2, 7], [4, 6], [5, 6], [6, 7]],
-                 8, GraphType.EDGE_LIST)
+    return EdgeListGraph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5],
+                          [2, 7], [4, 6], [5, 6], [6, 7]], 8)
 
 
-def get_second_test_graph() -> Graph[AdjListType]:
+def get_second_test_graph() -> BaseGraph:
     """Return (smaller) ordinary  CFG for testing."""
-    return Graph([[0, 1], [1, 2], [1, 3], [2, 4], [3, 4]],
-                 5, GraphType.EDGE_LIST)
+    return EdgeListGraph([[0, 1], [1, 2], [1, 3], [2, 4], [3, 4]], 5)
 
 
 def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,

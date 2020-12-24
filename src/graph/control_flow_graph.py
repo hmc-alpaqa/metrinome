@@ -3,7 +3,7 @@ import os
 import re
 from typing import List, cast
 
-from graph.graph import AdjListType, AnyGraph, Dict, Graph, GraphType
+from graph.graph import AdjListType, BaseGraph, Dict, EdgeListGraph
 from utils import calls_function
 
 
@@ -27,7 +27,7 @@ class ControlFlowGraph:
     metadata to the Graph class.
     """
 
-    def __init__(self, graph: AnyGraph, metadata: Metadata = None):
+    def __init__(self, graph: BaseGraph, metadata: Metadata = None):
         """Create a new CFG from any Graph object."""
         self.graph = graph
         self.name = graph.name
@@ -35,7 +35,7 @@ class ControlFlowGraph:
 
     def __eq__(self, other: object) -> bool:
         """Check for equality of graphs and metadata."""
-        if isinstance(other, Graph):
+        if isinstance(other, BaseGraph):
             return self.graph == other
 
         if isinstance(other, ControlFlowGraph):
@@ -164,7 +164,7 @@ class ControlFlowGraph:
 
         edges_1 += edges_2
 
-        stitched_graph = Graph(edges_1, len(vertices), GraphType.EDGE_LIST)
+        stitched_graph = EdgeListGraph(edges_1, len(vertices))
 
         new_calls = {}
         for vertex in cfg1.graph.calls.keys():

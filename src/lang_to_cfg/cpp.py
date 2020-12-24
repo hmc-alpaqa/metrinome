@@ -13,7 +13,6 @@ import glob2  # type: ignore
 from core.env import Env
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
-from graph.graph import GraphType
 from lang_to_cfg import converter
 
 # pylint: disable=R0201

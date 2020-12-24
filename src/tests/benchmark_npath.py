@@ -7,7 +7,6 @@ programming.
 """
 
 from core.log import Log
-from graph.graph import GraphType
 from metric import npath_complexity
 from tests import unit_utils
 

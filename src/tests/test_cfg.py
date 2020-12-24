@@ -5,7 +5,7 @@ from typing import cast
 
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.control_flow_graph import Metadata
-from graph.graph import EdgeListType, Graph, GraphType
+from graph.graph import EdgeListGraph, EdgeListType
 from tests.unit_utils import get_second_test_graph, get_test_graph
 
 
@@ -53,9 +53,9 @@ class TestControlFlowGraph(unittest.TestCase):
         """Test if we can replace a node with another graph with many edges and vertices."""
         caller = CFG(get_test_graph())
         callee = CFG(get_second_test_graph())
-        expected = CFG(Graph([[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
-                              [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]],
-                             12, graph_type=GraphType.EDGE_LIST))
+        expected = CFG(EdgeListGraph([[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
+                                     [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]],
+                                     12))
 
         graphs = {"caller": caller, "callee": callee}
         caller.graph.calls = {3: "callee"}  # TODO: add {5: "callee"}
@@ -72,7 +72,7 @@ class TestControlFlowGraph(unittest.TestCase):
         callee = CFG(get_second_test_graph())
         edges = [[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
                  [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]]
-        expected = CFG(Graph(edges, 12, graph_type=GraphType.EDGE_LIST))
+        expected = CFG(EdgeListGraph(edges, 12))
         res = CFG.compose(caller, callee, 3)
 
         self.assertEqual(res, expected)

@@ -9,7 +9,6 @@ programming.
 import sys
 
 from core.log import Log
-from graph.graph import GraphType
 from metric import path_complexity
 from tests import unit_utils
 

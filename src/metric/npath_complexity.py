@@ -11,7 +11,7 @@ import numpy as np  # type: ignore
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
-from graph.graph import EdgeListType, GraphType
+from graph.graph import EdgeListType
 from metric import metric
 
 EdgeType = List[int]
