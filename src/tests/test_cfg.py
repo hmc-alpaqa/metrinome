@@ -29,15 +29,15 @@ class TestControlFlowGraph(unittest.TestCase):
         with open("/app/code/tests/dotFiles/dotTest.dot", "w+") as file:
             file.write(dot)
         frmfile = CFG.from_file("/app/code/tests/dotFiles/dotTest.dot",
-                                graph_type=GraphType.EDGE_LIST)
+                                graph_type=EdgeListGraph)
         self.assertEqual(frmfile.graph, graph)
 
     # === Graph::from_file ===
     def test_from_file_one_vertex(self) -> None:
         """Test if we can get the adjacency list for a graph with no edges."""
-        expected = Graph(cast(EdgeListType, []), 2, GraphType.EDGE_LIST)
+        expected = EdgeListGraph(cast(EdgeListType, []), 2)
         cfg = CFG.from_file("/app/code/tests/dotFiles/testsimple.dot",
-                            graph_type=GraphType.EDGE_LIST)
+                            graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
         # Graph.fromFile(None)
 
@@ -45,7 +45,7 @@ class TestControlFlowGraph(unittest.TestCase):
         """Test if we can get the adjacency list for a graph with many edges and vertices."""
         expected = get_test_graph()
         cfg = CFG.from_file("/app/code/tests/dotFiles/testgraph.dot",
-                            graph_type=GraphType.EDGE_LIST)
+                            graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
 
     # === Graph::stitch ===

@@ -11,7 +11,7 @@ import numpy as np  # type: ignore
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
-from graph.graph import EdgeListType
+from graph.graph import AdjListGraph, AdjMatGraph, EdgeListType
 from metric import metric
 
 EdgeType = List[int]
@@ -111,11 +111,11 @@ class NPathComplexity(metric.MetricAbstract):
     def evaluate(self, cfg: ControlFlowGraph) -> int:
         """Compute the NPath complexity of a function given its CFG."""
         graph = cfg.graph
-        if graph.graph_type is GraphType.ADJACENCY_LIST:
+        if isinstance(graph, AdjListGraph):
             edges_tuple = tuple(tuple(edges) for edges in graph.edges)
             return int(self.npath_adj_list(graph.start_node, graph.end_node, edges_tuple))
 
-        if graph.graph_type is GraphType.ADJACENCY_MATRIX:
+        if isinstance(graph, AdjMatGraph):
             return int(self.npath_adj_matrix(graph.adjacency_matrix(), graph.start_node,
                                              graph.end_node, graph.start_node))
 

@@ -9,7 +9,7 @@ import numpy as np  # type: ignore
 
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.graph import (AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph,
-                         EdgeListType)
+                         EdgeListType, Graph)
 
 
 class TestGraphGetters(unittest.TestCase):
@@ -49,13 +49,6 @@ class TestGraphGetters(unittest.TestCase):
         expected = 0
         self.assertEqual(expected, graph.start_node)
 
-    # === Graph::set_name ===
-    def test_set_name(self) -> None:
-        """Check that can set the name of a Graph."""
-        graph = EdgeListGraph(cast(EdgeListType, []), 1)
-        graph.set_name("Test graph")
-        self.assertEqual(graph.name, "Test graph")
-
     # === Graph::get_vertices ===
     def test_vertices_one_vertex(self) -> None:
         """Test if we can get all of the vertices from a Graph with a single vertex."""
@@ -73,18 +66,12 @@ class TestGraphGetters(unittest.TestCase):
         """Check that we can get the parents of a graph in adjacency list format."""
         graph = EdgeListGraph([[0, 1], [1, 2], [1, 3]], 4)
         adj_list = graph.adjacency_list()
-        graph_two = Graph(adj_list, 4, GraphType.ADJACENCY_LIST)
+        graph_two = AdjListGraph(adj_list, 4)
         res = graph_two.get_parents()
         self.assertTrue(0 not in res)
         self.assertTrue(res[1] == [0])
         self.assertTrue(res[2] == [1])
         self.assertTrue(res[3] == [1])
-
-    def test_get_parents_edge_list(self) -> None:
-        """Check that we can get an error if we try to get parents of edge list."""
-        graph = EdgeListGraph([[0, 1], [1, 2], [1, 3]], 4)
-        with self.assertRaises(NotImplementedError):
-            graph.get_parents()
 
 
 class TestGraphInfo(unittest.TestCase):
@@ -125,7 +112,7 @@ class TestGraph(unittest.TestCase):
         with open("/app/code/tests/dotFiles/dotTest.dot", "w+") as file:
             file.write(dot)
         frmfile = CFG.from_file("/app/code/tests/dotFiles/dotTest.dot",
-                                graph_type=GraphType.EDGE_LIST)
+                                graph_type=EdgeListGraph)
         self.assertEqual(frmfile.graph, graph)
 
     # === Graph::update_with_node ===
@@ -176,7 +163,7 @@ class TestGraph(unittest.TestCase):
     def test_eq_different_types(self) -> None:
         """Check that equality throws an error when Graphs are different types."""
         graph1 = EdgeListGraph(cast(EdgeListType, []), 1)
-        graph2 = Graph(cast(AdjListType, []), 1, GraphType.ADJACENCY_LIST)
+        graph2 = AdjListGraph(cast(AdjListType, []), 1)
         with self.assertRaises(ValueError):
             graph1 == graph2  # pylint: disable=pointless-statement
 
@@ -197,16 +184,17 @@ class TestGraph(unittest.TestCase):
 
     def test_edge_rules_with_edges(self) -> None:
         """Test if we can get all of the edges from a Graph."""
+        graph: Graph
         graph = EdgeListGraph([[0, 1], [0, 2]], 3)
         edge_list = graph.edge_rules()
         self.assertEqual(edge_list, [[0, 1], [0, 2]])
 
         adjacency_matrix = graph.adjacency_matrix()
-        graph = Graph(adjacency_matrix, 3, GraphType.ADJACENCY_MATRIX)
+        graph = AdjMatGraph(adjacency_matrix, 3)
         edge_list = graph.edge_rules()
         self.assertEqual(edge_list, [[0, 1], [0, 2]])
 
-        graph = Graph([[1, 2]], 3, GraphType.ADJACENCY_LIST)
+        graph = AdjListGraph([[1, 2]], 3)
         edge_list = graph.edge_rules()
         self.assertEqual(edge_list, [[0, 1], [0, 2]])
 
@@ -251,7 +239,7 @@ class TestGraph(unittest.TestCase):
         """Test if we can get the adjacency list for a graph with no edges."""
         expected = EdgeListGraph(cast(EdgeListType, []), 2)
         cfg = CFG.from_file("/app/code/tests/dotFiles/testsimple.dot",
-                            graph_type=GraphType.EDGE_LIST)
+                            graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
         # Graph.fromFile(None)
 
@@ -260,7 +248,7 @@ class TestGraph(unittest.TestCase):
         expected = EdgeListGraph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5],
                                   [2, 7], [4, 6], [5, 6], [6, 7]], 8)
         cfg = CFG.from_file("/app/code/tests/dotFiles/testgraph.dot",
-                            graph_type=GraphType.EDGE_LIST)
+                            graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
 
     # === Graph::convert_to_weighted ===
@@ -269,10 +257,6 @@ class TestGraph(unittest.TestCase):
         graph = AdjListGraph(cast(AdjListType, [[], []]), num_vertices=2)
         graph.convert_to_weighted()
         with self.assertRaises(ValueError):
-            graph.convert_to_weighted()
-
-        graph = AdjMatGraph([[], []], num_vertices=2)
-        with self.assertRaises(NotImplementedError):
             graph.convert_to_weighted()
 
     def test_convert_unweighted_to_weighted(self) -> None:

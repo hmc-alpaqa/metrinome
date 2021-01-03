@@ -186,7 +186,6 @@ class Data:
 
         for graph_name in names:
             if graph_name in self.graphs:
-                self.logger.d_msg(str(self.graphs[graph_name].graph.graph_type))
                 self.logger.v_msg(str(self.graphs[graph_name]))
             else:
                 self.logger.v_msg(f"Graph {graph_name} not found.")
