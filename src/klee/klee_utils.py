@@ -28,6 +28,12 @@ KleeExperiment = Callable[[str, int, List[str], List[str], List[str], List[str]]
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
+def klee_command(bcname: str, new_name: str) -> str:
+    """Get the KLEE command as a string."""
+    return f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
+             -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
+
+
 # pylint: disable=too-many-arguments
 def graph_stat(func: str, preference: str, max_depths: List[str],
                inputs: List[str], results: KleeCompareResults,

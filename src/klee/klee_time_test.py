@@ -1,7 +1,7 @@
 """Script for running Klee on a series of functions and saving data."""
 import subprocess
-import time
 from subprocess import PIPE
+from time import time
 from typing import Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt  # type: ignore
@@ -10,7 +10,7 @@ import pandas as pd  # type: ignore
 from core.env import Env
 from core.log import Log
 from klee.klee_utils import (KleeOutputPreferencesInfo, KleeUtils,
-                             get_stats_dict, parse_klee)
+                             get_stats_dict, klee_command, parse_klee)
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -27,12 +27,11 @@ def klee_with_time(file_name: str, output_name: str, preferences: str,
 
         cmd_params = f"-output-dir={output_name} --max-time={max_time}min"
         cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name}"
-        start_time = time.time()
+        start_time = time()
         res = subprocess.run(timeconfig + cmd, shell=True, check=False,
                              executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
-        final_time = time.time() - start_time
-        parsed = parse_klee(res.stderr.decode())
-        return (*parsed, final_time)
+        final_time = time() - start_time
+        return (*parse_klee(res.stderr.decode()), final_time)
 
 
 def klee_compare_time(file_name: str, preferences: List[str], max_times: List[str], function: str,
@@ -103,9 +102,7 @@ def run_klee_time(func: str, array_size: int, max_times: List[str], preferences:
         bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func_actual}.bc"
         with open(new_name, "w+") as file:
             file.write(output[i])
-        cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
-                -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
-        subprocess.run(cmd, shell=True, capture_output=True, check=True)
+        subprocess.run(klee_command(bcname, new_name), shell=True, capture_output=True, check=True)
         results = klee_compare_time(bcname, preferences, max_times, func_actual)
         results_frame = create_pandas_time(results, preferences[0], max_times, fields)
         filename = f'/app/code/tests/cFiles/fse_2020_benchmark/frames_time/{func_actual}.csv'

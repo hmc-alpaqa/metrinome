@@ -5,12 +5,11 @@ from typing import List
 
 from core.log import Log
 from klee.klee_utils import (KleeUtils, create_pandas, graph_stat,
-                             klee_compare, run_experiment)
+                             klee_command, klee_compare, run_experiment)
 
 
 def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
-                        preferences: List[str],
-                        fields: List[str], inputs: List[str]) -> None:
+                        preferences: List[str], fields: List[str], inputs: List[str]) -> None:
     """Run the KLEE experiment for a single function."""
     filename = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}.c"
     output = KleeUtils(Log()).show_func_defs(filename, size=array_size)
@@ -20,9 +19,7 @@ def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
         bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.bc"
         with open(new_name, "w+") as file:
             file.write(output[i])
-        cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
-                -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
-        subprocess.run(cmd, shell=True, capture_output=True, check=True)
+        subprocess.run(klee_command(bcname, new_name), shell=True, capture_output=True, check=True)
         results = klee_compare(bcname, preferences, max_depths, inputs, f"{func}_{i}")
         results_frame = create_pandas(results, preferences[0], inputs[0], max_depths, fields)
         results_frame.to_csv(f'/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}.csv')
