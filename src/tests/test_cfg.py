@@ -58,27 +58,8 @@ class TestControlFlowGraph(unittest.TestCase):
                                      12))
 
         graphs = {"caller": caller, "callee": callee}
-        caller.graph.calls = {3: "callee"}  # TODO: add {5: "callee"}
+        caller.graph.calls = {3: "callee"}
 
         self.assertEqual(CFG.stitch(graphs), expected)
         self.assertEqual(caller, CFG(get_test_graph()))
         self.assertEqual(callee, CFG(get_second_test_graph()))
-
-    # === Graph::compose ===
-    def test_compose_normal(self) -> None:
-        """Test if we can compose two graphs."""
-        caller = CFG(get_test_graph())
-        caller.graph.calls = {3: "callee"}
-        callee = CFG(get_second_test_graph())
-        edges = [[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
-                 [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]]
-        expected = CFG(EdgeListGraph(edges, 12))
-        res = CFG.compose(caller, callee, 3)
-
-        self.assertEqual(res, expected)
-        self.assertEqual(caller, CFG(get_test_graph()))
-        self.assertEqual(callee, CFG(get_second_test_graph()))
-
-
-if __name__ == '__main__':
-    unittest.main()

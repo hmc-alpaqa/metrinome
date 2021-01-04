@@ -3,13 +3,21 @@
 import collections
 from abc import ABC, abstractmethod
 from typing import (DefaultDict, Dict, Generic, List, Match, Optional, Tuple,
-                    TypeVar)
+                    TypeVar, Set)
 
 import numpy as np  # type: ignore
 
 AdjListType = List[List[int]]
 EdgeListType = List[List[int]]
 Type = TypeVar('Type')
+
+
+# Pylint has trouble understanding the inheritance pattern used in this module.
+# pylint: disable=super-init-not-called
+# pylint: disable=non-parent-init-called
+# pylint: disable=no-member
+# pylint: disable=attribute-defined-outside-init
+# pylint: disable=access-member-before-definition
 
 
 class Graph(ABC):
@@ -43,10 +51,6 @@ class Graph(ABC):
                f"{len(self.edge_rules())}\nVertices: " + \
                f"{self.vertices()}\nStart Node: {self.start_node}" + \
                f"\nEnd Node: {self.end_node}"
-
-    @abstractmethod
-    def __eq__(self, other: object) -> bool:
-        """Check that two Graphs are equal by checking their vertices and edges."""
 
     @abstractmethod
     def adjacency_matrix(self) -> np.ndarray:
@@ -100,7 +104,7 @@ class Graph(ABC):
 
 
 class GenericGraph(Graph, Generic[Type], ABC):
-    """TODO."""
+    """A concrete implementation of the Graph interface that graphs can inherit from."""
 
     def __init__(self, edges: Type, num_vertices: int):
         """
@@ -140,20 +144,22 @@ class GenericGraph(Graph, Generic[Type], ABC):
         return node + 1
 
     def _update_with_node_helper(self, match: Match[str], node_label: bool) -> int:
+        """Store start and end nodes, as well as any function calls."""
         node = int(match.group(1))
         if node_label:
             label = match.group(2)
             if "CALLS" in label:
                 self.calls[node] = label
-        if "START" in label:
-            self.start_node = node
-        if label == "EXIT":
-            self.end_node = node
+            if "START" in label:
+                self.start_node = node
+            if label == "EXIT":
+                self.end_node = node
 
         self.num_vertices = max(self.num_vertices, node + 1)
         return node
 
     def _update_with_edge_helper(self, match: Match[str]) -> Tuple[int, int]:
+        """Save edges from dot file."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
         # Ensure that vertices have already been created.
@@ -162,6 +168,7 @@ class GenericGraph(Graph, Generic[Type], ABC):
         return node_one, node_two
 
     def _initialize_dot_file(self) -> str:
+        """Create standard format dot file template."""
         out = "digraph {\n"
         for node in self.vertices():
             out += f"{node}"
@@ -177,11 +184,10 @@ class GenericGraph(Graph, Generic[Type], ABC):
 class AdjListGraph(GenericGraph[AdjListType], Graph):
     """An adjacency list representation of a graph."""
 
-    weights: Optional[List[List[int]]]
-
     def __init__(self, edges: AdjListType, num_vertices: int):
-        """."""
-        super().__init__(edges, num_vertices)
+        """Create a new graph from an adjacency list."""
+        self.weights: Optional[List[List[int]]] = None
+        GenericGraph.__init__(self, edges, num_vertices)
 
     def dot(self) -> str:
         """Generate a dot file representation of the graph."""
@@ -193,15 +199,11 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
         return out
 
     def edge_rules(self) -> EdgeListType:
-        """Obtain a list of edges, where each each is [node1, node2]."""
+        """Obtain a list of edges (ignoring weights), where each each is [node1, node2]."""
         edges: EdgeListType = []
 
         for vertex in range(len(self.edges)):
             for vertex_two in self.edges[vertex]:
-                # TODO
-                # if self.weights is not None:
-                #     edges.append([vertex, vertex_two, vertex_two[1]])
-                # else:
                 edges.append([vertex, vertex_two])
 
         return edges
@@ -219,52 +221,52 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
 
         return parents
 
-    # def simplify(self) -> None:
-    #     """Make the graph smaller."""
-    #     parents = self.get_parents()
-    #     self.convert_to_weighted()
-    #     if self.weights is None:
-    #         raise ValueError("Cannot simplify non-weighted graph.")
+    def simplify(self) -> None:
+        """Make the graph smaller."""
+        parents = self.get_parents()
+        self.convert_to_weighted()
+        if self.weights is None:
+            raise ValueError("Cannot simplify non-weighted graph.")
 
-    #     # Figure out which nodes we have to delete and update the edges.
-    #     removed_vertices = set()
-    #     for vertex in range(self.num_vertices):
-    #         if len(parents[vertex]) == 1 and len(self.edges[vertex]) == 1:
-    #             parent = parents[vertex][0]
-    #             child_node = self.edges[vertex][0]
-    #             child_weight = self.weights[vertex][0]
+        # Figure out which nodes we have to delete and update the edges.
+        removed_vertices = set()
+        for vertex in range(self.num_vertices):
+            if len(parents[vertex]) == 1 and len(self.edges[vertex]) == 1:
+                parent = parents[vertex][0]
+                child_node = self.edges[vertex][0]
+                child_weight = None
 
-    #             # Find the correct edge from the parent
-    #             child_of_parent = None
-    #             for i, child_of_parent in enumerate(self.edges[parent]):
-    #                 if child_of_parent == vertex:
-    #                     curr_vertex_of_parent = child_of_parent
-    #                     weight_from_parent = self.weights[parent][i]
-    #                     break
+                # Find the correct edge from the parent
+                child_of_parent = None
+                for child_of_parent in self.edges[parent]:
+                    if child_of_parent == vertex:
+                        curr_vertex_of_parent = child_of_parent
+                        weight_from_parent = None
+                        break
 
-    #             if weight_from_parent != child_weight:
-    #                 print("ERROR! Incoming and outgoing weights should be the same!")
+                if weight_from_parent != child_weight:
+                    print("ERROR! Incoming and outgoing weights should be the same!")
 
-    #             # Add the child of the current node as a child of the parent with the same weight.
-    #             # First, check if the parent already has the child of the current node as a child.
-    #             found = False
-    #             for i, child_of_parent in enumerate(self.edges[parent]):
-    #                 if child_of_parent == child_node:
-    #                     self.edges[parent][i][1] += child_weight
-    #                     found = True
-    #                     break
-    #             if not found:
-    #                 self.edges[parent].append(child)
+                # Add the child of the current node as a child of the parent with the same weight.
+                # First, check if the parent already has the child of the current node as a child.
+                found = False
+                for child_of_parent in self.edges[parent]:
+                    if child_of_parent == child_node:
+                        # Increment weight
+                        found = True
+                        break
+                if not found:
+                    self.edges[parent].append(child_node)
 
-    #             # Remove child from current node.
-    #             self.edges[vertex] = []
+                # Remove child from current node.
+                self.edges[vertex] = []
 
-    #             # Remove current vertex from parent.
-    #             self.edges[parent].remove(curr_vertex_of_parent)
+                # Remove current vertex from parent.
+                self.edges[parent].remove(curr_vertex_of_parent)
 
-    #             removed_vertices.add(vertex)
+                removed_vertices.add(vertex)
 
-    #     self._delete_nodes(removed_vertices)
+        self._delete_nodes(removed_vertices)
 
     def convert_to_weighted(self) -> None:
         """Turn a graph that is not weighted into a weighted one."""
@@ -277,60 +279,44 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
 
         self.weights = weights
 
-    # def _delete_nodes(self, removed_nodes: Set[int]) -> None:
-    #     """
-    #     Given a set of nodes to delete, update the graph.
+    def _delete_nodes(self, removed_nodes: Set[int]) -> None:
+        """
+        Given a set of nodes to delete, update the graph.
 
-    #     Note that this requires renaming nodes in the graph since the nodes are
-    #     supposed to be in sequence (0, ..., n).
-    #     """
-    #     # First, we have to figure out what each node will map to in the new graph.
-    #     node_mapping: Dict[int, int] = dict()
-    #     removed_count = 0
-    #     for vertex in self.vertices():
-    #         if vertex in removed_nodes:
-    #             removed_count += 1
-    #             continue
+        Note that this requires renaming nodes in the graph since the nodes are
+        supposed to be in sequence (0, ..., n).
+        """
+        # First, we have to figure out what each node will map to in the new graph.
+        node_mapping: Dict[int, int] = dict()
+        removed_count = 0
+        for vertex in self.vertices():
+            if vertex in removed_nodes:
+                removed_count += 1
+                continue
 
-    #         node_mapping[vertex] = vertex - removed_count
+            node_mapping[vertex] = vertex - removed_count
 
-    #     # Figure out what the new edges should be.
-    #     new_edges: List[List[int]] = []
-    #     for vertex in self.vertices():
-    #         if vertex in removed_nodes:
-    #             continue
+        # Figure out what the new edges should be.
+        new_edges: List[List[int]] = []
+        for vertex in self.vertices():
+            if vertex in removed_nodes:
+                continue
 
-    #         children = self.edges[vertex]
-    #         if self.weights is not None:
-    #             new_edge: List[int] = []
-    #             for child in children:
-    #                 child_node = child[0]
-    #                 child_weight = child[1]
-    #                 node_one: int = node_mapping[child_node]
-    #                 new_edge = [node_one, child_weight]
-    #                 new_edges.append(new_edge)
-    #         else:
-    #             new_edges += [[node_mapping[child] for child in children]]
+            children = self.edges[vertex]
+            new_edges += [[node_mapping[child] for child in children]]
 
-    #     self.edges = new_edges
-    #     self.start_node = node_mapping[self.start_node]
-    #     self.end_node = node_mapping[self.end_node]
+        self.edges = new_edges
+        self.start_node = node_mapping[self.start_node]
+        self.end_node = node_mapping[self.end_node]
 
     def adjacency_matrix(self) -> np.ndarray:
-        """Obtain the adjacency matrix represnetation of the graph."""
+        """Obtain the adjacency matrix representation of the graph, ignoring weights."""
         adj_mat = np.zeros((self.num_vertices, self.num_vertices), dtype=np.int8)
         for vertex in range(self.num_vertices):
             vertex_one = self.node_to_index(vertex)
             for vertex_two in self.edges[vertex]:
-                # TODO
-                # if self.weights is not None:
-                #     weight = vertex_two[1]
-                #     vertex_two = vertex_two[0]
-                # else:
-                weight = 1
-
                 vertex_two = self.node_to_index(vertex_two)
-                adj_mat[vertex_one][vertex_two] = weight
+                adj_mat[vertex_one][vertex_two] = 1
 
         return adj_mat
 
@@ -415,8 +401,8 @@ class EdgeListGraph(GenericGraph[EdgeListType], Graph):
 
     def __init__(self, edges: EdgeListType, num_vertices: int):
         """Create a new graph from a list of edges."""
-        self.weights: Optional[List[int]]
-        super().__init__(edges, num_vertices)
+        self.weights: Optional[List[int]] = None
+        GenericGraph.__init__(self, edges, num_vertices)
 
     def dot(self) -> str:
         """Generate a dot file representation of the graph."""
@@ -452,24 +438,13 @@ class EdgeListGraph(GenericGraph[EdgeListType], Graph):
         return adj_mat
 
     def adjacency_list(self) -> AdjListType:
-        """Compute the adjacency list representation of a graph."""
-        if self.weights is not None:
-            # TODO
-            v_e_dict: AdjListType = [[] for _ in self.vertices()]
-        else:
-            v_e_dict_2: AdjListType = [[] for _ in self.vertices()]
+        """Compute the adjacency list representation of a graph ignoring weights."""
+        v_e_dict: AdjListType = [[] for _ in self.vertices()]
 
         for vertex_one, vertex_two in self.edge_rules():
-            if self.weights is not None:
-                # weight = edge[2] TODO
-                v_e_dict[vertex_one].append(vertex_two)
-            else:
-                v_e_dict_2[vertex_one].append(vertex_two)
+            v_e_dict[vertex_one].append(vertex_two)
 
-        if self.weights is not None:
-            return v_e_dict
-
-        return v_e_dict_2
+        return v_e_dict
 
     def update_with_edge(self, match: Match[str]) -> None:
         """Create new edges when the current line in the dot file is an edge."""
@@ -487,7 +462,7 @@ class AdjMatGraph(GenericGraph[np.ndarray], Graph):
     def __init__(self, adj_mat: np.ndarray, num_vertices: int):
         """Create a new graph from an adjacency matrix."""
         self.weighted: bool = False
-        super().__init__(adj_mat, num_vertices)
+        GenericGraph.__init__(self, adj_mat, num_vertices)
 
     def edge_count(self) -> int:
         """Get the number of edges in the graph."""

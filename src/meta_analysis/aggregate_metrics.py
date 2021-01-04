@@ -28,19 +28,21 @@ class MetricsComparer:
     """Allows the comparison between different metrics such as NPath and APC."""
 
     def __init__(self, metrics_dict: MetricsDict) -> None:
-        """TODO."""
+        """Create a new instance of the MetricsComparer."""
         self.metrics_dict = metrics_dict
         self.metric_names = [x.name() for x in Controller(Log()).metrics_generators]
         aggregate_metrics = self.aggregate()
         self.counter_dict = self.counter(aggregate_metrics)
 
     def aggregate(self) -> Dict[Tuple[str, str], AggregateMetricsDict]:
-        """TODO."""
+        """For each (metric name 1, metric name 2), map each 'metric 1 val' -> [metric 2 vals]."""
+        # Create an empty dictionary that can be used to store the results.
         aggregate_metrics: Dict[Tuple[str, str], AggregateMetricsDict] = {}
         for metric_name_one, metric_name_two in combinations(self.metric_names, 2):
             aggregate_metrics[(metric_name_one, metric_name_two)] = defaultdict(list)
             aggregate_metrics[(metric_name_two, metric_name_one)] = defaultdict(list)
 
+        # Populate the dictionary with the metric result.
         for metric_vals in self.metrics_dict.values():
             for metric_pair in combinations(metric_vals, 2):
                 metric_one_name, metric_one_val = metric_pair[0]
@@ -54,7 +56,7 @@ class MetricsComparer:
                                               AggregateMetricsDict]) -> \
             Dict[Tuple[str, str],
                  Dict[MetricRes, typing.Counter[MetricRes]]]:
-        """TODO."""
+        """Create a dict that stores the discrete conditional distributions of each metric pair."""
         counter_dict = {}
         for agg_metrics_key, agg_metrics_dict in aggregate_metrics.items():
             tmp: Dict[MetricRes, typing.Counter[MetricRes]] = {}
@@ -66,7 +68,7 @@ class MetricsComparer:
 
 
 def test_analysis() -> None:
-    """TODO."""
+    """Analyze metric results from test C files."""
     command = Command(curr_path="", debug_mode=False,
                       multi_threaded=False, repl_wrapper=None)
     command.do_convert("/app/code/tests/cFiles/*")

@@ -11,6 +11,8 @@ from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.graph import (AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph,
                          EdgeListType, Graph)
 
+# pylint: disable=no-member
+
 
 class TestGraphGetters(unittest.TestCase):
     """Test Graph getter methods."""
@@ -278,15 +280,3 @@ class TestGraph(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file:
             to_write = ''.join(graph.to_prism())
             file.write(str.encode(to_write))
-
-    def test_to_prism_normal_graph(self) -> None:
-        """Test if we can convert a Graph with many vertices and many edges to a PRISM file."""
-        graph = AdjListGraph(cast(AdjListType, [[], []]), 2)
-        graph.convert_to_weighted()
-        with tempfile.NamedTemporaryFile() as file:
-            to_write = ''.join(graph.to_prism())
-            file.write(str.encode(to_write))
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -5,6 +5,12 @@ lint:
 	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
 	find . -type f -name "*.py" | xargs pylint --rcfile=config/pylintrc -r n -f parseable # Linting.
 
+fast-lint:
+	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
+	find . -type f -name "*.py" | xargs mypy --config-file=./config/.mypy.ini # Type checking.
+	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
+	find . -type f -name "*.py" | xargs pylint --rcfile=config/pylintrc -r n -f parseable # Linting.
+
 tests:
 	python tests/test_command.py       
 	python tests/test_cpp.py

@@ -11,6 +11,7 @@ from tests.unit_utils import captured_output
 
 # pylint does not understand decorators :(
 # pylint: disable=no-value-for-parameter
+# pylint: disable=W0511
 
 
 class TestController(unittest.TestCase):

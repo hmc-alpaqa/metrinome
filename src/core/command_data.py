@@ -111,6 +111,22 @@ class Data:
         else:
             self.logger.e_msg(f"No {str(ObjTypes.KLEE_BC).capitalize()} {name} found.")
 
+    def _export_single_klee_stat(self, name: str, new_name: str) -> None:
+        """Create a new file from an existing klee stat."""
+        with open(f"/app/code/exports/{new_name}_kleestat.c", "w+") as file:
+            file.write(str(self.klee_stats[name]))
+            self.logger.i_msg(f"Made file {new_name}_kleestat.c in /app/code/exports/.")
+
+    def export_klee_stats(self, name: str, new_name: str) -> None:
+        """Save a file containing the results from KLEE."""
+        if name in self.klee_stats:
+            self._export_single_klee_stat(name, new_name)
+        elif name == "*":
+            for klee_stat_name in self.klee_stats:
+                self._export_single_klee_stat(klee_stat_name, klee_stat_name)
+        else:
+            self.logger.e_msg(f"No {str(ObjTypes.KLEE_STATS).capitalize()} {name} found.")
+
     def export_klee_file(self, name: str, new_name: str) -> None:
         """Save a Klee formatted file the REPL knows about."""
         if name in self.klee_formatted_files:

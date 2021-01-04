@@ -7,7 +7,7 @@ import numpy as np  # type: ignore
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph as CFG
-from graph.graph import AdjListGraph, AdjListType
+from graph.graph import AdjListGraph, AdjListType, EdgeListGraph
 from metric.cyclomatic_complexity import CyclomaticComplexity
 
 
@@ -27,7 +27,7 @@ class TestCyclomaticComplexity(unittest.TestCase):
         """
         edges = [[0, 1], [1, 2], [3, 4]]
         vertices = 5
-        graph = CFG(AdjListGraph(edges, vertices))
+        graph = CFG(EdgeListGraph(edges, vertices))
         result = CyclomaticComplexity(Log()).evaluate(graph)
         expected_result = 3 - 5 + 2  # edges - nodes + 2
         self.assertEqual(result, expected_result)
