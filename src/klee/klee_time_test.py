@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 
 from core.log import Log
-from klee.klee_utils import KleeUtils, parse_klee
+from klee.klee_utils import KleeOutputPreferencesInfo, KleeUtils, parse_klee
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -19,10 +19,6 @@ KleeOutputInfo = Tuple[Optional[int],
                        Optional[int],
                        Optional[int],
                        float, float, float]
-KleeOutputPreferencesInfo = Tuple[Optional[int],
-                                  Optional[int],
-                                  Optional[int],
-                                  float, float, float, float]
 
 
 def klee_with_time(file_name: str, output_name: str,
@@ -57,9 +53,6 @@ def get_stats_dict(stats_decoded: List[str],
     return stats_dict
 
 
-# def klee_compare_time(file_name: str, preferences: List[str], depths: List[str],
-#                  inputs: List[str], function: str,
-#                  remove: bool = True) -> KleeCompareResults:
 def klee_compare_time(file_name: str, preferences: List[str],
                       max_times: List[str], function: str,
                       remove: bool = True) -> KleeCompareResults:
@@ -119,9 +112,6 @@ def create_pandas_time(results: KleeCompareResults, preference: str,
     return pd.DataFrame(data, index=index, columns=fields)
 
 
-# def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
-#                         preferences: List[str],
-#                         fields: List[str], inputs: List[str]) -> None:
 def run_klee_time(func: str, array_size: int,
                   max_times: List[str], preferences: List[str],
                   fields: List[str]) -> None:
@@ -153,32 +143,15 @@ def main() -> None:
     For each function, runs Klee once with each maximum depth,
     saves the data as a csv, and creates a graph for each field.
     """
-    max_times = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
-    # max_times = ["1","2"]
-    preferences = ["--dump-states-on-halt=false"]
-    # max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
-    #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
-    #               '100']
-    # max_depths = ['1', '2']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"]
-    array_size = 100
-
-    # functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
-    #              '16_binary_search', '12_check_sorted_array', '11_array_max',
-    #              '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
-    #              '19_longest_common_increasing_subsequence', '14_lexicographic_array_compare',
-    #              '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
-    #              '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
-    #              '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
-    #              '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
-    #              '63_three_loops_symbolic_bounds']
-    functions = ["32_newtons_method"]
-
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames_time/",
                    shell=True, check=False)
+    functions = ["32_newtons_method"]
     for func in functions:
-        run_klee_time(func, array_size, max_times, preferences, fields)
+        run_klee_time(func, array_size=100,
+                      max_times=list(map(str, range(1, 16))),
+                      preferences=["--dump-states-on-halt=false"], fields=fields)
 
 
 if __name__ == "__main__":

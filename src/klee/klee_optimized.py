@@ -18,10 +18,6 @@ KleeOutputInfo = Tuple[Optional[int],
                        Optional[int],
                        Optional[int],
                        float, float, float]
-KleeOutputPreferencesInfo = Tuple[Optional[int],
-                                  Optional[int],
-                                  Optional[int],
-                                  float, float, float, float]
 
 
 # pylint: disable=too-many-arguments
