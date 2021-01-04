@@ -2,14 +2,12 @@
 
 import re
 import subprocess
-import time
 import uuid
 from collections import defaultdict
 from subprocess import PIPE
-from typing import (Callable, DefaultDict, Dict, List, Optional, Set, Tuple,
-                    Union)
+from time import time
+from typing import DefaultDict, Dict, List, Optional, Set, Tuple, Union
 
-import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 from pycparser import c_ast, c_generator, parse_file  # type: ignore
 
@@ -22,41 +20,47 @@ KleeCompareResults = Dict[Tuple[str, str, str],
                           Dict[str, Optional[Union[float, int]]]]
 KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
                                   float, float, float, float]
-KleeExperiment = Callable[[str, int, List[str], List[str], List[str], List[str]], None]
 
 
-plt.rcParams["figure.figsize"] = (10, 10)
+def klee_with_preferences(file_name: str, output_name: str, preferences: str, max_depth: str,
+                          input_: str) -> KleeOutputPreferencesInfo:
+    """Run and Klee with specified parameters and return several statistics."""
+    with open(file_name, "rb+"):
+        timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
+
+        cmd_params = f"-output-dir={output_name} -max-depth {max_depth}"
+        cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name} {input_}"
+        start_time = time()
+        res = subprocess.run(timeconfig + cmd, shell=True, check=False,
+                             executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
+        final_time = time() - start_time
+        parsed = parse_klee(res.stderr.decode())
+        return (*parsed, final_time)
+
+
+def parse_klee(klee_output: str) -> KleeOutputInfo:
+    """Parse output from running Klee."""
+    strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
+    str_indicies = [klee_output.index(str_to_match) + len(str_to_match)
+                    for str_to_match in strs_to_match]
+
+    times = klee_output[klee_output.index("real"):].split()
+    real, user, sys = float(times[1][:-1]), float(times[3][:-1]), float(times[5][:-1])
+
+    number_regex = re.compile("[0-9]+")
+    str_matches = [number_regex.match(klee_output[str_idx:]) for str_idx in str_indicies]
+
+    tests = int(str_matches[0].group()) if str_matches[0] is not None else None
+    paths = int(str_matches[1].group()) if str_matches[1] is not None else None
+    insts = int(str_matches[2].group()) if str_matches[2] is not None else None
+
+    return tests, paths, insts, real, user, sys
 
 
 def klee_command(bcname: str, new_name: str) -> str:
     """Get the KLEE command as a string."""
     return f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
              -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
-
-
-# pylint: disable=too-many-arguments
-def graph_stat(func: str, preference: str, max_depths: List[str],
-               inputs: List[str], results: KleeCompareResults,
-               results2: Optional[KleeCompareResults], field: str) -> None:
-    """Create and save a graph for a certain statistic on a Klee experiment."""
-    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/",
-                   shell=True, check=False)
-    fig1, ax1 = plt.subplots()
-    depths = [float(i) for i in max_depths]
-    for input_ in inputs:
-        stats = [results[(preference, i, input_)][field] for i in max_depths]
-        ax1.plot(depths, stats, label=func)
-        if results2 is not None:
-            stats2 = [results2[(preference, i, input_)][field] for i in max_depths]
-            ax1.plot(depths, stats2, label=func + " optimized")
-
-    ax1.set(xlabel='depth', ylabel=field, title=func)
-    ax1.legend()
-    ax1.grid()
-
-    algs_path = "/app/code/tests/cFiles/fse_2020_benchmark"
-    fig1.savefig(f"{algs_path}/graphs/{field}_{func}.png".replace("%", "percent"))
-    plt.close(fig1)
 
 
 def get_functions_list() -> List[str]:
@@ -92,88 +96,6 @@ def get_stats_dict(stats_decoded: List[str],
         stats_dict["PythonTime"] = results
 
     return stats_dict
-
-
-# pylint: disable=too-many-locals
-def klee_compare(file_name: str, preferences: List[str], depths: List[str],
-                 inputs: List[str], function: str, remove: bool = True) -> KleeCompareResults:
-    """
-    Run Klee on a certain function.
-
-    Run Klee on the function with a variety of depths and preferences,
-    and return the results as a dictionary of dictionaries.
-    """
-    results_dict = {}
-    for preference in preferences:
-        for depth in depths:
-            for input_ in inputs:
-                algs_path = "/app/code/tests/cFiles/fse_2020_benchmark/klee"
-                output_file = f"{algs_path}_{preference}_{depth}_{input_}_{function}_output"
-                output_file = output_file.replace(" ", "_")
-                results = klee_with_preferences(file_name, output_file, preference, depth, input_)
-                stats_params = "--table-format=simple --print-all"
-                stats = subprocess.run(f"{Env.KLEE_PATH}-stats {stats_params} {output_file}",
-                                       shell=True, stdout=PIPE, stderr=PIPE, check=True)
-                if remove:
-                    subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
-                else:
-                    subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done",
-                                   shell=True, check=True)
-                stats_decoded = stats.stdout.decode().split("\n")
-                results_dict[(preference, depth, input_)] = get_stats_dict(stats_decoded, results)
-
-    return results_dict
-
-
-def klee_with_preferences(file_name: str, output_name: str, preferences: str, max_depth: str,
-                          input_: str) -> KleeOutputPreferencesInfo:
-    """Run and Klee with specified parameters and return several statistics."""
-    with open(file_name, "rb+"):
-        timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
-
-        cmd_params = f"-output-dir={output_name} -max-depth {max_depth}"
-        cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name} {input_}"
-        start_time = time.time()
-        res = subprocess.run(timeconfig + cmd, shell=True, check=False,
-                             executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
-        final_time = time.time() - start_time
-        parsed = parse_klee(res.stderr.decode())
-        return (*parsed, final_time)
-
-
-def parse_klee(klee_output: str) -> KleeOutputInfo:
-    """Parse output from running Klee."""
-    strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
-    str_indicies = [klee_output.index(str_to_match) + len(str_to_match)
-                    for str_to_match in strs_to_match]
-
-    times = klee_output[klee_output.index("real"):].split()
-    real, user, sys = float(times[1][:-1]), float(times[3][:-1]), float(times[5][:-1])
-
-    number_regex = re.compile("[0-9]+")
-    str_matches = [number_regex.match(klee_output[str_idx:]) for str_idx in str_indicies]
-
-    tests = int(str_matches[0].group()) if str_matches[0] is not None else None
-    paths = int(str_matches[1].group()) if str_matches[1] is not None else None
-    insts = int(str_matches[2].group()) if str_matches[2] is not None else None
-
-    return tests, paths, insts, real, user, sys
-
-
-def run_experiment(preferences: str, max_depths: List[str],
-                   klee_experiment: KleeExperiment) -> None:
-    """
-    Run a Klee experiment.
-
-    For each function, runs Klee once with each maximum depth,
-    saves the data as a csv, and creates a graph for each field.
-    """
-    fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
-              "SysTime", "PythonTime"]
-    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
-                   shell=True, check=False)
-    for func in get_functions_list():
-        klee_experiment(func, 100, max_depths, [preferences], fields, [""])
 
 
 class FuncVisitor(c_ast.NodeVisitor):

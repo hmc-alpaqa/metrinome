@@ -69,9 +69,8 @@ def graph_stat_time(func: str, preference: str, max_times: List[str], results: K
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs_time/",
                    shell=True, check=False)
     fig1, ax1 = plt.subplots()
-    depths = [float(i) for i in max_times]
     stats = [results[(preference, i)][field] for i in max_times]
-    ax1.plot(depths, stats, label=func)
+    ax1.plot([float(i) for i in max_times], stats, label=func)
     ax1.set(xlabel='time', ylabel=field, title=func)
     ax1.legend()
     ax1.grid()
@@ -84,10 +83,9 @@ def graph_stat_time(func: str, preference: str, max_times: List[str], results: K
 def create_pandas_time(results: KleeCompareResults, preference: str,
                        max_times: List[str], fields: List[str]) -> pd.DataFrame:
     """Create a pandas dataframe from the results of a Klee experiment."""
-    index = [f'max time {i}' for i in max_times]
     data = [[results[(preference, max_time)][field] for field in fields]
             for max_time in max_times]
-    return pd.DataFrame(data, index=index, columns=fields)
+    return pd.DataFrame(data, index=[f'max time {i}' for i in max_times], columns=fields)
 
 
 def run_klee_time(func: str, array_size: int, max_times: List[str], preferences: List[str],
@@ -97,35 +95,14 @@ def run_klee_time(func: str, array_size: int, max_times: List[str], preferences:
     output = KleeUtils(Log()).show_func_defs(filename, size=array_size)
 
     for i in output:
-        func_actual = func + f"_{i}"
-        new_name = f"/app/code/tests/cFiles/fse_2020_benchmark/{func_actual}.c"
-        bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func_actual}.bc"
+        new_name = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.c"
+        bcname = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}_{i}.bc"
         with open(new_name, "w+") as file:
             file.write(output[i])
         subprocess.run(klee_command(bcname, new_name), shell=True, capture_output=True, check=True)
-        results = klee_compare_time(bcname, preferences, max_times, func_actual)
+        results = klee_compare_time(bcname, preferences, max_times, f"{func}_{i}")
         results_frame = create_pandas_time(results, preferences[0], max_times, fields)
-        filename = f'/app/code/tests/cFiles/fse_2020_benchmark/frames_time/{func_actual}.csv'
+        filename = f'/app/code/tests/cFiles/fse_2020_benchmark/frames_time/{func}_{i}.csv'
         results_frame.to_csv(filename)
         for field in fields:
-            graph_stat_time(func_actual, preferences[0], max_times, results, field)
-
-
-def main() -> None:
-    """
-    Run a Klee experiment.
-
-    For each function, runs Klee once with each maximum depth,
-    saves the data as a csv, and creates a graph for each field.
-    """
-    fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
-              "SysTime", "PythonTime"]
-    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames_time/",
-                   shell=True, check=False)
-    run_klee_time("32_newtons_method", array_size=100,
-                  max_times=list(map(str, range(1, 16))),
-                  preferences=["--dump-states-on-halt=false"], fields=fields)
-
-
-if __name__ == "__main__":
-    main()
+            graph_stat_time(f"{func}_{i}", preferences[0], max_times, results, field)
