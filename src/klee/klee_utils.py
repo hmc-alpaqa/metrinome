@@ -8,6 +8,7 @@ from collections import defaultdict
 from subprocess import PIPE
 from typing import DefaultDict, Dict, List, Optional, Set, Tuple, Union
 
+import pandas as pd  # type: ignore
 from pycparser import c_ast, c_generator, parse_file  # type: ignore
 
 from core.log import Log
@@ -22,6 +23,15 @@ KleeOutputPreferencesInfo = Tuple[Optional[int],
                                   Optional[int],
                                   Optional[int],
                                   float, float, float, float]
+
+
+def create_pandas(results: KleeCompareResults, preference: str, input_: str,
+                  max_depths: List[str], fields: List[str]) -> pd.DataFrame:
+    """Create a pandas dataframe from the results of a Klee experiment."""
+    index = [f'max depth {i}' for i in max_depths]
+    data = [[results[(preference, depth, input_)][field] for field in fields]
+            for depth in max_depths]
+    return pd.DataFrame(data, index=index, columns=fields)
 
 
 # pylint: disable=too-many-locals

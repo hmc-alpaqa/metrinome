@@ -4,10 +4,9 @@ import subprocess
 from typing import Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt  # type: ignore
-import pandas as pd  # type: ignore
 
 from core.log import Log
-from klee.klee_utils import KleeUtils, klee_compare
+from klee.klee_utils import KleeUtils, create_pandas, klee_compare
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -46,15 +45,6 @@ def graph_stat(func: str, preference: str, max_depths: List[str],
     algs_path = "/app/code/tests/cFiles/fse_2020_benchmark"
     fig1.savefig(f"{algs_path}/graphs/{field}_{func}.png".replace("%", "percent"))
     plt.close(fig1)
-
-
-def create_pandas(results: KleeCompareResults, preference: str, input_: str,
-                  max_depths: List[str], fields: List[str]) -> pd.DataFrame:
-    """Create a pandas dataframe from the results of a Klee experiment."""
-    index = [f'max depth {i}' for i in max_depths]
-    data = [[results[(preference, depth, input_)][field] for field in fields]
-            for depth in max_depths]
-    return pd.DataFrame(data, index=index, columns=fields)
 
 
 # pylint: disable=too-many-locals
@@ -118,7 +108,7 @@ def main() -> None:
                  '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
                  '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
                  '63_three_loops_symbolic_bounds']
-    # functions = ['04_prime', '05_parity']
+
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
                    shell=True, check=False)
     for func in functions:
