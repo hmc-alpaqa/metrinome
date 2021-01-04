@@ -8,28 +8,50 @@ from collections import defaultdict
 from subprocess import PIPE
 from typing import DefaultDict, Dict, List, Optional, Set, Tuple, Union
 
+import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 from pycparser import c_ast, c_generator, parse_file  # type: ignore
 
 from core.log import Log
 
-KleeOutputInfo = Tuple[Optional[int],
-                       Optional[int],
-                       Optional[int],
+KleeOutputInfo = Tuple[Optional[int], Optional[int], Optional[int],
                        float, float, float]
 KleeCompareResults = Dict[Tuple[str, str, str],
                           Dict[str, Optional[Union[float, int]]]]
-KleeOutputPreferencesInfo = Tuple[Optional[int],
-                                  Optional[int],
-                                  Optional[int],
+KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
                                   float, float, float, float]
+
+
+# pylint: disable=too-many-arguments
+def graph_stat(func: str, preference: str, max_depths: List[str],
+               inputs: List[str], results: KleeCompareResults,
+               results2: Optional[KleeCompareResults], field: str) -> None:
+    """Create and save a graph for a certain statistic on a Klee experiment."""
+    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/",
+                   shell=True, check=False)
+    fig1, ax1 = plt.subplots()
+    depths = [float(i) for i in max_depths]
+    for input_ in inputs:
+        stats = [results[(preference, i, input_)][field] for i in max_depths]
+        ax1.plot(depths, stats, label=func)
+        if results2 is not None:
+            stats2 = [results2[(preference, i, input_)][field] for i in max_depths]
+            ax1.plot(depths, stats2, label=func + " optimized")
+
+    ax1.set(xlabel='depth', ylabel=field, title=func)
+    ax1.legend()
+    ax1.grid()
+
+    algs_path = "/app/code/tests/cFiles/fse_2020_benchmark"
+    fig1.savefig(f"{algs_path}/graphs/{field}_{func}.png".replace("%", "percent"))
+    plt.close(fig1)
 
 
 def get_functions_list() -> List[str]:
     """Get a list of all file names used for testing klee."""
     return ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
-            '16_binary_search', '12_check_sorted_array', '11_array_max',
-            '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
+            '16_binary_search', '12_check_sorted_array', '11_array_max', '10_find_val_in_array',
+            '13_check_arrays_equal', '15_check_heap_order',
             '19_longest_common_increasing_subsequence', '14_lexicographic_array_compare',
             '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
             '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
@@ -49,8 +71,7 @@ def create_pandas(results: KleeCompareResults, preference: str, input_: str,
 
 # pylint: disable=too-many-locals
 def klee_compare(file_name: str, preferences: List[str], depths: List[str],
-                 inputs: List[str], function: str,
-                 remove: bool = True) -> KleeCompareResults:
+                 inputs: List[str], function: str, remove: bool = True) -> KleeCompareResults:
     """
     Run Klee on a certain function.
 
@@ -86,9 +107,8 @@ def klee_compare(file_name: str, preferences: List[str], depths: List[str],
     return results_dict
 
 
-def klee_with_preferences(file_name: str, output_name: str,
-                          preferences: str,
-                          max_depth: str, input_: str) -> KleeOutputPreferencesInfo:
+def klee_with_preferences(file_name: str, output_name: str, preferences: str, max_depth: str,
+                          input_: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
         klee_path = "/app/build/bin/klee"

@@ -15,14 +15,9 @@ plt.rcParams["figure.figsize"] = (10, 10)
 
 KleeCompareResults = Dict[Tuple[str, str],
                           Dict[str, Optional[Union[float, int]]]]
-KleeOutputInfo = Tuple[Optional[int],
-                       Optional[int],
-                       Optional[int],
-                       float, float, float]
 
 
-def klee_with_time(file_name: str, output_name: str,
-                   preferences: str,
+def klee_with_time(file_name: str, output_name: str, preferences: str,
                    max_time: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
@@ -53,8 +48,7 @@ def get_stats_dict(stats_decoded: List[str],
     return stats_dict
 
 
-def klee_compare_time(file_name: str, preferences: List[str],
-                      max_times: List[str], function: str,
+def klee_compare_time(file_name: str, preferences: List[str], max_times: List[str], function: str,
                       remove: bool = True) -> KleeCompareResults:
     """
     Run Klee on a certain function.
@@ -84,8 +78,7 @@ def klee_compare_time(file_name: str, preferences: List[str],
     return results_dict
 
 
-def graph_stat_time(func: str, preference: str, max_times: List[str],
-                    results: KleeCompareResults,
+def graph_stat_time(func: str, preference: str, max_times: List[str], results: KleeCompareResults,
                     field: str) -> None:
     """Create and save a graph for a certain statistic on a Klee experiment."""
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs_time/",
@@ -112,8 +105,7 @@ def create_pandas_time(results: KleeCompareResults, preference: str,
     return pd.DataFrame(data, index=index, columns=fields)
 
 
-def run_klee_time(func: str, array_size: int,
-                  max_times: List[str], preferences: List[str],
+def run_klee_time(func: str, array_size: int, max_times: List[str], preferences: List[str],
                   fields: List[str]) -> None:
     """Run the KLEE experiment for a single function."""
     filename = f"/app/code/tests/cFiles/fse_2020_benchmark/{func}.c"
@@ -147,11 +139,9 @@ def main() -> None:
               "SysTime", "PythonTime"]
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames_time/",
                    shell=True, check=False)
-    functions = ["32_newtons_method"]
-    for func in functions:
-        run_klee_time(func, array_size=100,
-                      max_times=list(map(str, range(1, 16))),
-                      preferences=["--dump-states-on-halt=false"], fields=fields)
+    run_klee_time("32_newtons_method", array_size=100,
+                  max_times=list(map(str, range(1, 16))),
+                  preferences=["--dump-states-on-halt=false"], fields=fields)
 
 
 if __name__ == "__main__":

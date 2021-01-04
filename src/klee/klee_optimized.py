@@ -1,47 +1,15 @@
 """Script for running Klee on a series of functions and saving data."""
 
 import subprocess
-from typing import Dict, List, Optional, Tuple, Union
+from typing import List
 
 import matplotlib.pyplot as plt  # type: ignore
 
 from core.log import Log
 from klee.klee_utils import (KleeUtils, create_pandas, get_functions_list,
-                             klee_compare)
+                             graph_stat, klee_compare)
 
 plt.rcParams["figure.figsize"] = (10, 10)
-
-
-KleeCompareResults = Dict[Tuple[str, str, str],
-                          Dict[str, Optional[Union[float, int]]]]
-KleeOutputInfo = Tuple[Optional[int],
-                       Optional[int],
-                       Optional[int],
-                       float, float, float]
-
-
-# pylint: disable=too-many-arguments
-def graph_stat(func: str, preference: str, max_depths: List[str],
-               inputs: List[str], results: KleeCompareResults, results2: KleeCompareResults,
-               field: str) -> None:
-    """Create and save a graph for a certain statistic on a Klee experiment."""
-    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/",
-                   shell=True, check=False)
-    fig1, ax1 = plt.subplots()
-    depths = [float(i) for i in max_depths]
-    for input_ in inputs:
-        stats = [results[(preference, i, input_)][field] for i in max_depths]
-        ax1.plot(depths, stats, label=func)
-        stats2 = [results2[(preference, i, input_)][field] for i in max_depths]
-        ax1.plot(depths, stats2, label=func + " optimized")
-
-    ax1.set(xlabel='depth', ylabel=field, title=func)
-    ax1.legend()
-    ax1.grid()
-
-    algs_path = "/app/code/tests/cFiles/fse_2020_benchmark"
-    fig1.savefig(f"{algs_path}/graphs/{field}_{func}.png".replace("%", "percent"))
-    plt.close(fig1)
 
 
 # pylint: disable=too-many-locals
@@ -87,21 +55,15 @@ def main() -> None:
     For each function, runs Klee once with each maximum depth,
     saves the data as a csv, and creates a graph for each field.
     """
-    preferences = ["--dump-states-on-halt=false --max-time=5min"]
-    max_depths = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
-                  '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
-                  '100']
-    max_depths = ['1', '2', '3', '4']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"]
-    inputs = [""]
-    array_size = 100
     functions = get_functions_list()
-
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
                    shell=True, check=False)
     for func in functions:
-        run_klee_experiment(func, array_size, max_depths, preferences, fields, inputs)
+        run_klee_experiment(func, array_size=100, max_depths=['1', '2', '3', '4'],
+                            preferences=["--dump-states-on-halt=false --max-time=5min"],
+                            fields=fields, inputs=[""])
 
 
 if __name__ == "__main__":
