@@ -3,13 +3,9 @@
 import subprocess
 from typing import List
 
-import matplotlib.pyplot as plt  # type: ignore
-
 from core.log import Log
 from klee.klee_utils import (KleeUtils, create_pandas, graph_stat,
                              klee_compare, run_experiment)
-
-plt.rcParams["figure.figsize"] = (10, 10)
 
 
 # pylint: disable=too-many-locals
@@ -50,7 +46,7 @@ def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
 
 def main() -> None:
     """Run the klee experiment."""
-    run_experiment(["--dump-states-on-halt=false --max-time=5min"], ['1', '2', '3', '4'],
+    run_experiment("--dump-states-on-halt=false --max-time=5min", ['1', '2', '3', '4'],
                    run_klee_experiment)
 
 

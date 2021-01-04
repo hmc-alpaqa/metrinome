@@ -25,6 +25,9 @@ KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
 KleeExperiment = Callable[[str, int, List[str], List[str], List[str], List[str]], None]
 
 
+plt.rcParams["figure.figsize"] = (10, 10)
+
+
 # pylint: disable=too-many-arguments
 def graph_stat(func: str, preference: str, max_depths: List[str],
                inputs: List[str], results: KleeCompareResults,
@@ -72,6 +75,19 @@ def create_pandas(results: KleeCompareResults, preference: str, input_: str,
     return pd.DataFrame(data, index=index, columns=fields)
 
 
+def get_stats_dict(stats_decoded: List[str],
+                   results: KleeOutputPreferencesInfo) -> Dict[str, Optional[Union[float, int]]]:
+    """Gather the data from Klee into a stats dictionary."""
+    headers = stats_decoded[0].split()[1:]
+    values = map(float, stats_decoded[2].split()[1:])
+    stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
+    stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
+        stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
+        stats_dict["PythonTime"] = results
+
+    return stats_dict
+
+
 # pylint: disable=too-many-locals
 def klee_compare(file_name: str, preferences: List[str], depths: List[str],
                  inputs: List[str], function: str, remove: bool = True) -> KleeCompareResults:
@@ -98,13 +114,7 @@ def klee_compare(file_name: str, preferences: List[str], depths: List[str],
                     subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done",
                                    shell=True, check=True)
                 stats_decoded = stats.stdout.decode().split("\n")
-                headers = stats_decoded[0].split()[1:]
-                values = map(float, stats_decoded[2].split()[1:])
-                stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
-                stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
-                    stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
-                    stats_dict["PythonTime"] = results
-                results_dict[(preference, depth, input_)] = stats_dict
+                results_dict[(preference, depth, input_)] = get_stats_dict(stats_decoded, results)
 
     return results_dict
 
@@ -149,6 +159,22 @@ def parse_klee(klee_output: str) -> KleeOutputInfo:
     return tests, paths, insts, real, user, sys
 
 
+def run_experiment(preferences: str, max_depths: List[str],
+                   klee_experiment: KleeExperiment) -> None:
+    """
+    Run a Klee experiment.
+
+    For each function, runs Klee once with each maximum depth,
+    saves the data as a csv, and creates a graph for each field.
+    """
+    fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
+              "SysTime", "PythonTime"]
+    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
+                   shell=True, check=False)
+    for func in get_functions_list():
+        klee_experiment(func, 100, max_depths, [preferences], fields, [""])
+
+
 class FuncVisitor(c_ast.NodeVisitor):
     """
     Look at a single C function an gather the information for Klee.
@@ -190,22 +216,6 @@ class FuncVisitor(c_ast.NodeVisitor):
                 self.define_var(node.decl.name, self._generator.visit(param), param.name)
         else:
             self._logger.d_msg(f"\t{node.decl.name} has no parameters.")
-
-
-def run_experiment(preferences: List[str], max_depths: List[str],
-                   klee_experiment: KleeExperiment) -> None:
-    """
-    Run a Klee experiment.
-
-    For each function, runs Klee once with each maximum depth,
-    saves the data as a csv, and creates a graph for each field.
-    """
-    fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
-              "SysTime", "PythonTime"]
-    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
-                   shell=True, check=False)
-    for func in get_functions_list():
-        klee_experiment(func, 100, max_depths, preferences, fields, [""])
 
 
 class KleeUtils:

@@ -9,7 +9,8 @@ import pandas as pd  # type: ignore
 
 from core.env import Env
 from core.log import Log
-from klee.klee_utils import KleeOutputPreferencesInfo, KleeUtils, parse_klee
+from klee.klee_utils import (KleeOutputPreferencesInfo, KleeUtils,
+                             get_stats_dict, parse_klee)
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -32,19 +33,6 @@ def klee_with_time(file_name: str, output_name: str, preferences: str,
         final_time = time.time() - start_time
         parsed = parse_klee(res.stderr.decode())
         return (*parsed, final_time)
-
-
-def get_stats_dict(stats_decoded: List[str],
-                   results: KleeOutputPreferencesInfo) -> Dict[str, Optional[Union[float, int]]]:
-    """Gather the data from Klee into a stats dictionary."""
-    headers = stats_decoded[0].split()[1:]
-    values = map(float, stats_decoded[2].split()[1:])
-    stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
-    stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
-        stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
-        stats_dict["PythonTime"] = results
-
-    return stats_dict
 
 
 def klee_compare_time(file_name: str, preferences: List[str], max_times: List[str], function: str,
