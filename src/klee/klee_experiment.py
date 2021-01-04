@@ -56,18 +56,19 @@ def klee_optimized_experiment(func: str, array_size: int, max_depths: List[str],
         results_frame2 = create_pandas(results2, preferences[0], inputs[0], max_depths, fields)
         filename = f'/app/code/tests/cFiles/fse_2020_benchmark/frames/{func}_{j}_optimized.csv'
         results_frame2.to_csv(filename)
+        
         for field in fields:
             graph_stat(func, preferences[0], max_depths, inputs, results, results2, field)
 
 
 def main() -> None:
     """Run the klee experiment."""
+    opts = "--dump-states-on-halt=false --max-time=5min"
     if sys.argv[1] == "optimized":
-        run_experiment("--dump-states-on-halt=false --max-time=5min", ['1', '2', '3', '4'],
-                       klee_optimized_experiment)
+        run_experiment(opts, ['1', '2', '3', '4'], klee_optimized_experiment)
     else:
         max_depths = list(map(str, range(1, 21))) + list(map(str, range(30, 110, 10)))
-        run_experiment("--dump-states-on-halt=false --max-time=5min", max_depths, klee_experiment)
+        run_experiment(opts, max_depths, klee_experiment)
 
 
 if __name__ == "__main__":

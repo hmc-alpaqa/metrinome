@@ -144,23 +144,18 @@ def klee_with_preferences(file_name: str, output_name: str, preferences: str, ma
 def parse_klee(klee_output: str) -> KleeOutputInfo:
     """Parse output from running Klee."""
     strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
-    string_four = "real"
     str_indicies = [klee_output.index(str_to_match) + len(str_to_match)
                     for str_to_match in strs_to_match]
 
-    times = klee_output[klee_output.index(string_four):].split()
+    times = klee_output[klee_output.index("real"):].split()
     real, user, sys = float(times[1][:-1]), float(times[3][:-1]), float(times[5][:-1])
 
     number_regex = re.compile("[0-9]+")
     str_matches = [number_regex.match(klee_output[str_idx:]) for str_idx in str_indicies]
 
-    tests, paths, insts = None, None, None
-    if str_matches[0] is not None:
-        tests = int(str_matches[0].group())
-    if str_matches[1] is not None:
-        paths = int(str_matches[1].group())
-    if str_matches[2] is not None:
-        insts = int(str_matches[2].group())
+    tests = int(str_matches[0].group()) if str_matches[0] is not None else None
+    paths = int(str_matches[1].group()) if str_matches[1] is not None else None
+    insts = int(str_matches[2].group()) if str_matches[2] is not None else None
 
     return tests, paths, insts, real, user, sys
 
