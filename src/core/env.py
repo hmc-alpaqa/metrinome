@@ -15,6 +15,7 @@ class Env:
     TMP_DOT_PATH = join(PROJECT_PATH, "tmp_dot")
     CFG_EXTRACTOR_JAR = join(PROJECT_PATH, 'lang_to_cfg',
                              'javaextractor/cfg_extractor/target/javaextractor.jar')
+    KLEE_PATH = "/app/build/bin/klee"
 
     @staticmethod
     def clean_temps() -> None:

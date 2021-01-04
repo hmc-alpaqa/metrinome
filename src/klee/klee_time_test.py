@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 
 from core.log import Log
+from core.env import Env
 from klee.klee_utils import KleeOutputPreferencesInfo, KleeUtils, parse_klee
 
 plt.rcParams["figure.figsize"] = (10, 10)
@@ -21,17 +22,15 @@ def klee_with_time(file_name: str, output_name: str, preferences: str,
                    max_time: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
-        klee_path = "/app/build/bin/klee"
         timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
 
         cmd_params = f"-output-dir={output_name} --max-time={max_time}min"
-        cmd = f"time {klee_path} {preferences} {cmd_params} {file_name}"
+        cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name}"
         start_time = time.time()
         res = subprocess.run(timeconfig + cmd, shell=True, check=False,
                              executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
         final_time = time.time() - start_time
-        output = res.stderr
-        parsed = parse_klee(output.decode())
+        parsed = parse_klee(res.stderr.decode())
         return (*parsed, final_time)
 
 
@@ -56,7 +55,6 @@ def klee_compare_time(file_name: str, preferences: List[str], max_times: List[st
     Run Klee on the function with a variety of depths and preferences,
     and return the results as a dictionary of dictionaries.
     """
-    klee_path = "/app/build/bin/klee"
     results_dict = {}
     for preference in preferences:
         for max_time in max_times:
@@ -65,7 +63,7 @@ def klee_compare_time(file_name: str, preferences: List[str], max_times: List[st
             output_file = output_file.replace(" ", "_")
             results = klee_with_time(file_name, output_file, preference, max_time)
             stats_params = "--table-format=simple --print-all"
-            stats = subprocess.run(f"{klee_path}-stats {stats_params} {output_file}",
+            stats = subprocess.run(f"{Env.KLEE_PATH}-stats {stats_params} {output_file}",
                                    shell=True, stdout=PIPE, stderr=PIPE, check=True)
             if remove:
                 subprocess.run(f"rm -rf {output_file}", shell=True, check=False)

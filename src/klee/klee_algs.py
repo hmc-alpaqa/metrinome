@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 
 from core.log import Log
+from core.env import Env
 from klee.klee_utils import (KleeCompareResults, KleeOutputPreferencesInfo,
                              KleeUtils, get_functions_list, graph_stat,
                              klee_compare, parse_klee)
@@ -21,17 +22,16 @@ def klee_with_preferences(file_name: str, output_name: str,
                           max_depth: str, input_: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
-        klee_path = "/app/build/bin/klee"
+        
         timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
 
         cmd_params = f"-output-dir={output_name} -max-depth {max_depth}"
-        cmd = f"time {klee_path} {preferences} {cmd_params} {file_name} {input_}"
+        cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name} {input_}"
         start_time = time()
         res = subprocess.run(timeconfig + cmd, shell=True, check=False,
                              executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
         final_time = time() - start_time
-        output = res.stderr
-        parsed = parse_klee(output.decode())
+        parsed = parse_klee(res.stderr.decode())
         return (*parsed, final_time)
 
 
@@ -79,14 +79,13 @@ def main() -> None:
                   '100']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"]
-    inputs = [""]
     array_size = 100
     functions = get_functions_list()
 
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
                    shell=True, check=False)
     for func in functions:
-        run_klee_experiment(func, array_size, max_depths, preferences, fields, inputs)
+        run_klee_experiment(func, array_size, max_depths, preferences, fields=fields, inputs=[""])
 
 
 if __name__ == "__main__":

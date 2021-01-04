@@ -13,6 +13,7 @@ import pandas as pd  # type: ignore
 from pycparser import c_ast, c_generator, parse_file  # type: ignore
 
 from core.log import Log
+from core.env import Env
 
 KleeOutputInfo = Tuple[Optional[int], Optional[int], Optional[int],
                        float, float, float]
@@ -78,7 +79,6 @@ def klee_compare(file_name: str, preferences: List[str], depths: List[str],
     Run Klee on the function with a variety of depths and preferences,
     and return the results as a dictionary of dictionaries.
     """
-    klee_path = "/app/build/bin/klee"
     results_dict = {}
     for preference in preferences:
         for depth in depths:
@@ -88,7 +88,7 @@ def klee_compare(file_name: str, preferences: List[str], depths: List[str],
                 output_file = output_file.replace(" ", "_")
                 results = klee_with_preferences(file_name, output_file, preference, depth, input_)
                 stats_params = "--table-format=simple --print-all"
-                stats = subprocess.run(f"{klee_path}-stats {stats_params} {output_file}",
+                stats = subprocess.run(f"{Env.KLEE_PATH}-stats {stats_params} {output_file}",
                                        shell=True, stdout=PIPE, stderr=PIPE, check=True)
                 if remove:
                     subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
@@ -111,17 +111,15 @@ def klee_with_preferences(file_name: str, output_name: str, preferences: str, ma
                           input_: str) -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
-        klee_path = "/app/build/bin/klee"
         timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
 
         cmd_params = f"-output-dir={output_name} -max-depth {max_depth}"
-        cmd = f"time {klee_path} {preferences} {cmd_params} {file_name} {input_}"
+        cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name} {input_}"
         start_time = time.time()
         res = subprocess.run(timeconfig + cmd, shell=True, check=False,
                              executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
         final_time = time.time() - start_time
-        output = res.stderr
-        parsed = parse_klee(output.decode())
+        parsed = parse_klee(res.stderr.decode())
         return (*parsed, final_time)
 
 
@@ -159,15 +157,15 @@ class FuncVisitor(c_ast.NodeVisitor):
 
     def __init__(self, logger: Log) -> None:
         """Create a new instance of FuncVisitor."""
-        self.logger = logger
+        self._logger = logger
         self._generator = c_generator.CGenerator()
-        self.vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
-        self.types: DefaultDict[str, str] = defaultdict(str)
+        self._vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
+        self._types: DefaultDict[str, str] = defaultdict(str)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str) -> None:
         """Look at a single variable declaration in the C code."""
-        self.vars[name].append((f"{declaration};\n", varname))
+        self._vars[name].append((f"{declaration};\n", varname))
 
     # pylint: disable=C0103
     # disable invalid-name as this name is required by the library.
@@ -181,15 +179,15 @@ class FuncVisitor(c_ast.NodeVisitor):
         # Node is a pycparser.c_ast.funcdef
         args = node.decl.type.args  # type ParamList.
         return_type = node.decl.type.type.type.names[0]
-        self.logger.i_msg(f"Looking at {node.decl.name}()")
-        self.types[node.decl.name] = return_type
+        self._logger.i_msg(f"Looking at {node.decl.name}()")
+        self._types[node.decl.name] = return_type
         if args is not None:
             params = args.params  # List of TypeDecl.
             for i, param in enumerate(params):
-                self.logger.d_msg(f"\tParameter {i}: Name: {param.name}")
+                self._logger.d_msg(f"\tParameter {i}: Name: {param.name}")
                 self.define_var(node.decl.name, self._generator.visit(param), param.name)
         else:
-            self.logger.d_msg(f"\t{node.decl.name} has no parameters.")
+            self._logger.d_msg(f"\t{node.decl.name} has no parameters.")
 
 
 class KleeUtils:
