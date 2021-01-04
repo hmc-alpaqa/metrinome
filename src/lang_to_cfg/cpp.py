@@ -16,8 +16,6 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import EdgeListGraph
 from lang_to_cfg import converter
 
-# pylint: disable=R0201
-
 
 class CPPConvert(converter.ConverterAbstract):
     """Create Graph objects from files."""

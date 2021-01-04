@@ -1,5 +1,5 @@
 """Script for running Klee on a series of functions and saving data."""
-import re
+
 import subprocess
 import time
 from subprocess import PIPE
@@ -9,45 +9,17 @@ import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 
 from core.log import Log
-from klee.klee_utils import KleeUtils
+from klee.klee_utils import KleeUtils, klee_compare, parse_klee
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
 KleeCompareResults = Dict[Tuple[str, str, str],
                           Dict[str, Optional[Union[float, int]]]]
-KleeOutputInfo = Tuple[Optional[int],
-                       Optional[int],
-                       Optional[int],
-                       float, float, float]
 KleeOutputPreferencesInfo = Tuple[Optional[int],
                                   Optional[int],
                                   Optional[int],
                                   float, float, float, float]
-
-
-def parse_klee(klee_output: str) -> KleeOutputInfo:
-    """Parse output from running Klee."""
-    strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
-    string_four = "real"
-    str_indicies = [klee_output.index(str_to_match) + len(str_to_match)
-                    for str_to_match in strs_to_match]
-
-    times = klee_output[klee_output.index(string_four):].split()
-    real, user, sys = float(times[1][:-1]), float(times[3][:-1]), float(times[5][:-1])
-
-    number_regex = re.compile("[0-9]+")
-    str_matches = [number_regex.match(klee_output[str_idx:]) for str_idx in str_indicies]
-
-    tests, paths, insts = None, None, None
-    if str_matches[0] is not None:
-        tests = int(str_matches[0].group())
-    if str_matches[1] is not None:
-        paths = int(str_matches[1].group())
-    if str_matches[2] is not None:
-        insts = int(str_matches[2].group())
-
-    return tests, paths, insts, real, user, sys
 
 
 def klee_with_preferences(file_name: str, output_name: str,
@@ -67,45 +39,6 @@ def klee_with_preferences(file_name: str, output_name: str,
         output = res.stderr
         parsed = parse_klee(output.decode())
         return (*parsed, final_time)
-
-
-# pylint: disable=too-many-locals
-def klee_compare(file_name: str, preferences: List[str], depths: List[str],
-                 inputs: List[str], function: str,
-                 remove: bool = True) -> KleeCompareResults:
-    """
-    Run Klee on a certain function.
-
-    Run Klee on the function with a variety of depths and preferences,
-    and return the results as a dictionary of dictionaries.
-    """
-    klee_path = "/app/build/bin/klee"
-    results_dict = {}
-    for preference in preferences:
-        for depth in depths:
-            for input_ in inputs:
-                algs_path = "/app/code/tests/cFiles/fse_2020_benchmark/klee"
-                output_file = f"{algs_path}_{preference}_{depth}_{input_}_{function}_output"
-                output_file = output_file.replace(" ", "_")
-                results = klee_with_preferences(file_name, output_file, preference, depth, input_)
-                stats_params = "--table-format=simple --print-all"
-                stats = subprocess.run(f"{klee_path}-stats {stats_params} {output_file}",
-                                       shell=True, stdout=PIPE, stderr=PIPE, check=True)
-                if remove:
-                    subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
-                else:
-                    subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done",
-                                   shell=True, check=True)
-                stats_decoded = stats.stdout.decode().split("\n")
-                headers = stats_decoded[0].split()[1:]
-                values = map(float, stats_decoded[2].split()[1:])
-                stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
-                stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
-                    stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
-                    stats_dict["PythonTime"] = results
-                results_dict[(preference, depth, input_)] = stats_dict
-
-    return results_dict
 
 
 def graph_stat(func: str, preference: str, max_depths: List[str],
