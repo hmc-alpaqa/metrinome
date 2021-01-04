@@ -64,7 +64,7 @@ class TestControlFlowGraph(unittest.TestCase):
         self.assertEqual(caller, CFG(get_test_graph()))
         self.assertEqual(callee, CFG(get_second_test_graph()))
 
-        # === Graph::compose ===
+    # === Graph::compose ===
     def test_compose_normal(self) -> None:
         """Test if we can compose two graphs."""
         caller = CFG(get_test_graph())
