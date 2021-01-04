@@ -6,14 +6,15 @@ import time
 import uuid
 from collections import defaultdict
 from subprocess import PIPE
-from typing import DefaultDict, Dict, List, Optional, Set, Tuple, Union
+from typing import (Callable, DefaultDict, Dict, List, Optional, Set, Tuple,
+                    Union)
 
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 from pycparser import c_ast, c_generator, parse_file  # type: ignore
 
-from core.log import Log
 from core.env import Env
+from core.log import Log
 
 KleeOutputInfo = Tuple[Optional[int], Optional[int], Optional[int],
                        float, float, float]
@@ -21,6 +22,7 @@ KleeCompareResults = Dict[Tuple[str, str, str],
                           Dict[str, Optional[Union[float, int]]]]
 KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
                                   float, float, float, float]
+KleeExperiment = Callable[[str, int, List[str], List[str], List[str], List[str]], None]
 
 
 # pylint: disable=too-many-arguments
@@ -159,13 +161,13 @@ class FuncVisitor(c_ast.NodeVisitor):
         """Create a new instance of FuncVisitor."""
         self._logger = logger
         self._generator = c_generator.CGenerator()
-        self._vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
-        self._types: DefaultDict[str, str] = defaultdict(str)
+        self.vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
+        self.types: DefaultDict[str, str] = defaultdict(str)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str) -> None:
         """Look at a single variable declaration in the C code."""
-        self._vars[name].append((f"{declaration};\n", varname))
+        self.vars[name].append((f"{declaration};\n", varname))
 
     # pylint: disable=C0103
     # disable invalid-name as this name is required by the library.
@@ -180,7 +182,7 @@ class FuncVisitor(c_ast.NodeVisitor):
         args = node.decl.type.args  # type ParamList.
         return_type = node.decl.type.type.type.names[0]
         self._logger.i_msg(f"Looking at {node.decl.name}()")
-        self._types[node.decl.name] = return_type
+        self.types[node.decl.name] = return_type
         if args is not None:
             params = args.params  # List of TypeDecl.
             for i, param in enumerate(params):
@@ -188,6 +190,22 @@ class FuncVisitor(c_ast.NodeVisitor):
                 self.define_var(node.decl.name, self._generator.visit(param), param.name)
         else:
             self._logger.d_msg(f"\t{node.decl.name} has no parameters.")
+
+
+def run_experiment(preferences: List[str], max_depths: List[str],
+                   klee_experiment: KleeExperiment) -> None:
+    """
+    Run a Klee experiment.
+
+    For each function, runs Klee once with each maximum depth,
+    saves the data as a csv, and creates a graph for each field.
+    """
+    fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
+              "SysTime", "PythonTime"]
+    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
+                   shell=True, check=False)
+    for func in get_functions_list():
+        klee_experiment(func, 100, max_depths, preferences, fields, [""])
 
 
 class KleeUtils:
@@ -200,7 +218,7 @@ class KleeUtils:
 
     def __init__(self, logger: Log) -> None:
         """Create a new instance of KleeUtils."""
-        self.logger = logger
+        self._logger = logger
 
     def show_func_defs(self, filename: str, size: int = 10,
                        optimized: bool = False) -> Dict[str, str]:
@@ -210,14 +228,14 @@ class KleeUtils:
         Create a new set of files based on an existing file that are formatted properly
         to work with klee.
         """
-        self.logger.d_msg(f"Going to parse file {filename}")
+        self._logger.d_msg(f"Going to parse file {filename}")
         if optimized:
             cppargs = ['-O3', '-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
         else:
             cppargs = ['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc', cpp_args=cppargs)
-        self.logger.d_msg("Going to visit functions.")
-        func_visitor = FuncVisitor(self.logger)
+        self._logger.d_msg("Going to visit functions.")
+        func_visitor = FuncVisitor(self._logger)
         func_visitor.visit(ast)
 
         uuids: Set[uuid.UUID] = set()

@@ -6,8 +6,8 @@ from typing import List
 import matplotlib.pyplot as plt  # type: ignore
 
 from core.log import Log
-from klee.klee_utils import (KleeUtils, create_pandas, get_functions_list,
-                             graph_stat, klee_compare)
+from klee.klee_utils import (KleeUtils, create_pandas, graph_stat,
+                             klee_compare, run_experiment)
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -49,21 +49,9 @@ def run_klee_experiment(func: str, array_size: int, max_depths: List[str],
 
 
 def main() -> None:
-    """
-    Run a Klee experiment.
-
-    For each function, runs Klee once with each maximum depth,
-    saves the data as a csv, and creates a graph for each field.
-    """
-    fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
-              "SysTime", "PythonTime"]
-    functions = get_functions_list()
-    subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
-                   shell=True, check=False)
-    for func in functions:
-        run_klee_experiment(func, array_size=100, max_depths=['1', '2', '3', '4'],
-                            preferences=["--dump-states-on-halt=false --max-time=5min"],
-                            fields=fields, inputs=[""])
+    """Run the klee experiment."""
+    run_experiment(["--dump-states-on-halt=false --max-time=5min"], ['1', '2', '3', '4'],
+                   run_klee_experiment)
 
 
 if __name__ == "__main__":

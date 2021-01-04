@@ -7,8 +7,8 @@ from typing import Dict, List, Optional, Tuple, Union
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 
-from core.log import Log
 from core.env import Env
+from core.log import Log
 from klee.klee_utils import KleeOutputPreferencesInfo, KleeUtils, parse_klee
 
 plt.rcParams["figure.figsize"] = (10, 10)
