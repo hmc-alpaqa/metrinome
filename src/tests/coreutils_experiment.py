@@ -10,7 +10,6 @@ import pandas as pd  # type: ignore
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph as CFG
-from graph.graph import Graph, GraphType
 from metric import (cyclomatic_complexity, metric, npath_complexity,
                     path_complexity)
 from utils import Timeout

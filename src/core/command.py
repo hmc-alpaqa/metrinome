@@ -408,7 +408,6 @@ class Command:
         for metrics_generator in self.controller.metrics_generators:
             pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
             self.logger.v_msg(str(shared_dict))
-        # TODO: save the results.
 
     def get_metrics_list(self, name: str) -> List[str]:
         """Get the list of metric names from command argument."""
@@ -434,10 +433,6 @@ class Command:
     def do_metrics(self, name: str) -> None:
         """Compute of one of the known objects for a stored Graph object."""
         graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
-        if self.multi_threaded:
-            self.do_metrics_multithreaded(graphs)
-            return
-
         for graph in graphs:
             self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
@@ -709,11 +704,12 @@ class Command:
             self.data.export_graph(name, new_name)
         elif export_type == ObjTypes.METRIC:
             self.data.export_metrics(name, new_name)
-        # TODO: Fix exporting as other klee types
         elif export_type == ObjTypes.KLEE_BC:
             self.data.export_bc(name, new_name)
         elif export_type == ObjTypes.KLEE_FILE:
             self.data.export_klee_file(name, new_name)
+        elif export_type == ObjTypes.KLEE_STATS:
+            self.data.export_klee_stats(name, new_name)
         elif export_type == ObjTypes.KLEE:
             self.data.export_bc(name, new_name)
             self.data.export_klee_file(name, new_name)

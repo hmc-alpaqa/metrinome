@@ -5,7 +5,7 @@ from typing import cast
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph as CFG
-from graph.graph import EdgeListType, Graph, GraphType
+from graph.graph import AdjListGraph, AdjMatGraph, EdgeListGraph, EdgeListType
 from metric import npath_complexity
 
 
@@ -41,9 +41,9 @@ class TestNPATH(unittest.TestCase):
         results_three = []
         for file_index in range(1, 7):
             file = base_path + prefix + str(file_index) + "_0_basic.dot"
-            graph_one = CFG.from_file(file, graph_type=GraphType.EDGE_LIST)
-            graph_two = CFG.from_file(file, graph_type=GraphType.ADJACENCY_LIST)
-            graph_three = CFG.from_file(file, graph_type=GraphType.ADJACENCY_MATRIX)
+            graph_one = CFG.from_file(file, graph_type=EdgeListGraph)
+            graph_two = CFG.from_file(file, graph_type=AdjListGraph)
+            graph_three = CFG.from_file(file, graph_type=AdjMatGraph)
             res_one   = npath_complexity.NPathComplexity(Log()).evaluate(graph_one)
             res_two   = npath_complexity.NPathComplexity(Log()).evaluate(graph_two)
             res_three = npath_complexity.NPathComplexity(Log()).evaluate(graph_three)
@@ -68,7 +68,7 @@ class TestNPATH(unittest.TestCase):
         single node. The start node is equal to the end node,
         so there is a single path from the beginning to the end.
         """
-        graph = CFG(Graph(cast(EdgeListType, []), 1, GraphType.EDGE_LIST))
+        graph = CFG(EdgeListGraph(cast(EdgeListType, []), 1))
         result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 1
         self.assertEqual(result, expected_result)
@@ -81,7 +81,7 @@ class TestNPATH(unittest.TestCase):
         and end nodes but no edges is 0, since there are no paths from the
         beginning to the end.
         """
-        graph = CFG(Graph(cast(EdgeListType, []), 2, GraphType.EDGE_LIST))
+        graph = CFG(EdgeListGraph(cast(EdgeListType, []), 2))
         result = npath_complexity.NPathComplexity(Log()).evaluate(graph)
         expected_result = 0
         self.assertEqual(result, expected_result)

@@ -9,19 +9,20 @@ programming.
 import sys
 
 from core.log import Log
-from graph.graph import GraphType
+from graph.graph import AdjListGraph
 from metric import path_complexity
-from tests import unit_utils
+from tests.unit_utils import Benchmark
 
 
 def apc_runtime(g_frac: int, f_frac: int, time: int) -> None:
     """Test the amount of time it takes to run APC analysis on different sized graphs."""
     log = Log()
     converter = path_complexity.PathComplexity(log)
+    benchmark = Benchmark(log, True)
     if g_frac == 0:
-        unit_utils.run_benchmark(converter, GraphType.ADJACENCY_LIST, True)
+        benchmark.run_benchmark(converter, AdjListGraph)
     else:
-        unit_utils.run_benchmark(converter, GraphType.ADJACENCY_LIST, True, g_frac, f_frac, time)
+        benchmark.run_benchmark(converter, AdjListGraph, g_frac, f_frac, time)
 
 
 if __name__ == "__main__":

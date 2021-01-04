@@ -1,9 +1,12 @@
 """All information that needs to be stored aside from the graph to compute complexity metrics."""
+from __future__ import annotations
+
 import os
 import re
-from typing import List, cast
+from typing import List, Type, cast
 
-from graph.graph import AdjListType, AnyGraph, Dict, Graph, GraphType
+from graph.graph import (AdjListGraph, AdjListType, AdjMatGraph, Dict,
+                         EdgeListGraph, Graph)
 from utils import calls_function
 
 
@@ -27,7 +30,7 @@ class ControlFlowGraph:
     metadata to the Graph class.
     """
 
-    def __init__(self, graph: AnyGraph, metadata: Metadata = None):
+    def __init__(self, graph: Graph, metadata: Metadata = None):
         """Create a new CFG from any Graph object."""
         self.graph = graph
         self.name = graph.name
@@ -51,8 +54,7 @@ class ControlFlowGraph:
         return str(self.graph)
 
     @staticmethod
-    def from_file(filename: str, weighted: bool = False,
-                  graph_type: GraphType = GraphType.ADJACENCY_LIST) -> 'ControlFlowGraph':
+    def from_file(filename: str, graph_type: Type[Graph] = AdjListGraph) -> ControlFlowGraph:
         """
         Return a Graph object from a .dot file of format.
 
@@ -66,19 +68,18 @@ class ControlFlowGraph:
         """
         name = os.path.split(filename)[1]
         # Initialize graph based on type.
-        if graph_type is GraphType.ADJACENCY_LIST:
-            # v_e_dict: DefaultDict[int, Any] = defaultdict(set)
-            # graph = Graph(v_e_dict, None, -1, -1, graph_type)
-            graph = Graph(cast(AdjListType, []), 0, graph_type)
-        elif graph_type is GraphType.EDGE_LIST:
+        graph: Graph
+        if graph_type is AdjListGraph:
+            graph = AdjListGraph(cast(AdjListType, []), 0)
+        elif graph_type is EdgeListGraph:
             edges: List[List[int]] = []
-            graph = Graph(edges, 0, graph_type)
-        elif graph_type is GraphType.ADJACENCY_MATRIX:
+            graph = EdgeListGraph(edges, 0)
+        elif graph_type is AdjMatGraph:
             # We create the graph using an adjacency list and then convert it.
             # There is probably a better way to do this.
-            graph = Graph([], 0, GraphType.ADJACENCY_LIST)
+            graph = AdjListGraph([], 0)
 
-        graph.set_name(os.path.splitext(name)[0])
+        graph.name = os.path.splitext(name)[0]
 
         with open(filename, "r") as file:
             line: str
@@ -99,16 +100,13 @@ class ControlFlowGraph:
             if graph.start_node == -1 or graph.end_node == -1:
                 raise ValueError("Start and end nodes must both be defined.")
 
-            graph.weighted = weighted
+        if graph_type is AdjMatGraph:
+            graph = AdjMatGraph(graph.adjacency_matrix(), graph.num_vertices)
 
-        if graph_type is GraphType.ADJACENCY_MATRIX:
-            graph.edges = graph.adjacency_matrix()
-            graph.graph_type = GraphType.ADJACENCY_MATRIX
-
-        return ControlFlowGraph(graph)
+        return ControlFlowGraph(graph, None)
 
     @staticmethod
-    def stitch(graphs: Dict[str, 'ControlFlowGraph']) -> 'ControlFlowGraph':
+    def stitch(graphs: Dict[str, ControlFlowGraph]) -> ControlFlowGraph:
         """Create new CFG by substituting function calls with their graphs."""
         calls_list = []
         simple_funcs = []
@@ -137,9 +135,9 @@ class ControlFlowGraph:
         return graphs[simple_funcs[-1]]
 
     @staticmethod
-    def compose(cfg1: 'ControlFlowGraph',
-                cfg2: 'ControlFlowGraph',
-                node: int) -> 'ControlFlowGraph':
+    def compose(cfg1: ControlFlowGraph,
+                cfg2: ControlFlowGraph,
+                node: int) -> ControlFlowGraph:
         """
         Create a graph by replacing a node of cfg1 with the graph of cfg2.
 
@@ -149,10 +147,10 @@ class ControlFlowGraph:
         vertices = list(range(cfg1.graph.num_vertices + shift))
 
         # Ensures that exit node in subgraph has all the same edges as the replaced node.
-        edges_2 = [[i + node, j + node] for [i, j] in cfg2.graph.edges]
+        edges_2 = [[i + node, j + node] for [i, j] in cfg2.graph.edge_rules()]
 
         edges_1 = []
-        for edge in cfg1.graph.edges:
+        for edge in cfg1.graph.edge_rules():
             vertex_1 = edge[0]
             vertex_2 = edge[1]
             if edge[0] >= node:
@@ -164,7 +162,7 @@ class ControlFlowGraph:
 
         edges_1 += edges_2
 
-        stitched_graph = Graph(edges_1, len(vertices), GraphType.EDGE_LIST)
+        stitched_graph = EdgeListGraph(edges_1, len(vertices))
 
         new_calls = {}
         for vertex in cfg1.graph.calls.keys():

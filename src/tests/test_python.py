@@ -3,7 +3,7 @@
 import unittest
 
 from core.log import Log
-from graph.graph import Graph, GraphType
+from graph.graph import EdgeListGraph
 from lang_to_cfg.python import PythonConvert
 
 
@@ -28,49 +28,45 @@ class TestPythonConvert(unittest.TestCase):
         (e.g. y + x > 0)
         """
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/expr", ".py")
-        expected = Graph([[0, 1], [1, 2], [2, 3]], 4, GraphType.EDGE_LIST)
+        expected = EdgeListGraph([[0, 1], [1, 2], [2, 3]], 4)
         self.assertTrue(expected == res['expr_func'].graph)
 
     def test_assign(self) -> None:
         """Test that we can correct parse assignment of variables."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/assign", ".py")
-        expected = Graph([[0, 1], [1, 2], [2, 3], [3, 4]],
-                         5, GraphType.EDGE_LIST)
+        expected = EdgeListGraph([[0, 1], [1, 2], [2, 3], [3, 4]], 5)
         self.assertTrue(expected == res['assign_func'].graph)
 
     def test_return(self) -> None:
         """Test that we can correctly parse return statements."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/return", ".py")
-        expected = Graph([[0, 1], [1, 2], [2, 3]], 4, GraphType.EDGE_LIST)
+        expected = EdgeListGraph([[0, 1], [1, 2], [2, 3]], 4)
         self.assertTrue(expected == res['return_func'].graph)
 
     def test_for(self) -> None:
         """Test that we can correctly parse for loops."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/for", ".py")
-        expected = Graph([[0, 1], [1, 2], [1, 3], [2, 4], [4, 1], [3, 5]],
-                         6, GraphType.EDGE_LIST)
+        expected = EdgeListGraph([[0, 1], [1, 2], [1, 3], [2, 4], [4, 1], [3, 5]], 6)
         self.assertTrue(expected == res['for_func'].graph)
 
     def test_while(self) -> None:
         """Test that we can correctly parse while loops."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/while", ".py")
-        expected = Graph([[0, 1], [1, 2], [2, 3], [3, 2], [2, 4]],
-                         5, GraphType.EDGE_LIST)
+        expected = EdgeListGraph([[0, 1], [1, 2], [2, 3], [3, 2], [2, 4]], 5)
         self.assertTrue(expected == res['while_func'].graph)
 
     def test_if(self) -> None:
         """Test that we can correctly parse if statements."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/if", ".py")
-        expected = Graph([[0, 1], [1, 2], [2, 3], [2, 4], [2, 5],
-                          [3, 6], [4, 6], [5, 6]], 7, GraphType.EDGE_LIST)
+        expected = EdgeListGraph([[0, 1], [1, 2], [2, 3], [2, 4], [2, 5],
+                                 [3, 6], [4, 6], [5, 6]], 7)
         self.assertTrue(res['if_func'] == expected)
 
     def test_else(self) -> None:
         """Test that we can correctly parse if statements."""
         res = self.converter.to_graph(f"{self.base_path}/pythonFiles/else", ".py")
-        expected = Graph([[0, 1], [1, 2], [2, 3], [2, 4], [2, 5],
-                          [2, 6], [3, 7], [4, 7], [5, 7], [6, 7]],
-                         8, GraphType.EDGE_LIST)
+        expected = EdgeListGraph([[0, 1], [1, 2], [2, 3], [2, 4], [2, 5],
+                                 [2, 6], [3, 7], [4, 7], [5, 7], [6, 7]], 8)
         self.assertTrue(res['if_func'] == expected)
 
 

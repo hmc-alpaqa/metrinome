@@ -7,12 +7,13 @@ import time
 from contextlib import contextmanager
 from io import StringIO
 from math import floor
-from typing import Iterator, List, Tuple, TypeVar, Union
+from typing import Iterator, List, Tuple, Type, TypeVar, Union
 
 from numpy import mean, median, std  # type: ignore
 
+from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph as CFG
-from graph.graph import AdjListType, Graph, GraphType
+from graph.graph import EdgeListGraph, Graph
 from metric import metric
 from utils import Timeout
 
@@ -21,47 +22,75 @@ FolderTimeList = List[Tuple[float, str]]
 RuntimeMetrics = List[Tuple[str, float]]
 
 
-def get_test_graph() -> Graph[AdjListType]:
+def get_test_graph() -> Graph:
     """Return ordinary CFG for testing."""
-    return Graph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5],
-                          [2, 7], [4, 6], [5, 6], [6, 7]],
-                 8, GraphType.EDGE_LIST)
+    return EdgeListGraph([[0, 1], [1, 2], [1, 3], [3, 4], [3, 5],
+                          [2, 7], [4, 6], [5, 6], [6, 7]], 8)
 
 
-def get_second_test_graph() -> Graph[AdjListType]:
+def get_second_test_graph() -> Graph:
     """Return (smaller) ordinary  CFG for testing."""
-    return Graph([[0, 1], [1, 2], [1, 3], [2, 4], [3, 4]],
-                 5, GraphType.EDGE_LIST)
+    return EdgeListGraph([[0, 1], [1, 2], [1, 3], [2, 4], [3, 4]], 5)
 
 
-def run_benchmark(converter: metric.MetricAbstract, graph_type: GraphType,
-                  show_info: bool, graph_frac: int = 5,
-                  folders_frac: int = 46, timeout_threshold: int = 5) -> None:
-    """Run all CFGs through the converter to create a benchmark."""
-    folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
-    print(f"number of folders: {len(folders)}\n")
-    # list of tuples for all cfgs in all folders (seconds, folder, cfg).
-    overall_time_list: OverallTimeList = []
-    timeout_total = 0
-    # test the metrics for each folder in apache_cfgs.
-    print(f"Num Folders: {floor(len(folders) / folders_frac)}")
-    for folder in folders[0:floor(len(folders) / folders_frac)]:
-        print(f"On folder {folder}")
-        graph_list = (glob.glob(folder + "*.dot"))
-        graph_list = graph_list[0:floor(len(graph_list) / graph_frac)]
-        # list of tuples for each cfg in folder(seconds, cfg).
-        print(f"Num Graphs: {len(graph_list)}")
-        folder_time_list, overall_time_list, timeout_count = get_converter_time(graph_list,
+class Benchmark:
+    """Handles the running and analysis of benchmarks for graph metrics."""
+
+    def __init__(self, logger: Log, show_info: bool) -> None:
+        """Create a new instance of the benchmark handler."""
+        self.logger = logger
+        self.show_info = show_info
+
+    def run_benchmark(self, converter: metric.MetricAbstract, graph_type: Type[Graph],
+                      graph_frac: int = 5, folders_frac: int = 46, timeout_threshold: int = 5
+                      ) -> None:
+        """Run all CFGs through the converter to create a benchmark."""
+        folders = (glob.glob("/app/examples/cfgs/apache_cfgs/*/"))
+        self.logger.i_msg(f"number of folders: {len(folders)}\n")
+        # list of tuples for all cfgs in all folders (seconds, folder, cfg).
+        overall_time_list: OverallTimeList = []
+        timeout_total = 0
+        # test the metrics for each folder in apache_cfgs.
+        self.logger.i_msg(f"Num Folders: {floor(len(folders) / folders_frac)}")
+        for folder in folders[0:floor(len(folders) / folders_frac)]:
+            self.logger.i_msg(f"On folder {folder}")
+            graph_list = (glob.glob(folder + "*.dot"))
+            graph_list = graph_list[0:floor(len(graph_list) / graph_frac)]
+            # list of tuples for each cfg in folder(seconds, cfg).
+            self.logger.i_msg(f"Num Graphs: {len(graph_list)}")
+            folder_times, overall_time_list, timeout_count = get_converter_time(graph_list,
                                                                                 converter, folder,
                                                                                 timeout_threshold,
                                                                                 graph_type,
-                                                                                show_info)
-        timeout_total += timeout_count
+                                                                                self.show_info)
+            timeout_total += timeout_count
 
-        print_results(folder_time_list, folder, [], show_info)
+            self._print_results(folder_times, folder, [])
 
-    print("======= OVERALL ==========")
-    print_overall_results(overall_time_list, timeout_total, timeout_threshold)
+        self.logger.i_msg("======= OVERALL ==========")
+        print_overall_results(overall_time_list, timeout_total, timeout_threshold)
+
+    def _print_results(self, folder_time_list: FolderTimeList, folder: str,
+                       metric_collection: List[Tuple[str,
+                                                     RuntimeMetrics,
+                                                     Union[FolderTimeList, OverallTimeList]]],
+                       ) -> None:
+        """Print out the results from the benchmark."""
+        folder_metrics = runtime_metrics(folder_time_list)
+        folder_outliers = runtime_outlier(folder_time_list, self.show_info)
+        if self.show_info:
+            self.logger.i_msg("METRICS: ")
+            # print metrics at 100% completion of folder.
+            self.logger.i_msg(str(folder_metrics))
+            self.logger.i_msg("OUTLIERS: ")
+            # print list of cfgs at above +1 stdev away.
+            self.logger.i_msg(str(folder_outliers))
+            self.logger.i_msg("\n\n")
+
+        metric_collection.append((folder, folder_metrics, folder_outliers))
+        if self.show_info:
+            # print overall metrics for all folders so far.
+            self.logger.i_msg(f"COLLECTED METRICS: \n{metric_collection}")
 
 
 def print_overall_results(overall_time_list: OverallTimeList,
@@ -78,7 +107,7 @@ def print_overall_results(overall_time_list: OverallTimeList,
 
 def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
                        folder: str, timeout_threshold: int,
-                       graph_type: GraphType,
+                       graph_type: Type[Graph],
                        show_info: bool
                        ) -> Tuple[FolderTimeList, OverallTimeList, int]:
     """Run the the converter on all graph files from some folder."""
@@ -115,28 +144,6 @@ def get_converter_time(graph_list: List[str], converter: metric.MetricAbstract,
             timeout_count += 1
 
     return folder_time_list, overall_time_list, timeout_count
-
-
-def print_results(folder_time_list: FolderTimeList, folder: str,
-                  metric_collection: List[Tuple[str, RuntimeMetrics,
-                                                Union[FolderTimeList, OverallTimeList]]],
-                  show_info: bool) -> None:
-    """Print out the results from the benchmark."""
-    folder_metrics = runtime_metrics(folder_time_list)
-    folder_outliers = runtime_outlier(folder_time_list, show_info)
-    if show_info:
-        print("METRICS: ")
-        # print metrics at 100% completion of folder.
-        print(folder_metrics)
-        print("OUTLIERS: ")
-        # print list of cfgs at above +1 stdev away.
-        print(folder_outliers)
-        print("\n\n")
-
-    metric_collection.append((folder, folder_metrics, folder_outliers))
-    if show_info:
-        # print overall metrics for all folders so far.
-        print(f"COLLECTED METRICS: \n{metric_collection}")
 
 
 @contextmanager

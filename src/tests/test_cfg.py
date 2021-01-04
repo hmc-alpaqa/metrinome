@@ -5,7 +5,7 @@ from typing import cast
 
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.control_flow_graph import Metadata
-from graph.graph import EdgeListType, Graph, GraphType
+from graph.graph import EdgeListGraph, EdgeListType
 from tests.unit_utils import get_second_test_graph, get_test_graph
 
 
@@ -29,15 +29,15 @@ class TestControlFlowGraph(unittest.TestCase):
         with open("/app/code/tests/dotFiles/dotTest.dot", "w+") as file:
             file.write(dot)
         frmfile = CFG.from_file("/app/code/tests/dotFiles/dotTest.dot",
-                                graph_type=GraphType.EDGE_LIST)
+                                graph_type=EdgeListGraph)
         self.assertEqual(frmfile.graph, graph)
 
     # === Graph::from_file ===
     def test_from_file_one_vertex(self) -> None:
         """Test if we can get the adjacency list for a graph with no edges."""
-        expected = Graph(cast(EdgeListType, []), 2, GraphType.EDGE_LIST)
+        expected = EdgeListGraph(cast(EdgeListType, []), 2)
         cfg = CFG.from_file("/app/code/tests/dotFiles/testsimple.dot",
-                            graph_type=GraphType.EDGE_LIST)
+                            graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
         # Graph.fromFile(None)
 
@@ -45,7 +45,7 @@ class TestControlFlowGraph(unittest.TestCase):
         """Test if we can get the adjacency list for a graph with many edges and vertices."""
         expected = get_test_graph()
         cfg = CFG.from_file("/app/code/tests/dotFiles/testgraph.dot",
-                            graph_type=GraphType.EDGE_LIST)
+                            graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
 
     # === Graph::stitch ===
@@ -53,12 +53,12 @@ class TestControlFlowGraph(unittest.TestCase):
         """Test if we can replace a node with another graph with many edges and vertices."""
         caller = CFG(get_test_graph())
         callee = CFG(get_second_test_graph())
-        expected = CFG(Graph([[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
-                              [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]],
-                             12, graph_type=GraphType.EDGE_LIST))
+        expected = CFG(EdgeListGraph([[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
+                                     [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]],
+                                     12))
 
         graphs = {"caller": caller, "callee": callee}
-        caller.graph.calls = {3: "callee"}  # TODO: add {5: "callee"}
+        caller.graph.calls = {3: "callee"}
 
         self.assertEqual(CFG.stitch(graphs), expected)
         self.assertEqual(caller, CFG(get_test_graph()))
@@ -72,7 +72,7 @@ class TestControlFlowGraph(unittest.TestCase):
         callee = CFG(get_second_test_graph())
         edges = [[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
                  [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]]
-        expected = CFG(Graph(edges, 12, graph_type=GraphType.EDGE_LIST))
+        expected = CFG(EdgeListGraph(edges, 12))
         res = CFG.compose(caller, callee, 3)
 
         self.assertEqual(res, expected)

@@ -13,7 +13,7 @@ import glob2  # type: ignore
 from core.env import Env
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
-from graph.graph import GraphType
+from graph.graph import EdgeListGraph
 from lang_to_cfg import converter
 
 # pylint: disable=R0201
@@ -57,7 +57,7 @@ class CPPConvert(converter.ConverterAbstract):
         for file in files:
             graph_name = os.path.basename(file)
             self.logger.d_msg(f"graph_name: {graph_name}")
-            graphs[graph_name] = ControlFlowGraph.from_file(file, False, GraphType.EDGE_LIST)
+            graphs[graph_name] = ControlFlowGraph.from_file(file, EdgeListGraph)
 
         Env.clean_temps()
         return graphs

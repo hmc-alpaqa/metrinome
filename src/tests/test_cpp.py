@@ -6,7 +6,7 @@ import unittest
 from core.env import Env
 from core.log import Log, LogLevel
 from graph.control_flow_graph import ControlFlowGraph
-from graph.graph import Graph, GraphType
+from graph.graph import EdgeListGraph
 from lang_to_cfg.cpp import CPPConvert
 from tests.unit_utils import get_test_graph
 
@@ -20,7 +20,7 @@ class TestCPPConvert(unittest.TestCase):
         converter = CPPConvert(Log(log_level=LogLevel.REGULAR))
         self.assertEqual(converter.name(), "CPP")
         Env.clean_temps()
-        graph1 = Graph([[0, 1], [1, 2]], 3, GraphType.EDGE_LIST)
+        graph1 = EdgeListGraph([[0, 1], [1, 2]], 3)
         result = converter.to_graph("/app/code/tests/cppFiles/blank", ".cpp")
         self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
         self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)

@@ -24,11 +24,9 @@ def adjusted_rand_index(function_list: List[int]) -> float:
     for func_one_index, func_one in enumerate(function_list):
         for func_two_index in range(func_one_index, len(function_list)):
             pair = (func_one, function_list[func_two_index])
-            point_one_apc = pair[0]  # TODO
-            point_two_apc = pair[1]  # TODO
 
-            point_one_npath = pair[0]  # TODO
-            point_two_npath = pair[1]  # TODO
+            point_one_apc, point_two_apc = pair[0], pair[1]
+            point_one_npath, point_two_npath = pair[0], pair[1]
 
             if point_one_apc == point_two_apc:
                 if point_one_npath == point_two_npath:
@@ -107,7 +105,7 @@ def mutual_information(cluster_list_one: Dict[int, Set[int]],
     """
     cond_entropy = 0.
     # Obtain the total size.
-    # TODO: is this supposed to be cluster_list_one?
+    # is this supposed to be cluster_list_one?
     total_size = get_total_size(cluster_list_one)
 
     # Create a table of all the overlaps
@@ -327,19 +325,19 @@ class MetricsComparer:
 
         for i in range(0, 4):
             average_class_sizes[i] = average_class_size(self.dict_counter[i], use_frequencies)
-        cyc_to_aoc, apc_to_cyc, npath_to_apc, apc_to_npath = average_class_sizes
+        cyc_to_apc, apc_to_cyc, npath_to_apc, apc_to_npath = average_class_sizes
 
-        if cyc_to_aoc == apc_to_cyc:
+        if cyc_to_apc == apc_to_cyc:
             r_one = 0.
         else:
-            r_one = (cyc_to_aoc + apc_to_cyc) / (cyc_to_aoc - apc_to_cyc)
+            r_one = (cyc_to_apc + apc_to_cyc) / (cyc_to_apc - apc_to_cyc)
 
         if npath_to_apc == apc_to_npath:
             r_two = 0.
         else:
             r_two = (npath_to_apc + apc_to_npath) / (npath_to_apc - apc_to_npath)
 
-        print(f"APC to Cyclomatic: {cyc_to_aoc}, \
+        print(f"APC to Cyclomatic: {cyc_to_apc}, \
               apc_to_cyc: {apc_to_cyc}", self.location)
         print(f"APC to Cyclomatic: {npath_to_apc}, \
               apc_to_npath: {apc_to_npath}", self.location)

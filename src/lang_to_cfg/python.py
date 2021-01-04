@@ -18,7 +18,7 @@ from typing import Dict, List, Optional, cast
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph, Metadata
-from graph.graph import Graph, GraphType
+from graph.graph import EdgeListGraph
 from lang_to_cfg import converter
 
 
@@ -290,8 +290,8 @@ class Visitor(ast.NodeVisitor):
         for return_node in return_nodes:
             edge_list.append([nodes[return_node], len(node_list) - 1])
 
-        cfg = ControlFlowGraph(Graph(edge_list, len(node_list), GraphType.EDGE_LIST), md)
-        cfg.graph.set_name(node.name)
+        cfg = ControlFlowGraph(EdgeListGraph(edge_list, len(node_list)), md)
+        cfg.graph.name = node.name
 
         self.graphs[node.name] = cfg
 
