@@ -77,30 +77,18 @@ class KleeExperimentHandler:
     def klee_experiment_helper(self, func: str, key: str, val: str,
                                optimized: bool = False) -> KleeCompareResults:
         """TODO."""
-        if optimized:
-            new_name = f"{self.c_files_dir}/{func}_{key}_optimized.c"
-            bcname = f"{self.c_files_dir}/{func}_{key}_optimized.bc"
-        else:
-            new_name = f"{self.c_files_dir}/{func}_{key}.c"
-            bcname = f"{self.c_files_dir}/{func}_{key}.bc"
+        filename = f"{func}_{key}_optimized" if optimized else f"{func}_{key}"
+        new_name = f"{self.c_files_dir}/{filename}.c"
+        bcname = f"{self.c_files_dir}/{filename}.bc"
+
         with open(new_name, "w+") as file:
             file.write(val)
-        subprocess.run(klee_command(bcname, new_name), shell=True, capture_output=True, check=True)
-        if optimized:
-            res = self.klee_compare(bcname, f"{func}_{key}_optimized")
-        else:
-            res = self.klee_compare(bcname, f"{func}_{key}")
 
+        subprocess.run(klee_command(bcname, new_name), shell=True, capture_output=True, check=True)
+        res = self.klee_compare(bcname, filename)
         results_frame = create_pandas(res, self.pref, self.inputs[0],
                                       self.max_depths, self.fields)
-
-        if optimized:
-            path = f'{self.c_files_dir}/frames/{func}_{key}_optimized.csv'
-
-        else:
-            path = f'{self.c_files_dir}/frames/{func}_{key}.csv'
-
-        results_frame.to_csv(path)
+        results_frame.to_csv(f'{self.c_files_dir}/frames/{filename}.csv')
         return res
 
     def klee_experiment(self, func: str) -> None:
