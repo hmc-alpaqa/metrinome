@@ -60,15 +60,14 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
-disable=C0326, # disable space before bracket
+disable=C0326, # space before bracket
 	W1203, # % for lazy evaluation in logging (f-strings)
 	W1202, # % for lazy evaluation in logging
 	W1201, # % for lazy evaluation in logging
 	R0903, # too few public methods
 	W0235, # useless super() delegation
-	R0201, # method could be a function
-	R0801, # duplicate code
-      E0110, # disable abstract-class-instantiated
+      no-self-use, # method could be a function
+      abstract-class-instantiated,
       print-statement,
         parameter-unpacking,
         unpacking-in-except,

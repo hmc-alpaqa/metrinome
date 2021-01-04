@@ -166,8 +166,7 @@ class TestGraph(unittest.TestCase):
         """Check that equality throws an error when Graphs are different types."""
         graph1 = EdgeListGraph(cast(EdgeListType, []), 1)
         graph2 = AdjListGraph(cast(AdjListType, []), 1)
-        with self.assertRaises(ValueError):
-            graph1 == graph2  # pylint: disable=pointless-statement
+        self.assertNotEqual(graph1, graph2)
 
     # === Graph::__str__ ===
     def test_to_str(self) -> None:
@@ -265,7 +264,7 @@ class TestGraph(unittest.TestCase):
         """Check that converting a an unweighted graph to weighted sets weights to 1."""
         graph = AdjListGraph(cast(AdjListType, [[1, 2], [2], []]), 3)
         graph.convert_to_weighted()
-        self.assertEqual(graph.edges, [[[1, 1], [2, 1]], [[2, 1]], []])
+        self.assertEqual(graph.edges, [[1, 2], [2], []])
         self.assertEqual(graph.num_vertices, 3)
         self.assertEqual(graph.start_node, 0)
 
@@ -280,3 +279,7 @@ class TestGraph(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file:
             to_write = ''.join(graph.to_prism())
             file.write(str.encode(to_write))
+
+
+if __name__ == '__main__':
+    unittest.main()

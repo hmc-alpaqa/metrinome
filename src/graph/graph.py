@@ -2,8 +2,8 @@
 
 import collections
 from abc import ABC, abstractmethod
-from typing import (DefaultDict, Dict, Generic, List, Match, Optional, Tuple,
-                    TypeVar, Set)
+from typing import (DefaultDict, Dict, Generic, List, Match, Optional, Set,
+                    Tuple, TypeVar)
 
 import numpy as np  # type: ignore
 
@@ -120,8 +120,11 @@ class GenericGraph(Graph, Generic[Type], ABC):
         super().__init__(num_vertices)
 
     def __eq__(self, other: object) -> bool:
-        """Check that two Graphs are equal by checking their vertices and edges."""
+        """Check that two Graphs are equal by checking the graph type, vertices, and edges."""
         if not isinstance(other, GenericGraph):
+            return False
+
+        if self.__class__ is not other.__class__:
             return False
 
         edges_equal = self.edges == other.edges
