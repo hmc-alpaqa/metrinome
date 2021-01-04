@@ -11,8 +11,8 @@ from core.env import Env
 from core.log import Log
 from klee.klee_time_test import run_klee_time
 from klee.klee_utils import (KleeCompareResults, KleeUtils, create_pandas,
-                             get_functions_list, get_stats_dict, klee_command,
-                             klee_with_preferences)
+                             get_functions_list, get_stats_dict, klee_cmd,
+                             klee_with_opts)
 
 KleeExperiment = Callable[[str, int, List[str], List[str], List[str], List[str]], None]
 plt.rcParams["figure.figsize"] = (10, 10)
@@ -43,8 +43,7 @@ class KleeExperimentHandler:
         saves the data as a csv, and creates a graph for each field.
         """
         subprocess.run(f"mkdir {self.c_files_dir}/frames/", shell=True, check=False)
-        experiment_f = self.klee_optimized_experiment if self.optimized else self.klee_experiment
-        list(map(experiment_f, get_functions_list()))
+        list(map(self.klee_experiment, get_functions_list()))
 
     def klee_compare(self, file_name: str, function: str,
                      remove: bool = True) -> KleeCompareResults:
@@ -60,7 +59,7 @@ class KleeExperimentHandler:
                 algs_path = f"{self.c_files_dir}/klee"
                 output_file = f"{algs_path}_{self.pref}_{depth}_{input_}_{function}_output"
                 output_file = output_file.replace(" ", "_")
-                results = klee_with_preferences(file_name, output_file, self.pref, depth, input_)
+                results = klee_with_opts(file_name, output_file, self.pref, depth, False, input_)
                 stats_params = "--table-format=simple --print-all"
                 stats = subprocess.run(f"{Env.KLEE_PATH}-stats {stats_params} {output_file}",
                                        shell=True, stdout=PIPE, stderr=PIPE, check=True)
@@ -84,7 +83,7 @@ class KleeExperimentHandler:
         with open(new_name, "w+") as file:
             file.write(val)
 
-        subprocess.run(klee_command(bcname, new_name), shell=True, capture_output=True, check=True)
+        subprocess.run(klee_cmd(bcname, new_name), shell=True, capture_output=True, check=True)
         res = self.klee_compare(bcname, filename)
         results_frame = create_pandas(res, self.pref, self.inputs[0],
                                       self.max_depths, self.fields)
@@ -96,20 +95,17 @@ class KleeExperimentHandler:
         filename = f"{self.c_files_dir}/{func}.c"
         output = KleeUtils(Log()).show_func_defs(filename, size=self.array_size)
 
-        for key, val in output.items():
-            res = self.klee_experiment_helper(func, key, val)
-            list(map(lambda f: self.graph_stat(func, self.pref, res, None, f), self.fields))
+        if self.optimized:
+            output2 = KleeUtils(Log()).show_func_defs(filename, self.array_size, optimized=True)
+            for i, j in zip(output, output2):
+                res = self.klee_experiment_helper(func, i, output[i])
+                res2 = self.klee_experiment_helper(func, j, output2[j], True)
 
-    def klee_optimized_experiment(self, func: str) -> None:
-        """Run the KLEE experiment for a single function."""
-        filename = f"{self.c_files_dir}/{func}.c"
-        output = KleeUtils(Log()).show_func_defs(filename, size=self.array_size)
-        output2 = KleeUtils(Log()).show_func_defs(filename, size=self.array_size, optimized=True)
-
-        for i, j in zip(output, output2):
-            res = self.klee_experiment_helper(func, i, output[i])
-            res2 = self.klee_experiment_helper(func, j, output2[j], True)
-            list(map(lambda f: self.graph_stat(func, self.pref, res, res2, f), self.fields))
+                list(map(lambda f: self.graph_stat(func, self.pref, res, res2, f), self.fields))
+        else:
+            for key, val in output.items():
+                res = self.klee_experiment_helper(func, key, val)
+                list(map(lambda f: self.graph_stat(func, self.pref, res, None, f), self.fields))
 
     def graph_stat(self, func: str, preference: str, results: KleeCompareResults,
                    results2: Optional[KleeCompareResults], field: str) -> None:
@@ -117,7 +113,7 @@ class KleeExperimentHandler:
         subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/graphs/",
                        shell=True, check=False)
         fig1, ax1 = plt.subplots()
-        depths = [float(i) for i in self.max_depths]
+        depths = list(map(float, self.max_depths))
         for input_ in self.inputs:
             stats = [results[(preference, i, input_)][field] for i in self.max_depths]
             ax1.plot(depths, stats, label=func)

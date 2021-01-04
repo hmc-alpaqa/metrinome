@@ -22,20 +22,24 @@ KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
                                   float, float, float, float]
 
 
-def klee_with_preferences(file_name: str, output_name: str, preferences: str, max_depth: str,
-                          input_: str) -> KleeOutputPreferencesInfo:
+def klee_with_opts(file_name: str, output_name: str, preferences: str, max_val: str,
+                   max_time: bool, input_: str = "") -> KleeOutputPreferencesInfo:
     """Run and Klee with specified parameters and return several statistics."""
     with open(file_name, "rb+"):
         timeconfig = r"export TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'; "
 
-        cmd_params = f"-output-dir={output_name} -max-depth {max_depth}"
-        cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name} {input_}"
+        if max_time:
+            cmd_params = f"-output-dir={output_name} --max-time={max_val}min"
+            cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name}"
+        else:
+            cmd_params = f"-output-dir={output_name} -max-depth {max_val}"
+            cmd = f"time {Env.KLEE_PATH} {preferences} {cmd_params} {file_name} {input_}"
+
         start_time = time()
         res = subprocess.run(timeconfig + cmd, shell=True, check=False,
                              executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
         final_time = time() - start_time
-        parsed = parse_klee(res.stderr.decode())
-        return (*parsed, final_time)
+        return (*parse_klee(res.stderr.decode()), final_time)
 
 
 def parse_klee(klee_output: str) -> KleeOutputInfo:
@@ -57,7 +61,7 @@ def parse_klee(klee_output: str) -> KleeOutputInfo:
     return tests, paths, insts, real, user, sys
 
 
-def klee_command(bcname: str, new_name: str) -> str:
+def klee_cmd(bcname: str, new_name: str) -> str:
     """Get the KLEE command as a string."""
     return f"clang-6.0 -I /app/klee/include -emit-llvm -c -g\
              -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
