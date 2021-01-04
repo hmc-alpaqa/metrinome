@@ -1,15 +1,16 @@
 """Script for running Klee on a series of functions and saving data."""
 
 import subprocess
-import time
 from subprocess import PIPE
+from time import time
 from typing import Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 
 from core.log import Log
-from klee.klee_utils import KleeUtils, klee_compare, parse_klee
+from klee.klee_utils import (KleeUtils, get_functions_list, klee_compare,
+                             parse_klee)
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -32,10 +33,10 @@ def klee_with_preferences(file_name: str, output_name: str,
 
         cmd_params = f"-output-dir={output_name} -max-depth {max_depth}"
         cmd = f"time {klee_path} {preferences} {cmd_params} {file_name} {input_}"
-        start_time = time.time()
+        start_time = time()
         res = subprocess.run(timeconfig + cmd, shell=True, check=False,
                              executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
-        final_time = time.time() - start_time
+        final_time = time() - start_time
         output = res.stderr
         parsed = parse_klee(output.decode())
         return (*parsed, final_time)
@@ -107,15 +108,7 @@ def main() -> None:
               "SysTime", "PythonTime"]
     inputs = [""]
     array_size = 100
-    functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
-                 '16_binary_search', '12_check_sorted_array', '11_array_max',
-                 '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
-                 '19_longest_common_increasing_subsequence', '14_lexicographic_array_compare',
-                 '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
-                 '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
-                 '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
-                 '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
-                 '63_three_loops_symbolic_bounds']
+    functions = get_functions_list()
 
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
                    shell=True, check=False)

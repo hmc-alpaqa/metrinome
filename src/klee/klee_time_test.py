@@ -1,5 +1,4 @@
 """Script for running Klee on a series of functions and saving data."""
-import re
 import subprocess
 import time
 from subprocess import PIPE
@@ -9,7 +8,7 @@ import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
 
 from core.log import Log
-from klee.klee_utils import KleeUtils
+from klee.klee_utils import KleeUtils, parse_klee
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -24,30 +23,6 @@ KleeOutputPreferencesInfo = Tuple[Optional[int],
                                   Optional[int],
                                   Optional[int],
                                   float, float, float, float]
-
-
-def parse_klee(klee_output: str) -> KleeOutputInfo:
-    """Parse output from running Klee."""
-    strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
-    string_four = "real"
-    str_indicies = [klee_output.index(str_to_match) + len(str_to_match)
-                    for str_to_match in strs_to_match]
-
-    times = klee_output[klee_output.index(string_four):].split()
-    real, user, sys = float(times[1][:-1]), float(times[3][:-1]), float(times[5][:-1])
-
-    number_regex = re.compile("[0-9]+")
-    str_matches = [number_regex.match(klee_output[str_idx:]) for str_idx in str_indicies]
-
-    tests, paths, insts = None, None, None
-    if str_matches[0] is not None:
-        tests = int(str_matches[0].group())
-    if str_matches[1] is not None:
-        paths = int(str_matches[1].group())
-    if str_matches[2] is not None:
-        insts = int(str_matches[2].group())
-
-    return tests, paths, insts, real, user, sys
 
 
 def klee_with_time(file_name: str, output_name: str,
@@ -188,7 +163,7 @@ def main() -> None:
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"]
     array_size = 100
-    # functions = ['04_prime']
+
     # functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
     #              '16_binary_search', '12_check_sorted_array', '11_array_max',
     #              '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',

@@ -6,7 +6,8 @@ from typing import Dict, List, Optional, Tuple, Union
 import matplotlib.pyplot as plt  # type: ignore
 
 from core.log import Log
-from klee.klee_utils import KleeUtils, create_pandas, klee_compare
+from klee.klee_utils import (KleeUtils, create_pandas, get_functions_list,
+                             klee_compare)
 
 plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -99,15 +100,7 @@ def main() -> None:
               "SysTime", "PythonTime"]
     inputs = [""]
     array_size = 100
-    functions = ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
-                 '16_binary_search', '12_check_sorted_array', '11_array_max',
-                 '10_find_val_in_array', '13_check_arrays_equal', '15_check_heap_order',
-                 '19_longest_common_increasing_subsequence', '14_lexicographic_array_compare',
-                 '17_edit_dist', '20_bubblesort', '21_insertionsort', '22_selectionsort',
-                 '23_mergesort', "30_euclid_GCD", "31_sieve_of_eratosthenes", "32_newtons_method",
-                 '50_check_sorted_or_reverse', '51_variance', '25_heapsort', '26_quicksort',
-                 '60_array_summary', '61_pos_vel_acc', '62_three_loops_w_break',
-                 '63_three_loops_symbolic_bounds']
+    functions = get_functions_list()
 
     subprocess.run("mkdir /app/code/tests/cFiles/fse_2020_benchmark/frames/",
                    shell=True, check=False)
