@@ -117,7 +117,6 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = [new_node]
 
-    # pylint: disable=R0201
     def visit_With(self, node: ast.With) -> None:
         """Visit a python with statement."""
         self.logger.d_msg(f"At with {node}")
@@ -190,12 +189,10 @@ class FunctionVisitor(ast.NodeVisitor):
 
         self.frontier = new_frontier
 
-    # pylint: disable=R0201
     def visit_Raise(self, node: ast.Raise) -> None:
         """Visit a python raise."""
         self.logger.d_msg(f"At raise {node}")
 
-    # pylint: disable=R0201
     def visit_Try(self, node: ast.Try) -> None:
         """Visit a python try statement."""
         self.logger.d_msg(f"At try {node}")
@@ -308,7 +305,6 @@ class PythonConvert(converter.ConverterAbstract):
         """Get the name of the Python converter."""
         return "Python"
 
-    # pylint: disable=R0201
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, ControlFlowGraph]:
         """Create a CFG from a Python source file."""
         self.logger.d_msg(file_extension)

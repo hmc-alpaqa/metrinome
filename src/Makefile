@@ -20,6 +20,7 @@ test:
 	python tests/test_python.py
 	python tests/test_utils.py
 	python tests/test_env.py
+	python tests/test_cfg.py
 ifndef fast
 	python tests/test_java.py
 endif
