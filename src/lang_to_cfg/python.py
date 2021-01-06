@@ -240,7 +240,7 @@ class Visitor(ast.NodeVisitor):
         if node.end_lineno is None:
             raise ValueError("we have a problem")
 
-        md = Metadata(int(node.end_lineno) - node.lineno)
+        md = Metadata(Metadata.with_loc(int(node.end_lineno) - node.lineno))
 
         visitor = FunctionVisitor()
         self.logger.d_msg(f"Visiting {node.name}")

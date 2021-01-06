@@ -26,4 +26,6 @@ class LinesOfCode(metric.MetricAbstract):
         if cfg.metadata is None:
             raise ValueError("Invalid cfg type.")
 
+        if cfg.metadata.loc is None:
+            raise ValueError("Invalid cfg type.")
         return cfg.metadata.loc

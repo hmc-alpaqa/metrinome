@@ -14,7 +14,7 @@ class TestMetadata(unittest.TestCase):
 
     def test_str_regular_md(self) -> None:
         """Test the string dunder method."""
-        metadata = Metadata(5)
+        metadata = Metadata(Metadata.with_loc(5))
         self.assertTrue("5" in str(metadata))
 
 
@@ -51,24 +51,24 @@ class TestControlFlowGraph(unittest.TestCase):
     # === Graph::stitch ===
     def test_stitch_normal_graph(self) -> None:
         """Test if we can replace a node with another graph with many edges and vertices."""
-        caller = CFG(get_test_graph())
+        calls = {3: "callee"}
+        caller = CFG(get_test_graph(), Metadata(Metadata.with_calls(calls)))
         callee = CFG(get_second_test_graph())
         expected = CFG(EdgeListGraph([[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
                                      [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]],
                                      12))
 
         graphs = {"caller": caller, "callee": callee}
-        caller.graph.calls = {3: "callee"}
 
         self.assertEqual(CFG.stitch(graphs), expected)
-        self.assertEqual(caller, CFG(get_test_graph()))
+        self.assertEqual(caller, CFG(get_test_graph(), Metadata(Metadata.with_calls(calls))))
         self.assertEqual(callee, CFG(get_second_test_graph()))
 
     # === Graph::compose ===
     def test_compose_normal(self) -> None:
         """Test if we can compose two graphs."""
-        caller = CFG(get_test_graph())
-        caller.graph.calls = {3: "callee"}
+        calls = {3: "callee"}
+        caller = CFG(get_test_graph(), Metadata(Metadata.with_calls(calls)))
         callee = CFG(get_second_test_graph())
         edges = [[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
                  [9, 10], [10, 11], [3, 4], [4, 5], [4, 6], [5, 7], [6, 7]]
@@ -76,7 +76,7 @@ class TestControlFlowGraph(unittest.TestCase):
         res = CFG.compose(caller, callee, 3)
 
         self.assertEqual(res, expected)
-        self.assertEqual(caller, CFG(get_test_graph()))
+        self.assertEqual(caller, CFG(get_test_graph(), Metadata(Metadata.with_calls(calls))))
         self.assertEqual(callee, CFG(get_second_test_graph()))
 
 
