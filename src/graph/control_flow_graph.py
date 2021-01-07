@@ -3,23 +3,45 @@ from __future__ import annotations
 
 import os
 import re
-from typing import List, Type, cast
+from typing import Callable, Dict, List, Match, Optional, Type, cast
 
-from graph.graph import (AdjListGraph, AdjListType, AdjMatGraph, Dict,
-                         EdgeListGraph, Graph)
+from graph.graph import (AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph,
+                         Graph)
 from utils import calls_function
+
+Option = Callable[['Metadata'], None]
 
 
 class Metadata:
     """Store metadata associated with a CFG."""
 
-    def __init__(self, loc: int):
+    def __init__(self, *options: Option):
         """Create a new metadata object."""
-        self.loc = loc
+        self.loc: Optional[int] = None
+        self.calls: Dict[int, str] = {}
+
+        for opt in options:
+            opt(self)
 
     def __str__(self) -> str:
         """Return metadata as string."""
-        return f"Lines of code: {self.loc}"
+        return f"Lines of code: {self.loc}, Calls: {self.calls}"
+
+    @staticmethod
+    def with_loc(loc: int) -> Option:
+        """Set number of lines of code in metadata."""
+        def option(metadata: Metadata) -> None:
+            """Apply the option."""
+            metadata.loc = loc
+        return option
+
+    @staticmethod
+    def with_calls(calls: Dict[int, str]) -> Option:
+        """Initialize calls in a Metadata instance."""
+        def option(metadata: Metadata) -> None:
+            """Apply the option."""
+            metadata.calls = calls
+        return option
 
 
 class ControlFlowGraph:
@@ -30,7 +52,7 @@ class ControlFlowGraph:
     metadata to the Graph class.
     """
 
-    def __init__(self, graph: Graph, metadata: Metadata = None):
+    def __init__(self, graph: Graph, metadata: Metadata = Metadata()):
         """Create a new CFG from any Graph object."""
         self.graph = graph
         self.name = graph.name
@@ -54,6 +76,15 @@ class ControlFlowGraph:
         return str(self.graph)
 
     @staticmethod
+    def check_call(match: Match[str]) -> Optional[Dict[int, str]]:
+        """Find and return any functions called on a node."""
+        node = int(match.group(1))
+        label = match.group(2)
+        if "CALLS" in label:
+            return {node: label}
+        return None
+
+    @staticmethod
     def from_file(filename: str, graph_type: Type[Graph] = AdjListGraph) -> ControlFlowGraph:
         """
         Return a Graph object from a .dot file of format.
@@ -67,6 +98,7 @@ class ControlFlowGraph:
         }
         """
         name = os.path.split(filename)[1]
+        calls = {}
         # Initialize graph based on type.
         graph: Graph
         if graph_type is AdjListGraph:
@@ -94,6 +126,9 @@ class ControlFlowGraph:
                 # Current line is not an edge - check if it defines a node.
                 elif (match := re.search(node_with_label_regex, line)) is not None:
                     graph.update_with_node(match, True)
+                    call = ControlFlowGraph.check_call(match)
+                    if call is not None:
+                        calls.update(call)
                 elif (match := re.search(node_without_label_regex, line)) is not None:
                     graph.update_with_node(match, False)
 
@@ -103,30 +138,35 @@ class ControlFlowGraph:
         if graph_type is AdjMatGraph:
             graph = AdjMatGraph(graph.adjacency_matrix(), graph.num_vertices)
 
-        return ControlFlowGraph(graph, None)
+        # Eventually will support loc for java and c/c++.
+        return ControlFlowGraph(graph, Metadata(Metadata.with_calls(calls)))
 
     @staticmethod
     def stitch(graphs: Dict[str, ControlFlowGraph]) -> ControlFlowGraph:
         """Create new CFG by substituting function calls with their graphs."""
         calls_list = []
         simple_funcs = []
+        for graph in graphs.values():
+            if graph.metadata is None:
+                return None
+
         for func1 in graphs:
             for func2 in graphs:
-                if calls_function(graphs[func1].graph.calls, func2):
+                if calls_function(graphs[func1].metadata.calls, func2):
                     if func1 != func2:
                         calls_list.append([func1, func2])
-                if graphs[func2].graph.calls == {}:
+                if graphs[func2].metadata.calls == {}:
                     simple_funcs.append(func2)
 
         while calls_list:
             for func_pair in calls_list:
                 if func_pair[1] in simple_funcs:
                     for _ in range(len(
-                        calls_function(graphs[func_pair[0]].graph.calls, func_pair[1])
+                        calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])
                     )):
                         cfg1, cfg2 = graphs[func_pair[0]], graphs[func_pair[1]]
-                        node = calls_function(graphs[func_pair[0]].graph.calls, func_pair[1])[0]
-                        cfg1.graph.calls.pop(node)
+                        node = calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])[0]
+                        cfg1.metadata.calls.pop(node)
                         graphs[func_pair[0]] = ControlFlowGraph.compose(cfg1, cfg2, node)
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
@@ -165,12 +205,10 @@ class ControlFlowGraph:
         stitched_graph = EdgeListGraph(edges_1, len(vertices))
 
         new_calls = {}
-        for vertex in cfg1.graph.calls.keys():
+        for vertex in cfg1.metadata.calls.keys():
             if vertex > node:
-                new_calls[vertex + shift] = cfg1.graph.calls[vertex]
+                new_calls[vertex + shift] = cfg1.metadata.calls[vertex]
             else:
-                new_calls[vertex] = cfg1.graph.calls[vertex]
+                new_calls[vertex] = cfg1.metadata.calls[vertex]
 
-        stitched_graph.calls = new_calls
-
-        return ControlFlowGraph(stitched_graph)
+        return ControlFlowGraph(stitched_graph, Metadata(Metadata.with_calls(new_calls)))

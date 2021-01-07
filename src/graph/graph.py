@@ -34,7 +34,6 @@ class Graph(ABC):
         self.start_node: int = 0
         self.end_node: int = num_vertices - 1
         self.num_vertices = num_vertices
-        self.calls: Dict[int, str] = {}
         self.name: Optional[str] = None
 
     @abstractmethod
@@ -147,12 +146,10 @@ class GenericGraph(Graph, Generic[Type], ABC):
         return node + 1
 
     def _update_with_node_helper(self, match: Match[str], node_label: bool) -> int:
-        """Store start and end nodes, as well as any function calls."""
+        """Store start and end nodes."""
         node = int(match.group(1))
         if node_label:
             label = match.group(2)
-            if "CALLS" in label:
-                self.calls[node] = label
             if "START" in label:
                 self.start_node = node
             if label == "EXIT":
