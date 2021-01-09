@@ -1,7 +1,16 @@
-lint: fix-import check-lint
+SHELL := /bin/bash
+UNAME_S := $(shell uname -s)
 
-fix-import:
+# ========================
+# === Run Inside Image ===
+# ========================
+
+lint: fix-lint check-lint
+
+fix-lint:
 	isort .
+	find . -type f -name "*.py" | xargs sed -i -e 's/[[:space:]]*$$//g'
+	find . -type f -name "*.py" | xargs sed -i -e 's/	/    /g'
 
 check-lint:
 	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
@@ -10,32 +19,37 @@ check-lint:
 	find . -type f -name "*.py" | xargs pylint --rcfile=config/pylintrc -r n -f parseable # Linting.
 
 test:
-	python tests/test_command.py       
-	python tests/test_cpp.py
-	python tests/test_cfg.py
-	python tests/test_cyclomatic.py     
-	python tests/test_graph.py          
-	python tests/test_log.py            
-	python tests/test_npath.py          
-	python tests/test_pathcomplexity.py 
-	python tests/test_python.py
-	python tests/test_utils.py
-	python tests/test_env.py
-	python tests/test_cfg.py
-ifndef fast
-	python tests/test_java.py
-endif
+	python -m unittest discover /app/code/tests
 
 coverage:
 	coverage run -m unittest discover 
 	coverage report -m --omit=tests/*
 	coverage xml
 
+clean:
+	rm -r __pycache__ || true
+	rm -r inlining/__pycache__ || true
+	rm -r lang_to_cfg/__pycache__ || true
+	rm -r metric/__pycache__ || true
+	rm -r tests/__pycache__ || true
+
+# =========================
+# === Run Outside Image ===
+# =========================
+
 build: 
 	docker build --tag harveymudd/metrinome:latest -f ../Dockerfile ../
 
+ifeq ($(UNAME_S),Darwin)
 run:
-	docker run -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
+	docker container prune -f --filter "label=metrinome_repl" > /dev/null
+	docker run --name metrinome_repl --label metrinome_repl -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
+else
+run:
+	docker container prune -f --filter "label=metrinome_repl"
+	docker run --name metrinome_repl --label metrinome_repl -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
+endif
+
 
 run-detached:
 	docker run --name detached_repl -d -it -v $(shell pwd):/app/code harveymudd/metrinome:latest /bin/zsh
@@ -46,22 +60,5 @@ start-detached:
 stop-detached:
 	docker stop detached_repl -t 10
 
-clean:
-	rm -r __pycache__ || true
-	rm -r inlining/__pycache__ || true
-	rm -r lang_to_cfg/__pycache__ || true
-	rm -r metric/__pycache__ || true
-	rm -r tests/__pycache__ || true
-
-
-# Tested on MacOS (will likely not work on linux due to slight differences in the 'sed' command).
-formatting:
-	# Remove trailing whitespace.
-	find . -type f -name "*.py" | xargs sed -i '' -e "s/[[:space:]]*$$//g"
-	# Replace tabs with spaces.
-	find . -type f -name "*.py" | xargs sed -i '' -e "s/	/    /g"
-	# Replace ''' with """.
-	find . -type f -name "*.py" | xargs sed -i '' -e 's/'"'''"'/"""/g'
-
-.PHONY: lint test formatting test build run run-detched stop-detached coverage clean check-lint fix-import
+.PHONY: lint test formatting test build run run-detched stop-detached coverage clean check-lint fix-import stop
 	

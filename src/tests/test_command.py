@@ -12,6 +12,7 @@ from tests.unit_utils import captured_output
 # pylint does not understand decorators :(
 # pylint: disable=no-value-for-parameter
 # pylint: disable=W0511
+# pylint: disable=W0612
 
 
 class TestController(unittest.TestCase):
@@ -19,7 +20,7 @@ class TestController(unittest.TestCase):
 
     def setUp(self) -> None:
         """Create a new instance of the Controller."""
-        self.controller = command.Controller(Log())
+        self.controller = command.Controller(Log(display_output=False))
 
     def test_graph_generator_names(self) -> None:
         """Check that we can get the names of all the files we can convert."""
@@ -62,7 +63,7 @@ class TestCommandInvalid(unittest.TestCase):
         """
         with captured_output() as (out, err):
             # self.command.do_to_klee_format("examplefile.wrongextension")
-            print(out, err)
+            pass
 
     def test_to_klee_format_nonexistant_file(self) -> None:
         """
@@ -73,7 +74,7 @@ class TestCommandInvalid(unittest.TestCase):
         """
         with captured_output() as (out, err):
             # self.command.do_to_klee_format("nonexistantfile.c")
-            print(out, err)
+            pass
 
     # ==== Test do_klee_replay ====
     def test_klee_replay_invalid_type(self) -> None:
@@ -85,13 +86,11 @@ class TestCommandInvalid(unittest.TestCase):
         """
         with captured_output() as (out, err):
             self.command.do_klee_replay("somefile.wrongextension")
-            print(out, err)
 
     def test_klee_replay_nonexistant_file(self) -> None:
         """Test that if we call klee_replay on a nonexistant file, we get the correct error."""
         with captured_output() as (out, err):
             self.command.do_klee_replay("nonexistantFile.ktest")
-            print(out, err)
 
     # ==== Test do_convert ====
     def test_convert_nonexistant_file(self) -> None:
@@ -102,8 +101,8 @@ class TestCommandInvalid(unittest.TestCase):
         convert on a file that does not exist.
         """
         with captured_output() as (out, err):
-            # self.command.do_convert("somefile.py") # TODO
-            print(out, err)
+            # self.command.do_convert("somefile.py")
+            pass
 
     def test_convert_invalid_type(self) -> None:
         """
@@ -115,7 +114,7 @@ class TestCommandInvalid(unittest.TestCase):
         """
         with captured_output() as (out, err):
             # self.command.do_convert("testfile.invalidextension")
-            print(out, err)
+            pass
 
     def test_show_metric_invalid(self) -> None:
         """
@@ -126,7 +125,6 @@ class TestCommandInvalid(unittest.TestCase):
         """
         with captured_output() as (out, err):
             self.command.do_show(command_data.ObjTypes.METRIC.value, "foo")
-            print(out, err)
 
     def test_list_invalid_type(self) -> None:
         """
@@ -137,7 +135,6 @@ class TestCommandInvalid(unittest.TestCase):
         """
         with captured_output() as (out, err):
             self.command.do_list("Somerandomtype")
-            print(out, err)
 
 
 class TestCommandKlee(unittest.TestCase):
@@ -157,7 +154,6 @@ class TestCommandKlee(unittest.TestCase):
         with captured_output() as (out, err):
             self.command.do_to_klee_format(False, "examplefile.c")
         self.assertTrue(len(err.getvalue()) == 0)
-        print(out.getvalue())
 
     # ==== Test do_klee_to_bc =====
     def test_klee_to_bc(self) -> None:
@@ -165,7 +161,6 @@ class TestCommandKlee(unittest.TestCase):
         with captured_output() as (out, err):
             pass
         self.assertTrue(len(err.getvalue()) == 0)
-        print(out.getvalue())
 
     # ==== Test do_klee_replay ====
     def test_klee_replay_valid(self) -> None:
@@ -173,7 +168,6 @@ class TestCommandKlee(unittest.TestCase):
         with captured_output() as (out, err):
             self.command.do_klee_replay("samplefile.ktest")
         self.assertTrue(len(err.getvalue()) == 0)
-        print(out.getvalue(), err.getvalue())
 
 
 class TestCommand(unittest.TestCase):
@@ -228,13 +222,12 @@ class TestCommand(unittest.TestCase):
                 max_num_args = self.valid_commands[valid_command][1]
                 if min_num_args > 0:
                     # res = method("")
-                    print(method)
                     # TODO: assert that result is none
+                    pass
                 if max_num_args != float('inf'):
                     # res = method("a " * (max_num_args + 1))
                     pass
                     # TODO: assert that the result is none
-            print(out.getvalue(), err.getvalue())
 
     # === Test do_quit ===
     # pylint: disable=E1121
@@ -282,8 +275,6 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             # self.command.do_convert("testfile.py") # TODO
             pass
-
-        print(out.getvalue(), err.getvalue())
 
     # TODO: convert recursive
 
@@ -341,7 +332,6 @@ class TestCommand(unittest.TestCase):
             graph = EdgeListGraph(cast(EdgeListType, []), 1)
             self.command.data.graphs["foo"] = CFG(graph)
             self.command.do_show(command.ObjTypes.GRAPH.value, "foo")
-            print(out, err)
 
     def test_show_klee(self) -> None:
         """Check that we can show klee objects."""
@@ -354,8 +344,6 @@ class TestCommand(unittest.TestCase):
         with captured_output() as (out, err):
             self.command.do_show(command_data.ObjTypes.KLEE.value, "foo")
 
-        print(out.getvalue(), err.getvalue())
-
     def test_show_all_types_valid(self) -> None:
         """
         Check show command with wildcard operator for type.
@@ -367,7 +355,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.graphs["foo"] = CFG(EdgeListGraph(cast(EdgeListType, []), 1))
             self.command.data.metrics["foo"] = [("123", 1)]
             self.command.do_show(command_data.ObjTypes.ALL.value, "foo")
-            print(out, err)
 
     def test_show_all_names_valid(self) -> None:
         """
@@ -381,7 +368,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.graphs["bar"] = CFG(EdgeListGraph(cast(EdgeListType, []), 1))
             self.command.do_show(command_data.ObjTypes.GRAPH.value,
                                  command.ObjTypes.ALL.value)
-            print(out, err)
 
     # ==== Test do_list =====
     def test_list_graphs(self) -> None:
@@ -393,7 +379,6 @@ class TestCommand(unittest.TestCase):
         """
         with captured_output() as (out, err):
             self.command.do_list(command_data.ObjTypes.GRAPH.value)
-            print(out, err)
 
     def test_list_metrics(self) -> None:
         """
@@ -441,7 +426,6 @@ class TestCommand(unittest.TestCase):
         """
         with captured_output() as (out, err):
             self.command.do_list(command_data.ObjTypes.ALL.value)
-            print(out, err)
 
     # ==== Test do_delete ======
     def test_delete_graph_valid(self) -> None:
@@ -458,7 +442,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.graphs['sample_graph'] = CFG(EdgeListGraph(cast(EdgeListType, []), 1))
             self.command.data.metrics['sample_graph'] = [('abc', 1)]
             self.command.do_delete(str(obj_type), str(obj_name))
-            print(out, err)
 
     def test_delete_metric_valid(self) -> None:
         """
@@ -475,7 +458,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.metrics['sample_metric'] = [('bar', 1)]
             self.command.data.graphs['sample_metric'] = graph
             self.command.do_delete(str(obj_type), str(obj_name))
-            print(out, err)
 
     def test_delete_all_types_valid(self) -> None:
         """
@@ -494,7 +476,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.graphs['sample_name'] = graph
             self.command.data.metrics['sample_name'] = [('b', 1)]
             self.command.do_delete(str(obj_type), str(obj_name))
-            print(out, err)
 
     def test_delete_all_names_valid(self) -> None:
         """Verify that we can use the wildcard operator to delete all objects of a given type."""
@@ -508,7 +489,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.metrics['sample_name'] = [("123", 1)]
 
             self.command.do_delete(str(obj_type), str(obj_name))
-            print(out, err)
 
     # TODO: test invalid
 

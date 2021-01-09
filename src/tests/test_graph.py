@@ -127,8 +127,6 @@ class TestGraph(unittest.TestCase):
 
         graph.update_with_node(update, True)
         expected = EdgeListGraph(cast(EdgeListType, []), 2)
-        print(expected)
-        print(graph)
         self.assertEqual(expected, graph)
 
     # === Graph::update_with_edge ===
@@ -167,6 +165,9 @@ class TestGraph(unittest.TestCase):
         graph1 = EdgeListGraph(cast(EdgeListType, []), 1)
         graph2 = AdjListGraph(cast(AdjListType, []), 1)
         self.assertNotEqual(graph1, graph2)
+
+        other = "foo"
+        self.assertNotEqual(graph1, other)
 
     # === Graph::__str__ ===
     def test_to_str(self) -> None:
