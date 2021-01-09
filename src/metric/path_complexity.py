@@ -30,44 +30,14 @@ class BaseCaseGetter(ABC):
     @abstractmethod
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
-        """Get path(start_idx) throught path(end_idx)."""
-
-
-class BetterBaseCaseBFS(BaseCaseGetter):
-    """Get base cases using a breadth first search on the control flow graph."""
-
-    def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
-        """Use a BFS to count all of the paths through the CFG up to a certain depth."""
-        end_idx = start_idx + num_coeffs
-        depth = 1
-        base_cases = [0] * end_idx
-        graph_adj = graph.adjacency_list()
-        # Count how many paths of length 'depth' can reach each node.
-        num_paths = defaultdict(int)
-        num_paths[graph.start_node] = 1
-        while depth < end_idx:
-            # Compute how many paths of length 'depth + 1' can reach each node.
-            new_num_paths: DefaultDict[int, int] = defaultdict(int)
-            for curr_node, curr_paths in num_paths.items():
-                for next_node in graph_adj[curr_node]:
-                    new_num_paths[next_node] += curr_paths
-
-            # Check how many of these reach the end node.
-            base_cases[depth] = new_num_paths[graph.end_node]
-            if depth > 0:
-                base_cases[depth] += base_cases[depth - 1]
-            depth += 1
-            num_paths = new_num_paths
-
-        return np.matrix(base_cases[start_idx: end_idx], dtype="float64"), start_idx
+        """Get path(start_idx) throught path(start_idx + num_coeffs)."""
 
 
 class BaseCaseBFS(BaseCaseGetter):
     """Get base cases using a breadth first search on the control flow graph."""
 
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> Tuple[np.matrix, int]:
+            start_idx: int, num_coeffs: int) -> Tuple[np.ndarray, int]:
         """Use a BFS to count all of the paths through the CFG up to a certain depth."""
         end_idx = start_idx + num_coeffs
         depth = 1
@@ -90,7 +60,7 @@ class BaseCaseBFS(BaseCaseGetter):
             depth += 1
             num_paths = new_num_paths
 
-        return np.matrix(base_cases[start_idx: end_idx], dtype="float64"), start_idx
+        return np.array(base_cases[start_idx: end_idx], dtype="float64"), start_idx
 
 
 class BaseCaseTaylor(BaseCaseGetter):
@@ -115,8 +85,8 @@ class BaseCaseTaylor(BaseCaseGetter):
         self.logger.d_msg(f"Got taylor coeffs: {taylor_coeffs}, len: {len(taylor_coeffs)}")
 
         new_start_idx = new_start_idx if new_start_idx is not None else start_idx
-        return np.matrix(taylor_coeffs[new_start_idx: new_start_idx + num_coeffs],
-                         dtype='float64'), new_start_idx
+        return np.array(taylor_coeffs[new_start_idx: new_start_idx + num_coeffs],
+                        dtype='float64'), new_start_idx
 
 
 class BaseCaseSmart(BaseCaseGetter):
@@ -215,15 +185,16 @@ class PathComplexity(metric.MetricAbstract):
 
         base_cases, start_idx = self.base_case_getter.get(cfg.graph, x_mat, denominator,
                                                           dimension, recurrence_degree)
+
         base_cases = base_cases.transpose()
         # Solve the recurrence relation.
         factors, simplified_factors = get_solution_from_roots(roots)
 
         self.logger.d_msg(f"Simplified Factors: {simplified_factors}")
 
-        matrix = np.matrix([[fact.replace(self._n_var, nval) for fact in factors] for nval in
-                            range(start_idx, start_idx + recurrence_degree)],
-                           dtype='complex')
+        matrix = np.array([[fact.replace(self._n_var, nval) for fact in factors] for nval in
+                          range(start_idx, start_idx + recurrence_degree)],
+                          dtype='complex')
 
         self.logger.d_msg(f"Matrix: {matrix.shape}")
         self.logger.d_msg(f"Base Cases: {base_cases}, dimension: {dimension}")
@@ -233,7 +204,7 @@ class PathComplexity(metric.MetricAbstract):
         bound_sol_terms = np.absolute(bound_sol_terms)
         self.logger.d_msg(f"Coeffs: {bound_sol_terms}")
 
-        bound_sol_terms = bound_sol_terms.transpose().dot(Matrix(simplified_factors))[0, 0]
+        bound_sol_terms = bound_sol_terms.transpose().dot(Matrix(simplified_factors))[0]
 
         self.logger.d_msg(f"bounding_solution_terms: {bound_sol_terms}")
 

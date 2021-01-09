@@ -7,11 +7,8 @@ venv/
 src/.mypy_cache/
 .DS_STORE
 /src/exports/*
-/src/tests/cFiles/cppConverterTemps/*
 /src/tmp/
 /src/tmp_dot/
-/src/tests/cFiles/simpleAlgs/graphspandas
-/src/tests/cFiles/simpleAlgs/autobpgraphs
-/src/tandon-master/
 /src/.coverage
+/src/coverage.xml
 /src/htmlcov/

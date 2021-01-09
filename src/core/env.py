@@ -30,8 +30,8 @@ class Env:
     def make_temp() -> None:
         """Create the temporary dir."""
         try:
-            subprocess.check_call(["mkdir", "-p", Env.TMP_PATH])
-            subprocess.check_call(["mkdir", "-p", Env.TMP_DOT_PATH])
+            subprocess.run(["mkdir", "-p", Env.TMP_PATH], check=True, capture_output=True)
+            subprocess.run(["mkdir", "-p", Env.TMP_DOT_PATH], check=True, capture_output=True)
         except subprocess.CalledProcessError as err:
             print("Error in creating TMP folders.")
             print(err)

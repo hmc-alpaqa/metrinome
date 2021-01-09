@@ -11,13 +11,17 @@ from lang_to_cfg.java import JavaConvert
 class TestJavaConvert(unittest.TestCase):
     """All of the tests to verify that we can convert Java source code to Graph objects."""
 
+    def setUp(self) -> None:
+        """Initialize a logger before running each test."""
+        self.logger = Log(display_output=False)
+
     def test_run_cmd(self) -> None:
         """
         Check that running commands works.
 
         Runcmd should never throw an error, even when the command doesn't workout.
         """
-        converter = JavaConvert(Log())
+        converter = JavaConvert(self.logger)
         out, err = converter.runcmd("mkdir /")
         self.assertTrue(len(out) == 0)
         self.assertTrue(len(err) != 0)
@@ -28,9 +32,9 @@ class TestJavaConvert(unittest.TestCase):
 
     def test_invalid_name(self) -> None:
         """Check that we cannot convert certain invalid files."""
-        self.assertIsNone(JavaConvert(Log()).to_graph("javadoc", ".jar"))
-        self.assertIsNone(JavaConvert(Log()).to_graph("sources", ".jar"))
-        self.assertIsNone(JavaConvert(Log()).to_graph("tests", ".jar"))
+        self.assertIsNone(JavaConvert(self.logger).to_graph("javadoc", ".jar"))
+        self.assertIsNone(JavaConvert(self.logger).to_graph("sources", ".jar"))
+        self.assertIsNone(JavaConvert(self.logger).to_graph("tests", ".jar"))
 
     # def test_to_graph(self) -> None:
     #     """Test that converting a file with code to a Graph results in the correct Graph."""
@@ -52,7 +56,7 @@ class TestJavaConvert(unittest.TestCase):
 
     def test_single_file(self) -> None:
         """Test that converting a single .class file to a graph."""
-        converter = JavaConvert(Log())
+        converter = JavaConvert(self.logger)
         self.assertTrue(converter.name() == "Java")
 
         Env.clean_temps()
