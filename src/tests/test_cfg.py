@@ -32,14 +32,13 @@ class TestControlFlowGraph(unittest.TestCase):
                                 graph_type=EdgeListGraph)
         self.assertEqual(frmfile.graph, graph)
 
-    # === Graph::from_file ===
+    # === CFG::from_file ===
     def test_from_file_one_vertex(self) -> None:
         """Test if we can get the adjacency list for a graph with no edges."""
         expected = EdgeListGraph(cast(EdgeListType, []), 2)
         cfg = CFG.from_file("/app/code/tests/dotFiles/testsimple.dot",
                             graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
-        # Graph.fromFile(None)
 
     def test_from_file_normal_graph(self) -> None:
         """Test if we can get the adjacency list for a graph with many edges and vertices."""
@@ -48,7 +47,7 @@ class TestControlFlowGraph(unittest.TestCase):
                             graph_type=EdgeListGraph)
         self.assertEqual(expected, cfg.graph)
 
-    # === Graph::stitch ===
+    # === CFG::stitch ===
     def test_stitch_normal_graph(self) -> None:
         """Test if we can replace a node with another graph with many edges and vertices."""
         calls = {3: "callee"}
@@ -64,7 +63,7 @@ class TestControlFlowGraph(unittest.TestCase):
         self.assertEqual(caller, CFG(get_test_graph(), Metadata(Metadata.with_calls(calls))))
         self.assertEqual(callee, CFG(get_second_test_graph()))
 
-    # === Graph::compose ===
+    # === CFG::compose ===
     def test_compose_normal(self) -> None:
         """Test if we can compose two graphs."""
         calls = {3: "callee"}
@@ -78,6 +77,12 @@ class TestControlFlowGraph(unittest.TestCase):
         self.assertEqual(res, expected)
         self.assertEqual(caller, CFG(get_test_graph(), Metadata(Metadata.with_calls(calls))))
         self.assertEqual(callee, CFG(get_second_test_graph()))
+
+    # === CFG::__eq__ ===
+    def test_eq_different_types(self) -> None:
+        """Verify that comparing a CFG to a different type doesn't cause an error."""
+        cfg = CFG(get_test_graph())
+        self.assertFalse(cfg == "3")
 
 
 if __name__ == '__main__':

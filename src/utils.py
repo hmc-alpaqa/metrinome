@@ -13,8 +13,9 @@ from collections import Counter
 from types import FrameType, TracebackType
 from typing import Dict, List, Optional, Tuple, Type, Union
 
+import pycparser  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
-from pycparser import parse_file  # type: ignore
+from pycparser import parse_file
 from sympy import (Abs, Basic, Mul, Poly, Pow, limit, symbols,  # type: ignore
                    sympify)
 
@@ -140,16 +141,17 @@ def big_o(terms: List[str]) -> str:
 
 def show_func_defs(filename: str) -> Dict[str, str]:
     """Return a list of the functions defined in a file."""
+    # pylint: disable=unidiomatic-typecheck
     ast = parse_file(filename, use_cpp=True,
                      cpp_args=r'-I/app/pycparser/utils/fake_libc_include')
 
     names = {}
-
     for i in ast:
-        if str(type(i)) == "<class 'pycparser.c_ast.FuncDef'>":
+        if type(i) is pycparser.c_ast.FuncDef:
             names[i.decl.name] = str(i.decl.coord)
-        elif str(type(i)) == "<class 'pycparser.c_ast.Decl'>":
-            names[i.name + '_decl'] = str(i.coord)
+        elif type(i) is pycparser.c_ast.Decl:
+            if i.name is not None:
+                names[i.name + '_decl'] = str(i.coord)
     return names
 
 

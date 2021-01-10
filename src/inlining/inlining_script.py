@@ -1,45 +1,47 @@
 """Adds always inline attribute to C Files."""
 
 import re
+from typing import List
 
 from utils import show_func_defs
 
 
-def in_lining(file: str) -> None:
-    """Create inlined version of existing C file."""
+def get_lines(file: str) -> List[str]:
+    """Obtain the lines we should write to the new file."""
     function_calls_dict = show_func_defs(file)
 
-    # store the line numbers.
+    # Store the line numbers.
     lines_to_inline = []
     for val in function_calls_dict.values():
         lines_to_inline.append(re.split('[-:]', val)[-2])
     lines_to_inline.pop()  # pop off main's line number
 
-    # open the file that needs to be inlined
+    lines = []
+    # Open the file that needs to be inlined.
     with open(file, 'r') as old_f:
-        # open new file to write in-lined version into
-        with open((file.split('.')[0]) + "-auto-inline.c", "w") as new_f:
-            # write the new file
-            line_num = 0
-            for line in old_f:
-                line_num += 1
-                if str(line_num) in lines_to_inline:
-                    new_f.write("__attribute__((always_inline)) inline " + line)
-                else:
-                    new_f.write(line)
+        line_num = 0
+        for line in old_f:
+            line_num += 1
+            if str(line_num) in lines_to_inline:
+                lines.append("__attribute__((always_inline)) inline " + line)
+            else:
+                lines.append(line)
+
+    return lines
+
+
+def in_lining(file: str) -> None:
+    """Create inlined version of existing C file."""
+    # Open new file to write in-lined version into.
+    with open((file.split('.')[0]) + "-auto-inline.c", "w") as new_f:
+        new_f.writelines(get_lines(file))
 
 
 def main() -> None:
     """Create inline versions of all test files."""
     files_to_inline = ['test-40-un-inlined.c']
 
-    # files_to_inline = ['test-01-un-inlined.c', 'test-02-un-inlined.c', 'test-03-un-inlined.c',
-    #                    'test-04-un-inlined.c', 'test-05-un-inlined.c', 'test-06-un-inlined.c',
-    #                    'test-07-un-inlined.c', 'test-08-un-inlined.c', 'test-09-un-inlined.c',
-    #                    'test-10-un-inlined.c', 'test-11-un-inlined.c', 'test-12-un-inlined.c']
-
     for file in files_to_inline:
-        print(file)
         in_lining(f"/app/code/tests/cFiles/inlining_tests/{file}")
 
 

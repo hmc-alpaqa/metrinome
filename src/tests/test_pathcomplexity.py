@@ -2,6 +2,8 @@
 
 import unittest
 
+import numpy as np  # type: ignore
+
 import metric.path_complexity as pc
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
@@ -33,11 +35,25 @@ class TestPathComplexity(unittest.TestCase):
         start_idx, num_coeffs = 2, 5
         x_mat = None
         denominator = None
-        base_case_getter.get(graph, x_mat, denominator, start_idx, num_coeffs)
+        cases, start_idx = base_case_getter.get(graph, x_mat, denominator, start_idx, num_coeffs)
+        expected_cases = np.array([0, 1, 1, 3, 3])
+        self.assertTrue(np.array_equal(cases, expected_cases))
+        self.assertEqual(start_idx, 2)
 
     def test_basecase_taylor(self) -> None:
         """Verify that BaseCaseTaylor obtains initial pc values."""
-        # base_case_getter = pc.BaseCaseTaylor(self.logger)
+        base_case_getter = pc.BaseCaseTaylor(self.logger)
+        converter = pc.PathComplexity(self.logger)
+        cfg = ControlFlowGraph(get_test_graph())
+        x_mat, _ = converter.get_matrix(cfg.graph)
+        _, denominator, _ = converter.get_roots(x_mat)
+        start_idx, num_coeffs = 3, 5
+        cases, start_idx = base_case_getter.get(cfg.graph, x_mat, denominator,
+                                                start_idx, num_coeffs)
+
+        expected_cases = np.array([1, 1, 3, 3, 3])
+        self.assertTrue(np.array_equal(cases, expected_cases))
+        self.assertEqual(start_idx, 3)
 
 
 if __name__ == '__main__':
