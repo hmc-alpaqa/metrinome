@@ -8,8 +8,7 @@ from typing import cast
 import numpy as np  # type: ignore
 
 from graph.control_flow_graph import ControlFlowGraph as CFG
-from graph.graph import (AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph,
-                         EdgeListType, Graph)
+from graph.graph import AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph, EdgeListType, Graph
 
 # pylint: disable=no-member
 

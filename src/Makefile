@@ -8,13 +8,13 @@ UNAME_S := $(shell uname -s)
 lint: fix-lint check-lint
 
 fix-lint:
-	isort .
+	isort -l 100 .
 	find . -type f -name "*.py" | xargs sed -i -e 's/[[:space:]]*$$//g'
 	find . -type f -name "*.py" | xargs sed -i -e 's/	/    /g'
 
 check-lint:
 	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
-	find . -type f -name "*.py" | xargs mypy --config-file=./config/.mypy.ini # Type checking.
+	# find . -type f -name "*.py" | xargs mypy --config-file=./config/.mypy.ini # Type checking.
 	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
 	find . -type f -name "*.py" | xargs pylint --rcfile=config/pylintrc -r n -f parseable # Linting.
 

@@ -9,18 +9,16 @@ import os
 import readline
 from cmd import Cmd
 from functools import wraps
-from typing import Any, Callable, List
+from typing import Any, Callable, Dict, List, Tuple
 
 from core import command
-from core.error_messages import (MISSING_FILENAME, MISSING_NAME,
-                                 MISSING_TYPE_AND_NAME)
-from core.log import Colors
+from core.error_messages import MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME, ReplErrors
+from core.log import Colors, Log
 
 TESTING_MODE = True
 
 # pylint does not understand decorators.
 # pylint: disable=no-value-for-parameter
-# pylint: disable=too-many-function-args
 # pylint: disable=too-many-public-methods
 
 
@@ -64,6 +62,96 @@ def check_args(num_args: int,
     return decorator
 
 
+class Options:
+    """Information about the REPL commands and their arguments."""
+
+    var_args_default = False
+    check_recursive_default = False
+    logger = Log()
+    commands: Dict[str, Dict[str, Any]] = {
+        "to_klee_format": {"num_args": 1, "err": MISSING_FILENAME, "check_recursive": True},
+        "klee_to_bc": {"num_args": 1, "err": ReplErrors.KLEE_FORMATTED},
+        "klee": {"num_args": 1, "err": MISSING_FILENAME, "var_args": True},
+        "klee_replay": {"num_args": 1, "err": MISSING_FILENAME},
+        "import": {"num_args": 1, "err": MISSING_FILENAME, "check_recursive": True,
+                   "var_args": True},
+        "list": {"num_args": 1, "err": ReplErrors.TYPE_TO_LIST},
+        "show": {"num_args": 2, "err": ReplErrors.SPECIFY_TYPE},
+        "metrics": {"num_args": 1, "err": ReplErrors.GRAPH_NAME},
+        "delete": {"num_args": 2, "err": MISSING_TYPE_AND_NAME},
+        "export": {"num_args": 2, "err": MISSING_TYPE_AND_NAME},
+        "quit": {"num_args": 0, "err": ReplErrors.NO_ARGS},
+        "cd": {"num_args": 0, "err": MISSING_NAME},
+        "ls": {"num_args": 0, "err": ReplErrors.CANNOT_ACCEPT_ARGS},
+        "mv": {"num_args": 2, "err": ReplErrors.MISSING_NAMES_MV},
+        "rm": {"num_args": 1, "err": ReplErrors.MISSING_PATH_RM,
+               "check_recursive": True, "var_args": True},
+        "mkdir": {"num_args": 1, "err": ReplErrors.MISSING_NAME_MKDIR},
+        "pwd": {"num_args": 0, "err": ReplErrors.CANNOT_ACCEPT_ARGS}
+    }
+
+    def __init__(self, recursive_mode: bool = False, graph_stitching: bool = False,
+                 inlining: bool = False) -> None:
+        """Create a new set of flags to pass in to a command."""
+        self.recursive_mode = recursive_mode
+        self.graph_stitching = graph_stitching
+        self.inlining = inlining
+
+    @staticmethod
+    def _create_command(prompt: Prompt, command_name: str) -> None:
+        """Create a single do_<command> in Prompt."""
+        func_name = f"do_{command_name}"
+        wrapped_func = getattr(prompt.command, func_name)
+
+        def cmd(args: str) -> None:
+            flags, f_args = Options.check_args(command_name, args)
+            wrapped_func(flags, *f_args)
+
+        # Create the do_<command_name> function in Prompt.
+        cmd.__doc__ = wrapped_func.__doc__
+        setattr(prompt, func_name, cmd)
+
+    @staticmethod
+    def check_args(command_name: str, args: str) -> Tuple[Options, List[Any]]:
+        """Parse the string passed in from the command line and obtain flags / parameters."""
+        opts = Options.commands[command_name]
+        var_args = opts['var_args'] if 'var_args' in opts else Options.var_args_default
+        check_recursive = opts['check_recursive'] if 'check_recursive' in opts \
+            else Options.check_recursive_default
+        num_args, err = opts['num_args'], opts['err']
+
+        args_list = args.strip().split()
+        if len(args_list) < num_args:
+            Options.logger.v_msg(err)
+            return Options(None), []
+
+        if len(args_list) > num_args:
+            if check_recursive:
+                recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
+                if not var_args and len(args) == num_args + 1 and recursive_flag:
+                    return Options(True), args_list[1:]
+
+                if var_args and recursive_flag:
+                    return Options(True), args_list[1:]
+
+            if var_args:
+                return Options(None), args_list
+
+            Options.logger.v_msg("Too many arguments provided.")
+            return Options(None), []
+
+        if check_recursive:
+            return Options(False), args_list
+
+        return Options(None), args_list
+
+    @staticmethod
+    def create_commands(prompt: Prompt) -> None:
+        """Create all of the do_<command> wrappers in Prompt."""
+        for command_name in Options.commands:
+            Options._create_command(prompt, command_name)
+
+
 class Prompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""
 
@@ -76,7 +164,13 @@ class Prompt(Cmd):
 
         self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
 
+        # Dynamically create all of the wrapper functions.
+        Options.create_commands(self)
         super().__init__()
+
+    def get_names(self) -> List[str]:
+        """Get names of all attributes and commands the repl knows about."""
+        return super().get_names() + [f"do_{x}" for x in Options.commands]
 
     def postcmd(self, stop: int, line: str) -> bool:
         """Execute after any command is executed to update the prompt."""
@@ -192,159 +286,9 @@ class Prompt(Cmd):
         """Completion for the to_klee_format command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    @check_args(1, MISSING_FILENAME, check_recursive=True)
-    def do_to_klee_format(self, *args: Any) -> None:
-        """
-        Create a klee-compatible file.
-
-        Given a C file, create a new modified C file that is in the
-        correct format to be converted to a bc file.
-        """
-        self.command.do_to_klee_format(*args)
-
-    @check_args(1, "Must provide KLEE formatted name.")
-    def do_klee_to_bc(self, *args: Any) -> None:
-        """Given a C file in the correct format, generate a new .bc file from the given C file."""
-        self.command.do_klee_to_bc(*args)
-
-    @check_args(1, MISSING_FILENAME, check_recursive=False, var_args=True)
-    def do_klee(self, *args: Any) -> None:
-        """
-        Execute the klee command on a .bc file.
-
-        This will generate all of the tests automatically and store the resulting metadata
-        (e.g. number of tests generated).
-
-        Usage:
-        klee <file>
-        """
-        self.command.do_klee(*args)
-
-    @check_args(1, MISSING_FILENAME)
-    def do_klee_replay(self, *args: Any) -> None:
-        """
-        Execute a test generated by KLEE given a klee test file.
-
-        Usage:
-        klee_replay <file>
-        """
-        self.command.do_klee_replay(*args)
-
     def do_convert(self, arguments: str) -> None:
-        """
-        Convert a file containing source code to a Graph object.
-
-        The recursive flag (-r) can also be used.
-
-        Usage:
-        convert <file-like>
-        convert -r <file-like>
-        convert <file-like-1> <file-like-2> ... <file-like-n>
-        """
+        """Bongus."""
         self.command.do_convert(arguments)
-
-    @check_args(1, MISSING_FILENAME, check_recursive=True, var_args=True)
-    def do_import(self, *args: Any) -> None:
-        """
-        Convert a .dot file representing a cfg into a Graph object.
-
-        The recursive flag (-r) can also be used.
-
-        Usage:
-        import <file-like>
-        import -r <file-like>
-        import <file-like-1> <file-like-2> ... <file-like-n>
-        """
-        self.command.do_import(*args)
-
-    @check_args(1, "Must specify object type to list (metrics, graphs, or KLEE type).")
-    def do_list(self, *args: Any) -> None:
-        """
-        List all of the objects of a specific type (metrics, graphs, or a KLEE type).
-
-        Usage:
-        list <metrics/graphs/KLEE type>
-        list *
-        """
-        self.command.do_list(*args)
-
-    @check_args(2, "Must specify type (metric, graph, or any KLEE type) and name.")
-    def do_show(self, *args: Any) -> None:
-        """
-        Show an object of some type (either metric, graph, or KLEE type).
-
-        Usage
-        show <metric/graph/KLEE type> <name>
-        show <metric/graph/KLEE type> *
-        """
-        self.command.do_show(*args)
-
-    @check_args(1, "Must provide graph name.")
-    def do_metrics(self, *args: Any) -> None:
-        """
-        Compute all of the complexity matrics for a Graph object.
-
-        Usage:
-        metrics <name>
-        metrics *
-        """
-        self.command.do_metrics(*args)
-
-    @check_args(2, MISSING_TYPE_AND_NAME)
-    def do_delete(self, *args: Any) -> None:
-        """
-        Delete an object (type Graph, Metrics, States, or KLEE type) from memory.
-
-        Usage:
-        delete <type> <name>
-        """
-        self.command.do_delete(*args)
-
-    @check_args(2, MISSING_TYPE_AND_NAME)
-    def do_export(self, *args: Any) -> None:
-        """
-        Save an object (type Graph, Metrics, Stats, KLEE type) to an output file.
-
-        Usage:
-        save <type> <name>
-        """
-        self.command.do_export(*args)
-
-    @check_args(0, "Quit does not accept arguments.")
-    def do_quit(self, *args: Any) -> None:
-        """Quit the path complexity repl."""
-        self.command.do_quit(*args)
-
-    @check_args(1, MISSING_NAME)
-    def do_cd(self, *args: Any) -> None:
-        """Change the current working directory."""
-        self.command.do_cd(*args)
-
-    @check_args(0, "Cannot accept arguments.")
-    def do_ls(self, *args: Any) -> None:
-        """List the files in the current directory."""
-        self.command.do_ls(*args)
-
-    @check_args(2, "Missing name one and name two.")
-    def do_mv(self, *args: Any) -> None:
-        """Move a file from one directory to another."""
-        self.command.do_mv(*args)
-
-    @check_args(1, "Missing name of file/directory to delete.",
-                check_recursive=True, var_args=True)
-    def do_rm(self, *args: Any) -> None:
-        """Remove files permanently."""
-        self.command.do_rm(*args)
-
-    @check_args(1, "Missing directory name.")
-    def do_mkdir(self, *args: Any) -> None:
-        """Make a new directory."""
-        self.command.do_mkdir(*args)
-
-    @check_args(0, "Cannot accept arguments.")
-    def do_pwd(self, *args: Any) -> None:
-        """Print the name of the current directory."""
-        self.command.do_pwd(*args)
 
     def reload(self, arguments: str) -> None:
         """Reload the modules."""

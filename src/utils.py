@@ -16,8 +16,7 @@ from typing import Dict, List, Optional, Tuple, Type, Union
 import pycparser  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
 from pycparser import parse_file
-from sympy import (Abs, Basic, Mul, Poly, Pow, limit, symbols,  # type: ignore
-                   sympify)
+from sympy import Abs, Basic, Mul, Poly, Pow, limit, symbols, sympify  # type: ignore
 
 
 def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], List[Basic]]:
