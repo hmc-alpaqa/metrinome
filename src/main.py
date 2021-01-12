@@ -8,148 +8,17 @@ import logging
 import os
 import readline
 from cmd import Cmd
-from functools import wraps
-from typing import Any, Callable, Dict, List, Tuple
+from typing import List
 
-from core import command
-from core.error_messages import MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME, ReplErrors
-from core.log import Colors, Log
+import core.command as command
+from core.command import Options
+from core.log import Colors
 
 TESTING_MODE = True
 
 # pylint does not understand decorators.
 # pylint: disable=no-value-for-parameter
 # pylint: disable=too-many-public-methods
-
-
-def check_args(num_args: int,
-               err: str,
-               check_recursive: bool = False,
-               var_args: bool = False
-               ) -> Callable[[Callable[..., None]], Callable[[Prompt, str], None]]:
-    """Create decorators that verify REPL functions have valid arguments (factory method)."""
-    def decorator(func: Callable[..., None]) -> Callable[[Prompt, str], None]:
-        @wraps(func)
-        def wrapper(self: Prompt, args: str) -> None:
-            args_list = args.strip().split()
-            if len(args_list) < num_args:
-                self.logger.v_msg(err)
-                return
-
-            if len(args_list) > num_args:
-                if check_recursive:
-                    recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
-                    if not var_args and len(args) == num_args + 1 and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                    if var_args and recursive_flag:
-                        func(self, True, *args_list[1:])
-                        return
-
-                if var_args:
-                    func(self, *args_list)
-                    return
-
-                self.logger.v_msg("Too many arguments provided.")
-            else:
-                if check_recursive:
-                    func(self, False, *args_list)
-                else:
-                    func(self, *args_list)
-
-        return wrapper
-    return decorator
-
-
-class Options:
-    """Information about the REPL commands and their arguments."""
-
-    var_args_default = False
-    check_recursive_default = False
-    logger = Log()
-    commands: Dict[str, Dict[str, Any]] = {
-        "to_klee_format": {"num_args": 1, "err": MISSING_FILENAME, "check_recursive": True},
-        "klee_to_bc": {"num_args": 1, "err": ReplErrors.KLEE_FORMATTED},
-        "klee": {"num_args": 1, "err": MISSING_FILENAME, "var_args": True},
-        "klee_replay": {"num_args": 1, "err": MISSING_FILENAME},
-        "import": {"num_args": 1, "err": MISSING_FILENAME, "check_recursive": True,
-                   "var_args": True},
-        "list": {"num_args": 1, "err": ReplErrors.TYPE_TO_LIST},
-        "show": {"num_args": 2, "err": ReplErrors.SPECIFY_TYPE},
-        "metrics": {"num_args": 1, "err": ReplErrors.GRAPH_NAME},
-        "delete": {"num_args": 2, "err": MISSING_TYPE_AND_NAME},
-        "export": {"num_args": 2, "err": MISSING_TYPE_AND_NAME},
-        "quit": {"num_args": 0, "err": ReplErrors.NO_ARGS},
-        "cd": {"num_args": 0, "err": MISSING_NAME},
-        "ls": {"num_args": 0, "err": ReplErrors.CANNOT_ACCEPT_ARGS},
-        "mv": {"num_args": 2, "err": ReplErrors.MISSING_NAMES_MV},
-        "rm": {"num_args": 1, "err": ReplErrors.MISSING_PATH_RM,
-               "check_recursive": True, "var_args": True},
-        "mkdir": {"num_args": 1, "err": ReplErrors.MISSING_NAME_MKDIR},
-        "pwd": {"num_args": 0, "err": ReplErrors.CANNOT_ACCEPT_ARGS}
-    }
-
-    def __init__(self, recursive_mode: bool = False, graph_stitching: bool = False,
-                 inlining: bool = False) -> None:
-        """Create a new set of flags to pass in to a command."""
-        self.recursive_mode = recursive_mode
-        self.graph_stitching = graph_stitching
-        self.inlining = inlining
-
-    @staticmethod
-    def _create_command(prompt: Prompt, command_name: str) -> None:
-        """Create a single do_<command> in Prompt."""
-        func_name = f"do_{command_name}"
-        wrapped_func = getattr(prompt.command, func_name)
-
-        def cmd(args: str) -> None:
-            flags, f_args = Options.check_args(command_name, args)
-            wrapped_func(flags, *f_args)
-
-        # Create the do_<command_name> function in Prompt.
-        cmd.__doc__ = wrapped_func.__doc__
-        setattr(prompt, func_name, cmd)
-
-    @staticmethod
-    def check_args(command_name: str, args: str) -> Tuple[Options, List[Any]]:
-        """Parse the string passed in from the command line and obtain flags / parameters."""
-        opts = Options.commands[command_name]
-        var_args = opts['var_args'] if 'var_args' in opts else Options.var_args_default
-        check_recursive = opts['check_recursive'] if 'check_recursive' in opts \
-            else Options.check_recursive_default
-        num_args, err = opts['num_args'], opts['err']
-
-        args_list = args.strip().split()
-        if len(args_list) < num_args:
-            Options.logger.v_msg(err)
-            return Options(None), []
-
-        if len(args_list) > num_args:
-            if check_recursive:
-                recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
-                if not var_args and len(args) == num_args + 1 and recursive_flag:
-                    return Options(True), args_list[1:]
-
-                if var_args and recursive_flag:
-                    return Options(True), args_list[1:]
-
-            if var_args:
-                return Options(None), args_list
-
-            Options.logger.v_msg("Too many arguments provided.")
-            return Options(None), []
-
-        if check_recursive:
-            return Options(False), args_list
-
-        return Options(None), args_list
-
-    @staticmethod
-    def create_commands(prompt: Prompt) -> None:
-        """Create all of the do_<command> wrappers in Prompt."""
-        for command_name in Options.commands:
-            Options._create_command(prompt, command_name)
 
 
 class Prompt(Cmd):
@@ -165,7 +34,7 @@ class Prompt(Cmd):
         self.prompt = f"{Colors.OKGREEN.value}{self.command.curr_path}{Colors.ENDC.value} > "
 
         # Dynamically create all of the wrapper functions.
-        Options.create_commands(self)
+        Prompt.create_commands(self)
         super().__init__()
 
     def get_names(self) -> List[str]:
@@ -313,6 +182,26 @@ class Prompt(Cmd):
         self.command.data.klee_stats = klee_stats
         self.command.data.klee_formatted_files = klee_formatted_files
         self.command.data.bc_files = bc_files
+
+    @staticmethod
+    def _create_command(prompt: Prompt, command_name: str) -> None:
+        """Create a single do_<command> in Prompt."""
+        func_name = f"do_{command_name}"
+        wrapped_func = getattr(prompt.command, func_name)
+
+        def cmd(args: str) -> None:
+            flags, f_args = prompt.command.check_args(command_name, args, prompt.logger)
+            wrapped_func(flags, *f_args)
+
+        # Create the do_<command_name> function in Prompt.
+        cmd.__doc__ = wrapped_func.__doc__
+        setattr(prompt, func_name, cmd)
+
+    @staticmethod
+    def create_commands(prompt: Prompt) -> None:
+        """Create all of the do_<command> wrappers in Prompt."""
+        for command_name in Options.commands:
+            Prompt._create_command(prompt, command_name)
 
 
 def main() -> None:

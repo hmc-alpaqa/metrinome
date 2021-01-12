@@ -4,10 +4,10 @@ from typing import Dict, Tuple, Union, cast
 
 import core.command as command
 import core.command_data as command_data
+from core.command import Options
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.graph import EdgeListGraph, EdgeListType
-from main import Options
 from tests.unit_utils import captured_output
 
 # pylint does not understand decorators :(
