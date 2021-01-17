@@ -13,7 +13,7 @@ from functools import partial
 from multiprocessing import Manager, Pool
 from os import listdir
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union, cast
+from typing import Dict, Iterable, List, Optional, Tuple, Union, cast
 
 import numpy  # type: ignore
 
@@ -203,32 +203,59 @@ def worker_main_two(metrics_generator: metric.MetricAbstract,
         print(err, graph.name, metrics_generator.name())
 
 
+class CmdInfo:
+    """Information about the arguments to a REPL command."""
+
+    num_args: int
+    err: str
+    check_recursive: bool
+    var_args: bool
+
+    def __init__(self, num_args: int, err: str, check_recursive: bool = False, var_args: bool = False) -> None:
+        """Initialize information about a command."""
+        self.num_args = num_args
+        self.err = err
+        self.check_recursive = check_recursive
+        self.var_args = var_args
+
+    def get_num_args(self) -> int:
+        """Return the number of arguments."""
+        return self.num_args
+
+    def get_err(self) -> str:
+        """Return the error message."""
+        return self.err
+
+    def get_recursive(self) -> bool:
+        """Return whether the command has a recursive mode."""
+        return self.check_recursive
+
+    def get_var_args(self) -> bool:
+        """Return whether the command accepts a variable number of arguments."""
+        return self.var_args
+
+
 class Options:
     """Information about the REPL commands and their arguments."""
 
-    var_args_default = False
-    check_recursive_default = False
-
-    commands: Dict[str, Dict[str, Any]] = {
-        "to_klee_format": {"num_args": 1, "err": MISSING_FILENAME, "check_recursive": True},
-        "klee_to_bc": {"num_args": 1, "err": ReplErrors.KLEE_FORMATTED},
-        "klee": {"num_args": 1, "err": MISSING_FILENAME, "var_args": True},
-        "klee_replay": {"num_args": 1, "err": MISSING_FILENAME},
-        "import": {"num_args": 1, "err": MISSING_FILENAME, "check_recursive": True,
-                   "var_args": True},
-        "list": {"num_args": 1, "err": ReplErrors.TYPE_TO_LIST},
-        "show": {"num_args": 2, "err": ReplErrors.SPECIFY_TYPE},
-        "metrics": {"num_args": 1, "err": ReplErrors.GRAPH_NAME},
-        "delete": {"num_args": 2, "err": MISSING_TYPE_AND_NAME},
-        "export": {"num_args": 2, "err": MISSING_TYPE_AND_NAME},
-        "quit": {"num_args": 0, "err": ReplErrors.NO_ARGS},
-        "cd": {"num_args": 0, "err": MISSING_NAME},
-        "ls": {"num_args": 0, "err": ReplErrors.CANNOT_ACCEPT_ARGS},
-        "mv": {"num_args": 2, "err": ReplErrors.MISSING_NAMES_MV},
-        "rm": {"num_args": 1, "err": ReplErrors.MISSING_PATH_RM,
-               "check_recursive": True, "var_args": True},
-        "mkdir": {"num_args": 1, "err": ReplErrors.MISSING_NAME_MKDIR},
-        "pwd": {"num_args": 0, "err": ReplErrors.CANNOT_ACCEPT_ARGS}
+    commands: Dict[str, CmdInfo] = {
+        "to_klee_format": CmdInfo(1, MISSING_FILENAME, True),
+        "klee_to_bc": CmdInfo(1, ReplErrors.KLEE_FORMATTED),
+        "klee": CmdInfo(1, ReplErrors.KLEE_FORMATTED, False, True),
+        "klee_replay": CmdInfo(1, MISSING_FILENAME),
+        "import": CmdInfo(1, MISSING_FILENAME, True, True),
+        "list": CmdInfo(1, ReplErrors.TYPE_TO_LIST),
+        "show": CmdInfo(2, ReplErrors.SPECIFY_TYPE),
+        "metrics": CmdInfo(1, ReplErrors.GRAPH_NAME),
+        "delete": CmdInfo(2, MISSING_TYPE_AND_NAME),
+        "export": CmdInfo(2, MISSING_TYPE_AND_NAME),
+        "quit": CmdInfo(0, ReplErrors.NO_ARGS),
+        "cd": CmdInfo(1, MISSING_NAME),
+        "ls": CmdInfo(0, ReplErrors.CANNOT_ACCEPT_ARGS),
+        "mv": CmdInfo(2, ReplErrors.MISSING_NAMES_MV),
+        "rm": CmdInfo(1, ReplErrors.MISSING_PATH_RM, True, True),
+        "mkdir": CmdInfo(1, ReplErrors.MISSING_NAME_MKDIR),
+        "pwd": CmdInfo(0, ReplErrors.CANNOT_ACCEPT_ARGS)
     }
 
     def __init__(self, recursive_mode: bool = False, graph_stitching: bool = False,
@@ -823,7 +850,7 @@ class Command:
 
         self.curr_path = os.path.abspath(os.path.join(self.curr_path, new_path))
 
-    def do_ls(self, flags) -> None:
+    def do_ls(self, flags: Options) -> None:
         """List the files in the current directory."""
         self.logger.v_msg(" ".join(os.listdir(self.curr_path)))
 
@@ -898,37 +925,3 @@ class Command:
                 self.logger.v_msg(f"No {name} found of any type.")
         else:
             self.logger.v_msg(f"Type {type} not recognized.")
-
-    @staticmethod
-    def check_args(command_name: str, args: str, logger: Log) -> Tuple[Options, List[Any]]:
-        """Parse the string passed in from the command line and obtain flags / parameters."""
-        opts = Options.commands[command_name]
-        var_args = opts['var_args'] if 'var_args' in opts else Options.var_args_default
-        check_recursive = opts['check_recursive'] if 'check_recursive' in opts \
-            else Options.check_recursive_default
-        num_args, err = opts['num_args'], opts['err']
-
-        args_list = args.strip().split()
-        if len(args_list) < num_args:
-            logger.v_msg(err)
-            return Options(), []
-
-        if len(args_list) > num_args:
-            if check_recursive:
-                recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
-                if not var_args and len(args) == num_args + 1 and recursive_flag:
-                    return Options(True), args_list[1:]
-
-                if var_args and recursive_flag:
-                    return Options(True), args_list[1:]
-
-            if var_args:
-                return Options(), args_list
-
-            logger.v_msg("Too many arguments provided.")
-            return Options(), []
-
-        if check_recursive:
-            return Options(False), args_list
-
-        return Options(), args_list

@@ -8,11 +8,11 @@ import logging
 import os
 import readline
 from cmd import Cmd
-from typing import List
+from typing import Any, List, Tuple
 
 import core.command as command
 from core.command import Options
-from core.log import Colors
+from core.log import Colors, Log
 
 TESTING_MODE = True
 
@@ -156,7 +156,7 @@ class Prompt(Cmd):
         return self.complete_file_path(text, line, begin, end, False)
 
     def do_convert(self, arguments: str) -> None:
-        """Bongus."""
+        """Wrap convert command."""
         self.command.do_convert(arguments)
 
     def reload(self, arguments: str) -> None:
@@ -190,7 +190,7 @@ class Prompt(Cmd):
         wrapped_func = getattr(prompt.command, func_name)
 
         def cmd(args: str) -> None:
-            flags, f_args = prompt.command.check_args(command_name, args, prompt.logger)
+            flags, f_args = Prompt.check_args(command_name, args, prompt.logger)
             wrapped_func(flags, *f_args)
 
         # Create the do_<command_name> function in Prompt.
@@ -202,6 +202,40 @@ class Prompt(Cmd):
         """Create all of the do_<command> wrappers in Prompt."""
         for command_name in Options.commands:
             Prompt._create_command(prompt, command_name)
+
+    @staticmethod
+    def check_args(command_name: str, args: str, logger: Log) -> Tuple[Options, List[Any]]:
+        """Parse the string passed in from the command line and obtain flags / parameters."""
+        opts = Options.commands[command_name]
+        var_args = opts.get_var_args()
+        check_recursive = opts.get_recursive()
+
+        num_args, err = opts.get_num_args(), opts.get_err()
+
+        args_list = args.strip().split()
+        if len(args_list) < num_args:
+            logger.v_msg(err)
+            return Options(), []
+
+        if len(args_list) > num_args:
+            if check_recursive:
+                recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
+                if not var_args and len(args) == num_args + 1 and recursive_flag:
+                    return Options(True), args_list[1:]
+
+                if var_args and recursive_flag:
+                    return Options(True), args_list[1:]
+
+            if var_args:
+                return Options(), args_list
+
+            logger.v_msg("Too many arguments provided.")
+            return Options(), []
+
+        if check_recursive:
+            return Options(False), args_list
+
+        return Options(), args_list
 
 
 def main() -> None:
