@@ -9,11 +9,9 @@ import matplotlib.pyplot as plt  # type: ignore
 
 from core.env import Env
 from core.log import Log
-from klee.klee_time_test import (create_pandas_time, graph_stat_time,
-                                 klee_compare_time)
-from klee.klee_utils import (KleeCompareResults, KleeUtils, create_pandas,
-                             get_functions_list, get_stats_dict, klee_cmd,
-                             klee_with_opts)
+from klee.klee_time_test import create_pandas_time, graph_stat_time, klee_compare_time
+from klee.klee_utils import (KleeCompareResults, KleeUtils, create_pandas, get_functions_list,
+                             get_stats_dict, klee_cmd, klee_with_opts)
 
 KleeExperiment = Callable[[str, int, List[str], List[str], List[str], List[str]], None]
 plt.rcParams["figure.figsize"] = (10, 10)

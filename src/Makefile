@@ -8,7 +8,7 @@ UNAME_S := $(shell uname -s)
 lint: fix-lint check-lint
 
 fix-lint:
-	isort .
+	isort -l 100 .
 	find . -type f -name "*.py" | xargs sed -i -e 's/[[:space:]]*$$//g'
 	find . -type f -name "*.py" | xargs sed -i -e 's/	/    /g'
 

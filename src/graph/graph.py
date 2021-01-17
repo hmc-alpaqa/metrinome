@@ -2,8 +2,7 @@
 
 import collections
 from abc import ABC, abstractmethod
-from typing import (DefaultDict, Dict, Generic, List, Match, Optional, Set,
-                    Tuple, TypeVar)
+from typing import DefaultDict, Dict, Generic, List, Match, Optional, Set, Tuple, TypeVar
 
 import numpy as np  # type: ignore
 

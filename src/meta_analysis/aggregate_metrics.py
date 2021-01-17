@@ -20,6 +20,7 @@ from typing import Dict, List, Tuple
 from core.command import Command, Controller
 from core.command_data import MetricRes, MetricsDict
 from core.log import Log
+from main import Options
 
 AggregateMetricsDict = Dict[MetricRes, List[MetricRes]]
 
@@ -72,7 +73,7 @@ def test_analysis() -> None:
     command = Command(curr_path="", debug_mode=False,
                       multi_threaded=False, repl_wrapper=None)
     command.do_convert("/app/code/tests/cFiles/*")
-    command.do_metrics("*")
+    command.do_metrics(Options(), "*")
     metrics_comparer = MetricsComparer(command.data.metrics)
     print(metrics_comparer.counter_dict)
 

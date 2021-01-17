@@ -8,8 +8,8 @@ from typing import DefaultDict, List, Tuple, Union
 import numpy as np  # type: ignore
 import sympy  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
-from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal,
-                   simplify, symbols, sympify)
+from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal, simplify, symbols,
+                   sympify)
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph

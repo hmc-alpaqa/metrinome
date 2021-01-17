@@ -5,8 +5,7 @@ import os
 import re
 from typing import Callable, Dict, List, Match, Optional, Type, cast
 
-from graph.graph import (AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph,
-                         Graph)
+from graph.graph import AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph, Graph
 from utils import calls_function
 
 Option = Callable[['Metadata'], None]
