@@ -34,6 +34,7 @@ class JavaConvert(converter.ConverterAbstract):
         """Create a CFG from a Java source file."""
         Env.clean_temps()
 
+        # Jar files ending with any of these don't contain any .class files.
         check_ending = filename.endswith('sources') or filename.endswith('javadoc') or \
             filename.endswith('tests')
         if file_extension == '.jar' and check_ending:
@@ -43,11 +44,13 @@ class JavaConvert(converter.ConverterAbstract):
         fname = filename + file_extension
         self.logger.v_msg(f"processing {fname}")
 
+        # Extract .jar file to get the .class files.
         if file_extension == ".jar":
             self.runcmd(f"jar xf {fname}", cwd=self._input_folder)
             fname = self._input_folder
             path = f"{self._output_folder}/tmp/*.dot"
 
+        # Compile .java file to get the .class file.
         if file_extension == ".java":
             self.runcmd(f"javac {fname} -d {self._input_folder}")
             name = os.path.basename(filename)

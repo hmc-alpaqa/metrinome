@@ -221,10 +221,10 @@ class Prompt(Cmd):
             if check_recursive:
                 recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
                 if not var_args and len(args) == num_args + 1 and recursive_flag:
-                    return Options(True), args_list[1:]
+                    return Options(recursive_mode=True), args_list[1:]
 
                 if var_args and recursive_flag:
-                    return Options(True), args_list[1:]
+                    return Options(recursive_mode=True), args_list[1:]
 
             if var_args:
                 return Options(), args_list
@@ -233,7 +233,7 @@ class Prompt(Cmd):
             return Options(), []
 
         if check_recursive:
-            return Options(False), args_list
+            return Options(), args_list
 
         return Options(), args_list
 

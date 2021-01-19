@@ -29,3 +29,4 @@ class ReplErrors:
     MISSING_NAME_MKDIR = "Missing directory name."
     NO_ARGS = "No arguments allowed."
     MISSING_NAMES_MV = "Missing name one and name two."
+    UNRECOGNIZED_TYPE = "Unrecognized type."

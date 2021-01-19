@@ -1,19 +1,22 @@
 """Test the commands of the REPL."""
 import unittest
 from typing import Dict, Tuple, Union, cast
+from unittest.mock import MagicMock
 
 import core.command as command
 import core.command_data as command_data
 from core.command import Options
+from core.error_messages import ReplErrors
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.graph import EdgeListGraph, EdgeListType
-from tests.unit_utils import captured_output
+from tests.unit_utils import captured_output, get_second_test_graph, get_test_graph
 
 # pylint does not understand decorators :(
 # pylint: disable=no-value-for-parameter
-# pylint: disable=W0511
-# pylint: disable=W0612
+# pylint: disable=too-many-public-methods
+# pylint: disable=fixme
+# pylint: disable=unused-variable
 
 
 class TestController(unittest.TestCase):
@@ -45,98 +48,6 @@ class TestCommandMultithreading(unittest.TestCase):
         expected_msg = "MULTITHREADING ENABLED"
         self.assertTrue(expected_msg in out.getvalue())
         self.assertTrue(len(err.getvalue().strip()) == 0)
-
-
-class TestCommandInvalid(unittest.TestCase):
-    """Test each command with invalid inputs."""
-
-    def setUp(self) -> None:
-        """Create a new instance of the Command object without the wrapping object."""
-        self.command = command.Command("", False, False, None)
-        self.opts = Options()
-
-    # ==== do_to_klee_format =====
-    def test_to_klee_format_invalid_type(self) -> None:
-        """
-        Test the klee format command with an invalid input.
-
-        Verify that we get the correct error when attempting to convert non-C code into
-        a klee-compatible format.
-        """
-        with captured_output() as (out, err):
-            # self.command.do_to_klee_format("examplefile.wrongextension")
-            pass
-
-    def test_to_klee_format_nonexistant_file(self) -> None:
-        """
-        Test the klee format command with an invalid input.
-
-        Test that if we call klee_format for a file name refering to a
-        non-existant file, we get an error.
-        """
-        with captured_output() as (out, err):
-            # self.command.do_to_klee_format("nonexistantfile.c")
-            pass
-
-    # ==== Test do_klee_replay ====
-    def test_klee_replay_invalid_type(self) -> None:
-        """
-        Test the klee replay command with an invalid input.
-
-        See if we get the correct error when we try to call klee_replay
-        on a file with the wrong extension.
-        """
-        with captured_output() as (out, err):
-            self.command.do_klee_replay(self.opts, "somefile.wrongextension")
-
-    def test_klee_replay_nonexistant_file(self) -> None:
-        """Test that if we call klee_replay on a nonexistant file, we get the correct error."""
-        with captured_output() as (out, err):
-            self.command.do_klee_replay(self.opts, "nonexistantFile.ktest")
-
-    # ==== Test do_convert ====
-    def test_convert_nonexistant_file(self) -> None:
-        """
-        Test convert command given nonexistant file.
-
-        Verify that we get the proper error when we try to call
-        convert on a file that does not exist.
-        """
-        with captured_output() as (out, err):
-            # self.command.do_convert("somefile.py")
-            pass
-
-    def test_convert_invalid_type(self) -> None:
-        """
-        Test convert command given invalid type.
-
-        Verify that we get the proper error when we try to call convert
-        on a file containing source code of a type we do not know how to
-        convert.
-        """
-        with captured_output() as (out, err):
-            # self.command.do_convert("testfile.invalidextension")
-            pass
-
-    def test_show_metric_invalid(self) -> None:
-        """
-        Test show command with inexistant object.
-
-        Verify that we get the correct error when we try to call show for
-        an inexistant object.
-        """
-        with captured_output() as (out, err):
-            self.command.do_show(self.opts, command_data.ObjTypes.METRIC.value, "foo")
-
-    def test_list_invalid_type(self) -> None:
-        """
-        Test list command with invalid type.
-
-        Verify that if we pass in an object type that does not exist, the list command
-        will show the correct error.
-        """
-        with captured_output() as (out, err):
-            self.command.do_list(self.opts, "Somerandomtype")
 
 
 class TestCommandKlee(unittest.TestCase):
@@ -178,60 +89,141 @@ class TestCommand(unittest.TestCase):
 
     valid_commands: Dict[str, Tuple[int, Union[float, int]]] = {}
 
-    @classmethod
-    def setUpClass(cls) -> None:
-        """
-        Register all of the known commands.
-
-        Create a dictionary that maps each command name to a 2-tuple that has the minimum number
-        of arguments to the maximum number of arguments.
-        """
-        cls.valid_commands = {
-            "klee_replay": (1, 1),
-            "convert": (1, float('inf')),
-            "list": (1, 1),
-            "metrics": (1, 1),
-            "show": (2, 2),
-            "klee_to_bc": (0, 0),
-            "to_klee_format": (1, 1),
-            "klee": (1, 1),
-            "export": (2, 2),
-            "delete": (2, 2),
-            "import": (1, float('inf')),
-            "cd": (1, 1),
-            "ls": (0, 0),
-            "mv": (2, 2),
-            "rm": (1, 1),
-            "mkdir": (1, 1),
-            "pwd": (1, 1),
-        }
-
     def setUp(self) -> None:
         """
         Create a new instance of the Command object without the wrapping object.
 
         Note that in these tests we use the Command object directly.
         """
+        # self.patcher = patch("core.command.Data")
+        # self.addCleanup(self.patcher.stop)
+        # self.mock_data = self.patcher.start()
+
         self.command = command.Command(curr_path="/app/code/tests/dotFiles", debug_mode=False,
                                        multi_threaded=False, repl_wrapper=None)
+        self.command.logger = Log(display_output=False)
+        self.command.data = MagicMock()
         self.opts = Options()
 
-    def test_num_args_invalid(self) -> None:
-        """Check that commands throw errors when given an incorrect number of arguments."""
-        with captured_output() as (out, err):
-            for valid_command in self.valid_commands:
-                function_name = "do_" + valid_command
-                method = getattr(self.command, function_name)
-                min_num_args = self.valid_commands[valid_command][0]
-                max_num_args = self.valid_commands[valid_command][1]
-                if min_num_args > 0:
-                    # res = method("")
-                    # TODO: assert that result is none
-                    pass
-                if max_num_args != float('inf'):
-                    # res = method("a " * (max_num_args + 1))
-                    pass
-                    # TODO: assert that the result is none
+    # === Test do_import ===
+    def test_import_single_threaded(self) -> None:
+        """."""
+        # TODO Patch in CFG.from_file and assert everything was called.
+        self.command.get_files = MagicMock(name="get_files", return_value=[""])  # type: ignore
+        self.command.do_import(Options())
+
+    def test_import_multi_threaded(self) -> None:
+        """."""
+        # TODO: this
+
+    # === Test verify_file_type ===
+    def test_verify_file_type_no_ext(self) -> None:
+        """Check that we get None when checking the extension for a file without an extension."""
+        res = self.command.verify_file_type("foo", "desired_ext")
+        self.assertIsNone(res)
+
+    def test_verify_file_type_incorrect(self) -> None:
+        """Check that we get None when the file does not have desired extension."""
+        res = self.command.verify_file_type("foo.c", "desired_ext")
+        self.assertIsNone(res)
+
+    def test_verify_file_type_correct(self) -> None:
+        """Check that we get the filename when it has the desired extension."""
+        res = self.command.verify_file_type("foo.c", "c")
+        self.assertEqual(res, "foo.c")
+
+    # === Test do_export ===
+    def test_export_graph(self) -> None:
+        """Verify that the proper exporter is called when trying to export a graph."""
+        self.command.do_export(self.opts, command_data.ObjTypes.GRAPH.value, "foo")
+        self.command.data.export_graph.assert_called_once()  # type: ignore
+
+    def test_export_metric(self) -> None:
+        """Verify that the proper exporter is called when trying to export a metric."""
+        self.command.do_export(self.opts, command_data.ObjTypes.METRIC.value, "foo")
+        self.command.data.export_metrics.assert_called_once()  # type: ignore
+
+    def test_export_klee(self) -> None:
+        """Verify that the proper exporter is called when trying to export various klee objects."""
+        self.command.do_export(self.opts, command_data.ObjTypes.KLEE_BC.value, "foo")
+        self.command.data.export_bc.assert_called_once()  # type: ignore
+
+        self.command.do_export(self.opts, command_data.ObjTypes.KLEE_FILE.value, "foo")
+        self.command.data.export_klee_file.assert_called_once()  # type: ignore
+
+        self.command.do_export(self.opts, command_data.ObjTypes.KLEE_STATS.value, "foo")
+        self.command.data.export_klee_stats.assert_called_once()  # type: ignore
+
+    def test_export_klee_all(self) -> None:
+        """Verify that the proper exporters are called when trying to export all klee objects at once."""
+        self.command.do_export(self.opts, command_data.ObjTypes.KLEE.value, "foo")
+        self.command.data.export_klee_file.assert_called_once()  # type: ignore
+        self.command.data.export_klee_stats.assert_called_once()  # type: ignore
+        self.command.data.export_bc.assert_called_once()  # type: ignore
+
+    def test_export_invalid(self) -> None:
+        """Test that we get an error message when trying to export a type that does not exist."""
+        self.command.logger = MagicMock()
+        self.command.do_export(self.opts, "Gabe", "foo")
+        self.command.logger.e_msg.assert_called_once()
+
+    # === Test parse_convert_args ===
+
+    def test_parse_convert_args_recursive(self) -> None:
+        """Verify that passing recursive flag creates the correct options object."""
+        expected_opts = Options(recursive_mode=True)
+        res, opts = self.command.parse_convert_args(['-r', "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+        res, opts = self.command.parse_convert_args(['--recursive', "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+    def test_parse_convert_args_inline(self) -> None:
+        """Verify that passing inline flag creates the correct options object."""
+        expected_opts = Options(inline_type=command.InlineType.Inline)
+        res, opts = self.command.parse_convert_args(["-i", "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+        res, opts = self.command.parse_convert_args(["--inline_functions", "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+    def test_parse_convert_args_heuristic(self) -> None:
+        """Verify that passing heuristic inline flag creates the correct options object."""
+        expected_opts = Options(inline_type=command.InlineType.Heuristic)
+        res, opts = self.command.parse_convert_args(["-h", "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+        res, opts = self.command.parse_convert_args(["--heuristic_inline", "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+    def test_parse_convert_args_stitching(self) -> None:
+        """Verify that passing inline flag creates the correct options object."""
+        expected_opts = Options(graph_stitching=True)
+        res, opts = self.command.parse_convert_args(["-gs", "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+        res, opts = self.command.parse_convert_args(["--graph_stitch", "rest"])
+        self.assertEqual(opts, expected_opts)
+        self.assertEqual(res, ["rest"])
+
+    def test_parse_convert_args_no_args(self) -> None:
+        """Verify that passing no params does not return any flags."""
+        res, opts = self.command.parse_convert_args([])
+        self.assertTrue(len(res) == 0)
+        self.assertEqual(opts, Options())
+
+    def test_parse_convert_args_no_flags(self) -> None:
+        """Verify that passing no flags creates the correct options object."""
+        res, opts = self.command.parse_convert_args(["rest"])
+        self.assertTrue(len(res) == 1)
+        self.assertEqual(opts, Options())
 
     # === Test do_quit ===
     # pylint: disable=E1121
@@ -244,6 +236,7 @@ class TestCommand(unittest.TestCase):
     # pylint: disable=E1121
     def test_directories(self) -> None:
         """Check that all functions related to working with directories work."""
+        self.command.logger._display_output = True
         with captured_output() as (out, err):
             self.command.do_pwd(self.opts)
 
@@ -264,36 +257,40 @@ class TestCommand(unittest.TestCase):
         self.assertTrue("/app/code/tests" in out.getvalue())
         self.assertTrue(len(err.getvalue()) == 0)
 
-        # self.command.do_mkdir("")
-        # self.command.do_rm("")
-        # self.command.do_mv("")
-
-    # ==== Test do_convert =====
-    def test_convert_valid_type(self) -> None:
-        """
-        Test convert command with a file of source code.
-
-        See if we can convert a file containing source code of a type
-        we recognize to a Graph representing its control flow.
-        """
-        with captured_output() as (out, err):
-            # self.command.do_convert("testfile.py") # TODO
-            pass
-
-    # TODO: convert recursive
-
     # === Test do_metrics ===
+    def test_do_metrics_invalid(self) -> None:
+        """Verify that do_metrics does not err on nonexistant graph."""
+        self.command.logger = MagicMock()
+        self.command.do_metrics(self.opts, "invalid_graphname")
+        self.command.logger.e_msg.assert_called_once()
+
     def test_do_metrics_valid(self) -> None:
         """Compute metrics for stored graphs."""
-        # TODO
-        with captured_output() as (out, err):
-            self.command.do_metrics(self.opts, "*")
-            self.command.do_metrics(self.opts, "foo")
+        metric_mock_1, metric_mock_2 = MagicMock(), MagicMock()
 
-        self.assertTrue(len(out.getvalue()) == 0)
-        self.assertTrue(len(err.getvalue()) == 0)
+        metric_mock_1.name.return_value = 'Metric1'
+        metric_mock_2.name.return_value = 'Metric2'
+
+        self.command.data.graphs = {"foo": CFG(get_test_graph()), "other": CFG(get_second_test_graph())}
+        self.command.controller.metrics_generators = [metric_mock_1, metric_mock_2]
+
+        self.command.do_metrics(self.opts, "foo")
+        metric_mock_1.name.assert_called()
+        metric_mock_2.name.assert_called()
 
     # ==== Test do_show =====
+    def test_show_invalid_type(self) -> None:
+        """
+        Test show command with inexistant object type.
+
+        Verify that we get the correct error when we try to call show for
+        a nonexistant object.
+        """
+        with captured_output() as (out, err):
+            self.command.logger = MagicMock()
+            self.command.do_show(self.opts, "", "foo")
+            self.command.logger.e_msg.assert_called_once_with(ReplErrors.UNRECOGNIZED_TYPE)
+
     def test_show_metric_valid(self) -> None:
         """
         Check show command with metric of a specific name.
@@ -301,52 +298,32 @@ class TestCommand(unittest.TestCase):
         Verify that calling the show command with a valid metric name will
         display the metric value in the REPL.
         """
-        self.command.data.bc_files["foo"] = b"bar"
-        self.command.data.klee_formatted_files["foo"] = "bar"
-        self.command.data.klee_stats["foo"] = self.command.data.klee_stat(tests=0, paths=0,
-                                                                          instructions=0, delta_t=0,
-                                                                          timeout=0)
-        with captured_output() as (out, err):
-            self.command.data.metrics["foo"] = [("123", 1), ("123", 1)]
-            self.command.do_show(self.opts, command_data.ObjTypes.METRIC.value,
-                                 "foo")
-        self.assertTrue(len(err.getvalue()) == 0)
-        # TODO
-        self.assertTrue(len(out.getvalue()) != 0)
-
-        with captured_output() as (out, err):
-            self.command.do_show(self.opts, command.ObjTypes.KLEE.value,
-                                 "foo")
-        self.assertTrue(len(err.getvalue()) == 0)
-        self.assertTrue(len(out.getvalue()) != 0)
-
-        with captured_output() as (out, err):
-            self.command.do_show(self.opts, command.ObjTypes.ALL.value, "")
-        self.assertTrue(len(err.getvalue()) == 0)
-        self.assertTrue(len(out.getvalue()) != 0)
+        self.command.do_show(self.opts, command_data.ObjTypes.METRIC.value, "foo")
+        self.command.data.show_metric.assert_called_once()  # type: ignore
 
     def test_show_graph_valid(self) -> None:
         """
         Check show command with a graph of specific name.
 
-        Verify that we get the correct output graw if we call the show function
+        Verify that we get the correct output graph if we call the show function
         for a valid graph name.
         """
-        with captured_output() as (out, err):
-            graph = EdgeListGraph(cast(EdgeListType, []), 1)
-            self.command.data.graphs["foo"] = CFG(graph)
-            self.command.do_show(self.opts, command.ObjTypes.GRAPH.value, "foo")
+        self.command.do_show(self.opts, command_data.ObjTypes.GRAPH.value, "foo")
+        self.command.data.show_graphs.assert_called_once()  # type: ignore
 
     def test_show_klee(self) -> None:
         """Check that we can show klee objects."""
-        with captured_output() as (out, err):
-            self.command.do_show(self.opts, command_data.ObjTypes.KLEE_BC.value, "foo")
-        with captured_output() as (out, err):
-            self.command.do_show(self.opts, command_data.ObjTypes.KLEE_STATS.value, "foo")
-        with captured_output() as (out, err):
-            self.command.do_show(self.opts, command_data.ObjTypes.KLEE_FILE.value, "foo")
-        with captured_output() as (out, err):
-            self.command.do_show(self.opts, command_data.ObjTypes.KLEE.value, "foo")
+        self.command.do_show(self.opts, command_data.ObjTypes.KLEE_BC.value, "foo")
+        self.command.data.show_klee_bc.assert_called_once()  # type: ignore
+
+        self.command.do_show(self.opts, command_data.ObjTypes.KLEE_FILE.value, "foo")
+        self.command.data.show_klee_files.assert_called_once()  # type: ignore
+
+        self.command.do_show(self.opts, command_data.ObjTypes.KLEE_STATS.value, "foo")
+        self.command.data.show_klee_stats.assert_called_once()  # type: ignore
+
+        self.command.do_show(self.opts, command_data.ObjTypes.KLEE.value, "foo")
+        self.command.data.show_klee.assert_called_once()  # type: ignore
 
     def test_show_all_types_valid(self) -> None:
         """
@@ -355,10 +332,7 @@ class TestCommand(unittest.TestCase):
         Verify that we can use the wildcard operator to show all objects (objects
         of all types) for a given name.
         """
-        with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = CFG(EdgeListGraph(cast(EdgeListType, []), 1))
-            self.command.data.metrics["foo"] = [("123", 1)]
-            self.command.do_show(self.opts, command_data.ObjTypes.ALL.value, "foo")
+        # TODO
 
     def test_show_all_names_valid(self) -> None:
         """
@@ -367,11 +341,7 @@ class TestCommand(unittest.TestCase):
         Verify that we can use the wildcard operator to show all objects
         of a given type.
         """
-        with captured_output() as (out, err):
-            self.command.data.graphs["foo"] = CFG(EdgeListGraph(cast(EdgeListType, []), 1))
-            self.command.data.graphs["bar"] = CFG(EdgeListGraph(cast(EdgeListType, []), 1))
-            self.command.do_show(self.opts, command_data.ObjTypes.GRAPH.value,
-                                 command.ObjTypes.ALL.value)
+        # TODO
 
     # ==== Test do_list =====
     def test_list_graphs(self) -> None:
@@ -381,8 +351,8 @@ class TestCommand(unittest.TestCase):
         Verify that calling list with graph type displays all of the graphs the
         REPL knows about.
         """
-        with captured_output() as (out, err):
-            self.command.do_list(self.opts, command_data.ObjTypes.GRAPH.value)
+        self.command.do_list(self.opts, command_data.ObjTypes.GRAPH.value)
+        self.command.data.list_graphs.assert_called_once()  # type: ignore
 
     def test_list_metrics(self) -> None:
         """
@@ -391,35 +361,22 @@ class TestCommand(unittest.TestCase):
         Verify that calling list with metric type displays all of the metrics the
         REPL knows about.
         """
-        with captured_output() as (out, err):
-            self.command.do_list(self.opts, command_data.ObjTypes.METRIC.value)
-
-        # TODO
-        self.assertTrue(len(err.getvalue()) == 0)
-        self.assertTrue(len(out.getvalue()) != 0)
+        self.command.do_list(self.opts, command_data.ObjTypes.METRIC.value)
+        self.command.data.list_metrics.assert_called_once()  # type: ignore
 
     def test_list_klee(self) -> None:
         """Check list command with klee arguments."""
-        # TODO
-        with captured_output() as (out, err):
-            self.command.do_list(self.opts, command_data.ObjTypes.KLEE_BC.value)
-        self.assertTrue(len(err.getvalue()) == 0)
-        self.assertTrue(len(out.getvalue()) != 0)
+        self.command.do_list(self.opts, command_data.ObjTypes.KLEE_BC.value)
+        self.command.data.list_klee_bc.assert_called_once()  # type: ignore
 
-        with captured_output() as (out, err):
-            self.command.do_list(self.opts, command_data.ObjTypes.KLEE_STATS.value)
-        self.assertTrue(len(err.getvalue()) == 0)
-        self.assertTrue(len(out.getvalue()) != 0)
+        self.command.do_list(self.opts, command_data.ObjTypes.KLEE_STATS.value)
+        self.command.data.list_klee_stats.assert_called_once()  # type: ignore
 
-        with captured_output() as (out, err):
-            self.command.do_list(self.opts, command_data.ObjTypes.KLEE_FILE.value)
-        self.assertTrue(len(err.getvalue()) == 0)
-        self.assertTrue(len(out.getvalue()) != 0)
+        self.command.do_list(self.opts, command_data.ObjTypes.KLEE_FILE.value)
+        self.command.data.list_klee_files.assert_called_once()  # type: ignore
 
-        with captured_output() as (out, err):
-            self.command.do_list(self.opts, command_data.ObjTypes.KLEE.value)
-        self.assertTrue(len(err.getvalue()) == 0)
-        self.assertTrue(len(out.getvalue()) != 0)
+        self.command.do_list(self.opts, command_data.ObjTypes.KLEE.value)
+        self.command.data.list_klee.assert_called_once()  # type: ignore
 
     def test_list_all(self) -> None:
         """
@@ -428,8 +385,22 @@ class TestCommand(unittest.TestCase):
         Verify that we can use the wildcard operator to list objects of all types through
         the list command.
         """
+        self.command.do_list(self.opts, command_data.ObjTypes.ALL.value)
+        self.command.data.list_metrics.assert_called_once()  # type: ignore
+        self.command.data.list_graphs.assert_called_once()  # type: ignore
+        self.command.data.list_klee.assert_called_once()  # type: ignore
+
+    def test_list_invalid_type(self) -> None:
+        """
+        Test list command with invalid type.
+
+        Verify that if we pass in an object type that does not exist, the list command
+        will show the correct error.
+        """
         with captured_output() as (out, err):
-            self.command.do_list(self.opts, command_data.ObjTypes.ALL.value)
+            self.command.logger = MagicMock()
+            self.command.do_list(self.opts, "")
+            self.command.logger.e_msg.assert_called_once_with(ReplErrors.UNRECOGNIZED_TYPE)
 
     # ==== Test do_delete ======
     def test_delete_graph_valid(self) -> None:
@@ -493,8 +464,6 @@ class TestCommand(unittest.TestCase):
             self.command.data.metrics['sample_name'] = [("123", 1)]
 
             self.command.do_delete(self.opts, str(obj_type), str(obj_name))
-
-    # TODO: test invalid
 
 
 if __name__ == '__main__':
