@@ -23,7 +23,7 @@ jobs:
     - name: Run new docker image
       run: cd $GITHUB_WORKSPACE/src && make run-detached
     - id: step1
-      run: docker exec -w /app/code detached_repl make lint
+      run: docker exec -w /app/code detached_repl make check-lint
   test-job:
     name: Unit Tests Job
     runs-on: self-hosted
