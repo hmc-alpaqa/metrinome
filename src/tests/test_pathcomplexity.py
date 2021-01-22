@@ -40,6 +40,18 @@ class TestPathComplexity(unittest.TestCase):
         self.assertTrue(np.array_equal(cases, expected_cases))
         self.assertEqual(start_idx, 2)
 
+    def test_basecase_smart(self) -> None:
+        """Verify that BaseCaseBFS obtains initial pc values."""
+        base_case_getter = pc.BaseCaseSmart(self.logger)
+        graph = get_test_graph()
+        start_idx, num_coeffs = 2, 5
+        x_mat = None
+        denominator = None
+        cases, start_idx = base_case_getter.get(graph, x_mat, denominator, start_idx, num_coeffs)
+        expected_cases = np.array([0, 1, 1, 3, 3])
+        self.assertTrue(np.array_equal(cases, expected_cases))
+        self.assertEqual(start_idx, 2)
+
     def test_basecase_taylor(self) -> None:
         """Verify that BaseCaseTaylor obtains initial pc values."""
         base_case_getter = pc.BaseCaseTaylor(self.logger)

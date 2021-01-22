@@ -3,13 +3,12 @@
 import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from typing import DefaultDict, List, Tuple, Union
+from typing import DefaultDict, List, Tuple, Union, cast
 
 import numpy as np  # type: ignore
 import sympy  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
-from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal, simplify, symbols,
-                   sympify)
+from sympy import Basic, Float, Matrix, Poly, degree, eye, preorder_traversal, simplify, symbols, sympify
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
@@ -240,3 +239,8 @@ class PathComplexity(metric.MetricAbstract):
                 return (apc, terms)
 
         return (expr_with_abs, expr_with_abs)
+
+    def display_result(self, res: Union[int, PathComplexityRes]) -> str:
+        """Display result from evaluate."""
+        res = cast(PathComplexityRes, res)
+        return f"(APC: {res[0]}, Path Complexity: {res[1]})"

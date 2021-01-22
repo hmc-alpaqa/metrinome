@@ -195,6 +195,49 @@ class Data:
         self.list_klee_bc()
         self.list_klee_stats()
 
+    def executor(f1, f2, f3, inputs):
+        return f3(f2(f1(inputs)))
+
+    def show_all(self, arg_name: str, names: List[str]) -> None:
+        """Log all objects of a given name."""
+        if arg_name == "*":
+            names = list(self.metrics.keys()) + list(self.graphs.keys()) + \
+                list(self.bc_files.keys()) + \
+                list(self.klee_formatted_files.keys()) + \
+                list(self.klee_stats.keys())
+            names = list(set(names))
+
+        for name in names:
+            found = False
+            dicts: Dict[str, AnyDict] = {"GRAPHS": self.graphs,
+                                         "METRIC": self.metrics,
+                                         "BC FILES": self.bc_files,
+                                         "KLEE FILES": self.klee_formatted_files,
+                                         "KLEE STATS": self.klee_stats}
+
+            for obj_name, obj_dict in dicts.items():
+                if name in obj_dict:
+                    self.logger.i_msg(obj_name)
+                    self.logger.v_msg(str(obj_dict[name]))
+                    found = True
+            if not found:
+                self.logger.v_msg(f"Object {name} not found.")
+
+    def show_klee_object(self, obj_type: ObjTypes, names: List[str]) -> bool:
+        """Display the KLEE objects the REPL knows about."""
+        if obj_type == ObjTypes.KLEE_BC:
+            self.show_klee_bc(names)
+        elif obj_type == ObjTypes.KLEE_FILE:
+            self.show_klee_files(names)
+        elif obj_type == ObjTypes.KLEE_STATS:
+            self.show_klee_stats(names)
+        elif obj_type == ObjTypes.KLEE:
+            self.show_klee(names)
+        else:
+            return False
+
+        return True
+
     def show_graphs(self, name: str, names: List[str]) -> None:
         """Display a Graph we know about to the REPL."""
         if name == "*":

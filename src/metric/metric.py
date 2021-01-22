@@ -23,3 +23,7 @@ class MetricAbstract(ABC):
     @abstractmethod
     def evaluate(self, cfg: ControlFlowGraph) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
+
+    def display_result(self, res: Union[int, PathComplexityRes]) -> str:
+        """Print the result from evaluate."""
+        return str(res)

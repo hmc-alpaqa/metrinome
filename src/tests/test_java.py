@@ -4,10 +4,10 @@ import unittest
 
 from core.env import Env
 from core.log import Log
+from graph.graph import EdgeListGraph
 from lang_to_cfg.java import JavaConvert
 
 
-# JavaConvert::to_graph()
 class TestJavaConvert(unittest.TestCase):
     """All of the tests to verify that we can convert Java source code to Graph objects."""
 
@@ -36,24 +36,6 @@ class TestJavaConvert(unittest.TestCase):
         self.assertIsNone(JavaConvert(self.logger).to_graph("sources", ".jar"))
         self.assertIsNone(JavaConvert(self.logger).to_graph("tests", ".jar"))
 
-    # def test_to_graph(self) -> None:
-    #     """Test that converting a file with code to a Graph results in the correct Graph."""
-    #     converter = JavaConvert(Log())
-    #     self.assertTrue(converter.name() == "Java")
-
-    #     Env.clean_temps()
-    #     base_path = "/app/examples/src/apache_commons/bins/commons-math3-3.4.1"
-    #     filename = "commons-math3-3.4.1"
-    #     res = converter.to_graph(f"{base_path}/{filename}", ".jar")
-    #     self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
-    #     self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
-    #     self.assertIsNotNone(res)
-    #     if res is not None:
-    #         self.assertTrue(len(list(res.keys())) != 0)
-
-    #     # converter.to_graph("/app/code/", ".class")
-    #     # converter.to_graph("/app/code/", ".java")
-
     def test_single_file(self) -> None:
         """Test that converting a single .class file to a graph."""
         converter = JavaConvert(self.logger)
@@ -62,13 +44,39 @@ class TestJavaConvert(unittest.TestCase):
         Env.clean_temps()
         base_path = "/app/code/tests/javaFiles"
         filename = "Factorial"
-        res = converter.to_graph(f"{base_path}/{filename}", ".class")
+        res = converter.to_graph(f"{base_path}/{filename}", ".java")
         self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
         self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
         self.assertIsNotNone(res)
+        # We expect a graph for init() and one for main().
+        # Ignore the init() graph.
+        expected_edges = [[0, 1], [1, 5], [0, 2], [2, 5], [0, 3], [3, 5], [0, 4], [4, 5]]
+        expected_vertices = 6
+        expected_graph = EdgeListGraph(expected_edges, expected_vertices)
         if res is not None:
-            # self.assertTrue(len(list(res.keys())) != 0)
-            pass
+            self.assertTrue(len(list(res.keys())) != 0)
+            self.assertTrue(any((cfg.graph == expected_graph for cfg in res.values())))
+
+    def test_single_file_jar(self) -> None:
+        """Test that converting a single .class file to a graph."""
+        converter = JavaConvert(self.logger)
+        self.assertTrue(converter.name() == "Java")
+
+        Env.clean_temps()
+        base_path = "/app/code/tests/javaFiles"
+        filename = "Factorial"
+        res = converter.to_graph(f"{base_path}/{filename}", ".jar")
+        self.assertTrue(len(os.listdir(Env.TMP_PATH)) == 0)
+        self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
+        self.assertIsNotNone(res)
+        # We expect one graph for init and one for main
+        # ignore the init graph
+        expected_edges = [[0, 1], [1, 5], [0, 2], [2, 5], [0, 3], [3, 5], [0, 4], [4, 5]]
+        expected_vertices = 6
+        expected_graph = EdgeListGraph(expected_edges, expected_vertices)
+        if res is not None:
+            self.assertTrue(len(list(res.keys())) != 0)
+            self.assertTrue(any((cfg.graph == expected_graph for cfg in res.values())))
 
 
 if __name__ == '__main__':

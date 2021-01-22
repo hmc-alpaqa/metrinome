@@ -16,6 +16,7 @@ class Env:
     CFG_EXTRACTOR_JAR = join(PROJECT_PATH, 'lang_to_cfg',
                              'javaextractor/cfg_extractor/target/javaextractor.jar')
     KLEE_PATH = "/app/build/bin/klee"
+    EXPORT_DIR = "/app/code/exports"
 
     @staticmethod
     def clean_temps() -> None:

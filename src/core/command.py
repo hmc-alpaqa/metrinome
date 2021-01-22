@@ -10,16 +10,16 @@ import tempfile
 import time
 from enum import Enum
 from functools import partial
-from multiprocessing import Manager, Pool
+from multiprocessing import Manager
+from pathos.multiprocessing import ProcessingPool as Pool
 from os import listdir
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple, Union, cast
-
-import numpy  # type: ignore
+from typing import Dict, Iterable, List, Optional, Tuple, Union, Callable
 
 from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
-from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
-                                 NO_FILE_EXT, ReplErrors)
+from core.env import Env
+from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME, NO_FILE_EXT,
+                                 ReplErrors)
 from core.log import Log, LogLevel
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
@@ -27,6 +27,9 @@ from klee.klee_utils import KleeUtils
 from lang_to_cfg import converter, cpp, java, python
 from metric import cyclomatic_complexity, metric, npath_complexity, path_complexity
 from utils import Timeout
+
+
+import dill
 
 # Temporarily disable unused arguments due to flags.
 # pylint: disable=unused-argument
@@ -45,94 +48,6 @@ class InlineType(Enum):
 
     Inline = partial(inlining_script.in_lining)
     Heuristic = partial(inlining_script_heuristic.in_lining)
-
-
-def get_files_from_regex(logger: Log, input_file: str,
-                         original_base: str, recursive_mode: bool) -> List[str]:
-    """Try to compile a path as a regular expression and get the matching files."""
-    try:
-        regexp = re.compile(input_file)
-        logger.d_msg("Successfully compiled as a regular expression")
-        all_files: List[str] = []
-        if os.path.exists(original_base):
-            if recursive_mode:
-                # Get all files in all subdirectories.
-                file_list = list(Path(original_base).rglob("*"))
-                all_files += [str(file_path) for file_path in file_list]
-            else:
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
-
-            matched_files = []
-            for file in all_files:
-                name = os.path.split(file)[1]
-                if regexp.match(name):
-                    matched_files.append(os.path.join(original_base, file))
-
-            return matched_files
-
-        return []
-    except re.error:
-        # Try checking for just wildcard operators.
-        logger.d_msg("Checking for wildcard operators")
-        input_file = input_file.replace(".", r"\.")
-        input_file = input_file.replace("*", ".*")
-        try:
-            regexp = re.compile(input_file)
-            logger.d_msg("Successfully compiled as a regular expression")
-            if os.path.exists(original_base):
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
-                matched_files = []
-                for file in all_files:
-                    name = os.path.split(file)[1]
-                    if regexp.match(name):
-                        matched_files.append(os.path.join(original_base, file))
-
-                return matched_files
-
-        except re.error:
-            pass
-
-        return []
-
-
-def get_files(path: str, recursive_mode: bool,
-              logger: Log, allowed_extensions: List[str]) -> List[str]:
-    """
-    get_files returns a list of files from the given path.
-
-    If the path is a file, it returns a singleton containing the file.
-    Otherwise, it returns all of the files in the current directory.
-    If it is not a valid path, return no files.
-    """
-    logger.d_msg(f"Looking for files given path {path}")
-    if os.path.isfile(path):
-        logger.d_msg("This is a file.")
-        if recursive_mode:
-            logger.v_msg("Cannot use recursive mode with filename.")
-            return []
-
-        return [path]
-
-    if os.path.isdir(path):
-        logger.d_msg("This is a directory")
-        if recursive_mode:
-            all_files: List[Path] = []
-            for extension in allowed_extensions:
-                all_files += Path(path).rglob(f"*{extension}")
-
-            return [str(file) for file in all_files]
-
-        # Get all of the files in this directory.
-        return [f for f in listdir(path) if os.path.isfile(os.path.join(path, f))]
-
-    logger.d_msg("Checking if it's a regular expression")
-    # Check if it's a regular expression (only allowed at the END of the filename).
-    original_base, file = os.path.split(path)
-    logger.d_msg(f"base: {original_base} file: {file}")
-
-    return get_files_from_regex(logger, file, original_base, recursive_mode)
 
 
 class Controller:
@@ -173,21 +88,16 @@ class Controller:
         """Given a file extension as a string, return the CFG generator for that file extension."""
         return self.graph_generators[file_extension]
 
+def import_worker(apply_f: Callable[[str], ControlFlowGraph] , shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
+    """Import a single file using a single process."""
+    graph = apply_f(file)
+    filepath, _ = os.path.splitext(file)
+    shared_dict[filepath] = graph
 
-def worker_main(shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
-    """Handle the multiprocessing of import."""
-    graph = ControlFlowGraph.from_file(file)
-    if isinstance(graph, dict):
-        shared_dict.update(graph)
-    else:
-        filepath, _ = os.path.splitext(file)
-        shared_dict[filepath] = graph
-
-
-def worker_main_two(metrics_generator: metric.MetricAbstract,
+def metrics_worker(metrics_generator: metric.MetricAbstract,
                     shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]],
                     graph: ControlFlowGraph) -> None:
-    """Handle the multiprocessing of convert."""
+    """Get metrics on a single file using a single process."""
     try:
         with Timeout(10, "Took too long!"):
             result = metrics_generator.evaluate(graph)
@@ -259,12 +169,21 @@ class Options:
     }
 
     def __init__(self, recursive_mode: bool = False, graph_stitching: bool = False,
-                 inlining: bool = False, heuristic_inlining: bool = False) -> None:
+                 inline_type: Optional[InlineType] = None) -> None:
         """Create a new set of flags to pass in to a command."""
         self.recursive_mode = recursive_mode
         self.graph_stitching = graph_stitching
-        self.inlining = inlining
-        self.heuristic_inlining = heuristic_inlining
+        self.inline_type: Optional[InlineType] = inline_type
+
+    def __eq__(self, other: object) -> bool:
+        """Two options are equal if all of their fields are the same."""
+        if not isinstance(other, Options):
+            return False
+
+        graph_stitch = self.graph_stitching == other.graph_stitching
+        recursive_mode = self.recursive_mode == other.recursive_mode
+        inlining_type = self.inline_type == other.inline_type
+        return graph_stitch and recursive_mode and inlining_type
 
 
 class Command:
@@ -290,23 +209,111 @@ class Command:
         self.curr_path = curr_path
         self.debug_mode = debug_mode
 
-    def verify_file_type(self, args: str, target_type: str) -> Optional[str]:
+        self._from_file =  ControlFlowGraph.from_file
+
+    def _get_files_from_regex(self, input_file: str,
+                              original_base: str, recursive_mode: bool) -> List[str]:
+        """Try to compile a path as a regular expression and get the matching files."""
+        try:
+            regexp = re.compile(input_file)
+            self.logger.d_msg("Successfully compiled as a regular expression")
+            all_files: List[str] = []
+            if os.path.exists(original_base):
+                if recursive_mode:
+                    # Get all files in all subdirectories.
+                    file_list = list(Path(original_base).rglob("*"))
+                    all_files += [str(file_path) for file_path in file_list]
+                else:
+                    all_files = [f for f in listdir(original_base) if
+                                 os.path.isfile(os.path.join(original_base, f))]
+
+                matched_files = []
+                for file in all_files:
+                    name = os.path.split(file)[1]
+                    if regexp.match(name):
+                        matched_files.append(os.path.join(original_base, file))
+
+                return matched_files
+
+            return []
+        except re.error:
+            # Try checking for just wildcard operators.
+            self.logger.d_msg("Checking for wildcard operators")
+            input_file = input_file.replace(".", r"\.")
+            input_file = input_file.replace("*", ".*")
+            try:
+                regexp = re.compile(input_file)
+                self.logger.d_msg("Successfully compiled as a regular expression")
+                if os.path.exists(original_base):
+                    all_files = [f for f in listdir(original_base) if
+                                 os.path.isfile(os.path.join(original_base, f))]
+                    matched_files = []
+                    for file in all_files:
+                        name = os.path.split(file)[1]
+                        if regexp.match(name):
+                            matched_files.append(os.path.join(original_base, file))
+
+                    return matched_files
+
+            except re.error:
+                pass
+
+            return []
+
+    def get_files(self, path: str, recursive_mode: bool,
+                  allowed_extensions: List[str]) -> List[str]:
+        """
+        get_files returns a list of files from the given path.
+
+        If the path is a file, it returns a singleton containing the file.
+        Otherwise, it returns all of the files in the current directory.
+        If it is not a valid path, return no files.
+        """
+        self.logger.d_msg(f"Looking for files given path {path}")
+        if os.path.isfile(path):
+            self.logger.d_msg("This is a file.")
+            if recursive_mode:
+                self.logger.v_msg("Cannot use recursive mode with filename.")
+                return []
+
+            return [path]
+
+        if os.path.isdir(path):
+            self.logger.d_msg("This is a directory")
+            if recursive_mode:
+                all_files: List[Path] = []
+                for extension in allowed_extensions:
+                    all_files += Path(path).rglob(f"*{extension}")
+
+                return [str(file) for file in all_files]
+
+            # Get all of the files in this directory.
+            return [f for f in listdir(path) if os.path.isfile(os.path.join(path, f))]
+
+        self.logger.d_msg("Checking if it's a regular expression")
+        # Check if it's a regular expression (only allowed at the END of the filename).
+        original_base, file = os.path.split(path)
+        self.logger.d_msg(f"base: {original_base} file: {file}")
+
+        return self._get_files_from_regex(file, original_base, recursive_mode)
+
+    def verify_file_type(self, filename: str, target_type: str) -> Optional[str]:
         """
         Verify that the file extension for the file passed in matches the expected file type.
 
         The input is the set of arguments passed in to the REPL by the user converted into a
-        list.
+        list. The target_type should not contain a period at the beginning.
         """
-        _, file_extension = os.path.splitext(args[0])
+        _, file_extension = os.path.splitext(filename)
         if file_extension == "":
-            self.logger.v_msg(NO_FILE_EXT(args[0]))
+            self.logger.v_msg(NO_FILE_EXT(filename))
             return None
 
         if file_extension.strip() != f".{target_type}":
             self.logger.v_msg(EXTENSION(target_type, file_extension))
             return None
 
-        return args[0]
+        return filename
 
     def do_klee_replay(self, flags: Options, file_name: str) -> None:
         """
@@ -324,39 +331,28 @@ class Command:
 
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
-    def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool,
-                                                                Optional[InlineType], bool]:
-        """Parse the command line arguments for the convert command."""
-        recursive_mode = False
-        inline_type = None
-        graph_stitching = False
+    def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], Options]:
+        """
+        Parse the command line arguments for the convert command.
 
+        Currently does not support more than one flag.
+        """
         if len(arguments) > 0:
-            if arguments[0] == ("-r" or "--recursive"):
-                recursive_mode = True
-                args_list = arguments[1:]
-            elif arguments[0] == ("-i" or "--inline_functions"):
-                inline_type = InlineType.Inline
-                args_list = arguments[1:]
-            elif arguments[0] == ("-h" or "--heuristic_inline"):
-                if inline_type is InlineType.Inline:
-                    err_msg = "Can't use inline and heuristic inline at the same time! " + \
-                              "Defaulting to basic inline."
-                    self.logger.v_msg(err_msg)
-                    inline_type = None
-                else:
-                    inline_type = InlineType.Heuristic
-                args_list = arguments[1:]
-            elif arguments[0] == ("-gs" or "--graph_stitch"):
-                graph_stitching = True
-                args_list = arguments[1:]
-            else:
-                args_list = arguments
+            if arguments[0] in ("-r", "--recursive"):
+                return arguments[1:], Options(recursive_mode=True)
 
-            return args_list, recursive_mode, inline_type, graph_stitching
+            if arguments[0] in ("-i", "--inline_functions"):
+                return arguments[1:], Options(inline_type=InlineType.Inline)
 
-        self.logger.v_msg("Not enough arguments!")
-        return [], False, inline_type, graph_stitching
+            if arguments[0] in ("-h", "--heuristic_inline"):
+                return arguments[1:], Options(inline_type=InlineType.Heuristic)
+
+            if arguments[0] in ("-gs", "--graph_stitch"):
+                return arguments[1:], Options(graph_stitching=True)
+
+            return arguments, Options()
+
+        return [], Options()
 
     def do_convert(self, args: str) -> None:
         """
@@ -371,15 +367,15 @@ class Command:
         """
         # Iterate through all file-like objects.
         arguments = args.split(" ")
-        args_list, recursive_mode, inline_type, graph_stitching = self.parse_convert_args(arguments)
+        args_list, opts = self.parse_convert_args(arguments)
         if len(args_list) == 0:
             self.logger.v_msg("Not enough arguments!")
             return
 
         all_files: List[str] = []
         for full_path in args_list:
-            files = get_files(full_path, recursive_mode, self.logger,
-                              list(self.controller.graph_generators.keys()))
+            files = self.get_files(full_path, opts.recursive_mode,
+                                   list(self.controller.graph_generators.keys()))
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
                 return
@@ -401,9 +397,9 @@ class Command:
                     self.logger.v_msg(f"Cannot convert {file_extension} for {file}.")
                 return
 
-            if inline_type is not None:
+            if opts.inline_type is not None:
                 self.logger.v_msg(f"Converting {file}")
-                inline_type.value(file)
+                opts.inline_type.value(file)
                 filepath = os.path.splitext(file.split('.')[0] + "-auto-inline.c")[0]
 
             converter_inst = self.controller.get_graph_generator(file_extension)
@@ -419,7 +415,7 @@ class Command:
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
-                if graph_stitching:
+                if opts.graph_stitching:
                     self.logger.v_msg(f"Created {filepath}_stitched")
                     main = ControlFlowGraph.stitch(graph)
                     self.data.graphs[filepath + "_stitched"] = main
@@ -437,13 +433,15 @@ class Command:
         """
         # Iterate through all file-like objects.
         all_files = []
-        allowed_extensions = ["dot"]
         for full_path in args_list:
-            files = get_files(full_path, flags.recursive_mode, self.logger, allowed_extensions)
-            if files == []:
+            files = self.get_files(full_path, flags.recursive_mode, allowed_extensions=["dot"])
+            if len(files) == 0:
                 self.logger.v_msg(f"Could not get files from: {full_path}")
-                return
             all_files += files
+
+        if len(all_files) == 0:
+            self.logger.e_msg(ReplErrors.NO_FILES)
+            return
 
         self.logger.d_msg(f"Convert {all_files}")
         # Make sure files are valid (if using recursive mode
@@ -452,17 +450,14 @@ class Command:
             manager = Manager()
             shared_dict: Dict[str, ControlFlowGraph] = manager.dict()
             pool = Pool(8)
-            pool.map(partial(worker_main, shared_dict), all_files)
+            pool.map(partial(import_worker, self._from_file, shared_dict), all_files)
             self.data.graphs.update(shared_dict)
         else:
             for file in all_files:
                 filepath, _ = os.path.splitext(file)
                 graph = ControlFlowGraph.from_file(file)
                 self.logger.v_msg(str(graph))
-                if isinstance(graph, dict):
-                    self.data.graphs.update(graph)
-                else:
-                    self.data.graphs[filepath] = graph
+                self.data.graphs[filepath] = graph
 
     def do_list(self, flags: Options, list_typename: str) -> None:
         """
@@ -474,7 +469,7 @@ class Command:
         """
         list_type = ObjTypes.get_type(list_typename)
         if list_type is None:
-            self.logger.e_msg("Unrecognized type.")
+            self.logger.e_msg(ReplErrors.UNRECOGNIZED_TYPE)
             return
 
         if list_type == ObjTypes.METRIC:
@@ -502,10 +497,10 @@ class Command:
         manager = Manager()
         shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
         for metrics_generator in self.controller.metrics_generators:
-            pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
+            pool.map(partial(metrics_worker, metrics_generator, shared_dict), graphs)
             self.logger.v_msg(str(shared_dict))
 
-    def get_metrics_list(self, name: str) -> List[str]:
+    def _get_metrics_list(self, name: str) -> List[str]:
         """Get the list of metric names from command argument."""
         if name == "*":
             return list(self.data.graphs.keys())
@@ -521,9 +516,12 @@ class Command:
                 if pattern.match(graph_name):
                     args_list.append(graph_name)
 
+            if len(args_list) == 0:
+                self.logger.e_msg(f"Error, Graph {name} not found.")
+
             return args_list
         except re.error:
-            self.logger.v_msg(f"Error, Graph {name} not found.")
+            self.logger.e_msg(f"Error, Graph {name} not found.")
             return []
 
     def do_metrics(self, flags: Options, name: str) -> None:
@@ -534,7 +532,7 @@ class Command:
         metrics <name>
         metrics *
         """
-        graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
+        graphs = [self.data.graphs[name] for name in self._get_metrics_list(name)]
         for graph in graphs:
             self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
@@ -548,69 +546,15 @@ class Command:
                         runtime = time.time() - start_time
                     if result is not None:
                         results.append((metric_generator.name(), result))
-                        if metric_generator.name() == "Path Complexity":
-                            result_ = cast(Tuple[Union[float, str], Union[float, str]],
-                                           result)
-                            time_out = f"took {runtime:.3f} seconds"
-                            path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
-                            self.logger.v_msg(f"Got {path_out}, {time_out}")
-                        else:
-                            self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
+                        res = metric_generator.display_result(result)
+                        self.logger.v_msg(f"Got {res}, took {runtime:.3e} seconds")
                     else:
                         self.logger.v_msg("Got None")
                 except TimeoutError:
                     self.logger.e_msg("Timeout!")
-                except IndexError as err:
-                    self.logger.e_msg("Index Error")
-                    self.logger.e_msg(str(err))
-                except numpy.linalg.LinAlgError as err:
-                    self.logger.e_msg("Lin Alg Error")
-                    self.logger.e_msg(str(err))
 
             if graph.name is not None:
                 self.data.metrics[graph.name] = results
-
-    def log_name(self, name: str) -> bool:
-        """Log all objects of a given name."""
-        found = False
-        if name in self.data.graphs:
-            self.logger.i_msg("GRAPH")
-            self.logger.v_msg(str(self.data.graphs[name]))
-            found = True
-        if name in self.data.metrics:
-            self.logger.i_msg("METRIC")
-            self.logger.v_msg(str(self.data.metrics[name]))
-            found = True
-        if name in self.data.bc_files:
-            self.logger.i_msg("BC FILES")
-            self.logger.v_msg(str(self.data.bc_files[name]))
-            found = True
-        if name in self.data.klee_formatted_files:
-            self.logger.i_msg("KLEE FILES")
-            self.logger.v_msg(self.data.klee_formatted_files[name])
-            found = True
-        if name in self.data.klee_stats:
-            self.logger.i_msg("KLEE STATS")
-            self.logger.v_msg(str(self.data.klee_stats[name]))
-            found = True
-        if not found:
-            self.logger.v_msg(f"Object {name} not found.")
-        return found
-
-    def do_show_klee(self, flags: Options, obj_type: ObjTypes, names: List[str]) -> bool:
-        """Display the KLEE objects the REPL knows about."""
-        if obj_type == ObjTypes.KLEE_BC:
-            self.data.show_klee_bc(names)
-        elif obj_type == ObjTypes.KLEE_FILE:
-            self.data.show_klee_files(names)
-        elif obj_type == ObjTypes.KLEE_STATS:
-            self.data.show_klee_stats(names)
-        elif obj_type == ObjTypes.KLEE:
-            self.data.show_klee(names)
-        else:
-            return False
-
-        return True
 
     def do_show(self, flags: Options, obj_typename: str, arg_name: str) -> None:
         """
@@ -620,30 +564,19 @@ class Command:
         show <metric/graph/KLEE type> <name>
         show <metric/graph/KLEE type> *
         """
-        names = [arg_name]
         if (obj_type := ObjTypes.get_type(obj_typename)) is None:
-            self.logger.e_msg("Unrecognized type.")
+            self.logger.e_msg(ReplErrors.UNRECOGNIZED_TYPE)
             return
 
-        if self.do_show_klee(flags, obj_type, names):
+        if self.data.show_klee_object(obj_type, [arg_name]):
             return
 
         if obj_type == ObjTypes.METRIC:
-            self.data.show_metric(arg_name, names)
+            self.data.show_metric(arg_name, [arg_name])
         elif obj_type == ObjTypes.GRAPH:
-            self.data.show_graphs(arg_name, names)
+            self.data.show_graphs(arg_name, [arg_name])
         elif obj_type == ObjTypes.ALL:
-            if arg_name == "*":
-                names = list(self.data.metrics.keys()) + list(self.data.graphs.keys()) + \
-                    list(self.data.bc_files.keys()) + \
-                    list(self.data.klee_formatted_files.keys()) + \
-                    list(self.data.klee_stats.keys())
-                names = list(set(names))
-
-            for name in names:
-                self.log_name(name)
-        else:
-            self.logger.v_msg(f"Type {obj_type} not recognized.")
+            self.data.show_all(arg_name, [arg_name])
 
     def do_klee_to_bc(self, flags: Options, name: str) -> None:
         """Given a C file in the correct format, generate a new .bc file from the given C file."""
@@ -681,7 +614,7 @@ class Command:
         correct format to be converted to a bc file.
         """
         self.logger.d_msg(f"Recursive Mode is {flags.recursive_mode}")
-        files = get_files(file_path, flags.recursive_mode, self.logger, [".c"])
+        files = self.get_files(file_path, flags.recursive_mode, [".c"])
         if len(files) == 0:
             self.logger.v_msg(f"Could not find any files for {file_path}")
             return
@@ -747,7 +680,7 @@ class Command:
             if (result := self.verify_file_type(name, "bc")) is None:
                 return
 
-            files = get_files(result, False, self.logger, [str(KnownExtensions.BC)])
+            files = self.get_files(result, False, [str(KnownExtensions.BC)])
             if len(files) == 0:
                 self.logger.e_msg(f"Could not find any files matching {result}")
                 return
@@ -814,7 +747,7 @@ class Command:
         Usage:
         save <type> <name>
         """
-        subprocess.check_call(["mkdir", "-p", "exports"])
+        subprocess.check_call(["mkdir", "-p", Env.EXPORT_DIR])
         export_type = ObjTypes.get_type(export_typename)
         if export_type is None:
             self.logger.e_msg("Unrecognized type.")
@@ -835,8 +768,7 @@ class Command:
         elif export_type == ObjTypes.KLEE:
             self.data.export_bc(name, new_name)
             self.data.export_klee_file(name, new_name)
-        else:
-            self.logger.e_msg(f"{str(export_type).capitalize()} {name} not found.")
+            self.data.export_klee_stats(name, new_name)
 
     def do_cd(self, flags: Options, new_path: str) -> None:
         """Change the current working directory."""
