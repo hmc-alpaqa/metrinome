@@ -10,10 +10,11 @@ import tempfile
 import time
 from enum import Enum
 from functools import partial
-from multiprocessing import Manager, Pool
+from multiprocessing import Manager
+from pathos.multiprocessing import ProcessingPool as Pool
 from os import listdir
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple, Union
+from typing import Dict, Iterable, List, Optional, Tuple, Union, Callable
 
 from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
 from core.env import Env
@@ -26,6 +27,9 @@ from klee.klee_utils import KleeUtils
 from lang_to_cfg import converter, cpp, java, python
 from metric import cyclomatic_complexity, metric, npath_complexity, path_complexity
 from utils import Timeout
+
+
+import dill
 
 # Temporarily disable unused arguments due to flags.
 # pylint: disable=unused-argument
@@ -84,21 +88,16 @@ class Controller:
         """Given a file extension as a string, return the CFG generator for that file extension."""
         return self.graph_generators[file_extension]
 
+def import_worker(apply_f: Callable[[str], ControlFlowGraph] , shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
+    """Import a single file using a single process."""
+    graph = apply_f(file)
+    filepath, _ = os.path.splitext(file)
+    shared_dict[filepath] = graph
 
-def worker_main(shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
-    """Handle the multiprocessing of import."""
-    graph = ControlFlowGraph.from_file(file)
-    if isinstance(graph, dict):
-        shared_dict.update(graph)
-    else:
-        filepath, _ = os.path.splitext(file)
-        shared_dict[filepath] = graph
-
-
-def worker_main_two(metrics_generator: metric.MetricAbstract,
+def metrics_worker(metrics_generator: metric.MetricAbstract,
                     shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]],
                     graph: ControlFlowGraph) -> None:
-    """Handle the multiprocessing of convert."""
+    """Get metrics on a single file using a single process."""
     try:
         with Timeout(10, "Took too long!"):
             result = metrics_generator.evaluate(graph)
@@ -209,6 +208,8 @@ class Command:
         self._repl_wrapper = repl_wrapper
         self.curr_path = curr_path
         self.debug_mode = debug_mode
+
+        self._from_file =  ControlFlowGraph.from_file
 
     def _get_files_from_regex(self, input_file: str,
                               original_base: str, recursive_mode: bool) -> List[str]:
@@ -432,13 +433,15 @@ class Command:
         """
         # Iterate through all file-like objects.
         all_files = []
-        allowed_extensions = ["dot"]
         for full_path in args_list:
-            files = self.get_files(full_path, flags.recursive_mode, allowed_extensions)
-            if files == []:
+            files = self.get_files(full_path, flags.recursive_mode, allowed_extensions=["dot"])
+            if len(files) == 0:
                 self.logger.v_msg(f"Could not get files from: {full_path}")
-                return
             all_files += files
+
+        if len(all_files) == 0:
+            self.logger.e_msg(ReplErrors.NO_FILES)
+            return
 
         self.logger.d_msg(f"Convert {all_files}")
         # Make sure files are valid (if using recursive mode
@@ -447,17 +450,14 @@ class Command:
             manager = Manager()
             shared_dict: Dict[str, ControlFlowGraph] = manager.dict()
             pool = Pool(8)
-            pool.map(partial(worker_main, shared_dict), all_files)
+            pool.map(partial(import_worker, self._from_file, shared_dict), all_files)
             self.data.graphs.update(shared_dict)
         else:
             for file in all_files:
                 filepath, _ = os.path.splitext(file)
                 graph = ControlFlowGraph.from_file(file)
                 self.logger.v_msg(str(graph))
-                if isinstance(graph, dict):
-                    self.data.graphs.update(graph)
-                else:
-                    self.data.graphs[filepath] = graph
+                self.data.graphs[filepath] = graph
 
     def do_list(self, flags: Options, list_typename: str) -> None:
         """
@@ -497,7 +497,7 @@ class Command:
         manager = Manager()
         shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
         for metrics_generator in self.controller.metrics_generators:
-            pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
+            pool.map(partial(metrics_worker, metrics_generator, shared_dict), graphs)
             self.logger.v_msg(str(shared_dict))
 
     def _get_metrics_list(self, name: str) -> List[str]:
@@ -556,48 +556,6 @@ class Command:
             if graph.name is not None:
                 self.data.metrics[graph.name] = results
 
-    def log_name(self, name: str) -> bool:
-        """Log all objects of a given name."""
-        found = False
-        if name in self.data.graphs:
-            self.logger.i_msg("GRAPH")
-            self.logger.v_msg(str(self.data.graphs[name]))
-            found = True
-        if name in self.data.metrics:
-            self.logger.i_msg("METRIC")
-            self.logger.v_msg(str(self.data.metrics[name]))
-            found = True
-        if name in self.data.bc_files:
-            self.logger.i_msg("BC FILES")
-            self.logger.v_msg(str(self.data.bc_files[name]))
-            found = True
-        if name in self.data.klee_formatted_files:
-            self.logger.i_msg("KLEE FILES")
-            self.logger.v_msg(self.data.klee_formatted_files[name])
-            found = True
-        if name in self.data.klee_stats:
-            self.logger.i_msg("KLEE STATS")
-            self.logger.v_msg(str(self.data.klee_stats[name]))
-            found = True
-        if not found:
-            self.logger.v_msg(f"Object {name} not found.")
-        return found
-
-    def _show_klee(self, flags: Options, obj_type: ObjTypes, names: List[str]) -> bool:
-        """Display the KLEE objects the REPL knows about."""
-        if obj_type == ObjTypes.KLEE_BC:
-            self.data.show_klee_bc(names)
-        elif obj_type == ObjTypes.KLEE_FILE:
-            self.data.show_klee_files(names)
-        elif obj_type == ObjTypes.KLEE_STATS:
-            self.data.show_klee_stats(names)
-        elif obj_type == ObjTypes.KLEE:
-            self.data.show_klee(names)
-        else:
-            return False
-
-        return True
-
     def do_show(self, flags: Options, obj_typename: str, arg_name: str) -> None:
         """
         Show an object of some type (either metric, graph, or KLEE type).
@@ -606,28 +564,19 @@ class Command:
         show <metric/graph/KLEE type> <name>
         show <metric/graph/KLEE type> *
         """
-        names = [arg_name]
         if (obj_type := ObjTypes.get_type(obj_typename)) is None:
             self.logger.e_msg(ReplErrors.UNRECOGNIZED_TYPE)
             return
 
-        if self._show_klee(flags, obj_type, names):
+        if self.data.show_klee_object(obj_type, [arg_name]):
             return
 
         if obj_type == ObjTypes.METRIC:
-            self.data.show_metric(arg_name, names)
+            self.data.show_metric(arg_name, [arg_name])
         elif obj_type == ObjTypes.GRAPH:
-            self.data.show_graphs(arg_name, names)
+            self.data.show_graphs(arg_name, [arg_name])
         elif obj_type == ObjTypes.ALL:
-            if arg_name == "*":
-                names = list(self.data.metrics.keys()) + list(self.data.graphs.keys()) + \
-                    list(self.data.bc_files.keys()) + \
-                    list(self.data.klee_formatted_files.keys()) + \
-                    list(self.data.klee_stats.keys())
-                names = list(set(names))
-
-            for name in names:
-                self.log_name(name)
+            self.data.show_all(arg_name, [arg_name])
 
     def do_klee_to_bc(self, flags: Options, name: str) -> None:
         """Given a C file in the correct format, generate a new .bc file from the given C file."""

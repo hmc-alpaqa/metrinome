@@ -1,13 +1,14 @@
 """Test the commands of the REPL."""
 import unittest
 from typing import Dict, Tuple, Union, cast
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
+from pickle import dumps
 
 import core.command as command
 import core.command_data as command_data
-from core.command import Options
+from core.command import CmdInfo, Options
 from core.error_messages import ReplErrors
-from core.log import Log
+from core.log import Log, LogLevel
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.graph import EdgeListGraph, EdgeListType
 from tests.unit_utils import captured_output, get_second_test_graph, get_test_graph
@@ -36,6 +37,18 @@ class TestController(unittest.TestCase):
         """Check that we can get the converter from the file extension."""
         converter = self.controller.get_graph_generator(".py")
         self.assertEqual(converter.name(), "Python")
+
+
+class TestCmdInfo(unittest.TestCase):
+    """Test the class used for storing info about the arguments to each REPL command."""
+
+    def test_cmdinfo(self) -> None:
+        """Test the constructor and getters for CmdInfo."""
+        info = CmdInfo(0, ReplErrors.NO_ARGS, False, False)
+        self.assertEqual(info.get_num_args(), 0)
+        self.assertEqual(info.get_err(), ReplErrors.NO_ARGS)
+        self.assertFalse(info.get_recursive())
+        self.assertFalse(info.get_var_args())
 
 
 class TestCommandMultithreading(unittest.TestCase):
@@ -105,16 +118,46 @@ class TestCommand(unittest.TestCase):
         self.command.data = MagicMock()
         self.opts = Options()
 
+    # === Test init ===
+    def test_init(self) -> None:
+        """Check that create a Command object with debugging on sets the correct logging flags."""
+        # pylint: disable=protected-access
+        with captured_output() as (out, err):
+            cmd = command.Command(curr_path="/app/code/tests/", debug_mode=True, multi_threaded=False,
+                                  repl_wrapper=None)
+            self.assertEqual(cmd.logger._log_level, LogLevel.DEBUG)
+
     # === Test do_import ===
+    def test_import_no_files(self) -> None:
+        """Test that calling import without a file causes a error message."""
+        self.command.get_files = MagicMock(name="get_files", return_value=[])  # type: ignore
+        self.command.logger = MagicMock()
+        self.command.do_import(self.opts, "invalid_path")
+
+        self.command.logger.e_msg.assert_called_with(ReplErrors.NO_FILES)
+
     def test_import_single_threaded(self) -> None:
-        """."""
-        # TODO Patch in CFG.from_file and assert everything was called.
-        self.command.get_files = MagicMock(name="get_files", return_value=[""])  # type: ignore
-        self.command.do_import(Options())
+        """Test that importing a dot file in single threaded mode uses from_file correctly."""
+        with patch('core.command.ControlFlowGraph') as mock_class:
+            self.setUp()
+            filepath = "dot_file_path"
+            self.command.get_files = MagicMock(name="get_files",  # type: ignore
+                                               return_value=[filepath])
+            self.command.do_import(Options(), "dot_file")
+
+            mock_class.from_file.assert_called_once_with(filepath)
 
     def test_import_multi_threaded(self) -> None:
-        """."""
-        # TODO: this
+        """Test that importing a dot file in multithreaded mode uses from_file correctly."""
+        self.command.data = command_data.Data(Log())
+        self.command.multi_threaded = True
+        self.command._from_file = lambda x: get_test_graph()
+        filepath = "dot_file_path"
+        self.command.get_files = MagicMock(name="get_files",  # type: ignore
+                                            return_value=[filepath])
+        self.command.do_import(Options(), "dot_file")
+
+    
 
     # === Test verify_file_type ===
     def test_verify_file_type_no_ext(self) -> None:
@@ -234,6 +277,7 @@ class TestCommand(unittest.TestCase):
 
     # === directory functions. ===
     # pylint: disable=E1121
+    # pylint: disable=protected-access
     def test_directories(self) -> None:
         """Check that all functions related to working with directories work."""
         self.command.logger._display_output = True
@@ -298,6 +342,7 @@ class TestCommand(unittest.TestCase):
         Verify that calling the show command with a valid metric name will
         display the metric value in the REPL.
         """
+        self.command.data.show_klee_object.return_value = False  # type: ignore
         self.command.do_show(self.opts, command_data.ObjTypes.METRIC.value, "foo")
         self.command.data.show_metric.assert_called_once()  # type: ignore
 
@@ -308,40 +353,34 @@ class TestCommand(unittest.TestCase):
         Verify that we get the correct output graph if we call the show function
         for a valid graph name.
         """
+        self.command.data.show_klee_object.return_value = False  # type: ignore
         self.command.do_show(self.opts, command_data.ObjTypes.GRAPH.value, "foo")
         self.command.data.show_graphs.assert_called_once()  # type: ignore
 
     def test_show_klee(self) -> None:
         """Check that we can show klee objects."""
         self.command.do_show(self.opts, command_data.ObjTypes.KLEE_BC.value, "foo")
-        self.command.data.show_klee_bc.assert_called_once()  # type: ignore
+        self.command.data.show_klee_object.assert_called_once()  # type: ignore
 
         self.command.do_show(self.opts, command_data.ObjTypes.KLEE_FILE.value, "foo")
-        self.command.data.show_klee_files.assert_called_once()  # type: ignore
+        self.command.data.show_klee_object.assert_called_with(command_data.ObjTypes.KLEE_FILE, ["foo"])  # type: ignore
 
         self.command.do_show(self.opts, command_data.ObjTypes.KLEE_STATS.value, "foo")
-        self.command.data.show_klee_stats.assert_called_once()  # type: ignore
+        self.command.data.show_klee_object.assert_called_with(command_data.ObjTypes.KLEE_STATS, ["foo"])  # type: ignore
 
         self.command.do_show(self.opts, command_data.ObjTypes.KLEE.value, "foo")
-        self.command.data.show_klee.assert_called_once()  # type: ignore
+        self.command.data.show_klee_object.assert_called_with(command_data.ObjTypes.KLEE, ["foo"])  # type: ignore
 
-    def test_show_all_types_valid(self) -> None:
+    def test_show_all(self) -> None:
         """
         Check show command with wildcard operator for type.
 
         Verify that we can use the wildcard operator to show all objects (objects
         of all types) for a given name.
         """
-        # TODO
-
-    def test_show_all_names_valid(self) -> None:
-        """
-        Check show command with wildcard operator for name.
-
-        Verify that we can use the wildcard operator to show all objects
-        of a given type.
-        """
-        # TODO
+        self.command.data.show_klee_object.return_value = False  # type: ignore
+        self.command.do_show(self.opts, command_data.ObjTypes.ALL.value, "foo")
+        self.command.data.show_all.assert_called_once()  # type: ignore
 
     # ==== Test do_list =====
     def test_list_graphs(self) -> None:

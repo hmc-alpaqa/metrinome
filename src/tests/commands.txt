@@ -10,7 +10,6 @@ do_list # DONE
 do_metrics_multithreaded
 get_metrics_list
 do_metrics #do_metrics
-log_name
 _show_klee # DONE
 do_show # DONE
 do_klee_to_bc
