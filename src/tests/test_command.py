@@ -1,6 +1,6 @@
 """Test the commands of the REPL."""
 import unittest
-from typing import Dict, Tuple, Union, cast
+from typing import Union, cast
 
 import core.command as command
 import core.command_data as command_data
@@ -176,7 +176,7 @@ class TestCommandKlee(unittest.TestCase):
 class TestCommand(unittest.TestCase):
     """Test each command with valid inputs."""
 
-    valid_commands: Dict[str, Tuple[int, Union[float, int]]] = {}
+    valid_commands: dict[str, tuple[int, Union[float, int]]] = {}
 
     @classmethod
     def setUpClass(cls) -> None:

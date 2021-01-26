@@ -4,20 +4,20 @@ from __future__ import annotations
 import os
 from collections import namedtuple
 from enum import Enum
-from typing import Dict, List, Optional, Tuple, Union, cast
+from typing import Optional, Union, cast
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
-PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
+PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 MetricRes = Union[int, PathComplexityRes]
 
-MetricsDict = Dict[str, List[Tuple[str, MetricRes]]]
-GraphDict = Dict[str, ControlFlowGraph]
-KleeStatsDict = Dict[str, KleeStat]
-KleeFormattedFilesDict = Dict[str, str]
-BcFilesDict = Dict[str, bytes]
+MetricsDict = dict[str, list[tuple[str, MetricRes]]]
+GraphDict = dict[str, ControlFlowGraph]
+KleeStatsDict = dict[str, KleeStat]
+KleeFormattedFilesDict = dict[str, str]
+BcFilesDict = dict[str, bytes]
 AnyDict = Union[MetricsDict, GraphDict, KleeStatsDict,
                 KleeFormattedFilesDict, BcFilesDict]
 
@@ -195,7 +195,7 @@ class Data:
         self.list_klee_bc()
         self.list_klee_stats()
 
-    def show_graphs(self, name: str, names: List[str]) -> None:
+    def show_graphs(self, name: str, names: list[str]) -> None:
         """Display a Graph we know about to the REPL."""
         if name == "*":
             names = list(self.graphs.keys())
@@ -206,7 +206,7 @@ class Data:
             else:
                 self.logger.v_msg(f"Graph {graph_name} not found.")
 
-    def show_metric(self, name: str, names: List[str]) -> None:
+    def show_metric(self, name: str, names: list[str]) -> None:
         """Display a metric we know about to the REPL."""
         if name == "*":
             names = list(self.metrics.keys())
@@ -216,7 +216,7 @@ class Data:
                 self.logger.i_msg(f"Metrics for {metric_name}:")
                 for metric_data in self.metrics[metric_name]:
                     if metric_data[0] == "Path Complexity":
-                        metric_data_ = cast(Tuple[str, Tuple[Union[float, str], Union[float, str]]],
+                        metric_data_ = cast(tuple[str, tuple[Union[float, str], Union[float, str]]],
                                             metric_data)
                         apc, path_compl = metric_data_[1][0], metric_data_[1][1]
                         path_out = f"(APC: {apc}, Path Complexity: {path_compl})"
@@ -226,7 +226,7 @@ class Data:
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
-    def show_klee_files(self, names: List[str]) -> None:
+    def show_klee_files(self, names: list[str]) -> None:
         """Display all files that are formatted to be converted to .bc files."""
         if names[0] == "*":
             names = list(self.klee_formatted_files.keys())
@@ -236,7 +236,7 @@ class Data:
                 self.logger.i_msg("KLEE FORMATTED FILES:")
                 self.logger.v_msg(str(self.klee_formatted_files[klee_file_name]))
 
-    def show_klee_bc(self, names: List[str]) -> None:
+    def show_klee_bc(self, names: list[str]) -> None:
         """Display .bc files currently stored in the REPL."""
         if names[0] == "*":
             names = list(self.bc_files.keys())
@@ -246,7 +246,7 @@ class Data:
                 self.logger.i_msg("BC FILES:")
                 self.logger.v_msg(str(self.bc_files[klee_bc_name]))
 
-    def show_klee_stats(self, names: List[str]) -> None:
+    def show_klee_stats(self, names: list[str]) -> None:
         """Display statistics obtained from executing KLEE."""
         if names[0] == "*":
             names = list(self.klee_stats.keys())
@@ -256,7 +256,7 @@ class Data:
                 self.logger.i_msg("KLEE STATS:")
                 self.logger.v_msg(str(self.klee_stats[klee_stats_name]))
 
-    def show_klee(self, names: List[str]) -> None:
+    def show_klee(self, names: list[str]) -> None:
         """Display Klee files or .bc files we know about to the REPL."""
         self.show_klee_files(names)
         self.show_klee_bc(names)

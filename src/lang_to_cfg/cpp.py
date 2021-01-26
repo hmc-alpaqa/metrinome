@@ -6,7 +6,7 @@ import shlex
 import signal
 import subprocess
 from types import FrameType
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 import glob2  # type: ignore
 
@@ -35,7 +35,7 @@ class CPPConvert(converter.ConverterAbstract):
 
     def to_graph(self,
                  filename: str,
-                 file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
+                 file_extension: str) -> Optional[dict[str, ControlFlowGraph]]:
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
@@ -60,14 +60,12 @@ class CPPConvert(converter.ConverterAbstract):
         Env.clean_temps()
         return graphs
 
-    def parse_original(self, file: str) -> Tuple[List[str],
-                                                 List[str],
-                                                 Dict[str, str],
-                                                 int]:
+    def parse_original(self, file: str) -> tuple[list[str], list[str],
+                                                 dict[str, str], int]:
         """Obtain all of the Graph information from an existing dot file in the original format."""
         # Read the original files.
         nodes, edges = [], []
-        node_map: Dict[str, str] = {}
+        node_map: dict[str, str] = {}
         counter = 0
 
         with open(file, "r") as old_file:

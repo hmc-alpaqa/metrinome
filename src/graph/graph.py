@@ -1,13 +1,13 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-import collections
+from collections import defaultdict
 from abc import ABC, abstractmethod
-from typing import DefaultDict, Dict, Generic, List, Match, Optional, Set, Tuple, TypeVar
+from typing import Generic, Match, Optional, TypeVar
 
 import numpy as np  # type: ignore
 
-AdjListType = List[List[int]]
-EdgeListType = List[List[int]]
+AdjListType = list[list[int]]
+EdgeListType = list[list[int]]
 Type = TypeVar('Type')
 
 
@@ -36,7 +36,7 @@ class Graph(ABC):
         self.name: Optional[str] = None
 
     @abstractmethod
-    def vertices(self) -> List[int]:
+    def vertices(self) -> list[int]:
         """Get the vertex set for the graph."""
 
     @abstractmethod
@@ -130,7 +130,7 @@ class GenericGraph(Graph, Generic[Type], ABC):
         labels_equal = (self.start_node == other.start_node and self.end_node == other.end_node)
         return edges_equal and vertices_equal and labels_equal
 
-    def vertices(self) -> List[int]:
+    def vertices(self) -> list[int]:
         """Get a list of vertices in the graph."""
         return list(range(self.num_vertices))
 
@@ -157,7 +157,7 @@ class GenericGraph(Graph, Generic[Type], ABC):
         self.num_vertices = max(self.num_vertices, node + 1)
         return node
 
-    def _update_with_edge_helper(self, match: Match[str]) -> Tuple[int, int]:
+    def _update_with_edge_helper(self, match: Match[str]) -> tuple[int, int]:
         """Save edges from dot file."""
         node_one = int(match.group(1))
         node_two = int(match.group(2))
@@ -185,7 +185,7 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
 
     def __init__(self, edges: AdjListType, num_vertices: int):
         """Create a new graph from an adjacency list."""
-        self.weights: Optional[List[List[int]]] = None
+        self.weights: Optional[list[list[int]]] = None
         GenericGraph.__init__(self, edges, num_vertices)
 
     def dot(self) -> str:
@@ -211,9 +211,9 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
         """Count the number of edges in the graph."""
         return sum(map(len, self.edges))
 
-    def get_parents(self) -> DefaultDict[int, List[int]]:
+    def get_parents(self) -> defaultdict[int, list[int]]:
         """Create a dictionary which maps a node to a list of its parents."""
-        parents: DefaultDict[int, List[int]] = collections.defaultdict(list)
+        parents: defaultdict[int, list[int]] = defaultdict(list)
         for vertex in self.vertices():
             for child in self.edges[vertex]:
                 parents[child] += [vertex]
@@ -278,7 +278,7 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
 
         self.weights = weights
 
-    def _delete_nodes(self, removed_nodes: Set[int]) -> None:
+    def _delete_nodes(self, removed_nodes: set[int]) -> None:
         """
         Given a set of nodes to delete, update the graph.
 
@@ -286,7 +286,7 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
         supposed to be in sequence (0, ..., n).
         """
         # First, we have to figure out what each node will map to in the new graph.
-        node_mapping: Dict[int, int] = dict()
+        node_mapping: dict[int, int] = dict()
         removed_count = 0
         for vertex in self.vertices():
             if vertex in removed_nodes:
@@ -296,7 +296,7 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
             node_mapping[vertex] = vertex - removed_count
 
         # Figure out what the new edges should be.
-        new_edges: List[List[int]] = []
+        new_edges: list[list[int]] = []
         for vertex in self.vertices():
             if vertex in removed_nodes:
                 continue
@@ -337,7 +337,7 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
 
         self.edges[node_one] += [node_two]
 
-    def to_prism(self) -> List[str]:
+    def to_prism(self) -> list[str]:
         """
         Create a PRISM file based on an existing Graph.
 
@@ -400,7 +400,7 @@ class EdgeListGraph(GenericGraph[EdgeListType], Graph):
 
     def __init__(self, edges: EdgeListType, num_vertices: int):
         """Create a new graph from a list of edges."""
-        self.weights: Optional[List[int]] = None
+        self.weights: Optional[list[int]] = None
         GenericGraph.__init__(self, edges, num_vertices)
 
     def dot(self) -> str:

@@ -1,4 +1,4 @@
-FROM python:3.8-slim 
+FROM python:3.9-slim 
 WORKDIR /app
 COPY requirements.txt /app/ 
 COPY ./examples /app/examples/
@@ -14,6 +14,7 @@ RUN apt-get install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tm
 RUN apt-get install -y g++-multilib
 # Install z3 
 RUN git clone https://github.com/Z3Prover/z3/ 
+RUN cd /app/z3 && git pull && git reset --hard 2d1684bc2d2621c0d6b02b81168624388648049a 
 RUN cd /app/z3 && python scripts/mk_make.py 
 RUN cd /app/z3/build && make && make install
 RUN pip install z3-solver

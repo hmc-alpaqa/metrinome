@@ -14,7 +14,7 @@ import os
 # from pprintast import pprintast as ppast
 import uuid
 # pylint: disable=C0103
-from typing import Dict, List, Optional, cast
+from typing import Optional, cast
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph, Metadata
@@ -27,7 +27,7 @@ class Node:
 
     def __init__(self, exit_node: bool = False) -> None:
         """Create a new instance of the Graph node."""
-        self.children: List[Node] = []
+        self.children: list[Node] = []
         self.exit_node: bool = exit_node
         self._id = uuid.uuid4()
 
@@ -43,7 +43,7 @@ class FunctionVisitor(ast.NodeVisitor):
         """Create a new instance of the function visitor."""
         self.root: Optional[Node] = None
         self.end_node: Optional[Node] = None
-        self.frontier: List[Node] = []
+        self.frontier: list[Node] = []
         self.logger = logger
 
     def update_root(self, node: Node) -> bool:
@@ -229,7 +229,7 @@ class Visitor(ast.NodeVisitor):
 
     def __init__(self, logger: Log = Log()) -> None:
         """Create a new instance of the Python source code parser."""
-        self.graphs: Dict[str, ControlFlowGraph] = {}
+        self.graphs: dict[str, ControlFlowGraph] = {}
         self.logger = logger
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
@@ -305,14 +305,14 @@ class PythonConvert(converter.ConverterAbstract):
         """Get the name of the Python converter."""
         return "Python"
 
-    def to_graph(self, filename: str, file_extension: str) -> Dict[str, ControlFlowGraph]:
+    def to_graph(self, filename: str, file_extension: str) -> dict[str, ControlFlowGraph]:
         """Create a CFG from a Python source file."""
         self.logger.d_msg(file_extension)
 
         path = os.path.join(os.getcwd(), filename) + ".py"
         self.logger.d_msg(path)
         visitor = Visitor()
-        graphs: Dict[str, ControlFlowGraph]
+        graphs: dict[str, ControlFlowGraph]
         with open(path, "r") as src:
             root = ast.parse(src.read())
             visitor.visit(root)

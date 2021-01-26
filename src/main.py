@@ -8,7 +8,7 @@ import logging
 import os
 import readline
 from cmd import Cmd
-from typing import Any, List, Tuple
+from typing import Any
 
 import core.command as command
 from core.command import Options
@@ -37,7 +37,7 @@ class Prompt(Cmd):
         Prompt.create_commands(self)
         super().__init__()
 
-    def get_names(self) -> List[str]:
+    def get_names(self) -> list[str]:
         """Get names of all attributes and commands the repl knows about."""
         return super().get_names() + [f"do_{x}" for x in Options.commands]
 
@@ -49,7 +49,7 @@ class Prompt(Cmd):
     # pylint: disable=unused-argument
     def complete_file_path(self, text: str, line: str,
                            begin: int, start: int,
-                           folders_only: bool = False) -> List[str]:
+                           folders_only: bool = False) -> list[str]:
         """Enhanced auto-completion for the REPL."""
         # Try to do tab completion on a directory. Text contains the latest paremeter
         # text only contains the latest segment, which splits on / (and other characters)
@@ -84,17 +84,17 @@ class Prompt(Cmd):
         return [match for match in os.listdir(folder_path)
                 if match.startswith(text) and os.path.isdir(os.path.join(folder_path, match))]
 
-    def complete_list(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_list(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Auto-completion for the list command."""
         options = ["metrics", "graphs", "KLEE"]
         return [match for match in options if match.startswith(text)]
 
-    def complete_metrics(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_metrics(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Auto-completion for the metrics command."""
         options = list(self.command.data.graphs.keys())
         return [opt for opt in options if opt.startswith(text)]
 
-    def complete_repl_objects(self, line: str) -> List[str]:
+    def complete_repl_objects(self, line: str) -> list[str]:
         """Auto-completion for commands that use objects the REPL knows about."""
         args = line.split(" ")
         logging.info(args)
@@ -119,39 +119,39 @@ class Prompt(Cmd):
 
         return []
 
-    def complete_import(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_import(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Auto-completion for the import command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_show(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_show(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Auto-completion for the show command."""
         return self.complete_repl_objects(line)
 
-    def complete_delete(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_delete(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Auto-complete for the delete command."""
         return self.complete_repl_objects(line)
 
-    def complete_cd(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_cd(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Completion for the cd command."""
         return self.complete_file_path(text, line, begin, end, True)
 
-    def complete_rm(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_rm(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Completion for the rm command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_mv(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_mv(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Completion for the mv command."""
         return []
 
-    def complete_export(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_export(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Completion for the export command."""
         return []
 
-    def complete_convert(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_convert(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Completion for the convert command."""
         return self.complete_file_path(text, line, begin, end, False)
 
-    def complete_to_klee_format(self, text: str, line: str, begin: int, end: int) -> List[str]:
+    def complete_to_klee_format(self, text: str, line: str, begin: int, end: int) -> list[str]:
         """Completion for the to_klee_format command."""
         return self.complete_file_path(text, line, begin, end, False)
 
@@ -204,7 +204,7 @@ class Prompt(Cmd):
             Prompt._create_command(prompt, command_name)
 
     @staticmethod
-    def check_args(command_name: str, args: str, logger: Log) -> Tuple[Options, List[Any]]:
+    def check_args(command_name: str, args: str, logger: Log) -> tuple[Options, list[Any]]:
         """Parse the string passed in from the command line and obtain flags / parameters."""
         opts = Options.commands[command_name]
         var_args = opts.get_var_args()

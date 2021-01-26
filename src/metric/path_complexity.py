@@ -3,7 +3,7 @@
 import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from typing import DefaultDict, List, Tuple, Union
+from typing import Union
 
 import numpy as np  # type: ignore
 import sympy  # type: ignore
@@ -17,7 +17,7 @@ from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs
 
-PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
+PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
 
 class BaseCaseGetter(ABC):
@@ -29,7 +29,7 @@ class BaseCaseGetter(ABC):
 
     @abstractmethod
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
+            start_idx: int, num_coeffs: int) -> tuple[np.array, int]:
         """Get path(start_idx) throught path(start_idx + num_coeffs)."""
 
 
@@ -37,7 +37,7 @@ class BaseCaseBFS(BaseCaseGetter):
     """Get base cases using a breadth first search on the control flow graph."""
 
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> Tuple[np.ndarray, int]:
+            start_idx: int, num_coeffs: int) -> tuple[np.ndarray, int]:
         """Use a BFS to count all of the paths through the CFG up to a certain depth."""
         end_idx = start_idx + num_coeffs
         depth = 1
@@ -48,7 +48,7 @@ class BaseCaseBFS(BaseCaseGetter):
         num_paths[graph.start_node] = 1
         while depth < end_idx:
             # Compute how many paths of length 'depth + 1' can reach each node.
-            new_num_paths: DefaultDict[int, int] = defaultdict(int)
+            new_num_paths: defaultdict[int, int] = defaultdict(int)
             for curr_node, curr_paths in num_paths.items():
                 for next_node in graph_adj[curr_node]:
                     new_num_paths[next_node] += curr_paths
@@ -67,7 +67,7 @@ class BaseCaseTaylor(BaseCaseGetter):
     """Get base cases using the generating function; significantly slower than BFS."""
 
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
+            start_idx: int, num_coeffs: int) -> tuple[np.array, int]:
         """Use taylor coefficients of the generating function to get base cases."""
         x_sub = x_mat.copy()
         x_sub.col_del(0)
@@ -99,7 +99,7 @@ class BaseCaseSmart(BaseCaseGetter):
         super().__init__(logger)
 
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
-            start_idx: int, num_coeffs: int) -> Tuple[np.array, int]:
+            start_idx: int, num_coeffs: int) -> tuple[np.array, int]:
         """Try to use BFS and switch to Taylor method if it takes too long."""
         try:
             with Timeout(seconds=10, error_message="BFS Timed Out"):
@@ -151,7 +151,7 @@ class PathComplexity(metric.MetricAbstract):
         det = simplify(poly * sympify(f"t**{dimension}"))
         return det
 
-    def get_matrix(self, graph: Graph) -> Tuple[Basic, int]:
+    def get_matrix(self, graph: Graph) -> tuple[Basic, int]:
         """Use the CFG to obtain the taylor series from the generating function."""
         adj_mat = graph.adjacency_matrix()
         adj_mat[1][1] = 1
@@ -163,7 +163,7 @@ class PathComplexity(metric.MetricAbstract):
 
         return x_mat, dimension
 
-    def get_roots(self, x_mat: Basic) -> Tuple[int, Poly, List[Union[mpf, mpc]]]:
+    def get_roots(self, x_mat: Basic) -> tuple[int, Poly, list[Union[mpf, mpc]]]:
         """Get the denominator of the generating function and its roots/degree."""
         x_det = x_mat.det()
         denominator = Poly(sympify(-x_det))

@@ -1,12 +1,11 @@
 """Adds always inline attribute to C Files."""
 
 import re
-from typing import List
 
 from utils import show_func_defs
 
 
-def get_lines(file: str) -> List[str]:
+def get_lines(file: str) -> list[str]:
     """Obtain the lines we should write to the new file."""
     function_calls_dict = show_func_defs(file)
 

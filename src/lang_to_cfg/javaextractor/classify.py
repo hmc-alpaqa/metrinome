@@ -12,7 +12,7 @@ import math
 import os
 import re
 import sys
-from typing import Any, List, Match, Optional
+from typing import Any, Match, Optional
 
 from core.env import Env
 from core.log import Log
@@ -224,7 +224,7 @@ class Classifier:
         self.logger.i_msg("end")
 
 
-def main(argv: List[str]) -> None:
+def main(argv: list[str]) -> None:
     """Run the classifier with the set of command line arguments passed it."""
     try:
         opts, args = getopt.getopt(argv, "hi:o:", ["input=", "output="])

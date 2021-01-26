@@ -66,6 +66,7 @@ disable=C0326, # space before bracket
 	W1201, # % for lazy evaluation in logging
 	R0903, # too few public methods
 	W0235, # useless super() delegation
+    unsubscriptable-object,
       duplicate-code,
       no-self-use, # method could be a function
       abstract-class-instantiated,

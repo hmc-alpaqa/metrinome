@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import os
 import re
-from typing import Callable, Dict, List, Match, Optional, Type, cast
+from typing import Callable, Match, Optional, Type, cast
 
 from graph.graph import AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph, Graph
 from utils import calls_function
@@ -17,7 +17,7 @@ class Metadata:
     def __init__(self, *options: Option):
         """Create a new metadata object."""
         self.loc: Optional[int] = None
-        self.calls: Dict[int, str] = {}
+        self.calls: dict[int, str] = {}
 
         for opt in options:
             opt(self)
@@ -35,7 +35,7 @@ class Metadata:
         return option
 
     @staticmethod
-    def with_calls(calls: Dict[int, str]) -> Option:
+    def with_calls(calls: dict[int, str]) -> Option:
         """Initialize calls in a Metadata instance."""
         def option(metadata: Metadata) -> None:
             """Apply the option."""
@@ -75,7 +75,7 @@ class ControlFlowGraph:
         return str(self.graph)
 
     @staticmethod
-    def check_call(match: Match[str]) -> Optional[Dict[int, str]]:
+    def check_call(match: Match[str]) -> Optional[dict[int, str]]:
         """Find and return any functions called on a node."""
         node = int(match.group(1))
         label = match.group(2)
@@ -103,7 +103,7 @@ class ControlFlowGraph:
         if graph_type is AdjListGraph:
             graph = AdjListGraph(cast(AdjListType, []), 0)
         elif graph_type is EdgeListGraph:
-            edges: List[List[int]] = []
+            edges: list[list[int]] = []
             graph = EdgeListGraph(edges, 0)
         elif graph_type is AdjMatGraph:
             # We create the graph using an adjacency list and then convert it.
@@ -141,7 +141,7 @@ class ControlFlowGraph:
         return ControlFlowGraph(graph, Metadata(Metadata.with_calls(calls)))
 
     @staticmethod
-    def stitch(graphs: Dict[str, ControlFlowGraph]) -> ControlFlowGraph:
+    def stitch(graphs: dict[str, ControlFlowGraph]) -> ControlFlowGraph:
         """Create new CFG by substituting function calls with their graphs."""
         calls_list = []
         simple_funcs = []

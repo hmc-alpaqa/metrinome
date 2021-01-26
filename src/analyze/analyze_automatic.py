@@ -6,7 +6,7 @@ and the best function type.
 """
 import subprocess
 from functools import partial
-from typing import List, Optional, Tuple
+from typing import Optional
 
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
@@ -31,7 +31,7 @@ def rampdeg(val: float, degree: int) -> float:
     return val ** degree if (val > 0) else 0
 
 
-def piecewise_eval(x_val: np.ndarray, params: List[int],
+def piecewise_eval(x_val: np.ndarray, params: list[int],
                    degree_one: Optional[int],
                    degree_two: Optional[int],
                    break_point: float) -> np.ndarray:
@@ -54,7 +54,7 @@ def piecewise_eval(x_val: np.ndarray, params: List[int],
 
 # pylint: disable=unbalanced-tuple-unpacking
 def fit(data_x: np.ndarray, data_y: np.ndarray,
-        degree_one: Optional[int], degree_two: Optional[int]) -> Tuple[float, int]:
+        degree_one: Optional[int], degree_two: Optional[int]) -> tuple[float, int]:
     """Find the best breakpoint."""
     # Initialize all of the parameters.
     # params = [initial_breakpoint] + \
@@ -93,7 +93,7 @@ def fit(data_x: np.ndarray, data_y: np.ndarray,
 
 
 def get_best_degree(data_x: np.ndarray,
-                    data_y: np.ndarray) -> Tuple[Optional[int], Optional[int], int]:
+                    data_y: np.ndarray) -> tuple[Optional[int], Optional[int], int]:
     """."""
     best_bp1: Optional[int]
     best_bp2: Optional[int]

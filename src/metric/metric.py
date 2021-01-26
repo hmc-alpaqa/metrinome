@@ -1,12 +1,12 @@
 """The interface that all classes able to compute metrics should inherit from."""
 
 from abc import ABC, abstractmethod
-from typing import Tuple, Union
+from typing import Union
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
 
-PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
+PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
 
 class MetricAbstract(ABC):
