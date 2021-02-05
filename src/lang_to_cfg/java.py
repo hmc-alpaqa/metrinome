@@ -55,7 +55,13 @@ class JavaConvert(converter.ConverterAbstract):
 
         output_path = Env.get_output_path(fname)
         cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {fname} -o {output_path}"
-        self.runcmd(cmd, cwd="/app/code")
+        _, err = self.runcmd(cmd, cwd="/app/code")
+        err = str(err)
+        if err is not None:
+            if "FileNotFoundException" in err:
+                self.logger.e_msg(f"Java was unable to generate {fname}")
+                return None
+
         self.logger.d_msg("Generated .dot files")
 
         graphs = {}
