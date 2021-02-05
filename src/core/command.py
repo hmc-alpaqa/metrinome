@@ -358,7 +358,7 @@ class Command:
         self.logger.v_msg("Not enough arguments!")
         return [], False, inline_type, graph_stitching
 
-    def do_convert(self, args: str) -> None:
+    def do_convert(self, args: str) -> None:  # pylint: disable=too-many-branches
         """
         Convert a file containing source code to a Graph object.
 

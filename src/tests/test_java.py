@@ -67,8 +67,7 @@ class TestJavaConvert(unittest.TestCase):
         self.assertTrue(len(os.listdir(Env.TMP_DOT_PATH)) == 0)
         self.assertIsNotNone(res)
         if res is not None:
-            # self.assertTrue(len(list(res.keys())) != 0)
-            pass
+            self.assertTrue(len(list(res.keys())) != 0)
 
 
 if __name__ == '__main__':

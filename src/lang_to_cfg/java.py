@@ -55,10 +55,9 @@ class JavaConvert(converter.ConverterAbstract):
 
         output_path = Env.get_output_path(fname)
         cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {fname} -o {output_path}"
-        _, err = self.runcmd(cmd, cwd="/app/code")
-        err = str(err)
-        if err is not None:
-            if "FileNotFoundException" in err:
+        if (err := self.runcmd(cmd, cwd="/app/code")[1]) is not None:
+            error = str(err)
+            if "FileNotFoundException" in error:
                 self.logger.e_msg(f"Java was unable to generate {fname}")
                 return None
 
