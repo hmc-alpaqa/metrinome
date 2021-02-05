@@ -358,7 +358,7 @@ class Command:
         self.logger.v_msg("Not enough arguments!")
         return [], False, inline_type, graph_stitching
 
-    def do_convert(self, args: str) -> None:
+    def do_convert(self, args: str) -> None:  # pylint: disable=too-many-branches
         """
         Convert a file containing source code to a Graph object.
 
@@ -414,8 +414,11 @@ class Command:
                 self.logger.i_msg("Converted successfully")
                 self.logger.d_msg(str(graph))
                 if isinstance(graph, dict):
-                    self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
-                    self.data.graphs.update(graph)
+                    if graph == {}:
+                        self.logger.v_msg("Converted without errors, but no graphs created.")
+                    else:
+                        self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
+                        self.data.graphs.update(graph)
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
