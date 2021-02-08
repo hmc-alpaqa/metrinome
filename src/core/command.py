@@ -256,7 +256,7 @@ class Command:
         if os.path.isdir(abspath):
             self.logger.d_msg(f"{abspath} is a directory")
             if recursive_mode:
-                all_files: List[Path] = []
+                all_files: list[Path] = []
                 for extension in allowed_extensions:
                     all_files += Path(abspath).rglob(f"*{extension}")
 
@@ -273,12 +273,12 @@ class Command:
         return self.get_files_from_regex(file, original_base, recursive_mode)
 
     def get_files_from_regex(self, input_file: str,
-                             original_base: str, recursive_mode: bool) -> List[str]:
+                             original_base: str, recursive_mode: bool) -> list[str]:
         """Try to compile a path as a regular expression and get the matching files."""
         try:
             regexp = re.compile(input_file)
             self.logger.d_msg("Successfully compiled as a regular expression")
-            all_files: List[str] = []
+            all_files: list[str] = []
             if os.path.exists(original_base):
                 if recursive_mode:
                     # Get all files in all subdirectories.
@@ -321,7 +321,7 @@ class Command:
 
             return []
 
-    def parse_convert_args(self, arguments: List[str]) -> tuple[list[str], bool,
+    def parse_convert_args(self, arguments: list[str]) -> tuple[list[str], bool,
                                                                 Optional[InlineType], bool]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False

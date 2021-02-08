@@ -205,7 +205,7 @@ class Prompt(Cmd):
             Prompt._create_command(prompt, command_name)
 
     @staticmethod
-    def check_args(command_name: str, args: str, logger: Log) -> Tuple[Options, list[Any], bool]:
+    def check_args(command_name: str, args: str, logger: Log) -> tuple[Options, list[Any], bool]:
         """Parse the string passed in from the command line and obtain flags / parameters."""
         opts = Options.commands[command_name]
         var_args = opts.get_var_args()

@@ -98,7 +98,7 @@ class ControlFlowGraph:
 
     @staticmethod
     def from_file(filename: str, graph_type: Type[Graph] = AdjListGraph,
-                  options: List[Option] = []) -> ControlFlowGraph:
+                  options: list[Option] = []) -> ControlFlowGraph:
         """
         Return a Graph object from a .dot file of format.
 

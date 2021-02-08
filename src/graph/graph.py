@@ -1,7 +1,7 @@
 """Graph object allows us to store an interact with Graphs in a variety of ways."""
 
-from collections import defaultdict
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from typing import Generic, Match, Optional, TypeVar
 
 import numpy as np  # type: ignore

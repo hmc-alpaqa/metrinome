@@ -49,7 +49,7 @@ class CPPConvert(converter.ConverterAbstract):
             return None
 
         name = os.path.split(filename)[1]
-        graphs: Dict[str, ControlFlowGraph] = {}
+        graphs: dict[str, ControlFlowGraph] = {}
         filename = f"{Env.TMP_DOT_PATH}/{name}"
         files = glob2.glob(f"{Env.TMP_DOT_PATH}/*.dot")
         for file in files:

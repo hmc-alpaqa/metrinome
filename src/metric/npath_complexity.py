@@ -5,7 +5,6 @@ This works with both the adjacency list representation and edge list.
 """
 
 import copy
-
 from typing import Tuple
 
 import numpy as np  # type: ignore
