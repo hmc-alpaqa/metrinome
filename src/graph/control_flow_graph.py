@@ -5,10 +5,14 @@ import os
 import re
 from typing import Callable, Match, Optional, Type, cast
 
+from core.env import KnownExtensions
 from graph.graph import AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph, Graph
 from utils import calls_function
 
 Option = Callable[['Metadata'], None]
+
+
+# pylint: disable=dangerous-default-value
 
 
 class Metadata:
@@ -18,6 +22,7 @@ class Metadata:
         """Create a new metadata object."""
         self.loc: Optional[int] = None
         self.calls: dict[int, str] = {}
+        self.language: Optional[KnownExtensions] = None
 
         for opt in options:
             opt(self)
@@ -40,6 +45,14 @@ class Metadata:
         def option(metadata: Metadata) -> None:
             """Apply the option."""
             metadata.calls = calls
+        return option
+
+    @staticmethod
+    def with_language(language: KnownExtensions) -> Option:
+        """Set the language that was used to create the CFG."""
+        def option(metadata: Metadata) -> None:
+            """Apply the option."""
+            metadata.language = language
         return option
 
 
@@ -84,7 +97,8 @@ class ControlFlowGraph:
         return None
 
     @staticmethod
-    def from_file(filename: str, graph_type: Type[Graph] = AdjListGraph) -> ControlFlowGraph:
+    def from_file(filename: str, graph_type: Type[Graph] = AdjListGraph,
+                  options: List[Option] = []) -> ControlFlowGraph:
         """
         Return a Graph object from a .dot file of format.
 
@@ -138,7 +152,7 @@ class ControlFlowGraph:
             graph = AdjMatGraph(graph.adjacency_matrix(), graph.num_vertices)
 
         # Eventually will support loc for java and c/c++.
-        return ControlFlowGraph(graph, Metadata(Metadata.with_calls(calls)))
+        return ControlFlowGraph(graph, Metadata(*options, Metadata.with_calls(calls)))
 
     @staticmethod
     def stitch(graphs: dict[str, ControlFlowGraph]) -> ControlFlowGraph:

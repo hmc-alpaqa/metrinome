@@ -10,9 +10,9 @@ from typing import Optional
 
 import glob2  # type: ignore
 
-from core.env import Env
+from core.env import Env, KnownExtensions
 from core.log import Log
-from graph.control_flow_graph import ControlFlowGraph
+from graph.control_flow_graph import ControlFlowGraph, Metadata
 from graph.graph import EdgeListGraph
 from lang_to_cfg import converter
 
@@ -49,14 +49,15 @@ class CPPConvert(converter.ConverterAbstract):
             return None
 
         name = os.path.split(filename)[1]
-        graphs = {}
+        graphs: Dict[str, ControlFlowGraph] = {}
         filename = f"{Env.TMP_DOT_PATH}/{name}"
         files = glob2.glob(f"{Env.TMP_DOT_PATH}/*.dot")
         for file in files:
             graph_name = os.path.basename(file)
             self.logger.d_msg(f"graph_name: {graph_name}")
-            graphs[graph_name] = ControlFlowGraph.from_file(file, EdgeListGraph)
-
+            graph = ControlFlowGraph.from_file(file, EdgeListGraph,
+                                               [Metadata.with_language(KnownExtensions.C)])
+            graphs[graph_name] = graph
         Env.clean_temps()
         return graphs
 

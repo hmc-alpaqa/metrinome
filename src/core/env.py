@@ -1,6 +1,16 @@
 """This module manages the temporary directories used in the generation of CFGs."""
 import subprocess
+from enum import Enum
 from os.path import basename, join, splitext
+
+
+class KnownExtensions(Enum):
+    """A list of all the file extensions we know how to work with."""
+
+    C      = ".c"
+    Python = ".py"
+    BC     = ".bc"
+    Java   = ".java"
 
 
 class Env:

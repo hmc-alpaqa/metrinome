@@ -16,8 +16,11 @@ from pathlib import Path
 from typing import Iterable, Optional, Union, cast
 
 import numpy  # type: ignore
+from rich.console import Console
+from rich.table import Table
 
 from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
+from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
 from core.log import Log, LogLevel
@@ -25,19 +28,11 @@ from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
 from lang_to_cfg import converter, cpp, java, python
-from metric import cyclomatic_complexity, metric, npath_complexity, path_complexity
+from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity
 from utils import Timeout
 
 # Temporarily disable unused arguments due to flags.
 # pylint: disable=unused-argument
-
-
-class KnownExtensions(Enum):
-    """A list of all the file extensions we know how to work with."""
-
-    C      = ".c"
-    Python = ".py"
-    BC     = ".bc"
 
 
 class InlineType(Enum):
@@ -45,94 +40,6 @@ class InlineType(Enum):
 
     Inline = partial(inlining_script.in_lining)
     Heuristic = partial(inlining_script_heuristic.in_lining)
-
-
-def get_files_from_regex(logger: Log, input_file: str,
-                         original_base: str, recursive_mode: bool) -> list[str]:
-    """Try to compile a path as a regular expression and get the matching files."""
-    try:
-        regexp = re.compile(input_file)
-        logger.d_msg("Successfully compiled as a regular expression")
-        all_files: list[str] = []
-        if os.path.exists(original_base):
-            if recursive_mode:
-                # Get all files in all subdirectories.
-                file_list = list(Path(original_base).rglob("*"))
-                all_files += [str(file_path) for file_path in file_list]
-            else:
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
-
-            matched_files = []
-            for file in all_files:
-                name = os.path.split(file)[1]
-                if regexp.match(name):
-                    matched_files.append(os.path.join(original_base, file))
-
-            return matched_files
-
-        return []
-    except re.error:
-        # Try checking for just wildcard operators.
-        logger.d_msg("Checking for wildcard operators")
-        input_file = input_file.replace(".", r"\.")
-        input_file = input_file.replace("*", ".*")
-        try:
-            regexp = re.compile(input_file)
-            logger.d_msg("Successfully compiled as a regular expression")
-            if os.path.exists(original_base):
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
-                matched_files = []
-                for file in all_files:
-                    name = os.path.split(file)[1]
-                    if regexp.match(name):
-                        matched_files.append(os.path.join(original_base, file))
-
-                return matched_files
-
-        except re.error:
-            pass
-
-        return []
-
-
-def get_files(path: str, recursive_mode: bool,
-              logger: Log, allowed_extensions: list[str]) -> list[str]:
-    """
-    get_files returns a list of files from the given path.
-
-    If the path is a file, it returns a singleton containing the file.
-    Otherwise, it returns all of the files in the current directory.
-    If it is not a valid path, return no files.
-    """
-    logger.d_msg(f"Looking for files given path {path}")
-    if os.path.isfile(path):
-        logger.d_msg("This is a file.")
-        if recursive_mode:
-            logger.v_msg("Cannot use recursive mode with filename.")
-            return []
-
-        return [path]
-
-    if os.path.isdir(path):
-        logger.d_msg("This is a directory")
-        if recursive_mode:
-            all_files: list[Path] = []
-            for extension in allowed_extensions:
-                all_files += Path(path).rglob(f"*{extension}")
-
-            return [str(file) for file in all_files]
-
-        # Get all of the files in this directory.
-        return [f for f in listdir(path) if os.path.isfile(os.path.join(path, f))]
-
-    logger.d_msg("Checking if it's a regular expression")
-    # Check if it's a regular expression (only allowed at the END of the filename).
-    original_base, file = os.path.split(path)
-    logger.d_msg(f"base: {original_base} file: {file}")
-
-    return get_files_from_regex(logger, file, original_base, recursive_mode)
 
 
 class Controller:
@@ -149,9 +56,10 @@ class Controller:
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
         npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
+        locs = loc.LinesOfCode(self.logger)
 
         self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity]
+                                                                pathcomplexity, locs]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -324,7 +232,96 @@ class Command:
 
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
-    def parse_convert_args(self, arguments: list[str]) -> tuple[list[str], bool,
+    def get_files(self, path: str, recursive_mode: bool, allowed_extensions: list[str]) -> list[str]:
+        """
+        get_files returns a list of files from the given path.
+
+        If the path is a file, it returns a singleton containing the file.
+        Otherwise, it returns all of the files in the current directory.
+        If it is not a valid path, return no files.
+        """
+        abspath = ""
+        if not os.path.isabs(path):
+            abspath = os.path.join(self.curr_path, path)
+
+        self.logger.d_msg(f"Looking for files given path {path}")
+        if os.path.isfile(abspath):
+            self.logger.d_msg(f"{abspath} is a file.")
+            if recursive_mode:
+                self.logger.v_msg("Cannot use recursive mode with filename.")
+                return []
+
+            return [abspath]
+
+        if os.path.isdir(abspath):
+            self.logger.d_msg(f"{abspath} is a directory")
+            if recursive_mode:
+                all_files: List[Path] = []
+                for extension in allowed_extensions:
+                    all_files += Path(abspath).rglob(f"*{extension}")
+
+                return [str(file) for file in all_files]
+
+            # Get all of the files in this directory.
+            return [f for f in listdir(abspath) if os.path.isfile(os.path.join(abspath, f))]
+
+        self.logger.d_msg("Checking if it's a regular expression")
+        # Check if it's a regular expression (only allowed at the END of the filename).
+        original_base, file = os.path.split(path)
+        self.logger.d_msg(f"base: {original_base} file: {file}")
+
+        return self.get_files_from_regex(file, original_base, recursive_mode)
+
+    def get_files_from_regex(self, input_file: str,
+                             original_base: str, recursive_mode: bool) -> List[str]:
+        """Try to compile a path as a regular expression and get the matching files."""
+        try:
+            regexp = re.compile(input_file)
+            self.logger.d_msg("Successfully compiled as a regular expression")
+            all_files: List[str] = []
+            if os.path.exists(original_base):
+                if recursive_mode:
+                    # Get all files in all subdirectories.
+                    file_list = list(Path(original_base).rglob("*"))
+                    all_files += [str(file_path) for file_path in file_list]
+                else:
+                    all_files = [f for f in listdir(original_base) if
+                                 os.path.isfile(os.path.join(original_base, f))]
+
+                matched_files = []
+                for file in all_files:
+                    name = os.path.split(file)[1]
+                    if regexp.match(name):
+                        matched_files.append(os.path.join(original_base, file))
+
+                return matched_files
+
+            return []
+        except re.error:
+            # Try checking for just wildcard operators.
+            self.logger.d_msg("Checking for wildcard operators")
+            input_file = input_file.replace(".", r"\.")
+            input_file = input_file.replace("*", ".*")
+            try:
+                regexp = re.compile(input_file)
+                self.logger.d_msg("Successfully compiled as a regular expression")
+                if os.path.exists(original_base):
+                    all_files = [f for f in listdir(original_base) if
+                                 os.path.isfile(os.path.join(original_base, f))]
+                    matched_files = []
+                    for file in all_files:
+                        name = os.path.split(file)[1]
+                        if regexp.match(name):
+                            matched_files.append(os.path.join(original_base, file))
+
+                    return matched_files
+
+            except re.error:
+                pass
+
+            return []
+
+    def parse_convert_args(self, arguments: List[str]) -> tuple[list[str], bool,
                                                                 Optional[InlineType], bool]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
@@ -358,7 +355,7 @@ class Command:
         self.logger.v_msg("Not enough arguments!")
         return [], False, inline_type, graph_stitching
 
-    def do_convert(self, args: str) -> None:
+    def do_convert(self, args: str) -> None:  # pylint: disable=too-many-branches
         """
         Convert a file containing source code to a Graph object.
 
@@ -378,8 +375,7 @@ class Command:
 
         all_files: list[str] = []
         for full_path in args_list:
-            files = get_files(full_path, recursive_mode, self.logger,
-                              list(self.controller.graph_generators.keys()))
+            files = self.get_files(full_path, recursive_mode, list(self.controller.graph_generators.keys()))
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
                 return
@@ -414,8 +410,11 @@ class Command:
                 self.logger.i_msg("Converted successfully")
                 self.logger.d_msg(str(graph))
                 if isinstance(graph, dict):
-                    self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
-                    self.data.graphs.update(graph)
+                    if graph == {}:
+                        self.logger.v_msg("Converted without errors, but no graphs created.")
+                    else:
+                        self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
+                        self.data.graphs.update(graph)
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
@@ -439,7 +438,7 @@ class Command:
         all_files = []
         allowed_extensions = ["dot"]
         for full_path in args_list:
-            files = get_files(full_path, flags.recursive_mode, self.logger, allowed_extensions)
+            files = self.get_files(full_path, flags.recursive_mode, allowed_extensions)
             if files == []:
                 self.logger.v_msg(f"Could not get files from: {full_path}")
                 return
@@ -538,8 +537,15 @@ class Command:
         for graph in graphs:
             self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
+            table = Table(title=f"Metrics for {graph.name}")
+            table.add_column("Metric", style="cyan")
+            table.add_column("Result", style="magenta", no_wrap=False)
+            table.add_column("Time Elapsed", style="green")
             for metric_generator in self.controller.metrics_generators:
-                self.logger.v_msg(f"Computing {metric_generator.name()}")
+                # Lines of Code is currently only supported in Python.
+                if metric_generator.name() == "Lines of Code" and \
+                   graph.metadata.language is not KnownExtensions.Python:
+                    continue
                 start_time = time.time()
 
                 try:
@@ -548,14 +554,14 @@ class Command:
                         runtime = time.time() - start_time
                     if result is not None:
                         results.append((metric_generator.name(), result))
+                        time_out = f"{runtime:.5f} seconds"
                         if metric_generator.name() == "Path Complexity":
                             result_ = cast(tuple[Union[float, str], Union[float, str]],
                                            result)
-                            time_out = f"took {runtime:.3f} seconds"
                             path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
-                            self.logger.v_msg(f"Got {path_out}, {time_out}")
+                            table.add_row(metric_generator.name(), path_out, time_out)
                         else:
-                            self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
+                            table.add_row(metric_generator.name(), str(result), time_out)
                     else:
                         self.logger.v_msg("Got None")
                 except TimeoutError:
@@ -566,6 +572,9 @@ class Command:
                 except numpy.linalg.LinAlgError as err:
                     self.logger.e_msg("Lin Alg Error")
                     self.logger.e_msg(str(err))
+
+            console = Console()
+            console.print(table)
 
             if graph.name is not None:
                 self.data.metrics[graph.name] = results
@@ -681,7 +690,7 @@ class Command:
         correct format to be converted to a bc file.
         """
         self.logger.d_msg(f"Recursive Mode is {flags.recursive_mode}")
-        files = get_files(file_path, flags.recursive_mode, self.logger, [".c"])
+        files = self.get_files(file_path, flags.recursive_mode, [".c"])
         if len(files) == 0:
             self.logger.v_msg(f"Could not find any files for {file_path}")
             return
@@ -747,7 +756,7 @@ class Command:
             if (result := self.verify_file_type(name, "bc")) is None:
                 return
 
-            files = get_files(result, False, self.logger, [str(KnownExtensions.BC)])
+            files = self.get_files(result, False, [str(KnownExtensions.BC)])
             if len(files) == 0:
                 self.logger.e_msg(f"Could not find any files matching {result}")
                 return

@@ -17,7 +17,7 @@ make build
 ```
 
 inside the 'src' directory. Building the image takes a while, so it is also possible to pull an image that is __already built__ from Dockerhub here: 
-https://hub.docker.com/repository/docker/gbessler/pathrepl.  
+https://hub.docker.com/r/harveymudd/metrinome.  
 with the command
 ```
 docker pull harveymudd/metrinome
@@ -29,7 +29,7 @@ To run the image, do
 make run
 ```
 
-inside the 'src' directory. This will put you in a shell (zsh by default) in the docker image. Note that in this development environment we mount the source code in the host (i.e. the device you are working in) to the docker image. This means that you can modify the code and the changes will me immediately reflected in the docker image. Therefore, it is not necessary to re-build or even re-run the docker image after making code changes. However, new dependencies will need to be added to the `Dockerfile`, or added to `requirements.txt` if they are Python modules.
+inside the 'src' directory. This will put you in a shell (zsh by default) in the docker image. Note that in this development environment we mount the source code in the host (i.e. the device you are working in) to the docker image. This means that you can modify the code and the changes will me immediately reflected in the docker image. Therefore, it is not necessary to re-build or even re-run the docker image after making code changes. However, new dependencies will need to be added to the `Dockerfile`, or added to `requirements.txt` if they are Python modules, and the image will then need to be rebuilt with `make build`.
 
 Running 
 
@@ -37,9 +37,9 @@ Running
 python /app/code/main.py
 ```
 
-in the docker image will put you inside the Path Complexity REPL. This is how the user __usually__ interacts with the tool. Refer to the 'Using the REPL' section to obtain more information about how to use this. The flag *--debug* may be used when running the REPL to get additional information. This will also enable the ```reload``` command. 
+in the docker image will put you inside the Metrinome REPL. This is how the user __usually__ interacts with the tool. Refer to the 'Using the REPL' section to obtain more information about how to use this. The flag *--debug* may be used when running the REPL to get additional information. This will also enable the ```reload``` command. 
 
-The Makefile also contains other useful commands for developing. To run all of the unit tests present in `src/tests/`, use `make tests` within the REPL. To execute the linters, use `make lint`. Note that this command also runs a typechecker which takes advantage of Python's type hinting feature, so it can help catch errors. It is _*very highly*_ recommended that the linter is executed before any commits are pushed. If pylint makes a recommendation you disagree with, it is possible to disable that pylint check within the section of code you are working in.
+The Makefile also contains other useful commands for developing. To run all of the unit tests present in `src/tests/`, use `make test` within the REPL. To execute the linters, use `make check-lint` (or `make lint` to automatically fix common linter issues and then run the linters). Note that this command also runs a typechecker which takes advantage of Python's type hinting feature, so it can help catch errors. It is _*very highly*_ recommended that the linter is executed before any commits are pushed. If pylint makes a recommendation you disagree with, it is possible to disable that pylint check within the section of code you are working in.
 
 ## The Codebase
 
@@ -48,12 +48,11 @@ Here are the key components of the repo:
 - src/
   - lang_to_cfg/ 
   - metric/
-  - command.py
+  - core/
+  - graph/
   - main.py
-  - klee_utils.py
-  - graph.py
 
-The first important component is the src/lang_to_cfg folder. This contains all of the *converters*, which turn code into control flow graphs (CFGs), split per file (e.g. `java.py` knows how to convert Java source code into a graph). The second is the src/metric folder. This contains all of the code for computing complexity metrics from control flow graphs. The other most important file is `command.py`, which contains the implementation for all of the commands in the REPL. Note that the REPL itself is started with `main.py`, which is a wrapper for `command.py`. The utilities for working with klee within the REPL are present in `klee_utils.py`. Another useful file is `graph.py`, which contains the Graph object that Metrinome uses to store. Many of the files in `src/tests/` are used as examples for unit tests, which also make them great for exploring the features of Metrinome within the REPL.
+The first important component is the src/lang_to_cfg folder. This contains all of the *converters*, which turn code into control flow graphs (CFGs), split per file (e.g. `java.py` knows how to convert Java source code into a graph). The second is the src/metric folder. This contains all of the code for computing complexity metrics from control flow graphs. Another import directory is `core`, which contains the implementation for all of the commands in the REPL. Note that the REPL itself is started with `main.py`, which is a wrapper for `core/command.py`. The utilities for working with klee within the REPL are present in `klee/klee_utils.py`. Another useful directory is `graph`, which contains the Graph and Control Flow Graph objects that Metrinome uses to store results. Many of the files in `src/tests/` are used as examples for unit tests, which also make them great for exploring the features of Metrinome within the REPL.
 
 # Experiments and Data
 

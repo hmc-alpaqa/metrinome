@@ -12,3 +12,4 @@ src/.mypy_cache/
 /src/.coverage
 /src/coverage.xml
 /src/htmlcov/
+/src/.dmypy.json

@@ -9,14 +9,14 @@ lint: fix-lint check-lint
 
 fix-lint:
 	isort -l 100 .
-	find . -type f -name "*.py" | xargs sed -i -e 's/[[:space:]]*$$//g'
-	find . -type f -name "*.py" | xargs sed -i -e 's/	/    /g'
+	find /app/code -type f -name "*.py" | xargs sed -i -e 's/[[:space:]]*$$//g'
+	find /app/code -type f -name "*.py" | xargs sed -i -e 's/	/    /g'
 
 check-lint:
-	find . -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
-	find . -type f -name "*.py" | xargs mypy --config-file=./config/.mypy.ini # Type checking.
-	find . -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
-	find . -type f -name "*.py" | xargs pylint --rcfile=config/pylintrc -r n -f parseable # Linting.
+	find /app/code -type f -name "*.py" | xargs pycodestyle --config=./config/pycodestyle # Enforce PEP8.
+	find /app/code -type f -name "*.py" | xargs dmypy run -- --config-file=./config/.mypy.ini # Type checking.
+	find /app/code -type f -name "*.py" | xargs pydocstyle --count # Enforce docstring formatting.
+	find /app/code -type f -name "*.py" | xargs pylint --rcfile=config/pylintrc -r n -f parseable # Linting.
 
 test:
 	python -m unittest discover /app/code/tests
