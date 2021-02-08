@@ -19,6 +19,8 @@ class Colors(Enum):
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    MAGENTA = '\033[35m'
+    TITLE = '\033[96m'
 
 
 class LogLevel(Enum):

@@ -4,9 +4,9 @@ from typing import Dict, Optional
 
 from glob2 import glob  # type: ignore
 
-from core.env import Env
+from core.env import Env, KnownExtensions
 from core.log import Log
-from graph.control_flow_graph import ControlFlowGraph
+from graph.control_flow_graph import ControlFlowGraph, Metadata
 from graph.graph import EdgeListGraph
 from lang_to_cfg import converter
 
@@ -69,6 +69,7 @@ class JavaConvert(converter.ConverterAbstract):
 
         dot_files = glob(path)
         for file in dot_files:
-            graphs[file] = ControlFlowGraph.from_file(file, EdgeListGraph)
+            graphs[file] = ControlFlowGraph.from_file(file, EdgeListGraph,
+                                                      [Metadata.with_language(KnownExtensions.Java)])
         Env.clean_temps()
         return graphs

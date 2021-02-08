@@ -16,6 +16,7 @@ import uuid
 # pylint: disable=C0103
 from typing import Dict, List, Optional, cast
 
+from core.env import KnownExtensions
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph, Metadata
 from graph.graph import EdgeListGraph
@@ -235,12 +236,13 @@ class Visitor(ast.NodeVisitor):
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
         """Call this for each function in the python source file."""
         if node.end_lineno is None:
-            raise ValueError("we have a problem")
+            raise ValueError("Cannot get ending line for function.")
 
-        md = Metadata(Metadata.with_loc(int(node.end_lineno) - node.lineno))
+        md = Metadata(Metadata.with_loc(int(node.end_lineno) - node.lineno),
+                      Metadata.with_language(KnownExtensions.Python))
 
-        visitor = FunctionVisitor()
         self.logger.d_msg(f"Visiting {node.name}")
+        visitor = FunctionVisitor()
         visitor.visit(node)
 
         # Now take the representation and convert it to a graph.py by doing BFS.
@@ -263,21 +265,22 @@ class Visitor(ast.NodeVisitor):
 
             visited.add(curr_node)
             curr_node = cast(Node, curr_node)
-            children = curr_node.children
+            if curr_node is not None:
+                children = curr_node.children
 
-            # Create all of the edges we need to from the current node to its children.
-            for child in children:
-                # Check if we need to create a new node.
-                if child not in nodes:
-                    nodes[child] = len(node_list)
-                    node_list.append(len(node_list))
+                # Create all of the edges we need to from the current node to its children.
+                for child in children:
+                    # Check if we need to create a new node.
+                    if child not in nodes:
+                        nodes[child] = len(node_list)
+                        node_list.append(len(node_list))
 
-                edge_list.append([nodes[curr_node], nodes[child]])
+                    edge_list.append([nodes[curr_node], nodes[child]])
 
-            nodes_to_visit += children
+                nodes_to_visit += children
 
-            if curr_node.exit_node:
-                return_nodes.append(curr_node)
+                if curr_node.exit_node:
+                    return_nodes.append(curr_node)
 
         node_list.append(len(node_list))
 
@@ -288,7 +291,7 @@ class Visitor(ast.NodeVisitor):
             edge_list.append([nodes[return_node], len(node_list) - 1])
 
         cfg = ControlFlowGraph(EdgeListGraph(edge_list, len(node_list)), md)
-        cfg.graph.name = node.name
+        cfg.name = node.name
 
         self.graphs[node.name] = cfg
 
@@ -307,10 +310,7 @@ class PythonConvert(converter.ConverterAbstract):
 
     def to_graph(self, filename: str, file_extension: str) -> Dict[str, ControlFlowGraph]:
         """Create a CFG from a Python source file."""
-        self.logger.d_msg(file_extension)
-
         path = os.path.join(os.getcwd(), filename) + ".py"
-        self.logger.d_msg(path)
         visitor = Visitor()
         graphs: Dict[str, ControlFlowGraph]
         with open(path, "r") as src:

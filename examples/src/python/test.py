@@ -9,6 +9,7 @@ def foo(a, b):
 
     return b
 
+
 def bar(c):
     d = 1
     while c < 0:

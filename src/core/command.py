@@ -18,26 +18,19 @@ from typing import Dict, Iterable, List, Optional, Tuple, Union, cast
 import numpy  # type: ignore
 
 from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
+from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
-from core.log import Log, LogLevel
+from core.log import Colors, Log, LogLevel
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
 from lang_to_cfg import converter, cpp, java, python
-from metric import cyclomatic_complexity, metric, npath_complexity, path_complexity
+from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity
 from utils import Timeout
 
 # Temporarily disable unused arguments due to flags.
 # pylint: disable=unused-argument
-
-
-class KnownExtensions(Enum):
-    """A list of all the file extensions we know how to work with."""
-
-    C      = ".c"
-    Python = ".py"
-    BC     = ".bc"
 
 
 class InlineType(Enum):
@@ -45,94 +38,6 @@ class InlineType(Enum):
 
     Inline = partial(inlining_script.in_lining)
     Heuristic = partial(inlining_script_heuristic.in_lining)
-
-
-def get_files_from_regex(logger: Log, input_file: str,
-                         original_base: str, recursive_mode: bool) -> List[str]:
-    """Try to compile a path as a regular expression and get the matching files."""
-    try:
-        regexp = re.compile(input_file)
-        logger.d_msg("Successfully compiled as a regular expression")
-        all_files: List[str] = []
-        if os.path.exists(original_base):
-            if recursive_mode:
-                # Get all files in all subdirectories.
-                file_list = list(Path(original_base).rglob("*"))
-                all_files += [str(file_path) for file_path in file_list]
-            else:
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
-
-            matched_files = []
-            for file in all_files:
-                name = os.path.split(file)[1]
-                if regexp.match(name):
-                    matched_files.append(os.path.join(original_base, file))
-
-            return matched_files
-
-        return []
-    except re.error:
-        # Try checking for just wildcard operators.
-        logger.d_msg("Checking for wildcard operators")
-        input_file = input_file.replace(".", r"\.")
-        input_file = input_file.replace("*", ".*")
-        try:
-            regexp = re.compile(input_file)
-            logger.d_msg("Successfully compiled as a regular expression")
-            if os.path.exists(original_base):
-                all_files = [f for f in listdir(original_base) if
-                             os.path.isfile(os.path.join(original_base, f))]
-                matched_files = []
-                for file in all_files:
-                    name = os.path.split(file)[1]
-                    if regexp.match(name):
-                        matched_files.append(os.path.join(original_base, file))
-
-                return matched_files
-
-        except re.error:
-            pass
-
-        return []
-
-
-def get_files(path: str, recursive_mode: bool,
-              logger: Log, allowed_extensions: List[str]) -> List[str]:
-    """
-    get_files returns a list of files from the given path.
-
-    If the path is a file, it returns a singleton containing the file.
-    Otherwise, it returns all of the files in the current directory.
-    If it is not a valid path, return no files.
-    """
-    logger.d_msg(f"Looking for files given path {path}")
-    if os.path.isfile(path):
-        logger.d_msg("This is a file.")
-        if recursive_mode:
-            logger.v_msg("Cannot use recursive mode with filename.")
-            return []
-
-        return [path]
-
-    if os.path.isdir(path):
-        logger.d_msg("This is a directory")
-        if recursive_mode:
-            all_files: List[Path] = []
-            for extension in allowed_extensions:
-                all_files += Path(path).rglob(f"*{extension}")
-
-            return [str(file) for file in all_files]
-
-        # Get all of the files in this directory.
-        return [f for f in listdir(path) if os.path.isfile(os.path.join(path, f))]
-
-    logger.d_msg("Checking if it's a regular expression")
-    # Check if it's a regular expression (only allowed at the END of the filename).
-    original_base, file = os.path.split(path)
-    logger.d_msg(f"base: {original_base} file: {file}")
-
-    return get_files_from_regex(logger, file, original_base, recursive_mode)
 
 
 class Controller:
@@ -149,9 +54,10 @@ class Controller:
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
         npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
+        locs = loc.LinesOfCode(self.logger)
 
         self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity]
+                                                                pathcomplexity, locs]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -324,6 +230,95 @@ class Command:
 
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
+    def get_files(self, path: str, recursive_mode: bool, allowed_extensions: List[str]) -> List[str]:
+        """
+        get_files returns a list of files from the given path.
+
+        If the path is a file, it returns a singleton containing the file.
+        Otherwise, it returns all of the files in the current directory.
+        If it is not a valid path, return no files.
+        """
+        abspath = ""
+        if not os.path.isabs(path):
+            abspath = os.path.join(self.curr_path, path)
+
+        self.logger.d_msg(f"Looking for files given path {path}")
+        if os.path.isfile(abspath):
+            self.logger.d_msg(f"{abspath} is a file.")
+            if recursive_mode:
+                self.logger.v_msg("Cannot use recursive mode with filename.")
+                return []
+
+            return [abspath]
+
+        if os.path.isdir(abspath):
+            self.logger.d_msg(f"{abspath} is a directory")
+            if recursive_mode:
+                all_files: List[Path] = []
+                for extension in allowed_extensions:
+                    all_files += Path(abspath).rglob(f"*{extension}")
+
+                return [str(file) for file in all_files]
+
+            # Get all of the files in this directory.
+            return [f for f in listdir(abspath) if os.path.isfile(os.path.join(abspath, f))]
+
+        self.logger.d_msg("Checking if it's a regular expression")
+        # Check if it's a regular expression (only allowed at the END of the filename).
+        original_base, file = os.path.split(path)
+        self.logger.d_msg(f"base: {original_base} file: {file}")
+
+        return self.get_files_from_regex(file, original_base, recursive_mode)
+
+    def get_files_from_regex(self, input_file: str,
+                             original_base: str, recursive_mode: bool) -> List[str]:
+        """Try to compile a path as a regular expression and get the matching files."""
+        try:
+            regexp = re.compile(input_file)
+            self.logger.d_msg("Successfully compiled as a regular expression")
+            all_files: List[str] = []
+            if os.path.exists(original_base):
+                if recursive_mode:
+                    # Get all files in all subdirectories.
+                    file_list = list(Path(original_base).rglob("*"))
+                    all_files += [str(file_path) for file_path in file_list]
+                else:
+                    all_files = [f for f in listdir(original_base) if
+                                 os.path.isfile(os.path.join(original_base, f))]
+
+                matched_files = []
+                for file in all_files:
+                    name = os.path.split(file)[1]
+                    if regexp.match(name):
+                        matched_files.append(os.path.join(original_base, file))
+
+                return matched_files
+
+            return []
+        except re.error:
+            # Try checking for just wildcard operators.
+            self.logger.d_msg("Checking for wildcard operators")
+            input_file = input_file.replace(".", r"\.")
+            input_file = input_file.replace("*", ".*")
+            try:
+                regexp = re.compile(input_file)
+                self.logger.d_msg("Successfully compiled as a regular expression")
+                if os.path.exists(original_base):
+                    all_files = [f for f in listdir(original_base) if
+                                 os.path.isfile(os.path.join(original_base, f))]
+                    matched_files = []
+                    for file in all_files:
+                        name = os.path.split(file)[1]
+                        if regexp.match(name):
+                            matched_files.append(os.path.join(original_base, file))
+
+                    return matched_files
+
+            except re.error:
+                pass
+
+            return []
+
     def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool,
                                                                 Optional[InlineType], bool]:
         """Parse the command line arguments for the convert command."""
@@ -378,8 +373,7 @@ class Command:
 
         all_files: List[str] = []
         for full_path in args_list:
-            files = get_files(full_path, recursive_mode, self.logger,
-                              list(self.controller.graph_generators.keys()))
+            files = self.get_files(full_path, recursive_mode, list(self.controller.graph_generators.keys()))
             if files == []:
                 self.logger.e_msg(f"Could not get files from: {full_path}")
                 return
@@ -442,7 +436,7 @@ class Command:
         all_files = []
         allowed_extensions = ["dot"]
         for full_path in args_list:
-            files = get_files(full_path, flags.recursive_mode, self.logger, allowed_extensions)
+            files = self.get_files(full_path, flags.recursive_mode, allowed_extensions)
             if files == []:
                 self.logger.v_msg(f"Could not get files from: {full_path}")
                 return
@@ -542,7 +536,12 @@ class Command:
             self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
             for metric_generator in self.controller.metrics_generators:
-                self.logger.v_msg(f"Computing {metric_generator.name()}")
+                # Lines of Code is currently only supported in Python.
+                if metric_generator.name() == "Lines of Code" and \
+                   graph.metadata.language is not KnownExtensions.Python:
+                    continue
+
+                self.logger.v_msg(f"Computing {Colors.MAGENTA.value}{metric_generator.name()}{Colors.ENDC.value}")
                 start_time = time.time()
 
                 try:
@@ -558,7 +557,7 @@ class Command:
                             path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
                             self.logger.v_msg(f"Got {path_out}, {time_out}")
                         else:
-                            self.logger.v_msg(f"Got {result}, took {runtime:.3e} seconds")
+                            self.logger.v_msg(f" Got {result}, took {runtime:.3e} seconds")
                     else:
                         self.logger.v_msg("Got None")
                 except TimeoutError:
@@ -684,7 +683,7 @@ class Command:
         correct format to be converted to a bc file.
         """
         self.logger.d_msg(f"Recursive Mode is {flags.recursive_mode}")
-        files = get_files(file_path, flags.recursive_mode, self.logger, [".c"])
+        files = self.get_files(file_path, flags.recursive_mode, [".c"])
         if len(files) == 0:
             self.logger.v_msg(f"Could not find any files for {file_path}")
             return
@@ -750,7 +749,7 @@ class Command:
             if (result := self.verify_file_type(name, "bc")) is None:
                 return
 
-            files = get_files(result, False, self.logger, [str(KnownExtensions.BC)])
+            files = self.get_files(result, False, [str(KnownExtensions.BC)])
             if len(files) == 0:
                 self.logger.e_msg(f"Could not find any files matching {result}")
                 return

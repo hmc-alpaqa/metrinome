@@ -24,7 +24,7 @@ TESTING_MODE = True
 class Prompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""
 
-    def __init__(self, curr_path: str, debug_mode: bool, multi_threaded: bool) -> None:
+    def __init__(self, curr_path: str, debug_mode: bool, multi_threaded: bool = False) -> None:
         """Create a new instance of the REPL."""
         self.command = command.Command(curr_path, debug_mode, multi_threaded, self)
         self.logger = self.command.logger
@@ -190,8 +190,9 @@ class Prompt(Cmd):
         wrapped_func = getattr(prompt.command, func_name)
 
         def cmd(args: str) -> None:
-            flags, f_args = Prompt.check_args(command_name, args, prompt.logger)
-            wrapped_func(flags, *f_args)
+            flags, f_args, valid_args = Prompt.check_args(command_name, args, prompt.logger)
+            if valid_args:
+                wrapped_func(flags, *f_args)
 
         # Create the do_<command_name> function in Prompt.
         cmd.__doc__ = wrapped_func.__doc__
@@ -204,7 +205,7 @@ class Prompt(Cmd):
             Prompt._create_command(prompt, command_name)
 
     @staticmethod
-    def check_args(command_name: str, args: str, logger: Log) -> Tuple[Options, List[Any]]:
+    def check_args(command_name: str, args: str, logger: Log) -> Tuple[Options, List[Any], bool]:
         """Parse the string passed in from the command line and obtain flags / parameters."""
         opts = Options.commands[command_name]
         var_args = opts.get_var_args()
@@ -215,27 +216,27 @@ class Prompt(Cmd):
         args_list = args.strip().split()
         if len(args_list) < num_args:
             logger.v_msg(err)
-            return Options(), []
+            return Options(), [], False
 
         if len(args_list) > num_args:
             if check_recursive:
                 recursive_flag = args_list[0] == "-r" or args_list[0] == "--recursive"
                 if not var_args and len(args) == num_args + 1 and recursive_flag:
-                    return Options(True), args_list[1:]
+                    return Options(True), args_list[1:], True
 
                 if var_args and recursive_flag:
-                    return Options(True), args_list[1:]
+                    return Options(True), args_list[1:], True
 
             if var_args:
-                return Options(), args_list
+                return Options(), args_list, True
 
             logger.v_msg("Too many arguments provided.")
-            return Options(), []
+            return Options(), [], False
 
         if check_recursive:
-            return Options(False), args_list
+            return Options(False), args_list, True
 
-        return Options(), args_list
+        return Options(), args_list, True
 
 
 def main() -> None:
@@ -244,9 +245,8 @@ def main() -> None:
     parser.add_argument('--debug', dest='debug_mode',
                         action='store_true', default=False,
                         help='Turn on debugging mode for more verbose output')
-    parser.add_argument('--multi-threaded', dest="multi_threaded",
-                        action='store_true', default=False,
-                        help="Turn this on to speed up REPL functions through parallelism.")
+    # parser.add_argument('--multi-threaded', dest="multi_threaded", action='store_true', default=False,
+    # help="Turn this on to speed up REPL functions through parallelism.")
     parsed_args = parser.parse_args()
 
     logging.basicConfig(filename='repl_log.log', level=logging.DEBUG)
@@ -255,8 +255,8 @@ def main() -> None:
     except FileNotFoundError:
         pass
     prompt = Prompt("/app/code",
-                    parsed_args.debug_mode, parsed_args.multi_threaded)
-    prompt.cmdloop(r"""
+                    parsed_args.debug_mode)
+    prompt.cmdloop(f"{Colors.TITLE.value}" + r"""
 
              _        _
   /\/\   ___| |_ _ __(_)_ __   ___  _ __ ___   ___
@@ -264,9 +264,7 @@ def main() -> None:
 / /\/\ \  __/ |_| |  | | | | | (_) | | | | | |  __/
 \/    \/\___|\__|_|  |_|_| |_|\___/|_| |_| |_|\___|
 
-
-Starting the REPL...
-""")
+""" + f"{Colors.ENDC.value}\nStarting the REPL...")
 
 
 if __name__ == "__main__":
