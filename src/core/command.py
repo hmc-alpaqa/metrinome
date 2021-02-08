@@ -16,12 +16,14 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple, Union, cast
 
 import numpy  # type: ignore
+from rich.console import Console
+from rich.table import Table
 
 from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
 from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
-from core.log import Colors, Log, LogLevel
+from core.log import Log, LogLevel
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
@@ -535,13 +537,15 @@ class Command:
         for graph in graphs:
             self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
+            table = Table(title=f"Metrics for {graph.name}")
+            table.add_column("Metric", style="cyan")
+            table.add_column("Result", style="magenta", no_wrap=False)
+            table.add_column("Time Elapsed", style="green")
             for metric_generator in self.controller.metrics_generators:
                 # Lines of Code is currently only supported in Python.
                 if metric_generator.name() == "Lines of Code" and \
                    graph.metadata.language is not KnownExtensions.Python:
                     continue
-
-                self.logger.v_msg(f"Computing {Colors.MAGENTA.value}{metric_generator.name()}{Colors.ENDC.value}")
                 start_time = time.time()
 
                 try:
@@ -550,14 +554,14 @@ class Command:
                         runtime = time.time() - start_time
                     if result is not None:
                         results.append((metric_generator.name(), result))
+                        time_out = f"{runtime:.5f} seconds"
                         if metric_generator.name() == "Path Complexity":
                             result_ = cast(Tuple[Union[float, str], Union[float, str]],
                                            result)
-                            time_out = f"took {runtime:.3f} seconds"
                             path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
-                            self.logger.v_msg(f"Got {path_out}, {time_out}")
+                            table.add_row(metric_generator.name(), path_out, time_out)
                         else:
-                            self.logger.v_msg(f" Got {result}, took {runtime:.3e} seconds")
+                            table.add_row(metric_generator.name(), str(result), time_out)
                     else:
                         self.logger.v_msg("Got None")
                 except TimeoutError:
@@ -568,6 +572,9 @@ class Command:
                 except numpy.linalg.LinAlgError as err:
                     self.logger.e_msg("Lin Alg Error")
                     self.logger.e_msg(str(err))
+
+            console = Console()
+            console.print(table)
 
             if graph.name is not None:
                 self.data.metrics[graph.name] = results
