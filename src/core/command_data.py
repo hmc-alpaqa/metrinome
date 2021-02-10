@@ -80,6 +80,7 @@ class Data:
     def export_graph(self, name: str, new_name: str) -> None:
         """Save a Graph the REPL knows about to an external file."""
         if name in self.graphs:
+            new_name = new_name.replace("/", "_").replace(".", "_")
             with open(f"/app/code/exports/{new_name}.dot", "w+") as file:
                 graph = self.graphs[name].graph
                 self.logger.d_msg(graph.dot())
@@ -88,6 +89,7 @@ class Data:
         elif name == "*":
             for graph_name in self.graphs:
                 f_name = os.path.split(graph_name)[1]
+                f_name = f_name.replace("/", "_").replace(".", "_")
                 with open(f"/app/code/exports/{f_name}.dot", "w+") as file:
                     graph = self.graphs[graph_name].graph
                     file.write(graph.dot())
