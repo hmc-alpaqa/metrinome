@@ -41,6 +41,8 @@ in the docker image will put you inside the Metrinome REPL. This is how the user
 
 The Makefile also contains other useful commands for developing. To run all of the unit tests present in `src/tests/`, use `make test` within the REPL. To execute the linters, use `make check-lint` (or `make lint` to automatically fix common linter issues and then run the linters). Note that this command also runs a typechecker which takes advantage of Python's type hinting feature, so it can help catch errors. It is _*very highly*_ recommended that the linter is executed before any commits are pushed. If pylint makes a recommendation you disagree with, it is possible to disable that pylint check within the section of code you are working in.
 
+If you're using VSCode, the 'Remote - Containers' extension can be used to run a Python debugger while using the Metrinome REPL inside Docker.
+
 ## The Codebase
 
 Here are the key components of the repo:
@@ -84,7 +86,8 @@ The recursive flag (-r) can also be used to convert all files in a given directo
 Note - Language Support:
 
 The REPL current supports C/C++ (using clang6), Java (JDK13), and Python 3.
-However, only a subset of Python 3 keywords / features are supported: 
+C/C++ and Java code yields block-level CFGs while Python 3 results in statement level CFGs.
+Keep in mind that only a subset of Python 3 keywords / features are supported: 
 assignment, expressions (e.g. 'a + b'), if/else/elif, return, while, and with
 (NOTE: this does not include list/dictionary comprehensions, lambda expressions, or try/catch/raise).
 
