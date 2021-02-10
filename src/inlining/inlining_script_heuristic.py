@@ -1,8 +1,7 @@
 """Adds always inline attribute to C Files."""
-from typing import List, Tuple
 
 
-def get_lines(file: str) -> Tuple[bool, List[str]]:
+def get_lines(file: str) -> tuple[bool, list[str]]:
     """Obtain the lines we should write to the new file."""
     # Open the file that needs to be inlined.
     num = 0

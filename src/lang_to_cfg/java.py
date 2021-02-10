@@ -1,6 +1,6 @@
 """This class knows how to convert from java source code to graph objects."""
 import os
-from typing import Dict, Optional
+from typing import Optional
 
 from glob2 import glob  # type: ignore
 
@@ -30,7 +30,7 @@ class JavaConvert(converter.ConverterAbstract):
         return "Java"
 
     # pylint: disable=R0201
-    def to_graph(self, filename: str, file_extension: str) -> Optional[Dict[str, ControlFlowGraph]]:
+    def to_graph(self, filename: str, file_extension: str) -> Optional[dict[str, ControlFlowGraph]]:
         """Create a CFG from a Java source file."""
         Env.clean_temps()
 

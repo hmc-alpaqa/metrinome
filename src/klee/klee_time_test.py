@@ -1,7 +1,7 @@
 """Script for running Klee on a series of functions and saving data."""
 import subprocess
 from subprocess import PIPE
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Optional, Union
 
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
@@ -12,11 +12,11 @@ from klee.klee_utils import get_stats_dict, klee_with_opts
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
-KleeCompareResults = Dict[Tuple[str, str],
-                          Dict[str, Optional[Union[float, int]]]]
+KleeCompareResults = dict[tuple[str, str],
+                          dict[str, Optional[Union[float, int]]]]
 
 
-def klee_compare_time(file_name: str, preferences: List[str], max_times: List[str], function: str,
+def klee_compare_time(file_name: str, preferences: list[str], max_times: list[str], function: str,
                       remove: bool = True) -> KleeCompareResults:
     """
     Run Klee on a certain function.
@@ -45,7 +45,7 @@ def klee_compare_time(file_name: str, preferences: List[str], max_times: List[st
     return results_dict
 
 
-def graph_stat_time(func: str, preference: str, max_times: List[str], results: KleeCompareResults,
+def graph_stat_time(func: str, preference: str, max_times: list[str], results: KleeCompareResults,
                     field: str) -> None:
     """Create and save a graph for a certain statistic on a Klee experiment."""
     algs_path = "/app/code/tests/cFiles/fse_2020_benchmark"
@@ -62,7 +62,7 @@ def graph_stat_time(func: str, preference: str, max_times: List[str], results: K
 
 
 def create_pandas_time(results: KleeCompareResults, preference: str,
-                       max_times: List[str], fields: List[str]) -> pd.DataFrame:
+                       max_times: list[str], fields: list[str]) -> pd.DataFrame:
     """Create a pandas dataframe from the results of a Klee experiment."""
     data = [[results[(preference, max_time)][field] for field in fields]
             for max_time in max_times]

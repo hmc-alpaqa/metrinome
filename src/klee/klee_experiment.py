@@ -3,7 +3,7 @@
 import subprocess
 import sys
 from subprocess import PIPE
-from typing import Callable, List, Optional
+from typing import Callable, Optional
 
 import matplotlib.pyplot as plt  # type: ignore
 
@@ -13,7 +13,7 @@ from klee.klee_time_test import create_pandas_time, graph_stat_time, klee_compar
 from klee.klee_utils import (KleeCompareResults, KleeUtils, create_pandas, get_functions_list,
                              get_stats_dict, klee_cmd, klee_with_opts)
 
-KleeExperiment = Callable[[str, int, List[str], List[str], List[str], List[str]], None]
+KleeExperiment = Callable[[str, int, list[str], list[str], list[str], list[str]], None]
 plt.rcParams["figure.figsize"] = (10, 10)
 
 
@@ -23,7 +23,7 @@ plt.rcParams["figure.figsize"] = (10, 10)
 class KleeExperimentHandler:
     """The experiments handler allows us to set options and run klee experiments."""
 
-    def __init__(self, preference: str, max_depths: List[str], optimized: bool = False) -> None:
+    def __init__(self, preference: str, max_depths: list[str], optimized: bool = False) -> None:
         """Create a new instance of the experiments handler."""
         self.pref = preference
         self.max_depths = max_depths
@@ -127,7 +127,7 @@ class KleeExperimentHandler:
         fig1.savefig(f"{algs_path}/graphs/{field}_{func}.png".replace("%", "percent"))
         plt.close(fig1)
 
-    def run_klee_time(self, func: str, max_times: List[str]) -> None:
+    def run_klee_time(self, func: str, max_times: list[str]) -> None:
         """Run the KLEE experiment for a single function."""
         filename = f"{self.c_files_dir}/{func}.c"
         output = KleeUtils(Log()).show_func_defs(filename, size=self.array_size)

@@ -4,12 +4,12 @@ import logging
 import typing
 from collections import defaultdict
 from math import log
-from typing import DefaultDict, Dict, List, Set, Tuple, Union
+from typing import Union
 
 from scipy.stats import entropy  # type: ignore
 
 
-def adjusted_rand_index(function_list: List[int]) -> float:
+def adjusted_rand_index(function_list: list[int]) -> float:
     """
     Compute the adjusted rand index.
 
@@ -44,7 +44,7 @@ def adjusted_rand_index(function_list: List[int]) -> float:
     return numerator / denominator
 
 
-CountingDict = Dict[Union[str, int], typing.Counter[Union[str, int]]]
+CountingDict = dict[Union[str, int], typing.Counter[Union[str, int]]]
 
 
 def average_class_size(input_dict: CountingDict,
@@ -96,8 +96,8 @@ def average_class_size(input_dict: CountingDict,
     return sum_averages / num_classes
 
 
-def mutual_information(cluster_list_one: Dict[int, Set[int]],
-                       cluster_list_two: Dict[int, Set[int]]) -> float:
+def mutual_information(cluster_list_one: dict[int, set[int]],
+                       cluster_list_two: dict[int, set[int]]) -> float:
     """
     Calculate I(cluster_list_one, cluster_list_two).
 
@@ -109,7 +109,7 @@ def mutual_information(cluster_list_one: Dict[int, Set[int]],
     total_size = get_total_size(cluster_list_one)
 
     # Create a table of all the overlaps
-    overlaps: List[List[int]] = [[0 for i in range(len(cluster_list_one))]
+    overlaps: list[list[int]] = [[0 for i in range(len(cluster_list_one))]
                                  for j in range(len(cluster_list_two))]
     for i, cluster_one in cluster_list_one.items():
         for j, cluster_two in cluster_list_two.items():
@@ -134,7 +134,7 @@ def mutual_information(cluster_list_one: Dict[int, Set[int]],
     return cond_entropy
 
 
-def get_total_size(dictionary: Dict[int, Set[int]]) -> int:
+def get_total_size(dictionary: dict[int, set[int]]) -> int:
     """Get the sum of lengths of all values in a dictionary."""
     total_size = 0
     for cluster in dictionary:
@@ -143,7 +143,7 @@ def get_total_size(dictionary: Dict[int, Set[int]]) -> int:
     return total_size
 
 
-def cluster_entropy(cluster_list: Dict[int, Set[int]]) -> float:
+def cluster_entropy(cluster_list: dict[int, set[int]]) -> float:
     """
     Calculate the entropy H(X) of a given clustering on a set.
 
@@ -166,8 +166,8 @@ def cluster_entropy(cluster_list: Dict[int, Set[int]]) -> float:
     return total_entropy
 
 
-def joint_entropy(cluster_list_one: Dict[int, Set[int]],
-                  cluster_list_two: Dict[int, Set[int]]) -> float:
+def joint_entropy(cluster_list_one: dict[int, set[int]],
+                  cluster_list_two: dict[int, set[int]]) -> float:
     """
     Compute H(X, Y).
 
@@ -193,8 +193,8 @@ def joint_entropy(cluster_list_one: Dict[int, Set[int]],
     return result
 
 
-def conditional_entropy(cluster_list_one: Dict[int, Set[int]],
-                        cluster_list_two: Dict[int, Set[int]]) -> float:
+def conditional_entropy(cluster_list_one: dict[int, set[int]],
+                        cluster_list_two: dict[int, set[int]]) -> float:
     """
     Calculate H(cluster_list_one | cluster_list_two).
 
@@ -208,7 +208,7 @@ def conditional_entropy(cluster_list_one: Dict[int, Set[int]],
         total_size += len(cluster_list_one[cluster])
 
     # Create a table of all the overlaps.
-    overlaps: List[List[int]] = [[0 for i in range(len(cluster_list_one))]
+    overlaps: list[list[int]] = [[0 for i in range(len(cluster_list_one))]
                                  for j in range(len(cluster_list_two))]
     for i, cluster_one in cluster_list_one.items():
         for j, cluster_two in cluster_list_two.items():
@@ -233,15 +233,15 @@ def conditional_entropy(cluster_list_one: Dict[int, Set[int]],
     return cond_entropy
 
 
-MetricsDictOne = DefaultDict[int, List[str]]
-MetricsDictTwo = DefaultDict[str, List[int]]
-MetricsCounter = Dict[Union[str, int], typing.Counter[Union[str, int]]]
+MetricsDictOne = defaultdict[int, list[str]]
+MetricsDictTwo = defaultdict[str, list[int]]
+MetricsCounter = dict[Union[str, int], typing.Counter[Union[str, int]]]
 
 
 class MetricsComparer:
     """Allows the comparison between different metrics such as NPath and APC."""
 
-    def __init__(self, results: List[List[Union[str, int]]],
+    def __init__(self, results: list[list[Union[str, int]]],
                  location: str) -> None:
         """
         Create a new MetricsComparer object from a list of results.
@@ -275,10 +275,10 @@ class MetricsComparer:
         self.npath_complexities = []
         self.path_complexities = []
 
-        self.dicts: Tuple[MetricsDictOne, MetricsDictOne,
+        self.dicts: tuple[MetricsDictOne, MetricsDictOne,
                           MetricsDictTwo, MetricsDictTwo] = \
             (dict_one, dict_two, dict_three, dict_four)
-        self.dict_counter: List[CountingDict] = []
+        self.dict_counter: list[CountingDict] = []
 
         for res in results:
             cyc_compl = int(res[1])
@@ -296,8 +296,8 @@ class MetricsComparer:
         """Update dictionaries."""
         # Convert APCs to correct complexity classes.
         temp_dict: MetricsDictOne = defaultdict(list)
-        temp_dicts: List[MetricsDictOne] = []
-        temp_dicts2: List[MetricsDictTwo] = []
+        temp_dicts: list[MetricsDictOne] = []
+        temp_dicts2: list[MetricsDictTwo] = []
         for metrics_dict in self.dicts[:2]:
             for key in metrics_dict.keys():
                 temp_dict[key] = []

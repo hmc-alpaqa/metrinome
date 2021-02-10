@@ -13,7 +13,7 @@ from functools import partial
 from multiprocessing import Manager, Pool
 from os import listdir
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple, Union, cast
+from typing import Iterable, Optional, Union, cast
 
 import numpy  # type: ignore
 from rich.console import Console
@@ -58,7 +58,7 @@ class Controller:
         pathcomplexity = path_complexity.PathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
 
-        self.metrics_generators: List[metric.MetricAbstract] = [cyclomatic, npath,
+        self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
                                                                 pathcomplexity, locs]
 
         cpp_converter = cpp.CPPConvert(self.logger)
@@ -82,7 +82,7 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
+def worker_main(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
     """Handle the multiprocessing of import."""
     graph = ControlFlowGraph.from_file(file)
     if isinstance(graph, dict):
@@ -93,7 +93,7 @@ def worker_main(shared_dict: Dict[str, ControlFlowGraph], file: str) -> None:
 
 
 def worker_main_two(metrics_generator: metric.MetricAbstract,
-                    shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]],
+                    shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
                     graph: ControlFlowGraph) -> None:
     """Handle the multiprocessing of convert."""
     try:
@@ -146,7 +146,7 @@ class CmdInfo:
 class Options:
     """Information about the REPL commands and their arguments."""
 
-    commands: Dict[str, CmdInfo] = {
+    commands: dict[str, CmdInfo] = {
         "to_klee_format": CmdInfo(1, MISSING_FILENAME, True),
         "klee_to_bc": CmdInfo(1, ReplErrors.KLEE_FORMATTED),
         "klee": CmdInfo(1, ReplErrors.KLEE_FORMATTED, False, True),
@@ -232,7 +232,7 @@ class Command:
 
         self.logger.d_msg(path_to_klee_build_dir, command_one, command_two, result)
 
-    def get_files(self, path: str, recursive_mode: bool, allowed_extensions: List[str]) -> List[str]:
+    def get_files(self, path: str, recursive_mode: bool, allowed_extensions: list[str]) -> list[str]:
         """
         get_files returns a list of files from the given path.
 
@@ -256,7 +256,7 @@ class Command:
         if os.path.isdir(abspath):
             self.logger.d_msg(f"{abspath} is a directory")
             if recursive_mode:
-                all_files: List[Path] = []
+                all_files: list[Path] = []
                 for extension in allowed_extensions:
                     all_files += Path(abspath).rglob(f"*{extension}")
 
@@ -273,12 +273,12 @@ class Command:
         return self.get_files_from_regex(file, original_base, recursive_mode)
 
     def get_files_from_regex(self, input_file: str,
-                             original_base: str, recursive_mode: bool) -> List[str]:
+                             original_base: str, recursive_mode: bool) -> list[str]:
         """Try to compile a path as a regular expression and get the matching files."""
         try:
             regexp = re.compile(input_file)
             self.logger.d_msg("Successfully compiled as a regular expression")
-            all_files: List[str] = []
+            all_files: list[str] = []
             if os.path.exists(original_base):
                 if recursive_mode:
                     # Get all files in all subdirectories.
@@ -321,7 +321,7 @@ class Command:
 
             return []
 
-    def parse_convert_args(self, arguments: List[str]) -> Tuple[List[str], bool,
+    def parse_convert_args(self, arguments: list[str]) -> tuple[list[str], bool,
                                                                 Optional[InlineType], bool]:
         """Parse the command line arguments for the convert command."""
         recursive_mode = False
@@ -373,7 +373,7 @@ class Command:
             self.logger.v_msg("Not enough arguments!")
             return
 
-        all_files: List[str] = []
+        all_files: list[str] = []
         for full_path in args_list:
             files = self.get_files(full_path, recursive_mode, list(self.controller.graph_generators.keys()))
             if files == []:
@@ -449,7 +449,7 @@ class Command:
         #  this is done automatically in the previous step).
         if self.multi_threaded:
             manager = Manager()
-            shared_dict: Dict[str, ControlFlowGraph] = manager.dict()
+            shared_dict: dict[str, ControlFlowGraph] = manager.dict()
             pool = Pool(8)
             pool.map(partial(worker_main, shared_dict), all_files)
             self.data.graphs.update(shared_dict)
@@ -495,16 +495,16 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
-    def do_metrics_multithreaded(self, graphs: List[ControlFlowGraph]) -> None:
+    def do_metrics_multithreaded(self, graphs: list[ControlFlowGraph]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
         pool = Pool(8)
         manager = Manager()
-        shared_dict: Dict[Tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
+        shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
         for metrics_generator in self.controller.metrics_generators:
             pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
             self.logger.v_msg(str(shared_dict))
 
-    def get_metrics_list(self, name: str) -> List[str]:
+    def get_metrics_list(self, name: str) -> list[str]:
         """Get the list of metric names from command argument."""
         if name == "*":
             return list(self.data.graphs.keys())
@@ -556,7 +556,7 @@ class Command:
                         results.append((metric_generator.name(), result))
                         time_out = f"{runtime:.5f} seconds"
                         if metric_generator.name() == "Path Complexity":
-                            result_ = cast(Tuple[Union[float, str], Union[float, str]],
+                            result_ = cast(tuple[Union[float, str], Union[float, str]],
                                            result)
                             path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
                             table.add_row(metric_generator.name(), path_out, time_out)
@@ -606,7 +606,7 @@ class Command:
             self.logger.v_msg(f"Object {name} not found.")
         return found
 
-    def do_show_klee(self, flags: Options, obj_type: ObjTypes, names: List[str]) -> bool:
+    def do_show_klee(self, flags: Options, obj_type: ObjTypes, names: list[str]) -> bool:
         """Display the KLEE objects the REPL knows about."""
         if obj_type == ObjTypes.KLEE_BC:
             self.data.show_klee_bc(names)
@@ -703,7 +703,7 @@ class Command:
                                               **klee_formatted_files}
             self.logger.v_msg(f"Created {' '.join(list(klee_formatted_files.keys()))}")
 
-    def klee_output_indices(self, klee_output: str) -> Tuple[int, int, int]:
+    def klee_output_indices(self, klee_output: str) -> tuple[int, int, int]:
         """Get the indicies of statistics we care about in the Klee output string."""
         strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
 
@@ -891,7 +891,7 @@ class Command:
         delete <type> <name>
         """
         self.logger.d_msg(obj_type)
-        known_types_dict: Dict[str, AnyDict] = {
+        known_types_dict: dict[str, AnyDict] = {
             ObjTypes.GRAPH.value: self.data.graphs,
             ObjTypes.METRIC.value: self.data.metrics,
             ObjTypes.KLEE_BC.value: self.data.bc_files,
@@ -908,7 +908,7 @@ class Command:
 
         if obj_type == ObjTypes.KLEE.value:
             found = False
-            dictionary_list: List[AnyDict] = [self.data.klee_stats,
+            dictionary_list: list[AnyDict] = [self.data.klee_stats,
                                               self.data.klee_formatted_files,
                                               self.data.bc_files]
             for dictionary in dictionary_list:

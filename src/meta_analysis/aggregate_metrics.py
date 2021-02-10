@@ -15,14 +15,13 @@ Once this is done, we then count how many instances of each value show up.
 import typing
 from collections import Counter, defaultdict
 from itertools import combinations
-from typing import Dict, List, Tuple
 
 from core.command import Command, Controller
 from core.command_data import MetricRes, MetricsDict
 from core.log import Log
 from main import Options
 
-AggregateMetricsDict = Dict[MetricRes, List[MetricRes]]
+AggregateMetricsDict = dict[MetricRes, list[MetricRes]]
 
 
 class MetricsComparer:
@@ -35,10 +34,10 @@ class MetricsComparer:
         aggregate_metrics = self.aggregate()
         self.counter_dict = self.counter(aggregate_metrics)
 
-    def aggregate(self) -> Dict[Tuple[str, str], AggregateMetricsDict]:
+    def aggregate(self) -> dict[tuple[str, str], AggregateMetricsDict]:
         """For each (metric name 1, metric name 2), map each 'metric 1 val' -> [metric 2 vals]."""
         # Create an empty dictionary that can be used to store the results.
-        aggregate_metrics: Dict[Tuple[str, str], AggregateMetricsDict] = {}
+        aggregate_metrics: dict[tuple[str, str], AggregateMetricsDict] = {}
         for metric_name_one, metric_name_two in combinations(self.metric_names, 2):
             aggregate_metrics[(metric_name_one, metric_name_two)] = defaultdict(list)
             aggregate_metrics[(metric_name_two, metric_name_one)] = defaultdict(list)
@@ -53,14 +52,14 @@ class MetricsComparer:
 
         return aggregate_metrics
 
-    def counter(self, aggregate_metrics: Dict[Tuple[str, str],
+    def counter(self, aggregate_metrics: dict[tuple[str, str],
                                               AggregateMetricsDict]) -> \
-            Dict[Tuple[str, str],
-                 Dict[MetricRes, typing.Counter[MetricRes]]]:
+            dict[tuple[str, str],
+                 dict[MetricRes, typing.Counter[MetricRes]]]:
         """Create a dict that stores the discrete conditional distributions of each metric pair."""
         counter_dict = {}
         for agg_metrics_key, agg_metrics_dict in aggregate_metrics.items():
-            tmp: Dict[MetricRes, typing.Counter[MetricRes]] = {}
+            tmp: dict[MetricRes, typing.Counter[MetricRes]] = {}
             for key, val in agg_metrics_dict.items():
                 tmp[key] = Counter(val)
             counter_dict[agg_metrics_key] = tmp

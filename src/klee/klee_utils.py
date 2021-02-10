@@ -6,7 +6,7 @@ import uuid
 from collections import defaultdict
 from subprocess import PIPE
 from time import time
-from typing import DefaultDict, Dict, List, Optional, Set, Tuple, Union
+from typing import Optional, Union
 
 import pandas as pd  # type: ignore
 from pycparser import c_ast, c_generator, parse_file  # type: ignore
@@ -14,11 +14,11 @@ from pycparser import c_ast, c_generator, parse_file  # type: ignore
 from core.env import Env
 from core.log import Log
 
-KleeOutputInfo = Tuple[Optional[int], Optional[int], Optional[int],
+KleeOutputInfo = tuple[Optional[int], Optional[int], Optional[int],
                        float, float, float]
-KleeCompareResults = Dict[Tuple[str, str, str],
-                          Dict[str, Optional[Union[float, int]]]]
-KleeOutputPreferencesInfo = Tuple[Optional[int], Optional[int], Optional[int],
+KleeCompareResults = dict[tuple[str, str, str],
+                          dict[str, Optional[Union[float, int]]]]
+KleeOutputPreferencesInfo = tuple[Optional[int], Optional[int], Optional[int],
                                   float, float, float, float]
 
 
@@ -67,7 +67,7 @@ def klee_cmd(bcname: str, new_name: str) -> str:
              -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
 
 
-def get_functions_list() -> List[str]:
+def get_functions_list() -> list[str]:
     """Get a list of all file names used for testing klee."""
     return ['04_prime', '05_parity', '06_palindrome', '02_fib', '03_sign', '01_greatestof3',
             '16_binary_search', '12_check_sorted_array', '11_array_max', '10_find_val_in_array',
@@ -81,7 +81,7 @@ def get_functions_list() -> List[str]:
 
 
 def create_pandas(results: KleeCompareResults, preference: str, input_: str,
-                  max_depths: List[str], fields: List[str]) -> pd.DataFrame:
+                  max_depths: list[str], fields: list[str]) -> pd.DataFrame:
     """Create a pandas dataframe from the results of a Klee experiment."""
     index = [f'max depth {i}' for i in max_depths]
     data = [[results[(preference, depth, input_)][field] for field in fields]
@@ -89,12 +89,12 @@ def create_pandas(results: KleeCompareResults, preference: str, input_: str,
     return pd.DataFrame(data, index=index, columns=fields)
 
 
-def get_stats_dict(stats_decoded: List[str],
-                   results: KleeOutputPreferencesInfo) -> Dict[str, Optional[Union[float, int]]]:
+def get_stats_dict(stats_decoded: list[str],
+                   results: KleeOutputPreferencesInfo) -> dict[str, Optional[Union[float, int]]]:
     """Gather the data from Klee into a stats dictionary."""
     headers = stats_decoded[0].split()[1:]
     values = map(float, stats_decoded[2].split()[1:])
-    stats_dict: Dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
+    stats_dict: dict[str, Optional[Union[float, int]]] = dict(zip(headers, values))
     stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
         stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
         stats_dict["PythonTime"] = results
@@ -114,8 +114,8 @@ class FuncVisitor(c_ast.NodeVisitor):
         """Create a new instance of FuncVisitor."""
         self._logger = logger
         self._generator = c_generator.CGenerator()
-        self.vars: DefaultDict[str, List[Tuple[str, str]]] = defaultdict(list)
-        self.types: DefaultDict[str, str] = defaultdict(str)
+        self.vars: defaultdict[str, list[tuple[str, str]]] = defaultdict(list)
+        self.types: defaultdict[str, str] = defaultdict(str)
         super().__init__()
 
     def define_var(self, name: str, declaration: str, varname: str) -> None:
@@ -158,7 +158,7 @@ class KleeUtils:
         self._logger = logger
 
     def show_func_defs(self, filename: str, size: int = 10,
-                       optimized: bool = False) -> Dict[str, str]:
+                       optimized: bool = False) -> dict[str, str]:
         """
         Generate the set of klee-compatible files.
 
@@ -175,7 +175,7 @@ class KleeUtils:
         func_visitor = FuncVisitor(self._logger)
         func_visitor.visit(ast)
 
-        uuids: Set[uuid.UUID] = set()
+        uuids: set[uuid.UUID] = set()
         klee_formatted_files = dict()
         for func_name in func_visitor.vars.keys():
             variables = [list(v) for v in func_visitor.vars[func_name]]

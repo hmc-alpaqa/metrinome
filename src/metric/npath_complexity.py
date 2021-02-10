@@ -5,7 +5,7 @@ This works with both the adjacency list representation and edge list.
 """
 
 import copy
-from typing import List, Tuple
+from typing import Tuple
 
 import numpy as np  # type: ignore
 
@@ -14,7 +14,7 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import AdjListGraph, AdjMatGraph, EdgeListType
 from metric import metric
 
-EdgeType = List[int]
+EdgeType = list[int]
 NodeType = int
 AdjList = Tuple[Tuple[int, ...], ...]
 
@@ -31,16 +31,16 @@ class NPathComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "NPath Complexity"
 
-    def neighbors_edge_list(self, start: NodeType, edges: List[EdgeType]) -> List[NodeType]:
+    def neighbors_edge_list(self, start: NodeType, edges: list[EdgeType]) -> list[NodeType]:
         """Return a list of all the nodes we can get to from a given 'start' node."""
         return [edge[1] for edge in edges if edge[0] == start]
 
     def neighbors_adj_list(self, start: NodeType,
-                           edges: AdjList) -> Tuple[NodeType, ...]:
+                           edges: AdjList) -> tuple[NodeType, ...]:
         """Return a list of all the nodes we can get to from a given 'start' node."""
         return edges[start]
 
-    def remove_edge_list(self, edge_list: List[EdgeType], edge: EdgeType) -> List[EdgeType]:
+    def remove_edge_list(self, edge_list: list[EdgeType], edge: EdgeType) -> list[EdgeType]:
         """Return an edgeList with the specified edge removed."""
         i = edge_list.index(edge)
         return edge_list[:i] + edge_list[i + 1:]

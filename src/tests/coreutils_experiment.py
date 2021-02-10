@@ -3,7 +3,7 @@ import os
 import re
 import sys
 import time
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import glob2  # type: ignore
 import pandas as pd  # type: ignore
@@ -13,14 +13,14 @@ from graph.control_flow_graph import ControlFlowGraph as CFG
 from metric import cyclomatic_complexity, metric, npath_complexity, path_complexity
 from utils import Timeout
 
-PathComplexityRes = Tuple[Union[float, str], Union[float, str]]
+PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
 
-def parse_original(file: str) -> Tuple[List[str], List[str], Dict[str, str], int]:
+def parse_original(file: str) -> tuple[list[str], list[str], dict[str, str], int]:
     """Obtain all of the Graph information from an existing dot file in the original format."""
     # Read the original files.
     nodes, edges = [], []
-    node_map: Dict[str, str] = {}
+    node_map: dict[str, str] = {}
     counter = 0
 
     with open(file, "r") as old_file:
@@ -98,12 +98,12 @@ def clean(file: str) -> None:
         convert_file_to_standard(fname)
 
 
-def get_converter_time(graph_list: List[str],
+def get_converter_time(graph_list: list[str],
                        converter: metric.MetricAbstract,
                        folder: str,
                        timeout_threshold: int, show_info: bool = False
-                       ) -> Tuple[List[Tuple[float, str]],
-                                  List[Tuple[float, str, str]],
+                       ) -> tuple[list[tuple[float, str]],
+                                  list[tuple[float, str, str]],
                                   int]:
     """Run the the converter on all graph files from some folder."""
     # loop through each cfg in each folder.
