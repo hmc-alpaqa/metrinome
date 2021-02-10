@@ -413,7 +413,7 @@ class Command:
                     if graph == {}:
                         self.logger.v_msg("Converted without errors, but no graphs created.")
                     else:
-                        self.logger.v_msg(f"Created {' '.join(list(graph.keys()))}")
+                        self.logger.v_msg(f"Created graph objects {' '.join(list(graph.keys()))}")
                         self.data.graphs.update(graph)
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
