@@ -636,7 +636,7 @@ class Command:
 
         if self.do_show_klee(flags, obj_type, names):
             return
- 
+
         if obj_type == ObjTypes.METRIC:
             self.data.show_metric(arg_name, names)
         elif obj_type == ObjTypes.GRAPH:
