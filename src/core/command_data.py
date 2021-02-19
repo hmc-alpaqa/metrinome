@@ -6,12 +6,11 @@ from collections import namedtuple
 from enum import Enum
 from typing import Optional, Union, cast
 
-from core.log import Log
-from graph.control_flow_graph import ControlFlowGraph
-
-import numpy  # type: ignore
 from rich.console import Console
 from rich.table import Table
+
+from core.log import Log
+from graph.control_flow_graph import ControlFlowGraph
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
@@ -232,7 +231,7 @@ class Data:
                         table.add_row(metric_data[0], path_out)
                     else:
                         table.add_row(metric_data[0], str(metric_data[1]))
-                
+
                 console = Console()
                 console.print(table)
 
