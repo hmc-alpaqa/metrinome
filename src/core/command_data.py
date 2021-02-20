@@ -1,4 +1,4 @@
-"""Stor all of the objects the REPL needs to use."""
+"""Store all of the objects the REPL needs to use."""
 from __future__ import annotations
 
 import os
