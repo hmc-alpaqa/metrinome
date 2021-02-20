@@ -1,4 +1,3 @@
-// test 21
 #include <stdio.h>
 #define MAXTEMPSIZE 100
 
