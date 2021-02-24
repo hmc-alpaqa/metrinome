@@ -6,6 +6,9 @@ from collections import namedtuple
 from enum import Enum
 from typing import Optional, Union, cast
 
+from rich.console import Console
+from rich.table import Table
+
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
 
@@ -214,17 +217,24 @@ class Data:
             names = list(self.metrics.keys())
 
         for metric_name in names:
+            table = Table(title=f"Metrics for {metric_name}")
+            table.add_column("Metric", style="cyan")
+            table.add_column("Result", style="magenta", no_wrap=False)
+
             if metric_name in self.metrics:
-                self.logger.i_msg(f"Metrics for {metric_name}:")
                 for metric_data in self.metrics[metric_name]:
                     if metric_data[0] == "Path Complexity":
                         metric_data_ = cast(tuple[str, tuple[Union[float, str], Union[float, str]]],
                                             metric_data)
                         apc, path_compl = metric_data_[1][0], metric_data_[1][1]
                         path_out = f"(APC: {apc}, Path Complexity: {path_compl})"
-                        self.logger.v_msg(f"{metric_data[0]}: {path_out}")
+                        table.add_row(metric_data[0], path_out)
                     else:
-                        self.logger.v_msg(f"{metric_data[0]}: {metric_data[1]}")
+                        table.add_row(metric_data[0], str(metric_data[1]))
+
+                console = Console()
+                console.print(table)
+
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
