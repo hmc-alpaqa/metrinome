@@ -1,0 +1,6 @@
+src/tests/cFiles/* linguist-detectable=false
+src/tests/cppFiles/* linguist-detectable=false
+src/tests/cFiles/* linguist-detectable=false
+src/tests/core/* linguist-detectable=false
+src/tests/pythonFiles/* linguist-detectable=false
+src/tests/javaFiles/* linguist-detectable=false
