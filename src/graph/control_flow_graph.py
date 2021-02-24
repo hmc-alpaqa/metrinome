@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import os
 import re
-from typing import Callable, Match, Optional, Type, cast
+from typing import Callable, Match, Optional, Tuple, Type, cast
 
 from core.env import KnownExtensions
 from graph.graph import AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph, Graph
@@ -155,8 +155,8 @@ class ControlFlowGraph:
         return ControlFlowGraph(graph, Metadata(*options, Metadata.with_calls(calls)))
 
     @staticmethod
-    def stitch(graphs: dict[str, ControlFlowGraph]) -> ControlFlowGraph:
-        """Create new CFG by substituting function calls with their graphs."""
+    def get_calls_structure(graphs: dict[str, ControlFlowGraph]) -> Tuple[list[list[str]], list[str]]:
+        """Create lists describing the hierarchy of a program's function calls."""
         calls_list = []
         simple_funcs = []
         for graph in graphs.values():
@@ -166,14 +166,29 @@ class ControlFlowGraph:
         for func1 in graphs:
             for func2 in graphs:
                 if calls_function(graphs[func1].metadata.calls, func2):
-                    if func1 != func2:
-                        calls_list.append([func1, func2])
+                    calls_list.append([func1, func2])
                 if graphs[func2].metadata.calls == {}:
                     simple_funcs.append(func2)
+        return calls_list, simple_funcs
+
+    @staticmethod
+    def stitch(graphs: dict[str, ControlFlowGraph]) -> ControlFlowGraph:
+        """Create new CFG by substituting function calls with their graphs."""
+        calls_list, simple_funcs = ControlFlowGraph.get_calls_structure(graphs)
 
         while calls_list:
             for func_pair in calls_list:
-                if func_pair[1] in simple_funcs:
+                if func_pair[0] == func_pair[1]:
+                    for _ in range(len(
+                        calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])
+                    )):
+                        node = calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])[0]
+                        graphs[func_pair[0]] = ControlFlowGraph.recursify(graphs[func_pair[0]], node)
+                    calls_list.remove(func_pair)
+                    if func_pair[0] not in [i[0] for i in calls_list]:
+                        simple_funcs.append(func_pair[0])
+
+                elif func_pair[1] in simple_funcs:
                     for _ in range(len(
                         calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])
                     )):
@@ -225,3 +240,11 @@ class ControlFlowGraph:
                 new_calls[vertex] = cfg1.metadata.calls[vertex]
 
         return ControlFlowGraph(stitched_graph, Metadata(Metadata.with_calls(new_calls)))
+
+    @staticmethod
+    def recursify(cfg: ControlFlowGraph, node: int) -> ControlFlowGraph:
+        """Add an edge from exit node to start node."""
+        edges = cfg.graph.edge_rules()
+        edges.append([node, cfg.graph.start_node])
+        graph = EdgeListGraph(edges, len(cfg.graph.vertices()))
+        return ControlFlowGraph(graph, cfg.metadata)

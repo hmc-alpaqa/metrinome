@@ -159,7 +159,11 @@ def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
     nodes = []
     func_name = os.path.splitext(os.path.splitext(function_cfg)[0])[1][1:]
     for node in calls_dict.keys():
-        if calls_dict[node].endswith(func_name):
+        if calls_dict[node] == function_cfg:
+            nodes.append(node)
+        if func_name == "":
+            pass
+        elif calls_dict[node].endswith(func_name):
             nodes.append(node)
     return nodes
 

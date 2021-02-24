@@ -242,7 +242,7 @@ class Visitor(ast.NodeVisitor):
                       Metadata.with_language(KnownExtensions.Python))
 
         self.logger.d_msg(f"Visiting {node.name}")
-        visitor = FunctionVisitor()
+        visitor = FunctionVisitor(self.logger)
         visitor.visit(node)
 
         # Now take the representation and convert it to a graph.py by doing BFS.
@@ -265,22 +265,22 @@ class Visitor(ast.NodeVisitor):
 
             visited.add(curr_node)
             curr_node = cast(Node, curr_node)
-            if curr_node is not None:
-                children = curr_node.children
 
-                # Create all of the edges we need to from the current node to its children.
-                for child in children:
-                    # Check if we need to create a new node.
-                    if child not in nodes:
-                        nodes[child] = len(node_list)
-                        node_list.append(len(node_list))
+            children = list(filter(None, curr_node.children))
 
-                    edge_list.append([nodes[curr_node], nodes[child]])
+            # Create all of the edges we need to from the current node to its children.
+            for child in children:
+                # Check if we need to create a new node.
+                if child not in nodes:
+                    nodes[child] = len(node_list)
+                    node_list.append(len(node_list))
 
-                nodes_to_visit += children
+                edge_list.append([nodes[curr_node], nodes[child]])
 
-                if curr_node.exit_node:
-                    return_nodes.append(curr_node)
+            nodes_to_visit += children
+
+            if curr_node.exit_node:
+                return_nodes.append(curr_node)
 
         node_list.append(len(node_list))
 
@@ -311,7 +311,7 @@ class PythonConvert(converter.ConverterAbstract):
     def to_graph(self, filename: str, file_extension: str) -> dict[str, ControlFlowGraph]:
         """Create a CFG from a Python source file."""
         path = os.path.join(os.getcwd(), filename) + ".py"
-        visitor = Visitor()
+        visitor = Visitor(self.logger)
         graphs: dict[str, ControlFlowGraph]
         with open(path, "r") as src:
             root = ast.parse(src.read())

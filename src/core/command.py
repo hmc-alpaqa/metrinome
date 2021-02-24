@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import os.path
 import re
 import readline
@@ -419,9 +420,10 @@ class Command:
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
                 if graph_stitching:
-                    self.logger.v_msg(f"Created {filepath}_stitched")
-                    main = ControlFlowGraph.stitch(graph)
-                    self.data.graphs[filepath + "_stitched"] = main
+                    main = ControlFlowGraph.stitch(copy.deepcopy(graph))
+                    main.name  = os.path.basename(filepath) + "-full"
+                    self.logger.v_msg(f"Created stitched graph {main.name}")
+                    self.data.graphs[main.name] = main
 
     def do_import(self, flags: Options, *args_list: str) -> None:
         """
