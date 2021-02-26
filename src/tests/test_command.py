@@ -4,7 +4,7 @@ from typing import Union, cast
 
 import core.command as command
 import core.command_data as command_data
-from core.command import Options
+from core.command import Options, REPLOptions
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph as CFG
 from graph.graph import EdgeListGraph, EdgeListType
@@ -41,7 +41,8 @@ class TestCommandMultithreading(unittest.TestCase):
     def test_init(self) -> None:
         """Test the initialization with multithreading."""
         with captured_output() as (out, err):
-            command.Command("", False, True, None)
+            repl_options = REPLOptions("/app/code", False, False, True)
+            command.Command(repl_options, None)
         expected_msg = "MULTITHREADING ENABLED"
         self.assertTrue(expected_msg in out.getvalue())
         self.assertTrue(len(err.getvalue().strip()) == 0)
@@ -52,7 +53,8 @@ class TestCommandInvalid(unittest.TestCase):
 
     def setUp(self) -> None:
         """Create a new instance of the Command object without the wrapping object."""
-        self.command = command.Command("", False, False, None)
+        repl_options = REPLOptions("", False, False)
+        self.command = command.Command(repl_options, None)
         self.opts = Options()
 
     # ==== do_to_klee_format =====
@@ -148,7 +150,8 @@ class TestCommandKlee(unittest.TestCase):
 
         Note that in these tests we use the Command object directly.
         """
-        self.command = command.Command("", False, False, None)
+        repl_options = REPLOptions("", False, False)
+        self.command = command.Command(repl_options, None)
         self.opts = Options()
 
     # ==== do_to_klee_format =====
@@ -212,8 +215,8 @@ class TestCommand(unittest.TestCase):
 
         Note that in these tests we use the Command object directly.
         """
-        self.command = command.Command(curr_path="/app/code/tests/dotFiles", debug_mode=False,
-                                       multi_threaded=False, repl_wrapper=None)
+        repl_options = REPLOptions("/app/code/tests/dotFiles", False, False, False)
+        self.command = command.Command(repl_options, repl_wrapper=None)
         self.opts = Options()
 
     def test_num_args_invalid(self) -> None:

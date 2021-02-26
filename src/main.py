@@ -11,7 +11,7 @@ from cmd import Cmd
 from typing import Any
 
 import core.command as command
-from core.command import Options
+from core.command import Options, REPLOptions
 from core.log import Colors, Log
 
 TESTING_MODE = True
@@ -24,9 +24,9 @@ TESTING_MODE = True
 class Prompt(Cmd):
     """A wrapper for the REPL that allows us to create do_reload."""
 
-    def __init__(self, curr_path: str, debug_mode: bool, multi_threaded: bool = False) -> None:
+    def __init__(self, options: REPLOptions) -> None:
         """Create a new instance of the REPL."""
-        self.command = command.Command(curr_path, debug_mode, multi_threaded, self)
+        self.command = command.Command(options, self)
         self.logger = self.command.logger
         if TESTING_MODE:
             setattr(self, "do_reload", self.reload)
@@ -173,9 +173,8 @@ class Prompt(Cmd):
             debug = True
         elif arguments.strip() == "user":
             debug = False
-
-        self.command = command.Command(self.command.curr_path, debug,
-                                       self.command.multi_threaded, self)
+        options = REPLOptions(self.command.curr_path, debug, self.command.rich, self.command.multi_threaded)
+        self.command = command.Command(options, self)
 
         self.command.data.graphs = graphs
         self.command.data.metrics = metrics
@@ -242,9 +241,14 @@ class Prompt(Cmd):
 def main() -> None:
     """Parse command line arguments and initialize the REPL."""
     parser = argparse.ArgumentParser(description='Arguments for APC REPL.')
+
     parser.add_argument('--debug', dest='debug_mode',
                         action='store_true', default=False,
                         help='Turn on debugging mode for more verbose output')
+
+    parser.add_argument('--poor', dest='poor',
+                        action='store_true', default=False,
+                        help='Turn off rich for simplicity\'s sake.')
     # parser.add_argument('--multi-threaded', dest="multi_threaded", action='store_true', default=False,
     # help="Turn this on to speed up REPL functions through parallelism.")
     parsed_args = parser.parse_args()
@@ -254,8 +258,9 @@ def main() -> None:
         readline.read_history_file()
     except FileNotFoundError:
         pass
-    prompt = Prompt("/app/code",
-                    parsed_args.debug_mode)
+
+    options = REPLOptions("/app/code", parsed_args.debug_mode, parsed_args.poor)
+    prompt = Prompt(options)
     prompt.cmdloop(f"{Colors.TITLE.value}" + r"""
 
              _        _

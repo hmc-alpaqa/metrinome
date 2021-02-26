@@ -16,7 +16,7 @@ import typing
 from collections import Counter, defaultdict
 from itertools import combinations
 
-from core.command import Command, Controller
+from core.command import Command, Controller, REPLOptions
 from core.command_data import MetricRes, MetricsDict
 from core.log import Log
 from main import Options
@@ -69,8 +69,9 @@ class MetricsComparer:
 
 def test_analysis() -> None:
     """Analyze metric results from test C files."""
-    command = Command(curr_path="", debug_mode=False,
-                      multi_threaded=False, repl_wrapper=None)
+    options = REPLOptions(curr_path="", debug_mode=False, poor=False,
+                          multithreaded=False,)
+    command = Command(options, None)
     command.do_convert("/app/code/tests/cFiles/*")
     command.do_metrics(Options(), "*")
     metrics_comparer = MetricsComparer(command.data.metrics)
