@@ -89,16 +89,19 @@ class CPPConvert(converter.ConverterAbstract):
                     node_name_str = node_name.groups()[0].strip()
                     node_map[node_name_str] = str(counter)
                     node_to_add = str(counter)
-                    call = re.search(self._call_pattern, line.lstrip())
+                    calls = list(re.finditer(self._call_pattern, line.lstrip()))
                     label = ""
-
-                    if counter == 0 and call is not None:
-                        call_label = call.group(0)[1:-1]
+                    call_label = ""
+                    if counter == 0 and len(calls) != 0:
+                        
+                        for match in calls:
+                            call_label += " " + match.group(0)[1:-1]
                         label = f" [label=\"START CALLS {call_label}\"]"
                     elif counter == 0:
                         label = " [label=\"START\"]"
-                    elif call is not None:
-                        call_label = call.group(0)[1:-1]
+                    elif len(calls) != 0:
+                        for match in calls:
+                            call_label += " " + match.group(0)[1:-1]
                         label = f" [label=\"CALLS {call_label}\"]"
 
                     node_to_add += label

@@ -7,7 +7,7 @@ from typing import Callable, Match, Optional, Tuple, Type, cast
 
 from core.env import KnownExtensions
 from graph.graph import AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph, Graph
-from utils import calls_function
+from utils import calls_function_multi
 
 Option = Callable[['Metadata'], None]
 
@@ -21,7 +21,7 @@ class Metadata:
     def __init__(self, *options: Option):
         """Create a new metadata object."""
         self.loc: Optional[int] = None
-        self.calls: dict[int, str] = {}
+        self.calls: dict[int, list[str]] = {}
         self.language: Optional[KnownExtensions] = None
 
         for opt in options:
@@ -40,7 +40,7 @@ class Metadata:
         return option
 
     @staticmethod
-    def with_calls(calls: dict[int, str]) -> Option:
+    def with_calls(calls: dict[int, list[str]]) -> Option:
         """Initialize calls in a Metadata instance."""
         def option(metadata: Metadata) -> None:
             """Apply the option."""
@@ -88,12 +88,15 @@ class ControlFlowGraph:
         return str(self.graph)
 
     @staticmethod
-    def check_call(match: Match[str]) -> Optional[dict[int, str]]:
+    def check_call(match: Match[str]) -> Optional[dict[int, list[str]]]:
         """Find and return any functions called on a node."""
         node = int(match.group(1))
         label = match.group(2)
+        calls = label.split(" ")[2:]
         if "CALLS" in label:
-            return {node: label}
+            if label.startswith("START"):
+                calls = label.split(" ")[3:]
+            return {node: calls}
         return None
 
     @staticmethod
@@ -165,42 +168,46 @@ class ControlFlowGraph:
 
         for func1 in graphs:
             for func2 in graphs:
-                if calls_function(graphs[func1].metadata.calls, func2):
+                if len(calls_function_multi(graphs[func1].metadata.calls, func2)) != 0:
                     calls_list.append([func1, func2])
-                if graphs[func2].metadata.calls == {}:
+                if graphs[func2].metadata.calls == {} and func2 not in simple_funcs:
                     simple_funcs.append(func2)
         return calls_list, simple_funcs
 
     @staticmethod
-    def stitch(graphs: dict[str, ControlFlowGraph]) -> ControlFlowGraph:
+    def stitch(graphs: dict[str, ControlFlowGraph], name: str = None) -> ControlFlowGraph:
         """Create new CFG by substituting function calls with their graphs."""
         calls_list, simple_funcs = ControlFlowGraph.get_calls_structure(graphs)
-
         while calls_list:
             for func_pair in calls_list:
                 if func_pair[0] == func_pair[1]:
-                    for _ in range(len(
-                        calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])
-                    )):
-                        node = calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])[0]
+                    for node in calls_function_multi(graphs[func_pair[0]].metadata.calls, func_pair[1]):
                         graphs[func_pair[0]] = ControlFlowGraph.recursify(graphs[func_pair[0]], node)
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
                         simple_funcs.append(func_pair[0])
 
                 elif func_pair[1] in simple_funcs:
-                    for _ in range(len(
-                        calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])
-                    )):
-                        cfg1, cfg2 = graphs[func_pair[0]], graphs[func_pair[1]]
-                        node = calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])[0]
-                        cfg1.metadata.calls.pop(node)
-                        graphs[func_pair[0]] = ControlFlowGraph.compose(cfg1, cfg2, node)
+                    for node in calls_function_multi(graphs[func_pair[0]].metadata.calls, func_pair[1]):
+                        calls_to_remove = []
+                        for func in graphs[func_pair[0]].metadata.calls[node]:
+                            if func in graphs[func_pair[1]].name:
+                                cfg1, cfg2 = graphs[func_pair[0]], graphs[func_pair[1]]
+                                graphs[func_pair[0]] = ControlFlowGraph.compose(cfg1, cfg2, node)
+                                calls_to_remove.append(func)
+                        for func in calls_to_remove:
+                            graphs[func_pair[0]].metadata.calls[node].remove(func)
+
+                        if len(graphs[func_pair[0]].metadata.calls[node]) == 0:
+                            graphs[func_pair[0]].metadata.calls.pop(node)
+
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
                         simple_funcs.append(func_pair[0])
 
-        return graphs[simple_funcs[-1]]
+        stitched_graph = graphs[simple_funcs[-1]]
+        stitched_graph.name = name
+        return stitched_graph
 
     @staticmethod
     def compose(cfg1: ControlFlowGraph,
@@ -231,6 +238,7 @@ class ControlFlowGraph:
         edges_1 += edges_2
 
         stitched_graph = EdgeListGraph(edges_1, len(vertices))
+        stitched_graph.name = cfg1.name
 
         new_calls = {}
         for vertex in cfg1.metadata.calls.keys():

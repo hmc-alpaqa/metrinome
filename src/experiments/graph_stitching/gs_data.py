@@ -33,17 +33,18 @@ class DataCollector:
                              "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
 
-        with open('/app/code/tests/cFiles/benchmark/files.txt') as funcs:
+        with open('/app/code/experiments/graph_stitching/files/files.txt') as funcs:
             files = [line[0:-1] for line in funcs]
 
         for file in files:
             print(file)
-            graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
+            fname = os.path.splitext(file)[0]
+            graphs = self.converter.to_graph(fname, ".c")
             if graphs is None:
                 continue
             if isinstance(graphs, dict):
-                graphs["stitched"] = ControlFlowGraph.stitch(graphs)
-
+                graphs["stitched"] = ControlFlowGraph.stitch(graphs, name=os.path.basename(fname)+"_full")
+            
             graph = graphs["stitched"]
 
             start_time = time.time()

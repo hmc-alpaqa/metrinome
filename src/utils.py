@@ -167,6 +167,20 @@ def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
             nodes.append(node)
     return nodes
 
+def calls_function_multi(calls_dict: Dict[int, list[str]], function_cfg: str) -> List[int]:
+    """Check if a CFG contains any number of calls to another function."""
+    nodes = []
+    func_name = os.path.splitext(os.path.splitext(function_cfg)[0])[1][1:]
+    for node in calls_dict.keys():
+        for func in calls_dict[node]:
+            if func == function_cfg:
+                nodes.append(node)
+            if func_name == "":
+                pass
+            elif func.endswith(func_name):
+                nodes.append(node)
+    return list(set(nodes))
+
 
 class Timeout:
     """
