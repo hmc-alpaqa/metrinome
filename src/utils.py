@@ -177,9 +177,9 @@ def calls_function_multi(calls_dict: Dict[int, list[str]], function_cfg: str) ->
                 nodes.append(node)
             if func_name == "":
                 pass
-            elif func.endswith(func_name):
+            elif func_name in func:
                 nodes.append(node)
-    return list(set(nodes))
+    return nodes
 
 
 class Timeout:

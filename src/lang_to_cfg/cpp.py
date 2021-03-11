@@ -38,7 +38,7 @@ class CPPConvert(converter.ConverterAbstract):
                  file_extension: str) -> Optional[dict[str, ControlFlowGraph]]:
         """Create a CFG from a C++ source file."""
         Env.make_temp()
-        Env.clean_temps()
+        # Env.clean_temps()
         self.logger.d_msg(f"Creating dot files for {filename}, {file_extension}")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
@@ -58,7 +58,7 @@ class CPPConvert(converter.ConverterAbstract):
             graph = ControlFlowGraph.from_file(file, EdgeListGraph,
                                                [Metadata.with_language(KnownExtensions.C)])
             graphs[graph_name] = graph
-        Env.clean_temps()
+        # Env.clean_temps()
         return graphs
 
     def parse_original(self, file: str) -> tuple[list[str], list[str],
