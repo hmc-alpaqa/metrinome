@@ -207,6 +207,7 @@ class ControlFlowGraph:
                             if call_name in callee:
                                 cfg1, cfg2 = graphs[caller], graphs[callee]
                                 graphs[caller] = ControlFlowGraph.compose(cfg1, cfg2, node)
+                                graphs[caller].metadata.calls[node].remove(call_name)
                                 calls_to_remove[caller].append(callee)
 
             for caller in calls_to_remove.keys():
@@ -216,7 +217,8 @@ class ControlFlowGraph:
 
                 if len(calls_dict[caller]) == 0:
                     calls_dict.pop(caller)
-                    simple_funcs.append(caller)
+                    if caller not in simple_funcs:
+                        simple_funcs.append(caller)
 
         stitched_graph = graphs[simple_funcs[-1]]
         stitched_graph.name = name
@@ -235,7 +237,7 @@ class ControlFlowGraph:
         vertices = list(range(cfg1.graph.num_vertices + shift))
 
         # Ensures that exit node in subgraph has all the same edges as the replaced node.
-        edges_2 = [[i + node, j + node] for [i, j] in cfg2.graph.edge_rules()]
+        edges_2 = [[i + node , j + node] for [i, j] in cfg2.graph.edge_rules()]
 
         edges_1 = []
         for edge in cfg1.graph.edge_rules():

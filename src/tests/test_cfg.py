@@ -50,7 +50,7 @@ class TestControlFlowGraph(unittest.TestCase):
     # === CFG::stitch ===
     def test_stitch_normal_graph(self) -> None:
         """Test if we can replace a node with another graph with many edges and vertices."""
-        calls = {3: "callee"}
+        calls = {3: ["callee"]}
         caller = CFG(get_test_graph(), Metadata(Metadata.with_calls(calls)))
         callee = CFG(get_second_test_graph())
         expected = CFG(EdgeListGraph([[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],
@@ -66,7 +66,7 @@ class TestControlFlowGraph(unittest.TestCase):
     # === CFG::compose ===
     def test_compose_normal(self) -> None:
         """Test if we can compose two graphs."""
-        calls = {3: "callee"}
+        calls = {3: ["callee"]}
         caller = CFG(get_test_graph(), Metadata(Metadata.with_calls(calls)))
         callee = CFG(get_second_test_graph())
         edges = [[0, 1], [1, 2], [1, 3], [7, 8], [7, 9], [2, 11], [8, 10],

@@ -8,7 +8,7 @@ from typing import Optional, Union, cast
 
 from rich.console import Console
 from rich.table import Table
-
+import pandas as pd
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
 
@@ -72,12 +72,16 @@ class Data:
                 file.write(str(metric_value))
                 self.logger.i_msg(f"Made file {new_name}_metrics in /app/code/exports/")
         elif name == "*":
-            for m_name in self.metrics:
-                f_name = os.path.split(m_name)[1]
-                with open(f"/app/code/exports/{f_name}_metrics", "w+") as file:
-                    metric_value = self.metrics[m_name]
-                    file.write(str(metric_value))
-                    self.logger.i_msg(f"Made file {f_name}_metrics in /app/code/exports/")
+            data = pd.DataFrame({"graph_name": [], "apc": [],
+                             "cyclo": [], "npath": []})
+            for m_name in self.metrics:                
+                metric_value = self.metrics[m_name]
+                new_row: dict = {"graph_name": m_name, "apc": metric_value[2][1],
+                             "cyclo": metric_value[0][1], "npath": metric_value[1][1]}
+                data = data.append(new_row, ignore_index=True)
+            
+            data.to_csv("/app/code/exports/metrics.csv")
+            self.logger.i_msg(f"Made file metrics.csv in /app/code/exports/")
         else:
             self.logger.e_msg(f"{str(ObjTypes.METRIC).capitalize()} {name} not found.")
 
