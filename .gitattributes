@@ -1,6 +1,6 @@
-src/tests/cFiles/* linguist-vendored
-src/tests/cppFiles/* linguist-vendored
-src/tests/cFiles/* linguist-vendored
-src/tests/core/* linguist-vendored
-src/tests/pythonFiles/* linguist-vendored
-src/tests/javaFiles/* linguist-vendored
+src/tests/cFiles/* linguist-detectable=false
+src/tests/cppFiles/* linguist-detectable=false
+src/tests/cFiles/* linguist-detectable=false
+src/tests/core/* linguist-detectable=false
+src/tests/pythonFiles/* linguist-detectable=false
+src/tests/javaFiles/* linguist-detectable=false
