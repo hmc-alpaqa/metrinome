@@ -1,0 +1,6 @@
+src/tests/cFiles/* linguist-vendored
+src/tests/cppFiles/* linguist-vendored
+src/tests/cFiles/* linguist-vendored
+src/tests/core/* linguist-vendored
+src/tests/pythonFiles/* linguist-vendored
+src/tests/javaFiles/* linguist-vendored
