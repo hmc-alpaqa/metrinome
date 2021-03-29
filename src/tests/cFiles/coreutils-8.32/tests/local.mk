@@ -900,3 +900,4 @@ pr_data =					\
   tests/pr/w72l24f-ll
 
 $(TEST_LOGS): $(PROGRAMS)
+
