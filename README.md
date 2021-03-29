@@ -1,8 +1,9 @@
 <img src="Logo_test.png" height="100">
 
 ![Lint and Test](https://github.com/hmc-alpaqa/metrinome/workflows/Lint%20and%20Test/badge.svg)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![codecov](https://codecov.io/gh/hmc-alpaqa/metrinome/branch/develop/graph/badge.svg)](https://codecov.io/gh/hmc-alpaqa/metrinome)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 # Developing 
 
