@@ -1,4 +1,4 @@
-# Metrinome 
+<img src="Logo_test.png" height="100">
 
 ![Lint and Test](https://github.com/hmc-alpaqa/metrinome/workflows/Lint%20and%20Test/badge.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
