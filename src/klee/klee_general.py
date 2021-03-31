@@ -157,9 +157,11 @@ def prepare(klee_path, src_filepath, filepath, file_generation_function, functio
 def main() -> None:
 
     klee_path = "/app/build/bin/klee" # location of the klee command
-    src_filepath = "/app/code/tests/cFiles/inlining_tests/" # location of source files to run klee on
-    filepath = "/app/code/tests/cFiles/inlining_tests/klee_experiment/" # directory to create (if it doesn't exist) and put all results/created files in
-    klee_params_lambda = lambda output, var, filepath: f"--dump-states-on-halt=false --max-time=5min -output-dir={output} --max-depth={var} {filepath}"
+    src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/" # location of source files to run klee on, end with a slash
+    filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest/" # directory to create (if it doesn't exist) and put all results/created files in
+                                                                        # end with a slash
+    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
+    # --dump-states-on-halt=false --max-time=5min
     # lambda function to generate klee commands
     # should take in an outpute filepath, a number to vary, and an input filepath
     # shouldn't actually contain the call to klee
@@ -169,16 +171,20 @@ def main() -> None:
     # should be a callable object that takes in a source folder, output folder, and file name
     # returns a tuple of names for files, if each was compiled differently (ie optimized vs normal) and also compiles/generates the necessary files for klee
 
-    functions = ['test-01', 'test-02', 'test-03', 'test-04', 'test-05', 'test-06', 'test-07', 'test-08', 'test-09', 'test-10', 'test-11',
-    'test-12', 'test-20-un-inlined', 'test-21-un-inlined', 'test-22-un-inlined', 'test-23-un-inlined', 'test-24-un-inlined', 'test-25-un-inlined',
-    'test-30-un-inlined', 'test-31-un-inlined', 'test-32-un-inlined', 'test-33-un-inlined', 'test-34-un-inlined', 'test-35-un-inlined',
-    'test-36-un-inlined', 'test-37-un-inlined', 'test-38-un-inlined', 'test-39-un-inlined', 'test-40-un-inlined'] # all the functions to run klee experimenmts on
-    functions = ['test-01']
+    # functions = ['test-01', 'test-02', 'test-03', 'test-04', 'test-05', 'test-06', 'test-07', 'test-08', 'test-09', 'test-10', 'test-11',
+    # 'test-12', 'test-20-un-inlined', 'test-21-un-inlined', 'test-22-un-inlined', 'test-23-un-inlined', 'test-24-un-inlined', 'test-25-un-inlined',
+    # 'test-30-un-inlined', 'test-31-un-inlined', 'test-32-un-inlined', 'test-33-un-inlined', 'test-34-un-inlined', 'test-35-un-inlined',
+    # 'test-36-un-inlined', 'test-37-un-inlined', 'test-38-un-inlined', 'test-39-un-inlined', 'test-40-un-inlined'] # all the functions to run klee experimenmts on
+    functions = ['02_fib_no_helper', '04_mincoins_no_helper', '05_nCr_no_helper', '06_binarysearch_no_helper', '07_bubblesort_no_helper', '08_selectionsort_no_helper',
+    '09_insertionsort_no_helper', '11_deletevowels_no_helper', '12_deleteword_no_helper', '14_sortascending_no_helper', '15_maxarray_no_helper', '16_printprimes_no_helper',
+    '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper', '19_binarytogray_no_helper', '22_edit_dist_no_helper', '23_mergesort_no_helper', '24_longest_common_increasing_subsequence_no_helper']
+
     labels = ["normal"] # the labels for the different "compilation methods"
-    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
-                  '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
-                  '100'] # all possible values for the input variable
-    xaxis = ['1', '2', '5']
+    # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
+    #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
+    #               '100'] # all possible values for the input variable
+    # xaxis = ['1', '2', '5']
+    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"] # all klee output fields that we are interested in
     remove = True # whether klee files should be deleted after the important data is collected. Usually set to True
