@@ -1,0 +1,11 @@
+digraph "CFG for '_Z22sort_numbers_ascendingPii' function" {
+	label="CFG for '_Z22sort_numbers_ascendingPii' function";
+
+	Node0x561c01483230 [shape=record,label="{%2:\l  %3 = alloca i32*, align 8\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  %8 = alloca i32, align 4\l  store i32* %0, i32** %3, align 8\l  store i32 %1, i32* %4, align 4\l  store i32 0, i32* %7, align 4\l  br label %9\l}"];
+	Node0x561c01483230 -> Node0x561c014839c0;
+	Node0x561c014839c0 [shape=record,label="{%9:\l\l  %10 = load i32, i32* %7, align 4\l  %11 = load i32, i32* %4, align 4\l  %12 = icmp slt i32 %10, %11\l  br i1 %12, label %13, label %60\l|{<s0>T|<s1>F}}"];
+	Node0x561c014839c0:s0 -> Node0x561c01483f30;
+	Node0x561c014839c0:s1 -> Node0x561c01483f80;
+	Node0x561c01483f30 [shape=record,label="{%13:\l\l  %14 = load i32, i32* %7, align 4\l  %15 = add nsw i32 %14, 1\l  store i32 %15, i32* %8, align 4\l  br label %16\l}"];
+	Node0x561c01483f30 -> Node0x561c014841f0;
+	Node0x561

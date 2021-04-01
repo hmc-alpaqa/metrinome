@@ -1,6 +1,27 @@
+<<<<<<< HEAD
 src/tests/cFiles/* linguist-detectable=false
 src/tests/cppFiles/* linguist-detectable=false
 src/tests/cFiles/* linguist-detectable=false
 src/tests/core/* linguist-detectable=false
 src/tests/pythonFiles/* linguist-detectable=false
 src/tests/javaFiles/* linguist-detectable=false
+=======
+*.c -linguist-detectable
+*.h -linguist-detectable
+*.cpp -linguist-detectable
+*.m4 -linguist-detectable
+*.pl -linguist-detectable
+*.mk -linguist-detectable
+*.x -linguist-detectable
+*.in -linguist-detectable
+*.pl -linguist-detectable
+*.po -linguist-detectable
+*.Po -linguist-detectable
+*.sh -linguist-detectable
+*.dot -linguist-detectable
+*.tex -linguist-detectable
+*.y -linguist-detectable
+*.1 -linguist-detectable
+src/tests/cFiles/**/* -linguist-detectable
+src/tests/core/**/* -linguist-detectable
+>>>>>>> f14a344988791a427bd45171a53416d2789467d4

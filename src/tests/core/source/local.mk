@@ -660,3 +660,4 @@ else
 cu_install_program = src/ginstall
 endif
 INSTALL = $(cu_install_program) -c
+

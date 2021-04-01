@@ -10,6 +10,7 @@ from typing import Callable
 MISSING_FILENAME: str = "Must provide file name."
 MISSING_TYPE_AND_NAME: str = "Must specify type and name."
 MISSING_NAME: str = "Must specify name."
+MISSING_OUTPUT_PATH: str = "Must provide output path."
 NO_FILE_EXT: Callable[[str], str] = lambda f_name: \
     f"No file extension found for {f_name}."
 NOT_IMPLEMENTED: str = "Not implemented."
