@@ -1,4 +1,4 @@
-<img src="Logo_test.png" height="100">
+<img src="metrinome.svg" height="100">
 
 ![Lint and Test](https://github.com/hmc-alpaqa/metrinome/workflows/Lint%20and%20Test/badge.svg)
 [![codecov](https://codecov.io/gh/hmc-alpaqa/metrinome/branch/develop/graph/badge.svg)](https://codecov.io/gh/hmc-alpaqa/metrinome)
