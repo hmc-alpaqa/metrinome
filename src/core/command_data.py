@@ -53,7 +53,7 @@ class ObjTypes(Enum):
 class Data:
     """Stores all of objects created during the use of the REPL."""
 
-    def __init__(self, logger: Log) -> None:
+    def __init__(self, logger: Log, rich: bool) -> None:
         """Create a new instance of the REPL data."""
         self.metrics: MetricsDict = {}
         self.graphs: GraphDict = {}
@@ -62,6 +62,7 @@ class Data:
         self.klee_formatted_files: KleeFormattedFilesDict = dict()
         self.bc_files: BcFilesDict = dict()
         self.logger = logger
+        self.rich = rich
 
     def export_metrics(self, name: str, new_name: str) -> None:
         """Save a metric the REPL knows about to an external file."""
@@ -217,9 +218,12 @@ class Data:
             names = list(self.metrics.keys())
 
         for metric_name in names:
-            table = Table(title=f"Metrics for {metric_name}")
-            table.add_column("Metric", style="cyan")
-            table.add_column("Result", style="magenta", no_wrap=False)
+            if self.rich:
+                table = Table(title=f"Metrics for {metric_name}")
+                table.add_column("Metric", style="cyan")
+                table.add_column("Result", style="magenta", no_wrap=False)
+            else:
+                self.logger.v_msg(f"Metrics for {metric_name}")
 
             if metric_name in self.metrics:
                 for metric_data in self.metrics[metric_name]:
@@ -228,12 +232,20 @@ class Data:
                                             metric_data)
                         apc, path_compl = metric_data_[1][0], metric_data_[1][1]
                         path_out = f"(APC: {apc}, Path Complexity: {path_compl})"
-                        table.add_row(metric_data[0], path_out)
-                    else:
-                        table.add_row(metric_data[0], str(metric_data[1]))
+                        if self.rich:
+                            table.add_row(metric_data[0], path_out)
+                        else:
+                            self.logger.v_msg(metric_data[0], path_out)
 
-                console = Console()
-                console.print(table)
+                    else:
+                        if self.rich:
+                            table.add_row(metric_data[0], str(metric_data[1]))
+                        else:
+                            self.logger.v_msg(metric_data[0], str(metric_data[1]))
+
+                if self.rich:
+                    console = Console()
+                    console.print(table)
 
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
