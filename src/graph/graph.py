@@ -151,7 +151,7 @@ class GenericGraph(Graph, Generic[Type], ABC):
             label = match.group(2)
             if "START" in label:
                 self.start_node = node
-            if label == "EXIT":
+            if "EXIT" in label:
                 self.end_node = node
 
         self.num_vertices = max(self.num_vertices, node + 1)

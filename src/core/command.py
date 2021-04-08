@@ -461,10 +461,10 @@ class Command:
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
                 if graph_stitching:
-                    main = ControlFlowGraph.stitch(copy.deepcopy(graph))
-                    main.name  = os.path.basename(filepath) + "-full"
-                    self.logger.v_msg(f"Created stitched graph {main.name}")
-                    self.data.graphs[main.name] = main
+                    stitched_name  = os.path.basename(filepath) + "-full"
+                    main = ControlFlowGraph.stitch(copy.deepcopy(graph), name=stitched_name)
+                    self.logger.v_msg(f"Created stitched graph {stitched_name}")
+                    self.data.graphs[stitched_name] = main
 
     def do_import(self, flags: Options, *args_list: str) -> None:
         """

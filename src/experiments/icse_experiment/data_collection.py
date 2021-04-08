@@ -80,7 +80,7 @@ class DataCollector:
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
-                data.to_csv("/app/code/experiments/icse_experiment/data/Optimized.csv")
+                data.to_csv("/app/code/experiments/icse_experiment/data/verify.csv")
 
 
 def main() -> None:
