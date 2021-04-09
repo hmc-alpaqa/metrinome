@@ -160,7 +160,8 @@ def main() -> None:
     src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/" # location of source files to run klee on, end with a slash
     filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest/" # directory to create (if it doesn't exist) and put all results/created files in
                                                                         # end with a slash
-    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
+    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --dump-states-on-halt=false --max-time={var}min {filepath}"
+    # f" --output-dir={output} --max-depth={var} {filepath}"
     # --dump-states-on-halt=false --max-time=5min
     # lambda function to generate klee commands
     # should take in an outpute filepath, a number to vary, and an input filepath
