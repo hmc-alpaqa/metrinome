@@ -10,7 +10,7 @@ from lang_to_cfg.cpp import CPPConvert
 from metric import cyclomatic_complexity, npath_complexity, path_complexity
 from metric.path_complexity import PathComplexityRes
 from utils import Timeout
-from rich.progress import track
+from rich.progress import Progress, BarColumn, TextColumn, TimeElapsedColumn
 
 
 class DataCollector:
@@ -34,32 +34,32 @@ class DataCollector:
                              "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
 
-        for file in track(files, description="Now analyzing your files: "):
-            # self.logger.v_msg(f"Now analyzing {file}")
-            graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            if graphs is None:
-                continue
+        progress = Progress(
+            "[progress.description]{task.description}",
+            BarColumn(),
+            "[progress.percentage]{task.percentage:>3.0f}%",
+            TimeElapsedColumn(),
+        )
+        
+        with progress:
+            for file in progress.track(files, description="Now analyzing your files: "):
+                # self.logger.v_msg(f"Now analyzing {file}")
+                graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
+                if graphs is None:
+                    continue
 
-            for graph in graphs.values():
-                start_time = time.time()
-                apc: Union[str, PathComplexityRes] = "na"
-                npath: Union[str, int] = "na"
-                cyclo: Union[str, int] = "na"
-                ex = False
-                exception_type = "na"
-                runtime = 0.0
-                try:
-                    with Timeout(300):
-                        apc = self.apc_computer.evaluate(graph)
-                        runtime = time.time() - start_time
-                except Exception as exc:
-                    ex = True
-                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
-
-                if not ex:
+                for graph in graphs.values():
+                    start_time = time.time()
+                    apc: Union[str, PathComplexityRes] = "na"
+                    npath: Union[str, int] = "na"
+                    cyclo: Union[str, int] = "na"
+                    ex = False
+                    exception_type = "na"
+                    runtime = 0.0
                     try:
-                        with Timeout(200):
-                            cyclo = self.cyclo_computer.evaluate(graph)
+                        with Timeout(300):
+                            apc = self.apc_computer.evaluate(graph)
+                            runtime = time.time() - start_time
                     except Exception as exc:
                         ex = True
                         exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
@@ -67,16 +67,24 @@ class DataCollector:
                     if not ex:
                         try:
                             with Timeout(200):
-                                npath = self.npath_computer.evaluate(graph)
+                                cyclo = self.cyclo_computer.evaluate(graph)
                         except Exception as exc:
                             ex = True
                             exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "cyclo": cyclo, "npath": npath, "apc_time": runtime,
-                           "num_vertices": graph.graph.num_vertices,
-                           "edge_count": graph.graph.edge_count(), "exception": ex,
-                           "exception_type": exception_type}
+                        if not ex:
+                            try:
+                                with Timeout(200):
+                                    npath = self.npath_computer.evaluate(graph)
+                            except Exception as exc:
+                                ex = True
+                                exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                data = data.append(new_row, ignore_index=True)
-                data.to_csv(f"{self.output_path}.csv")
+                    new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
+                            "cyclo": cyclo, "npath": npath, "apc_time": runtime,
+                            "num_vertices": graph.graph.num_vertices,
+                            "edge_count": graph.graph.edge_count(), "exception": ex,
+                            "exception_type": exception_type}
+
+                    data = data.append(new_row, ignore_index=True)
+                    data.to_csv(f"{self.output_path}.csv")
