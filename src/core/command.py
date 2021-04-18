@@ -23,7 +23,7 @@ from rich.table import Table
 from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
 from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
-                                 NO_FILE_EXT, ReplErrors)
+                                 NO_FILE_EXT, MISSING_OUTPUT_PATH, ReplErrors)
 from core.log import Log, LogLevel
 from experiments.data_collection import DataCollector
 from graph.control_flow_graph import ControlFlowGraph
@@ -191,7 +191,7 @@ class Options:
         "metrics": CmdInfo(1, ReplErrors.GRAPH_NAME),
         "delete": CmdInfo(2, MISSING_TYPE_AND_NAME),
         "export": CmdInfo(2, MISSING_TYPE_AND_NAME),
-        "run_experiment": CmdInfo(2, MISSING_FILENAME),
+        "run_experiment": CmdInfo(2, MISSING_OUTPUT_PATH),
         "quit": CmdInfo(0, ReplErrors.NO_ARGS),
         "cd": CmdInfo(1, MISSING_NAME),
         "ls": CmdInfo(0, ReplErrors.CANNOT_ACCEPT_ARGS),
