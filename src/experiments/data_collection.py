@@ -10,6 +10,7 @@ from lang_to_cfg.cpp import CPPConvert
 from metric import cyclomatic_complexity, npath_complexity, path_complexity
 from metric.path_complexity import PathComplexityRes
 from utils import Timeout
+from rich.progress import track
 
 
 class DataCollector:
@@ -33,8 +34,8 @@ class DataCollector:
                              "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
 
-        for file in files:
-            self.logger.v_msg(f"Now analyzing {file}")
+        for file in track(files, description="Now analyzing your files: "):
+            # self.logger.v_msg(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
             if graphs is None:
                 continue
