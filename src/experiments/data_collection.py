@@ -4,13 +4,13 @@ import time
 from typing import Union
 
 import pandas as pd  # type: ignore
+from rich.progress import Progress, BarColumn, TimeElapsedColumn
 
 from core.log import Log
 from lang_to_cfg.cpp import CPPConvert
 from metric import cyclomatic_complexity, npath_complexity, path_complexity
 from metric.path_complexity import PathComplexityRes
 from utils import Timeout
-from rich.progress import Progress, BarColumn, TextColumn, TimeElapsedColumn
 
 
 class DataCollector:
@@ -40,7 +40,7 @@ class DataCollector:
             "[progress.percentage]{task.percentage:>3.0f}%",
             TimeElapsedColumn(),
         )
-        
+
         with progress:
             for file in progress.track(files, description="Now analyzing your files: "):
                 # self.logger.v_msg(f"Now analyzing {file}")
@@ -81,10 +81,10 @@ class DataCollector:
                                 exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                     new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                            "cyclo": cyclo, "npath": npath, "apc_time": runtime,
-                            "num_vertices": graph.graph.num_vertices,
-                            "edge_count": graph.graph.edge_count(), "exception": ex,
-                            "exception_type": exception_type}
+                               "cyclo": cyclo, "npath": npath, "apc_time": runtime,
+                               "num_vertices": graph.graph.num_vertices,
+                               "edge_count": graph.graph.edge_count(), "exception": ex,
+                               "exception_type": exception_type}
 
                     data = data.append(new_row, ignore_index=True)
                     data.to_csv(f"{self.output_path}.csv")
