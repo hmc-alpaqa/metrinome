@@ -160,7 +160,7 @@ def main() -> None:
     src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/" # location of source files to run klee on, end with a slash
     filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest/" # directory to create (if it doesn't exist) and put all results/created files in
                                                                         # end with a slash
-    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --dump-states-on-halt=false --max-time={var}min {filepath}"
+    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
     # f" --output-dir={output} --max-depth={var} {filepath}"
     # --dump-states-on-halt=false --max-time=5min
     # lambda function to generate klee commands
@@ -175,11 +175,12 @@ def main() -> None:
     # functions = ['test-01', 'test-02', 'test-03', 'test-04', 'test-05', 'test-06', 'test-07', 'test-08', 'test-09', 'test-10', 'test-11',
     # 'test-12', 'test-20-un-inlined', 'test-21-un-inlined', 'test-22-un-inlined', 'test-23-un-inlined', 'test-24-un-inlined', 'test-25-un-inlined',
     # 'test-30-un-inlined', 'test-31-un-inlined', 'test-32-un-inlined', 'test-33-un-inlined', 'test-34-un-inlined', 'test-35-un-inlined',
-    # 'test-36-un-inlined', 'test-37-un-inlined', 'test-38-un-inlined', 'test-39-un-inlined', 'test-40-un-inlined'] # all the functions to run klee experimenmts on
+    # 'test-36-un-inlined', 'test-37-un-inlined', 'test-38-un-inlined', 'test-39-un-inlined', 'test-40-un-inlined'] # all the functions to run klee experiments on
     functions = ['02_fib_no_helper', '04_mincoins_no_helper', '05_nCr_no_helper', '06_binarysearch_no_helper', '07_bubblesort_no_helper', '08_selectionsort_no_helper',
     '09_insertionsort_no_helper', '11_deletevowels_no_helper', '12_deleteword_no_helper', '14_sortascending_no_helper', '15_maxarray_no_helper', '16_printprimes_no_helper',
-    '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper', '19_binarytogray_no_helper', '22_edit_dist_no_helper', '23_mergesort_no_helper', '24_longest_common_increasing_subsequence_no_helper']
-
+    '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper',
+    '19_binarytogray_no_helper', '22_edit_dist_no_helper', '23_mergesort_no_helper', '24_longest_common_increasing_subsequence_no_helper']
+    functions = ['08_selectionsort_no_helper', 'selectionsort']
     labels = ["normal"] # the labels for the different "compilation methods"
     # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
     #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
