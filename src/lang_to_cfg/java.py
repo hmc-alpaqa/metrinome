@@ -32,7 +32,7 @@ class JavaConvert(converter.ConverterAbstract):
     # pylint: disable=R0201
     def to_graph(self, filename: str, file_extension: str) -> Optional[dict[str, ControlFlowGraph]]:
         """Create a CFG from a Java source file."""
-        Env.clean_temps()
+        #Env.clean_temps()
 
         check_ending = filename.endswith('sources') or filename.endswith('javadoc') or \
             filename.endswith('tests')
@@ -49,12 +49,12 @@ class JavaConvert(converter.ConverterAbstract):
             path = f"{self._output_folder}/tmp/*.dot"
 
         if file_extension == ".java":
-            self.runcmd(f"javac {fname} -d {self._input_folder}")
+            self.runcmd(f"javac {fname} -source 1.7 -target 1.7 -d {self._input_folder}")
             name = os.path.basename(filename)
             fname = f"{self._input_folder}/{name}.class"
 
         output_path = Env.get_output_path(fname)
-        cmd = f"java -jar {Env.CFG_EXTRACTOR_JAR} -i {fname} -o {output_path}"
+        cmd = f"java -cp {Env.CFG_EXTRACTOR_JAR} extractor.Extractor -i {fname} -o {output_path}"
         if (err := self.runcmd(cmd, cwd="/app/code")[1]) is not None:
             error = str(err)
             if "FileNotFoundException" in error:
