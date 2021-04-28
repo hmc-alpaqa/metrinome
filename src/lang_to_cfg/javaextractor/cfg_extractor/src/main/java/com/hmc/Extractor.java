@@ -1,23 +1,22 @@
 package com.hmc;
-
-import com.hmc.analysis.CFGClassVisitor;
-import org.apache.commons.cli.HelpFormatter;
-
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import java.io.IOException;
+import org.apache.commons.cli.HelpFormatter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.ClassReader;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
-import java.io.File;
 
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
+import com.hmc.analysis.CFGClassVisitor;
+
 
 public class Extractor
 {
@@ -90,8 +89,8 @@ public class Extractor
         // Create CFG for each of the files in the list.
         for (final File classFile : classFiles) {
             try {
-            	byte[] yeaj = FileUtils.readFileToByteArray(classFile);
-                final ClassReader cr = new ClassReader(yeaj);
+            	byte[] byteArray = FileUtils.readFileToByteArray(classFile);
+                final ClassReader cr = new ClassReader(byteArray);
                 final ClassWriter cw = new ClassWriter(1);
                 ClassVisitor cv = new CFGClassVisitor(cw);
                 cr.accept(cv, 0);
