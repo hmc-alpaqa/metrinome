@@ -21,7 +21,7 @@ class Metadata:
     def __init__(self, *options: Option):
         """Create a new metadata object."""
         self.loc: Optional[int] = None
-        self.calls: dict[int, str] = {}
+        self.calls: Optional[dict[int, str]] = None
         self.language: Optional[KnownExtensions] = None
 
         for opt in options:
@@ -29,7 +29,13 @@ class Metadata:
 
     def __str__(self) -> str:
         """Return metadata as string."""
-        return f"Lines of code: {self.loc}, Calls: {self.calls}"
+        out = ""
+        if self.loc is not None:
+            out += f"Lines of code: {self.loc} "
+        if self.calls is not None:
+            out += f"Calls: {self.calls}"
+        return out
+
 
     def rich_repr(self) -> List[str]:
         """Returns a list of rows that can be used to represent the graph in Rich."""
