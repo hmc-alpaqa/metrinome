@@ -24,7 +24,7 @@ from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
 from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
-from core.log import Log, LogLevel
+from core.log import Log, LogLevel, Colors
 from experiments.data_collection import DataCollector
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
@@ -733,7 +733,7 @@ class Command:
                         -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {file.name}"
                 res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
                 self.data.bc_files[f_name] = res.stdout
-                self.logger.v_msg(f"Created {f_name}")
+                self.logger.v_msg(f"Created {Colors.MAGENTA}{f_name}{Colors.ENDC}")
 
     def do_to_klee_format(self, flags: Options, file_path: str) -> None:
         """
@@ -745,7 +745,7 @@ class Command:
         self.logger.d_msg(f"Recursive Mode is {flags.recursive_mode}")
         files = self.get_files(file_path, flags.recursive_mode, [".c"])
         if len(files) == 0:
-            self.logger.v_msg(f"Could not find any files for {file_path}")
+            self.logger.v_msg(f"Could not find any files for {Colors.MAGENTA}{file_path}{Colors.MAGENTA}")
             return
 
         self.logger.d_msg(f"Got files {files}")
@@ -754,7 +754,7 @@ class Command:
                 return
             self.data.klee_formatted_files = {**self.data.klee_formatted_files,
                                               **klee_formatted_files}
-            self.logger.v_msg(f"Created {' '.join(list(klee_formatted_files.keys()))}")
+            self.logger.v_msg(f"Created {Colors.MAGENTA}{' '.join(list(klee_formatted_files.keys()))}{Colors.ENDC}")
 
     def klee_output_indices(self, klee_output: str) -> tuple[int, int, int]:
         """Get the indicies of statistics we care about in the Klee output string."""

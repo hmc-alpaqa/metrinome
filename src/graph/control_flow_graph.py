@@ -31,6 +31,10 @@ class Metadata:
         """Return metadata as string."""
         return f"Lines of code: {self.loc}, Calls: {self.calls}"
 
+    def rich_repr(self) -> List[str]:
+        """Returns a list of rows that can be used to represent the graph in Rich."""
+        return [("Metadata", self.__str__)]
+
     @staticmethod
     def with_loc(loc: int) -> Option:
         """Set number of lines of code in metadata."""
@@ -86,6 +90,11 @@ class ControlFlowGraph:
             return str(self.metadata) + "\n" + str(self.graph)
 
         return str(self.graph)
+
+    def rich_repr(self) -> List[str]:
+        """Returns a list of rows that can be used to represent the graph in Rich."""
+        return self.metadata.rich_repr() + self.graph.rich_repr()
+
 
     @staticmethod
     def check_call(match: Match[str]) -> Optional[dict[int, str]]:

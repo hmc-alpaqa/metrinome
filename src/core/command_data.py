@@ -9,7 +9,7 @@ from typing import Optional, Union, cast
 from rich.console import Console
 from rich.table import Table
 
-from core.log import Log
+from core.log import Log, Colors
 from graph.control_flow_graph import ControlFlowGraph
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
@@ -208,9 +208,18 @@ class Data:
 
         for graph_name in names:
             if graph_name in self.graphs:
-                self.logger.v_msg(str(self.graphs[graph_name]))
+                if self.rich:
+                    rows = self.graphs[graph_name].rich_repr()
+                    table = Table(title=f"Graph {graph_name}")
+                    table.add_column("Graph Property")
+                    table.add_column("Value")
+                    for row in rows:
+                        table.add_row(row)
+                    Console().print(table)
+                else:
+                    self.logger.v_msg(str(self.graphs[graph_name]))
             else:
-                self.logger.v_msg(f"Graph {graph_name} not found.")
+                self.logger.v_msg(f"Graph {Colors.MAGENTA}{graph_name}{Colors.ENDC} not found.")
 
     def show_metric(self, name: str, names: list[str]) -> None:
         """Display a metric we know about to the REPL."""
@@ -244,8 +253,7 @@ class Data:
                             self.logger.v_msg(metric_data[0], str(metric_data[1]))
 
                 if self.rich:
-                    console = Console()
-                    console.print(table)
+                    Console().print(table)
 
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
@@ -277,8 +285,18 @@ class Data:
 
         for klee_stats_name in names:
             if klee_stats_name in self.klee_stats:
-                self.logger.i_msg("KLEE STATS:")
-                self.logger.v_msg(str(self.klee_stats[klee_stats_name]))
+                if self.rich:
+                    klee_stat = self.klee_stats[klee_stats_name]
+                    table = Table(title=f"Klee Stat {klee_stats_name}")
+                    table.add_column("Property", style="cyan")
+                    table.add_column("Value", style="magenta", no_wrap=False)
+                    for field in klee_stat._fields:
+                        table.add_row(field, klee_stat[field])
+                    Console().print(table)
+
+                else:
+                    self.logger.i_msg("KLEE STATS:")
+                    self.logger.v_msg(str(self.klee_stats[klee_stats_name]))
 
     def show_klee(self, names: list[str]) -> None:
         """Display Klee files or .bc files we know about to the REPL."""
