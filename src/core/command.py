@@ -754,7 +754,8 @@ class Command:
                 return
             self.data.klee_formatted_files = {**self.data.klee_formatted_files,
                                               **klee_formatted_files}
-            self.logger.v_msg(f"Created {Colors.MAGENTA.value}{' '.join(list(klee_formatted_files.keys()))}{Colors.ENDC.value}")
+            log_str = f"Created {Colors.MAGENTA.value}{' '.join(list(klee_formatted_files.keys()))}{Colors.ENDC.value}"
+            self.logger.v_msg(log_str)
 
     def klee_output_indices(self, klee_output: str) -> tuple[int, int, int]:
         """Get the indicies of statistics we care about in the Klee output string."""
