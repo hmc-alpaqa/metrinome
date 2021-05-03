@@ -182,7 +182,7 @@ class ControlFlowGraph:
             for func2 in graphs:
                 if calls_function(graphs[func1].metadata.calls, func2):
                     calls_list.append([func1, func2])
-                if graphs[func2].metadata.calls == {}:
+                if graphs[func2].metadata.calls is None:
                     simple_funcs.append(func2)
         return calls_list, simple_funcs
 
@@ -248,11 +248,12 @@ class ControlFlowGraph:
         stitched_graph = EdgeListGraph(edges_1, len(vertices))
 
         new_calls = {}
-        for vertex in cfg1.metadata.calls.keys():
-            if vertex > node:
-                new_calls[vertex + shift] = cfg1.metadata.calls[vertex]
-            else:
-                new_calls[vertex] = cfg1.metadata.calls[vertex]
+        if cfg1.metadata.calls is not None:
+            for vertex in cfg1.metadata.calls.keys():
+                if vertex > node:
+                    new_calls[vertex + shift] = cfg1.metadata.calls[vertex]
+                else:
+                    new_calls[vertex] = cfg1.metadata.calls[vertex]
 
         return ControlFlowGraph(stitched_graph, Metadata(Metadata.with_calls(new_calls)))
 
