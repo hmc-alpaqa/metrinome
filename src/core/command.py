@@ -24,7 +24,7 @@ from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
 from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
-from core.log import Log, LogLevel, Colors
+from core.log import Colors, Log, LogLevel
 from experiments.data_collection import DataCollector
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic

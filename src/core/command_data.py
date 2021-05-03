@@ -5,11 +5,12 @@ import os
 from collections import namedtuple
 from enum import Enum
 from typing import Optional, Union, cast
+
 import pandas as pd
 from rich.console import Console
 from rich.table import Table
 
-from core.log import Log, Colors
+from core.log import Colors, Log
 from graph.control_flow_graph import ControlFlowGraph
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
