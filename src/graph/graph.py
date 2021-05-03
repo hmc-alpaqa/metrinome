@@ -183,14 +183,14 @@ class GenericGraph(Graph, Generic[Type], ABC):
 
         return out
 
-    def rich_repr(self) -> list[str]:
+    def rich_repr(self) -> list[list[[str]]]:
         """Returns a list of rows that can be used to construct a table representation in Rich."""
         return [
-            ("Edges", self.edge_rules()),
-            ("Total Edges", self.edge_count()),
-            ("Vertices", self.vertices())
-            ("Start Node", self.start_node)
-            ("End Node", self.end_node)
+            ["Edges", str(self.edge_rules())],
+            ["Total Edges", str(self.edge_count())],
+            ["Vertices", str(self.vertices())],
+            ["Start Node", str(self.start_node)],
+            ["End Node", str(self.end_node)]
         ]
 
 

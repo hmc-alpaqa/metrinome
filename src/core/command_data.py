@@ -215,10 +215,10 @@ class Data:
                 if self.rich:
                     rows = self.graphs[graph_name].rich_repr()
                     table = Table(title=f"Graph {graph_name}")
-                    table.add_column("Graph Property")
-                    table.add_column("Value")
+                    table.add_column("Graph Property",style="cyan")
+                    table.add_column("Value",style="magenta")
                     for row in rows:
-                        table.add_row(row)
+                        table.add_row(*row)
                     Console().print(table)
                 else:
                     self.logger.v_msg(str(self.graphs[graph_name]))
@@ -295,7 +295,7 @@ class Data:
                     table.add_column("Property", style="cyan")
                     table.add_column("Value", style="magenta", no_wrap=False)
                     for field in klee_stat._fields:
-                        table.add_row(field, klee_stat[field])
+                        table.add_row(field, str(getattr(klee_stat, field)))
                     Console().print(table)
 
                 else:

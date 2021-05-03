@@ -733,7 +733,7 @@ class Command:
                         -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {file.name}"
                 res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
                 self.data.bc_files[f_name] = res.stdout
-                self.logger.v_msg(f"Created {Colors.MAGENTA}{f_name}{Colors.ENDC}")
+                self.logger.v_msg(f"Created {Colors.MAGENTA.value}{f_name}{Colors.ENDC.value}")
 
     def do_to_klee_format(self, flags: Options, file_path: str) -> None:
         """
@@ -745,7 +745,7 @@ class Command:
         self.logger.d_msg(f"Recursive Mode is {flags.recursive_mode}")
         files = self.get_files(file_path, flags.recursive_mode, [".c"])
         if len(files) == 0:
-            self.logger.v_msg(f"Could not find any files for {Colors.MAGENTA}{file_path}{Colors.MAGENTA}")
+            self.logger.v_msg(f"Could not find any files for {Colors.MAGENTA.value}{file_path}{Colors.MAGENTA.value}")
             return
 
         self.logger.d_msg(f"Got files {files}")
@@ -754,7 +754,7 @@ class Command:
                 return
             self.data.klee_formatted_files = {**self.data.klee_formatted_files,
                                               **klee_formatted_files}
-            self.logger.v_msg(f"Created {Colors.MAGENTA}{' '.join(list(klee_formatted_files.keys()))}{Colors.ENDC}")
+            self.logger.v_msg(f"Created {Colors.MAGENTA.value}{' '.join(list(klee_formatted_files.keys()))}{Colors.ENDC.value}")
 
     def klee_output_indices(self, klee_output: str) -> tuple[int, int, int]:
         """Get the indicies of statistics we care about in the Klee output string."""
