@@ -6,7 +6,7 @@ from collections import namedtuple
 from enum import Enum
 from typing import Optional, Union, cast
 
-import pandas as pd
+import pandas as pd  # type: ignore
 from rich.console import Console
 from rich.table import Table
 
@@ -74,15 +74,15 @@ class Data:
                 self.logger.i_msg(f"Made file {new_name}_metrics in /app/code/exports/")
         elif name == "*":
             data = pd.DataFrame({"graph_name": [], "apc": [],
-                             "cyclo": [], "npath": []})
-            for m_name in self.metrics:                
+                                 "cyclo": [], "npath": []})
+            for m_name in self.metrics:
                 metric_value = self.metrics[m_name]
-                new_row: dict = {"graph_name": m_name, "apc": metric_value[2][1],
-                             "cyclo": metric_value[0][1], "npath": metric_value[1][1]}
+                new_row = {"graph_name": m_name, "apc": metric_value[2][1],
+                           "cyclo": metric_value[0][1], "npath": metric_value[1][1]}
                 data = data.append(new_row, ignore_index=True)
-            
+
             data.to_csv("/app/code/exports/metrics.csv")
-            self.logger.i_msg(f"Made file metrics.csv in /app/code/exports/")
+            self.logger.i_msg("Made file metrics.csv in /app/code/exports/")
         else:
             self.logger.e_msg(f"{str(ObjTypes.METRIC).capitalize()} {name} not found.")
 
@@ -216,8 +216,8 @@ class Data:
                 if self.rich:
                     rows = self.graphs[graph_name].rich_repr()
                     table = Table(title=f"Graph {graph_name}")
-                    table.add_column("Graph Property",style="cyan")
-                    table.add_column("Value",style="magenta")
+                    table.add_column("Graph Property", style="cyan")
+                    table.add_column("Value", style="magenta")
                     for row in rows:
                         table.add_row(*row)
                     Console().print(table)

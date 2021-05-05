@@ -101,8 +101,8 @@ class Graph(ABC):
         """
 
     @abstractmethod
-    def rich_repr(self) -> list[str]:
-        """Returns a list of rows that can be used to construct a table representation in Rich."""
+    def rich_repr(self) -> list[list[str]]:
+        """Return a list of rows that can be used to construct a table representation in Rich."""
 
 
 class GenericGraph(Graph, Generic[Type], ABC):
@@ -183,8 +183,8 @@ class GenericGraph(Graph, Generic[Type], ABC):
 
         return out
 
-    def rich_repr(self) -> list[list[[str]]]:
-        """Returns a list of rows that can be used to construct a table representation in Rich."""
+    def rich_repr(self) -> list[list[str]]:
+        """Return a list of rows that can be used to construct a table representation in Rich."""
         return [
             ["Edges", str(self.edge_rules())],
             ["Total Edges", str(self.edge_count())],
