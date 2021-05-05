@@ -113,7 +113,7 @@ class NPathComplexity(metric.MetricAbstract):
         graph = cfg.graph
         if isinstance(graph, AdjListGraph):
             edges_tuple = tuple(tuple(edges) for edges in graph.edges)
-            return int(self.npath_adj_list(graph.start_node, graph.end_node, edges_tuple))
+            return int(self.npath_dfs(graph.start_node, graph.end_node, edges_tuple))
 
         if isinstance(graph, AdjMatGraph):
             return int(self.npath_adj_matrix(graph.adjacency_matrix(), graph.start_node,
