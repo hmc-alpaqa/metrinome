@@ -154,7 +154,7 @@ def show_func_defs(filename: str) -> Dict[str, str]:
     return names
 
 
-def calls_function(calls_dict: Optional[dict[int, str]], function_cfg: str) -> list[int]:
+def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
     """Check if a CFG contains a call to another function."""
     nodes = []
     func_name = os.path.splitext(os.path.splitext(function_cfg)[0])[1][1:]
@@ -167,7 +167,6 @@ def calls_function(calls_dict: Optional[dict[int, str]], function_cfg: str) -> l
             elif calls_dict[node].endswith(func_name):
                 nodes.append(node)
     return nodes
-
 
 class Timeout:
     """
