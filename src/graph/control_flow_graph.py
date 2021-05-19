@@ -39,7 +39,7 @@ class Metadata:
 
     def rich_repr(self) -> List[str]:
         """Returns a list of rows that can be used to represent the graph in Rich."""
-        return [("Metadata", self.__str__)]
+        return [("Metadata", self.__str__())]
 
     @staticmethod
     def with_loc(loc: int) -> Option:
