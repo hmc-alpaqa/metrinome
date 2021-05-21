@@ -9,6 +9,7 @@ import readline
 import subprocess
 import tempfile
 import time
+from collections import defaultdict
 from enum import Enum
 from functools import partial
 from multiprocessing import Manager, Pool
@@ -35,7 +36,8 @@ from utils import Timeout
 
 # Temporarily disable unused arguments due to flags.
 # pylint: disable=unused-argument
-
+PathComplexityRes = tuple[Union[float, str], Union[float, str]]
+MetricRes = Union[int, PathComplexityRes]
 
 class InlineType(Enum):
     """Possible ways to work with inline functions in convert."""
@@ -60,7 +62,8 @@ class Controller:
         pathcomplexity = path_complexity.PathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
 
-        self.metrics_generators: list[metric.MetricAbstract] = [npath]
+        self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
+                                                                pathcomplexity, locs]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -93,12 +96,15 @@ def worker_main(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
         shared_dict[filepath] = graph
 
 
-def worker_main_two(metrics_generator: metric.MetricAbstract,
+def multiprocess_metrics(metrics_generator: metric.MetricAbstract,
                     shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
                     graph: ControlFlowGraph) -> None:
-    """Handle the multiprocessing of convert."""
+    """Handle the multiprocessing of metrics."""
     try:
-        with Timeout(10, "Took too long!"):
+        if metrics_generator.name() == "Lines of Code" and \
+                    graph.metadata.language is not KnownExtensions.Python:
+                        return
+        with Timeout(300, "Took too long!"):
             result = metrics_generator.evaluate(graph)
 
         if graph.name is None:
@@ -110,6 +116,7 @@ def worker_main_two(metrics_generator: metric.MetricAbstract,
         print(err)
     except TimeoutError as err:
         print(err, graph.name, metrics_generator.name())
+
 
 
 class REPLOptions():
@@ -544,10 +551,14 @@ class Command:
         """Compute all of the metrics for some set of graphs using parallelization."""
         pool = Pool(8)
         manager = Manager()
+        results: defaultdict[str, list[(str, MetricRes)]] = defaultdict(list)
         shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
         for metrics_generator in self.controller.metrics_generators:
-            pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
-            self.logger.v_msg(str(shared_dict))
+            pool.map(partial(multiprocess_metrics, metrics_generator, shared_dict), graphs)
+        for (name, metric_generator), res in shared_dict.items():
+            results[name].append((metric_generator, res))
+        self.data.metrics.update(results)
+
 
     def get_metrics_list(self, name: str) -> list[str]:
         """Get the list of metric names from command argument."""
@@ -581,58 +592,61 @@ class Command:
         # pylint: disable=R1702
         # pylint: disable=R0912
         graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
-        for graph in graphs:
-            self.logger.v_msg(f"Computing metrics for {graph.name}")
-            results = []
-            if self.rich:
-                table = Table(title=f"Metrics for {graph.name}")
-                table.add_column("Metric", style="cyan")
-                table.add_column("Result", style="magenta", no_wrap=False)
-                table.add_column("Time Elapsed", style="green")
-            for metric_generator in self.controller.metrics_generators:
-                # Lines of Code is currently only supported in Python.
-                if metric_generator.name() == "Lines of Code" and \
-                   graph.metadata.language is not KnownExtensions.Python:
-                    continue
-                start_time = time.time()
+        if self.multi_threaded:
+            self.do_metrics_multithreaded(graphs)
+        else:
+            for graph in graphs:
+                self.logger.v_msg(f"Computing metrics for {graph.name}")
+                results = []
+                if self.rich:
+                    table = Table(title=f"Metrics for {graph.name}")
+                    table.add_column("Metric", style="cyan")
+                    table.add_column("Result", style="magenta", no_wrap=False)
+                    table.add_column("Time Elapsed", style="green")
+                for metric_generator in self.controller.metrics_generators:
+                    # Lines of Code is currently only supported in Python.
+                    if metric_generator.name() == "Lines of Code" and \
+                    graph.metadata.language is not KnownExtensions.Python:
+                        continue
+                    start_time = time.time()
 
-                try:
-                    with Timeout(6000, "Took too long!"):
-                        result = metric_generator.evaluate(graph)
-                        runtime = time.time() - start_time
-                    if result is not None:
-                        results.append((metric_generator.name(), result))
-                        time_out = f"{runtime:.5f} seconds"
-                        if metric_generator.name() == "Path Complexity":
-                            result_ = cast(tuple[Union[float, str], Union[float, str]],
-                                           result)
-                            path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
+                    try:
+                        with Timeout(6000, "Took too long!"):
+                            result = metric_generator.evaluate(graph)
+                            runtime = time.time() - start_time
+                        if result is not None:
+                            results.append((metric_generator.name(), result))
+                            time_out = f"{runtime:.5f} seconds"
+                            if metric_generator.name() == "Path Complexity":
+                                result_ = cast(tuple[Union[float, str], Union[float, str]],
+                                            result)
+                                path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
 
-                            if self.rich:
-                                table.add_row(metric_generator.name(), path_out, time_out)
+                                if self.rich:
+                                    table.add_row(metric_generator.name(), path_out, time_out)
+                                else:
+                                    self.logger.v_msg(f"Got {path_out}, {time_out}")
                             else:
-                                self.logger.v_msg(f"Got {path_out}, {time_out}")
+                                if self.rich:
+                                    table.add_row(metric_generator.name(), str(result), time_out)
+                                else:
+                                    self.logger.v_msg(f" Got {result}, took {runtime:.3e} seconds")
                         else:
-                            if self.rich:
-                                table.add_row(metric_generator.name(), str(result), time_out)
-                            else:
-                                self.logger.v_msg(f" Got {result}, took {runtime:.3e} seconds")
-                    else:
-                        self.logger.v_msg("Got None")
-                except TimeoutError:
-                    self.logger.e_msg("Timeout!")
-                except IndexError as err:
-                    self.logger.e_msg("Index Error")
-                    self.logger.e_msg(str(err))
-                except numpy.linalg.LinAlgError as err:
-                    self.logger.e_msg("Lin Alg Error")
-                    self.logger.e_msg(str(err))
-            if self.rich:
-                console = Console()
-                console.print(table)
+                            self.logger.v_msg("Got None")
+                    except TimeoutError:
+                        self.logger.e_msg("Timeout!")
+                    except IndexError as err:
+                        self.logger.e_msg("Index Error")
+                        self.logger.e_msg(str(err))
+                    except numpy.linalg.LinAlgError as err:
+                        self.logger.e_msg("Lin Alg Error")
+                        self.logger.e_msg(str(err))
+                if self.rich:
+                    console = Console()
+                    console.print(table)
 
-            if graph.name is not None:
-                self.data.metrics[graph.name] = results
+                if graph.name is not None:
+                    self.data.metrics[graph.name] = results
 
     def log_name(self, name: str) -> bool:
         """Log all objects of a given name."""
