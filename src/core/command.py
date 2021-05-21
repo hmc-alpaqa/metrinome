@@ -60,8 +60,7 @@ class Controller:
         pathcomplexity = path_complexity.PathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
 
-        self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath, 
-                                                                pathcomplexity, locs]
+        self.metrics_generators: list[metric.MetricAbstract] = [npath]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)

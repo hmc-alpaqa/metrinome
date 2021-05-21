@@ -116,38 +116,34 @@ class NPathComplexity(metric.MetricAbstract):
         path = [start]
         node_to_edge_idx: defaultdict[int, list[int]] = defaultdict(list)
         edges_used: set(Tuple[int,int]) = set()
-        iterations = 0
         while True:
-            iterations += 1
-            if iterations%1000 == 0:
-                print(iterations)
             curr_node = path[-1]
             neighbors = edges[curr_node]
             path_updated = False
-            # If unused edge, update path   
+            # If unused edge, update path
             if len(node_to_edge_idx[curr_node]) == 0:
                 possible_backtracked_node_idx = -1
-                possible_backtracked_edge = (-1, -1) 
+                possible_backtracked_edge = (-1, -1)
             else:
                 possible_backtracked_node_idx = node_to_edge_idx[curr_node][-1]
                 possible_backtracked_node = edges[curr_node][possible_backtracked_node_idx]
-                possible_backtracked_edge = (curr_node, possible_backtracked_node) 
-            
+                possible_backtracked_edge = (curr_node, possible_backtracked_node)
+
 
             for neighbor_idx, neighbor in enumerate(neighbors):
-                
+
                 edge_to_use = (curr_node, neighbor)
                 if edge_to_use in edges_used:
                     continue
-                
+
                 if possible_backtracked_edge not in edges_used:
                     if neighbor_idx <= possible_backtracked_node_idx:
                     # Backtracked, but already looked at edge
                         continue
                     if len(node_to_edge_idx[curr_node]) > 0:
                         node_to_edge_idx[curr_node].pop()
-                
-                    
+
+
                 node_to_edge_idx[curr_node].append(neighbor_idx)
                 path.append(neighbor)
                 edges_used.add(edge_to_use)
@@ -156,7 +152,7 @@ class NPathComplexity(metric.MetricAbstract):
 
             if path_updated:
                 continue
-            
+
             # Dead end, backtrack
             path.pop()
             if len(path) == 0:
@@ -175,7 +171,7 @@ class NPathComplexity(metric.MetricAbstract):
         graph = cfg.graph
         if isinstance(graph, AdjListGraph):
             edges_tuple = tuple(tuple(edges) for edges in graph.edges)
-            return int(self.npath_dfs(graph.start_node, graph.end_node, edges_tuple))
+            return int(self.npath_adj_list(graph.start_node, graph.end_node, edges_tuple))
 
         if isinstance(graph, AdjMatGraph):
             return int(self.npath_adj_matrix(graph.adjacency_matrix(), graph.start_node,
