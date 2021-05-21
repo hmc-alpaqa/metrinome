@@ -60,7 +60,8 @@ class Controller:
         pathcomplexity = path_complexity.PathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
 
-        self.metrics_generators: list[metric.MetricAbstract] = [npath]
+        self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath, 
+                                                                pathcomplexity, locs]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -506,7 +507,7 @@ class Command:
             names = [graph.name for graph in graphs]
             self.logger.v_msg(f"Created graph objects "
                                f"{Colors.MAGENTA.value}{' '.join(names)}{Colors.ENDC.value}")
-            
+
 
     def do_list(self, flags: Options, list_typename: str) -> None:
         """
