@@ -60,8 +60,7 @@ class Controller:
         pathcomplexity = path_complexity.PathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
 
-        self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity, locs]
+        self.metrics_generators: list[metric.MetricAbstract] = [npath]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -455,7 +454,8 @@ class Command:
                     if graph == {}:
                         self.logger.v_msg("Converted without errors, but no graphs created.")
                     else:
-                        self.logger.v_msg(f"Created graph objects {' '.join(list(graph.keys()))}")
+                        self.logger.v_msg(f"Created graph objects {Colors.MAGENTA.value}"
+                                           f"{' '.join(list(graph.keys()))}{Colors.ENDC.value}")
                         self.data.graphs.update(graph)
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
@@ -497,14 +497,16 @@ class Command:
             pool.map(partial(worker_main, shared_dict), all_files)
             self.data.graphs.update(shared_dict)
         else:
+            graphs = []
             for file in all_files:
                 filepath, _ = os.path.splitext(file)
                 graph = ControlFlowGraph.from_file(file)
-                self.logger.v_msg(str(graph))
-                if isinstance(graph, dict):
-                    self.data.graphs.update(graph)
-                else:
-                    self.data.graphs[filepath] = graph
+                graphs.append(graph)
+                self.data.graphs[filepath] = graph
+            names = [graph.name for graph in graphs]
+            self.logger.v_msg(f"Created graph objects "
+                               f"{Colors.MAGENTA.value}{' '.join(names)}{Colors.ENDC.value}")
+            
 
     def do_list(self, flags: Options, list_typename: str) -> None:
         """

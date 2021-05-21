@@ -182,7 +182,7 @@ class ControlFlowGraph:
             for func2 in graphs:
                 if calls_function(graphs[func1].metadata.calls, func2):
                     calls_list.append([func1, func2])
-                if graphs[func2].metadata.calls is None:
+                if graphs[func2].metadata.calls is None or graphs[func2].metadata.calls == {}:
                     simple_funcs.append(func2)
         return calls_list, simple_funcs
 

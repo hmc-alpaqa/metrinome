@@ -116,9 +116,12 @@ class NPathComplexity(metric.MetricAbstract):
         path = [start]
         node_to_edge_idx: defaultdict[int, list[int]] = defaultdict(list)
         edges_used: set(Tuple[int,int]) = set()
+        iterations = 0
         while True:
+            iterations += 1
+            if iterations%1000 == 0:
+                print(iterations)
             curr_node = path[-1]
-            
             neighbors = edges[curr_node]
             path_updated = False
             # If unused edge, update path   
@@ -161,10 +164,11 @@ class NPathComplexity(metric.MetricAbstract):
             edges_used.remove((path[-1], curr_node))
             if curr_node == end:
                 npath += 1
-            else:
+            elif possible_backtracked_edge not in edges_used:
                 # remove index from nodetoedgeindex
-                node_to_edge_idx[curr_node].pop()
-           
+                if len(node_to_edge_idx[curr_node]) > 0:
+                    node_to_edge_idx[curr_node].pop()
+
 
     def evaluate(self, cfg: ControlFlowGraph) -> int:
         """Compute the NPath complexity of a function given its CFG."""
