@@ -275,7 +275,7 @@ indent-string='    '
 max-line-length=120
 
 # Maximum number of lines in a module.
-max-module-lines=1000
+max-module-lines=1024
 
 # List of optional constructs for which whitespace checking is disabled. `dict-
 # separator` is used to allow tabulation in dicts, etc.: {1  : 1,\n222: 2}.
@@ -565,7 +565,7 @@ max-bool-expr=5
 max-branches=13
 
 # Maximum number of locals for function / method body.
-max-locals=16
+max-locals=18
 
 # Maximum number of parents for a class (see R0901).
 max-parents=8
@@ -577,7 +577,7 @@ max-public-methods=20
 max-returns=7
 
 # Maximum number of statements in function / method body.
-max-statements=52
+max-statements=60
 
 # Minimum number of public methods for a class (see R0903).
 min-public-methods=2

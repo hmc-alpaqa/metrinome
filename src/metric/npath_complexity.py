@@ -110,12 +110,12 @@ class NPathComplexity(metric.MetricAbstract):
         return total
 
     def npath_dfs(self, start: NodeType, end: NodeType,
-                       edges: AdjList) -> float:
+                  edges: AdjList) -> float:
         """Compute NPath Complexity using a DFS."""
         npath = 0
         path = [start]
         node_to_edge_idx: defaultdict[int, list[int]] = defaultdict(list)
-        edges_used: set(Tuple[int,int]) = set()
+        edges_used: set[Tuple[int, int]] = set()
         while True:
             curr_node = path[-1]
             neighbors = edges[curr_node]
@@ -129,7 +129,6 @@ class NPathComplexity(metric.MetricAbstract):
                 possible_backtracked_node = edges[curr_node][possible_backtracked_node_idx]
                 possible_backtracked_edge = (curr_node, possible_backtracked_node)
 
-
             for neighbor_idx, neighbor in enumerate(neighbors):
 
                 edge_to_use = (curr_node, neighbor)
@@ -138,11 +137,10 @@ class NPathComplexity(metric.MetricAbstract):
 
                 if possible_backtracked_edge not in edges_used:
                     if neighbor_idx <= possible_backtracked_node_idx:
-                    # Backtracked, but already looked at edge
+                        # Backtracked, but already looked at edge
                         continue
                     if len(node_to_edge_idx[curr_node]) > 0:
                         node_to_edge_idx[curr_node].pop()
-
 
                 node_to_edge_idx[curr_node].append(neighbor_idx)
                 path.append(neighbor)
@@ -164,7 +162,6 @@ class NPathComplexity(metric.MetricAbstract):
                 # remove index from nodetoedgeindex
                 if len(node_to_edge_idx[curr_node]) > 0:
                     node_to_edge_idx[curr_node].pop()
-
 
     def evaluate(self, cfg: ControlFlowGraph) -> int:
         """Compute the NPath complexity of a function given its CFG."""

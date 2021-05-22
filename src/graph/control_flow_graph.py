@@ -36,10 +36,9 @@ class Metadata:
             out += f"Calls: {self.calls}"
         return out
 
-
-    def rich_repr(self) -> List[str]:
-        """Returns a list of rows that can be used to represent the graph in Rich."""
-        return [("Metadata", self.__str__())]
+    def rich_repr(self) -> list[list[str]]:
+        """Return a list of rows that can be used to represent the graph in Rich."""
+        return [["Metadata", self.__str__()]]
 
     @staticmethod
     def with_loc(loc: int) -> Option:
@@ -97,10 +96,9 @@ class ControlFlowGraph:
 
         return str(self.graph)
 
-    def rich_repr(self) -> List[str]:
-        """Returns a list of rows that can be used to represent the graph in Rich."""
+    def rich_repr(self) -> list[list[str]]:
+        """Return a list of rows that can be used to represent the graph in Rich."""
         return self.metadata.rich_repr() + self.graph.rich_repr()
-
 
     @staticmethod
     def check_call(match: Match[str]) -> Optional[dict[int, str]]:
@@ -209,7 +207,8 @@ class ControlFlowGraph:
                     )):
                         cfg1, cfg2 = graphs[func_pair[0]], graphs[func_pair[1]]
                         node = calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])[0]
-                        cfg1.metadata.calls.pop(node)
+                        if cfg1.metadata.calls is not None:
+                            cfg1.metadata.calls.pop(node)
                         graphs[func_pair[0]] = ControlFlowGraph.compose(cfg1, cfg2, node)
                     calls_list.remove(func_pair)
                     if func_pair[0] not in [i[0] for i in calls_list]:
@@ -223,6 +222,7 @@ class ControlFlowGraph:
                 node: int) -> ControlFlowGraph:
         """
         Create a graph by replacing a node of cfg1 with the graph of cfg2.
+
         The new CFG generated will have the proper function call metadata based on cfg1 and cfg2.
         """
         shift = cfg2.graph.num_vertices - 1

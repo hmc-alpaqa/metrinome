@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import os.path
+import random
 import re
 import readline
 import subprocess
@@ -13,7 +14,7 @@ from collections import defaultdict
 from enum import Enum
 from functools import partial
 from multiprocessing import Manager, Pool
-from os import listdir
+from os import getpid, listdir  # pylint: disable=unused-import
 from pathlib import Path
 from typing import Iterable, Optional, Union, cast
 
@@ -21,7 +22,7 @@ import numpy  # type: ignore
 from rich.console import Console
 from rich.table import Table
 
-from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
+from core.command_data import AnyDict, Data, MetricRes, ObjTypes, PathComplexityRes
 from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
@@ -36,8 +37,7 @@ from utils import Timeout
 
 # Temporarily disable unused arguments due to flags.
 # pylint: disable=unused-argument
-PathComplexityRes = tuple[Union[float, str], Union[float, str]]
-MetricRes = Union[int, PathComplexityRes]
+
 
 class InlineType(Enum):
     """Possible ways to work with inline functions in convert."""
@@ -86,7 +86,7 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
+def multiprocess_import(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
     """Handle the multiprocessing of import."""
     graph = ControlFlowGraph.from_file(file)
     if isinstance(graph, dict):
@@ -97,14 +97,16 @@ def worker_main(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
 
 
 def multiprocess_metrics(metrics_generator: metric.MetricAbstract,
-                    shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
-                    graph: ControlFlowGraph) -> None:
+                         shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
+                         graph: ControlFlowGraph) -> None:
     """Handle the multiprocessing of metrics."""
     try:
         if metrics_generator.name() == "Lines of Code" and \
-                    graph.metadata.language is not KnownExtensions.Python:
-                        return
-        with Timeout(300, "Took too long!"):
+           graph.metadata.language is not KnownExtensions.Python:
+            return
+
+        print(f"Getting {metrics_generator.name()} for graph {graph.name} on process {os.getpid()}.")
+        with Timeout(180, "Took too long!"):
             result = metrics_generator.evaluate(graph)
 
         if graph.name is None:
@@ -116,7 +118,7 @@ def multiprocess_metrics(metrics_generator: metric.MetricAbstract,
         print(err)
     except TimeoutError as err:
         print(err, graph.name, metrics_generator.name())
-
+        shared_dict[(graph.name, metrics_generator.name())] = ("NA", "Timeout")
 
 
 class REPLOptions():
@@ -462,7 +464,7 @@ class Command:
                         self.logger.v_msg("Converted without errors, but no graphs created.")
                     else:
                         self.logger.v_msg(f"Created graph objects {Colors.MAGENTA.value}"
-                                           f"{' '.join(list(graph.keys()))}{Colors.ENDC.value}")
+                                          f"{' '.join(list(graph.keys()))}{Colors.ENDC.value}")
                         self.data.graphs.update(graph)
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
@@ -501,7 +503,9 @@ class Command:
             manager = Manager()
             shared_dict: dict[str, ControlFlowGraph] = manager.dict()
             pool = Pool(8)
-            pool.map(partial(worker_main, shared_dict), all_files)
+            pool.map(partial(multiprocess_import, shared_dict), all_files)
+            self.logger.v_msg(f"Created graph objects "
+                              f"{Colors.MAGENTA.value}{' '.join(shared_dict.keys())}{Colors.ENDC.value}")
             self.data.graphs.update(shared_dict)
         else:
             graphs = []
@@ -512,8 +516,7 @@ class Command:
                 self.data.graphs[filepath] = graph
             names = [graph.name for graph in graphs]
             self.logger.v_msg(f"Created graph objects "
-                               f"{Colors.MAGENTA.value}{' '.join(names)}{Colors.ENDC.value}")
-
+                              f"{Colors.MAGENTA.value}{' '.join(names)}{Colors.ENDC.value}")
 
     def do_list(self, flags: Options, list_typename: str) -> None:
         """
@@ -547,18 +550,21 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
-    def do_metrics_multithreaded(self, graphs: list[ControlFlowGraph]) -> None:
+    def do_metrics_multithreaded(self, cfgs: list[ControlFlowGraph]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
         pool = Pool(8)
+        random.shuffle(cfgs)
         manager = Manager()
-        results: defaultdict[str, list[(str, MetricRes)]] = defaultdict(list)
+        results: defaultdict[str, list[tuple[str, MetricRes]]] = defaultdict(list)
         shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
-        for metrics_generator in self.controller.metrics_generators:
-            pool.map(partial(multiprocess_metrics, metrics_generator, shared_dict), graphs)
+        async_results = []
+        for metrics_generator in self.controller.metrics_generators[::-1]:
+            async_res = pool.map_async(partial(multiprocess_metrics, metrics_generator, shared_dict), cfgs)
+            async_results.append(async_res)
+        list(map(lambda x: x.wait(), async_results))
         for (name, metric_generator), res in shared_dict.items():
             results[name].append((metric_generator, res))
         self.data.metrics.update(results)
-
 
     def get_metrics_list(self, name: str) -> list[str]:
         """Get the list of metric names from command argument."""
@@ -593,7 +599,10 @@ class Command:
         # pylint: disable=R0912
         graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
         if self.multi_threaded:
+            start_time = time.time()
             self.do_metrics_multithreaded(graphs)
+            elapsed = time.time() - start_time
+            print(f"TIME ELAPSED: {elapsed}")
         else:
             for graph in graphs:
                 self.logger.v_msg(f"Computing metrics for {graph.name}")
@@ -606,7 +615,7 @@ class Command:
                 for metric_generator in self.controller.metrics_generators:
                     # Lines of Code is currently only supported in Python.
                     if metric_generator.name() == "Lines of Code" and \
-                    graph.metadata.language is not KnownExtensions.Python:
+                       graph.metadata.language is not KnownExtensions.Python:
                         continue
                     start_time = time.time()
 
@@ -619,7 +628,7 @@ class Command:
                             time_out = f"{runtime:.5f} seconds"
                             if metric_generator.name() == "Path Complexity":
                                 result_ = cast(tuple[Union[float, str], Union[float, str]],
-                                            result)
+                                               result)
                                 path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
 
                                 if self.rich:

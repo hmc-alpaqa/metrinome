@@ -250,7 +250,7 @@ def main() -> None:
                         action='store_true', default=False,
                         help='Turn off rich for simplicity\'s sake.')
     parser.add_argument('--multi-threaded', dest="multi_threaded", action='store_true', default=False,
-                         help="Turn this on to speed up REPL functions through parallelism.")
+                        help="Turn this on to speed up REPL functions through parallelism.")
     parsed_args = parser.parse_args()
 
     logging.basicConfig(filename='repl_log.log', level=logging.DEBUG)
