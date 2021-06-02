@@ -1,0 +1,7 @@
+Release index: 5
+Release type: major-release
+Release content: checkstyle-6.10
+Release git hash: f72624c920793281b92bc557d126524f1e57293e
+Commits: 1868
+Buggy commits: 1509
+Methods: 5900

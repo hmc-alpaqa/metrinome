@@ -13,11 +13,12 @@ import time
 from collections import defaultdict
 from enum import Enum
 from functools import partial
-from multiprocessing import Manager, Pool
+from multiprocessing import Manager, Pool, Lock
 from os import getpid, listdir  # pylint: disable=unused-import
 from pathlib import Path
+from queue import Queue
 from typing import Iterable, Optional, Union, cast
-
+from pandas import read_csv
 import numpy  # type: ignore
 from rich.console import Console
 from rich.table import Table
@@ -28,6 +29,7 @@ from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISS
                                  NO_FILE_EXT, ReplErrors)
 from core.log import Colors, Log, LogLevel
 from experiments.data_collection import DataCollector
+
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
@@ -95,31 +97,45 @@ def multiprocess_import(shared_dict: dict[str, ControlFlowGraph], file: str) -> 
         filepath, _ = os.path.splitext(file)
         shared_dict[filepath] = graph
 
-
-def multiprocess_metrics(metrics_generator: metric.MetricAbstract,
-                         shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
-                         graph: ControlFlowGraph) -> None:
+def multiprocess_metrics(
+    metrics_generators: dict[str, metric.MetricAbstract],
+    shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
+    queue: Queue[ControlFlowGraph],
+    lock: Lock,
+    process_count: int) -> None:
     """Handle the multiprocessing of metrics."""
-    try:
-        if metrics_generator.name() == "Lines of Code" and \
-           graph.metadata.language is not KnownExtensions.Python:
-            return
+    print(f"Starting {process_count}")
+    while True:
+        with lock:
+            if not queue.empty():
+                graph, generator_name = queue.get()
+            else:
+                break
+        metrics_generator = metrics_generators[generator_name]
+        timeout = 1200 if metrics_generator.name() == "Path Complexity" else 180
+        try:
+            if metrics_generator.name() == "Lines of Code" and \
+            graph.metadata.language is not KnownExtensions.Python:
+                continue
 
-        print(f"Getting {metrics_generator.name()} for graph {graph.name} on process {os.getpid()}.")
-        with Timeout(180, "Took too long!"):
-            result = metrics_generator.evaluate(graph)
+            if "$" in graph.name:
+                continue
 
-        if graph.name is None:
-            raise ValueError("No Graph name.")
+            # print(f"Getting {metrics_generator.name()} for graph {graph.name} on process {os.getpid()}.")
+            with Timeout(timeout, "Took too long!"):
+                result = metrics_generator.evaluate(graph)
 
-        shared_dict[(graph.name, metrics_generator.name())] = result
-    except IndexError as err:
-        print(graph)
-        print(err)
-    except TimeoutError as err:
-        print(err, graph.name, metrics_generator.name())
-        shared_dict[(graph.name, metrics_generator.name())] = ("NA", "Timeout")
+            if graph.name is None:
+                raise ValueError("No Graph name.")
 
+            shared_dict[(graph.name, metrics_generator.name())] = result
+        except IndexError as err:
+            print(graph)
+            print(err)
+        except TimeoutError as err:
+            print(err, graph.name, metrics_generator.name())
+            shared_dict[(graph.name, metrics_generator.name())] = ("NA", "Timeout")
+    print(f"Queue {process_count} is done.")
 
 class REPLOptions():
     """Contains options for the REPL such as debug mode."""
@@ -417,6 +433,7 @@ class Command:
         convert <file-like-1> <file-like-2> ... <file-like-n>
         """
         # Iterate through all file-like objects.
+        print(args)
         arguments = args.split(" ")
         args_list, recursive_mode, inline_type, graph_stitching = self.parse_convert_args(arguments)
         if len(args_list) == 0:
@@ -552,16 +569,43 @@ class Command:
 
     def do_metrics_multithreaded(self, cfgs: list[ControlFlowGraph]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
-        pool = Pool(8)
-        random.shuffle(cfgs)
+        pool_size = 8
+        pool = Pool(pool_size)
         manager = Manager()
+        graphQueue = manager.Queue()
+        lock = manager.Lock()
+        v_num = self.data.v_num
+        methods = read_csv(f"/app/code/experiments/checkstyle/vlab/{v_num}_codeMetrics.csv")
+        cfgs = sorted(cfgs, key=lambda cfg: len(cfg.graph.vertices()), reverse=True)
         results: defaultdict[str, list[tuple[str, MetricRes]]] = defaultdict(list)
         shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
         async_results = []
+        # Queue up all of the cfgs / metrics to execute
         for metrics_generator in self.controller.metrics_generators[::-1]:
-            async_res = pool.map_async(partial(multiprocess_metrics, metrics_generator, shared_dict), cfgs)
-            async_results.append(async_res)
-        list(map(lambda x: x.wait(), async_results))
+            for cfg in cfgs:
+                if cfg.name in list(methods.method):
+                    graphQueue.put((cfg, metrics_generator.name()))
+
+        generator_dict = {generator.name(): generator for generator in self.controller.metrics_generators}
+    
+        func_to_execute = partial(
+            multiprocess_metrics,
+            generator_dict,
+            shared_dict,
+            graphQueue,
+            lock)
+        args = list(range(pool_size))
+        
+        res = pool.map(func_to_execute, args, chunksize=1)
+        
+
+        # while not res.ready():
+        #     print(f"=== Queue Size: {graphQueue.qsize()} ===")
+        #     time.sleep(3)
+            
+        # async_res = pool.map_async(partial(multiprocess_metrics, metrics_generator, shared_dict), graphQueue)
+        # async_results.append(async_res)
+        # list(map(lambda x: x.wait(), async_results))
         for (name, metric_generator), res in shared_dict.items():
             results[name].append((metric_generator, res))
         self.data.metrics.update(results)

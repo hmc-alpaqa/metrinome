@@ -99,6 +99,15 @@ class ControlFlowGraph:
     def rich_repr(self) -> list[list[str]]:
         """Return a list of rows that can be used to represent the graph in Rich."""
         return self.metadata.rich_repr() + self.graph.rich_repr()
+    
+    @staticmethod
+    def clean_name(graph_name: str) -> str:
+        """Return the method signature from the name of the graph."""
+        gname = os.path.splitext(graph_name)[0]
+        name = ":".join(gname.split("/")[-1][:-8].replace("_", ".").rsplit(".", 1))
+        if name.split(":")[1] == "init":
+            name = name.replace("init",name.split(".")[-1].split(":")[0])
+        return name
 
     @staticmethod
     def check_call(match: Match[str]) -> Optional[dict[int, str]]:
@@ -137,7 +146,10 @@ class ControlFlowGraph:
             # There is probably a better way to do this.
             graph = AdjListGraph([], 0)
 
-        graph.name = os.path.splitext(name)[0]
+        
+
+        graph.name = ControlFlowGraph.clean_name(name)
+
 
         with open(filename, "r") as file:
             line: str
