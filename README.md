@@ -1,4 +1,4 @@
-<img src="Metrinome.svg" height="100">
+<img src="resources/Metrinome.svg" height="100">
 
 ![Lint and Test](https://github.com/hmc-alpaqa/metrinome/workflows/Lint%20and%20Test/badge.svg)
 [![codecov](https://codecov.io/gh/hmc-alpaqa/metrinome/branch/develop/graph/badge.svg)](https://codecov.io/gh/hmc-alpaqa/metrinome)
@@ -14,6 +14,8 @@ Metrinome is an all-purpose tool for working with code complexity metrics. It ca
 - KLEE utilities to automatically analyze C++ code
 
 To get started, follow the guide in the wiki to pull the docker image and jump directly into the REPL.
+
+<img src="resources/repl_screenshot.png" height="100">
 
 ## Links
 
