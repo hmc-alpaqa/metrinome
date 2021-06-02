@@ -15,7 +15,7 @@ Metrinome is an all-purpose tool for working with code complexity metrics. It ca
 
 To get started, follow the guide in the wiki to pull the docker image and jump directly into the REPL.
 
-<img src="resources/repl_screenshot.png" height="100">
+<img src="resources/repl_screenshot.png" height="300">
 
 ## Links
 
