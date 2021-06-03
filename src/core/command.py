@@ -580,7 +580,7 @@ class Command:
         graphQueue = manager.Queue()
         lock = manager.Lock()
         v_num = self.data.v_num
-        methods = read_csv(f"/app/code/experiments/checkstyle/vlab/{v_num}_codeMetrics.csv")
+        methods = read_csv(f"/app/code/experiments/checkstyle/vlab/{v_num}_allMetricsCleaned0.csv")
         cfgs = sorted(cfgs, key=lambda cfg: len(cfg.graph.vertices()), reverse=True)
         results: defaultdict[str, list[tuple[str, MetricRes]]] = defaultdict(list)
         shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
@@ -708,72 +708,50 @@ class Command:
 
     def do_vector(self, flags: Options) -> None:
         """creates a feature vector for each existing graph, and saves that vector to the file tests/textFiles/test.txt"""
+        methods = read_csv(f"experiments/checkstyle/vlab/{self.data.v_num}_allMetricsCleaned0.csv")
         metricDict = {}
-        for graphkey in list(self.data.graphs.keys()):
-            graph = self.data.graphs[graphkey]
-            results = []
-            for metric_generator in self.controller.metrics_generators:
-                start_time = time.time()
-                if metric_generator.name() == "Lines of Code" and \
-                   graph.metadata.language is not KnownExtensions.Python:
-                    continue
-                try:
-                    with Timeout(6000, "Took too long!"):
-                        result = metric_generator.evaluate(graph)
-                        runtime = time.time() - start_time
-                    if result is not None:
-                        results.append((metric_generator.name(), result))
-                        time_out = f"{runtime:.5f} seconds"
-                        if metric_generator.name() == "Path Complexity":
-                            result_ = cast(tuple[Union[float, str], Union[float, str]],
-                                           result)
-                            apclist = str(result_[0]).split("*")
-                            pc = result_[1]
-                            # if len(pc) <= 2: # constant or linear
-                            if len(apclist) == 1: #constant or linear
-                                if apclist[0] == "n": #linear
-                                    for entry in pc.split():
-                                        count = 0
-                                        for char in entry:
-                                            if char == "*":
-                                                count += 1
-                                        if count == 1: #found the linear term in the PC
-                                            apclist = [0, 0, float(entry.split("*")[0]), 1]
-                                else: #constant
-                                    apclist = [0, 0, float(apclist[0]), 0]
-                            elif len(apclist) == 3: #exponential or polynomial
-                                pcSplit = pc.replace(" ", "*").split("*")
-                                for i in range(len(pcSplit) - 2):
-                                    if pcSplit[i:i+3] == apclist:
-                                        coeff = pcSplit[i - 1]
-                                if apclist[0] == "n": #polynomial
-                                    power = float(apclist[2])
-                                    apclist = [0, 0, coeff, power]
-                                else: #exponential
-                                    base = float(apclist[0])
-                                    apclist = [coeff, base, 0, 0]
-                            else: #something has gone wrong
-                                apclist = "Split APC is not of an expected length"
-                            
-                            metricDict[graphkey] = apclist
-                            f = open("tests/textFiles/test.txt", "a")   
-                            apclist = [graphkey] + apclist                       
-                            f.write(str(apclist) + "\n")
-                            f.close()
-                            path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
-                    else:
-                        self.logger.v_msg("Got None")
-                except TimeoutError:
-                    self.logger.e_msg("Timeout!")
-                except IndexError as err:
-                    self.logger.e_msg("Index Error")
-                    self.logger.e_msg(str(err))
-                except numpy.linalg.LinAlgError as err:
-                    self.logger.e_msg("Lin Alg Error")
-                    self.logger.e_msg(str(err))
-        newFile = open('tests/textFiles/updatedCodeMetrics.csv', 'w', newline = '')
+        for method in methods.method: # had to do it to em
+            
+            if method not in self.data.metrics.keys():
+                metricDict[method] = [-1,-1,-1,-1]
+                continue
+            
+            metric = self.data.metrics[method]
+            metric = sorted(metric, key=lambda val: val[0], reverse=True)
+            metric = metric[0][1]
+            apclist = str(metric[0]).split("*")
+            pc = metric[1]
+            # if len(pc) <= 2: # constant or linear
+            if len(apclist) == 1: #constant or linear
+                if apclist[0] == "n": #linear
+                    for entry in pc.split():
+                        count = 0
+                        for char in entry:
+                            if char == "*":
+                                count += 1
+                        if count == 1: #found the linear term in the PC
+                            apclist = [0, 0, float(entry.split("*")[0]), 1]
+                else: #constant
+                    apclist = [0, 0, float(apclist[0]), 0]
+            elif len(apclist) == 3: #exponential or polynomial
+                pcSplit = pc.replace(" ", "*").split("*")
+                for i in range(len(pcSplit) - 2):
+                    if pcSplit[i:i+3] == apclist:
+                        coeff = pcSplit[i - 1]
+                if apclist[0] == "n": #polynomial
+                    power = float(apclist[2])
+                    apclist = [0, 0, coeff, power]
+                else: #exponential
+                    base = float(apclist[0])
+                    apclist = [coeff, base, 0, 0]
+            else: #something has gone wrong
+                self.logger.e_msg(apclist := "Split APC is not of an expected length")
+            metricDict[method] = apclist
+
+           
+        newFile = open(f"vector/metrics_{self.data.v_num}.csv", 'w', newline = '')
         with newFile: 
-            with open('tests/textFiles/signature_codeMetrics_1.csv') as csv_file:
+            with open(f"vlab/{self.data.v_num}_allMetricsCleaned0.csv") as csv_file:
                 newCsvData = []
                 csv_reader = csv.reader(csv_file, delimiter=',')
                 write = csv.writer(newFile)
@@ -785,8 +763,8 @@ class Command:
                         write.writerow(newCsvData)
                         firstLine = False
                     else:
-                        key = "tests.javaFiles" + row[1][20:]
-                        if key in metricDict.keys():
+                        key = row[1] 
+                        if key in self.data.metrics.keys():
                             featureVector = metricDict[key]
                             newRow = row + featureVector 
                             write.writerow(newRow)

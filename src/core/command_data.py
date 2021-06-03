@@ -64,7 +64,7 @@ class Data:
         self.bc_files: BcFilesDict = dict()
         self.logger = logger
         self.rich = rich
-        self.v_num = 4
+        self.v_num = 1
 
     def export_metrics(self, name: str, new_name: str) -> None:
         """Save a metric the REPL knows about to an external file."""

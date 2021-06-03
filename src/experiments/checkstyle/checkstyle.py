@@ -24,18 +24,18 @@ class CheckstyleCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        for version_num in range(1,12):
+        for version_num in range(12):
             print(f"Currently on version {version_num}")
             c = command.Command(self.replOpts, None)
             print("Command object instantitated")
             c.data.v_num = version_num
             print("Converting checkstyle .class files")
-            c.do_convert(f"-r experiments/checkstyle/checkstyle_{version_num}")
+            c.do_convert(f"-r experiments/checkstyle/bytecode/checkstyle_{version_num}")
             print("Done converting, now getting metrics.")
             c.do_metrics(Options(), "*")
-            print(f"Got metrics for checkstyle version {version_num}.")
-            c.data.export_metrics("*", "")
-            print(f"Exported metrics, only {11 - version_num} iterations to go!")
+            print(f"Got metrics for checkstyle version {version_num}, now exporting vector csv.")
+            c.do_vector(Options())
+            print(f"Finished processing for {version_num}, only {11 - version_num} iterations to go!")
 
 def main() -> None:
     """Compute metrics for many graphs."""
