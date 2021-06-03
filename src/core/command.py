@@ -10,6 +10,7 @@ import readline
 import subprocess
 import tempfile
 import time
+import csv
 from collections import defaultdict
 from enum import Enum
 from functools import partial
@@ -19,6 +20,7 @@ from pathlib import Path
 from queue import Queue
 from typing import Iterable, Optional, Union, cast
 from pandas import read_csv
+
 import numpy  # type: ignore
 from rich.console import Console
 from rich.table import Table
@@ -213,6 +215,7 @@ class Options:
         "list": CmdInfo(1, ReplErrors.TYPE_TO_LIST),
         "show": CmdInfo(2, ReplErrors.SPECIFY_TYPE),
         "metrics": CmdInfo(1, ReplErrors.GRAPH_NAME),
+        "vector": CmdInfo(0, ReplErrors.GRAPH_NAME),
         "delete": CmdInfo(2, MISSING_TYPE_AND_NAME),
         "export": CmdInfo(2, MISSING_TYPE_AND_NAME),
         "run_experiment": CmdInfo(2, MISSING_FILENAME),
@@ -480,6 +483,8 @@ class Command:
                     if graph == {}:
                         self.logger.v_msg("Converted without errors, but no graphs created.")
                     else:
+                        self.logger.v_msg(f"Created graph objects {' '.join(list(graph.keys()))}")
+                        self.data.graphs.update(graph)
                         self.logger.v_msg(f"Created graph objects {Colors.MAGENTA.value}"
                                           f"{' '.join(list(graph.keys()))}{Colors.ENDC.value}")
                         self.data.graphs.update(graph)
@@ -634,7 +639,6 @@ class Command:
     def do_metrics(self, flags: Options, name: str) -> None:
         """
         Compute all of the complexity matrics for a Graph object.
-
         Usage:
         metrics <name>
         metrics *
@@ -700,6 +704,92 @@ class Command:
 
                 if graph.name is not None:
                     self.data.metrics[graph.name] = results
+
+
+    def do_vector(self, flags: Options) -> None:
+        """creates a feature vector for each existing graph, and saves that vector to the file tests/textFiles/test.txt"""
+        metricDict = {}
+        for graphkey in list(self.data.graphs.keys()):
+            graph = self.data.graphs[graphkey]
+            results = []
+            for metric_generator in self.controller.metrics_generators:
+                start_time = time.time()
+                if metric_generator.name() == "Lines of Code" and \
+                   graph.metadata.language is not KnownExtensions.Python:
+                    continue
+                try:
+                    with Timeout(6000, "Took too long!"):
+                        result = metric_generator.evaluate(graph)
+                        runtime = time.time() - start_time
+                    if result is not None:
+                        results.append((metric_generator.name(), result))
+                        time_out = f"{runtime:.5f} seconds"
+                        if metric_generator.name() == "Path Complexity":
+                            result_ = cast(tuple[Union[float, str], Union[float, str]],
+                                           result)
+                            apclist = str(result_[0]).split("*")
+                            pc = result_[1]
+                            # if len(pc) <= 2: # constant or linear
+                            if len(apclist) == 1: #constant or linear
+                                if apclist[0] == "n": #linear
+                                    for entry in pc.split():
+                                        count = 0
+                                        for char in entry:
+                                            if char == "*":
+                                                count += 1
+                                        if count == 1: #found the linear term in the PC
+                                            apclist = [0, 0, float(entry.split("*")[0]), 1]
+                                else: #constant
+                                    apclist = [0, 0, float(apclist[0]), 0]
+                            elif len(apclist) == 3: #exponential or polynomial
+                                pcSplit = pc.replace(" ", "*").split("*")
+                                for i in range(len(pcSplit) - 2):
+                                    if pcSplit[i:i+3] == apclist:
+                                        coeff = pcSplit[i - 1]
+                                if apclist[0] == "n": #polynomial
+                                    power = float(apclist[2])
+                                    apclist = [0, 0, coeff, power]
+                                else: #exponential
+                                    base = float(apclist[0])
+                                    apclist = [coeff, base, 0, 0]
+                            else: #something has gone wrong
+                                apclist = "Split APC is not of an expected length"
+                            
+                            metricDict[graphkey] = apclist
+                            f = open("tests/textFiles/test.txt", "a")   
+                            apclist = [graphkey] + apclist                       
+                            f.write(str(apclist) + "\n")
+                            f.close()
+                            path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
+                    else:
+                        self.logger.v_msg("Got None")
+                except TimeoutError:
+                    self.logger.e_msg("Timeout!")
+                except IndexError as err:
+                    self.logger.e_msg("Index Error")
+                    self.logger.e_msg(str(err))
+                except numpy.linalg.LinAlgError as err:
+                    self.logger.e_msg("Lin Alg Error")
+                    self.logger.e_msg(str(err))
+        newFile = open('tests/textFiles/updatedCodeMetrics.csv', 'w', newline = '')
+        with newFile: 
+            with open('tests/textFiles/signature_codeMetrics_1.csv') as csv_file:
+                newCsvData = []
+                csv_reader = csv.reader(csv_file, delimiter=',')
+                write = csv.writer(newFile)
+                firstLine = True
+                for row in csv_reader:
+                    if firstLine:
+                        featureVectorLabel = ["APC exp coeff", "APX exp base", "APC poly coeff", "APC poly power"]
+                        newCsvData += row+featureVectorLabel
+                        write.writerow(newCsvData)
+                        firstLine = False
+                    else:
+                        key = "tests.javaFiles" + row[1][20:]
+                        if key in metricDict.keys():
+                            featureVector = metricDict[key]
+                            newRow = row + featureVector 
+                            write.writerow(newRow)
 
     def log_name(self, name: str) -> bool:
         """Log all objects of a given name."""
