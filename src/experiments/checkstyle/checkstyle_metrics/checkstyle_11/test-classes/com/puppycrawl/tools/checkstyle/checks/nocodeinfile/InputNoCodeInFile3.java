@@ -1,4 +1,0 @@
-/* only
-comment
-present
-*/

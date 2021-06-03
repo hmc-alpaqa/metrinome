@@ -14,7 +14,7 @@ from metric.path_complexity import PathComplexityRes
 from utils import Timeout
 
 
-class DataCollector2:
+class CheckstyleCollector:
     """Compute and store all complexity metrics and timing data."""
 
     def __init__(self) -> None:
@@ -24,7 +24,7 @@ class DataCollector2:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        for version_num in range(11,12):
+        for version_num in range(1,12):
             print(f"Currently on version {version_num}")
             c = command.Command(self.replOpts, None)
             print("Command object instantitated")
@@ -39,7 +39,7 @@ class DataCollector2:
 
 def main() -> None:
     """Compute metrics for many graphs."""
-    data_collector = DataCollector2()
+    data_collector = CheckstyleCollector()
     data_collector.collect()
 
 
