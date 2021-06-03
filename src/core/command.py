@@ -592,7 +592,7 @@ class Command:
                     graphQueue.put((cfg, metrics_generator.name()))
 
         generator_dict = {generator.name(): generator for generator in self.controller.metrics_generators}
-    
+
         func_to_execute = partial(
             multiprocess_metrics,
             generator_dict,
@@ -600,14 +600,14 @@ class Command:
             graphQueue,
             lock)
         args = list(range(pool_size))
-        
+
         res = pool.map(func_to_execute, args, chunksize=1)
-        
+
 
         # while not res.ready():
         #     print(f"=== Queue Size: {graphQueue.qsize()} ===")
         #     time.sleep(3)
-            
+
         # async_res = pool.map_async(partial(multiprocess_metrics, metrics_generator, shared_dict), graphQueue)
         # async_results.append(async_res)
         # list(map(lambda x: x.wait(), async_results))
@@ -711,11 +711,11 @@ class Command:
         methods = read_csv(f"experiments/checkstyle/vlab/{self.data.v_num}_allMetricsCleaned0.csv")
         metricDict = {}
         for method in methods.method: # had to do it to em
-            
+
             if method not in self.data.metrics.keys():
-                metricDict[method] = [-1,-1,-1,-1]
+                metricDict[method] = [-1,-1,-1,-1, -1]
                 continue
-            
+
             metric = self.data.metrics[method]
             metric = sorted(metric, key=lambda val: val[0], reverse=True)
             metric = metric[0][1]
@@ -730,9 +730,9 @@ class Command:
                             if char == "*":
                                 count += 1
                         if count == 1: #found the linear term in the PC
-                            apclist = [0, 0, float(entry.split("*")[0]), 1]
+                            apclist = [1, 0, 0, float(entry.split("*")[0]), 1]
                 else: #constant
-                    apclist = [0, 0, float(apclist[0]), 0]
+                    apclist = [0, 0, 0, float(apclist[0]), 0]
             elif len(apclist) == 3: #exponential or polynomial
                 pcSplit = pc.replace(" ", "*").split("*")
                 for i in range(len(pcSplit) - 2):
@@ -740,17 +740,17 @@ class Command:
                         coeff = pcSplit[i - 1]
                 if apclist[0] == "n": #polynomial
                     power = float(apclist[2])
-                    apclist = [0, 0, coeff, power]
+                    apclist = [2, 0, 0, coeff, power]
                 else: #exponential
                     base = float(apclist[0])
-                    apclist = [coeff, base, 0, 0]
+                    apclist = [3, coeff, base, 0, 0]
             else: #something has gone wrong
                 self.logger.e_msg(apclist := "Split APC is not of an expected length")
             metricDict[method] = apclist
 
-           
+
         newFile = open(f"vector/metrics_{self.data.v_num}.csv", 'w', newline = '')
-        with newFile: 
+        with newFile:
             with open(f"vlab/{self.data.v_num}_allMetricsCleaned0.csv") as csv_file:
                 newCsvData = []
                 csv_reader = csv.reader(csv_file, delimiter=',')
@@ -758,15 +758,15 @@ class Command:
                 firstLine = True
                 for row in csv_reader:
                     if firstLine:
-                        featureVectorLabel = ["APC exp coeff", "APX exp base", "APC poly coeff", "APC poly power"]
+                        featureVectorLabel = ["APC type", "APC exp coeff", "APX exp base", "APC poly coeff", "APC poly power"]
                         newCsvData += row+featureVectorLabel
                         write.writerow(newCsvData)
                         firstLine = False
                     else:
-                        key = row[1] 
+                        key = row[1]
                         if key in self.data.metrics.keys():
                             featureVector = metricDict[key]
-                            newRow = row + featureVector 
+                            newRow = row + featureVector
                             write.writerow(newRow)
 
     def log_name(self, name: str) -> bool:
