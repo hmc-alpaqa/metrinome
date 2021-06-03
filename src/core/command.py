@@ -4,30 +4,34 @@ from __future__ import annotations
 
 import copy
 import os.path
+import random
 import re
 import readline
 import subprocess
 import tempfile
 import time
 import csv
+from collections import defaultdict
 from enum import Enum
 from functools import partial
-from multiprocessing import Manager, Pool
-from os import listdir
+from multiprocessing import Manager, Pool, Lock
+from os import getpid, listdir  # pylint: disable=unused-import
 from pathlib import Path
+from queue import Queue
 from typing import Iterable, Optional, Union, cast
-
+from pandas import read_csv
 
 import numpy  # type: ignore
 from rich.console import Console
 from rich.table import Table
 
-from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
+from core.command_data import AnyDict, Data, MetricRes, ObjTypes, PathComplexityRes
 from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
 from core.log import Colors, Log, LogLevel
 from experiments.data_collection import DataCollector
+
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
@@ -86,7 +90,7 @@ class Controller:
         return self.graph_generators[file_extension]
 
 
-def worker_main(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
+def multiprocess_import(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
     """Handle the multiprocessing of import."""
     graph = ControlFlowGraph.from_file(file)
     if isinstance(graph, dict):
@@ -95,25 +99,45 @@ def worker_main(shared_dict: dict[str, ControlFlowGraph], file: str) -> None:
         filepath, _ = os.path.splitext(file)
         shared_dict[filepath] = graph
 
+def multiprocess_metrics(
+    metrics_generators: dict[str, metric.MetricAbstract],
+    shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
+    queue: Queue[ControlFlowGraph],
+    lock: Lock,
+    process_count: int) -> None:
+    """Handle the multiprocessing of metrics."""
+    print(f"Starting {process_count}")
+    while True:
+        with lock:
+            if not queue.empty():
+                graph, generator_name = queue.get()
+            else:
+                break
+        metrics_generator = metrics_generators[generator_name]
+        timeout = 1200 if metrics_generator.name() == "Path Complexity" else 180
+        try:
+            if metrics_generator.name() == "Lines of Code" and \
+            graph.metadata.language is not KnownExtensions.Python:
+                continue
 
-def worker_main_two(metrics_generator: metric.MetricAbstract,
-                    shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]],
-                    graph: ControlFlowGraph) -> None:
-    """Handle the multiprocessing of convert."""
-    try:
-        with Timeout(10, "Took too long!"):
-            result = metrics_generator.evaluate(graph)
+            if "$" in graph.name:
+                continue
 
-        if graph.name is None:
-            raise ValueError("No Graph name.")
+            # print(f"Getting {metrics_generator.name()} for graph {graph.name} on process {os.getpid()}.")
+            with Timeout(timeout, "Took too long!"):
+                result = metrics_generator.evaluate(graph)
 
-        shared_dict[(graph.name, metrics_generator.name())] = result
-    except IndexError as err:
-        print(graph)
-        print(err)
-    except TimeoutError as err:
-        print(err, graph.name, metrics_generator.name())
+            if graph.name is None:
+                raise ValueError("No Graph name.")
 
+            shared_dict[(graph.name, metrics_generator.name())] = result
+        except IndexError as err:
+            print(graph)
+            print(err)
+        except TimeoutError as err:
+            print(err, graph.name, metrics_generator.name())
+            shared_dict[(graph.name, metrics_generator.name())] = ("NA", "Timeout")
+    print(f"Queue {process_count} is done.")
 
 class REPLOptions():
     """Contains options for the REPL such as debug mode."""
@@ -412,6 +436,7 @@ class Command:
         convert <file-like-1> <file-like-2> ... <file-like-n>
         """
         # Iterate through all file-like objects.
+        print(args)
         arguments = args.split(" ")
         args_list, recursive_mode, inline_type, graph_stitching = self.parse_convert_args(arguments)
         if len(args_list) == 0:
@@ -458,17 +483,11 @@ class Command:
                     if graph == {}:
                         self.logger.v_msg("Converted without errors, but no graphs created.")
                     else:
-                        graphdict = {}
-                        for key in list(graph.keys()):
-                            splitkey = key.split("/")
-                            if len(splitkey) == 1:
-                                methodName = splitkey[0]
-                            else:
-                                methodName = splitkey[-1].split("_")[-3]
-                            newKey = filepath.replace("/", ".") + ":" + methodName
-                            graphdict[newKey] = graph[key]
-                        self.logger.v_msg(f"Created graph objects {' '.join(list(graphdict.keys()))}")
-                        self.data.graphs.update(graphdict)
+                        self.logger.v_msg(f"Created graph objects {' '.join(list(graph.keys()))}")
+                        self.data.graphs.update(graph)
+                        self.logger.v_msg(f"Created graph objects {Colors.MAGENTA.value}"
+                                          f"{' '.join(list(graph.keys()))}{Colors.ENDC.value}")
+                        self.data.graphs.update(graph)
                 elif isinstance(graph, ControlFlowGraph):
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
@@ -506,17 +525,20 @@ class Command:
             manager = Manager()
             shared_dict: dict[str, ControlFlowGraph] = manager.dict()
             pool = Pool(8)
-            pool.map(partial(worker_main, shared_dict), all_files)
+            pool.map(partial(multiprocess_import, shared_dict), all_files)
+            self.logger.v_msg(f"Created graph objects "
+                              f"{Colors.MAGENTA.value}{' '.join(shared_dict.keys())}{Colors.ENDC.value}")
             self.data.graphs.update(shared_dict)
         else:
+            graphs = []
             for file in all_files:
                 filepath, _ = os.path.splitext(file)
                 graph = ControlFlowGraph.from_file(file)
-                self.logger.v_msg(str(graph))
-                if isinstance(graph, dict):
-                    self.data.graphs.update(graph)
-                else:
-                    self.data.graphs[filepath] = graph
+                graphs.append(graph)
+                self.data.graphs[filepath] = graph
+            names = [graph.name for graph in graphs]
+            self.logger.v_msg(f"Created graph objects "
+                              f"{Colors.MAGENTA.value}{' '.join(names)}{Colors.ENDC.value}")
 
     def do_list(self, flags: Options, list_typename: str) -> None:
         """
@@ -550,14 +572,48 @@ class Command:
         else:
             self.logger.v_msg(f"Type {list_type} not recognized")
 
-    def do_metrics_multithreaded(self, graphs: list[ControlFlowGraph]) -> None:
+    def do_metrics_multithreaded(self, cfgs: list[ControlFlowGraph]) -> None:
         """Compute all of the metrics for some set of graphs using parallelization."""
-        pool = Pool(8)
+        pool_size = 8
+        pool = Pool(pool_size)
         manager = Manager()
+        graphQueue = manager.Queue()
+        lock = manager.Lock()
+        v_num = self.data.v_num
+        methods = read_csv(f"/app/code/experiments/checkstyle/vlab/{v_num}_codeMetrics.csv")
+        cfgs = sorted(cfgs, key=lambda cfg: len(cfg.graph.vertices()), reverse=True)
+        results: defaultdict[str, list[tuple[str, MetricRes]]] = defaultdict(list)
         shared_dict: dict[tuple[str, str], Union[int, PathComplexityRes]] = manager.dict()
-        for metrics_generator in self.controller.metrics_generators:
-            pool.map(partial(worker_main_two, metrics_generator, shared_dict), graphs)
-            self.logger.v_msg(str(shared_dict))
+        async_results = []
+        # Queue up all of the cfgs / metrics to execute
+        for metrics_generator in self.controller.metrics_generators[::-1]:
+            for cfg in cfgs:
+                if cfg.name in list(methods.method):
+                    graphQueue.put((cfg, metrics_generator.name()))
+
+        generator_dict = {generator.name(): generator for generator in self.controller.metrics_generators}
+    
+        func_to_execute = partial(
+            multiprocess_metrics,
+            generator_dict,
+            shared_dict,
+            graphQueue,
+            lock)
+        args = list(range(pool_size))
+        
+        res = pool.map(func_to_execute, args, chunksize=1)
+        
+
+        # while not res.ready():
+        #     print(f"=== Queue Size: {graphQueue.qsize()} ===")
+        #     time.sleep(3)
+            
+        # async_res = pool.map_async(partial(multiprocess_metrics, metrics_generator, shared_dict), graphQueue)
+        # async_results.append(async_res)
+        # list(map(lambda x: x.wait(), async_results))
+        for (name, metric_generator), res in shared_dict.items():
+            results[name].append((metric_generator, res))
+        self.data.metrics.update(results)
 
     def get_metrics_list(self, name: str) -> list[str]:
         """Get the list of metric names from command argument."""
@@ -590,58 +646,64 @@ class Command:
         # pylint: disable=R1702
         # pylint: disable=R0912
         graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
-        for graph in graphs:
-            self.logger.v_msg(f"Computing metrics for {graph.name}")
-            results = []
-            if self.rich:
-                table = Table(title=f"Metrics for {graph.name}")
-                table.add_column("Metric", style="cyan")
-                table.add_column("Result", style="magenta", no_wrap=False)
-                table.add_column("Time Elapsed", style="green")
-            for metric_generator in self.controller.metrics_generators:
-                # Lines of Code is currently only supported in Python.
-                if metric_generator.name() == "Lines of Code" and \
-                   graph.metadata.language is not KnownExtensions.Python:
-                    continue
-                start_time = time.time()
+        if self.multi_threaded:
+            start_time = time.time()
+            self.do_metrics_multithreaded(graphs)
+            elapsed = time.time() - start_time
+            print(f"TIME ELAPSED: {elapsed}")
+        else:
+            for graph in graphs:
+                self.logger.v_msg(f"Computing metrics for {graph.name}")
+                results = []
+                if self.rich:
+                    table = Table(title=f"Metrics for {graph.name}")
+                    table.add_column("Metric", style="cyan")
+                    table.add_column("Result", style="magenta", no_wrap=False)
+                    table.add_column("Time Elapsed", style="green")
+                for metric_generator in self.controller.metrics_generators:
+                    # Lines of Code is currently only supported in Python.
+                    if metric_generator.name() == "Lines of Code" and \
+                       graph.metadata.language is not KnownExtensions.Python:
+                        continue
+                    start_time = time.time()
 
-                try:
-                    with Timeout(6000, "Took too long!"):
-                        result = metric_generator.evaluate(graph)
-                        runtime = time.time() - start_time
-                    if result is not None:
-                        results.append((metric_generator.name(), result))
-                        time_out = f"{runtime:.5f} seconds"
-                        if metric_generator.name() == "Path Complexity":
-                            result_ = cast(tuple[Union[float, str], Union[float, str]],
-                                           result)
-                            path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
+                    try:
+                        with Timeout(6000, "Took too long!"):
+                            result = metric_generator.evaluate(graph)
+                            runtime = time.time() - start_time
+                        if result is not None:
+                            results.append((metric_generator.name(), result))
+                            time_out = f"{runtime:.5f} seconds"
+                            if metric_generator.name() == "Path Complexity":
+                                result_ = cast(tuple[Union[float, str], Union[float, str]],
+                                               result)
+                                path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
 
-                            if self.rich:
-                                table.add_row(metric_generator.name(), path_out, time_out)
+                                if self.rich:
+                                    table.add_row(metric_generator.name(), path_out, time_out)
+                                else:
+                                    self.logger.v_msg(f"Got {path_out}, {time_out}")
                             else:
-                                self.logger.v_msg(f"Got {path_out}, {time_out}")
+                                if self.rich:
+                                    table.add_row(metric_generator.name(), str(result), time_out)
+                                else:
+                                    self.logger.v_msg(f" Got {result}, took {runtime:.3e} seconds")
                         else:
-                            if self.rich:
-                                table.add_row(metric_generator.name(), str(result), time_out)
-                            else:
-                                self.logger.v_msg(f" Got {result}, took {runtime:.3e} seconds")
-                    else:
-                        self.logger.v_msg("Got None")
-                except TimeoutError:
-                    self.logger.e_msg("Timeout!")
-                except IndexError as err:
-                    self.logger.e_msg("Index Error")
-                    self.logger.e_msg(str(err))
-                except numpy.linalg.LinAlgError as err:
-                    self.logger.e_msg("Lin Alg Error")
-                    self.logger.e_msg(str(err))
-            if self.rich:
-                console = Console()
-                console.print(table)
+                            self.logger.v_msg("Got None")
+                    except TimeoutError:
+                        self.logger.e_msg("Timeout!")
+                    except IndexError as err:
+                        self.logger.e_msg("Index Error")
+                        self.logger.e_msg(str(err))
+                    except numpy.linalg.LinAlgError as err:
+                        self.logger.e_msg("Lin Alg Error")
+                        self.logger.e_msg(str(err))
+                if self.rich:
+                    console = Console()
+                    console.print(table)
 
-            if graph.name is not None:
-                self.data.metrics[graph.name] = results
+                if graph.name is not None:
+                    self.data.metrics[graph.name] = results
 
 
     def do_vector(self, flags: Options) -> None:

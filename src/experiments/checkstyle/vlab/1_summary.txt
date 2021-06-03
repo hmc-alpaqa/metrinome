@@ -1,0 +1,7 @@
+Release index: 1
+Release git start hash: 5f53a2a380e038e791af244b42f245b813dbc379
+Release git end hash: 9acdd1b97e561748ae8cc61e11dcc145885ecb6d
+Commits: 261
+Buggy commits: 2
+Files: 28
+Buggy files: 2

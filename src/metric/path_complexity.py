@@ -169,7 +169,7 @@ class PathComplexity(metric.MetricAbstract):
         denominator = Poly(sympify(-x_det))
         recurrence_kernel = denominator.all_coeffs()[::-1]
         test = [round(-x, 2) for x in recurrence_kernel]
-        roots = polyroots(test, maxsteps=250, extraprec=250)
+        roots = polyroots(test, maxsteps=2500, extraprec=2500)
 
         return degree(denominator, gen=self._t_var), denominator, roots
 

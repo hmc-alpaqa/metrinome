@@ -5,6 +5,7 @@ This works with both the adjacency list representation and edge list.
 """
 
 import copy
+from collections import defaultdict
 from typing import Tuple
 
 import numpy as np  # type: ignore
@@ -107,6 +108,60 @@ class NPathComplexity(metric.MetricAbstract):
                 total += self.npath_adj_matrix(new_matrix, start, end, neighbor_index)
 
         return total
+
+    def npath_dfs(self, start: NodeType, end: NodeType,
+                  edges: AdjList) -> float:
+        """Compute NPath Complexity using a DFS."""
+        npath = 0
+        path = [start]
+        node_to_edge_idx: defaultdict[int, list[int]] = defaultdict(list)
+        edges_used: set[Tuple[int, int]] = set()
+        while True:
+            curr_node = path[-1]
+            neighbors = edges[curr_node]
+            path_updated = False
+            # If unused edge, update path
+            if len(node_to_edge_idx[curr_node]) == 0:
+                possible_backtracked_node_idx = -1
+                possible_backtracked_edge = (-1, -1)
+            else:
+                possible_backtracked_node_idx = node_to_edge_idx[curr_node][-1]
+                possible_backtracked_node = edges[curr_node][possible_backtracked_node_idx]
+                possible_backtracked_edge = (curr_node, possible_backtracked_node)
+
+            for neighbor_idx, neighbor in enumerate(neighbors):
+
+                edge_to_use = (curr_node, neighbor)
+                if edge_to_use in edges_used:
+                    continue
+
+                if possible_backtracked_edge not in edges_used:
+                    if neighbor_idx <= possible_backtracked_node_idx:
+                        # Backtracked, but already looked at edge
+                        continue
+                    if len(node_to_edge_idx[curr_node]) > 0:
+                        node_to_edge_idx[curr_node].pop()
+
+                node_to_edge_idx[curr_node].append(neighbor_idx)
+                path.append(neighbor)
+                edges_used.add(edge_to_use)
+                path_updated = True
+                break
+
+            if path_updated:
+                continue
+
+            # Dead end, backtrack
+            path.pop()
+            if len(path) == 0:
+                return npath
+            edges_used.remove((path[-1], curr_node))
+            if curr_node == end:
+                npath += 1
+            elif possible_backtracked_edge not in edges_used:
+                # remove index from nodetoedgeindex
+                if len(node_to_edge_idx[curr_node]) > 0:
+                    node_to_edge_idx[curr_node].pop()
 
     def evaluate(self, cfg: ControlFlowGraph) -> int:
         """Compute the NPath complexity of a function given its CFG."""

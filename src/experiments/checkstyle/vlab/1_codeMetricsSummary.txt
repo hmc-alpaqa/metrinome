@@ -1,0 +1,7 @@
+Release index: 1
+Release type: major-release
+Release content: release2_0
+Release git hash: 9acdd1b97e561748ae8cc61e11dcc145885ecb6d
+Commits: 130
+Buggy commits: 18
+Methods: 285

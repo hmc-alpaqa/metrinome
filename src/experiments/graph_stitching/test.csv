@@ -1,0 +1,10 @@
+,file_name,graph_name,apc,cyclo,npath,apc_time,num_vertices,edge_count,exception,exception_type
+0,/app/code/tests/cFiles/benchmark/01_linearsearch_helper.c,,"(n, '0.5039*n + 1.9929')",3.0,3.0,1.9494905471801758,10.0,11.0,0.0,na
+1,/app/code/tests/cFiles/benchmark/02_fib_helper.c,,"(n, '0.3849*1.0**n + 0.3333*n + 0.6667')",2.0,2.0,0.6149840354919434,7.0,7.0,0.0,na
+2,/app/code/tests/cFiles/benchmark/03_permut_helper.c,,"('1.2917**n', '0.163*1.2917**n + 0.6')",5.0,7.0,3.1500720977783203,17.0,20.0,0.0,na
+3,/app/code/tests/cFiles/benchmark/04_mincoins_helper.c,,"('1.2365**n', '0.4316*0.8562**n + 0.252*1.0**n + 0.1072*1.0504**n + 0.3536*1.2365**n + 0.6667')",4.0,6.0,5.263461351394653,14.0,16.0,0.0,na
+4,/app/code/tests/cFiles/benchmark/05_nCr_helper.c,,"(n, '0.3849*1.0**n + 0.3333*n + 1.3333')",2.0,2.0,0.6849122047424316,9.0,9.0,0.0,na
+5,/app/code/tests/cFiles/benchmark/06_binarysearch_helper.c,,"('1.151**n', '0.7698*1.0**n + 6.0664*1.151**n + 1.3333*n + 5.3334')",6.0,16.0,5.067824602127075,18.0,22.0,0.0,na
+6,/app/code/tests/cFiles/benchmark/07_bubblesort_helper.c,,"(n, '0.3849*1.0**n + 0.3333*n + 0.6667')",2.0,2.0,0.49264979362487793,7.0,7.0,0.0,na
+7,/app/code/tests/cFiles/benchmark/08_selectionsort_helper.c,,"(n, '0.3849*1.0**n + 0.3333*n + 0.6667')",2.0,2.0,0.3732912540435791,7.0,7.0,0.0,na
+8,/app/code/tests/cFiles/benchmark/09_insertionsort_helper.c,,"(n, '0.3849*1.0**n + 0.3333*n + 0.6667')",2.0,2.0,0.540682315826416,7.0,7.0,0.0,na

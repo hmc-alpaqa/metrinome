@@ -64,6 +64,7 @@ class Data:
         self.bc_files: BcFilesDict = dict()
         self.logger = logger
         self.rich = rich
+        self.v_num = 4
 
     def export_metrics(self, name: str, new_name: str) -> None:
         """Save a metric the REPL knows about to an external file."""
@@ -77,11 +78,12 @@ class Data:
                                  "cyclo": [], "npath": []})
             for m_name in self.metrics:
                 metric_value = self.metrics[m_name]
+                metric_value = sorted(metric_value, key=lambda val: val[0])
                 new_row = {"graph_name": m_name, "apc": metric_value[2][1],
                            "cyclo": metric_value[0][1], "npath": metric_value[1][1]}
                 data = data.append(new_row, ignore_index=True)
 
-            data.to_csv("/app/code/exports/metrics.csv")
+            data.to_csv(f"/app/code/exports/metrics_{self.v_num}.csv")
             self.logger.i_msg("Made file metrics.csv in /app/code/exports/")
         else:
             self.logger.e_msg(f"{str(ObjTypes.METRIC).capitalize()} {name} not found.")

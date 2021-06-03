@@ -49,6 +49,7 @@ class JavaConvert(converter.ConverterAbstract):
             path = f"{self._output_folder}/tmp/*.dot"
 
         if file_extension == ".java":
+            return
             self.runcmd(f"javac {fname} -d {self._input_folder}")
             name = os.path.basename(filename)
             fname = f"{self._input_folder}/{name}.class"
@@ -69,7 +70,8 @@ class JavaConvert(converter.ConverterAbstract):
 
         dot_files = glob(path)
         for file in dot_files:
-            graphs[file] = ControlFlowGraph.from_file(file, EdgeListGraph,
-                                                      [Metadata.with_language(KnownExtensions.Java)])
+            graph = ControlFlowGraph.from_file(file, EdgeListGraph,
+                                               [Metadata.with_language(KnownExtensions.Java)])
+            graphs[graph.name] = graph
         Env.clean_temps()
         return graphs

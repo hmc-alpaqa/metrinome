@@ -1,0 +1,285 @@
+INFO:root:the folder path is: tests/
+INFO:root:the folder path is: /app/code/tests/javaFiles
+INFO:root:found ['Factorial.class', 'Factorial.class.zip', 'Factorial.java']
+INFO:root:the folder path is: /app/code/tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: /app/code/tests/javaFiles/
+INFO:root:found ['Factorial.class', 'Factorial.class.zip', 'Factorial.java']
+INFO:root:the folder path is: /app/code/tests/javaFiles/
+INFO:root:found ['Factorial.class', 'Factorial.class.zip', 'Factorial.java']
+INFO:root:the folder path is: /app/code/tests/
+INFO:root:the folder path is: /app/code/tests
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: /app/code/tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: /app/code/tests/javaFiles/
+INFO:root:found ['Factorial.class', 'Factorial.java']
+INFO:root:the folder path is: tests/
+INFO:root:the folder path is: /app/code/tests/javaFiles
+INFO:root:found ['Factorial.class', 'Factorial.java']
+INFO:root:the folder path is: /app/code/tests/javaFiles
+INFO:root:found ['Factorial.class', 'Factorial.java']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'graph', 'inlining', 'klee', 'langToCFG', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'graph', 'inlining', 'klee', 'langToCFG', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/javaFiles/
+INFO:root:found ['Factorial.class', 'Factorial.java']
+INFO:root:the folder path is: tests/javaFiles/
+INFO:root:found ['Factorial.class', 'Factorial.java']
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: experiments/
+INFO:root:the folder path is: experiments/project-repositories/
+INFO:root:the folder path is: /app/code/experiments/project-repositories/guava
+INFO:root:the folder path is: /app
+INFO:root:the folder path is: /app
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code/experiments
+INFO:root:the folder path is: /app/code/experiments
+INFO:root:the folder path is: /app/code/experiments/project-repositories
+INFO:root:the folder path is: /app/code/experiments/project-repositories
+INFO:root:the folder path is: /app/code/experiments/project-repositories/guava
+INFO:root:the folder path is: /app/code/experiments/project-repositories/guava/guava
+INFO:root:the folder path is: /app/code/experiments/project-repositories/guava/guava/target
+INFO:root:found ['apidocs', 'classes', 'generated-sources', 'guava-HEAD-jre-SNAPSHOT-javadoc.jar', 'guava-HEAD-jre-SNAPSHOT-sources.jar', 'guava-HEAD-jre-SNAPSHOT.jar', 'javadoc-bundle-options', 'maven-status', 'test-classes']
+INFO:root:the folder path is: /app/code/experiments/project-repositories/guava/guava/target
+INFO:root:found ['apidocs', 'classes', 'generated-sources', 'guava-HEAD-jre-SNAPSHOT-javadoc.jar', 'guava-HEAD-jre-SNAPSHOT-sources.jar', 'guava-HEAD-jre-SNAPSHOT.jar', 'javadoc-bundle-options', 'maven-status', 'test-classes']
+INFO:root:the folder path is: /app/code/experiments/project-repositories/guava/guava/target
+INFO:root:found ['apidocs', 'classes', 'generated-sources', 'guava-HEAD-jre-SNAPSHOT-javadoc.jar', 'guava-HEAD-jre-SNAPSHOT-sources.jar', 'guava-HEAD-jre-SNAPSHOT.jar', 'javadoc-bundle-options', 'maven-status', 'test-classes']
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code/experiments
+INFO:root:the folder path is: /app/code/experiments/project-repositories
+INFO:root:the folder path is: /app/code/experiments/project-repositories
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code/experiments
+INFO:root:the folder path is: /app/code/experiments/project-repositories
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target/generated-classes
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:found ['ant_task_config_by_url.txt', 'ant_task_plain_output.txt', 'classes', 'generated-classes', 'generated-sources', 'generated-test-sources', 'jacoco.exec', 'log.xml', 'maven-status', 'surefire', 'surefire-reports', 'test-classes', 'tokentypes.properties']
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:found ['ant_task_config_by_url.txt', 'ant_task_plain_output.txt', 'classes', 'generated-classes', 'generated-sources', 'generated-test-sources', 'jacoco.exec', 'log.xml', 'maven-status', 'surefire', 'surefire-reports', 'test-classes', 'tokentypes.properties']
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code/experiments
+INFO:root:the folder path is: /app/code/experiments/project-repositories
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:found ['ant_task_config_by_url.txt', 'ant_task_plain_output.txt', 'classes', 'generated-classes', 'generated-sources', 'generated-test-sources', 'jacoco.exec', 'log.xml', 'maven-status', 'surefire', 'surefire-reports', 'test-classes', 'tokentypes.properties']
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:found ['ant_task_config_by_url.txt', 'ant_task_plain_output.txt', 'classes', 'generated-classes', 'generated-sources', 'generated-test-sources', 'jacoco.exec', 'log.xml', 'maven-status', 'surefire', 'surefire-reports', 'test-classes', 'tokentypes.properties']
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: experiments/
+INFO:root:the folder path is: experiments/project-repositories/
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:the folder path is: /app/code/experiments/project-repositories/checkstyle/target
+INFO:root:found ['ant_task_config_by_url.txt', 'ant_task_plain_output.txt', 'classes', 'generated-classes', 'generated-sources', 'generated-test-sources', 'jacoco.exec', 'log.xml', 'maven-status', 'surefire', 'surefire-reports', 'test-classes', 'tokentypes.properties']
+INFO:root:['show', 'graphs', 'coll']
+INFO:root:the folder path is: tests/
+INFO:root:the folder path is: tests/
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'double_literal', 'experiments', 'exports', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code/tests
+INFO:root:the folder path is: /app/code/tests/cFiles
+INFO:root:found ['Klee Compiler Optimization Data', 'array_input.c', 'benchmark', 'collatz.c', 'coreutils-832', 'coreutils-inlined-heuristic', 'exports', 'fib.c', 'file_with_stdio.c', 'fse_2020_benchmark', 'fse_2020_benchmark_wHelpers', 'fse_with_helper', 'get_sign_klee.c', 'if_then_loop.c', 'inlining_tests', 'merge_sort.c', 'multiple_funcs.c', 'nested_if.c', 'nested_loops.c', 'print_source_code.c', 'problem1.c', 'problem2.c', 'problem3.c', 'problem4.c', 'problem5.c', 'problem6.c', 'problem7.c', 'problem8.c', 'problem9.c', 'recursive_func.c', 'rosetta-code-c', 'sign.c', 'sorting-algs-c']
+INFO:root:the folder path is: gunch/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaRecognizer_postfixExpression_0_basic_dot.dot']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'gunch', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'results', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: gunch/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaRecognizer_postfixExpression_0_basic_dot.dot']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['__init__.py', '__pycache__', 'checkstyle_exp.py', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'wicket_classes']
+INFO:root:the folder path is: /app/
+INFO:root:found ['pycparser', 'kelinci', '.mypy_cache', 'z3', 'jqf', 'klee-uclibc', 'klee', 'AFL', 'code', 'prism-4.5-linux64', 'jpf', 'googletest-release-1.7.0', 'build', 'examples']
+INFO:root:the folder path is: /app/experiments/
+INFO:root:the folder path is: /app/experiments/
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'clean_npath', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mFLOAT_LITERAL_0_basic_dot.dot', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'javalexer', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'clean_npath', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'javalexer', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'clean_npath', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'javalexer', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'clean_npath', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'javalexer', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'clean_npath', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'javalexer', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot']
+INFO:root:the folder path is: tests/
+INFO:root:the folder path is: tests/
+INFO:root:the folder path is: /app/code/tests/cFiles
+INFO:root:found ['Klee Compiler Optimization Data', 'array_input.c', 'benchmark', 'collatz.c', 'coreutils-832', 'coreutils-inlined-heuristic', 'exports', 'fib.c', 'file_with_stdio.c', 'fse_2020_benchmark', 'fse_2020_benchmark_wHelpers', 'fse_with_helper', 'get_sign_klee.c', 'if_then_loop.c', 'inlining_tests', 'merge_sort.c', 'multiple_funcs.c', 'nested_if.c', 'nested_loops.c', 'print_source_code.c', 'problem1.c', 'problem2.c', 'problem3.c', 'problem4.c', 'problem5.c', 'problem6.c', 'problem7.c', 'problem8.c', 'problem9.c', 'recursive_func.c', 'rosetta-code-c', 'sign.c', 'sorting-algs-c']
+INFO:root:the folder path is: tests/cFiles/
+INFO:root:found ['Klee Compiler Optimization Data', 'array_input.c', 'benchmark', 'collatz.c', 'coreutils-832', 'coreutils-inlined-heuristic', 'exports', 'fib.c', 'file_with_stdio.c', 'fse_2020_benchmark', 'fse_2020_benchmark_wHelpers', 'fse_with_helper', 'get_sign_klee.c', 'if_then_loop.c', 'inlining_tests', 'merge_sort.c', 'multiple_funcs.c', 'nested_if.c', 'nested_loops.c', 'print_source_code.c', 'problem1.c', 'problem2.c', 'problem3.c', 'problem4.c', 'problem5.c', 'problem6.c', 'problem7.c', 'problem8.c', 'problem9.c', 'recursive_func.c', 'rosetta-code-c', 'sign.c', 'sorting-algs-c']
+INFO:root:the folder path is: tests/cFiles/
+INFO:root:found ['Klee Compiler Optimization Data', 'array_input.c', 'benchmark', 'collatz.c', 'coreutils-832', 'coreutils-inlined-heuristic', 'exports', 'fib.c', 'file_with_stdio.c', 'fse_2020_benchmark', 'fse_2020_benchmark_wHelpers', 'fse_with_helper', 'get_sign_klee.c', 'if_then_loop.c', 'inlining_tests', 'merge_sort.c', 'multiple_funcs.c', 'nested_if.c', 'nested_loops.c', 'print_source_code.c', 'problem1.c', 'problem2.c', 'problem3.c', 'problem4.c', 'problem5.c', 'problem6.c', 'problem7.c', 'problem8.c', 'problem9.c', 'recursive_func.c', 'rosetta-code-c', 'sign.c', 'sorting-algs-c']
+INFO:root:the folder path is: tests/cFiles/
+INFO:root:found ['Klee Compiler Optimization Data', 'array_input.c', 'benchmark', 'collatz.c', 'coreutils-832', 'coreutils-inlined-heuristic', 'exports', 'fib.c', 'file_with_stdio.c', 'fse_2020_benchmark', 'fse_2020_benchmark_wHelpers', 'fse_with_helper', 'get_sign_klee.c', 'if_then_loop.c', 'inlining_tests', 'merge_sort.c', 'multiple_funcs.c', 'nested_if.c', 'nested_loops.c', 'print_source_code.c', 'problem1.c', 'problem2.c', 'problem3.c', 'problem4.c', 'problem5.c', 'problem6.c', 'problem7.c', 'problem8.c', 'problem9.c', 'recursive_func.c', 'rosetta-code-c', 'sign.c', 'sorting-algs-c']
+INFO:root:the folder path is: /app/code/tests
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: /
+INFO:root:found ['usr', 'media', 'mnt', 'run', 'home', 'srv', 'lib', 'var', 'tmp', 'boot', 'proc', 'root', 'opt', 'sbin', 'lib64', 'dev', 'sys', 'etc', 'bin', 'app', '.dockerenv', 'libx32', 'lib32']
+INFO:root:the folder path is: /app/
+INFO:root:found ['repl_log.log', 'pycparser', 'kelinci', '.vscode', '.mypy_cache', 'z3', 'jqf', 'klee-uclibc', 'klee', 'AFL', 'code', 'prism-4.5-linux64', 'jpf', 'googletest-release-1.7.0', 'build', 'examples']
+INFO:root:the folder path is: /app/code/
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code/
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code/tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: /app/code/tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: /app/code/tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot', 'test2.dot']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot', 'test2.dot']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot', 'test2.dot']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot', 'test2.dot']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot', 'test2.dot']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot', 'test2.dot']
+INFO:root:the folder path is: experiments/badeggs/
+INFO:root:found ['com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mBLOCK_COMMENT_CONTENT_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mDOUBLE_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mINT_LITERAL_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mSIGNED_INTEGER_0_basic_dot.dot', 'com_puppycrawl_tools_checkstyle_grammar_GeneratedJavaLexer_mWS_0_basic_dot.dot', 'test.dot', 'test2.dot']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'badeggs', 'data_collection.py', 'graph_stitching', 'icse_experiment', 'npath_1.csv', 'npath_2.csv', 'wicket_classes']
+INFO:root:['show', 'metri']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: test/
+INFO:root:the folder path is: test/
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'checkstylegraphs', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'subset', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'checkstylegraphs', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'subset', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'checkstylegraphs', 'config', 'core', 'experiments', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'subset', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'checkstylegraphs', 'config', 'core', 'experiments', 'exports', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'subset', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/
+INFO:root:found ['.DS_Store', '__init__.py', '__pycache__', 'benchmark_apc.py', 'benchmark_npath.py', 'cFiles', 'core', 'coreutils_experiment.py', 'cppFiles', 'dotFiles', 'javaFiles', 'pythonFiles', 'test_cfg.py', 'test_command.py', 'test_cpp.py', 'test_cyclomatic.py', 'test_env.py', 'test_graph.py', 'test_inlining.py', 'test_java.py', 'test_log.py', 'test_npath.py', 'test_pathcomplexity.py', 'test_python.py', 'test_utils.py', 'unit_utils.py']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: tests/cppFiles/
+INFO:root:found ['blank.cpp', 'break.cpp', 'exports', 'hello.cpp', 'names.cpp', 'nonStandardFormat.txt', 'prime.cpp', 'standardFormat.txt', 't1.cpp']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'checkstylegraphs', 'config', 'core', 'experiments', 'exports', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'subset', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'checkstylegraphs', 'config', 'core', 'experiments', 'exports', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'subset', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code
+INFO:root:the folder path is: /app/code/experiments
+INFO:root:the folder path is: /app/code/experiments/checkstyle
+INFO:root:found ['checkstyle']
+INFO:root:the folder path is: /app/code
+INFO:root:found ['.DS_Store', '.dmypy.json', '.vscode', 'Makefile', 'PACKAGENAME.egg-info', '__pycache__', 'analyze', 'checkstylegraphs', 'config', 'core', 'experiments', 'exports', 'float_double_lexer', 'graph', 'inlining', 'klee', 'lang_to_cfg', 'main.py', 'meta_analysis', 'metric', 'outputs', 'repl_log.log', 'setup.py', 'subset', 'tests', 'tmp', 'tmp_dot', 'utils.py']
+INFO:root:the folder path is: experiments/checkstyle/checkstyle/
+INFO:root:found ['AuditEvent.class', 'AuditListener.class', 'CheckStyleTask$Formatter.class', 'CheckStyleTask$FormatterType.class', 'CheckStyleTask.class', 'Checker.class', 'Configuration.class', 'DefaultLogger.class', 'Defn.class', 'GeneratedJavaLexer.class', 'GeneratedJavaRecognizer.class', 'GeneratedJavaTokenTypes.class', 'JavadocTag.class', 'LineText.class', 'Main.class', 'MethodSignature.class', 'MyCommonAST.class', 'MyModifierSet.class', 'MyToken.class', 'MyVariable.class', 'PropertyCacheFile.class', 'Scope.class', 'Streamable.class', 'StringArrayReader.class', 'Verifier.class', 'VerifierSingleton.class', 'XMLLogger.class']
+INFO:root:the folder path is: experiments/checkstyle/checkstyle/
+INFO:root:found ['AuditEvent.class', 'AuditListener.class', 'CheckStyleTask$Formatter.class', 'CheckStyleTask$FormatterType.class', 'CheckStyleTask.class', 'Checker.class', 'Configuration.class', 'DefaultLogger.class', 'Defn.class', 'GeneratedJavaLexer.class', 'GeneratedJavaRecognizer.class', 'GeneratedJavaTokenTypes.class', 'JavadocTag.class', 'LineText.class', 'Main.class', 'MethodSignature.class', 'MyCommonAST.class', 'MyModifierSet.class', 'MyToken.class', 'MyVariable.class', 'PropertyCacheFile.class', 'Scope.class', 'Streamable.class', 'StringArrayReader.class', 'Verifier.class', 'VerifierSingleton.class', 'XMLLogger.class']
+INFO:root:the folder path is: experiments/checkstyle/checkstyle/
+INFO:root:found ['AuditEvent.class', 'AuditListener.class', 'CheckStyleTask$Formatter.class', 'CheckStyleTask$FormatterType.class', 'CheckStyleTask.class', 'Checker.class', 'Configuration.class', 'DefaultLogger.class', 'Defn.class', 'GeneratedJavaLexer.class', 'GeneratedJavaRecognizer.class', 'GeneratedJavaTokenTypes.class', 'JavadocTag.class', 'LineText.class', 'Main.class', 'MethodSignature.class', 'MyCommonAST.class', 'MyModifierSet.class', 'MyToken.class', 'MyVariable.class', 'PropertyCacheFile.class', 'Scope.class', 'Streamable.class', 'StringArrayReader.class', 'Verifier.class', 'VerifierSingleton.class', 'XMLLogger.class']
+INFO:root:the folder path is: experiments/checkstyle/checkstyle/
+INFO:root:found ['AuditEvent.class', 'AuditListener.class', 'CheckStyleTask$Formatter.class', 'CheckStyleTask$FormatterType.class', 'CheckStyleTask.class', 'Checker.class', 'Configuration.class', 'DefaultLogger.class', 'Defn.class', 'GeneratedJavaLexer.class', 'GeneratedJavaRecognizer.class', 'GeneratedJavaTokenTypes.class', 'JavadocTag.class', 'LineText.class', 'Main.class', 'MethodSignature.class', 'MyCommonAST.class', 'MyModifierSet.class', 'MyToken.class', 'MyVariable.class', 'PropertyCacheFile.class', 'Scope.class', 'Streamable.class', 'StringArrayReader.class', 'Verifier.class', 'VerifierSingleton.class', 'XMLLogger.class']
+INFO:root:the folder path is: experiments/checkstyle/checkstyle/
+INFO:root:found ['AuditEvent.class', 'AuditListener.class', 'CheckStyleTask$Formatter.class', 'CheckStyleTask$FormatterType.class', 'CheckStyleTask.class', 'Checker.class', 'Configuration.class', 'DefaultLogger.class', 'Defn.class', 'GeneratedJavaLexer.class', 'GeneratedJavaRecognizer.class', 'GeneratedJavaTokenTypes.class', 'JavadocTag.class', 'LineText.class', 'Main.class', 'MethodSignature.class', 'MyCommonAST.class', 'MyModifierSet.class', 'MyToken.class', 'MyVariable.class', 'PropertyCacheFile.class', 'Scope.class', 'Streamable.class', 'StringArrayReader.class', 'Verifier.class', 'VerifierSingleton.class', 'XMLLogger.class']
+INFO:root:the folder path is: experiments/checkstyle/checkstyle/
+INFO:root:found ['AuditEvent.class', 'AuditListener.class', 'CheckStyleTask$Formatter.class', 'CheckStyleTask$FormatterType.class', 'CheckStyleTask.class', 'Checker.class', 'Configuration.class', 'DefaultLogger.class', 'Defn.class', 'GeneratedJavaLexer.class', 'GeneratedJavaRecognizer.class', 'GeneratedJavaTokenTypes.class', 'JavadocTag.class', 'LineText.class', 'Main.class', 'MethodSignature.class', 'MyCommonAST.class', 'MyModifierSet.class', 'MyToken.class', 'MyVariable.class', 'PropertyCacheFile.class', 'Scope.class', 'Streamable.class', 'StringArrayReader.class', 'Verifier.class', 'VerifierSingleton.class', 'XMLLogger.class']

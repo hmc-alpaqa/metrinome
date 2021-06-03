@@ -84,7 +84,7 @@ class DataCollector:
                        "exception_type": exception_type}
 
             data = data.append(new_row, ignore_index=True)
-            data.to_csv("/app/code/experiments/graph_stitching/draft.csv")
+            data.to_csv("/app/code/experiments/graph_stitching/test.csv")
 
 
 def main() -> None:

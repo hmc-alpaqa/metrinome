@@ -33,7 +33,7 @@ class Graph(ABC):
         self.start_node: int = 0
         self.end_node: int = num_vertices - 1
         self.num_vertices = num_vertices
-        self.name: Optional[str] = None
+        self.name: str = ""
 
     @abstractmethod
     def vertices(self) -> list[int]:

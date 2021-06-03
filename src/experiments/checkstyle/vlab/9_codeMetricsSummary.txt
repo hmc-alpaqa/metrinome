@@ -1,0 +1,7 @@
+Release index: 9
+Release type: major-release
+Release content: checkstyle-8.20
+Release git hash: 60c9a439839cb6a233949b724e167a680558028e
+Commits: 671
+Buggy commits: 459
+Methods: 10454
