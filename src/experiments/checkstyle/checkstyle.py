@@ -24,7 +24,7 @@ class CheckstyleCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        for version_num in range(12):
+        for version_num in range(1,12):
             print(f"Currently on version {version_num}")
             c = command.Command(self.replOpts, None)
             print("Command object instantitated")
