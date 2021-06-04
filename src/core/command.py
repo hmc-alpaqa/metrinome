@@ -749,9 +749,9 @@ class Command:
             metricDict[method] = apclist
 
 
-        newFile = open(f"vector/metrics_{self.data.v_num}.csv", 'w', newline = '')
+        newFile = open(f"experiments/checkstyle/vector/metrics_{self.data.v_num}.csv", 'w', newline = '')
         with newFile:
-            with open(f"vlab/{self.data.v_num}_allMetricsCleaned0.csv") as csv_file:
+            with open(f"experiments/checkstyle/vlab/{self.data.v_num}_allMetricsCleaned0.csv") as csv_file:
                 newCsvData = []
                 csv_reader = csv.reader(csv_file, delimiter=',')
                 write = csv.writer(newFile)
