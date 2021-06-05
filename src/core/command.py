@@ -732,7 +732,11 @@ class Command:
                         if count == 1: #found the linear term in the PC
                             apclist = [1, 0, 0, float(entry.split("*")[0]), 1]
                 else: #constant
-                    apclist = [0, 0, 0, float(apclist[0]), 0]
+                    try:
+                        apclist = [0, 0, 0, float(apclist[0]), 0]
+                    except: #Took too long to run
+                        apclist = [-1, -1, -1, -1, -1]
+                        print(apclist)
             elif len(apclist) == 3: #exponential or polynomial
                 pcSplit = pc.replace(" ", "*").split("*")
                 for i in range(len(pcSplit) - 2):
@@ -758,7 +762,7 @@ class Command:
                 firstLine = True
                 for row in csv_reader:
                     if firstLine:
-                        featureVectorLabel = ["APC type", "APC exp coeff", "APX exp base", "APC poly coeff", "APC poly power"]
+                        featureVectorLabel = ["APC type", "APC exp coeff", "APC exp base", "APC poly coeff", "APC poly power"]
                         newCsvData += row+featureVectorLabel
                         write.writerow(newCsvData)
                         firstLine = False
@@ -766,8 +770,10 @@ class Command:
                         key = row[1]
                         if key in self.data.metrics.keys():
                             featureVector = metricDict[key]
-                            newRow = row + featureVector
-                            write.writerow(newRow)
+                        else:
+                            featureVector = [-1, -1, -1, -1, -1]
+                        newRow = row + featureVector
+                        write.writerow(newRow)
 
     def log_name(self, name: str) -> bool:
         """Log all objects of a given name."""
