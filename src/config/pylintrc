@@ -203,7 +203,7 @@ ignore-comments=yes
 ignore-docstrings=yes
 
 # Ignore imports when computing similarities.
-ignore-imports=no
+ignore-imports=yes
 
 # Minimum lines number of a similarity.
 min-similarity-lines=4
@@ -275,7 +275,7 @@ indent-string='    '
 max-line-length=120
 
 # Maximum number of lines in a module.
-max-module-lines=1024
+max-module-lines=1048
 
 # List of optional constructs for which whitespace checking is disabled. `dict-
 # separator` is used to allow tabulation in dicts, etc.: {1  : 1,\n222: 2}.
