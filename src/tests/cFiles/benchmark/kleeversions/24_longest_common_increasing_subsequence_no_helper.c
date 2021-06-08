@@ -4,7 +4,9 @@
 
 // Returns the length and the LCIS of two
 // arrays arr1[0..n-1] and arr2[0..m-1]
-int LCIS(int arr1[], int n, int arr2[], int m) {
+int LCIS(int arr1[], int arraysize1, int arr2[], int arraysize2) {
+  int n = arraysize1;
+  int m = arraysize2;
   // table[j] is going to store length of LCIS
   // ending with arr2[j]. We initialize it as 0,
   int table[m];
@@ -37,7 +39,7 @@ int LCIS(int arr1[], int n, int arr2[], int m) {
 
   return result;
 }
-// 
+//
 // int main() {
 //   int arr1[] = {3, 4, 9, 1};
 //   int arr2[] = {5, 3, 8, 9, 10, 2, 1};

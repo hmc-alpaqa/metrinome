@@ -178,6 +178,7 @@ class KleeUtils:
         uuids: set[uuid.UUID] = set()
         klee_formatted_files = dict()
         for func_name in func_visitor.vars.keys():
+            arraysizes = []
             variables = [list(v) for v in func_visitor.vars[func_name]]
             var_names = []
 
@@ -186,6 +187,8 @@ class KleeUtils:
             file_str += f"#define SIZE {size}\n"
             file_str += "int main() {\n"
             for var in variables:
+                if 'arraysize' in var[1]:
+                    arraysizes.append(var[1])
                 if var[0][-4:] == "[];\n":
                     var[0] = var[0].replace("[]", "[SIZE]")
 
@@ -201,6 +204,8 @@ class KleeUtils:
 
                 var_names.append(var[1])
 
+            for v in arraysizes:
+                file_str += f"""\tif (({v}<-1) || ({v}>SIZE)) {{\n\t\t return 0;}}\n"""
             if func_visitor.types[func_name] == 'void':
                 file_str += f"\t{func_name}({', '.join(var_names)});\n"
                 file_str += "\treturn 0;\n"

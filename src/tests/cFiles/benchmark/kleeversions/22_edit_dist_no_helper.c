@@ -2,8 +2,10 @@
 
 #define MAXSIZE 100
 
-int editDistArraysDP(int a[], int b[], int m, int n) {
+int editDistArraysDP(int a[], int b[], int arraysize1, int arraysize2) {
   // Create a table to store results of subproblems
+  int m = arraysize1;
+  int n = arraysize2;
   int dp[MAXSIZE + 1][MAXSIZE + 1];
   // int u = 0, v = 0, w = 0;
 

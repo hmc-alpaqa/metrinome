@@ -56,6 +56,7 @@ def klee_with_preferences_general(klee_command):
 
     cmd = f"time {klee_command}"
     start_time = time.time()
+    # print(timeconfig+cmd)
     res = subprocess.run(timeconfig + cmd, shell=True, check=False,
                          executable="/usr/bin/zsh", stdout=PIPE, stderr=PIPE)
     final_time = time.time() - start_time
@@ -159,7 +160,9 @@ def main() -> None:
     klee_path = "/app/build/bin/klee" # location of the klee command
     src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/" # location of source files to run klee on, end with a slash
     filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest/" # directory to create (if it doesn't exist) and put all results/created files in
-                                                                        # end with a slash
+                                                                        # both filepaths needs to end with a slash
+    # src_filepath = "/app/code/tests/cFiles/fse_2020_benchmark/"
+    # filepath =   "/app/code/tests/cFiles/fse_2020_benchmark/kleetest/"
     klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
     # f" --output-dir={output} --max-depth={var} {filepath}"
     # --dump-states-on-halt=false --max-time=5min
@@ -180,13 +183,15 @@ def main() -> None:
     '09_insertionsort_no_helper', '11_deletevowels_no_helper', '12_deleteword_no_helper', '14_sortascending_no_helper', '15_maxarray_no_helper', '16_printprimes_no_helper',
     '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper',
     '19_binarytogray_no_helper', '22_edit_dist_no_helper', '23_mergesort_no_helper', '24_longest_common_increasing_subsequence_no_helper']
-    functions = ['08_selectionsort_no_helper', 'selectionsort']
+    # functions = ['08_selectionsort_no_helper', 'selectionsort']
+    # functions = ['selectionsort']
+    # functions = ["22_selectionsort"]
     labels = ["normal"] # the labels for the different "compilation methods"
     # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
     #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
     #               '100'] # all possible values for the input variable
     # xaxis = ['1', '2', '5']
-    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '15']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"] # all klee output fields that we are interested in
     remove = True # whether klee files should be deleted after the important data is collected. Usually set to True

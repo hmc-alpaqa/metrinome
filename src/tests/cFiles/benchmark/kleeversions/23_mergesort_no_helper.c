@@ -2,7 +2,8 @@
 
 #define MAXTEMPSIZE 100
 
-void mergesort(int arr[], int n) {
+void mergesort(int arr[], int arraysize) {
+  int n = arraysize;
   int temp[MAXTEMPSIZE];
   int size;
   int l1, l2, h1, h2, k, i, j;
