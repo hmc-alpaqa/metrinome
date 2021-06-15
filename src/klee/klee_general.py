@@ -132,7 +132,8 @@ def graph_stat_general(results, name, xaxis, xlabel, labels, filepath, fields):
         fig1, ax1 = plt.subplots()
         for label, result_set in zip(labels, results):
             stats = [result_set[(name+label, i)][field] for i in xaxis]
-            ax1.plot(xaxis, stats, label=label)
+            newxis = [float(i) for i in xaxis]
+            ax1.plot(newxis, stats, label=label)
         ax1.set(xlabel=xlabel, ylabel=field, title=name)
         ax1.legend()
         ax1.grid()
@@ -183,6 +184,7 @@ def main() -> None:
     '09_insertionsort_no_helper', '11_deletevowels_no_helper', '12_deleteword_no_helper', '14_sortascending_no_helper', '15_maxarray_no_helper', '16_printprimes_no_helper',
     '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper',
     '19_binarytogray_no_helper', '22_edit_dist_no_helper', '23_mergesort_no_helper', '24_longest_common_increasing_subsequence_no_helper']
+    functions = ['06_binarysearch_no_helper']
     # functions = ['08_selectionsort_no_helper', 'selectionsort']
     # functions = ['selectionsort']
     # functions = ["22_selectionsort"]

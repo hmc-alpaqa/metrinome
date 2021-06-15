@@ -198,7 +198,7 @@ class KleeUtils:
 
                 file_str += f"\tklee_make_symbolic(&{var[1]}," + \
                             f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
-                if 'int' in var[0]:
+                if ('int' in var[0]) and ('[' not in var[0]):
                     file_str += f"""\tif (({var[1]}<-1) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
                 var_names.append(var[1])
 
