@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int mainn(chat str[], int size)
+int mainn(char str[], int size)
 {
     // char str[80];
     int i, j;
