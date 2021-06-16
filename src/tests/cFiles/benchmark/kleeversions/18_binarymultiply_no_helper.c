@@ -42,6 +42,6 @@ int mainn(long binary1, long binary2)
         binary2 = binary2 / 10;
         factor = 10;
     }
-    printf("Product of two binary numbers: %ld", multiply);
+    // printf("Product of two binary numbers: %ld", multiply);
     return 0;
 }

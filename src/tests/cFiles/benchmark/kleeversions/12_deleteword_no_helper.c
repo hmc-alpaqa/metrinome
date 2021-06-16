@@ -3,9 +3,9 @@
 // int search(char[], char[]);
 // void delete_word(char[], char[], int);
 
-int mainn(int size)
+int mainn(char str[], int size)
 {
-    char str[size], word[2];
+    char word[2];
     int index;
     word[0] = 'o';
     word[1] = 'o';
@@ -13,10 +13,10 @@ int mainn(int size)
     int x;
     int n = size;
     // char str[size];
-    srand(0);
-    for (x = 0; x < size; x++) {
-        str[x] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[random () % 26];
-    }
+    // srand(0);
+    // for (x = 0; x < size; x++) {
+    //     str[x] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[random () % 26];
+    // }
 
 
     // SEARCH
@@ -59,11 +59,11 @@ int mainn(int size)
             str[i] = str[i + l + 1];
         }
 
-        printf("String without word:\n%s", str);
+        // printf("String without word:\n%s", str);
     }
     else
     {
-        printf("The word not present in the string.");
+        // printf("The word not present in the string.");
     }
 
     return 0;

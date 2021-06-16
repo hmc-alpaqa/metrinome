@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int mainn(int size)
+int mainn(int list[], int size)
 {
     // int list[100], n;
     // printf("Enter Size of Array : ");
@@ -16,18 +16,18 @@ int mainn(int size)
     // printf("\nBefore sorting");
     int x;
     int n = size;
-    int list[size];
-    srand(0);
-    for (x = 0; x < size; x++) {
-        list[x] = rand();
-    }
+    // int list[size];
+    // srand(0);
+    // for (x = 0; x < size; x++) {
+    //     list[x] = rand();
+    // }
 
     int b;
-    printf("\n");
-    for (b = 0; b < n; b++)
-    {
-        printf("%d ", list[b]);
-    }
+    // printf("\n");
+    // for (b = 0; b < n; b++)
+    // {
+    //     printf("%d ", list[b]);
+    // }
 
     int s = n;
     int i, j, temp;
@@ -44,14 +44,14 @@ int mainn(int size)
         list[j + 1] = temp;
     }
 
-    printf("\nAfter sorting");
-
-    int d;
-    printf("\n");
-    for (d = 0; d < n; d++)
-    {
-        printf("%d ", list[d]);
-    }
+    // printf("\nAfter sorting");
+    //
+    // int d;
+    // printf("\n");
+    // for (d = 0; d < n; d++)
+    // {
+    //     printf("%d ", list[d]);
+    // }
 
     return 0;
 }

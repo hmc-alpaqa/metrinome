@@ -25,9 +25,9 @@ int mainn(int cost)
         }
     }
 
-    for (i = 0; i < k; i++) {
-        // Print
-        printf("%d ", coinList[i]);
-    }
+    // for (i = 0; i < k; i++) {
+    //     // Print
+    //     printf("%d ", coinList[i]);
+    // }
     return 0;
 }

@@ -39,7 +39,7 @@ int mainn(int n, int r)
     c = fact_n / (fact_r * fact_nr);
 
 
-    printf("\nCombinations : %d", c);
+    // printf("\nCombinations : %d", c);
 
     return 0;
 }

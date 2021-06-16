@@ -9,7 +9,7 @@ int mainn(int n)
     // printf("Enter the value of N: ");
     // scanf("%d",&n);
 
-    printf("All Armstrong numbers from 1 to %d:\n",n);
+    // printf("All Armstrong numbers from 1 to %d:\n",n);
     for(i=1;i<=n;i++)
     {
         int tempNumber, rem, sum, result;
@@ -31,7 +31,7 @@ int mainn(int n)
         }
 
         if(result == 1) {
-            printf("%d,",i);
+            // printf("%d,",i);
         }
     }
 

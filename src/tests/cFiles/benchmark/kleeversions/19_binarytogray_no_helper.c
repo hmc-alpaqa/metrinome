@@ -27,6 +27,6 @@ int mainn (int bin)
         i++;
     }
     gray = result;
-    printf("The gray code of %d is %d\n", bin, gray);
+    // printf("The gray code of %d is %d\n", bin, gray);
     return 0;
 }

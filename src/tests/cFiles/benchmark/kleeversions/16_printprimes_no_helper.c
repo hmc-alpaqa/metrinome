@@ -9,7 +9,7 @@ int mainn(int n)
     // printf("Enter the value of N: ");
     // scanf("%d",&n);
 
-    printf("All prime numbers are from 1 to %d:\n",n);
+    // printf("All prime numbers are from 1 to %d:\n",n);
     for(i=1;i<=n;i++) {
         int flg = 0;
         int num = i;
@@ -29,7 +29,7 @@ int mainn(int n)
             result = 1;
         }
         if(result == 1){
-            printf("%d,",i);
+            // printf("%d,",i);
         }
     }
 

@@ -21,5 +21,5 @@ int mainn (int n)
 
   int val = f[n];
 
-  return 0;
+  return val;
 }

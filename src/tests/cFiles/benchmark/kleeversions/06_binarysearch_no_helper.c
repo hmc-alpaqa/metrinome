@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int mainn(int size)
+int mainn(int list [], int size)
 {
     // int list[100], n, val, i;
     int found, i, n;
@@ -22,11 +22,11 @@ int mainn(int size)
     // scanf("%d", &val);
 
     n = size;
-    int list[size];
-    srand(0);
-    for (i = 0; i < size; i++) {
-        list[i] = rand();
-    }
+    // int list[size];
+    // srand(0);
+    // for (i = 0; i < size; i++) {
+    //     list[i] = rand();
+    // }
 
 
     int s = n;
@@ -54,14 +54,14 @@ int mainn(int size)
 
     found = - 1;
 
-    if (found ==  - 1)
-    {
-        printf("\nItem not found");
-    }
-    else
-    {
-        printf("\nItem found at %d", found);
-    }
+    // if (found ==  - 1)
+    // {
+    //     printf("\nItem not found");
+    // }
+    // else
+    // {
+    //     printf("\nItem found at %d", found);
+    // }
 
     return 0;
 }

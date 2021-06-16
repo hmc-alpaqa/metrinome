@@ -4,15 +4,15 @@
  */
 #include <stdio.h>
 
-int mainn(int size)
+int mainn(int number[], int size)
 {
     int x;
     int n = size;
-    int number[size];
-    srand(0);
-    for (x = 0; x < size; x++) {
-        number[x] = rand();
-    }
+    // int number[size];
+    // srand(0);
+    // for (x = 0; x < size; x++) {
+    //     number[x] = rand();
+    // }
     int i, count;
     count = size;
 
@@ -30,10 +30,10 @@ int mainn(int size)
          }
       }
     }
-    printf("Numbers in ascending order:\n");
-    for (i = 0; i < count; ++i){
-       printf("%d\n", number[i]);
-    }
+    // printf("Numbers in ascending order:\n");
+    // for (i = 0; i < count; ++i){
+    //    printf("%d\n", number[i]);
+    // }
 
     return 0;
 }

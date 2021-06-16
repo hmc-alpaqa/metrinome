@@ -1,17 +1,17 @@
 #include <stdio.h>
 
 
-int mainn(int size)
+int mainn(int arr[], int size)
 {
     // int arr[] = {1, 24, 145, 20, 8, -101, 300};
     // int n = sizeof(arr)/sizeof(arr[0]);
     int x;
     int n = size;
-    int arr[size];
-    srand(0);
-    for (x = 0; x < size; x++) {
-        arr[x] = rand();
-    }
+    // int arr[size];
+    // srand(0);
+    // for (x = 0; x < size; x++) {
+    //     arr[x] = rand();
+    // }
     int i, max_element;
 
     // Initialization to the first array element
@@ -25,6 +25,6 @@ int mainn(int size)
         if (arr[i] > max_element)
             max_element = arr[i];
 
-    printf("Largest element of array is %d", max_element);
+    // printf("Largest element of array is %d", max_element);
     return 0;
 }

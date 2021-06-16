@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int mainn(int size)
+int mainn(chat str[], int size)
 {
     // char str[80];
     int i, j;
@@ -11,11 +11,11 @@ int mainn(int size)
 
     int x;
     int n = size;
-    char str[size];
-    srand(0);
-    for (x = 0; x < size; x++) {
-        str[x] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[random () % 26];
-    }
+    // char str[size];
+    // srand(0);
+    // for (x = 0; x < size; x++) {
+    //     str[x] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[random () % 26];
+    // }
 
     for (i = 0, j = 0; str[i] != '\0'; i++)
     {
@@ -42,7 +42,7 @@ int mainn(int size)
     }
     str[j] = '\0';
 
-    printf("\nString without Vowels: %s", str);
+    // printf("\nString without Vowels: %s", str);
 
     return 0;
 }

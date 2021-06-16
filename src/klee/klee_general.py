@@ -184,10 +184,10 @@ def main() -> None:
     '09_insertionsort_no_helper', '11_deletevowels_no_helper', '12_deleteword_no_helper', '14_sortascending_no_helper', '15_maxarray_no_helper', '16_printprimes_no_helper',
     '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper',
     '19_binarytogray_no_helper', '22_edit_dist_no_helper', '23_mergesort_no_helper', '24_longest_common_increasing_subsequence_no_helper']
-    functions = ['06_binarysearch_no_helper']
     # functions = ['08_selectionsort_no_helper', 'selectionsort']
     # functions = ['selectionsort']
-    # functions = ["22_selectionsort"]
+    # functions = ['04_mincoins_no_helper']
+    # functions = ['06_binarysearch_no_helper']
     labels = ["normal"] # the labels for the different "compilation methods"
     # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
     #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
