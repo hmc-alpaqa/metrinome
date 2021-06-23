@@ -182,7 +182,7 @@ def main() -> None:
     # 'test-36-un-inlined', 'test-37-un-inlined', 'test-38-un-inlined', 'test-39-un-inlined', 'test-40-un-inlined'] # all the functions to run klee experiments on
     functions = ['02_fib_no_helper', '04_mincoins_no_helper', '05_nCr_no_helper', '07_bubblesort_no_helper', '08_selectionsort_no_helper',
     '09_insertionsort_no_helper', '11_deletevowels_no_helper', '12_deleteword_no_helper', '14_sortascending_no_helper', '15_maxarray_no_helper',
-    '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper',
+    '16_printprimes_no_helper', '17_printarmstrongs_no_helper', '18_binarymultiply_no_helper',
     '19_binarytogray_no_helper', '22_edit_dist_no_helper', '23_mergesort_no_helper', '24_longest_common_increasing_subsequence_no_helper']
     # functions = ['08_selectionsort_no_helper', 'selectionsort']
     # functions = ['selectionsort']
