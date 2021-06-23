@@ -4,7 +4,7 @@
 
 int mainn(int n)
 {
-    int i;
+    int i, j;
     //
     // printf("Enter the value of N: ");
     // scanf("%d",&n);
@@ -16,8 +16,8 @@ int mainn(int n)
         int result;
         /*if number (num) is divisble by any number from 2 to num/2
         number will not be prime.*/
-        for(i=2;i<(num-1);i++) {
-            if(num%i==0) {
+        for(j=2;j<(num-1);j++) {
+            if(num%j==0) {
                 flg=1;
                 break;
             }
