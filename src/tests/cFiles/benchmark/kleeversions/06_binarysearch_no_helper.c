@@ -36,7 +36,9 @@ int mainn(int list [], int size)
 
     while (first <= last)
     {
-        mid = (first + last) / 2;
+        int t1 = first/2;
+        int t2 = last/2;
+        mid = t1 + t2;
         if (data > list[mid])
         {
             first = mid + 1;
@@ -49,6 +51,7 @@ int mainn(int list [], int size)
         else
         {
             found = mid + 1;
+            break;
         }
     }
 
