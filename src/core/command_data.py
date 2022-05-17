@@ -6,7 +6,11 @@ from collections import namedtuple
 from enum import Enum
 from typing import Optional, Union, cast
 
-from core.log import Log
+import pandas as pd  # type: ignore
+from rich.console import Console
+from rich.table import Table
+
+from core.log import Colors, Log
 from graph.control_flow_graph import ControlFlowGraph
 
 KleeStat = namedtuple("KleeStat", "tests paths instructions delta_t timeout")
@@ -50,7 +54,7 @@ class ObjTypes(Enum):
 class Data:
     """Stores all of objects created during the use of the REPL."""
 
-    def __init__(self, logger: Log) -> None:
+    def __init__(self, logger: Log, rich: bool) -> None:
         """Create a new instance of the REPL data."""
         self.metrics: MetricsDict = {}
         self.graphs: GraphDict = {}
@@ -59,6 +63,7 @@ class Data:
         self.klee_formatted_files: KleeFormattedFilesDict = dict()
         self.bc_files: BcFilesDict = dict()
         self.logger = logger
+        self.rich = rich
 
     def export_metrics(self, name: str, new_name: str) -> None:
         """Save a metric the REPL knows about to an external file."""
@@ -68,12 +73,16 @@ class Data:
                 file.write(str(metric_value))
                 self.logger.i_msg(f"Made file {new_name}_metrics in /app/code/exports/")
         elif name == "*":
+            data = pd.DataFrame({"graph_name": [], "apc": [],
+                                 "cyclo": [], "npath": []})
             for m_name in self.metrics:
-                f_name = os.path.split(m_name)[1]
-                with open(f"/app/code/exports/{f_name}_metrics", "w+") as file:
-                    metric_value = self.metrics[m_name]
-                    file.write(str(metric_value))
-                    self.logger.i_msg(f"Made file {f_name}_metrics in /app/code/exports/")
+                metric_value = self.metrics[m_name]
+                new_row = {"graph_name": m_name, "apc": metric_value[2][1],
+                           "cyclo": metric_value[0][1], "npath": metric_value[1][1]}
+                data = data.append(new_row, ignore_index=True)
+
+            data.to_csv("/app/code/exports/metrics.csv")
+            self.logger.i_msg("Made file metrics.csv in /app/code/exports/")
         else:
             self.logger.e_msg(f"{str(ObjTypes.METRIC).capitalize()} {name} not found.")
 
@@ -204,9 +213,18 @@ class Data:
 
         for graph_name in names:
             if graph_name in self.graphs:
-                self.logger.v_msg(str(self.graphs[graph_name]))
+                if self.rich:
+                    rows = self.graphs[graph_name].rich_repr()
+                    table = Table(title=f"Graph {graph_name}")
+                    table.add_column("Graph Property", style="cyan")
+                    table.add_column("Value", style="magenta")
+                    for row in rows:
+                        table.add_row(*row)
+                    Console().print(table)
+                else:
+                    self.logger.v_msg(str(self.graphs[graph_name]))
             else:
-                self.logger.v_msg(f"Graph {graph_name} not found.")
+                self.logger.v_msg(f"Graph {Colors.MAGENTA}{graph_name}{Colors.ENDC} not found.")
 
     def show_metric(self, name: str, names: list[str]) -> None:
         """Display a metric we know about to the REPL."""
@@ -214,17 +232,34 @@ class Data:
             names = list(self.metrics.keys())
 
         for metric_name in names:
+            if self.rich:
+                table = Table(title=f"Metrics for {metric_name}")
+                table.add_column("Metric", style="cyan")
+                table.add_column("Result", style="magenta", no_wrap=False)
+            else:
+                self.logger.v_msg(f"Metrics for {metric_name}")
+
             if metric_name in self.metrics:
-                self.logger.i_msg(f"Metrics for {metric_name}:")
                 for metric_data in self.metrics[metric_name]:
                     if metric_data[0] == "Path Complexity":
                         metric_data_ = cast(tuple[str, tuple[Union[float, str], Union[float, str]]],
                                             metric_data)
                         apc, path_compl = metric_data_[1][0], metric_data_[1][1]
                         path_out = f"(APC: {apc}, Path Complexity: {path_compl})"
-                        self.logger.v_msg(f"{metric_data[0]}: {path_out}")
+                        if self.rich:
+                            table.add_row(metric_data[0], path_out)
+                        else:
+                            self.logger.v_msg(metric_data[0], path_out)
+
                     else:
-                        self.logger.v_msg(f"{metric_data[0]}: {metric_data[1]}")
+                        if self.rich:
+                            table.add_row(metric_data[0], str(metric_data[1]))
+                        else:
+                            self.logger.v_msg(metric_data[0], str(metric_data[1]))
+
+                if self.rich:
+                    Console().print(table)
+
             else:
                 self.logger.v_msg(f"Metric {metric_name} not found.")
 
@@ -255,8 +290,18 @@ class Data:
 
         for klee_stats_name in names:
             if klee_stats_name in self.klee_stats:
-                self.logger.i_msg("KLEE STATS:")
-                self.logger.v_msg(str(self.klee_stats[klee_stats_name]))
+                if self.rich:
+                    klee_stat = self.klee_stats[klee_stats_name]
+                    table = Table(title=f"Klee Stat {klee_stats_name}")
+                    table.add_column("Property", style="cyan")
+                    table.add_column("Value", style="magenta", no_wrap=False)
+                    for field in klee_stat._fields:
+                        table.add_row(field, str(getattr(klee_stat, field)))
+                    Console().print(table)
+
+                else:
+                    self.logger.i_msg("KLEE STATS:")
+                    self.logger.v_msg(str(self.klee_stats[klee_stats_name]))
 
     def show_klee(self, names: list[str]) -> None:
         """Display Klee files or .bc files we know about to the REPL."""

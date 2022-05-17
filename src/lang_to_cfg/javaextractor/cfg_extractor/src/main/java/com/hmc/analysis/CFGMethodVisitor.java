@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 import com.hmc.ComOptions;
 import java.io.PrintWriter;
@@ -13,9 +12,7 @@ import java.io.PrintWriter;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.MethodNode;
-import java.util.HashMap;
 import org.objectweb.asm.tree.analysis.Frame;
-import java.util.Map;
 import org.objectweb.asm.MethodVisitor;
 
 import java.io.OutputStreamWriter;
@@ -148,51 +145,73 @@ public class CFGMethodVisitor extends MethodVisitor
         CFGMethodVisitor.basicKeyIndex = 1;
         CFGMethodVisitor.mIndexes.clear();
     }
-    
-    private static List<BasicBlock> getBasicBlocks(final Frame[] frames) {
-        final List<Node> leaders = new ArrayList<>();
-        for (int i = 0; i < frames.length; ++i) {
-            if (frames[i] != null) {
-                final Node n = (Node)frames[i];
-                if (i == 0)
-                    n.isRoot = true;
 
-                if (i == 0 || n.predecessors.size() != 1 || n.predecessors.iterator().next().successors.size() > 1)
+    private static List<BasicBlock> getBasicBlocks(Frame[] frames) {
+
+        List< Node > leaders = new ArrayList< Node >();
+
+        for (int i = 0; i < frames.length; i++) {
+            if (frames[i] != null) {
+                Node n = (Node)frames[i];
+
+                if (i == 0) {													// roots are always leaders first element is root
+                    n.isRoot = true;
                     leaders.add(n);
+                } else if (n.predecessors.size() == 0) {						// roots are always leaders, can be in a catch block
+                    leaders.add(n);
+                } else if (n.predecessors.size() > 1) { 						// if ...goto L or goto L, L is a leader
+                    leaders.add(n);
+                } else {														// if ...goto B or goto B, L follows that immediately, L is leader
+                    for (Node p : n.predecessors) {
+                        if (p.successors.size() > 1) {
+                            leaders.add(n);
+                        }
+                    }
+                }
             }
         }
+
         System.out.println("leaders size: " + leaders.size());
-        final Map<Node, BasicBlock> node2block = new HashMap<>();
-        final List<BasicBlock> basicBlocks = new ArrayList<>();
-        for (final Node leader : leaders) {
-            BasicBlock currBlock;
-            if (node2block.containsKey(leader))
+
+        Map<Node, BasicBlock> node2block = new HashMap<Node, BasicBlock>();
+        List<BasicBlock> basicBlocks = new ArrayList<BasicBlock>();
+
+        for (Node leader : leaders) {
+            BasicBlock currBlock = null;
+            if (node2block.containsKey(leader)) {
                 currBlock = node2block.get(leader);
-            else {
+            } else {
                 currBlock = new BasicBlock();
                 basicBlocks.add(currBlock);
                 node2block.put(leader, currBlock);
-                if (leader.isRoot)
+                if (leader.isRoot) {
                     currBlock.isRoot = true;
+                }
             }
-            for (final Node n2 : leader.successors) {
-                if (leaders.contains(n2)) {
-                    if (node2block.containsKey(n2)) {
-                        final BasicBlock nextBlock = node2block.get(n2);
+
+            Iterator<Node> it = leader.successors.iterator();
+            while (it.hasNext()) {
+                Node n = it.next();
+                if (leaders.contains(n)) {
+                    if (node2block.containsKey(n)) {
+                        BasicBlock nextBlock = node2block.get(n);
                         currBlock.successors.add(nextBlock);
                         nextBlock.predecessors.add(currBlock);
-                    }
-                    else {
-                        final BasicBlock nextBlock = new BasicBlock();
+                    } else {
+                        BasicBlock nextBlock = new BasicBlock();
                         basicBlocks.add(nextBlock);
                         currBlock.successors.add(nextBlock);
                         nextBlock.predecessors.add(currBlock);
-                        node2block.put(n2, nextBlock);
+                        node2block.put(n, nextBlock);
                     }
+
+
+                } else {
+                    node2block.put(n, currBlock);
+                    it = n.successors.iterator();
                 }
-                else
-                    node2block.put(n2, currBlock);
             }
+
             System.out.println("basic block size: " + basicBlocks.size());
         }
         return basicBlocks;
