@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import os.path
 import re
 import readline
@@ -23,7 +24,8 @@ from core.command_data import AnyDict, Data, ObjTypes, PathComplexityRes
 from core.env import KnownExtensions
 from core.error_messages import (EXTENSION, MISSING_FILENAME, MISSING_NAME, MISSING_TYPE_AND_NAME,
                                  NO_FILE_EXT, ReplErrors)
-from core.log import Log, LogLevel
+from core.log import Colors, Log, LogLevel
+from experiments.data_collection import DataCollector
 from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
@@ -111,6 +113,38 @@ def worker_main_two(metrics_generator: metric.MetricAbstract,
         print(err, graph.name, metrics_generator.name())
 
 
+class REPLOptions():
+    """Contains options for the REPL such as debug mode."""
+
+    curr_path: str
+    debug_mode: bool
+    rich: bool
+    multithreaded: bool
+
+    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, multithreaded: bool = False) -> None:
+        """Initialize information about the REPL."""
+        self.curr_path = curr_path
+        self.debug_mode = debug_mode
+        self.rich = not poor
+        self.multithreaded = multithreaded
+
+    def get_curr_path(self) -> str:
+        """Return the current path."""
+        return self.curr_path
+
+    def get_debug_mode(self) -> bool:
+        """Return whether or not the REPL should be initialized in debug mode."""
+        return self.debug_mode
+
+    def get_rich(self) -> bool:
+        """Return whether or not the REPL should be initialized with rich enabled."""
+        return self.rich
+
+    def get_multithreaded(self) -> bool:
+        """Return whether or not the REPL should be initialized in multithreading mode."""
+        return self.multithreaded
+
+
 class CmdInfo:
     """Information about the arguments to a REPL command."""
 
@@ -157,6 +191,7 @@ class Options:
         "metrics": CmdInfo(1, ReplErrors.GRAPH_NAME),
         "delete": CmdInfo(2, MISSING_TYPE_AND_NAME),
         "export": CmdInfo(2, MISSING_TYPE_AND_NAME),
+        "run_experiment": CmdInfo(2, MISSING_FILENAME),
         "quit": CmdInfo(0, ReplErrors.NO_ARGS),
         "cd": CmdInfo(1, MISSING_NAME),
         "ls": CmdInfo(0, ReplErrors.CANNOT_ACCEPT_ARGS),
@@ -179,24 +214,24 @@ class Command:
     # pylint: disable=R0904
     """Command is the implementation of the REPL commands."""
 
-    def __init__(self, curr_path: str, debug_mode: bool,
-                 multi_threaded: bool, repl_wrapper: object) -> None:
+    def __init__(self, options: REPLOptions, repl_wrapper: object) -> None:
         """Create a new instance of the REPL implementation."""
-        if debug_mode:
+        if options.get_debug_mode():
             self.logger = Log(log_level=LogLevel.DEBUG)
         else:
             self.logger = Log(log_level=LogLevel.REGULAR)
 
         self.logger.d_msg("Debug Mode Enabled")
-        if multi_threaded:
+        if options.get_multithreaded():
             self.logger.i_msg("Multithreading Enabled")
-        self.multi_threaded = multi_threaded
+        self.multi_threaded = options.get_multithreaded()
         self.controller = Controller(self.logger)
         self._klee_utils = KleeUtils(self.logger)
-        self.data = Data(self.logger)
+        self.rich = options.get_rich()
+        self.data = Data(self.logger, self.rich)
         self._repl_wrapper = repl_wrapper
-        self.curr_path = curr_path
-        self.debug_mode = debug_mode
+        self.curr_path = options.get_curr_path()
+        self.debug_mode = options.get_debug_mode()
 
     def verify_file_type(self, args: str, target_type: str) -> Optional[str]:
         """
@@ -215,6 +250,13 @@ class Command:
             return None
 
         return args[0]
+
+    def do_run_experiment(self, flags: Options, input_path: str, output_path: str) -> None:
+        """Convert and compute metrics for all files in the input directory and store all of the data in a csv."""
+        files = self.get_files(input_path, True, list(self.controller.graph_generators.keys()))
+        collector = DataCollector(self.logger, input_path, output_path)
+        collector.collect(files)
+        self.logger.v_msg(f"Results written to {output_path}.csv")
 
     def do_klee_replay(self, flags: Options, file_name: str) -> None:
         """
@@ -240,7 +282,7 @@ class Command:
         Otherwise, it returns all of the files in the current directory.
         If it is not a valid path, return no files.
         """
-        abspath = ""
+        abspath = path
         if not os.path.isabs(path):
             abspath = os.path.join(self.curr_path, path)
 
@@ -419,9 +461,10 @@ class Command:
                     self.logger.v_msg(f"Created graph {graph.name}")
                     self.data.graphs[filepath] = graph
                 if graph_stitching:
-                    self.logger.v_msg(f"Created {filepath}_stitched")
-                    main = ControlFlowGraph.stitch(graph)
-                    self.data.graphs[filepath + "_stitched"] = main
+                    main = ControlFlowGraph.stitch(copy.deepcopy(graph))
+                    main.name  = os.path.basename(filepath) + "-full"
+                    self.logger.v_msg(f"Created stitched graph {main.name}")
+                    self.data.graphs[main.name] = main
 
     def do_import(self, flags: Options, *args_list: str) -> None:
         """
@@ -533,14 +576,17 @@ class Command:
         metrics <name>
         metrics *
         """
+        # pylint: disable=R1702
+        # pylint: disable=R0912
         graphs = [self.data.graphs[name] for name in self.get_metrics_list(name)]
         for graph in graphs:
             self.logger.v_msg(f"Computing metrics for {graph.name}")
             results = []
-            table = Table(title=f"Metrics for {graph.name}")
-            table.add_column("Metric", style="cyan")
-            table.add_column("Result", style="magenta", no_wrap=False)
-            table.add_column("Time Elapsed", style="green")
+            if self.rich:
+                table = Table(title=f"Metrics for {graph.name}")
+                table.add_column("Metric", style="cyan")
+                table.add_column("Result", style="magenta", no_wrap=False)
+                table.add_column("Time Elapsed", style="green")
             for metric_generator in self.controller.metrics_generators:
                 # Lines of Code is currently only supported in Python.
                 if metric_generator.name() == "Lines of Code" and \
@@ -559,9 +605,16 @@ class Command:
                             result_ = cast(tuple[Union[float, str], Union[float, str]],
                                            result)
                             path_out = f"(APC: {result_[0]}, Path Complexity: {result_[1]})"
-                            table.add_row(metric_generator.name(), path_out, time_out)
+
+                            if self.rich:
+                                table.add_row(metric_generator.name(), path_out, time_out)
+                            else:
+                                self.logger.v_msg(f"Got {path_out}, {time_out}")
                         else:
-                            table.add_row(metric_generator.name(), str(result), time_out)
+                            if self.rich:
+                                table.add_row(metric_generator.name(), str(result), time_out)
+                            else:
+                                self.logger.v_msg(f" Got {result}, took {runtime:.3e} seconds")
                     else:
                         self.logger.v_msg("Got None")
                 except TimeoutError:
@@ -572,9 +625,9 @@ class Command:
                 except numpy.linalg.LinAlgError as err:
                     self.logger.e_msg("Lin Alg Error")
                     self.logger.e_msg(str(err))
-
-            console = Console()
-            console.print(table)
+            if self.rich:
+                console = Console()
+                console.print(table)
 
             if graph.name is not None:
                 self.data.metrics[graph.name] = results
@@ -680,7 +733,7 @@ class Command:
                         -O0 -Xclang -disable-O0-optnone  -o /dev/stdout {file.name}"
                 res = subprocess.run(cmd, shell=True, capture_output=True, check=True)
                 self.data.bc_files[f_name] = res.stdout
-                self.logger.v_msg(f"Created {f_name}")
+                self.logger.v_msg(f"Created {Colors.MAGENTA.value}{f_name}{Colors.ENDC.value}")
 
     def do_to_klee_format(self, flags: Options, file_path: str) -> None:
         """
@@ -692,7 +745,7 @@ class Command:
         self.logger.d_msg(f"Recursive Mode is {flags.recursive_mode}")
         files = self.get_files(file_path, flags.recursive_mode, [".c"])
         if len(files) == 0:
-            self.logger.v_msg(f"Could not find any files for {file_path}")
+            self.logger.v_msg(f"Could not find any files for {Colors.MAGENTA.value}{file_path}{Colors.MAGENTA.value}")
             return
 
         self.logger.d_msg(f"Got files {files}")
@@ -701,7 +754,8 @@ class Command:
                 return
             self.data.klee_formatted_files = {**self.data.klee_formatted_files,
                                               **klee_formatted_files}
-            self.logger.v_msg(f"Created {' '.join(list(klee_formatted_files.keys()))}")
+            log_str = f"Created {Colors.MAGENTA.value}{' '.join(list(klee_formatted_files.keys()))}{Colors.ENDC.value}"
+            self.logger.v_msg(log_str)
 
     def klee_output_indices(self, klee_output: str) -> tuple[int, int, int]:
         """Get the indicies of statistics we care about in the Klee output string."""

@@ -100,6 +100,10 @@ class Graph(ABC):
         been created yet.
         """
 
+    @abstractmethod
+    def rich_repr(self) -> list[list[str]]:
+        """Return a list of rows that can be used to construct a table representation in Rich."""
+
 
 class GenericGraph(Graph, Generic[Type], ABC):
     """A concrete implementation of the Graph interface that graphs can inherit from."""
@@ -178,6 +182,16 @@ class GenericGraph(Graph, Generic[Type], ABC):
             out += ";\n"
 
         return out
+
+    def rich_repr(self) -> list[list[str]]:
+        """Return a list of rows that can be used to construct a table representation in Rich."""
+        return [
+            ["Edges", str(self.edge_rules())],
+            ["Total Edges", str(self.edge_count())],
+            ["Vertices", str(self.vertices())],
+            ["Start Node", str(self.start_node)],
+            ["End Node", str(self.end_node)]
+        ]
 
 
 class AdjListGraph(GenericGraph[AdjListType], Graph):

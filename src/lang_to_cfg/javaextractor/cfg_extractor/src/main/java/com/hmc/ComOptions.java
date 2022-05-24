@@ -1,5 +1,6 @@
 package com.hmc;
 
+
 public class ComOptions
 {
     static String INPUT_CLASS_FOLDER_PATH;

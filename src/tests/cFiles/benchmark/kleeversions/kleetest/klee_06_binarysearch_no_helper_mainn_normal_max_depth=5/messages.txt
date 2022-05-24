@@ -1,5 +1,0 @@
-KLEE: Using Z3 solver backend
-KLEE: ERROR: /app/code/tests/cFiles/benchmark/kleeversions/06_binarysearch_no_helper.c:42: memory error: out of bound pointer
-KLEE: NOTE: now ignoring this error at this location
-KLEE: HaltTimer invoked
-KLEE: halting execution, dumping remaining states

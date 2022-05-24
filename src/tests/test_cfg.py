@@ -58,8 +58,8 @@ class TestControlFlowGraph(unittest.TestCase):
                                      12))
 
         graphs = {"caller": caller, "callee": callee}
-
-        self.assertEqual(CFG.stitch(graphs), expected)
+        res = CFG.stitch(graphs)
+        self.assertEqual(res, expected)
         self.assertEqual(caller, CFG(get_test_graph(), Metadata(Metadata.with_calls(calls))))
         self.assertEqual(callee, CFG(get_second_test_graph()))
 

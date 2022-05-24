@@ -154,13 +154,18 @@ def show_func_defs(filename: str) -> Dict[str, str]:
     return names
 
 
-def calls_function(calls_dict: Dict[int, str], function_cfg: str) -> List[int]:
+def calls_function(calls_dict: Optional[dict[int, str]], function_cfg: str) -> list[int]:
     """Check if a CFG contains a call to another function."""
     nodes = []
     func_name = os.path.splitext(os.path.splitext(function_cfg)[0])[1][1:]
-    for node in calls_dict.keys():
-        if calls_dict[node].endswith(func_name):
-            nodes.append(node)
+    if calls_dict is not None:
+        for node in calls_dict.keys():
+            if calls_dict[node] == function_cfg:
+                nodes.append(node)
+            if func_name == "":
+                pass
+            elif calls_dict[node].endswith(func_name):
+                nodes.append(node)
     return nodes
 
 
