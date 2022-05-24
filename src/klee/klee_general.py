@@ -71,6 +71,8 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
         output_file = f"{filepath}klee_{name}_{xlabel}={i}"
         output_file = output_file.replace(" ", "_")
         klee_command = klee_function(output_file, i)
+        print("BAGEL")
+        print(klee_command)
         results = klee_with_preferences_general(klee_command)
         klee_stats_params = "--table-format=simple --print-all"
         stats = subprocess.run(f"{klee_path}-stats {klee_stats_params} {output_file}", shell=True, stdout=PIPE, stderr=PIPE, check=True)
@@ -164,7 +166,8 @@ def main() -> None:
                                                                         # both filepaths needs to end with a slash
     # src_filepath = "/app/code/tests/cFiles/fse_2020_benchmark/"
     # filepath =   "/app/code/tests/cFiles/fse_2020_benchmark/kleetest/"
-    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
+    # klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
+    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-time={var}min --watchdog {filepath}"
     # f" --output-dir={output} --max-depth={var} {filepath}"
     # --dump-states-on-halt=false --max-time=5min
     # lambda function to generate klee commands
@@ -173,6 +176,7 @@ def main() -> None:
 
     xlabel = "max depth" # label for the x-axis (parameter that is being varied)
     file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False)))
+    # file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False), generate_files(src_filepath, file_path, file_name, True)))
     # should be a callable object that takes in a source folder, output folder, and file name
     # returns a tuple of names for files, if each was compiled differently (ie optimized vs normal) and also compiles/generates the necessary files for klee
 
@@ -187,14 +191,14 @@ def main() -> None:
     # functions = ['08_selectionsort_no_helper', 'selectionsort']
     # functions = ['selectionsort']
     # functions = ['04_mincoins_no_helper']
-    functions = ['06_binarysearch_no_helper']
+    # functions = ['06_binarysearch_no_helper']
     # functions = ['16_printprimes_no_helper']
     labels = ["normal"] # the labels for the different "compilation methods"
     # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
     #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
     #               '100'] # all possible values for the input variable
     # xaxis = ['1', '2', '5']
-    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '15']
+    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '20', '25']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"] # all klee output fields that we are interested in
     remove = True # whether klee files should be deleted after the important data is collected. Usually set to True

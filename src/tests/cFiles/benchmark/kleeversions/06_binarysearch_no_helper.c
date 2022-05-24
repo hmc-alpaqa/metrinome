@@ -43,16 +43,16 @@ int mainn(int list [], int size)
         {
             first = mid + 1;
         }
-        else if (data < list[mid])
-        {
-
-            last = mid - 1;
-        }
-        else
-        {
-            found = mid + 1;
-            break;
-        }
+        // else if (data < list[mid])
+        // {
+        //
+        //     last = mid - 1;
+        // }
+        // else
+        // {
+        //     found = mid + 1;
+        //     break;
+        // }
     }
 
     found = - 1;
