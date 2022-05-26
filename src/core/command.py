@@ -122,7 +122,7 @@ class REPLOptions():
     multithreaded: bool
     recursive_apc: bool
 
-    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, multithreaded: bool = False, recursive_apc: bool = True) -> None:
+    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, recursive_apc: bool, multithreaded: bool = False) -> None:
         """Initialize information about the REPL."""
         self.curr_path = curr_path
         self.debug_mode = debug_mode
