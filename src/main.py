@@ -249,6 +249,9 @@ def main() -> None:
     parser.add_argument('--poor', dest='poor',
                         action='store_true', default=False,
                         help='Turn off rich for simplicity\'s sake.')
+    parser.add_argument('--recursion', dest='recursive_apc',
+                        action='store_true', default=False,
+                        help='Wake up Herald for more accurate apc for recursive functions.')
     # parser.add_argument('--multi-threaded', dest="multi_threaded", action='store_true', default=False,
     # help="Turn this on to speed up REPL functions through parallelism.")
     parsed_args = parser.parse_args()
@@ -259,7 +262,7 @@ def main() -> None:
     except FileNotFoundError:
         pass
 
-    options = REPLOptions("/app/code", parsed_args.debug_mode, parsed_args.poor)
+    options = REPLOptions("/app/code", parsed_args.debug_mode, parsed_args.poor, parsed_args.recursive_apc)
     prompt = Prompt(options)
     prompt.cmdloop(f"{Colors.TITLE.value}" + r"""
 
