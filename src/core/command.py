@@ -120,13 +120,15 @@ class REPLOptions():
     debug_mode: bool
     rich: bool
     multithreaded: bool
+    recursive_apc: bool
 
-    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, multithreaded: bool = False) -> None:
+    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, multithreaded: bool = False, recursive_apc: bool = True) -> None:
         """Initialize information about the REPL."""
         self.curr_path = curr_path
         self.debug_mode = debug_mode
         self.rich = not poor
         self.multithreaded = multithreaded
+        self.recursive_apc = recursive_apc
 
     def get_curr_path(self) -> str:
         """Return the current path."""
@@ -143,6 +145,10 @@ class REPLOptions():
     def get_multithreaded(self) -> bool:
         """Return whether or not the REPL should be initialized in multithreading mode."""
         return self.multithreaded
+
+    def get_recursive_apc(self) -> bool:
+        """Return whether or not the REPL should be initialized in recursive apc mode."""
+        return self.recursive_apc
 
 
 class CmdInfo:
@@ -232,6 +238,11 @@ class Command:
         self._repl_wrapper = repl_wrapper
         self.curr_path = options.get_curr_path()
         self.debug_mode = options.get_debug_mode()
+        self.recursive_apc = options.get_recursive_apc()
+        if self.recursive_apc:
+            print("It's Herald time :D")
+        else:
+            print("Herald is napping zzzzzzzzz")
 
     def verify_file_type(self, args: str, target_type: str) -> Optional[str]:
         """
