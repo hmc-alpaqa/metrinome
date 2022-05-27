@@ -240,3 +240,15 @@ class PathComplexity(metric.MetricAbstract):
                 return (apc, terms)
 
         return (expr_with_abs, expr_with_abs)
+class RecursivePathComplexity(ABC):
+    """The interface that all metric computers should follow."""
+
+    def __init__(self, logger: Log) -> None:
+        """Initialize a new object capable of computing a metric."""
+
+    def name(self) -> str:
+        """Return the name of the metric computed by this class."""
+        return "Recursive Path Complexity"
+
+    def evaluate(self, cfg: ControlFlowGraph) -> Union[int, PathComplexityRes]:
+        """Given a graph, compute the metric."""
