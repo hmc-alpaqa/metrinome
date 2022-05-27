@@ -58,10 +58,11 @@ class Controller:
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
         npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
+        recursivepathcomplexity = path_complexity.RecursivePathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
 
         self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity, locs]
+                                                                pathcomplexity, recursivepathcomplexity, locs]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -604,7 +605,13 @@ class Command:
                    graph.metadata.language is not KnownExtensions.Python:
                     continue
                 start_time = time.time()
-
+                print(self.recursive_apc)
+                if metric_generator.name() == "Path Complexity" and self.recursive_apc:
+                    print("Skipping path")
+                    continue
+                if metric_generator.name() == "Recursive Path Complexity" and not self.recursive_apc:
+                    print("Skipping recurpath")
+                    continue
                 try:
                     with Timeout(6000, "Took too long!"):
                         result = metric_generator.evaluate(graph)
