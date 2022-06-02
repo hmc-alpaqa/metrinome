@@ -30,8 +30,8 @@ from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
 from lang_to_cfg import converter, cpp, java, python
-from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity
-from utils import Timeout
+from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity, recursive_path_complexity
+from utils import Timeout, calls_function
 
 # Temporarily disable unused arguments due to flags.
 # pylint: disable=unused-argument
@@ -58,7 +58,7 @@ class Controller:
         cyclomatic = cyclomatic_complexity.CyclomaticComplexity(self.logger)
         npath = npath_complexity.NPathComplexity(self.logger)
         pathcomplexity = path_complexity.PathComplexity(self.logger)
-        recursivepathcomplexity = path_complexity.RecursivePathComplexity(self.logger)
+        recursivepathcomplexity = recursive_path_complexity.RecursivePathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
 
         self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
@@ -606,10 +606,11 @@ class Command:
                     continue
                 start_time = time.time()
                 print(self.recursive_apc)
-                if metric_generator.name() == "Path Complexity" and self.recursive_apc:
+                isRecursive = True #self.recursive_apc and not all([ v == 0 for v in calls_function(graph.metadata.calls, graph.name)])
+                if metric_generator.name() == "Path Complexity" and isRecursive:
                     print("Skipping path")
                     continue
-                if metric_generator.name() == "Recursive Path Complexity" and not self.recursive_apc:
+                if metric_generator.name() == "Recursive Path Complexity" and not isRecursive:
                     print("Skipping recurpath")
                     continue
                 try:
