@@ -1,0 +1,7 @@
+Error.o: Error.cpp ../config.h Error.h CommonMacros.h
+
+../config.h:
+
+Error.h:
+
+CommonMacros.h:

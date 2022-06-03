@@ -1,0 +1,5 @@
+diacrit.o: ../../lib/diacrit.c config.h ../../lib/diacrit.h
+
+config.h:
+
+../../lib/diacrit.h:

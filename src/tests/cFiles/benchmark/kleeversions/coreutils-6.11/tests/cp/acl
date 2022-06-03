@@ -1,0 +1,64 @@
+#!/bin/sh
+# copy files/directories across file system boundaries
+# and make sure acls are preserved appropriately
+
+# Copyright (C) 2005-2008 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Make sure we get English translations.
+. $srcdir/../lang-default
+
+if test "$VERBOSE" = yes; then
+  set -x
+  mv --version
+  getfacl --version
+  setfacl --version
+fi
+
+. $srcdir/../test-lib.sh
+require_acl_
+
+# Skip this test if cp was built without ACL support:
+grep '^#define USE_ACL 0' $CONFIG_HEADER > /dev/null &&
+  skip_test_ "insufficient ACL support"
+
+mkdir -p a b || framework_failure
+touch a/file || framework_failure
+
+skip=no
+# Ensure that setfacl and getfacl work on this file system.
+setfacl -m user:bin:rw a/file 2> /dev/null || skip=yes
+acl1=`cd a && getfacl file | grep -v ':bin:' | grep -v 'mask::'` \
+  || skip=yes
+
+test $skip = yes &&
+  skip_test_ "'.' is not on a suitable file system for this test"
+
+# copy a file without preserving permissions
+cp a/file b/ || fail=1
+
+acl2=`cd b && getfacl file` || framework_failure
+test "$acl1" = "$acl2" || fail=1
+rm a/file || framework_failure
+
+# copy a file, preserving permissions
+touch a/file || framework_failure
+setfacl -m user:bin:rw a/file || framework_failure
+acl1=`cd a && getfacl file` || framework_failure
+cp -p a/file b/ || fail=1
+acl2=`cd b && getfacl file` || framework_failure
+test "$acl1" = "$acl2" || fail=1
+
+(exit $fail); exit $fail

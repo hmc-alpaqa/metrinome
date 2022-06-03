@@ -1,0 +1,1209 @@
+2008-04-19  Jim Meyering  <meyering@redhat.com>
+
+	Version 6.11.
+	* NEWS: Record release date.
+
+	* maint.mk (writable-files): Fix syntax error.
+
+	* doc/.gitignore: Add texinfo-related outputs.
+
+2008-04-19  Sven Joachim  <svenjoac@gmx.de>
+
+	* THANKS: Update my address, correct encoding for a name.
+
+2008-04-19  Jim Meyering  <meyering@redhat.com>
+
+	pr -e, with a mix of backspaces and TABs, could corrupt the heap
+	* tests/pr/Test.pm: New tests for the above.
+	* src/pr.c (char_to_clump): Ensure that "input_position" never
+	goes below 0.
+	Also, elide any backspace encountered when input_position is 0,
+	to be compatible at least with /bin/pr from Solaris 10.
+	This bug is present in the original version:
+	b25038ce9a234ea0906ddcbd8a0012e917e6c661
+	* NEWS [Bug fixes]: Mention this.
+	Report and diagnosis by Cristian Cadar, Daniel Dunbar and Dawson Engler
+	in http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/13272
+
+2008-04-19  Mike Frysinger  <vapier@gentoo.org>
+
+	* src/dircolors.hin: Add .flv.  Move .svgz to "image formats".
+
+2008-04-19  Jim Meyering  <meyering@redhat.com>
+
+	md5sum -c: ignore a line with a NUL byte among checksum hex digits
+	* src/md5sum.c (hex_digits): Require that all "digest_hex_bytes"
+	be hexadecimal digits, not just those before the first NUL byte.
+	This bug dates back to the original version:
+	3763a4f24eb21be40674d13ff7b04e078f473e85
+	* tests/misc/md5sum (nul-in-cksum): Test for the above.
+	* NEWS [Bug fixes]: Mention this.
+	Prompted by a report from Flóki Pálsson in
+	http://bugzilla.redhat.com/439531
+
+2008-04-16  Matthew Woehlke  <mw_triad@users.sourceforge.net>
+
+	tests: accommodate built-in mknod more cleanly still
+	* tests/mkdir/selinux: Use "env" rather than "nice".
+
+2008-04-16  Jim Meyering  <meyering@redhat.com>
+
+	tests: accommodate built-in mknod more cleanly
+	* tests/mkdir/selinux: Undo most of previous change,
+	bc22dbbf844f31ddaf2e68b167d0128a985d73ab, and instead
+	invoke the command via "nice".  Using "exec" should be
+	enough, but isn't with OpenBSD's PD KSH v5.2.14 99/07/13.2.
+	Eric Blake suggested using nice.
+
+	mknod --help: note that this command may be a shell built-in
+	* src/mknod.c (usage): Print USAGE_BUILTIN_WARNING.
+	Suggestion from Eric Blake.
+
+	avoid "may be used uninitialized" warning from newer gcc
+	* src/md5sum.c (digest_check) [lint]: Initialize local, "filename".
+
+	tests: add a comment explaining the potential failure
+
+	tests: avoid mkdir/selinux failure when mknod is a shell built-in
+	* tests/mkdir/selinux: Skip the mknod test if it's a built-in.
+
+2008-04-15  Jim Meyering  <meyering@redhat.com>
+
+	md5sum, sha1sum, etc: handle invalid input (i.e., don't segfault)
+	* src/md5sum.c (bsd_split_3): Return right away if s_len == 0.
+	* tests/misc/md5sum (bsd-segv): New test for the above.
+	* tests/misc/sha1sum (bsd-segv): Likewise.
+	* NEWS: Mention the bug fix.
+	Reported by Cristian Cadar, Daniel Dunbar and Dawson Engler.
+
+2008-04-14  Jim Meyering  <meyering@redhat.com>
+
+	tests: don't fail on systems without a "stat" syscall
+	* tests/test-lib.sh (require_strace_): Add a syscall parameter.
+	* tests/ls/stat-free-symlinks: Update caller.
+	* tests/mv/atomic: Likewise.
+	* tests/mv/atomic2: Likewise.
+	Reported by Mike Frysinger in
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/13222
+
+	tests: accommodate a different errno string on Irix 6.5
+	* tests/mkdir/selinux: Also handle "Not supported".
+	Reported by Peter Fales.
+
+	seq: work around floating point inaccuracies on more systems
+	* src/seq.c: Include <math.h> for fabs.
+	Include <float.h> for DBL_EPSILON.
+	(abs_rel_diff): New function.
+	(print_numbers): Use abs_rel_diff rather than a strict equality test.
+	Without this change, Solaris 8 and Irix 6.2 would fail the float-6
+	test.  Reported by Peter Fales in
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/13183
+	* src/c99-to-c89.diff: Adjust seq.c offsets.
+
+	doc: fix typo
+	* coreutils.texi (sort invocation): s/Whitespace/White space/
+
+2008-04-12  Jim Meyering  <meyering@redhat.com>
+
+	tests: Accommodate a different errno value on OSF/1 4.0F.
+	* tests/mkdir/selinux: Also handle "Function not implemented".
+
+	Avoid link failure when using mkstemp replacement.
+	* src/Makefile.am (tac_LDADD): Add $(LIB_CLOCK_GETTIME).
+	This is necessary at least on a DEC Alpha OSF/1 4.0F.
+
+	tests: always enable VERBOSE output, now that test framework works better
+	* cfg.mk: Set VERBOSE=yes.
+	* tests/check.mk: Likewise.
+
+2008-04-11  Jim Meyering  <meyering@redhat.com>
+
+	doc: avoid "make pdf" failure (due to texi2dvi bug?)
+	* doc/coreutils.texi (filesZeroFromOption):
+	Comment out @cindex-in-@macro use.
+
+	doc: use a valid texinfo macro name
+	* doc/coreutils.texi (filesZeroFromOption): s/0/Zero/
+
+2008-04-08  Jim Meyering  <meyering@redhat.com>
+
+	tests: accommodate a different errno value on HPUX-10.20
+	* tests/mkdir/selinux: Also handle "Unknown system error".
+	Reported by Peter Fales.
+
+2008-04-06  Jim Meyering  <meyering@redhat.com>
+
+	doc: factor out --files0-from duplication
+	* coreutils.texi (wc invocation) [files0fromOption]: New macro.  Use it.
+	(du invocation): Use it here, too.
+
+	* src/c99-to-c89.diff: Adjust remove.c diffs.
+
+2008-04-06  Jim Meyering  <jim@meyering.net>
+
+	remove.c: accommodate systems with negative errno values
+	This is required at least on Haiku and BeOS.
+	* src/remove.c (write_protected_non_symlink): Return 1 for a write-
+	protected non-symlink, 0 if we determine it's not, and -1 upon
+	error (setting errno accordingly only in this final case).
+	(prompt): Deal with the changed semantics of the above function.
+	Based on this patch from Axel Dörfler:
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/13071
+
+2008-04-05  Jim Meyering  <meyering@redhat.com>
+
+	Accommodate building on OS/2 (www.ecomstation.com Ecs v2 rc4)
+	* configure.in: Also filter out carriage returns from the value
+	of $no_install_progs_default.  Reported by Elbert Pol.
+
+2008-04-02  Jim Meyering  <meyering@redhat.com>
+
+	"touch E; mkfifo F; cp -fR F E" no longer fails due to existing E
+	* src/copy.c (copy_internal): Revert change of 2005-03-01,
+	4303f0454592421eea48be87777d32a49e1d5e5b
+	Prompted by Michael Stone, who pointed me to an old bug report from
+	Ian Jackson: http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/7504
+	* tests/cp/special-f: New file.  Test for the above.
+	* tests/cp/Makefile.am (TESTS): Add special-f.
+	* NEWS: mention this bug fix.
+
+	copy.c: remove an in-function #ifdef
+	* src/copy.c (rpl_mkfifo) [! HAVE_MKFIFO]: New function.
+	(mkfifo) [! HAVE_MKFIFO]: Define to rpl_mkfifo.
+	(copy_internal): Remove #ifdef.
+
+	HACKING: rename README-contribution-guidelines
+	README-contribution-guidelines: Rename to ..
+	HACKING: ...this.
+
+2008-04-01  Jim Meyering  <meyering@redhat.com>
+
+	bootstrap: remove dangling *.[ch] symlinks from lib
+	* bootstrap [dangling symlink removal]: Match *.[ch] files, too.
+	Suggestion from Eric Blake.
+
+	bootstrap: make find's -depth option be the first.
+	* bootstrap [dangling symlink removal]: Move find's -depth
+	option to precede all others, to avoid a warning.
+
+	* bootstrap: Remove dangling symlinks from lib (aka $source_base), too.
+
+	Avoid root-only SELinux-related test failures w/o mcstransd.
+	When mcstransd is not running (i.e., after service mcstrans stop),
+	"make check" as root would provoke two test failures.
+	* tests/cp/cp-a-selinux: Use the context, root:object_r:tmp_t:s0,
+	that works both with and without mcstransd.
+	Thanks to Eric Paris for the tip and to Ondřej Vašík for alerting
+	me to the problem.
+	Reported by Robert Scheck in <http://bugzilla.redhat.com/436717>.
+
+	root tests: Set NON_ROOT_USERNAME if not set already.
+	* tests/test-lib.sh (require_root_): This avoids failure of a
+	couple of root-only tests that require a value for that envvar.
+
+	texinfo formatting tweaks
+	* coreutils.texi: Avoid some overfull hbox warnings.
+	(Treating / specially): Use @file{/} rather than a bare /.
+
+	printf doc: xref print(3) and libc's "Output Conversion Syntax" node
+	* coreutils.texi (printf invocation): Add xref.
+	Use "The GNU C Library Reference Manual" as the name of the 'libc'
+	document consistently.
+	* man/printf.x: Add See also: printf(3).
+	Suggested by A. Costa in http://bugs.debian.org/465522
+
+2008-03-31  Jim Meyering  <meyering@redhat.com>
+
+	Emit "#line 1" right after the two 'read-only/GENERATED' lines.
+	* bootstrap (cp_mark_as_generated): This preserves line numbering
+	e.g., in assertions, which is important when correlating between
+	coreutils test failures and the original files in gnulib/tests.
+	Suggested by Eric Blake.
+
+	* README-contribution-guidelines: Mention how to amend a commit.
+	Suggestion from Pádraig Brady.
+
+	Begin documenting contribution guidelines.
+	* README-contribution-guidelines: New file.  For now, not distributed.
+
+	"rm -r DIR" would mistakenly prompt about very long names
+	* src/remove.c (write_protected_non_symlink): Return 0(-1) when
+	euidaccess_stat pronounces a writable(not-writable) file, not -1(0).
+	* tests/rm/deep-2: New file.  Test for the above-fixed bug.
+	* tests/rm/Makefile.am (TESTS): Add deep-2.
+	Discovered while reviewing this change:
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/13071
+
+	* NEWS: Note the dd bug fix.  The bug was introduced over 8 years ago:
+	9fca49f67c16c8b42c32e185808fe187cedb0fa7
+
+2008-03-31  Paul Eggert  <eggert@cs.ucla.edu>
+
+	dd bug fix: accept e.g., if=/dev/stdin and of=/dev/stdout
+	* lib/fd-reopen.c: Work even if FILE is "/dev/stdin".
+	Problem reported by Geoffrey Lee in <http://bugs.debian.org/290727>.
+	* tests/dd/misc: Check for this bug.
+
+2008-03-29  Jim Meyering  <meyering@redhat.com>
+
+	avoid failure of new test on kernel without SELinux support
+	* tests/mkdir/selinux: Also accept ENOENT.
+	Reported by Sven Joachim.
+
+	tests: accept ENOTSUP message as well as the EINVAL one
+	This test would fail on most non-Linux systems because the original
+	expected an "Invalid argument" diagnostic, yet they all produced
+	"Operation not supported".
+	* tests/mkdir/selinux: Accept both strings.  Factor out duplication.
+
+	Work around a recent glibc/getopt.c diagnostic change.
+	* tests/misc/factor: Map new "-- '1'" to expected "-- 1".
+
+2008-03-28  Jim Meyering  <meyering@redhat.com>
+
+	mknod, mkfifo: don't segfault when diagnosing invalid SELinux context
+	Identical to the bug fixed by 72d052896a9092b811961a8f3e6ca5d151a59be5.
+	* src/mkfifo.c (main): Use "scontext", not NULL optarg in diagnostic.
+	* src/mknod.c (main): Likewise.
+	Reported by Cristian Cadar, Daniel Dunbar and Dawson Engler.
+	* tests/mkdir/selinux: Test for the above fixes.
+	* NEWS: Mention the fixes.
+
+	Fix typo in old NEWS and ChangeLog: s/commmand/command/.
+	* ChangeLog-2007: Likewise.
+	* NEWS: Likewise.
+	Prompted by http://bugzilla.redhat.com/439410
+
+2008-03-28  Pádraig Brady  <P@draigBrady.com>
+
+	tests: Factor out code that's going to be reused.
+	* tests/test-lib.sh (mkfifo_or_skip_): New function, factored out of...
+	* tests/touch/fifo: ...here.
+
+2008-03-28  Jim Meyering  <meyering@redhat.com>
+
+	Require that "(exit $fail); exit $fail" be last line of each test.
+	* maint.mk (sc_require_test_exit_idiom): New rule to enforce policy.
+	* tests/cp/acl: Adhere to the new policy.
+	* tests/cp/preserve-gid: Likewise.
+	* tests/dd/misc:
+	* tests/install/create-leading:
+	* tests/ln/sf-1:
+	* tests/ls/symlink-slash:
+	* tests/misc/help-version:
+	* tests/misc/ls-time:
+	* tests/misc/nice:
+	* tests/misc/shred-remove:
+	* tests/misc/stty:
+	* tests/misc/stty-row-col:
+	* tests/mkdir/p-1:
+	* tests/mkdir/p-2:
+	* tests/mkdir/p-3:
+	* tests/mkdir/p-v:
+	* tests/mkdir/special-1:
+	* tests/mkdir/writable-under-readonly:
+	* tests/mv/acl:
+	* tests/mv/backup-is-src:
+	* tests/mv/diag:
+	* tests/mv/dir-file:
+	* tests/mv/force:
+	* tests/mv/hard-link-1:
+	* tests/mv/i-2:
+	* tests/mv/i-4:
+	* tests/mv/into-self:
+	* tests/mv/into-self-2:
+	* tests/mv/into-self-3:
+	* tests/mv/partition-perm:
+	* tests/mv/to-symlink:
+	* tests/rmdir/ignore:
+	* tests/tail-2/assert:
+	* tests/tail-2/assert-2:
+	* tests/touch/dangling-symlink:
+	* tests/touch/dir-1:
+	* tests/touch/empty-file:
+	* tests/touch/fifo:
+	* tests/touch/no-rights: Likewise.
+
+	Perform explicit exit-nonzero if the embedded Perl script fails.
+	* tests/misc/pwd-long: Add canonical '(exit $fail); exit $fail'.
+
+2008-03-27  Jim Meyering  <meyering@redhat.com>
+
+	paste -d\\: avoid heap overrun for backslash at end of delim list
+	* src/paste.c: Include "quotearg.h".
+	(collapse_escapes): Handle backslash-escaped backslash explicitly.
+	Handle unescaped backslash at end of string by returning nonzero,
+	rather than by overrunning memory.
+	(main): Diagnose an invalid delimiter list -- carefully.
+	Reported by Cristian Cadar, Daniel Dunbar and Dawson Engler.
+	* tests/misc/paste-no-nl (delim-bs): Add a test to demonstrate the
+	heap-smashing capability.
+	(delim-bs2): Prior to coreutils-5.1.2, this bug was a little harder
+	to demonstrate: it would corrupt a first-argument containing e.g., \b
+	* NEWS: Mention the bug fix.
+	* tests/misc/Makefile.am (TESTS): Reflect renaming.
+	* tests/misc/paste: Rename from paste-no-nl.
+
+2008-03-26  Jim Meyering  <meyering@redhat.com>
+
+	* src/join.c (keycmp): Document new parameters.
+
+	Test for mkdir bug fix.
+	* tests/mkdir/selinux: New file: test for today's fix.
+	* tests/mkdir/Makefile.am (TESTS): Add selinux.
+
+2008-03-26  Daniel Dunbar  <daniel@zuster.org>
+
+	mkdir -Z x d: don't segfault when diagnosing invalid context "x" (tiny change)
+	* src/mkdir.c (main): Use "scontext", not NULL optarg in diagnostic.
+	Reported by Cristian Cadar, Daniel Dunbar and Dawson Engler.
+	* NEWS: Mention the bug fix.
+
+2008-03-25  Peter Fales  <psfales@alcatel-lucent.com>
+
+	id bug fix: don't point to potentially clobbered static storage
+	On at least Mac OS, when calling getpwuid twice with the same UID,
+	the static storage containing results from the first call is
+	invalidated by the second call.
+	* src/id.c (main): Point to a copy of the user name string.
+
+2008-03-25  Eric Blake  <ebb9@byu.net>
+
+	Use new gnulib gnumakefile module.
+	* bootstrap.conf (gnulib_modules): Pull in new module.
+	* GNUmakefile: Remove from version control.
+	* .gitignore: Update.
+	* configure.ac (AC_CONFIG_LINKS): Delete; rely on gnulib to do
+	this now.
+	* Makefile.am (EXTRA_DIST, distclean-local): Likewise.
+
+2008-03-25  Jim Meyering  <meyering@redhat.com>
+
+	join bug fix: adapt keycmp to work with new order-checking feature
+	* src/join.c (keycmp): Add two join-field parameters.
+	(check_order, join): Update callers.
+	Reported by Dmitry V. Levin in
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/12731/focus=13017
+	* tests/join/Test.pm (chkodr-7): New test for this fix.
+
+2008-03-23  Jim Meyering  <meyering@redhat.com>
+
+	join.c: syntax/style tweaks
+	* src/join.c (check_order): Rename from checkorder.
+	Move definition to precede first use and remove prototype.
+	Use EXIT_FAILURE, rather than "1".
+	(key_cmp): Move definition to precede first use.
+
+2008-03-22  Jim Meyering  <meyering@redhat.com>
+
+	portability: work around a "busybox sed" limitation
+	* configure.ac: While every other sed tested supports usage like
+	'/\(re\)/{s//\1/;...<NEWLINE>}', and POSIX appears to requires this,
+	busybox's sed does not support it.  So duplicate the regexp:
+	'/\(re\)/{s/\(re\)/\1/;...<NEWLINE>}'.  Reported by Vincent Lefevre:
+	<http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/13013>.
+
+2008-03-21  Jim Meyering  <meyering@redhat.com>
+
+	* src/c99-to-c89.diff: Adjust seq.c offsets.
+
+	ptx: avoid heap overrun for backslash at end of optarg string
+	* src/ptx.c (copy_unescaped_string): Ignore a lone backslash
+	at end of string.  Reported by Cristian Cadar, Daniel Dunbar
+	and Dawson Engler.  Details here:
+	<http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/13005>.
+	* tests/misc/Makefile.am (TESTS): Add ptx-overrun.
+	* tests/misc/ptx-overrun: New file.  Test for the above fix.
+	* NEWS: Mention the fix.
+
+	ptx.c readability
+	* src/ptx.c (copy_unescaped_string): Add braces around 80+-line
+	single-stmt while-loop body.
+
+	Write NEWS and update c99-to-c89 patch for today's rm improvement.
+	* NEWS: call this a "portability improvement" ;-)
+	* src/c99-to-c89.diff: Adjust remove.c offsets.
+
+2008-03-21  Ingo Weinhold  <ingo_weinhold@gmx.de>
+
+	remove.c: Accommodate systems with negative errno values.
+	* src/remove.c (cache_fstatat): Store errno value directly in
+	the st_ino field, rather than trying to shoehorn it into st_size.
+	This is required at least on BeOS and Haiku.
+
+2008-03-21  Jim Meyering  <meyering@redhat.com>
+
+	* src/seq.c (long_double_format): Add a comment.
+
+	* GNUmakefile: Update from gnulib.
+
+2008-03-20  Jim Meyering  <meyering@redhat.com>
+
+	Remove today's automake kludge, altogether.  Fix properly.
+	* man/Makefile.am: Use dist_man1_MANS instead of dist_man_MANS.
+	Suggestion from Ralf Wildenhues.
+
+	Add a check to detect this problem, in case it reappears.
+	* maint.mk (my-distcheck): Run "make install", and then ensure
+	that ls.1 is installed.
+
+	Kludge to make automake generate install-man rules
+	* man/Makefile.am (dist_man_MANS): Add a literal, rm.1.
+	Without this, "make install" would not install man pages.
+	However, with this kludge, the rm.1 man page is installed
+	even when you configure with --enable-no-install-program=rm.
+
+	Revert recent man/Makefile.am change.
+	Revert 4b544e447eb78fd1f031a026a499f6aed177808a.
+	* man/Makefile.am: That change was only a band-aid.  It solved
+	the stated problem, but not a deeper one: that "make install"
+	would no longer man pages.  Reported by Dmitry V. Levin.
+	The latter problem arose in
+	167b8025aca487de001da2448c1aebc2747bc1d3 with the removal of
+	the sole literal from the definition of dist_man_MANS.  When
+	automake perceives dist_man_MANS as empty, it no longer emits
+	the install-man* rules.
+
+2008-03-20  Eric Blake  <ebb9@byu.net>
+
+	Sync GNUmakefile with gnulib.
+	* GNUmakefile (Makefile.cfg): Rename...
+	(cfg.mk): ...to this, and make optional.
+	(GNUmakefile.cfg): Delete, redundant with cfg.mk.
+	(Makefile.maint): Rename...
+	(maint.mk): ...to this.
+	(all) [!_have-Makefile]: Rename...
+	(abort-due-to-no-makefile): ...to this, and invoke via
+	.DEFAULT_GOAL to pick up all targets.
+	* Makefile.cfg: Rename...
+	* cfg.mk: ...to this.
+	* Makefile.maint: Rename...
+	* maint.mk ...to this.
+	(ME): Reflect rename.
+	(makefile-check, m4-check, author_mark_check, msg): Use $(ME)
+	rather than hard-coded name.
+	* Makefile.am (EXTRA_DIST): Distribute renamed files.
+	* .x-sc_file_system: Remove Makefile.maint along with others. No longer needed.
+	* .x-sc_obsolete_symbols: Likewise.
+	* .x-sc_prohibit_atoi_atof: Reflect renaming and remove no-longer-VC'd names.
+	* TODO: Likewise.
+
+2008-03-19  Bob Proulx  <bob@proulx.com>
+
+	make check: Remove /tmp/ls-creating debug code.
+	* tests/misc/ls-misc: Remove debug code creating /tmp/ls.
+
+2008-03-19  Jim Meyering  <meyering@redhat.com>
+
+	bootstrap: restore kludge removed on 2008-03-12: it's still necessary.
+	* bootstrap: Make the gnulib-tests/test-*.sh scripts executable.
+	This restores code removed by dec8bb25bb6da2fe9fe6dd63c0fbbd593a0e94cb.
+	Reported by Bob Proulx.
+
+	Check for -- and remove -- some unnecessarily included header files.
+	* Makefile.maint: Add checks for a handful of additional header files.
+	* src/mktemp.c: Don't include "long-options.h".  Not used.
+	* src/pr.c: Don't include "inttostr.h".  Not used.
+	* src/printenv.c: Don't include "error.h".  Not used.
+	* src/test.c: Don't include "error.h".  Not used.
+	* src/touch.c: Don't include "safe-read.h".  Not used.
+
+	Remove more vestiges of CVS.
+	* Makefile.maint (VC_LIST): Rename from CVS_LIST.
+	(VC_LIST_EXCEPT): Rename from CVS_LIST_EXCEPT.
+
+	mv: never unlink a destination file before calling rename
+	While cp --preserve=links must unlink certain destination files,
+	mv must never do that.
+	* src/copy.c (copy_internal): Pull the '! x->move_mode' test "up",
+	so it affects the entire condition, and not just DEREF_NEVER mode.
+	Reported by James Ralston in <http://bugzilla.redhat.com/438076>.
+	* tests/mv/atomic2: New file.  Test for the above fix.
+	* tests/mv/Makefile.am (TESTS): Add atomic2.
+	* NEWS: Mention the bug-fix.
+	[Bug introduced in 367719ba5f1dbd5e2f7fa2466c441f23f66a7c9e]
+
+	"make" would not always update man/*.1 files (but "make dist" would)
+	* man/Makefile.am (BUILT_SOURCES): Define, so that "make" always
+	updates man/*.1 files.  Reported by Bob Proulx.
+
+2008-03-18  Jim Meyering  <meyering@redhat.com>
+
+	syntax-check: Make the space-before-open-paren optional.
+	* Makefile.maint (sc_prohibit_assert_without_use): Match also
+	when there is no space before the opening parenthesis.
+	(sc_prohibit_getopt_without_use): Likewise.
+	(sc_prohibit_quotearg_without_use): Likewise.
+	(sc_prohibit_quote_without_use): Likewise.
+
+	* Makefile.maint (sc_no_have_config_h): Use a more precise regexp.
+
+	* Makefile.maint (CVS): Remove now-unused definition.
+
+	Factor out duplication in sc_prohibit_*_without_use rules.
+	* Makefile.maint (_header_without_use): New "command",
+	factored out of four sc_prohibit_HEADER_without_use rules.
+	(sc_prohibit_assert_without_use): Rewrite using $(_header_without_use).
+	(sc_prohibit_getopt_without_use): Likewise.
+	(sc_prohibit_quotearg_without_use): Likewise.
+	(sc_prohibit_quote_without_use): Likewise.
+
+2008-03-18  Dmitry V. Levin  <ldv@altlinux.org>
+
+	Correct typo in "make syntax-check" diagnostic.
+	* Makefile.maint (sc_prohibit_getopt_without_use): s/assert.h/getopt.h/
+
+2008-03-16  Jim Meyering  <meyering@redhat.com>
+
+	Prohibit inclusion of getopt.h without use.
+	* Makefile.maint (sc_prohibit_getopt_without_use): New rule.
+
+	Include <getopt.h> only if used.
+	* src/group-list.c: Don't include <getopt.h>.
+	* src/printf.c: Likewise.
+
+2008-03-16  J. Scott Edwards  <qrw.software@gmail.com>
+
+	sha512_process_bytes: fix a bug in processing a buffer where length&64 != 0
+	* gl/lib/sha512.c (sha512_process_bytes): s/63/127/.
+
+2008-03-12  Jim Meyering  <meyering@redhat.com>
+
+	Generalize GNUmakefile, ...
+	...so that it can be used unmodified by autoconf.
+	* GNUmakefile: Include optional file, GNUmakefile.cfg.
+	Autoconf will use this to override _autoreconf and to export PATH.
+	(_autoreconf): Define.
+	(_dummy): cd to $(srcdir) before removing autom4te.cache.
+
+	* bootstrap: Sync from gnulib and remove part of a local kludge.
+
+2008-03-10  Ondřej Vašík  <ovasik@redhat.com>
+
+	install, rmdir: write --verbose output to stdout, not to stderr.
+	* src/install.c (announce_mkdir): Write verbose output to stdout,
+	not to stderr.
+	* src/mkdir.c (announce mkdir): Use prog_fprintf for verbose output.
+	* src/prog-fprintf.c (prog_fprintf): New function and file.
+	* src/prog-fprintf.h: New file.
+	* src/rmdir.c (main): Write verbose output to stdout, not to stderr.
+	Quote directory name in a diagnostic.
+	* src/rmdir.c (remove_parents): Write verbose output to stdout,
+	not to stderr.
+	* doc/coreutils.texi: Mention that shred verbose output is to stderr.
+	* NEWS: Mention the changes.
+
+2008-03-10  Jim Meyering  <meyering@redhat.com>
+
+	make syntax-check: also check src/*.h files for extern functions,
+	* src/Makefile.am (sc_tight_scope): ... now that there is one.
+
+2008-03-07  Jim Meyering  <meyering@redhat.com>
+
+	dd: avoid unnecessary, but harmless close_stdout call.
+	* src/dd.c (close_stdout_required): New global.
+	(maybe_close_stdout): New function.
+	(main): Set the global.
+	Reported by Ulrich Drepper in http://bugzilla.redhat.com/436368
+
+2008-03-06  Jim Meyering  <meyering@redhat.com>
+
+	Now that ChangeLog is no longer under version control, ...
+	* Makefile.maint (alpha beta major): Don't make changelog-check.
+	(changelog-version-check): Rename from changelog-check.
+
+2008-03-05  Jim Meyering  <meyering@redhat.com>
+
+	* src/c99-to-c89.diff: Accommodate a C99-ism in id.c.
+
+2008-03-05  ribalba  <geerd.dietger.hoffmann@gmail.com>
+
+	Work around AFS bug: id and groups would print invalid group number.
+	* src/id.c (main): Call print_group_list with a user name, if possible.
+	* src/groups.c (main): Likewise.
+	* NEWS: Mention this.
+	For details, see
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/12852
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/12875
+
+2008-03-05  Jim Meyering  <meyering@redhat.com>
+
+	Now that Makefile.maint is used in VPATH builds, too...
+	* Makefile.maint (prev_version_file): Prefix with $(srcdir)/.
+	(syntax-check-rules): Prefix $(ME) with $(srcdir)/.
+
+	Avoid new "make distcheck" failure, now that VPATH has GNUmakefile.
+	* GNUmakefile: Remove commands to create ".version".
+	They were unnecessary, and caused creation of a newer .version
+	file in a VPATH build, which in turn caused creation of updated
+	man/*.1 files reflecting the newer time stamp on .version.
+	Those *.1 files were not removed (since they're distributed), and
+	the fact that they remained after "distclean" triggered the failure.
+
+2008-03-04  Eric Blake  <ebb9@byu.net>
+
+	Reinstate GNUmakefile patch, but with workaround for automake.
+	* configure.ac (AC_CONFIG_LINKS): Use shell variable to bypass
+	automake distclean rules.
+	* Makefile.am (distclean-local): Clean GNUmakefile in VPATH builds,
+	since we are bypassing automake.
+	* GNUmakefile (_is-dist-target): 'distclean' is not a dist target.
+
+2008-03-04  Jim Meyering  <meyering@redhat.com>
+
+	Clarify comment and attribute preceding change: Reported by Ralf Wildenhues.
+
+	Comment out yesterday's VPATH-friendly addition, for now.
+	* configure.ac: ...while we wait for a fixed version of automake.
+
+2008-03-03  Eric Blake  <ebb9@byu.net>
+
+	Use m4_PACKAGE_VERSION, not AC_AUTOCONF_VERSION.
+	* configure.ac: The latter is only in post-2.61 autoconf.
+
+	GNUmakefile build tweaks.
+	* GNUmakefile: When Makefile is not present, make common targets depend
+	on "all" in order to trigger nicer error message.
+	* configure.ac: If autoconf is new enough, link GNUmakefile into VPATH
+	builds.
+	For more details, see
+	<http://article.gmane.org/gmane.comp.gnu.core-utils.bugs/12853>.
+
+2008-03-03  Simon Josefsson  <simon@josefsson.org>
+
+	Define SHA*_DIGEST_SIZE symbols.
+	* gl/lib/sha256.h (SHA224_DIGEST_SIZE, SHA256_DIGEST_SIZE): Define.
+	* gl/lib/sha512.h (SHA384_DIGEST_SIZE, SHA512_DIGEST_SIZE): Define.
+
+2008-03-02  Ralf Wildenhues  <Ralf.Wildenhues@gmx.de>
+
+	Fix so that out-of-tree VPATH "make dist" works, too.
+	* GNUmakefile: Add $(srcdir)/ prefix to git-version-gen and argument.
+
+2008-03-02  Jim Meyering  <meyering@redhat.com>
+
+	One more for non-srcdir "make dist".
+	* GNUmakefile: Also cd $(srcdir) before running autoreconf.
+
+	Adjust so that non-srcdir "make dist" works, too.
+	* GNUmakefile: Add $(srcdir)/ prefix to git-version-gen and argument.
+
+	Don't infringe namespace of "sub"-Makefiles.
+	* GNUmakefile (_dummy, _have-Makefile): Add "_" prefix.
+
+	Create sha256 and sha512 modules and move files into gl/.
+	* bootstrap.conf (gnulib_modules): Add sha256 and sha512.
+	* m4/prereq.m4: Don't require gl_SHA256 or gl_SHA512.
+	* gl/modules/sha512: New file.
+	* gl/modules/sha256: New file.
+	* m4/sha256.m4: Move to ...
+	* gl/m4/sha256.m4: ...here, removing use of AC_SOURCES.
+	* m4/sha512.m4: Move to ...
+	* gl/m4/sha512.m4: ...here, removing use of AC_SOURCES.
+	* lib/sha256.c, lib/sha256.h: Move to ...
+	* gl/lib/sha256.c, gl/lib/sha256.h: ...here.
+	* lib/sha512.c, lib/sha512.h: Move to ...
+	* gl/lib/sha512.c, gl/lib/sha512.h: ...here.
+	* lib/u64.h: Move to ...
+	* gl/lib/u64.h: ...here.
+
+	* bootstrap: Remove only *.m4, and only from $m4_base/.  Rewrite the comment.
+
+	* bootstrap: Sync from gnulib.
+
+2008-03-01  Jim Meyering  <meyering@redhat.com>
+
+	Don't skip the groups-version test.
+	* tests/Makefile.am (built_programs): Remove unused definition.
+	* src/Makefile.am (built_programs.list): Print a space-separated
+	list of program names, not NL-separated, since all clients now
+	expect a space-separated list.
+
+	Don't exempt "groups" from write-failure test, now that it's a C program.
+	* tests/misc/help-version: Since groups is no longer a shell
+	script, a buggy bourne shell can't cause trouble.
+
+	* configure.ac (AC_INIT): Use .tarball-version, not .version.
+
+	Don't depend on gnulib's deprecated "free" module.
+	* bootstrap.conf (obsolete_gnulib_modules): Remove free.
+	* gl/modules/mgetgroups (Depends-on): Remove free.
+
+2008-02-29  Jim Meyering  <meyering@redhat.com>
+
+	Merge bootstrap changes from gnulib.
+	* bootstrap (MSGID_BUGS_ADDRESS): Define and use.
+	(version_controlled_file): Use "git rm", not "git-rm".
+
+	Use "git tag", not "git-tag", in preparation for git-1.6.0.
+	* Makefile.maint (VC-tag): Remove '-': s/git-tag/git tag/
+
+2008-02-28  Jim Meyering  <meyering@redhat.com>
+
+	Make copyright comments consistent.
+	* src/mktemp.c: Update copyright to use newer form.
+
+	Make first copyright lines consistent. Some did not end in ", Inc.".
+	Due to that missing ", Inc" at end of line, emacs' copyright-updating
+	code missed some opportunities.  This corrects most of those, and
+	adds some mistakenly omitted years.
+	* src/chown-core.c: Adjust.
+	* src/chown-core.h: Likewise.
+	* src/copy.c: Likewise.
+	* src/copy.h: Likewise.
+	* src/cp-hash.c: Likewise.
+	* src/cp.c: Likewise.
+	* src/group-list.h: Likewise.
+	* src/mktemp.c: Likewise.
+	* src/stat.c: Likewise.
+	* tests/chmod/equal-x: Likewise.
+	* tests/dd/skip-seek: Likewise.
+	* tests/envvar-check: Likewise.
+	* tests/mv/into-self-2: Likewise.
+
+2008-02-25  Bob Proulx  <bob@proulx.com>
+
+	Fix test failure where rm would appear to succeed incorrectly.
+	* tests/rm/fail-eperm: Ignore files that were opportunistically chosen
+	to test permission failures but disappear before we can finish the test.
+
+2008-02-24  Jim Meyering  <meyering@redhat.com>
+
+	* gl/lib/mgetgroups.c (mgetgroups): Parenthesize correctly.
+
+	* gl/lib/mgetgroups.c: Include <stdlib.h>.
+
+2008-02-23  Jim Meyering  <meyering@redhat.com>
+
+	Avoid test failures when root (/) is not readable.
+	* tests/test-lib.sh (require_readable_root_): New function.
+	* tests/misc/pwd-long: Skip this test when / is unreadable.
+	* tests/du/slash: Likewise.
+	This is required at least for Mandrake/Mandriva in "secure" mode.
+	Reported by Theodoros V. Kalamatianos in
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/12800
+
+2008-02-22  Jim Meyering  <meyering@redhat.com>
+
+	id: avoid race when a group is added between getgrouplist calls
+	* gl/lib/mgetgroups.c (mgetgroups) [N_GROUPS_INIT]: Rename enum.
+	Use a larger value.
+	Update *groups only upon success.
+	Iterate upon failed getgrouplist.
+
+2008-02-21  James Youngman  <jay@gnu.org>
+
+	id: use getgrouplist when possible
+	* gl/m4/mgetgroups.m4: Check for getgrouplist.
+	* gl/lib/mgetgroups.c (mgetgroups): Use getgrouplist, if available.
+	* TODO: Remove the item about switching to getgrouplist.
+	* NEWS: mention this
+
+2008-02-21  Paul Eggert  <eggert@CS.UCLA.EDU>
+
+	du vs. hard links and argument order: improve documentation
+	* doc/coreutils.texi (du invocation): Document default behavior on
+	hard links, and why argument order matters.
+
+2008-02-20  James Youngman  <jay@gnu.org>
+
+	join: avoid new leaks
+	* src/join.c (prevline): Make prevline module-level static, so that
+	the allocated items can be freed at exit.
+	(free_prevline): new atexit function; frees items in prevline[].
+	Use ARRAY_CARDINALITY, so include "argmatch.h" to get that.
+	(main): Arrange for free_prevline to be called during exit.
+	(get_line): Free prevline[which - 1] also, as that
+	will have been allocated by dup_line.
+
+2008-02-20  Jim Meyering  <meyering@redhat.com>
+
+	Remove xdelta support, clean up distcheck process.
+	* Makefile.maint (writable-files): Don't create $(release_archive_dir).
+	(my-distcheck): Don't depend on prev-tgz.
+	Remove xdelta-related variables and uses.
+	(alpha beta major): Skip steps if $(release_archive_dir) doesn't exist.
+
+	* bootstrap: Remove dangling symlinks before invoking aclocal.
+
+2008-02-20  Andreas Schwab  <schwab@suse.de>
+
+	sort: add --sort=... option.
+	* src/sort.c (SORT_OPTION): New enum.
+	(sort_args, sort_types): Define.
+	(usage, long_options, main): New option --sort.
+	* tests/sort/Test.pm: Test it.
+	* doc/coreutils.texi (sort invocation): Document --sort option.
+	* NEWS: Mention this.
+
+2008-02-19  Jim Meyering  <meyering@redhat.com>
+
+	2008-02-19  Jim Meyering  <meyering@redhat.com>
+	* TODO: Remove final seq-related item.
+
+	* src/c99-to-c89.diff: Adjust seq.c offsets.  Accommodate a new C99-ism.
+
+2008-02-19  Steven Schubiger  <schubiger@gmail.com>
+
+	seq: give better diagnostics for invalid formats.
+	* src/seq.c: (validate_format): New function.
+	(main): Use it.
+	* tests/misc/seq (fmt-d, fmt-e): Test for expected diagnostics with
+	invalid formats.
+	* NEWS: Mention this change.
+	* TODO: Remove this item.
+	[jm: src/seq.c: make diagnostics more consistent
+	 tests/misc/seq (fmt-eos1): adjust the expected diagnostic ]
+
+2008-02-19  James Youngman  <jay@gnu.org>
+
+	join: new options: --check-order and --nocheck-order.
+	* src/join.c: Support --check-order and --nocheck-order.
+	New variables check_input_order, seen_unpairable and
+	issued_disorder_warning[]. For --check-order, verify that the
+	input files are in sorted order.  For the default case, check the
+	order only if there are unpairable lines.
+	(join): Perform ordering checks after reaching EOF on either
+	input.
+	(usage): Mention --check-order and --nocheck-order.
+	(dupline): Save a copy of the previously-read input line so that
+	we can detect disorder on the input.
+	(get_line): Temporarily save a copy of the previous line (by
+	calling dupline) and check relative ordering (by calling
+	checkorder) before returning the newly-read line.
+	(getseq, join): Tell get_line which file we are reading from.
+	(advance_seq): New function, factoring out some of the code
+	commonly surrounding calls to getseq.
+	(checkorder): New function.  Verifies that a pair of consecutive
+	input lines are in sorted order.
+	* doc/coreutils.texi (join invocation): Document the new options
+	--check-order and --nocheck-order.
+	* tests/join/Test.pm (tv): Added tests for --check-order and
+	--nocheck-order.
+	* NEWS: Mention this new feature.
+
+	Fix non-srcdir "make distcheck" failure.
+	* Makefile.am (check-ls-dircolors): Look for sources under
+	$(srcdir), not under ".".
+
+2008-02-18  Jim Meyering  <meyering@redhat.com>
+
+	seq: give a proper diagnostic for an invalid --format=% option
+	* src/seq.c (long_double_format): Handle '%' at end of string.
+	* tests/misc/seq [fmt-eos1, fmt-eos2]: New tests for the bug.
+	* NEWS: Mention this.
+	Reported by Pádraig Brady.
+
+2008-02-17  Jim Meyering  <meyering@redhat.com>
+
+	.gitignore, src/.gitignore: ignore more
+
+	Clean up Makefile.maint.
+	* Makefile.maint: Remove obsolete comments.
+	(local-checks-available): Remove changelog-check.
+
+	Clean up ls.c.
+	* src/ls.c (put_indicator): Use fwrite, not a loop.
+
+	Ensure that dircolors.c and ls.c remain in sync.
+	* Makefile.am (check-ls-dircolors): New rule.
+	(distcheck-hook): Depend on it.
+
+	Expand "ls --color" tests to also use the dircolors defaults.
+	* tests/misc/ls-misc: Adjust this test so each is run twice.  First, as usual,
+	and the second time with LS_COLORS set using the default settings
+	produced by running dircolors.
+	* tests/Coreutils.pm: See below.
+
+	This required some changes:
+	  - save and restore $ENV{LS_COLORS} for each individual test
+	  that requires a specific value.
+	  - Since this is the first test to call the run_tests command more
+	  than once, it has exposed that that function erroneously modifies
+	  the \@Tests array.  Fix that in tests/Coreutils.pm.
+
+	Adjust dircolors to match ls.c.
+	* src/dircolors.hin: comment out NORMAL and FILE, define RESET.
+	* src/dircolors.c (slack_codes) Add "RESET".
+	(ls_codes): Add "rs".
+
+2008-02-17  Ed Avis  <ed@membled.com>
+
+	ls --color no longer outputs unnecessary escape sequences
+	In --color mode, plain files do not get any color, not even white.
+	When no highlighting is required, ls outputs no escape sequence at all.
+	* src/ls.c (print_with_color):
+	(used_color): New global.
+	(indicator_no) [C_RESET]: New enum value.
+	(indicator_name) ["rs"]: Corresponding new string.
+	(color_indicator): Make the 'normal' and 'file' markers be NULL.
+	Use "rs" (C_RESET) to reset to ordinary colors.
+	(process_signals): Restore default colors only if necessary.
+	(main): Don't call prep_non_filename_text here.
+	(print_name_with_quoting): Call it here, instead.
+	(prep_non_filename_text): Use C_RESET, not C_NORM.
+	(print_color_indicator): Return bool, not void.
+	Print nothing, when possible.
+	(put_indicator): Call prep_non_filename_text the first time.
+	* tests/misc/ls-misc: Test for above.
+	* tests/ls/color-dtype-dir: Adapt: no escapes around regular file name.
+	* TODO: Remove item.
+	* NEWS: Mention this.
+
+2008-02-17  Dan Jacobson  <jidanni@jidanni.org>
+
+	ls: Improve description of --group-directories-first.
+	* src/ls.c (usage) [--group-directories-first]: Improve description.
+	* doc/coreutils.texi (Which files are listed): Likewise.
+
+2008-02-16  Jim Meyering  <meyering@redhat.com>
+
+	Avoid tests/cp/acl test failure.
+	* tests/check.mk (TESTS_ENVIRONMENT) [CONFIG_HEADER]: Define
+	to an absolute name, so it can be used from any point in the
+	test hierarchy.  Reported by James Youngman.
+
+2008-02-16  James Youngman  <jay@gnu.org>
+
+	Use the gettime module in ls.c.
+	Implement TODO list item to make ls.c use the gettime module.
+	* TODO (ls): Now that we use gettime, remove the TODO entry.
+	* src/ls.c: Use timespec.h and the gettime module.
+	(current_time): Change type from time_t to struct timespec.
+	(current_time_ns): Removed.
+	(get_current_time): Removed.
+	(print_long_format): Remove when and when_ns, since we have
+	when_timespec anyway.  Change type of variable six_months_ago from
+	time_t to struct timespec.
+
+2008-02-14  Jim Meyering  <meyering@redhat.com>
+
+	groups: don't test printf and putchar calls for failure
+	They are unnecessary, since we use gnulib's closeout module.
+	* src/group-list.c (print_group): Remove explicit error tests.
+	* src/groups.c (main): Likewise.
+	(write_error): Remove function.
+
+2008-02-13  James Youngman  <jay@gnu.org>
+
+	Replace groups.sh with groups.c.
+	* src/groups.c (main): New file, replacing groups.sh.
+	* src/group-list.c, src/group-list.h: New files, factored out of id.c,
+	implementing the functionality that "id" and "groups" have in common.
+	* src/id.c (print_full_info): Avoid a segfault when trying to print
+	an error message if getgroups fails.
+	(print_group_list): Move to group-list.c.
+	(print_group): Likewise.
+	* man/Makefile.am: When building groups.1, obtain the help text
+	from src/groups.c, not src/groups.sh.
+	(noinst_HEADERS): Add group-list.h.
+	(group): Remove rule.
+	(dist_man_MANS): Remove groups.1.
+	* doc/coreutils.texi (groups: Print group names a user is in):
+	Explain why "groups" and "groups $(id -un)" give different results
+	in existing login sessions after you change the group database.
+	(id: Print user identity): Likewise for "id".
+	* po/POTFILES.in: Add src/group-list.c and src/groups.c.
+	* NEWS: mention this.
+	* AUTHORS: Update.
+
+2008-02-12  Jim Meyering  <meyering@redhat.com>
+
+	Move more test_skip_-using code to follow ". test-lib.sh".
+	* tests/mv/acl: Likewise.
+	* tests/cp/acl: Likewise.
+
+2008-02-12  Peter Fales  <psfales@alcatel-lucent.com>
+
+	tests/touch/not-owner: Source test-lib.sh before using skip_test_.
+
+2008-02-12  Jim Meyering  <meyering@redhat.com>
+
+	* tests/Makefile.am (EXTRA_DIST): Remove strace.
+
+2008-02-11  Jim Meyering  <meyering@redhat.com>
+
+	tests: Migrate sourced strace file into a function, require_strace_.
+	* tests/strace: Remove file.
+	* tests/test-lib.sh (require_strace_): New function.
+	* tests/mv/atomic: Use require_strace_, rather than ". strace".
+	* tests/ls/stat-free-symlinks: Likewise.
+	Peter Fales reported that stat-free-symlinks failed without strace.
+
+	* tests/rm/inaccessible: Source test-lib.sh *before* using skip_test_.
+	Reported by Peter Fales.
+
+2008-02-10  Jim Meyering  <meyering@redhat.com>
+
+	Ensure there are no removable (useless) if-before-free tests.
+	* bootstrap.conf (gnulib_modules): Add useless-if-before-free.
+	* Makefile.maint (sc_avoid_if_before_free): New rule.
+
+	Use a better dirname emulation.
+	* build-aux/check.mk (_dirname): Define.
+	(am__check_pre): Use it.
+
+	Avoid test failure when run with risky PATH ("." before /usr/bin).
+	* build-aux/check.mk (approx_dirname_filter): Define.
+	(am__check_pre): Emulate dirname using sed.
+	Report and suggested fix from Bruno Haible in
+	http://thread.gmane.org/gmane.comp.gnu.coreutils.bugs/12587/focus=12590
+
+	* build-aux/.gitignore: Remove file from version control. It's generated.
+
+	Generate ChangeLog from git log.
+	* bootstrap.conf (gnulib_modules): Add gitlog-to-changelog.
+	Ensure that ChangeLog exists, for automake.
+	* Makefile.am (gen-ChangeLog): New rule.
+	(dist-hook): Depend on it.
+	(EXTRA_DIST): Add ChangeLog-2006, ChangeLog-2007, ChangeLog-2008.
+
+	Remove ChangeLog, dividing its content into ChangeLog-200?
+	* ChangeLog: Remove file.
+	* ChangeLog-2005: Prepend the 2005 entries.
+	* ChangeLog-2006: New file.
+	* ChangeLog-2007: New file.
+	* ChangeLog-2008: New file.
+
+	* ChangeLog: Manually update copyright notice at *bottom*.
+
+2008-02-09  Jim Meyering  <meyering@redhat.com>
+
+	tests: rm/fail-eperm: require-non-root in perl, not sh
+	Since it creates no temporaries and since it requires non-root,
+	do the require-non-root bit in perl, rather than using test-lib.sh.
+
+	tests: Remove priv-check.  Use new require_root_ function instead.
+	* tests/priv-check: Remove file.
+	* tests/Makefile.am (EXTRA_DIST): Remove priv-check.
+	* tests/test-lib.sh (require_root_): New function.
+	Use this function rather than sourcing the priv-check file.
+	* tests/sample-test: Use require_root_ rather than priv-check.
+	* tests/chown/basic: Likewise.
+	* tests/cp/cp-a-selinux: Likewise.
+	* tests/cp/preserve-gid: Likewise.
+	* tests/cp/special-bits: Likewise.
+	* tests/ls/nameless-uid: Likewise.
+	* tests/misc/chcon: Likewise.
+	* tests/mkdir/writable-under-readonly: Likewise.
+	* tests/mv/sticky-to-xpart: Likewise.
+	* tests/rm/fail-2eperm: Likewise.
+	* tests/rm/no-give-up: Likewise.
+	* tests/rm/one-file-system: Likewise.
+	* tests/tail-2/append-only: Likewise.
+	* tests/touch/now-owned-by-other: Likewise.
+	* tests/rm/fail-eperm: Use skip_if_root_ rather than priv-check.
+	* Makefile.maint (sc_root_tests): Reflect this change:
+	search for the new function name.
+
+	tests: factor out the perl-requiring code in many test scripts
+	* tests/require-perl: New file.
+	* tests/Makefile.am (EXTRA_DIST): Add require-perl.
+	* tests/dd/skip-seek: Use it, and remove manual tests.
+	* tests/du/files0-from: Likewise.
+	* tests/ls/nameless-uid: Likewise.
+	* tests/misc/base64: Likewise.
+	* tests/misc/basename: Likewise.
+	* tests/misc/cut: Likewise.
+	* tests/misc/date: Likewise.
+	* tests/misc/dircolors: Likewise.
+	* tests/misc/dirname: Likewise.
+	* tests/misc/expand: Likewise.
+	* tests/misc/expr: Likewise.
+	* tests/misc/factor: Likewise.
+	* tests/misc/fmt: Likewise.
+	* tests/misc/fold: Likewise.
+	* tests/misc/head-elide-tail: Likewise.
+	* tests/misc/ls-misc: Likewise.
+	* tests/misc/md5sum: Likewise.
+	* tests/misc/md5sum-newline: Likewise.
+	* tests/misc/mktemp: Likewise.
+	* tests/misc/od: Likewise.
+	* tests/misc/paste-no-nl: Likewise.
+	* tests/misc/pr: Likewise.
+	* tests/misc/pwd-long: Likewise.
+	* tests/misc/seq: Likewise.
+	* tests/misc/sha1sum: Likewise.
+	* tests/misc/sha1sum-vec: Likewise.
+	* tests/misc/sha224sum: Likewise.
+	* tests/misc/sha256sum: Likewise.
+	* tests/misc/sha384sum: Likewise.
+	* tests/misc/sha512sum: Likewise.
+	* tests/misc/sort-merge: Likewise.
+	* tests/misc/stat-printf: Likewise.
+	* tests/misc/sum: Likewise.
+	* tests/misc/sum-sysv: Likewise.
+	* tests/misc/test-diag: Likewise.
+	* tests/misc/tsort: Likewise.
+	* tests/misc/tty-eof: Likewise.
+	* tests/misc/unexpand: Likewise.
+	* tests/misc/wc-files0-from: Likewise.
+	* tests/misc/xstrtol: Likewise.
+	* tests/mv/i-1: Likewise.
+	* tests/rm/empty-name: Likewise.
+	* tests/rm/fail-eperm: Likewise.
+	* tests/rm/unreadable: Likewise.
+
+	(EXTRA_DIST): *do* require require-perl as a stand-alone, 'source'able script.
+
+	tests: call skip_test_ in place of echo+exit 77
+	* tests/mv/no-target-dir: Likewise.
+	* tests/other-fs-tmpdir: Likewise.
+	* tests/rm/empty-name: Likewise.
+	* tests/rm/fail-eperm: Likewise.
+	* tests/rm/inaccessible: Likewise.
+	* tests/rm/isatty: Likewise.
+	* tests/rm/unreadable: Likewise.
+	* tests/setgid-check: Likewise.
+	* tests/sparse-file: Likewise.
+	* tests/strace: Likewise.
+	* tests/tail-2/append-only: Likewise.
+	* tests/tail-2/big-4gb: Likewise.
+	* tests/tail-2/tail-n0f: Likewise.
+	* tests/touch/dangling-symlink: Likewise.
+	* tests/touch/fifo: Likewise.
+	* tests/touch/not-owner: Likewise.
+	* tests/mv/i-3: Likewise.
+	* tests/umask-check: Likewise.
+	* tests/mv/acl: Likewise.
+	* tests/cp/acl: Likewise.
+	* tests/chgrp/deref: Likewise.
+	* tests/chmod/setgid: Likewise.
+	* tests/cp/existing-perm-race: Likewise.
+	* tests/cp/file-perm-race: Likewise.
+	* tests/cp/parent-perm-race: Likewise.
+	* tests/du/2g: Likewise.
+	* tests/du/8gb: Likewise.
+	* tests/du/long-from-unreadable: Likewise.
+	* tests/du/long-sloop: Likewise.
+	* tests/du/slink: Likewise.
+	* tests/ls/nameless-uid: Likewise.
+	* tests/ls/stat-dtype: Likewise.
+	* tests/misc/cat-proc: Likewise.
+	* tests/misc/md5sum-newline: Likewise.
+	* tests/misc/nice: Likewise.
+	* tests/misc/od-x8: Likewise.
+	* tests/misc/pwd-unreadable-parent: Likewise.
+	* tests/misc/selinux: Likewise.
+	* tests/misc/stty-row-col: Likewise.
+	* tests/misc/tac-continue: Likewise.
+	* tests/misc/arch: Likewise, and source $srcdir/../test-lib.sh *before*
+	the use of skip_test_.
+
+	tests: move the very-expensive file into test-lib.sh
+	* tests/very-expensive: Remove file.
+	* tests/test-lib.sh (very_expensive_): New function.
+	* tests/Makefile.am (EXTRA_DIST): Remove very-expensive.
+	* tests/cp/perm: Call the new function, rather than sourcing the file.
+	* tests/tail-2/assert: Likewise.
+	* tests/tail-2/assert-2: Likewise.
+	* tests/du/2g: Likewise.
+
+	tests: start migrating sourced-file function-like tests into test-lib.sh.
+	* tests/acl: Remove file.
+	* tests/test-lib.sh (require_acl_): New function.
+	* tests/cp/acl: Use require_acl_ instead.
+	* tests/mv/acl: Likewise.
+	* tests/Makefile.am (EXTRA_DIST): Remove acl.
+
+	tests: mv/acl: Don't mention "yes" as a partition name in diagnostic.

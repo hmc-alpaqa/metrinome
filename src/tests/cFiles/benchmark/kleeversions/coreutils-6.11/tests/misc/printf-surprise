@@ -1,0 +1,74 @@
+#!/bin/sh
+# Detect printf(3) failure even when it doesn't set stream error indicator
+
+# Copyright (C) 2007 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+prog="$abs_top_builddir/src/printf"
+
+if test "$VERBOSE" = yes; then
+  set -x
+  "$prog" --version
+fi
+
+. $srcdir/../test-lib.sh
+require_ulimit_
+
+fail=0
+
+# Up to coreutils-6.9, "printf %.Nf 0" would encounter an ENOMEM internal
+# error from glibc's printf(3) function whenever N was large relative to
+# the size of available memory.  As of Oct 2007, that internal stream-
+# related failure was not reflected (for any libc I know of) in the usual
+# stream error indicator that is tested by ferror.  The result was that
+# while the printf command obviously failed (generated no output),
+# it mistakenly exited successfully (exit status of 0).
+
+# Testing it is tricky, because there is so much variance
+# in quality for this corner of printf(3) implementations.
+# Most implementations do attempt to allocate N bytes of storage.
+# Using the maximum value for N (2^31-1) causes glibc to try to
+# allocate almost 2^64 bytes, while freeBSD 6.1's implementation
+# correctly outputs almost 2GB worth of 0's, which takes too long.
+# We want to test implementations that allocate N bytes, but without
+# triggering the above extremes.
+
+# The compromise is to limit virtual memory to something reasonable,
+# and to make an N-byte-allocating-printf require more than that, thus
+# triggering the printf(3) misbehavior -- which, btw, is required by ISO C99.
+
+( ulimit -v 10000
+  "$prog" %20000000f 0 2>err | head -c 10 >out )
+
+# Map this longer, and rarer, diagnostic to the common one.
+# printf: cannot perform formatted output: Cannot allocate memory" \
+sed 's/cannot perform .*/write error/' err > k && mv k err
+case $(cat err) in
+  "$prog: write error") diagnostic=y ;;
+  '') diagnostic=n ;;
+  *) diagnostic=unexpected ;;
+esac
+n_out=$(wc -c < out)
+
+case $n_out:$diagnostic in
+  10:n) ;; # ok, succeeds w/no diagnostic: FreeBSD 6.1
+  0:y)  ;; # ok, glibc, when printf(3) fails with ENOMEM
+
+  # 10:y) ;; # Fail: doesn't happen: nobody succeeds with a diagnostic
+  # 0:n)  ;; # Fail pre-patch: no output, no diag
+  *) fail=1;
+esac
+
+(exit $fail); exit $fail

@@ -1,3 +1,4 @@
+# For some inexplicable reason, run this with PYTHONPATH=$PYTHONPATH:/app/pycparser/ at the front
 """Script for running Klee on a series of functions and saving data."""
 import subprocess
 import time
@@ -71,7 +72,6 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
         output_file = f"{filepath}klee_{name}_{xlabel}={i}"
         output_file = output_file.replace(" ", "_")
         klee_command = klee_function(output_file, i)
-        print("BAGEL")
         print(klee_command)
         results = klee_with_preferences_general(klee_command)
         klee_stats_params = "--table-format=simple --print-all"
@@ -115,6 +115,12 @@ def generate_files(src_filepath, filepath, func_name, optimized):
         subprocess.run(cmd, shell=True, capture_output=True, check=True)
         names.append(f"{func_name}_{i}_{opt_str}")
     return names
+
+
+def generate_files_premade(src_filepath, filepath, filename):
+    cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O0 -Xclang -disable-O0-optnone  -o {filepath}{filename}_klee.bc {src_filepath}{filename}_klee.c"
+    subprocess.run(cmd, shell=True, capture_output=True, check=True)
+    return [filename+"_klee"]
 
 
 
@@ -161,7 +167,7 @@ def prepare(klee_path, src_filepath, filepath, file_generation_function, functio
 def main() -> None:
 
     klee_path = "/app/build/bin/klee" # location of the klee command
-    src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/" # location of source files to run klee on, end with a slash
+    src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/rosetta-code-c/" # location of source files to run klee on, end with a slash
     filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest/" # directory to create (if it doesn't exist) and put all results/created files in
                                                                         # both filepaths needs to end with a slash
     # src_filepath = "/app/code/tests/cFiles/fse_2020_benchmark/"
@@ -174,8 +180,9 @@ def main() -> None:
     # should take in an outpute filepath, a number to vary, and an input filepath
     # shouldn't actually contain the call to klee
 
-    xlabel = "max depth" # label for the x-axis (parameter that is being varied)
-    file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False)))
+    xlabel = "max time in min" # label for the x-axis (parameter that is being varied)
+    pregenerated = ['9-billion-names-of-god-the-integer']
+    file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False) if file_name not in pregenerated else generate_files_premade(src_filepath, file_path, file_name)))
     # file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False), generate_files(src_filepath, file_path, file_name, True)))
     # should be a callable object that takes in a source folder, output folder, and file name
     # returns a tuple of names for files, if each was compiled differently (ie optimized vs normal) and also compiles/generates the necessary files for klee
@@ -192,13 +199,17 @@ def main() -> None:
     # functions = ['selectionsort']
     # functions = ['04_mincoins_no_helper']
     # functions = ['06_binarysearch_no_helper']
-    # functions = ['16_printprimes_no_helper']
+    # functions = ['18_binarymultiply_no_helper']
+    # to look at later: 'active-object', 'amb', 'anagrams-1', 'anagrams-deranged-anagrams', 'animate-a-pendulum'
+    functions = ['9-billion-names-of-god-the-integer', '24-game-solve', '24-game', 'abc-problem', 'ackermann-function-1', 'ackermann-function-2',
+    'aks-test-for-primes', 'aliquot-sequence-classifications-1', 'aliquot-sequence-classifications-2', 'almost-prime', 'anagrams-2']
     labels = ["normal"] # the labels for the different "compilation methods"
     # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
     #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
     #               '100'] # all possible values for the input variable
     # xaxis = ['1', '2', '5']
     xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '20', '25']
+    # xaxis = ['1', '2']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"] # all klee output fields that we are interested in
     remove = True # whether klee files should be deleted after the important data is collected. Usually set to True
