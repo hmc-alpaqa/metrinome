@@ -34,12 +34,14 @@ class RecursivePathComplexity(ABC):
         """Given a graph, compute the metric."""
         adjMatrix = cfg.graph.adjacency_matrix()
         edgelist = []
-
+        recurlist = []
         for rowIndex, row in enumerate(adjMatrix):
             for colIndex, value in enumerate(row):
                 if value ==1:
                     edgelist += [[rowIndex, colIndex]]
-        recurlist = calls_function(cfg.metadata.calls, cfg.name)
+        for node in cfg.metadata.calls.keys():
+            if cfg.metadata.calls[node].split()[1] == cfg.name.split(".")[1]:
+                recurlist += [int(node)]
         self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
