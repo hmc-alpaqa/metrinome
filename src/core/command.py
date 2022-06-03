@@ -606,7 +606,12 @@ class Command:
                     continue
                 start_time = time.time()
                 print(self.recursive_apc)
-                isRecursive = True #self.recursive_apc and not all([ v == 0 for v in calls_function(graph.metadata.calls, graph.name)])
+                recursiveCalls = False
+                for node in graph.metadata.calls.keys():
+                    if graph.metadata.calls[node].split()[1] == graph.name.split(".")[1]:
+                        recursiveCalls = True
+                        break
+                isRecursive = self.recursive_apc and recursiveCalls
                 if metric_generator.name() == "Path Complexity" and isRecursive:
                     print("Skipping path")
                     continue
