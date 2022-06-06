@@ -78,7 +78,6 @@ class RecursivePathComplexity(ABC):
                 if type(factor) == sympy.Pow and factor.args[1] < 0:
                     denominator *= 1/factor
             denominator = sympy.expand(denominator)
-            print(denominator)
             maxPow = 0
             for term in denominator.args:
                 power = self.termPow(term, symbols("x"))
@@ -141,7 +140,7 @@ class RecursivePathComplexity(ABC):
                 patheq = patheq.subs(solutions)
             apc = patheq
         else:
-            print("case2")
+            self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x > 0 else oo,sympy.real_roots(discrim)))
             apc = (1/rStar)**symbols("n")
         return apc

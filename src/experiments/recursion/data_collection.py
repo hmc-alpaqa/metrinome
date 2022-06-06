@@ -7,7 +7,7 @@ import pandas as pd  # type: ignore
 
 from core.log import Log
 from lang_to_cfg.cpp import CPPConvert
-from metric import cyclomatic_complexity, npath_complexity, path_complexity
+from metric import cyclomatic_complexity, npath_complexity, path_complexity, recursive_path_complexity
 from metric.path_complexity import PathComplexityRes
 from utils import Timeout
 
@@ -15,50 +15,56 @@ from utils import Timeout
 class DataCollector:
     """Compute and store all complexity metrics and timing data."""
 
-    def __init__(self, log: Log, input_path: str, output_path: str) -> None:
+    def __init__(self) -> None:
         """Create a new instance of the data collector."""
-        self.logger = log
+        log = Log()
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
+        self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)
-        self.base_path = input_path
-        self.output_path = output_path
+        self.base_path = "/app/code/experiments/recursion/files/"
 
     # pylint: disable=broad-except
-    def collect(self, files: list[str]) -> None:
+    def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [],
-                             "cyclo": [], "npath": [], "apc_time": [],
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],
+                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [],
                              "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
+        with open('/app/code/experiments/recursion/files/files.txt') as funcs:
+            files = [self.base_path + line.rstrip() for line in funcs]
 
         for file in files:
-            self.logger.v_msg(f"Now analyzing {file}")
+            print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
             if graphs is None:
+                print("No Graphs")
                 continue
 
             for graph in graphs.values():
                 start_time = time.time()
                 apc: Union[str, PathComplexityRes] = "na"
+                #rapc: notsurelol
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
                 ex = False
                 exception_type = "na"
                 runtime = 0.0
+                rruntime = 0.0
                 try:
                     with Timeout(300):
-                        apc = self.apc_computer.evaluate(graph)
-                        runtime = time.time() - start_time
+                        rapc = self.recursive_apc_computer.evaluate(graph)
+                        rruntime = time.time() - start_time
                 except Exception as exc:
                     ex = True
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
-
+                start_time = time.time()
                 if not ex:
                     try:
-                        with Timeout(200):
-                            cyclo = self.cyclo_computer.evaluate(graph)
+                        with Timeout(300):
+                            apc = self.apc_computer.evaluate(graph)
+                            runtime = time.time() - start_time
                     except Exception as exc:
                         ex = True
                         exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
@@ -66,16 +72,34 @@ class DataCollector:
                     if not ex:
                         try:
                             with Timeout(200):
-                                npath = self.npath_computer.evaluate(graph)
+                                cyclo = self.cyclo_computer.evaluate(graph)
                         except Exception as exc:
                             ex = True
                             exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
+                        if not ex:
+                            try:
+                                with Timeout(200):
+                                    npath = self.npath_computer.evaluate(graph)
+                            except Exception as exc:
+                                ex = True
+                                exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "cyclo": cyclo, "npath": npath, "apc_time": runtime,
+                           "rapc": rapc, "cyclo": cyclo, "npath": npath,
+                           "apc_time": runtime, "rapc_time": rruntime,
                            "num_vertices": graph.graph.num_vertices,
                            "edge_count": graph.graph.edge_count(), "exception": ex,
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
-                data.to_csv(f"{self.output_path}.csv")
+                data.to_csv(f"/app/code/experiments/recursion/data/recursiveData.csv")
+
+def main() -> None:
+    """Compute metrics for many graphs."""
+    data_collector = DataCollector()
+    data_collector.collect()
+
+
+if __name__ == "__main__":
+    main()
