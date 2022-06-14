@@ -23,10 +23,10 @@ double agm( double a, double g ) {
    return a;
 }
 
-int main( void ) {
-   double x, y;
-   printf( "Enter two numbers: " );
-   scanf( "%lf%lf", &x, &y );
-   printf( "The arithmetic-geometric mean is %lf\n", agm(x, y) );
-   return 0;
-}
+// int main( void ) {
+//    double x, y;
+//    printf( "Enter two numbers: " );
+//    scanf( "%lf%lf", &x, &y );
+//    printf( "The arithmetic-geometric mean is %lf\n", agm(x, y) );
+//    return 0;
+// }

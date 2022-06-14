@@ -121,22 +121,22 @@ void customFree(void * addr)
     munmap(addr, size);
 }
 
-int main(int argc, char const *argv[])
-{
-    int *p1 = customMalloc(4*sizeof(int));  // allocates enough for an array of 4 int
-    int *p2 = customMalloc(sizeof(int[4])); // same, naming the type directly
-    int *p3 = customMalloc(4*sizeof *p3);   // same, without repeating the type name
-
-    if(p1) {
-        for(int n=0; n<4; ++n) // populate the array
-            p1[n] = n*n;
-        for(int n=0; n<4; ++n) // print it back out
-            printf("p1[%d] == %d\n", n, p1[n]);
-    }
-
-    customFree(p1);
-    customFree(p2);
-    customFree(p3);
-
-    return 0;
-}
+// int main(int argc, char const *argv[])
+// {
+//     int *p1 = customMalloc(4*sizeof(int));  // allocates enough for an array of 4 int
+//     int *p2 = customMalloc(sizeof(int[4])); // same, naming the type directly
+//     int *p3 = customMalloc(4*sizeof *p3);   // same, without repeating the type name
+//
+//     if(p1) {
+//         for(int n=0; n<4; ++n) // populate the array
+//             p1[n] = n*n;
+//         for(int n=0; n<4; ++n) // print it back out
+//             printf("p1[%d] == %d\n", n, p1[n]);
+//     }
+//
+//     customFree(p1);
+//     customFree(p2);
+//     customFree(p3);
+//
+//     return 0;
+// }

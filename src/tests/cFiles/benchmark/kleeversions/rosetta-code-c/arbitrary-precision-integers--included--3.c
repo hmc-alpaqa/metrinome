@@ -17,7 +17,7 @@ unsigned char *str_mult(const unsigned char *A, const unsigned char *B)
 	/* convert A and B from ASCII string numbers, into numeric */
 	a = malloc(al+1); strcpy(a, A); for (ax = 0; ax < al; ++ax) a[ax] -= '0';
 	b = malloc(bl+1); strcpy(b, B); for (bx = 0; bx < bl; ++bx) b[bx] -= '0';
-	
+
 	/* grade-school method of multiplication */
 	for (ax = al - 1; ax >= 0; ax--) {
 		int carry = 0;
@@ -59,11 +59,11 @@ unsigned char *str_exp(int b, int n) {
 }
 
 /* compute 5^4^3^2   which == 5^262144 */
-int main() {
-	unsigned char *r = str_exp(5,262144);
-	printf ("Length of 5^4^3^2 is %d\n", strlen(r));
-	printf ("First 20 digits:  %20.20s\n", r);
-	printf ("Last 20 digits:   %s\n", &r[strlen(r)-20]);
-	free(r);
-	printf ("This took %.2f seconds\n", ((double)clock())/CLOCKS_PER_SEC);
-}
+// int main() {
+// 	unsigned char *r = str_exp(5,262144);
+// 	printf ("Length of 5^4^3^2 is %d\n", strlen(r));
+// 	printf ("First 20 digits:  %20.20s\n", r);
+// 	printf ("Last 20 digits:   %s\n", &r[strlen(r)-20]);
+// 	free(r);
+// 	printf ("This took %.2f seconds\n", ((double)clock())/CLOCKS_PER_SEC);
+// }

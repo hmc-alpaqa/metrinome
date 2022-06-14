@@ -18,15 +18,15 @@ void *array_concat(const void *a, size_t an,
 const int a[] = { 1, 2, 3, 4, 5 };
 const int b[] = { 6, 7, 8, 9, 0 };
 
-int main(void)
-{
-  unsigned int i;
-
-  int *c = ARRAY_CONCAT(int, a, 5, b, 5);
-
-  for(i = 0; i < 10; i++)
-    printf("%d\n", c[i]);
-
-  free(c);
-  return EXIT_SUCCCESS;
-}
+// int main(void)
+// {
+//   unsigned int i;
+//
+//   int *c = ARRAY_CONCAT(int, a, 5, b, 5);
+//
+//   for(i = 0; i < 10; i++)
+//     printf("%d\n", c[i]);
+//
+//   free(c);
+//   return EXIT_SUCCCESS;
+// }

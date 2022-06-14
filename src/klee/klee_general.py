@@ -204,7 +204,10 @@ def main() -> None:
     # functions = ['18_binarymultiply_no_helper']
     # to look at later: 'active-object', 'amb', 'anagrams-1', 'anagrams-deranged-anagrams', 'animate-a-pendulum'
     functions = ['9-billion-names-of-god-the-integer', '24-game-solve', '24-game', 'abc-problem', 'ackermann-function-1', 'ackermann-function-2',
-    'aks-test-for-primes', 'aliquot-sequence-classifications-1', 'aliquot-sequence-classifications-2', 'almost-prime', 'anagrams-2']
+    'aks-test-for-primes', 'aliquot-sequence-classifications-1', 'aliquot-sequence-classifications-2', 'almost-prime', 'anagrams-2', 'animation',
+    'anonymous-recursion', 'apply-a-callback-to-an-array-2', 'arbitrary-precision-integers--included--3', 'arena-storage-pool-7', 'arithmetic-complex-1',
+    'arithmetic-complex-2', 'arithmetic-geometric-mean-1', 'arithmetic-geometric-mean-2', 'arithmetic-geometric-mean-calculate-pi', 'arithmetic-rational',
+    'array-concatenation', 'arrays-10']
     # functions = ['simpletest']
     labels = ["normal"] # the labels for the different "compilation methods"
     # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',

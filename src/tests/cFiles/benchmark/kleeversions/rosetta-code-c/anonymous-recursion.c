@@ -16,14 +16,14 @@ long fib_i(long n) /* just to show the fib_i() inside fib() has no bearing outsi
         return -1;
 }
 
-int main()
-{
-        long x;
-        for (x = -1; x < 4; x ++)
-                printf("fib %ld = %ld\n", x, fib(x));
-
-        printf("calling fib_i from outside fib:\n");
-        fib_i(3);
-
-        return 0;
-}
+// int main()
+// {
+//         long x;
+//         for (x = -1; x < 4; x ++)
+//                 printf("fib %ld = %ld\n", x, fib(x));
+//
+//         printf("calling fib_i from outside fib:\n");
+//         fib_i(3);
+//
+//         return 0;
+// }

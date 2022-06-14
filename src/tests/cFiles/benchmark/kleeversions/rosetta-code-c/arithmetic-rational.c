@@ -46,24 +46,24 @@ int frac_cmp(frac a, frac b) {
 int frtoi(frac a) { return a.den / a.num; }
 double frtod(frac a) { return (double)a.den / a.num; }
 
-int main()
-{
-	int n, k;
-	frac sum, kf;
-
-	for (n = 2; n < 1<<19; n++) {
-		sum = frac_new(1, n);
-
-		for (k = 2; k * k < n; k++) {
-			if (n % k) continue;
-			kf = frac_new(1, k);
-			sum = frac_add(sum, kf);
-
-			kf = frac_new(1, n / k);
-			sum = frac_add(sum, kf);
-		}
-		if (frac_cmp_int(sum, 1) == 0) printf("%d\n", n);
-	}
-
-	return 0;
-}
+// int main()
+// {
+// 	int n, k;
+// 	frac sum, kf;
+//
+// 	for (n = 2; n < 1<<19; n++) {
+// 		sum = frac_new(1, n);
+//
+// 		for (k = 2; k * k < n; k++) {
+// 			if (n % k) continue;
+// 			kf = frac_new(1, k);
+// 			sum = frac_add(sum, kf);
+//
+// 			kf = frac_new(1, n / k);
+// 			sum = frac_add(sum, kf);
+// 		}
+// 		if (frac_cmp_int(sum, 1) == 0) printf("%d\n", n);
+// 	}
+//
+// 	return 0;
+// }
