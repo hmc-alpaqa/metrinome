@@ -176,7 +176,7 @@ class RecursivePathComplexity(ABC):
                     expr = expr + var*x
                 else:
                     expr = expr + x
-                if int(startnode) in recurlist:
+                for i in range(recurlist.count(int(startnode))):
                     expr = recurexpr * expr #recursion
             system += [expr - sym]
         eq1 = symbols("V0")*x - firstnode
