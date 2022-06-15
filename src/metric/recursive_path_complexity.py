@@ -143,7 +143,7 @@ class RecursivePathComplexity(ABC):
             apc = patheq
         else:
             self.logger.d_msg(f"case2")
-            rStar = min(map(lambda x: x if x > 0 else oo,sympy.real_roots(discrim)))
+            rStar = min(map(lambda x: x if x > 0 else sympy.oo,sympy.real_roots(discrim)))
             apc = (1/rStar)**symbols("n")
         return apc
 
