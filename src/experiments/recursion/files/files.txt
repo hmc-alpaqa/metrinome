@@ -1,1 +1,6 @@
+recursive_func.c
+RecursiveBinaryToDecimal.cpp
+RecursiveCrossSum.cpp
+RecursiveFactorial.cpp
 RecursiveFibonacciVariant.cpp
+RecursivePower.cpp

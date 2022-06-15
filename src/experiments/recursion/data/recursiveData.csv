@@ -1,7 +1,7 @@
 ,file_name,graph_name,apc,rapc,cyclo,npath,apc_time,rapc_time,num_vertices,edge_count,exception,exception_type
-0,/app/code/experiments/recursion/files/recursive_func.c,recursive_func_cfg._Z14recursive_funci,"(2.00000000000000, 2.00000000000000)",n/3,2.0,2.0,0.00963139533996582,0.7143728733062744,4.0,4.0,0.0,na
-1,/app/code/experiments/recursion/files/RecursiveBinaryToDecimal.cpp,RecursiveBinaryToDecimal_cfg._Z7computeNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEi,"(2.00000000000000, 2.00000000000000)",1,4.0,2.0,0.01832890510559082,0.1556873321533203,11.0,13.0,0.0,na
-2,/app/code/experiments/recursion/files/RecursiveCrossSum.cpp,RecursiveCrossSum_cfg._Z7computei,"(2.00000000000000, 2.00000000000000)",n/3,2.0,2.0,0.0047261714935302734,0.46279239654541016,4.0,4.0,0.0,na
-3,/app/code/experiments/recursion/files/RecursiveFactorial.cpp,RecursiveFactorial_cfg._Z7computei,"(2.00000000000000, 2.00000000000000)",n/3,2.0,2.0,0.00489497184753418,0.46369457244873047,4.0,4.0,0.0,na
-4,/app/code/experiments/recursion/files/RecursiveFibonacciVariant.cpp,RecursiveFibonacciVariant_cfg._Z7computei,"(2.00000000000000, 2.00000000000000)",n/3,2.0,2.0,0.004831790924072266,0.4551074504852295,4.0,4.0,0.0,na
-5,/app/code/experiments/recursion/files/RecursivePower.cpp,RecursivePower_cfg._Z7computeii,"(3.00000000000000, 3.00000000000000)",n/2,3.0,3.0,0.008888721466064453,0.34740281105041504,6.0,7.0,0.0,na
+0,/app/code/experiments/recursion/files/recursive_func.c,recursive_func_cfg._Z14recursive_funci,"(2.00000000000000, 2.00000000000000)",n/3,2.0,2.0,0.0058133602142333984,0.735015869140625,4.0,4.0,0.0,na
+1,/app/code/experiments/recursion/files/RecursiveBinaryToDecimal.cpp,RecursiveBinaryToDecimal_cfg._Z7computeNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEi,na,n/3,na,na,0.0,0.0,11.0,13.0,1.0,Other
+2,/app/code/experiments/recursion/files/RecursiveCrossSum.cpp,RecursiveCrossSum_cfg._Z7computei,"(2.00000000000000, 2.00000000000000)",n/3,2,2,0.004872560501098633,0.4652063846588135,4.0,4.0,0.0,na
+3,/app/code/experiments/recursion/files/RecursiveFactorial.cpp,RecursiveFactorial_cfg._Z7computei,"(2.00000000000000, 2.00000000000000)",n/3,2,2,0.005167484283447266,0.46579742431640625,4.0,4.0,0.0,na
+4,/app/code/experiments/recursion/files/RecursiveFibonacciVariant.cpp,RecursiveFibonacciVariant_cfg._Z7computei,"(2.00000000000000, 2.00000000000000)",n/3,2,2,0.005059003829956055,0.4803125858306885,4.0,4.0,0.0,na
+5,/app/code/experiments/recursion/files/RecursivePower.cpp,RecursivePower_cfg._Z7computeii,"(3.00000000000000, 3.00000000000000)",n/2,3,3,0.009809494018554688,0.34332847595214844,6.0,7.0,0.0,na

@@ -153,6 +153,7 @@ class ControlFlowGraph:
                 elif (match := re.search(node_with_label_regex, line)) is not None:
                     graph.update_with_node(match, True)
                     call = ControlFlowGraph.check_call(match)
+
                     if call is not None:
                         calls.update(call)
                 elif (match := re.search(node_without_label_regex, line)) is not None:

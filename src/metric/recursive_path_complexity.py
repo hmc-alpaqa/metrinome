@@ -41,8 +41,7 @@ class RecursivePathComplexity(ABC):
                     edgelist += [[rowIndex, colIndex]]
         print(cfg.metadata.calls)
         for node in cfg.metadata.calls.keys():
-
-            if cfg.metadata.calls[node].split()[1] == cfg.name.split(".")[1]:
+            for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                 recurlist += [int(node)]
         print(recurlist)
         self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
