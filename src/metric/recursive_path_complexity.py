@@ -144,6 +144,8 @@ class RecursivePathComplexity(ABC):
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x > 0 else sympy.oo,sympy.real_roots(discrim)))
+            if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
+                rStar = sympy.N(rStar)
             apc = (1/rStar)**symbols("n")
         return apc
 
