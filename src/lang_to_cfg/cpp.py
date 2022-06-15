@@ -90,6 +90,8 @@ class CPPConvert(converter.ConverterAbstract):
                     node_map[node_name_str] = str(counter)
                     node_to_add = str(counter)
                     call = re.search(self._call_pattern, line.lstrip())
+                    print("KETANINE")
+                    print(call)
                     label = ""
 
                     if counter == 0 and call is not None:
@@ -114,6 +116,14 @@ class CPPConvert(converter.ConverterAbstract):
                                  filename: str) -> None:
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
+        print("NOD")
+        print(nodes)
+        print("EDG")
+        print(edges)
+        print("NOD MAP")
+        print(node_map)
+        print("COUNTER")
+        print(counter)
 
         # Covers case of leaf CFGs.
         if len(nodes) == 1:
@@ -126,7 +136,8 @@ class CPPConvert(converter.ConverterAbstract):
         # Make a temporary file (with the new content).
         source_name = os.path.basename(filename)
         f_name = os.path.basename(file)
-        with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w') as new_file:
+        # with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w') as new_file:
+        with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+') as new_file:
             new_file.write("digraph { \n")
 
             # Create the nodes and then the edges.
@@ -143,6 +154,8 @@ class CPPConvert(converter.ConverterAbstract):
 
                 new_file.write(edge + "\n")
             new_file.write("}")
+            new_file.seek(0)
+            print(new_file.read())
 
     def convert_to_standard_format(self, filename: str) -> int:
         """
@@ -177,7 +190,7 @@ class CPPConvert(converter.ConverterAbstract):
             c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"\
 
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
-
+        print(c1_str, c2_str)
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
 
         self.logger.d_msg(f"Command One: {commands[0]}")
