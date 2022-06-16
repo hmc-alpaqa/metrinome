@@ -39,11 +39,9 @@ class RecursivePathComplexity(ABC):
             for colIndex, value in enumerate(row):
                 if value ==1:
                     edgelist += [[rowIndex, colIndex]]
-        print(cfg.metadata.calls)
         for node in cfg.metadata.calls.keys():
             for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                 recurlist += [int(node)]
-        print(recurlist)
         self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
