@@ -126,8 +126,6 @@ class RecursivePathComplexity(ABC):
                         expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
-
-
             try:
                 with Timeout(seconds = 200, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
@@ -140,14 +138,19 @@ class RecursivePathComplexity(ABC):
                     patheq += symbols(f'c\-{rootindex}\-{mj}')*(n**mj)*(abs(1/root)**n)
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
-            apc = patheq
+            pc = patheq
+            if type(pc) == sympy.Add:
+                apc = big_o(list(pc.args))
+            else:
+                apc = pc
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x > 0 else sympy.oo,sympy.real_roots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
-            apc = (1/rStar)**symbols("n")
-        return apc
+            apc = sympy.N(1/rStar)**symbols("n")
+            pc = sympy.N(1/rStar)**symbols("n")
+        return (apc, pc)
 
 
     def gammaFunction(self, edgelist, recurlist):
