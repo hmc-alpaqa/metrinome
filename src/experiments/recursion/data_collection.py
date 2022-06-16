@@ -56,12 +56,9 @@ class DataCollector:
                 rruntime = 0.0
                 try:
                     with Timeout(300):
-                        print("hi")
                         rapc = self.recursive_apc_computer.evaluate(graph)
                         rruntime = time.time() - start_time
-                        print("bi")
                 except Exception as exc:
-                    print(exc)
                     ex = True
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
                 start_time = time.time()

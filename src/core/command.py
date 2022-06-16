@@ -605,7 +605,6 @@ class Command:
                    graph.metadata.language is not KnownExtensions.Python:
                     continue
                 start_time = time.time()
-                print(self.recursive_apc)
                 recursiveCalls = False
                 for node in graph.metadata.calls.keys():
                     if graph.metadata.calls[node].split()[1] == graph.name.split(".")[1]:
@@ -613,10 +612,8 @@ class Command:
                         break
                 isRecursive = self.recursive_apc and recursiveCalls
                 if metric_generator.name() == "Path Complexity" and isRecursive:
-                    print("Skipping path")
                     continue
                 if metric_generator.name() == "Recursive Path Complexity" and not isRecursive:
-                    print("Skipping recurpath")
                     continue
                 try:
                     with Timeout(6000, "Took too long!"):
