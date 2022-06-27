@@ -19,4 +19,3 @@ int euler9(int x)
   }
   return p;
 }
-  
