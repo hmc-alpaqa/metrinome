@@ -5,6 +5,7 @@ sys.path.append('/app/pycparser/')
 import subprocess
 import time
 import re
+import traceback
 from subprocess import PIPE
 from typing import List, Optional, Tuple, Dict, Union
 import matplotlib.pyplot as plt  # type: ignore
@@ -30,6 +31,8 @@ def parse_klee(klee_output: str) -> KleeOutputInfo:
     """Parse output from running Klee."""
     strs_to_match = ["generated tests = ", "completed paths = ", "total instructions = "]
     string_four = "real"
+    print("TESTING")
+    print(klee_output)
     str_indicies = [klee_output.index(str_to_match) + len(str_to_match)
                     for str_to_match in strs_to_match]
 
@@ -113,14 +116,14 @@ def generate_files(src_filepath, filepath, func_name, optimized):
         bcname = f"{filepath}{func_name}_{i}_{opt_str}.bc"
         with open(new_name, "w+") as file:
             file.write(output[i])
-        cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O0 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
+        cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O1 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
         subprocess.run(cmd, shell=True, capture_output=True, check=True)
         names.append(f"{func_name}_{i}_{opt_str}")
     return names
 
 
 def generate_files_premade(src_filepath, filepath, filename):
-    cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O0 -Xclang -disable-O0-optnone  -o {filepath}{filename}_klee.bc {src_filepath}{filename}_klee.c"
+    cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O1 -Xclang -disable-O0-optnone  -o {filepath}{filename}_klee.bc {src_filepath}{filename}_klee.c"
     subprocess.run(cmd, shell=True, capture_output=True, check=True)
     return [filename+"_klee"]
 
@@ -164,7 +167,12 @@ def prepare(klee_path, src_filepath, filepath, file_generation_function, functio
         name_tuples += file_generation_function(src_filepath, filepath, func)
     for name_tuple in name_tuples:
         klee_functions = [generate_klee_function(klee_path, klee_params_lambda, filepath, name) for name in name_tuple]
-        run_klee_general(name_tuple[0], filepath, klee_functions, labels, xaxis, xlabel, fields, klee_path, remove)
+        try:
+            run_klee_general(name_tuple[0], filepath, klee_functions, labels, xaxis, xlabel, fields, klee_path, remove)
+        except Exception as e:
+            print(f"FAILED TO RUN ON {name_tuple}")
+            traceback.print_exception(type(e), e, e.__traceback__)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 def main() -> None:
 
@@ -183,7 +191,14 @@ def main() -> None:
     # shouldn't actually contain the call to klee
 
     xlabel = "max time in min" # label for the x-axis (parameter that is being varied)
-    pregenerated = ['9-billion-names-of-god-the-integer']
+    # pregenerated = ['9-billion-names-of-god-the-integer', 'arbitrary-precision-integers--included--3-strexp', 'arbitrary-precision-integers--included--3-strmult',
+    # 'arena-storage-pool-7_add_mem_entry', 'arena-storage-pool-7_remove_mem_entry', 'arena-storage-pool-7_customFree', 'arena-storage-pool-7_customMalloc',
+    # 'active-object_update', 'active-object_tick', 'active-object_set_input', 'active-object_new_integ', 'active-object_sine']
+    pregenerated = ['lina_bac_sub', 'lina_cmp', 'lina_cofactor', 'lina_comp_transpose', 'lina_conjugate', 'lina_cramer',
+    'lina_create_dvector', 'lina_createvector', 'lina_crossProduct', 'lina_determinant', 'lina_disp_cmpMat', 'lina_disp_floatMat',
+    'lina_disp_intMat', 'lina_dotProduct', 'lina_for_sub', 'lina_has_converged', 'lina_ishermitian', 'lina_lup_sol', 'lina_matrix_inverse',
+    'lina_matrix_multiplication', 'lina_max', 'lina_print_dVector', 'lina_printVector', 'lina_Read_cmpMat', 'lina_Read_intMat', 'lina_Read_Vector',
+    'lina_rpm', 'lina_scalarTripleProduct', 'lina_scale', 'lina_transpose', 'lina_vect_mat_multiplication', 'lina_vectorTripleProduct']
     file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False) if file_name not in pregenerated else generate_files_premade(src_filepath, file_path, file_name)))
     # file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False), generate_files(src_filepath, file_path, file_name, True)))
     # should be a callable object that takes in a source folder, output folder, and file name
@@ -202,13 +217,27 @@ def main() -> None:
     # functions = ['04_mincoins_no_helper']
     # functions = ['06_binarysearch_no_helper']
     # functions = ['18_binarymultiply_no_helper']
-    # to look at later: 'active-object', 'amb', 'anagrams-1', 'anagrams-deranged-anagrams', 'animate-a-pendulum'
-    functions = ['9-billion-names-of-god-the-integer', '24-game-solve', '24-game', 'abc-problem', 'ackermann-function-1', 'ackermann-function-2',
-    'aks-test-for-primes', 'aliquot-sequence-classifications-1', 'aliquot-sequence-classifications-2', 'almost-prime', 'anagrams-2', 'animation',
-    'anonymous-recursion', 'apply-a-callback-to-an-array-2', 'arbitrary-precision-integers--included--3', 'arena-storage-pool-7', 'arithmetic-complex-1',
-    'arithmetic-complex-2', 'arithmetic-geometric-mean-1', 'arithmetic-geometric-mean-2', 'arithmetic-geometric-mean-calculate-pi', 'arithmetic-rational',
-    'array-concatenation', 'arrays-10']
+    functions = ['lina_bac_sub', 'lina_cmp', 'lina_cofactor', 'lina_comp_transpose', 'lina_conjugate', 'lina_cramer',
+    'lina_create_dvector', 'lina_createvector', 'lina_crossProduct', 'lina_determinant', 'lina_disp_cmpMat', 'lina_disp_floatMat',
+    'lina_disp_intMat', 'lina_dotProduct', 'lina_for_sub', 'lina_has_converged', 'lina_ishermitian', 'lina_lup_sol', 'lina_matrix_inverse',
+    'lina_matrix_multiplication', 'lina_max', 'lina_print_dVector', 'lina_printVector', 'lina_Read_cmpMat', 'lina_Read_intMat', 'lina_Read_Vector',
+    'lina_rpm', 'lina_scalarTripleProduct', 'lina_scale', 'lina_transpose', 'lina_vect_mat_multiplication', 'lina_vectorTripleProduct']
+# working : ['9-billion-names-of-god-the-integer', '24-game-solve', '24-game', 'abc-problem', 'ackermann-function-1', 'ackermann-function-2',
+# # 'aks-test-for-primes', 'aliquot-sequence-classifications-1', 'aliquot-sequence-classifications-2', 'almost-prime', 'anagrams-2',
+# # 'arbitrary-precision-integers--included--3-strexp', 'arbitrary-precision-integers--included--3-strmult']
+# ['arena-storage-pool-7_add_mem_entry', 'arena-storage-pool-7_remove_mem_entry', 'arena-storage-pool-7_customFree', 'arena-storage-pool-7_customMalloc']
+
+
+
+    # to look at later: 'anagrams-1', 'anagrams-deranged-anagrams', 'animate-a-pendulum', 'animation', 'anonymous-recursion'
+    # 'apply-a-callback-to-an-array-2',
+    # 'arithmetic-complex-2', 'arithmetic-geometric-mean-1', 'arithmetic-geometric-mean-2', 'arithmetic-geometric-mean-calculate-pi', 'arithmetic-rational',
+    # 'array-concatenation', 'arrays-10', 'simpletest']
     # functions = ['simpletest']
+    # functions = []
+
+
+
     labels = ["normal"] # the labels for the different "compilation methods"
     # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
     #               '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90',
