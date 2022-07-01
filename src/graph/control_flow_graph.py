@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 import re
 from typing import Callable, Match, Optional, Tuple, Type, cast
+import itertools
 
 from core.env import KnownExtensions
 from graph.graph import AdjListGraph, AdjListType, AdjMatGraph, EdgeListGraph, Graph
@@ -101,10 +102,13 @@ class ControlFlowGraph:
         return self.metadata.rich_repr() + self.graph.rich_repr()
 
     @staticmethod
-    def check_call(match: Match[str]) -> Optional[dict[int, str]]:
+    def check_call(matches) -> Optional[dict[int, str]]:
         """Find and return any functions called on a node."""
-        node = int(match.group(1))
-        label = match.group(2)
+        first_match = next(matches)
+        node = int(first_match.group(1))
+        matches = itertools.chain([first_match], matches)
+        for match in matches:
+            label = match.group(3)
         if "CALLS" in label:
             return {node: label}
         return None
@@ -138,26 +142,29 @@ class ControlFlowGraph:
             graph = AdjListGraph([], 0)
 
         graph.name = os.path.splitext(name)[0]
-
         with open(filename, "r") as file:
             line: str
             for line in file.readlines()[1:]:
 
                 edge_regex = r"([0-9]*)\s*->\s*([0-9]*)"
-                node_with_label_regex = r"([0-9]*)\s*\[label=\"(.*)\"\]"
+                # node_with_label_regex = r"([0-9]*)\s*\[label=\"(.*)\"\]"
+                node_with_label_regex = r"([0-9]*)\s*(\[label=\"([^\"]*)\"\]+)"
                 node_without_label_regex = r"([0-9]+)"
                 if (match := re.search(edge_regex, line)) is not None:
                     # The current line in the text file represents an edge.
                     graph.update_with_edge(match)
                 # Current line is not an edge - check if it defines a node.
                 elif (match := re.search(node_with_label_regex, line)) is not None:
-                    graph.update_with_node(match, True)
-                    call = ControlFlowGraph.check_call(match)
+                    matches = re.finditer(node_with_label_regex, line)
+                    graph.update_with_node(matches, True)
+                    matches = re.finditer(node_with_label_regex, line)
+                    call = ControlFlowGraph.check_call(matches)
 
                     if call is not None:
                         calls.update(call)
                 elif (match := re.search(node_without_label_regex, line)) is not None:
-                    graph.update_with_node(match, False)
+                    matches = re.finditer(node_without_label_regex, line)
+                    graph.update_with_node(matches, False)
 
             if graph.start_node == -1 or graph.end_node == -1:
                 raise ValueError("Start and end nodes must both be defined.")
