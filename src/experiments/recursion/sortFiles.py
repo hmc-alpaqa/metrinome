@@ -33,7 +33,7 @@ class FileSorter:
         for filename in glob.iglob(unsorted + '**/*.cpp', recursive=True):
              self.subsort(filename)
         for filename in glob.iglob(unsorted + '**/*.c', recursive=True):
-             self.subsort(filename)
+            self.subsort(filename)
         # for filename in os.listdir(unsorted):
         #
         #     f = os.path.join(unsorted, filename)

@@ -5,6 +5,7 @@ from collections import defaultdict
 from typing import Generic, Match, Optional, TypeVar
 
 import numpy as np  # type: ignore
+import itertools
 
 AdjListType = list[list[int]]
 EdgeListType = list[list[int]]
@@ -82,7 +83,7 @@ class Graph(ABC):
         """Get the number of edges in the graph."""
 
     @abstractmethod
-    def update_with_node(self, match: Match[str], node_label: bool) -> None:
+    def update_with_node(self, matches, node_label: bool) -> None:
         """
         Create a new vertex when the current line in the dot file is a node.
 
@@ -148,15 +149,18 @@ class GenericGraph(Graph, Generic[Type], ABC):
 
         return node + 1
 
-    def _update_with_node_helper(self, match: Match[str], node_label: bool) -> int:
+    def _update_with_node_helper(self, matches, node_label: bool) -> int:
         """Store start and end nodes."""
-        node = int(match.group(1))
+        first_match = next(matches)
+        node = int(first_match.group(1))
+        matches = itertools.chain([first_match], matches)
         if node_label:
-            label = match.group(2)
-            if "START" in label:
-                self.start_node = node
-            if label == "EXIT":
-                self.end_node = node
+            for match in matches:
+                label = match.group(3)
+                if "START" in label:
+                    self.start_node = node
+                if label == "EXIT":
+                    self.end_node = node
 
         self.num_vertices = max(self.num_vertices, node + 1)
         return node
@@ -337,9 +341,9 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
         """Compute the adjacency list representation of a graph."""
         return self.edges
 
-    def update_with_node(self, match: Match[str], node_label: bool) -> None:
+    def update_with_node(self, matches, node_label: bool) -> None:
         """Create a new vertex when the current line in the dot file is a node."""
-        node = self._update_with_node_helper(match, node_label)
+        node = self._update_with_node_helper(matches, node_label)
         if len(self.edges) <= node:
             self.edges += [[] for _ in range(((node + 1) - len(self.edges)))]
 
@@ -464,9 +468,9 @@ class EdgeListGraph(GenericGraph[EdgeListType], Graph):
         node_one, node_two = self._update_with_edge_helper(match)
         self.edges.append([node_one, node_two])
 
-    def update_with_node(self, match: Match[str], node_label: bool) -> None:
+    def update_with_node(self, matches, node_label: bool) -> None:
         """Create a new vertex when the current line in the dot file is a node."""
-        self._update_with_node_helper(match, node_label)
+        self._update_with_node_helper(matches, node_label)
 
 
 class AdjMatGraph(GenericGraph[np.ndarray], Graph):
@@ -506,5 +510,5 @@ class AdjMatGraph(GenericGraph[np.ndarray], Graph):
     def update_with_edge(self, match: Match[str]) -> None:
         """Create new edges when the current line in the dot file is an edge."""
 
-    def update_with_node(self, match: Match[str], node_label: bool) -> None:
+    def update_with_node(self, matches, node_label: bool) -> None:
         """Create a new vertex when the current line in the dot file is a node."""
