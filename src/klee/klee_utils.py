@@ -206,6 +206,8 @@ class KleeUtils:
             if func_visitor.types[func_name] == 'void':
                 file_str += f"\t{func_name}({', '.join(var_names)});\n"
                 file_str += "\treturn 0;\n"
+            elif None in var_names:
+                file_str += f"\treturn {func_name}();\n"
             else:
                 file_str += f"\treturn {func_name}({', '.join(var_names)});\n"
             file_str += "}\n"
