@@ -98,6 +98,7 @@ class RecursivePathComplexity(ABC):
                     for dictRoot in newRootsDict.keys():
                         if abs(root-dictRoot)<10**(-11):
                             newRootsDict[dictRoot] += 1
+                            found = True
                             break
                     if not found:
                         newRootsDict[root] = 1
