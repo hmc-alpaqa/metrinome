@@ -85,27 +85,35 @@ class RecursivePathComplexity(ABC):
                     maxPow = power
             rootsDict = sympy.roots(denominator)
             numRoots = sum(rootsDict.values())
+            self.logger.d_msg(f"numRoots: {numRoots}")
+            self.logger.d_msg(f"denominator: {denominator}")
             if numRoots < maxPow:
                 newRootsDict = {}
-                approxroots = sympy.nroots(denominator)
+
+                approxroots = sympy.nroots(denominator, n=12, maxsteps=1000)
+
                 for root in approxroots:
+                    print(root)
                     found = False
                     for dictRoot in newRootsDict.keys():
-                        if abs(root-dictRoot)<10**(-12):
+                        if abs(root-dictRoot)<10**(-11):
                             newRootsDict[dictRoot] += 1
                             break
                     if not found:
                         newRootsDict[root] = 1
                 rootsDict = newRootsDict
+                print(rootsDict)
                 numRoots = sum(rootsDict.values())
             if numRoots < maxPow:
                 raise Exception("Can't find all the roots :(")
             nonZeroIndex = 0
+            self.logger.d_msg(f"Found all Roots")
             while True:
                 zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
                 if not type(zseries) == sympy.Order:
                     break
                 nonZeroIndex += 1
+            self.logger.d_msg(f"nonZeroIndex: {nonZeroIndex}")
             coeffs = [0]*(numRoots + nonZeroIndex)
             Tseries = sympy.series(genFunc, x, 0, numRoots + nonZeroIndex)
             exprs = []
@@ -116,6 +124,7 @@ class RecursivePathComplexity(ABC):
                     if c == "x":
                         c = "1"
                     coeffs[self.termPow(term, x)] = int(c)
+            self.logger.d_msg(f"coeffs: {coeffs}")
             for val in range(nonZeroIndex, nonZeroIndex + numRoots):
                 expr = -coeffs[val]
 
@@ -124,23 +133,29 @@ class RecursivePathComplexity(ABC):
                         expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
+            self.logger.d_msg(f"exprs: {exprs}")
             try:
                 with Timeout(seconds = 200, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
             except:
+                print("Hello")
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+            self.logger.d_msg(f"solutions: {solutions}")
             patheq = 0
             for rootindex, root in enumerate(rootsDict.keys()):
                 for mj in range(rootsDict[root]):
                     n = symbols("n")
                     patheq += symbols(f'c\-{rootindex}\-{mj}')*(n**mj)*(abs(1/root)**n)
+            self.logger.d_msg(f"patheq: {patheq}")
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
+            self.logger.d_msg(f"pc: {pc}")
             if type(pc) == sympy.Add:
                 apc = big_o(list(pc.args))
             else:
                 apc = pc
+            self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x > 0 else sympy.oo,sympy.real_roots(discrim)))

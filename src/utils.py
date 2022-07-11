@@ -119,23 +119,28 @@ def big_o(terms: List[str]) -> str:
 
     The terms should be a list of expressions represented as strings.
     """
-    n_var = symbols('n')
-    if len(terms) == 0:
-        return '0'
+    print(terms)
+    try:
+        with Timeout(seconds = 200, error_message="Big O Timed Out"):
+            n_var = symbols('n')
+            if len(terms) == 0:
+                return '0'
 
-    if len(terms) == 1:
-        return terms[0]
+            if len(terms) == 1:
+                return terms[0]
 
-    term_one = terms[0]
-    term_two = terms[1]
+            term_one = terms[0]
+            term_two = terms[1]
 
-    lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
+            lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
 
-    if lim == 0:
-        terms.remove(term_two)
-        return big_o(terms)
+            if lim == 0:
+                terms.remove(term_two)
+                return big_o(terms)
 
-    return big_o(terms[1:])
+            return big_o(terms[1:])
+    except:
+        return terms[0] + " + " + big_o(terms[1:])
 
 
 def show_func_defs(filename: str) -> Dict[str, str]:

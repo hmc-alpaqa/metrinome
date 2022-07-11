@@ -5,7 +5,7 @@ from typing import Union
 
 import pandas as pd  # type: ignore
 
-from core.log import Log
+from core.log import Log, LogLevel
 from lang_to_cfg.cpp import CPPConvert
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, recursive_path_complexity
 from metric.path_complexity import PathComplexityRes
@@ -17,7 +17,7 @@ class DataCollector:
 
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
-        log = Log()
+        log = Log(log_level = LogLevel.DEBUG)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
         self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
@@ -47,10 +47,9 @@ class DataCollector:
             for graph in graphs.values():
                 start_time = time.time()
                 apc: Union[str, PathComplexityRes] = "na"
-                #rapc: notsurelol
+                rapc: Union[str, PathComplexityRes] = "na"
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
-                ex = False
                 exception_type = "na"
                 runtime = 0.0
                 rruntime = 0.0
@@ -59,39 +58,31 @@ class DataCollector:
                         rapc = self.recursive_apc_computer.evaluate(graph)
                         rruntime = time.time() - start_time
                 except Exception as exc:
-                    ex = True
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
                 start_time = time.time()
-                if not ex:
-                    try:
-                        with Timeout(300):
-                            apc = self.apc_computer.evaluate(graph)
-                            runtime = time.time() - start_time
-                    except Exception as exc:
-                        ex = True
-                        exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                try:
+                    with Timeout(300):
+                        apc = self.apc_computer.evaluate(graph)
+                        runtime = time.time() - start_time
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                try:
+                    with Timeout(200):
+                        cyclo = self.cyclo_computer.evaluate(graph)
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                    if not ex:
-                        try:
-                            with Timeout(200):
-                                cyclo = self.cyclo_computer.evaluate(graph)
-                        except Exception as exc:
-                            ex = True
-                            exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
-
-                        if not ex:
-                            try:
-                                with Timeout(200):
-                                    npath = self.npath_computer.evaluate(graph)
-                            except Exception as exc:
-                                ex = True
-                                exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                try:
+                    with Timeout(200):
+                        npath = self.npath_computer.evaluate(graph)
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
                            "rapc": rapc, "cyclo": cyclo, "npath": npath,
                            "apc_time": runtime, "rapc_time": rruntime,
                            "num_vertices": graph.graph.num_vertices,
-                           "edge_count": graph.graph.edge_count(), "exception": ex,
+                           "edge_count": graph.graph.edge_count(),
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)

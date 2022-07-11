@@ -1,17 +1,1 @@
-recursive_func.c
-RecursiveBinaryToDecimal.cpp
-RecursiveCrossSum.cpp
-RecursiveFactorial.cpp
-RecursiveFibonacciVariant.cpp
-RecursivePower.cpp
 merge_sort.c
-quick-sort.c
-digital-root-multiplicative-digital-root.c
-parsing-rpn-calculator-algorithm-2.c
-arrays-10.c
-chinese-remainder-theorem.c
-multifactorial.c
-combinations-1.c
-spiral-matrix-2.c
-non-continuous-subsequences-3.c
-mutual-recursion.c

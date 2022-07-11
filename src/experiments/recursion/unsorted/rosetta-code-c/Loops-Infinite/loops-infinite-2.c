@@ -1,1 +1,0 @@
- for(;;) puts("SPAM");

@@ -1,3 +1,0 @@
-int *array = malloc (sizeof(int) * 20);
-....
-array = realloc(array, sizeof(int) * 40);
