@@ -1,9 +1,0 @@
-func[0]: 0
-func[1]: 1
-func[2]: 4
-func[3]: 9
-func[4]: 16
-func[5]: 25
-func[6]: 36
-func[7]: 49
-func[8]: 64

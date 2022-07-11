@@ -1,3 +1,0 @@
-waiting for child 3604...
-        child process: done
-child 3604 finished

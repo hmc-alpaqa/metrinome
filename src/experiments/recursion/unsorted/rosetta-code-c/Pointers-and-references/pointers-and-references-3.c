@@ -1,2 +1,0 @@
-int othervar;
-pointer = &othervar;
