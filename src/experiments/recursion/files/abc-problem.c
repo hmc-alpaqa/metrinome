@@ -19,23 +19,3 @@ int can_make_words(char **b, char *word)
 
 	return ret;
 }
-
-int main(void)
-{
-	char* blocks[] = {
-		"BO", "XK", "DQ", "CP", "NA",
-		"GT", "RE", "TG", "QD", "FS",
-		"JW", "HU", "VI", "AN", "OB",
-		"ER", "FS", "LY", "PC", "ZM",
-		0 };
-
-	char *words[] = {
-		"", "A", "BARK", "BOOK", "TREAT", "COMMON", "SQUAD", "Confuse", 0
-	};
-
-	char **w;
-	for (w = words; *w; w++)
-		printf("%s\t%d\n", *w, can_make_words(blocks, *w));
-
-	return 0;
-}

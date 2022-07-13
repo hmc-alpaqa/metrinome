@@ -44,12 +44,3 @@ void longmulti(const char *a, const char *b, char *c)
 
 	return;
 }
-
-int main()
-{
-	char c[1024];
-	longmulti("-18446744073709551616", "-18446744073709551616", c);
-	printf("%s\n", c);
-
-	return 0;
-}

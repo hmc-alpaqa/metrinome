@@ -37,15 +37,3 @@ void gen_bits(uint mask, uint all, uint res, int n, int pid)
 		gen_bits(mask, all, res | i, n - 1, pid);
 	}
 }
-
-int main(void)
-{
-	uint i, m;
-	for (m = 1, i = 0; i < n_parts; i++)
-		m <<= parts[i];
-	m--;
-
-	gen_bits(m, m, 0, parts[0], 0);
-
-	return 0;
-}

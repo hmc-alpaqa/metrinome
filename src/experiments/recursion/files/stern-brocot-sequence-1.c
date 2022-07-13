@@ -21,18 +21,3 @@ void find(uint from, uint to)
 		printf("%3u at Stern #%u.\n", from, n);
 	} while (++from <= to);
 }
-
-int main(void)
-{
-	uint n;
-	for (n = 1; n < 16; n++) printf("%u ", f(n));
-	puts("are the first fifteen.");
-
-	find(1, 10);
-	find(100, 0);
-
-	for (n = 1; n < 1000 && gcd(f(n), f(n+1)) == 1; n++);
-	printf(n == 1000 ? "All GCDs are 1.\n" : "GCD of #%d and #%d is not 1", n, n+1);
-
-	return 0;
-}

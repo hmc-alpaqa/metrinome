@@ -32,15 +32,3 @@ ull catalan3(int n)
 {
 	return n ? 2 * (2 * n - 1) * catalan3(n - 1) / (1 + n) : 1;
 }
-
-int main(void)
-{
-	int i;
-	puts("\tdirect\tsumming\tfrac");
-	for (i = 0; i < 16; i++) {
-		printf("%d\t%llu\t%llu\t%llu\n", i,
-			catalan1(i), catalan2(i), catalan3(i));
-	}
-
-	return 0;
-}

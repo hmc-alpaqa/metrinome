@@ -94,10 +94,3 @@ const char* game(int user)
 	}
 	return "A draw.\n\n";
 }
-
-int main()
-{
-	int first = 0;
-	while (1) printf("%s", game(first = !first));
-	return 0;
-}

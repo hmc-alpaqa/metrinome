@@ -21,9 +21,3 @@ void comb(int pool, int need, marker chosen, int at)
 	comb(pool, need - 1, chosen | (one << at), at + 1);
 	comb(pool, need, chosen, at + 1);  /* or don't choose it, go to next */
 }
-
-int main()
-{
-	comb(5, 3, 0, 0);
-	return 0;
-}

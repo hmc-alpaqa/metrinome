@@ -49,18 +49,3 @@ static void radix_sort(int *a, const size_t len)
         for (i = 0; i < len; i++)
             x[i] ^= INT_MIN;
 }
-
-int main(void)
-{
-
-    srand(time(NULL));
-    int x[16];
-
-     for (size_t i = 0; i < ARR_LEN(x); i++)
-        x[i] = RAND_RNG(-128,127)
-
-    radix_sort(x, ARR_LEN(x));
-
-    for (size_t i = 0; i < ARR_LEN(x); i++)
-        printf("%d%c", x[i], i + 1 < ARR_LEN(x) ? ' ' : '\n');
-}

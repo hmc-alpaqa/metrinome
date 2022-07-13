@@ -22,10 +22,3 @@ void solve(int n, int col, int *hist)
 		solve(n, col + 1, hist);
 	}
 }
-
-int main(int n, char **argv)
-{
-	if (n <= 1 || (n = atoi(argv[1])) <= 0) n = 8;
-	int hist[n];
-	solve(n, 0, hist);
-}

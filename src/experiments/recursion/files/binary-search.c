@@ -32,15 +32,3 @@ int bsearch_r (int *a, int x, int i, int j) {
         return bsearch_r(a, x, i, k - 1);
     }
 }
-
-int main () {
-    int a[] = {-31, 0, 1, 2, 2, 4, 65, 83, 99, 782};
-    int n = sizeof a / sizeof a[0];
-    int x = 2;
-    int i = bsearch(a, n, x);
-    printf("%d is at index %d\n", x, i);
-    x = 5;
-    i = bsearch_r(a, x, 0, n - 1);
-    printf("%d is at index %d\n", x, i);
-    return 0;
-}

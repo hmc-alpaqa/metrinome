@@ -40,12 +40,3 @@ void pick(sint n, sint step, sint state, char **v, unsigned long bits)
 	pick(n, step + 1, tbl[state][0], v, bits); /* no pick */
 	pick(n, step + 1, tbl[state][1], v, bits | 1); /* pick */
 }
-
-int main(int c, char **v)
-{
-	if (c - 1 >= sizeof(unsigned long) * 4)
-		printf("Too many items");
-	else
-		pick(c - 1, 0, s_blnk, v + 1, 0);
-	return 0;
-}

@@ -82,37 +82,3 @@ typedef struct {
     double prob;
     size_t count;
 } Counter;
-
-int main() {
-    const double probability_step = 1.0 / (N_STEPS - 1);
-    Counter counters[N_STEPS];
-    for (size_t i = 0; i < N_STEPS; i++)
-        counters[i] = (Counter){ i * probability_step, 0 };
-
-    bool sample_shown = false;
-    static Grid grid;
-    srand(time(NULL));
-
-    for (size_t i = 0; i < N_STEPS; i++) {
-        for (size_t t = 0; t < N_TRIES; t++) {
-            initialize(grid, counters[i].prob);
-            if (percolate(grid)) {
-                counters[i].count++;
-                if (!sample_shown) {
-                    printf("Percolating sample (%dx%d,"
-                           " probability =%5.2f):\n",
-                           N_COLS, N_ROWS, counters[i].prob);
-                    show(grid);
-                    sample_shown = true;
-                }
-            }
-        }
-    }
-
-    printf("\nFraction of %d tries that percolate through:\n", N_TRIES);
-    for (size_t i = 0; i < N_STEPS; i++)
-        printf("%1.1f %1.3f\n", counters[i].prob,
-               counters[i].count / (double)N_TRIES);
-
-    return 0;
-}

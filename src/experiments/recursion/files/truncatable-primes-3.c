@@ -35,13 +35,3 @@ void right(int n)
 		for (i = 1; i < 4; i++)
 			if (is_prime(nn = n * 10 + d[i])) right(nn);
 }
-
-int main(void)
-{
-	left(3, 1); left(7, 1);
-	right(3); right(5); right(7);
-
-	printf("%d %d\n", maxl, maxr);
-
-	return 0;
-}
