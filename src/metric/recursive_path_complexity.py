@@ -93,7 +93,6 @@ class RecursivePathComplexity(ABC):
                 approxroots = sympy.nroots(denominator, n=12, maxsteps=1000)
 
                 for root in approxroots:
-                    print(root)
                     found = False
                     for dictRoot in newRootsDict.keys():
                         if abs(root-dictRoot)<10**(-11):
@@ -103,7 +102,6 @@ class RecursivePathComplexity(ABC):
                     if not found:
                         newRootsDict[root] = 1
                 rootsDict = newRootsDict
-                print(rootsDict)
                 numRoots = sum(rootsDict.values())
             if numRoots < maxPow:
                 raise Exception("Can't find all the roots :(")
@@ -139,7 +137,6 @@ class RecursivePathComplexity(ABC):
                 with Timeout(seconds = 200, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
             except:
-                print("Hello")
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
             self.logger.d_msg(f"solutions: {solutions}")
             patheq = 0
@@ -164,6 +161,8 @@ class RecursivePathComplexity(ABC):
                 rStar = sympy.N(rStar)
             apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
+        if "I" in str(apc):
+            apc = sympy.simplify(self.clean(apc, symbols("n")))
         return (apc, pc)
 
 
@@ -291,3 +290,21 @@ class RecursivePathComplexity(ABC):
             if symbs[-1] in eq.free_symbols:
                 system[count] = sympy.expand(eq.subs(symbs[-1], sub))
         return self.eliminate(system[:-1], symbs[:-1])
+
+    def clean(self, system, symb):
+        """Gets rid of complex numbers and makes things cleaner"""
+        if "I" in str(system):
+            if str(symb) in str(system):
+                if type(system) == sympy.Add:
+                    newSys = 0
+                    for term in system.args:
+                        newSys += self.clean(term, symb)
+                elif type(system) == sympy.Mul:
+                    newSys = 1
+                    for term in system.args:
+                        newSys *= self.clean(term, symb)
+                return newSys
+            else:
+                return sympy.Abs(system)
+        else:
+            return system

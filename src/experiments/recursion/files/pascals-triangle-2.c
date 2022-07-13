@@ -10,9 +10,3 @@ int pascals(int *x, int *y, int d)
 
 	return D > d ? pascals(y, x, d + 1) : 0;
 }
-
-int main()
-{
-	int x[D] = {0, 1, 0}, y[D] = {0};
-	return pascals(x, y, 0);
-}

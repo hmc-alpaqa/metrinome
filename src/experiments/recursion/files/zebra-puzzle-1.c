@@ -224,15 +224,3 @@ int bruteFill(int ha[5][5], int hno, int attr) {
     // We only come here if none of the attr values assigned were valid.
     return Invalid;
 }
-
-
-int main() {
-    int ha[5][5] = {{-1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1},
-                    {-1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1},
-                    {-1, -1, -1, -1, -1}};
-
-    bruteFill(ha, 0, 0);
-    printHouses(ha);
-
-    return 0;
-}

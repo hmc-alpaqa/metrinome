@@ -16,15 +16,3 @@ int M(const int n)
 {
   return (n == 0) ? 0 : n - F(M(n - 1));
 }
-
-int main(void)
-{
-  int i;
-  for (i = 0; i < 20; i++)
-    printf("%2d ", F(i));
-  printf("\n");
-  for (i = 0; i < 20; i++)
-    printf("%2d ", M(i));
-  printf("\n");
-  return EXIT_SUCCESS;
-}

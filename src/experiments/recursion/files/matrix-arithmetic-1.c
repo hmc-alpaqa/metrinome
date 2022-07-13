@@ -29,17 +29,3 @@ double det(double *in, int n, int perm)
 
 	return det_in(m, n, perm);
 }
-
-int main(void)
-{
-	double x[] = {	0, 1, 2, 3, 4,
-			5, 6, 7, 8, 9,
-			10, 11, 12, 13, 14,
-			15, 16, 17, 18, 19,
-			20, 21, 22, 23, 24 };
-
-	printf("det:  %14.12g\n", det(x, 5, 0));
-	printf("perm: %14.12g\n", det(x, 5, 1));
-
-	return 0;
-}

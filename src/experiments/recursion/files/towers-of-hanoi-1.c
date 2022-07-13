@@ -10,8 +10,3 @@ void move(int n, int from, int via, int to)
     printf("Move disk from pole %d to pole %d\n", from, to);
   }
 }
-int main()
-{
-  move(4, 1,2,3);
-  return 0;
-}

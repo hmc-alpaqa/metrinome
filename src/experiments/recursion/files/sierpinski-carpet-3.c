@@ -64,18 +64,3 @@ void print_grid(char** b, int size){
                 printf("%s\n",b[i]);
         }
 }
-
-int main(){
-        int n = 3;
-
-        char** basegrid;
-        int size = allocate_grid(&basegrid, n, '#');
-        if(size == -1)
-                return 1; //bad alloc
-        PartialGrid b = {basegrid, 0, size-1, 0, size-1};
-        sierpinski(b, n);
-        print_grid(basegrid, size);
-        free(basegrid);
-
-        return 0;
-}

@@ -18,13 +18,13 @@ typedef cell* list;
 void addAndOrderList(list *a,triangle t){
 	list iter,temp;
 	int flag = 0;
-	
+
 	if(*a==NULL){
 		*a = (list)malloc(sizeof(cell));
 		(*a)->t = t;
 		(*a)->next = NULL;
 	}
-	
+
 	else{
 		temp = (list)malloc(sizeof(cell));
 
@@ -42,7 +42,7 @@ void addAndOrderList(list *a,triangle t){
 
 				iter = iter->next;
 			}
-			
+
 			if(flag!=1){
 				temp->t = t;
 				temp->next = NULL;
@@ -66,9 +66,9 @@ list generateTriangleList(int maxSide,int *count){
 	int a,b,c;
 	triangle t;
 	list herons = NULL;
-	
+
 	*count = 0;
-	
+
 	for(a=1;a<=maxSide;a++){
 		for(b=1;b<=a;b++){
 			for(c=1;c<=b;c++){
@@ -78,21 +78,21 @@ list generateTriangleList(int maxSide,int *count){
 					if(t.area/(int)t.area == 1){
 						addAndOrderList(&herons,t);
 						(*count)++;
-					}	
+					}
 				}
 			}
 		}
 	}
-	
+
 	return herons;
 }
 
 void printList(list a,int limit,int area){
 	list iter = a;
 	int count = 1;
-	
+
 	printf("\nDimensions\tPerimeter\tArea");
-	
+
 	while(iter!=NULL && count!=limit+1){
 		if(area==-1 ||(area==iter->t.area)){
 			printf("\n%d x %d x %d\t%d\t\t%d",iter->t.a,iter->t.b,iter->t.c,iter->t.perimeter,(int)iter->t.area);
@@ -100,21 +100,4 @@ void printList(list a,int limit,int area){
 		}
 		iter = iter->next;
 	}
-}
-
-int main(int argC,char* argV[])
-{
-	int count;
-	list herons = NULL;
-	
-	if(argC!=4)
-		printf("Usage : %s <Max side, max triangles to print and area, -1 for area to ignore>",argV[0]);
-	else{
-		herons = generateTriangleList(atoi(argV[1]),&count);
-		printf("Triangles found : %d",count);
-		(atoi(argV[3])==-1)?printf("\nPrinting first %s triangles.",argV[2]):printf("\nPrinting triangles with area %s square units.",argV[3]);
-		printList(herons,atoi(argV[2]),atoi(argV[3]));
-		free(herons);
-	}
-	return 0;
 }

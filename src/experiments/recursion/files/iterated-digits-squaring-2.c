@@ -67,16 +67,3 @@ long choose_sum_and_count_89(int * got, int n_chosen, int len, int at, int max_t
         }
         return count;
 }
-
-int main(void)
-{
-        int chosen[10];
-        int count=0;
-        // build all unique 8 digit combinations which represent
-        // numbers 0-99,999,999 and count those
-        // whose iterated digit squaring sum to 89
-        // case 0, 100,000,000 are ignored since they don't sum to 89
-        choose_sum_and_count_89(chosen, 0, 8, 0, 10, &count);
-        printf("%d\n",count);
-        return 0;
-}

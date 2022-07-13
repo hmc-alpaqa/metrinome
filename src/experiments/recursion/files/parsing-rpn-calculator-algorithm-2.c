@@ -45,9 +45,3 @@ double rpn(const char *s)
 	fprintf(stderr, "\"%.*s\": ", e - s, s);
 	die("front garbage");
 }
-
-int main(void)
-{
-	printf("%g\n", rpn("3 4 2 * 1 5 - 2 3 ^ ^ / +"));
-	return 0;
-}

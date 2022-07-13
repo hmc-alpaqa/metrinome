@@ -16,16 +16,3 @@ ulong hailstone(ulong n)
 	if (n < CS) cache[n] = x;
 	return x;
 }
-
-int main()
-{
-	int i, l, max = 0, mi;
-	for (i = 1; i < N; i++) {
-		if ((l = hailstone(i)) > max) {
-			max = l;
-			mi = i;
-		}
-	}
-	printf("max below %d: %d, length %d\n", N, mi, max);
-	return 0;
-}

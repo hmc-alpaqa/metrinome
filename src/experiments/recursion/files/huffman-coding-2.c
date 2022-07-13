@@ -102,22 +102,3 @@ void decode(const char *s, node t)
 	putchar('\n');
 	if (t != n) printf("garbage input\n");
 }
-
-int main(void)
-{
-	int i;
-	const char *str = "this is an example for huffman encoding";
-        char buf[1024];
-
-	init(str);
-	for (i = 0; i < 128; i++)
-		if (code[i]) printf("'%c': %s\n", i, code[i]);
-
-	encode(str, buf);
-	printf("encoded: %s\n", buf);
-
-	printf("decoded: ");
-	decode(buf, q[1]);
-
-	return 0;
-}

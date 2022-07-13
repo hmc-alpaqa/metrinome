@@ -23,9 +23,3 @@ void powerset(char **v, int n, struct node *up)
 		powerset(v + 1, n - 1, &me);
 	}
 }
-
-int main(int argc, char **argv)
-{
-	powerset(argv + 1, argc - 1, 0);
-	return 0;
-}

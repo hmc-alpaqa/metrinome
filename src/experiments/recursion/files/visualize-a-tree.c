@@ -34,12 +34,3 @@ void tree(int root, stem head)
 
 	tail->next = 0;
 }
-
-int main(int c, char**v)
-{
-	int n;
-	if (c < 2 || (n = atoi(v[1])) < 0) n = 8;
-
-	tree(n, 0);
-	return 0;
-}

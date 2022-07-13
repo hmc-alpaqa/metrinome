@@ -87,17 +87,3 @@ int walk_dir(char *dname, char *pattern, int spec)
 
 	return res;
 }
-
-int main()
-{
-	int r = walk_dir(".", ".\\.c$", WS_DEFAULT|WS_MATCHDIRS);
-	switch(r) {
-	case WALK_OK:		break;
-	case WALK_BADIO:	err(1, "IO error");
-	case WALK_BADPATTERN:	err(1, "Bad pattern");
-	case WALK_NAMETOOLONG:	err(1, "Filename too long");
-	default:
-		err(1, "Unknown error?");
-	}
-	return 0;
-}

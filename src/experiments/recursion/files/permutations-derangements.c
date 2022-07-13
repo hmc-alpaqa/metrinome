@@ -37,21 +37,3 @@ LONG sub_fact(int n)
 {
         return n < 2 ? 1 - n : (sub_fact(n - 1) + sub_fact(n - 2)) * (n - 1);
 }
-
-int main()
-{
-        int i;
-
-        printf("Deranged Four:\n");
-        gen_n(4, 1);
-
-        printf("\nCompare list vs calc:\n");
-        for (i = 0; i < 10; i++)
-                printf("%d:\t%llu\t%llu\n", i, gen_n(i, 0), sub_fact(i));
-
-        printf("\nfurther calc:\n");
-        for (i = 10; i <= 20; i++)
-                printf("%d: %llu\n", i, sub_fact(i));
-
-        return 0;
-}

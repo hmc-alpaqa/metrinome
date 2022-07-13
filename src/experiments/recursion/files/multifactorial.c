@@ -19,12 +19,3 @@ int multifact_i(int n, int deg){
 }
 
 /* Test function to print out multifactorials */
-int main(void){
-   int i, j;
-   for (i = 1; i <= HIGHEST_DEGREE; i++){
-      printf("\nDegree %d: ", i);
-      for (j = 1; j <= LARGEST_NUMBER; j++){
-         printf("%d ", multifact(j, i));
-      }
-   }
-}

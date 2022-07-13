@@ -72,10 +72,3 @@ int solve(int person)
 	}
 	return 0;
 }
-
-int main()
-{
-	verbose = 0;
-	if (!solve(0)) printf("Nobody lives anywhere\n");
-	return 0;
-}

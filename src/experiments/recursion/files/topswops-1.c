@@ -30,16 +30,3 @@ void tryswaps(deck *a, uint f, uint s) {
 	}
 	d--;
 }
-
-int main(void) {
-	deck x;
-	memset(&x, -1, sizeof(x));
-	x.v[0] = 0;
-
-	for (n = 1; n < 13; n++) {
-		tryswaps(&x, 1, n - 1);
-		printf("%2d: %d\n", n, best[n]);
-	}
-
-	return 0;
-}

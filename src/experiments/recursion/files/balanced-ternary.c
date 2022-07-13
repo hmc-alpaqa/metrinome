@@ -181,22 +181,3 @@ void mult(const char *b1, const char *b2, char *out) {
     }
     strcpy(out, ptr);
 }
-
-int main() {
-    const char *a = "+-0++0+";
-    char b[16];
-    const char *c = "+-++-";
-    char t[16];
-    char d[16];
-
-    to_bt(-436, b);
-    subtract(b, c, t);
-    mult(a, t, d);
-
-    printf("      a: %14s %10d\n", a, from_bt(a));
-    printf("      b: %14s %10d\n", b, from_bt(b));
-    printf("      c: %14s %10d\n", c, from_bt(c));
-    printf("a*(b-c): %14s %10d\n", d, from_bt(d));
-
-    return 0;
-}

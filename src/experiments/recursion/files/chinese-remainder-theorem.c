@@ -28,12 +28,3 @@ int chinese_remainder(int *n, int *a, int len)
 
 	return sum % prod;
 }
-
-int main(void)
-{
-	int n[] = { 3, 5, 7 };
-	int a[] = { 2, 3, 2 };
-
-	printf("%d\n", chinese_remainder(n, a, sizeof(n)/sizeof(n[0])));
-	return 0;
-}

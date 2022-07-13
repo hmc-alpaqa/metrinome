@@ -248,34 +248,3 @@ reinput:
 		return;
 	}
 }
-
-int main()
-{
-	frac_t f;
-	srand(time(0));
-
-	gen_digits();
-	while(1) {
-		get_input();
-		setjmp(ctx); /* if parse error, jump back here with err msg set */
-		if (msg) {
-			/* after error jump; announce, reset, redo */
-			printf("%s at '%.*s'\n", msg, pos, str);
-			continue;
-		}
-
-		eval_tree(parse(), &f);
-
-		if (f.denom == 0) bail("Divide by zero");
-		if (f.denom == 1 && f.num == 24)
-			printf("You got 24.  Very good.\n");
-		else {
-			if (f.denom == 1)
-				printf("Eval to: %d, ", f.num);
-			else
-				printf("Eval to: %d/%d, ", f.num, f.denom);
-			printf("no good.  Try again.\n");
-		}
-	}
-	return 0;
-}

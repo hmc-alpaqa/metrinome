@@ -18,16 +18,3 @@ int happy(int n)
 	if (n < CACHE) buf[n] = 2 - x;
 	return x;
 }
-
-int main()
-{
-	int i, cnt = 8;
-	for (i = 1; cnt || !printf("\n"); i++)
-		if (happy(i)) --cnt, printf("%d ", i);
-
-	printf("The %dth happy number: ", cnt = 1000000);
-	for (i = 1; cnt; i++)
-		if (happy(i)) --cnt || printf("%d\n", i);
-
-	return 0;
-}
