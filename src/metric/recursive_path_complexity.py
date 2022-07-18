@@ -63,6 +63,7 @@ class RecursivePathComplexity(ABC):
             T = symbols("T")
             x = symbols("x")
             gens = sympy.solve(gamma,T)
+            print(gens)
             possibleGenFunc = []
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
@@ -72,6 +73,7 @@ class RecursivePathComplexity(ABC):
                 genFunc = possibleGenFunc[0]/(1-x)
                 self.logger.d_msg(f"Generating Function: {genFunc}")
             else:
+                print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
             denominator = 1
             for factor in genFunc.args:
@@ -163,6 +165,7 @@ class RecursivePathComplexity(ABC):
             pc = sympy.N(1/rStar)**symbols("n")
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
+        apc = sympy.N(apc)
         return (apc, pc)
 
 
