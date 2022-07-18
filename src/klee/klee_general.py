@@ -74,26 +74,31 @@ def klee_with_preferences_general(klee_command):
 def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path, remove):
     results_dict = {}
     for i in xaxis:
-        output_file = f"{filepath}klee_{name}_{xlabel}={i}"
-        output_file = output_file.replace(" ", "_")
-        klee_command = klee_function(output_file, i)
-        print(klee_command)
-        results = klee_with_preferences_general(klee_command)
-        klee_stats_params = "--table-format=simple --print-all"
-        stats = subprocess.run(f"{klee_path}-stats {klee_stats_params} {output_file}", shell=True, stdout=PIPE, stderr=PIPE, check=True)
+        try:
+            output_file = f"{filepath}klee_{name}_{xlabel}={i}"
+            output_file = output_file.replace(" ", "_")
+            klee_command = klee_function(output_file, i)
+            print(klee_command)
+            results = klee_with_preferences_general(klee_command)
+            klee_stats_params = "--table-format=simple --print-all"
+            stats = subprocess.run(f"{klee_path}-stats {klee_stats_params} {output_file}", shell=True, stdout=PIPE, stderr=PIPE, check=True)
 
-        if remove:
-            subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
-        else:
-            subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
-        stats_decoded = stats.stdout.decode().split("\n")
-        headers = stats_decoded[0].split()[1:]
-        values = map(float, stats_decoded[2].split()[1:])
-        stats_dict = dict(zip(headers, values))
-        stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
-                    stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
-                    stats_dict["PythonTime"] = results
-        results_dict[(name, i)] = stats_dict
+            if remove:
+                subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
+            else:
+                subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
+            stats_decoded = stats.stdout.decode().split("\n")
+            headers = stats_decoded[0].split()[1:]
+            values = map(float, stats_decoded[2].split()[1:])
+            stats_dict = dict(zip(headers, values))
+            stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
+                        stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
+                        stats_dict["PythonTime"] = results
+            results_dict[(name, i)] = stats_dict
+        except Exception as e:
+            print(f"FAILED TO RUN ON {name}, depth={i}")
+            traceback.print_exception(type(e), e, e.__traceback__)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     return results_dict
 
@@ -134,6 +139,8 @@ def run_klee_general(name, filepath, klee_functions, labels, xaxis, xlabel, fiel
     for klee_function, label in zip(klee_functions, labels):
         temp_name = name+label
         results = klee_compare_general(filepath, temp_name, xaxis, xlabel, klee_function, klee_path, remove)
+        if not results:
+            return
         results_frame = create_pandas_general(results, temp_name, xaxis, xlabel, fields)
         results_frame.to_csv(filepath+temp_name)
         results_list.append(results)
@@ -167,12 +174,7 @@ def prepare(klee_path, src_filepath, filepath, file_generation_function, functio
         name_tuples += file_generation_function(src_filepath, filepath, func)
     for name_tuple in name_tuples:
         klee_functions = [generate_klee_function(klee_path, klee_params_lambda, filepath, name) for name in name_tuple]
-        try:
-            run_klee_general(name_tuple[0], filepath, klee_functions, labels, xaxis, xlabel, fields, klee_path, remove)
-        except Exception as e:
-            print(f"FAILED TO RUN ON {name_tuple}")
-            traceback.print_exception(type(e), e, e.__traceback__)
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        run_klee_general(name_tuple[0], filepath, klee_functions, labels, xaxis, xlabel, fields, klee_path, remove)
 
 def main() -> None:
 
@@ -182,7 +184,7 @@ def main() -> None:
                                                                         # both filepaths needs to end with a slash
     # src_filepath = "/app/code/tests/cFiles/fse_2020_benchmark/"
     # filepath =   "/app/code/tests/cFiles/fse_2020_benchmark/kleetest/"
-    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
+    klee_params_lambda = lambda output, var, filepath: f" --max-time=10min --watchdog --output-dir={output} --max-depth={var} {filepath}"
     # klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-time={var}min --watchdog {filepath}"
     # f" --output-dir={output} --max-depth={var} {filepath}"
     # --dump-states-on-halt=false --max-time=5min
@@ -204,17 +206,19 @@ def main() -> None:
     # should be a callable object that takes in a source folder, output folder, and file name
     # returns a tuple of names for files, if each was compiled differently (ie optimized vs normal) and also compiles/generates the necessary files for klee
 
-    functions = ['lina_bac_sub', 'lina_cmp', 'lina_cofactor', 'lina_comp_transpose', 'lina_conjugate', 'lina_cramer',
-    'lina_create_dvector', 'lina_createvector', 'lina_crossProduct', 'lina_determinant', 'lina_disp_cmpMat', 'lina_disp_floatMat',
-    'lina_disp_intMat', 'lina_dotProduct', 'lina_for_sub', 'lina_has_converged', 'lina_ishermitian', 'lina_lup_sol', 'lina_matrix_inverse',
-    'lina_matrix_multiplication', 'lina_max', 'lina_print_dVector', 'lina_printVector', 'lina_Read_cmpMat', 'lina_Read_intMat', 'lina_Read_Vector',
-    'lina_rpm', 'lina_scalarTripleProduct', 'lina_scale', 'lina_transpose', 'lina_vect_mat_multiplication', 'lina_vectorTripleProduct',
-    'recursive_func', 'merge_sort', 'quick-sort', 'digital-root-multiplicative-digital-root', 'parsing-rpn-calculator-algorithm-2', 'arrays-10', 'chinese-remainder-theorem', 'multifactorial', 'combinations-1', 'spiral-matrix-2', 'non-continuous-subsequences-3', 'mutual-recursion', 'huffman-coding-2', 'ulam-spiral--for-primes--2', 'quickselect-algorithm', '24-game', 'combinations-with-repetitions', 'binary-search', 'abc-problem', 'iterated-digits-squaring-2', 'n-queens-problem-1', 'power-set', 'zebra-puzzle-1', 'percolation-site-percolation-2', 'reverse-words-in-a-string', 'greatest-common-divisor-2', 'ackermann-function-1', 'happy-numbers-1', 'catalan-numbers-1', 'permutation-test-1', 'heronian-triangles', 'factorial-3', 'factorial-5', 'factorial-4', 'towers-of-hanoi-1', 'long-multiplication-1', 'permutations-by-swapping', 'balanced-ternary', 'call-an-object-method', 'truncatable-primes-3', 'pascals-triangle-2', 'permutations-derangements', 'matrix-arithmetic-1', 'topswops-1', 'sorting-algorithms-stooge-sort', 'hailstone-sequence-2', 'sorting-algorithms-radix-sort', 'stern-brocot-sequence-1', 'visualize-a-tree', 'dinesmans-multiple-dwelling-problem', 'sorting-algorithms-quicksort-1', 'sorting-algorithms-quicksort-2', 'sierpinski-carpet-3', 'find-limit-of-recursion-2', 'find-limit-of-recursion-1', 'palindrome-detection-3', 'ordered-partitions-2', 'sudoku', 'fibonacci-sequence-1', 'levenshtein-distance-1']
+
+# 'lina_bac_sub', 'lina_cmp', 'lina_cofactor', 'lina_comp_transpose', 'lina_conjugate', 'lina_cramer',
+# 'lina_create_dvector', 'lina_createvector', 'lina_crossProduct', 'lina_determinant', 'lina_disp_cmpMat', 'lina_disp_floatMat',
+# 'lina_disp_intMat', 'lina_dotProduct', 'lina_for_sub', 'lina_has_converged', 'lina_ishermitian', 'lina_lup_sol', 'lina_matrix_inverse',
+# 'lina_matrix_multiplication', 'lina_max', 'lina_print_dVector', 'lina_printVector', 'lina_Read_cmpMat', 'lina_Read_intMat', 'lina_Read_Vector',
+# 'lina_rpm', 'lina_scalarTripleProduct', 'lina_scale', 'lina_transpose', 'lina_vect_mat_multiplication', 'lina_vectorTripleProduct',
+# 'recursive_func', 'merge_sort', 'quick-sort', 
+    functions = ['digital-root-multiplicative-digital-root', 'parsing-rpn-calculator-algorithm-2', 'arrays-10', 'chinese-remainder-theorem', 'multifactorial', 'combinations-1', 'spiral-matrix-2', 'non-continuous-subsequences-3', 'mutual-recursion', 'huffman-coding-2', 'ulam-spiral--for-primes--2', 'quickselect-algorithm', '24-game', 'combinations-with-repetitions', 'binary-search', 'abc-problem', 'iterated-digits-squaring-2', 'n-queens-problem-1', 'power-set', 'zebra-puzzle-1', 'percolation-site-percolation-2', 'reverse-words-in-a-string', 'greatest-common-divisor-2', 'ackermann-function-1', 'happy-numbers-1', 'catalan-numbers-1', 'permutation-test-1', 'heronian-triangles', 'factorial-3', 'factorial-5', 'factorial-4', 'towers-of-hanoi-1', 'long-multiplication-1', 'permutations-by-swapping', 'balanced-ternary', 'call-an-object-method', 'truncatable-primes-3', 'pascals-triangle-2', 'permutations-derangements', 'matrix-arithmetic-1', 'topswops-1', 'sorting-algorithms-stooge-sort', 'hailstone-sequence-2', 'sorting-algorithms-radix-sort', 'stern-brocot-sequence-1', 'visualize-a-tree', 'dinesmans-multiple-dwelling-problem', 'sorting-algorithms-quicksort-1', 'sorting-algorithms-quicksort-2', 'sierpinski-carpet-3', 'find-limit-of-recursion-2', 'find-limit-of-recursion-1', 'palindrome-detection-3', 'ordered-partitions-2', 'sudoku', 'fibonacci-sequence-1', 'levenshtein-distance-1']
 
     labels = ["normal"] # the labels for the different "compilation methods"
 
     xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25']
-    xaxis = ['1']
+    # xaxis = ['25']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"] # all klee output fields that we are interested in
     remove = True # whether klee files should be deleted after the important data is collected. Usually set to True
