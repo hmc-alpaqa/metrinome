@@ -75,6 +75,8 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
     results_dict = {}
     for i in xaxis:
         try:
+            if i == '3':
+                raise(Exception)
             output_file = f"{filepath}klee_{name}_{xlabel}={i}"
             output_file = output_file.replace(" ", "_")
             klee_command = klee_function(output_file, i)
@@ -96,6 +98,10 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
                         stats_dict["PythonTime"] = results
             results_dict[(name, i)] = stats_dict
         except Exception as e:
+            if remove:
+                subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
+            else:
+                subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
             print(f"FAILED TO RUN ON {name}, depth={i}")
             traceback.print_exception(type(e), e, e.__traceback__)
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -105,9 +111,10 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
 
 def create_pandas_general(results, name, xaxis, xlabel, fields) -> pd.DataFrame:
     """Create a pandas dataframe from the results of a Klee experiment."""
-    index = [f'{xlabel}={i}' for i in xaxis]
+    index = [f'{xlabel}={i}' for i in xaxis if (name, i) in results.keys()]
+    new_xaxis = [x for x in xaxis if (name, x) in results.keys()]
     data = [[results[(name, x)][field] for field in fields]
-            for x in xaxis]
+            for x in new_xaxis]
     return pd.DataFrame(data, index=index, columns=fields)
 
 
@@ -151,8 +158,9 @@ def graph_stat_general(results, name, xaxis, xlabel, labels, filepath, fields):
     for field in fields:
         fig1, ax1 = plt.subplots()
         for label, result_set in zip(labels, results):
-            stats = [result_set[(name+label, i)][field] for i in xaxis]
-            newxis = [float(i) for i in xaxis]
+            new_xaxis = [x for x in xaxis if (name+label, x) in result_set.keys()]
+            stats = [result_set[(name+label, i)][field] for i in new_xaxis]
+            newxis = [float(i) for i in new_xaxis]
             ax1.plot(newxis, stats, label=label)
         ax1.set(xlabel=xlabel, ylabel=field, title=name)
         ax1.legend()
@@ -212,13 +220,13 @@ def main() -> None:
 # 'lina_disp_intMat', 'lina_dotProduct', 'lina_for_sub', 'lina_has_converged', 'lina_ishermitian', 'lina_lup_sol', 'lina_matrix_inverse',
 # 'lina_matrix_multiplication', 'lina_max', 'lina_print_dVector', 'lina_printVector', 'lina_Read_cmpMat', 'lina_Read_intMat', 'lina_Read_Vector',
 # 'lina_rpm', 'lina_scalarTripleProduct', 'lina_scale', 'lina_transpose', 'lina_vect_mat_multiplication', 'lina_vectorTripleProduct',
-# 'recursive_func', 'merge_sort', 'quick-sort', 
+# 'recursive_func', 'merge_sort', 'quick-sort',
     functions = ['digital-root-multiplicative-digital-root', 'parsing-rpn-calculator-algorithm-2', 'arrays-10', 'chinese-remainder-theorem', 'multifactorial', 'combinations-1', 'spiral-matrix-2', 'non-continuous-subsequences-3', 'mutual-recursion', 'huffman-coding-2', 'ulam-spiral--for-primes--2', 'quickselect-algorithm', '24-game', 'combinations-with-repetitions', 'binary-search', 'abc-problem', 'iterated-digits-squaring-2', 'n-queens-problem-1', 'power-set', 'zebra-puzzle-1', 'percolation-site-percolation-2', 'reverse-words-in-a-string', 'greatest-common-divisor-2', 'ackermann-function-1', 'happy-numbers-1', 'catalan-numbers-1', 'permutation-test-1', 'heronian-triangles', 'factorial-3', 'factorial-5', 'factorial-4', 'towers-of-hanoi-1', 'long-multiplication-1', 'permutations-by-swapping', 'balanced-ternary', 'call-an-object-method', 'truncatable-primes-3', 'pascals-triangle-2', 'permutations-derangements', 'matrix-arithmetic-1', 'topswops-1', 'sorting-algorithms-stooge-sort', 'hailstone-sequence-2', 'sorting-algorithms-radix-sort', 'stern-brocot-sequence-1', 'visualize-a-tree', 'dinesmans-multiple-dwelling-problem', 'sorting-algorithms-quicksort-1', 'sorting-algorithms-quicksort-2', 'sierpinski-carpet-3', 'find-limit-of-recursion-2', 'find-limit-of-recursion-1', 'palindrome-detection-3', 'ordered-partitions-2', 'sudoku', 'fibonacci-sequence-1', 'levenshtein-distance-1']
 
     labels = ["normal"] # the labels for the different "compilation methods"
 
-    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25']
-    # xaxis = ['25']
+    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '30', '35', '50', '100']
+    # xaxis = ['1', '2', '3', '4']
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"] # all klee output fields that we are interested in
     remove = True # whether klee files should be deleted after the important data is collected. Usually set to True
