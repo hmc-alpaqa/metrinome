@@ -1,1 +1,1 @@
-huffman-coding-2.c
+iterated-digits-squaring-2.c

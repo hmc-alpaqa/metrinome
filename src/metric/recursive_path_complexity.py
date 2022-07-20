@@ -50,12 +50,17 @@ class RecursivePathComplexity(ABC):
 
     def recurapc(self, edgelist, recurlist):
         """Calculates the apc of a recursive function"""
+        if edgelist == []:
+            return (0, 0)
         gamma = self.gammaFunction(edgelist, recurlist)
         self.logger.d_msg(f"Gamma Function: {gamma}")
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
+        numroots = self.realnroots(discrim)
+        print(numroots)
         try:
-            numroots = len(sympy.real_roots(discrim))
+            print("hello")
+            numroots = self.realnroots(discrim)
         except:
             numroots = 0
         if numroots == 0:
@@ -109,6 +114,7 @@ class RecursivePathComplexity(ABC):
                 raise Exception("Can't find all the roots :(")
             nonZeroIndex = 0
             self.logger.d_msg(f"Found all Roots")
+            self.logger.d_msg(f"rootsDict: {rootsDict}")
             while True:
                 zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
                 if not type(zseries) == sympy.Order:
@@ -120,6 +126,7 @@ class RecursivePathComplexity(ABC):
             exprs = []
             symbs = set()
             for term in Tseries.args:
+                print(term)
                 if not type(term) == sympy.Order:
                     c = str(term).split("*")[0]
                     if c == "x":
@@ -158,9 +165,11 @@ class RecursivePathComplexity(ABC):
             self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
-            rStar = min(map(lambda x: x if x > 0 else sympy.oo,sympy.real_roots(discrim)))
+            rStar = min(map(lambda x: x if x >10**(-11) else sympy.oo,self.realnroots(discrim)))
+            self.logger.d_msg(f"rStar: {rStar}")
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
+            self.logger.d_msg(f"rStar: {rStar}")
             apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
         if "I" in str(apc):
@@ -311,3 +320,28 @@ class RecursivePathComplexity(ABC):
                 return sympy.Abs(system)
         else:
             return system
+
+    def realnroots(self, eq):
+        """Calls nroots then returns the real ones"""
+        if "/" in str(eq):
+            splitEq = str(eq).split("/")
+            numerator = sympy.parse_expr(splitEq[0])
+            denominator = sympy.parse_expr(splitEq[1])
+            numroots = sympy.nroots(numerator, n=12, maxsteps=1000)
+            self.logger.d_msg(f"numroots: {numroots}")
+            denoroots = sympy.nroots(denominator, n=12, maxsteps=1000)
+            self.logger.d_msg(f"denoroots: {denoroots}")
+            for root in numroots:
+                for badRoot in denoroots:
+                    if abs(root-badRoot)<10**(-11):
+                        numroots.remove(root)
+                        break
+            self.logger.d_msg(f"numroots: {numroots}")
+            #ask bang about root nonsense
+        else:
+            numroots = nroots(eq, n=12, maxsteps=1000)
+        realnroots = []
+        for root in numroots:
+            if sympy.Abs(sympy.im(root))<10**(-11):
+                realnroots += [sympy.re(root)]
+        return realnroots
