@@ -56,11 +56,9 @@ class RecursivePathComplexity(ABC):
         self.logger.d_msg(f"Gamma Function: {gamma}")
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
-        numroots = self.realnroots(discrim)
-        print(numroots)
         try:
             print("hello")
-            numroots = self.realnroots(discrim)
+            numroots = len(self.realnroots(discrim))
         except:
             numroots = 0
         if numroots == 0:
@@ -166,7 +164,6 @@ class RecursivePathComplexity(ABC):
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-11) else sympy.oo,self.realnroots(discrim)))
-            self.logger.d_msg(f"rStar: {rStar}")
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
@@ -227,8 +224,12 @@ class RecursivePathComplexity(ABC):
                     if not "T" in str(arg):
                         newprod *= arg
                 maxcoeff += newprod
+
         power = int(domPow*(domPow-1)/2)
-        disc = ((-1)**power)/(maxcoeff)*self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
+        result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
+        self.logger.d_msg(f"resultant: {result}")
+        self.logger.d_msg(f"maxcoeff: {maxcoeff}")
+        disc = ((-1)**power)/(maxcoeff)*result
         return disc
 
     def resultant(self, p, q, symb):
@@ -266,6 +267,7 @@ class RecursivePathComplexity(ABC):
                     MatrixArray[j + Qpow][i +j] = Qcoeffs[i]
         m = Matrix(MatrixArray)
         m = m.T
+        print(m)
         return m.det()
 
     def termPow(self, term, symb):
@@ -339,7 +341,7 @@ class RecursivePathComplexity(ABC):
             self.logger.d_msg(f"numroots: {numroots}")
             #ask bang about root nonsense
         else:
-            numroots = nroots(eq, n=12, maxsteps=1000)
+            numroots = sympy.nroots(eq, n=12, maxsteps=1000)
         realnroots = []
         for root in numroots:
             if sympy.Abs(sympy.im(root))<10**(-11):
