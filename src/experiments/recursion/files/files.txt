@@ -1,1 +1,1 @@
-iterated-digits-squaring-2.c
+catalan-numbers-1.c

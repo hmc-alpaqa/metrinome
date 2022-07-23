@@ -140,7 +140,7 @@ def big_o(terms: List[str]) -> str:
 
             return big_o(terms[1:])
     except:
-        return terms[0] + " + " + big_o(terms[1:])
+        return str(terms[0]) + " + " + str(big_o(terms[1:]))
 
 
 def show_func_defs(filename: str) -> Dict[str, str]:

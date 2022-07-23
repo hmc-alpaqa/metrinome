@@ -317,6 +317,10 @@ class RecursivePathComplexity(ABC):
                     newSys = 1
                     for term in system.args:
                         newSys *= self.clean(term, symb)
+                else:
+                    print(system)
+                    print(type(system))
+                    newSys = system
                 return newSys
             else:
                 return sympy.Abs(system)
