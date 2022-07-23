@@ -70,7 +70,7 @@ class RecursivePathComplexity(ABC):
             possibleGenFunc = []
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
-                if "-" not in str(partialSeries):
+                if "-" not in str(partialSeries) and gen != 0:
                     possibleGenFunc += [gen]
             if len(possibleGenFunc) == 1:
                 genFunc = possibleGenFunc[0]/(1-x)
