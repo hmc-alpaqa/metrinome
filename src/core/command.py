@@ -877,7 +877,7 @@ class Command:
         Usage:
         save <type> <name>
         """
-        subprocess.check_call(["mkdir", "-p", "exports"])
+        subprocess.check_call(["mkdir", "-p", "/app/code/exports"])
         export_type = ObjTypes.get_type(export_typename)
         if export_type is None:
             self.logger.e_msg("Unrecognized type.")
