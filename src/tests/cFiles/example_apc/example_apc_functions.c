@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <limits.h>
+#include <stdlib.h>     /* malloc, free, rand */
 // import boolean type
 #include <stdbool.h>
 
@@ -226,8 +227,88 @@ int* matrix_product_iter(int A[], int B[], int n)
 // matrix exponentiation
 // matrix determinant (3x3? or nxn?)
 // matrix inverse
-// newton's method for root finding
-// function that performs insertion sort on array
+// function that finds the approximation of a n-root of a number using newton's method
+double newtons_method_rec(double number, int root, double guess) {
+    double value = 1;
+    for(int i = 0; i < root-1; i++) {
+        value *= guess;
+    }
+    double new_guess = guess-(value*guess-number)/(root*value);
+    if(new_guess == guess) {
+        return guess;
+    } else {
+        return newtons_method_rec(number, root, new_guess);
+    }
+}
+
+double newtons_method_iter(double number, int root, double guess) {
+    while(1) {
+        double value = 1;
+        for(int i = 0; i < root-1; i++) {
+            value *= guess;
+        }
+        double new_guess = guess-(value*guess-number)/(root*value);
+        if(new_guess == guess) {
+            return guess;
+        } else {
+            guess = new_guess;
+        }
+    }
+}
+
+// function that find the longest common subsequence of two strings
+char * longest_common_subsequence(char * a, char * b, int a_len, int b_len) {
+    // create a dp table to store the longest common subsequence
+    int dp[a_len+1][b_len+1];
+    // initialize the dp table
+    for(int i = 0; i < a_len+1; i++) {
+        for(int j = 0; j < b_len+1; j++) {
+            dp[i][j] = 0;
+        }
+    }
+    // fill the dp table
+    for(int i = 1; i < a_len+1; i++) {
+        for(int j = 1; j < b_len+1; j++) {
+            if(a[i-1] == b[j-1]) {
+                // if the characters are the same, add 1 to the previous value to store the length of the longest common subsequence
+                dp[i][j] = dp[i-1][j-1] + 1;
+            } else {
+                // if the characters are not equal, take the max of the previous row and column
+                dp[i][j] = dp[i-1][j] > dp[i][j-1] ? dp[i-1][j] : dp[i][j-1];
+            }
+        }
+    }
+    // create a string to store the longest common subsequence
+    char * lcs = malloc((dp[a_len][b_len]+1)*sizeof(char));
+    // initialize the string
+    for(int i = 0; i < dp[a_len][b_len]+1; i++) {
+        // set all characters to null
+        lcs[i] = '\0';
+    }
+    // fill the string
+    int i = a_len;
+    int j = b_len;
+    int k = dp[a_len][b_len];
+    while(i > 0 && j > 0) {
+        if(a[i-1] == b[j-1]) {
+            lcs[k-1] = a[i-1];
+            i--;
+            j--;
+            k--;
+        } else if(dp[i-1][j] > dp[i][j-1]) {
+            i--;
+        } else {
+            j--;
+        }
+    }
+    return lcs;
+}
+
+// function that finds the longest common substring of two strings
+char * longest_common_substring(char * a, char * b, int a_len, int b_len) {
+    // create a dp table to 
+}
+
 void insertionSort(int arr[], int n)
 {
     int i, key, j;
@@ -361,7 +442,10 @@ void mergeSort(int A[], int n)
     free(temp);
 }
 
+
+// function that iteratively searches for a value in an binary tree
 // sqrt of n via binary search
+// function that implements a stack data structure 
 
 
 // merge sort
@@ -369,32 +453,6 @@ void mergeSort(int A[], int n)
 // breadth first search
 // depth first search
 // shortest path (bellman ford?)
-// function that implements dijkstra's algorithm
-void dijkstra(int graph[9][9], int src)
-{
-    int dist[9];
-    bool sptSet[9];
-    for (int i = 0; i < 9; i++)
-    {
-        dist[i] = INT_MAX;
-        sptSet[i] = false;
-    }
-    dist[src] = 0;
-    for (int count = 0; count < 9 - 1; count++)
-    {
-        int u = minDistance(dist, sptSet);
-        sptSet[u] = true;
-        for (int v = 0; v < 9; v++)
-        {
-            if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
-            {
-                dist[v] = dist[u] + graph[u][v];
-            }
-        }
-    }
-    printSolution(dist, 9);
-}
-
 // spanning tree of a graph
 // linear-time median algorithm
 // convex hull of set of points in 2d
@@ -402,6 +460,23 @@ void dijkstra(int graph[9][9], int src)
 // longest common subsequence of two arrays of integers
 // edit distance between two arrays of integers
 // hyper op / ackerman
+// function that implements ackermann's function
+int ackermann(int m, int n)
+{
+    if (m == 0)
+    {
+        return n + 1;
+    }
+    else if (n == 0)
+    {
+        return ackermann(m - 1, 1);
+    }
+    else
+    {
+        return ackermann(m - 1, ackermann(m, n - 1));
+    }
+}
+
 
 int main(void)
 {
