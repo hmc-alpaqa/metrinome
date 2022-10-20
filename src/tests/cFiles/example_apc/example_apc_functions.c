@@ -1,7 +1,6 @@
 #include <limits.h>
 #include <stdio.h>
-#include <stdlib.h> /* malloc, free, rand */
-// import boolean type
+#include <stdlib.h>
 #include <stdbool.h>
 
 int linear_search_iter(int A[], int n, int x)
@@ -458,7 +457,7 @@ void mergeSort(int A[], int n)
 // edit distance between two arrays of integers
 // hyper op / ackerman
 // function that implements ackermann's function
-int ackermann(int m, int n)
+int ackermann_rec(int m, int n)
 {
     if (m == 0) {
         return n + 1;
@@ -469,11 +468,11 @@ int ackermann(int m, int n)
     }
 }
 
-int main(void)
-{
-    char X[] = "slahgshgnslhclaremontlsv";
-    char Y[] = "asdoclaremonclaremontaghshlgs";
-    printf("%s", longest_common_substring(X, Y, 25, 30));
+// int main(void)
+// {
+//     char X[] = "slahgshgnslhclaremontlsv";
+//     char Y[] = "asdoclaremonclaremontaghshlgs";
+//     printf("%s", longest_common_substring(X, Y, 25, 30));
 
-    return 0;
-}
+//     return 0;
+// }
