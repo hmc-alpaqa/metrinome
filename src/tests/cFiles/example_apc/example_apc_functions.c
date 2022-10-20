@@ -127,6 +127,7 @@ int max_value_iter(int A[], int n)
             best = A[i];
         }
     }
+    return best;
 }
 
 int max_value_rec(int A[], int n)
