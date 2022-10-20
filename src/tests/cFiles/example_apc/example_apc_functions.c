@@ -188,12 +188,6 @@ int* matrix_product_iter(int A[], int B[], int n)
     return product;
 }
 
-// function that multiplies two 2d matrices recursively
-
-// matrix multiplication
-// matrix exponentiation
-// matrix determinant (3x3? or nxn?)
-// matrix inverse
 // function that finds the approximation of a n-root of a number using newton's method
 double newtons_method_rec(double number, int root, double guess)
 {
@@ -440,31 +434,15 @@ void mergeSort(int A[], int n)
     free(temp);
 }
 
-// function that iteratively searches for a value in an binary tree
-// sqrt of n via binary search
-// function that implements a stack data structure
-
-// merge sort
-// quick sort
-// breadth first search
-// depth first search
-// shortest path (bellman ford?)
-// spanning tree of a graph
-// linear-time median algorithm
-// convex hull of set of points in 2d
-// simpson's adaptive algorith for numeric integration
-// longest common subsequence of two arrays of integers
-// edit distance between two arrays of integers
-// hyper op / ackerman
 // function that implements ackermann's function
 int ackermann_rec(int m, int n)
 {
     if (m == 0) {
         return n + 1;
     } else if (n == 0) {
-        return ackermann(m - 1, 1);
+        return ackermann_rec(m - 1, 1);
     } else {
-        return ackermann(m - 1, ackermann(m, n - 1));
+        return ackermann_rec(m - 1, ackermann_rec(m, n - 1));
     }
 }
 
