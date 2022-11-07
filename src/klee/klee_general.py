@@ -75,8 +75,6 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
     results_dict = {}
     for i in xaxis:
         try:
-            if i == '3':
-                raise(Exception)
             output_file = f"{filepath}klee_{name}_{xlabel}={i}"
             output_file = output_file.replace(" ", "_")
             klee_command = klee_function(output_file, i)
