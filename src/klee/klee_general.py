@@ -128,14 +128,14 @@ def generate_files(src_filepath, filepath, func_name, optimized):
         bcname = f"{filepath}{func_name}_{i}_{opt_str}.bc"
         with open(new_name, "w+") as file:
             file.write(output[i])
-        cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O1 -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
+        cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
         subprocess.run(cmd, shell=True, capture_output=True, check=True)
         names.append(f"{func_name}_{i}_{opt_str}")
     return names
 
 
 def generate_files_premade(src_filepath, filepath, filename):
-    cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -O1 -Xclang -disable-O0-optnone  -o {filepath}{filename}_klee.bc {src_filepath}{filename}_klee.c"
+    cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -Xclang -disable-O0-optnone  -o {filepath}{filename}_klee.bc {src_filepath}{filename}_klee.c"
     subprocess.run(cmd, shell=True, capture_output=True, check=True)
     return [filename+"_klee"]
 
