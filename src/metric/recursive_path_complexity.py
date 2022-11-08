@@ -42,6 +42,7 @@ class RecursivePathComplexity(ABC):
         for node in cfg.metadata.calls.keys():
             for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                 recurlist += [int(node)]
+
         self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
@@ -171,6 +172,7 @@ class RecursivePathComplexity(ABC):
             pc = sympy.N(1/rStar)**symbols("n")
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
+            apc = big_o(list(apc.args))
         apc = sympy.N(apc)
         return (apc, pc)
 
@@ -307,6 +309,8 @@ class RecursivePathComplexity(ABC):
 
     def clean(self, system, symb):
         """Gets rid of complex numbers and makes things cleaner"""
+        if type(system) == str:
+            system = sympy.parse_expr(system)
         if "I" in str(system):
             if str(symb) in str(system):
                 if type(system) == sympy.Add:
