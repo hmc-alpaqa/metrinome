@@ -53,7 +53,7 @@ def do_analysis(file, column_name):
     plt.clf()
     print(file)
     # last_point = 23
-    fram = pd.read_csv(f"/Users/shaheen/Desktop/dataforanalysis/{file}")
+    fram = pd.read_csv(f"/Users/tomqlam/Desktop/dataforanalysis/{file}")
     if fram.shape[0] < 8:
         print("NOT ENOUGH DATA")
         return
@@ -61,7 +61,7 @@ def do_analysis(file, column_name):
     y = np.array([int(j) for j in fram.loc[:, column_name]])
     plt.plot(x, y)
     plt.savefig(
-        f"/Users/shaheen/Desktop/bestfitanalysis/{file}/graph{column_name}")
+        f"/Users/tomqlam/Desktop/bestfitanalysis/{file}/graph{column_name}")
     funcs = [expon_func, weird_expon, quadratic,
              cubic, linear, quintic, quartic]
     numparams = [2, 2, 2, 3, 1, 5, 4]
@@ -69,7 +69,7 @@ def do_analysis(file, column_name):
     coeffs_dict = {}
     params_dict = {}
     aic_dict = {}
-    with open(f"/Users/shaheen/Desktop/bestfitanalysis/{file}/results_{column_name}.txt", "w+") as results_file:
+    with open(f"/Users/tomqlam/Desktop/bestfitanalysis/{file}/results_{column_name}.txt", "w+") as results_file:
         for i, func in enumerate(funcs):
             plt.clf()
             plt.plot(x, y)
@@ -91,7 +91,7 @@ def do_analysis(file, column_name):
                 f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)}\n")
             plt.legend()
             plt.savefig(
-                f"/Users/shaheen/Desktop/bestfitanalysis/{file}/graph{column_name}withfits{func.__name__}")
+                f"/Users/tomqlam/Desktop/bestfitanalysis/{file}/graph{column_name}withfits{func.__name__}")
 
         min_res = np.inf
         min_func = ""
@@ -109,9 +109,9 @@ def do_analysis(file, column_name):
         f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
 
 
-for file in os.listdir("/Users/shaheen/Desktop/dataforanalysis"):
+for file in os.listdir("/Users/tomqlam/Desktop/dataforanalysis"):
     if "." not in file:
         subprocess.run(
-            f"mkdir /Users/shaheen/Desktop/bestfitanalysis/{file}", shell=True)
+            f"mkdir /Users/tomqlam/Desktop/bestfitanalysis/{file}", shell=True)
         for column in ["CompletedPaths", "PythonTime"]:
             do_analysis(file, column)
