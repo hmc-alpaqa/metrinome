@@ -40,14 +40,12 @@ def quintic(x, A, B, C, D, E):
 #     return obs*np.log(resid/obs)+2*params + (2*(params**2)+2*params)/(obs-params-1)
 
 def AIC(resid, obs, params):
-    mse = mean_squared_error(obs, resid)
-    aic = obs * np.log(mse) + 2 * params
+    aic = obs * np.log(resid/obs) + 2 * params
     return aic
 
 
 def BIC(resid, obs, params):
-    mse = mean_squared_error(obs, resid)
-    bic = obs * np.log(mse) + params * np.log(obs)
+    bic = obs * np.log(resid/obs) + params * np.log(obs)
     return bic
 
 
