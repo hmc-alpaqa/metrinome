@@ -1,3 +1,4 @@
+# %%
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,6 +8,9 @@ import os
 import subprocess
 from sklearn.metrics import mean_squared_error
 from pathlib import Path
+
+path = Path('../../src/tests/cFiles/example_apc/cleaned_kleedata')
+analysis_path = path/'bestfitanalysis'
 
 
 def expon_func(x, A, B, C):
@@ -54,15 +58,15 @@ def do_analysis(file, column_name):
     plt.clf()
     print(file)
     # last_point = 23
-    fram = pd.read_csv(f"/Users/tomqlam/Desktop/dataforanalysis/{file}")
+    fram = pd.read_csv(path / file)
     if fram.shape[0] < 8:
         print("NOT ENOUGH DATA")
         return
-    x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
+    x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])
     y = np.array([int(j) for j in fram.loc[:, column_name]])
-    plt.plot(x, y)
+    plt.plot(x, y, marker='o')
     plt.savefig(
-        f"/Users/tomqlam/Desktop/bestfitanalysis/{file}/graph{column_name}")
+        analysis_path / file / f"graph{column_name}")
     funcs = [expon_func, weird_expon, quadratic,
              cubic, linear, quintic, quartic]
     numparams = [2, 2, 2, 3, 1, 5, 4]
@@ -70,7 +74,8 @@ def do_analysis(file, column_name):
     coeffs_dict = {}
     params_dict = {}
     aic_dict = {}
-    with open(f"/Users/tomqlam/Desktop/bestfitanalysis/{file}/results_{column_name}.txt", "w+") as results_file:
+    bic_dict = {}
+    with open(analysis_path / file / f"results_{column_name}.txt", "w+") as results_file:
         for i, func in enumerate(funcs):
             plt.clf()
             plt.plot(x, y)
@@ -87,12 +92,14 @@ def do_analysis(file, column_name):
             line_y = func(x, *params)
             plt.plot(x, line_y, label=func.__name__)
             aic_val = AIC(sum_residuals, len(x), numparams[i])
+            bic_val = BIC(sum_residuals, len(x), numparams[i])
             aic_dict[func.__name__] = aic_val
+            bic_dict[func.__name__] = bic_val
             results_file.write(
-                f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)}\n")
+                f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)} and BIC {str(bic_val)}\n")
             plt.legend()
             plt.savefig(
-                f"/Users/tomqlam/Desktop/bestfitanalysis/{file}/graph{column_name}withfits{func.__name__}")
+                analysis_path / file / f"graph{column_name}withfits{func.__name__}")
 
         min_res = np.inf
         min_func = ""
@@ -106,16 +113,31 @@ def do_analysis(file, column_name):
                 min_AIC = aic_dict[func]
         results_file.write(f"{min_func} has the lowest AIC with AIC {min_AIC}")
 
-    print(
-        f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
+        print(
+            f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
+
+        # BIC
+        min_res = np.inf
+        min_func = ""
+        min_params = None
+        min_BIC = np.inf
+        for func, residual in residuals_dict.items():
+            if bic_dict[func] < min_BIC:
+                min_res = residual
+                min_func = func
+                min_params = coeffs_dict[func]
+                min_BIC = bic_dict[func]
+        results_file.write(f"{min_func} has the lowest BIC with BIC {min_BIC}")
+
+        print(
+            f"The minimum functional form is {min_func} with BIC {str(min_BIC)} and residual {str(min_res)} with params {str(min_params)}\n")
 
 
-path = Path('../../src/tests/cFiles/example_apc/kleedata')
-analysis_path = path/'bestfitanalysis'
-print(path.resolve())
 for file in os.listdir(path):
-    if "." not in file:
-        subprocess.run(
-            f"mkdir {analysis_path}/{file}", shell=True)
+    if "." not in file and os.path.isfile(path / file):
+        if not os.path.exists(analysis_path / file):
+            os.mkdir(analysis_path / file)
         for column in ["CompletedPaths", "PythonTime"]:
             do_analysis(file, column)
+
+# %%

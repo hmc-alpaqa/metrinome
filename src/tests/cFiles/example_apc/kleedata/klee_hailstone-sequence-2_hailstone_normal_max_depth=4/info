@@ -1,4 +1,0 @@
-/app/build/bin/klee --max-time=10min --watchdog --output-dir=/app/code/tests/cFiles/benchmark/kleeversions/kleetest/klee_hailstone-sequence-2_hailstone_normal_max_depth=4 --max-depth=4 /app/code/tests/cFiles/benchmark/kleeversions/kleetest/hailstone-sequence-2_hailstone_.bc
-PID: 18560
-Using monotonic steady clock with 1/1000000000s resolution
-Started: 2022-07-23 08:12:39

@@ -1,0 +1,8 @@
+expon_func has parameters [-7.11363367e-137  1.00000000e+000  2.99923076e-001] and residual 6.661765727703477e-186 and AIC -12028.066122534496 and BIC -12025.401713514146
+weird_expon has parameters [-5.19517734e-148  9.99999998e-001  6.09766870e-001] and residual 6.602884764273781e-204 and AIC -13188.817591573934 and BIC -13186.153182553584
+quadratic has parameters [0. 0.] and residual 0.0 and AIC -inf and BIC -inf
+cubic has parameters [0. 0. 0.] and residual 0.0 and AIC -inf and BIC -inf
+linear has parameters [0.] and residual 0.0 and AIC -inf and BIC -inf
+quintic has parameters [0. 0. 0. 0. 0.] and residual 0.0 and AIC -inf and BIC -inf
+quartic has parameters [0. 0. 0. 0.] and residual 0.0 and AIC -inf and BIC -inf
+quadratic has the lowest AIC with AIC -infquadratic has the lowest BIC with BIC -inf
