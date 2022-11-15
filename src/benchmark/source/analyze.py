@@ -19,6 +19,9 @@ def create_plots(csv_file: str) -> None:
     creates a folder containing 3 plots of its points in the benchmark/plots directory.
     """
 
+    if (csv_file[-7:] != "_normal"):
+        return
+
     # Read csv data into 2 numpy arrays (x and y axes)
     csv_dataframe = pd.read_csv(basedir+"/klee_data/"+csv_file)
     data_x = np.array([int(i.split("=")[1]) for i in csv_dataframe.iloc[:,0]])
@@ -27,30 +30,31 @@ def create_plots(csv_file: str) -> None:
     # Get the name of the file without the ".csv" extension
     name = csv_file.split(".")[0]
 
-    # Make a directory (if none exists) for this specific dataset within the plots folder
-    plots_dir = basedir+f"/plots/{name}_plots"
-    Path(plots_dir).mkdir(parents=True, exist_ok=True)
-
     # Create the 3 plots
-    plots_dir += f"/{name}"
-    linear_plot(data_x, data_y, plots_dir)
-    loglog_plot(data_x, data_y, plots_dir)
-    loglinear_plot(data_x, data_y, plots_dir)
+    plots_dir = basedir + "/plots" + f"/{name}"
+    plots(data_x, data_y, plots_dir, name)
 
-def linear_plot(data_x: np.ndarray, data_y: np.ndarray, fig_path: str) -> None:
-    plt.plot(data_x, data_y, label="linear")
-    plt.savefig(fig_path + "_linear.png")
+def plots(data_x: np.ndarray, data_y: np.ndarray, fig_path: str, name: str) -> None:
+    fig, axs  = plt.subplots(2,2)  # 2 rows, 2 cols
 
-def loglog_plot(data_x: np.ndarray, data_y: np.ndarray, fig_path: str) -> None:
-    plt.loglog(data_x, data_y, label="loglog")
-    plt.savefig(fig_path + "_loglog.png")
-    plt.close()
+    fig.tight_layout(pad=3.5)
+    fig.suptitle(name)
 
-def loglinear_plot(data_x: np.ndarray, data_y: np.ndarray, fig_path: str) -> None:
-    ax = plt.subplot(211)
-    ax.set_yscale('log')
-    ax.plot(data_x, data_y, label="loglinear")
-    plt.savefig(fig_path + "_loglinear.png")
+    axs[0][0].set_title("linear")
+    axs[0][0].plot(data_x, data_y)
+
+    axs[0][1].set_title("log log")
+    axs[0][1].loglog(data_x, data_y)
+
+    axs[1][0].set_title("log linear")
+    axs[1][0].set_yscale('log')
+    axs[1][0].plot(data_x, data_y)
+
+    fig.delaxes(axs[1][1])
+
+    plt.show()
+    plt.savefig(fig_path + "_plots.png")
+
     plt.close()
 
 for file in os.listdir(basedir+"/klee_data"):
