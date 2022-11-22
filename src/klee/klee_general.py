@@ -1,4 +1,6 @@
 # For some inexplicable reason, run this with PYTHONPATH=$PYTHONPATH:/app/pycparser/ at the front
+# PYTHONPATH=$PYTHONPATH:/app/pycparser/ python klee_general.py
+
 """Script for running Klee on a series of functions and saving data."""
 import sys
 sys.path.append('/app/pycparser/')
@@ -190,15 +192,15 @@ def main() -> None:
                                                                         # both filepaths needs to end with a slash
     # src_filepath = "/app/code/tests/cFiles/fse_2020_benchmark/"
     # filepath =   "/app/code/tests/cFiles/fse_2020_benchmark/kleetest/"
-    klee_params_lambda = lambda output, var, filepath: f" --max-time=10min --watchdog --output-dir={output} --max-depth={var} {filepath}"
-    # klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-time={var}min --watchdog {filepath}"
+    # klee_params_lambda = lambda output, var, filepath: f" --max-time=10min --watchdog --output-dir={output} --max-depth={var} {filepath}"
+    klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-time={var}min --watchdog {filepath}"
     # f" --output-dir={output} --max-depth={var} {filepath}"
     # --dump-states-on-halt=false --max-time=5min
     # lambda function to generate klee commands
     # should take in an outpute filepath, a number to vary, and an input filepath
     # shouldn't actually contain the call to klee
 
-    xlabel = "max depth" # label for the x-axis (parameter that is being varied)
+    xlabel = "max time" # label for the x-axis (parameter that is being varied)
 
 
     pregenerated = ['lina_bac_sub', 'lina_cmp', 'lina_cofactor', 'lina_comp_transpose', 'lina_conjugate', 'lina_cramer',
