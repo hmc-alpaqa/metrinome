@@ -24,7 +24,7 @@ def weird_expon(x, A, B, C):
 
 
 def constant(x, A):
-    return A
+    return A * np.ones(len(x))
 
 
 def linear(x, A):
@@ -94,6 +94,7 @@ def experiment(file):
             coeffs_dict[func.__name__] = params
             params_dict[func.__name__] = numparams[i]
             line_y = func(x, *params)
+            print(x, line_y)
             plt.plot(x, line_y, label=func.__name__)
             aic_val = AIC(sum_residuals, len(x), numparams[i])
             aic_dict[func.__name__] = aic_val
