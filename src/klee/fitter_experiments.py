@@ -10,6 +10,7 @@ from sklearn.metrics import mean_squared_error
 from pathlib import Path
 from inspect import signature
 from icecream import ic
+import plotly.express as px
 
 path = Path('../../src/tests/cFiles/example_apc/cleaned_kleedata')
 analysis_path = path / 'bestfitanalysis'
