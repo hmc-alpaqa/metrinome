@@ -9,18 +9,25 @@ import subprocess
 from sklearn.metrics import mean_squared_error
 from pathlib import Path
 from inspect import signature
+from icecream import ic
 
 path = Path('../../src/tests/cFiles/example_apc/cleaned_kleedata')
 analysis_path = path / 'bestfitanalysis'
 # %%
 
 
-def expon_func(x, A, B, C):
-    return A*np.exp(B*(x+C))
+# def expon_func(x, A, B, C):
+#     return A*np.exp(B*(x+C))
+
+def expon_func(x, A, B):
+    return A*np.exp(B*x)
 
 
-def weird_expon(x, A, B, C):
-    return A*x*np.exp(B*(x+C))
+# def weird_expon(x, A, B, C):
+#     return A*x*np.exp(B*(x+C))
+
+def weird_expon(x, A, B):
+    return A*x*np.exp(B*x)
 
 
 def constant(x, A):
@@ -72,7 +79,10 @@ def experiment(file):
 
     x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
     y = np.array([int(j) for j in fram.loc[:, column_name]])
+    # ensure intercept is (0, 0) (default is (1, 0))
+    x -= 1
     plt.plot(x, y, marker='o')
+    plt.show()
 
     residuals_dict = {}
     coeffs_dict = {}
@@ -83,6 +93,7 @@ def experiment(file):
         for i, func in enumerate(funcs):
             plt.clf()
             plt.plot(x, y)
+
             try:
                 params, _ = sio.curve_fit(func, x, y, maxfev=800000)
             except RuntimeError as err:
@@ -94,14 +105,13 @@ def experiment(file):
             coeffs_dict[func.__name__] = params
             params_dict[func.__name__] = numparams[i]
             line_y = func(x, *params)
-            print(x, line_y)
             plt.plot(x, line_y, label=func.__name__)
             aic_val = AIC(sum_residuals, len(x), numparams[i])
             aic_dict[func.__name__] = aic_val
             plt.legend()
-            plt.show()
             plt.savefig(
                 analysis_path / file / f"graph{column_name}withfits{func.__name__}")
+            plt.show()
             print(
                 f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)}\n")
             # print(
@@ -118,13 +128,16 @@ def experiment(file):
                 min_params = coeffs_dict[func]
                 min_AIC = aic_dict[func]
 
-        print(
-            f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
+        # print(
+        #     f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
 
 
 # file = 'example_apc_functions_quickSort_normal'
-file = 'example_apc_functions_max_value_iter_normal'
+# file = 'example_apc_functions_max_value_iter_normal'
+# file = 'example_apc_functions_fib_rec_normal'
+file = 'example_apc_functions_power_rec_normal'
 experiment(file)
+
 # if not os.path.exists(analysis_path):
 #     os.mkdir(analysis_path)
 
@@ -132,7 +145,7 @@ experiment(file)
 #     if "." not in file and os.path.isfile(path / file):
 #         if not os.path.exists(analysis_path / file):
 #             os.mkdir(analysis_path / file)
-#         print(file.lstrip('example_apc_functions_'))
+#         print('file name', file.replace('example_apc_functions_', ''))
 #         experiment(file)
 
 
