@@ -1,21 +1,17 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-int linear_search_iter(int A[], int x)
+int linear_search_iter(int A[], int n, int x)
 {
-    int i;
-    int n = sizeof(A) / sizeof(int);
-    for (i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
         if (A[i] == x)
             return 1;
     return 0;
 }
 
-int linear_search_rec(int A[], int x)
+int linear_search_rec(int A[], int n, int x)
 {
-    int n = sizeof(A) / sizeof(int);
     if (n == 0)
     {
         return 0;
@@ -147,11 +143,6 @@ int power_rec(int x, int n)
     }
 }
 
-// recursive and iterative versions of these
-// algorithms could be interesting
-// -----------------------------------------
-// find max value in array
-
 int max_value_iter(int A[], int n)
 {
     int best = INT_MIN;
@@ -241,13 +232,14 @@ int *matrix_product_iter(int A[], int B[], int n)
 // function that finds the approximation of a n-root of a number using newton's method
 double newtons_method_rec(double number, int root, double guess)
 {
+    double epsilon = 1e-6;
     double value = 1;
     for (int i = 0; i < root - 1; i++)
     {
         value *= guess;
     }
     double new_guess = guess - (value * guess - number) / (root * value);
-    if (new_guess == guess)
+    if (abs(new_guess - guess) < epsilon)
     {
         return guess;
     }
@@ -259,6 +251,7 @@ double newtons_method_rec(double number, int root, double guess)
 
 double newtons_method_iter(double number, int root, double guess)
 {
+    double epsilon = 1e-6;
     while (1)
     {
         double value = 1;
@@ -267,7 +260,7 @@ double newtons_method_iter(double number, int root, double guess)
             value *= guess;
         }
         double new_guess = guess - (value * guess - number) / (root * value);
-        if (new_guess == guess)
+        if (abs(new_guess - guess) < epsilon)
         {
             return guess;
         }
@@ -279,7 +272,7 @@ double newtons_method_iter(double number, int root, double guess)
 }
 
 // function that find the longest common subsequence of two strings
-char *longest_common_subsequence(char *a, char *b, int a_len, int b_len)
+char* longest_common_subsequence(char *a, char *b, int a_len, int b_len)
 {
     // create a dp table to store the longest common subsequence
     int dp[a_len + 1][b_len + 1];
@@ -309,7 +302,7 @@ char *longest_common_subsequence(char *a, char *b, int a_len, int b_len)
         }
     }
     // create a string to store the longest common subsequence
-    char *lcs = (char *)malloc((dp[a_len][b_len] + 1) * sizeof(char));
+    char* lcs = (char *)malloc((dp[a_len][b_len] + 1) * sizeof(char));
     // initialize the string
     for (int i = 0; i < dp[a_len][b_len] + 1; i++)
     {
@@ -342,7 +335,7 @@ char *longest_common_subsequence(char *a, char *b, int a_len, int b_len)
 }
 
 // function that finds the longest common substring of two strings
-char *longest_common_substring(char *a, char *b, int a_len, int b_len)
+char* longest_common_substring(char *a, char *b, int a_len, int b_len)
 {
     int dp[a_len + 1][b_len + 1];
     // initialize the dp table
@@ -558,11 +551,48 @@ int ackermann_rec(int m, int n)
     }
 }
 
-// int main(void)
-// {
-//     char X[] = "slahgshgnslhclaremontlsv";
-//     char Y[] = "asdoclaremonclaremontaghshlgs";
-//     printf("%s", longest_common_substring(X, Y, 25, 30));
+// function that counts down in O(n^2) time
+int triangle_iter(int n)
+{
+    int counter = 0;
+    for (int i = n; i > 0; i--)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            counter++;
+        }
+    }    
+    return counter; 
+}
 
-//     return 0;
-// }
+// recursive function that counts down in O(n^2) time
+int test = 0;
+int square_rec(int n)
+{
+    printf("%d \n", n);
+    test += 1;
+    if(n == 0)
+    {
+        return 1;
+    }
+    int counter = 0;
+    for(int i = 0; i < n; i++)
+    {
+        counter += square_rec(n - 1);
+    }
+    return counter;
+}
+ 
+int main(void)
+{
+    for(int i = 0; i < 10; i++)
+    {
+        printf("%d ", triangle_rec(i));
+        printf("%d ", triangle_iter(i));
+        printf("\n");
+    }
+    // printf("%d ", triangle_rec(4));
+    // printf("%d ", test);
+
+    return 0;
+}
