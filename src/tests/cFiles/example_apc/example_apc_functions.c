@@ -567,7 +567,7 @@ int triangle_iter(int n)
 
 // recursive function that counts down in O(n^2) time
 int test = 0;
-int triangle_rec(int n)
+int square_rec(int n)
 {
     printf("%d \n", n);
     test += 1;
@@ -576,12 +576,10 @@ int triangle_rec(int n)
         return 1;
     }
     int counter = 0;
-    // for(int i = 0; i < n; i++)
-    // {
-    //     // printf("%d \n", i);
-    counter += triangle_rec(n - 1);
-    counter += triangle_rec(0);
-    // }
+    for(int i = 0; i < n; i++)
+    {
+        counter += square_rec(n - 1);
+    }
     return counter;
 }
  
