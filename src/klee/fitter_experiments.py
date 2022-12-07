@@ -11,6 +11,8 @@ from pathlib import Path
 from inspect import signature
 from icecream import ic
 import plotly.express as px
+import plotly.graph_objects as go
+
 
 path = Path('../../src/tests/cFiles/example_apc/cleaned_kleedata')
 analysis_path = path / 'bestfitanalysis'
@@ -69,9 +71,7 @@ def BIC(resid, obs, params):
 
 
 # %%
-
-
-def experiment(file):
+def experiment_plotly(file):
     column_name = 'CompletedPaths'
     fram = pd.read_csv(path / file)
     funcs = [constant, linear, quadratic, cubic,
@@ -82,8 +82,10 @@ def experiment(file):
     y = np.array([int(j) for j in fram.loc[:, column_name]])
     # ensure intercept is (0, 0) (default is (1, 0))
     x -= 1
-    plt.plot(x, y, marker='o')
-    plt.show()
+    fig = px.line(x=x, y=y, markers=True,
+                  title=f"{file.replace('example_apc_functions_', '')}")
+    fig.update_xaxes(title='Depth')
+    fig.update_yaxes(range=[-1, max(y) + 1], title='Number of Completed Paths')
 
     residuals_dict = {}
     coeffs_dict = {}
@@ -106,15 +108,20 @@ def experiment(file):
             coeffs_dict[func.__name__] = params
             params_dict[func.__name__] = numparams[i]
             line_y = func(x, *params)
-            plt.plot(x, line_y, label=func.__name__)
+            plot_x = np.linspace(min(x), max(x))
+            plot_y = func(plot_x, *params)
+            plt.plot(plot_x, plot_y, label=func.__name__)
             aic_val = AIC(sum_residuals, len(x), numparams[i])
+            label = f'{func.__name__} {aic_val:.3f}'
+            fig.add_trace(go.Scatter(x=plot_x, y=plot_y,
+                                     name=label, mode='lines'))
             aic_dict[func.__name__] = aic_val
             plt.legend()
             plt.savefig(
                 analysis_path / file / f"graph{column_name}withfits{func.__name__}")
-            plt.show()
-            print(
-                f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)}\n")
+            # plt.show()
+            # print(
+            #     f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)}\n")
             # print(
             #     f"{func.__name__} and AIC {aic_val:3f}\n")
 
@@ -128,6 +135,88 @@ def experiment(file):
                 min_func = func
                 min_params = coeffs_dict[func]
                 min_AIC = aic_dict[func]
+
+        print(
+            f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
+            
+        fig.show()
+
+
+file = 'example_apc_functions_quickSort_normal'
+file = 'example_apc_functions_max_value_iter_normal'
+file = 'example_apc_functions_fib_rec_normal'
+file = 'example_apc_functions_power_rec_normal'
+# experiment_plotly(file)
+
+if not os.path.exists(analysis_path):
+    os.mkdir(analysis_path)
+
+for file in os.listdir(path):
+    if "." not in file and os.path.isfile(path / file):
+        if not os.path.exists(analysis_path / file):
+            os.mkdir(analysis_path / file)
+        print(file.replace('example_apc_functions_', ''))
+        experiment_plotly(file)
+# %%
+
+
+# def experiment(file):
+#     column_name = 'CompletedPaths'
+#     fram = pd.read_csv(path / file)
+#     funcs = [constant, linear, quadratic, cubic,
+#              expon_func, weird_expon, quartic][::-1]
+#     numparams = [num_params(func) for func in funcs]
+
+#     x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
+#     y = np.array([int(j) for j in fram.loc[:, column_name]])
+#     # ensure intercept is (0, 0) (default is (1, 0))
+#     x -= 1
+#     plt.plot(x, y, marker='o')
+#     plt.show()
+
+#     residuals_dict = {}
+#     coeffs_dict = {}
+#     params_dict = {}
+#     aic_dict = {}
+#     bic_dict = {}
+#     with open(analysis_path / file / f"results_{column_name}.txt", "w+") as results_file:
+#         for i, func in enumerate(funcs):
+#             plt.clf()
+#             plt.plot(x, y)
+
+#             try:
+#                 params, _ = sio.curve_fit(func, x, y, maxfev=800000)
+#             except RuntimeError as err:
+#                 print("Couldn't fit data")
+#                 return
+#             residuals = y - func(x, *params)
+#             sum_residuals = np.sum(residuals**2)
+#             residuals_dict[func.__name__] = sum_residuals
+#             coeffs_dict[func.__name__] = params
+#             params_dict[func.__name__] = numparams[i]
+#             line_y = func(x, *params)
+#             plt.plot(x, line_y, label=func.__name__)
+#             aic_val = AIC(sum_residuals, len(x), numparams[i])
+#             aic_dict[func.__name__] = aic_val
+#             plt.legend()
+#             plt.savefig(
+#                 analysis_path / file / f"graph{column_name}withfits{func.__name__}")
+#             plt.show()
+#             print(
+#                 f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)}\n")
+#             # print(
+#             #     f"{func.__name__} and AIC {aic_val:3f}\n")
+
+#         min_res = np.inf
+#         min_func = ""
+#         min_params = None
+#         min_AIC = np.inf
+#         for func, residual in residuals_dict.items():
+#             if aic_dict[func] < min_AIC:
+#                 min_res = residual
+#                 min_func = func
+#                 min_params = coeffs_dict[func]
+#                 min_AIC = aic_dict[func]
 
         # print(
         #     f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
