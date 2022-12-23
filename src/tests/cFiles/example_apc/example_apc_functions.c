@@ -552,35 +552,43 @@ int ackermann_rec(int m, int n)
 }
 
 // function that counts down in O(n^2) time
-int triangle_iter(int n)
+int minmaxsum_iter(int A[])
 {
-    int counter = 0;
-    for (int i = n; i > 0; i--)
+    int max = INT_MIN;
+    int min = INT_MAX;
+    int n = sizeof(A) / sizeof(A[0]);
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < i; j++)
+        if (A[i] > max)
         {
-            counter++;
+            max = A[i];
         }
-    }    
-    return counter; 
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i] < min)
+        {
+            min = A[i];
+        }
+    }
+    return min + max;
 }
 
-// recursive function that counts down in O(n^2) time
-int test = 0;
-int square_rec(int n)
+// recursive function with O(n^2) path complexity
+int polypath_rec(int n)
 {
-    printf("%d \n", n);
-    test += 1;
-    if(n == 0)
-    {
-        return 1;
+    if (n < 0) {
+        while(n < 0) {
+            n++;
+        }
+        return n;
+    } else {
+        if (n%100 == 0) {
+            return n;
+        } else {
+            return polypath_rec(n+1);
+        }
     }
-    int counter = 0;
-    for(int i = 0; i < n; i++)
-    {
-        counter += square_rec(n - 1);
-    }
-    return counter;
 }
  
 int main(void)
