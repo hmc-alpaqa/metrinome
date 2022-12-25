@@ -9,7 +9,7 @@ int linear_search_iter(int A[], int n, int x)
             return 1;
     return 0;
 }
-​
+
 int linear_search_rec(int A[], int n, int x)
 {
     if (n == 0)
@@ -25,7 +25,7 @@ int linear_search_rec(int A[], int n, int x)
         return linear_search_rec(A + 1, n - 1, x);
     }
 }
-​
+
 int fib_iter(int n)
 {
     int a = 0;
@@ -39,7 +39,7 @@ int fib_iter(int n)
     }
     return a;
 }
-​
+
 int fib_rec(int n)
 {
     if (n == 0)
@@ -55,7 +55,7 @@ int fib_rec(int n)
         return fib_rec(n - 1) + fib_rec(n - 2);
     }
 }
-​
+
 int fact_iter(int n)
 {
     int f = 1;
@@ -65,7 +65,7 @@ int fact_iter(int n)
     }
     return f;
 }
-​
+
 int fact_rec(int n)
 {
     if (n == 0)
@@ -77,7 +77,7 @@ int fact_rec(int n)
         return n * fact_rec(n - 1);
     }
 }
-​
+
 int binary_search_iter(int A[], int n, int x)
 {
     int a = 0;
@@ -100,7 +100,7 @@ int binary_search_iter(int A[], int n, int x)
     }
     return 0;
 }
-​
+
 int binary_search_rec(int A[], int n, int x)
 {
     if (n == 0)
@@ -120,7 +120,7 @@ int binary_search_rec(int A[], int n, int x)
         return binary_search_rec(A, n / 2, x);
     }
 }
-​
+
 int power_iter(int x, int n)
 {
     int p = 1;
@@ -130,7 +130,7 @@ int power_iter(int x, int n)
     }
     return p;
 }
-​
+
 int power_rec(int x, int n)
 {
     if (n == 0)
@@ -142,7 +142,7 @@ int power_rec(int x, int n)
         return x * power_rec(x, n - 1);
     }
 }
-​
+
 int max_value_iter(int A[], int n)
 {
     int best = INT_MIN;
@@ -155,7 +155,7 @@ int max_value_iter(int A[], int n)
     }
     return best;
 }
-​
+
 int max_value_rec(int A[], int n)
 {
     if (n == 1)
@@ -176,7 +176,7 @@ int max_value_rec(int A[], int n)
     }
 }
 // vector product
-​
+
 int dot_product_iter(int A[], int B[], int n)
 {
     int product = 0;
@@ -186,7 +186,7 @@ int dot_product_iter(int A[], int B[], int n)
     }
     return product;
 }
-​
+
 // function that multiplies two vectors
 int vector_product_iter(int A[], int B[], int n)
 {
@@ -197,7 +197,7 @@ int vector_product_iter(int A[], int B[], int n)
     }
     return product;
 }
-​
+
 // function that multiplies two vectors recursively
 int vector_product_rec(int A[], int B[], int n)
 {
@@ -210,7 +210,7 @@ int vector_product_rec(int A[], int B[], int n)
         return A[0] * B[0] + vector_product_rec(A + 1, B + 1, n - 1);
     }
 }
-​
+
 // function that multiplies two 2d matrices
 int *matrix_product_iter(int A[], int B[], int n)
 {
@@ -228,7 +228,7 @@ int *matrix_product_iter(int A[], int B[], int n)
     }
     return product;
 }
-​
+
 // function that finds the approximation of a n-root of a number using newton's method
 double newtons_method_rec(double number, int root, double guess)
 {
@@ -248,7 +248,7 @@ double newtons_method_rec(double number, int root, double guess)
         return newtons_method_rec(number, root, new_guess);
     }
 }
-​
+
 double newtons_method_iter(double number, int root, double guess)
 {
     double epsilon = 1e-6;
@@ -270,7 +270,7 @@ double newtons_method_iter(double number, int root, double guess)
         }
     }
 }
-​
+
 // function that find the longest common subsequence of two strings
 char* longest_common_subsequence(char *a, char *b, int a_len, int b_len)
 {
@@ -333,7 +333,7 @@ char* longest_common_subsequence(char *a, char *b, int a_len, int b_len)
     }
     return lcs;
 }
-​
+
 // function that finds the longest common substring of two strings
 char* longest_common_substring(char *a, char *b, int a_len, int b_len)
 {
@@ -400,7 +400,7 @@ char* longest_common_substring(char *a, char *b, int a_len, int b_len)
     }
     return lcs;
 }
-​
+
 void insertionSort(int arr[], int n)
 {
     int i, key, j;
@@ -417,7 +417,7 @@ void insertionSort(int arr[], int n)
         arr[j + 1] = key;
     }
 }
-​
+
 // selection sort on array
 void selection_sort(int A[], int n)
 {
@@ -436,7 +436,7 @@ void selection_sort(int A[], int n)
         A[min] = temp;
     }
 }
-​
+
 // bubble sort on array
 void bubble_sort(int A[], int n)
 {
@@ -453,7 +453,7 @@ void bubble_sort(int A[], int n)
         }
     }
 }
-​
+
 // function that performs quicksort on array
 void quickSort(int A[], int n)
 {
@@ -486,7 +486,7 @@ void quickSort(int A[], int n)
     quickSort(A, right + 1);
     quickSort(A + left, n - left);
 }
-​
+
 // function that performs mergesort on array
 void mergeSort(int A[], int n)
 {
@@ -533,7 +533,7 @@ void mergeSort(int A[], int n)
     }
     free(temp);
 }
-​
+
 // function that implements ackermann's function
 int ackermann_rec(int m, int n)
 {
@@ -550,7 +550,7 @@ int ackermann_rec(int m, int n)
         return ackermann_rec(m - 1, ackermann_rec(m, n - 1));
     }
 }
-​
+
 // function that counts down in O(n^2) time
 int minmaxsum_iter(int A[])
 {
@@ -573,7 +573,7 @@ int minmaxsum_iter(int A[])
     }
     return min + max;
 }
-​
+
 // recursive function with O(n^2) path complexity
 int polypath_rec(int n)
 {
@@ -590,7 +590,6 @@ int polypath_rec(int n)
         }
     }
 }
-
 
 int polypath_rec1(int n, int k)
 {
@@ -622,7 +621,6 @@ int polypath_rec2(int n)
         }
     }
 }
-
 
 // int main(void)
 // {
