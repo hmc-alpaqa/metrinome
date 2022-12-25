@@ -1,7 +1,7 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-​
+
 int linear_search_iter(int A[], int n, int x)
 {
     for (int i = 0; i < n; i++)
