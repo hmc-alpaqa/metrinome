@@ -212,7 +212,7 @@ int vector_product_rec(int A[], int B[], int n)
 }
 
 // function that multiplies two 2d matrices
-int *matrix_product_iter(int A[], int B[], int n)
+int matrix_product_iter(int A[], int B[], int n)
 {
     int *product = (int *)malloc(n * n * sizeof(int));
     for (int i = 0; i < n; i++)
@@ -226,7 +226,7 @@ int *matrix_product_iter(int A[], int B[], int n)
             }
         }
     }
-    return product;
+    return *product;
 }
 
 // function that finds the approximation of a n-root of a number using newton's method
@@ -272,7 +272,7 @@ double newtons_method_iter(double number, int root, double guess)
 }
 
 // function that find the longest common subsequence of two strings
-char* longest_common_subsequence(char *a, char *b, int a_len, int b_len)
+char longest_common_subsequence(char *a, char *b, int a_len, int b_len)
 {
     // create a dp table to store the longest common subsequence
     int dp[a_len + 1][b_len + 1];
@@ -331,11 +331,11 @@ char* longest_common_subsequence(char *a, char *b, int a_len, int b_len)
             j--;
         }
     }
-    return lcs;
+    return *lcs;
 }
 
 // function that finds the longest common substring of two strings
-char* longest_common_substring(char *a, char *b, int a_len, int b_len)
+char longest_common_substring(char *a, char *b, int a_len, int b_len)
 {
     int dp[a_len + 1][b_len + 1];
     // initialize the dp table
@@ -398,7 +398,7 @@ char* longest_common_substring(char *a, char *b, int a_len, int b_len)
             break;
         }
     }
-    return lcs;
+    return *lcs;
 }
 
 void insertionSort(int arr[], int n)
