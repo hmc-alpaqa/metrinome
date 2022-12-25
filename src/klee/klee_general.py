@@ -231,7 +231,7 @@ def main() -> None:
     labels = ["normal"] # the labels for the different "compilation methods"
 
     xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '30', '35', '50', '100']
-    xaxis = ['1', '2', '3', '200']
+    # xaxis = ['1', '2', '3', '200']
     timeout = 1000 #timeout
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
               "SysTime", "PythonTime"] # all klee output fields that we are interested in
