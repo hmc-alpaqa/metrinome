@@ -13,4 +13,4 @@ src/.mypy_cache/
 /src/coverage.xml
 /src/htmlcov/
 /src/.dmypy.json
-src/klee/lextab.py
+/src/klee/lextab.py
