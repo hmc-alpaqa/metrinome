@@ -32,21 +32,23 @@ class RecursivePathComplexity(ABC):
 
     def evaluate(self, cfg: ControlFlowGraph) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
-        adjMatrix = cfg.graph.adjacency_matrix()
-        edgelist = []
+        # adjMatrix = cfg.graph.adjacency_matrix()
+        # print(cfg.graph.edge_rules())
+        # edgelist = []
         recurlist = []
-        for rowIndex, row in enumerate(adjMatrix):
-            for colIndex, value in enumerate(row):
-                if value ==1:
-                    edgelist += [[rowIndex, colIndex]]
+        # for rowIndex, row in enumerate(adjMatrix):
+        #     for colIndex, value in enumerate(row):
+        #         if value ==1:
+        #             edgelist += [[rowIndex, colIndex]]
         for node in cfg.metadata.calls.keys():
             for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                 recurlist += [int(node)]
-
-        self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
+        edgelist = cfg.graph.edge_rules()
+        # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
         apc = self.recurapc(edgelist, recurlist)
+        print(apc)
         return apc
 
     def recurapc(self, edgelist, recurlist):
