@@ -19,7 +19,7 @@ from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, ca
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
-PRECISION = 10
+PRECISION = 9
 
 class RecursivePathComplexity(ABC):
     """The interface that all metric computers should follow."""
