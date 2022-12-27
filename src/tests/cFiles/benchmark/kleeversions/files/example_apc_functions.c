@@ -591,11 +591,26 @@ int polypath_rec(int n)
     }
 }
 
-int polypath_rec1(int n, int k)
+int polypath_notrec_eli(int n, int k)
+{
+    int count = 0;
+    while(k > 0) {
+      count++;
+      k--;
+    }
+    while(n > 0) {
+      count++;
+      n--;
+    }
+    return count;
+}
+
+// recursive function with O(n^2) path complexity
+int polypath_rec_eli(int n, int k)
 {
   if (n > 0)
   {
-    return 1 + polypath_rec1(n - 1, k);
+    return 1 + polypath_rec_eli(n - 1, k);
   } else {
     int count = 0;
     while(k > 0) {
@@ -604,22 +619,6 @@ int polypath_rec1(int n, int k)
     }
     return count;
   }
-}
-
-int polypath_rec2(int n)
-{
-    if (n < 0) {
-        while(n < 0) {
-            n++;
-        }
-        return n;
-    } else {
-        if (n%100 == 0) {
-            return n;
-        } else {
-            return polypath_rec2(n+1);
-        }
-    }
 }
 
 // int main(void)
