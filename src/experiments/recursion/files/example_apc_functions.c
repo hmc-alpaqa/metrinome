@@ -486,7 +486,7 @@
 //     quickSort(A, right + 1);
 //     quickSort(A + left, n - left);
 // }
-// 
+//
 // // function that performs mergesort on array
 // void mergeSort(int A[], int n)
 // {
@@ -552,43 +552,35 @@
 // }
 //
 // function that counts down in O(n^2) time
-int minmaxsum_iter(int A[])
+int polypath_notrec(int n, int k)
 {
-    int max = INT_MIN;
-    int min = INT_MAX;
-    int n = sizeof(A) / sizeof(A[0]);
-    for (int i = 0; i < n; i++)
-    {
-        if (A[i] > max)
-        {
-            max = A[i];
-        }
+    int count = 0;
+    while(k > 0) {
+      count++;
+      k--;
     }
-    for (int i = 0; i < n; i++)
-    {
-        if (A[i] < min)
-        {
-            min = A[i];
-        }
+    while(n > 0) {
+      count++;
+      n--;
     }
-    return min + max;
+    return count
+  }
 }
 
 // recursive function with O(n^2) path complexity
-int polypath_rec(int n)
+int polypath_rec(int n, int k)
 {
-    if (n < 0) {
-        while(n < 0) {
-            n++;
-        }
-        return n;
-    } else {
-        if (n%100 == 0) {
-            return n;
-        } else {
-            return polypath_rec(n+1);
-        }
+  if (n > 0)
+  {
+    return 1 + polypath_rec(n - 1, k);
+  } else {
+    int count = 0;
+    while(k > 0) {
+      count++;
+      k--;
     }
+    return count
+  }
 }
 //
 // int main(void)
