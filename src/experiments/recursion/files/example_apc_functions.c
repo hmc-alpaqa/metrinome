@@ -486,54 +486,54 @@
 //     quickSort(A, right + 1);
 //     quickSort(A + left, n - left);
 // }
-
-// function that performs mergesort on array
-void mergeSort(int A[], int n)
-{
-    if (n <= 1)
-    {
-        return;
-    }
-    int m = n / 2;
-    mergeSort(A, m);
-    mergeSort(A + m, n - m);
-    int *temp = (int *)malloc(n * sizeof(int));
-    int i = 0;
-    int j = m;
-    int k = 0;
-    while (i < m && j < n)
-    {
-        if (A[i] < A[j])
-        {
-            temp[k] = A[i];
-            i++;
-        }
-        else
-        {
-            temp[k] = A[j];
-            j++;
-        }
-        k++;
-    }
-    while (i < m)
-    {
-        temp[k] = A[i];
-        i++;
-        k++;
-    }
-    while (j < n)
-    {
-        temp[k] = A[j];
-        j++;
-        k++;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        A[i] = temp[i];
-    }
-    free(temp);
-}
-
+// 
+// // function that performs mergesort on array
+// void mergeSort(int A[], int n)
+// {
+//     if (n <= 1)
+//     {
+//         return;
+//     }
+//     int m = n / 2;
+//     mergeSort(A, m);
+//     mergeSort(A + m, n - m);
+//     int *temp = (int *)malloc(n * sizeof(int));
+//     int i = 0;
+//     int j = m;
+//     int k = 0;
+//     while (i < m && j < n)
+//     {
+//         if (A[i] < A[j])
+//         {
+//             temp[k] = A[i];
+//             i++;
+//         }
+//         else
+//         {
+//             temp[k] = A[j];
+//             j++;
+//         }
+//         k++;
+//     }
+//     while (i < m)
+//     {
+//         temp[k] = A[i];
+//         i++;
+//         k++;
+//     }
+//     while (j < n)
+//     {
+//         temp[k] = A[j];
+//         j++;
+//         k++;
+//     }
+//     for (int i = 0; i < n; i++)
+//     {
+//         A[i] = temp[i];
+//     }
+//     free(temp);
+// }
+//
 // // function that implements ackermann's function
 // int ackermann_rec(int m, int n)
 // {
@@ -551,45 +551,45 @@ void mergeSort(int A[], int n)
 //     }
 // }
 //
-// // function that counts down in O(n^2) time
-// int minmaxsum_iter(int A[])
-// {
-//     int max = INT_MIN;
-//     int min = INT_MAX;
-//     int n = sizeof(A) / sizeof(A[0]);
-//     for (int i = 0; i < n; i++)
-//     {
-//         if (A[i] > max)
-//         {
-//             max = A[i];
-//         }
-//     }
-//     for (int i = 0; i < n; i++)
-//     {
-//         if (A[i] < min)
-//         {
-//             min = A[i];
-//         }
-//     }
-//     return min + max;
-// }
-//
-// // recursive function with O(n^2) path complexity
-// int polypath_rec(int n)
-// {
-//     if (n < 0) {
-//         while(n < 0) {
-//             n++;
-//         }
-//         return n;
-//     } else {
-//         if (n%100 == 0) {
-//             return n;
-//         } else {
-//             return polypath_rec(n+1);
-//         }
-//     }
-// }
+// function that counts down in O(n^2) time
+int minmaxsum_iter(int A[])
+{
+    int max = INT_MIN;
+    int min = INT_MAX;
+    int n = sizeof(A) / sizeof(A[0]);
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i] > max)
+        {
+            max = A[i];
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i] < min)
+        {
+            min = A[i];
+        }
+    }
+    return min + max;
+}
+
+// recursive function with O(n^2) path complexity
+int polypath_rec(int n)
+{
+    if (n < 0) {
+        while(n < 0) {
+            n++;
+        }
+        return n;
+    } else {
+        if (n%100 == 0) {
+            return n;
+        } else {
+            return polypath_rec(n+1);
+        }
+    }
+}
 //
 // int main(void)
 // {
