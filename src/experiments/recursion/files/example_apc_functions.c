@@ -563,7 +563,7 @@ int polypath_notrec(int n, int k)
       count++;
       n--;
     }
-    return count
+    return count;
 }
 
 // recursive function with O(n^2) path complexity
@@ -578,7 +578,7 @@ int polypath_rec(int n, int k)
       count++;
       k--;
     }
-    return count
+    return count;
   }
 }
 //
