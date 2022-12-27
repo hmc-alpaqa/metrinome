@@ -564,7 +564,6 @@ int polypath_notrec(int n, int k)
       n--;
     }
     return count
-  }
 }
 
 // recursive function with O(n^2) path complexity
