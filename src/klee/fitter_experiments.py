@@ -59,8 +59,8 @@ def AIC(resid, obs, params):
     return obs*np.log(resid/obs)+2*params + (2*(params**2)+2*params)/(obs-params-0.99999)
 
 
-def BIC(resid, obs, params):
-    return obs * np.log(resid/obs) + params * np.log(obs)
+# def BIC(resid, obs, params):
+#     return obs * np.log(resid/obs) + params * np.log(obs)
 
 
 # %%
@@ -76,7 +76,8 @@ def experiment_plotly(file):
     y = np.array([int(j) for j in fram.loc[:, column_name]])
     # ensure intercept is (0, 0) (default is (1, 0))
     x -= 1
-    fig = px.line(x=x, y=y, markers=True)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='data'))
     fig.update_xaxes(title='Depth')
     fig.update_yaxes(range=[-1, max(y) + 1], title='Number of Completed Paths')
 
@@ -84,12 +85,9 @@ def experiment_plotly(file):
     coeffs_dict = {}
     params_dict = {}
     aic_dict = {}
-    bic_dict = {}
+    name_to_func = {}
     with open(analysis_path / file / f"results_{column_name}.txt", "w+") as results_file:
         for i, func in enumerate(funcs):
-            plt.clf()
-            plt.plot(x, y)
-
             try:
                 params, _ = sio.curve_fit(func, x, y, maxfev=800000)
             except RuntimeError:
@@ -100,56 +98,52 @@ def experiment_plotly(file):
             residuals_dict[func.__name__] = sum_residuals
             coeffs_dict[func.__name__] = params
             params_dict[func.__name__] = numparams[i]
-            plot_x = np.linspace(min(x), max(x))
-            plot_y = func(plot_x, *params)
-            plt.plot(plot_x, plot_y, label=func.__name__)
+            name_to_func[func.__name__] = func
             aic_val = AIC(sum_residuals, len(x), numparams[i])
-            label = f'{func.__name__} {aic_val:.3f}'
-            fig.add_trace(go.Scatter(x=plot_x, y=plot_y,
-                                     name=label, mode='lines'))
             aic_dict[func.__name__] = aic_val
-            plt.legend()
-            plt.savefig(
-                analysis_path / file / f"graph{column_name}withfits{func.__name__}")
             # plt.show()
             # print(
             #     f"{func.__name__} has parameters {params} and residual {sum_residuals} and AIC {str(aic_val)}\n")
             # print(
             #     f"{func.__name__} and AIC {aic_val:3f}\n")
 
-        min_res = np.inf
-        min_func = ""
-        min_params = None
-        min_AIC = np.inf
-        for func, residual in residuals_dict.items():
-            if aic_dict[func] < min_AIC:
-                min_res = residual
-                min_func = func
-                min_params = coeffs_dict[func]
-                min_AIC = aic_dict[func]
+        func_and_AIC = [(func, aic_dict[func]) for func in aic_dict]
+        func_and_AIC.sort(key=lambda x: x[1])
+        # add plots, default show only top 3 lowest AICs
+        for i, (func, aic) in enumerate(func_and_AIC):
+            plot_x = np.linspace(min(x), max(x))
+            plot_y = name_to_func[func](plot_x, *coeffs_dict[func])
+            label = f'{func} {aic:.3f}'
+            fig.add_trace(go.Scatter(x=plot_x, y=plot_y,
+                                     name=label, mode='lines', visible=None if i < 3 else 'legendonly'))
 
+        min_func = func_and_AIC[0][0]
         print(
-            f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
+            f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
 
         fig.update_layout(title=f'{func_name}: {min_func}')
         fig.show()
 
 
+# %%
+# run for all files
+# if not os.path.exists(analysis_path):
+#     os.mkdir(analysis_path)
+
+# for file in os.listdir(path):
+#     if "." not in file and os.path.isfile(path / file):
+#         if not os.path.exists(analysis_path / file):
+#             os.mkdir(analysis_path / file)
+#         experiment_plotly(file)
+
+# %%
+# single file debugging
 file = 'example_apc_functions_quickSort_normal'
 file = 'example_apc_functions_max_value_iter_normal'
 file = 'example_apc_functions_fib_rec_normal'
 file = 'example_apc_functions_power_rec_normal'
-# experiment_plotly(file)
-
-if not os.path.exists(analysis_path):
-    os.mkdir(analysis_path)
-
-for file in os.listdir(path):
-    if "." not in file and os.path.isfile(path / file):
-        if not os.path.exists(analysis_path / file):
-            os.mkdir(analysis_path / file)
-        print(file.replace('example_apc_functions_', ''))
-        experiment_plotly(file)
+file = 'example_apc_functions_' + 'polypath_notrec_eli_normal'
+experiment_plotly(file)
 # %%
 
 
@@ -211,8 +205,8 @@ for file in os.listdir(path):
 #                 min_params = coeffs_dict[func]
 #                 min_AIC = aic_dict[func]
 
-        # print(
-        #     f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
+# print(
+#     f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
 
 
 # file = 'example_apc_functions_quickSort_normal'
