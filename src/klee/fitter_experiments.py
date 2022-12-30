@@ -16,6 +16,11 @@ import plotly.graph_objects as go
 
 path = Path('../../src/tests/cFiles/example_apc/cleaned_kleedata')
 analysis_path = path / 'bestfitanalysis'
+plotly_htmls = path / 'plotly_htmls'
+
+for dir_ in [analysis_path, plotly_htmls]:
+    if not os.path.exists(dir_):
+        os.mkdir(dir_)
 # %%
 
 
@@ -94,8 +99,8 @@ def experiment_plotly(file):
                 print("Couldn't fit data")
                 return
             residuals = y - func(x, *params)
-            if func.__name__ in ['quadratic', 'cubic', 'quartic']:
-                print(func.__name__, residuals)
+            # if func.__name__ in ['quadratic', 'cubic', 'quartic']:
+            #     print(func.__name__, residuals)
             sum_residuals = np.sum(residuals**2)
             residuals_dict[func.__name__] = sum_residuals
             coeffs_dict[func.__name__] = params
@@ -124,19 +129,17 @@ def experiment_plotly(file):
             f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
 
         fig.update_layout(title=f'{func_name}: {min_func}')
+        fig.write_html(plotly_htmls / f'{func_name}.html')
         fig.show()
 
 
 # %%
 # run for all files
-# if not os.path.exists(analysis_path):
-#     os.mkdir(analysis_path)
-
-# for file in os.listdir(path):
-#     if "." not in file and os.path.isfile(path / file):
-#         if not os.path.exists(analysis_path / file):
-#             os.mkdir(analysis_path / file)
-#         experiment_plotly(file)
+for file in os.listdir(path):
+    if "." not in file and os.path.isfile(path / file):
+        if not os.path.exists(analysis_path / file):
+            os.mkdir(analysis_path / file)
+        experiment_plotly(file)
 
 # %%
 # single file debugging
