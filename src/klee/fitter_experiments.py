@@ -55,9 +55,9 @@ def num_params(func):
     return len(signature(func).parameters) - 1
 
 
-def AIC(resid, obs, params):
-    return obs*np.log(resid/obs)+2*params + (2*(params**2)+2*params)/(obs-params-0.99999)
-
+def AIC(resid, n, k):
+    ''' corrected AIC, n: num obs, k: num params '''
+    return n * np.log(resid/n) + 2*k + (2*(k**2) + 2*k)/(n - k - 0.99999)
 
 # def BIC(resid, obs, params):
 #     return obs * np.log(resid/obs) + params * np.log(obs)
@@ -94,6 +94,8 @@ def experiment_plotly(file):
                 print("Couldn't fit data")
                 return
             residuals = y - func(x, *params)
+            if func.__name__ in ['quadratic', 'cubic', 'quartic']:
+                print(func.__name__, residuals)
             sum_residuals = np.sum(residuals**2)
             residuals_dict[func.__name__] = sum_residuals
             coeffs_dict[func.__name__] = params
