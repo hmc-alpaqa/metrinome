@@ -20,7 +20,7 @@ def comparedepth(series, depth):
 
 for file in os.listdir(path):
     if "." not in file and os.path.isfile(path / file):
-        print(file)
+        func_name = file[len('example_apc_functions_'):]
         plt.clf()
         fram = pd.read_csv(path / file)
         x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])
@@ -36,8 +36,9 @@ for file in os.listdir(path):
         # plotly
         df = pd.DataFrame({'Depth': x, 'Completed Paths': y})
         fig = px.line(df, x='Depth', y='Completed Paths',
-                      title='Completed Paths vs Depth', markers=True)
+                      title=f'Completed Paths vs Depth: {func_name}', markers=True)
         fig.show()
+        print(func_name)
 
         n = int(input("ENTER STOPPING POINT"))
         new_fram = fram.loc[lambda x: x.apply(

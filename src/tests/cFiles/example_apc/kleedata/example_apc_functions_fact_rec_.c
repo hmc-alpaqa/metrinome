@@ -4,7 +4,7 @@
 int main() {
 
 	int n;
-	klee_make_symbolic(&n, sizeof(n), "cf005be01f9d43dcb198e698cfd54a00");
+	klee_make_symbolic(&n, sizeof(n), "e062cfe5f9ec4f90b760ba50892dbab7");
 	if ((n<-1) || (n>1024)) {
 		 return 0;}
 	return fact_rec(n);

@@ -4,10 +4,10 @@
 int main() {
 
 	int arr[SIZE];
-	klee_make_symbolic(&arr, sizeof(arr), "84cd9324812048e9b2b7ed15155858b7");
+	klee_make_symbolic(&arr, sizeof(arr), "ddf28a13105a4eebb2c09820a712a3e2");
 
 	int n;
-	klee_make_symbolic(&n, sizeof(n), "d1c7caa9e74147ee8a973ee3baf6ef30");
+	klee_make_symbolic(&n, sizeof(n), "91eb355e730c49eb9aad0141dcf6d6f4");
 	if ((n<-1) || (n>1024)) {
 		 return 0;}
 	insertionSort(arr, n);

@@ -4,14 +4,14 @@
 int main() {
 
 	double number;
-	klee_make_symbolic(&number, sizeof(number), "7c262874170243ddb1b0a0a3db1b76bb");
+	klee_make_symbolic(&number, sizeof(number), "92bfbc53a3434d0fa4fc47e0cd5ae4c7");
 
 	int root;
-	klee_make_symbolic(&root, sizeof(root), "80025599892a4b23b5299f3980868939");
+	klee_make_symbolic(&root, sizeof(root), "582d74da197c4e66a64af37eb9edd06f");
 	if ((root<-1) || (root>1024)) {
 		 return 0;}
 
 	double guess;
-	klee_make_symbolic(&guess, sizeof(guess), "78492ea2bc994f8e85b29c0ab87464e6");
+	klee_make_symbolic(&guess, sizeof(guess), "5263c6ddf1cd4e51b4f6f99dc8b60166");
 	return newtons_method_rec(number, root, guess);
 }

@@ -4,7 +4,7 @@
 int main() {
 
 	int n;
-	klee_make_symbolic(&n, sizeof(n), "6eb459170cf64c86844d10051bc10762");
+	klee_make_symbolic(&n, sizeof(n), "a933273d69434da494c68ed27ea170f8");
 	if ((n<-1) || (n>1024)) {
 		 return 0;}
 	return fib_rec(n);

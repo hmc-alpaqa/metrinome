@@ -4,13 +4,13 @@
 int main() {
 
 	int A[SIZE];
-	klee_make_symbolic(&A, sizeof(A), "3b4ff42ba840452fb075baba1b904583");
+	klee_make_symbolic(&A, sizeof(A), "c050ef285b41490b95651bfc87ff0c95");
 
 	int B[SIZE];
-	klee_make_symbolic(&B, sizeof(B), "d2a9622d41564b9881b1c3ab37975574");
+	klee_make_symbolic(&B, sizeof(B), "069e6c910beb47a184c54664c7f1264e");
 
 	int n;
-	klee_make_symbolic(&n, sizeof(n), "59e9a16e8ef94e95bbf79a3b1f97cecc");
+	klee_make_symbolic(&n, sizeof(n), "32f76dff06474e81a99506ec4a1ded09");
 	if ((n<-1) || (n>1024)) {
 		 return 0;}
 	return dot_product_iter(A, B, n);
