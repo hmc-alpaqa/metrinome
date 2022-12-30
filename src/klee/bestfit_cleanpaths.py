@@ -59,7 +59,6 @@ def BIC(resid, obs, params):
 
 def do_analysis(file, column_name):
     plt.clf()
-    print(file.removeprefix('example_apc_functions_'))
     # last_point = 23
     fram = pd.read_csv(path / file)
     if fram.shape[0] < 8:

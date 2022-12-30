@@ -19,15 +19,9 @@ analysis_path = path / 'bestfitanalysis'
 # %%
 
 
-# def expon_func(x, A, B, C):
-#     return A*np.exp(B*(x+C))
-
 def expon_func(x, A, B):
     return A*np.exp(B*x)
 
-
-# def weird_expon(x, A, B, C):
-#     return A*x*np.exp(B*(x+C))
 
 def weird_expon(x, A, B):
     return A*x*np.exp(B*x)
@@ -62,16 +56,16 @@ def num_params(func):
 
 
 def AIC(resid, obs, params):
-    return obs*np.log(resid/obs)+2*params + (2*(params**2)+2*params)/(obs-params-1)
+    return obs*np.log(resid/obs)+2*params + (2*(params**2)+2*params)/(obs-params-0.99999)
 
 
 def BIC(resid, obs, params):
-    bic = obs * np.log(resid/obs) + params * np.log(obs)
-    return bic
+    return obs * np.log(resid/obs) + params * np.log(obs)
 
 
 # %%
 def experiment_plotly(file):
+    func_name = file[len('example_apc_functions_'):]
     column_name = 'CompletedPaths'
     fram = pd.read_csv(path / file)
     funcs = [constant, linear, quadratic, cubic,
@@ -82,8 +76,7 @@ def experiment_plotly(file):
     y = np.array([int(j) for j in fram.loc[:, column_name]])
     # ensure intercept is (0, 0) (default is (1, 0))
     x -= 1
-    fig = px.line(x=x, y=y, markers=True,
-                  title=f"{file.replace('example_apc_functions_', '')}")
+    fig = px.line(x=x, y=y, markers=True)
     fig.update_xaxes(title='Depth')
     fig.update_yaxes(range=[-1, max(y) + 1], title='Number of Completed Paths')
 
@@ -99,7 +92,7 @@ def experiment_plotly(file):
 
             try:
                 params, _ = sio.curve_fit(func, x, y, maxfev=800000)
-            except RuntimeError as err:
+            except RuntimeError:
                 print("Couldn't fit data")
                 return
             residuals = y - func(x, *params)
@@ -107,7 +100,6 @@ def experiment_plotly(file):
             residuals_dict[func.__name__] = sum_residuals
             coeffs_dict[func.__name__] = params
             params_dict[func.__name__] = numparams[i]
-            line_y = func(x, *params)
             plot_x = np.linspace(min(x), max(x))
             plot_y = func(plot_x, *params)
             plt.plot(plot_x, plot_y, label=func.__name__)
@@ -138,7 +130,8 @@ def experiment_plotly(file):
 
         print(
             f"The minimum functional form is {min_func} with AIC {str(min_AIC)} and residual {str(min_res)} with params {str(min_params)}\n")
-            
+
+        fig.update_layout(title=f'{func_name}: {min_func}')
         fig.show()
 
 
