@@ -40,21 +40,17 @@
 //     return a;
 // }
 //
-// int fib_rec(int n)
-// {
-//     if (n == 0)
-//     {
-//         return 0;
-//     }
-//     else if (n == 1)
-//     {
-//         return 1;
-//     }
-//     else
-//     {
-//         return fib_rec(n - 1) + fib_rec(n - 2);
-//     }
-// }
+int fib_rec(int n)
+{
+    if (n > 2)
+    {
+        return n;
+    }
+    else
+    {
+        return fib_rec(n - 1) + fib_rec(n - 2);
+    }
+}
 //
 // int fact_iter(int n)
 // {
