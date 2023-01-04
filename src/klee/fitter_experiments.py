@@ -81,6 +81,14 @@ def experiment_plotly(file):
     y = np.array([int(j) for j in fram.loc[:, column_name]])
     # ensure intercept is (0, 0) (default is (1, 0))
     x -= 1
+    # remove values from x > 25
+    x = x[:25]
+    y = y[:25]
+    # remove origin for constant functionss
+    if (y[-1] - y[1]) / (x[-1] - x[1]) < 1e-5:
+        x = x[1:]
+        y = y[1:]
+
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='data'))
     fig.update_xaxes(title='Depth')
@@ -125,17 +133,22 @@ def experiment_plotly(file):
                                      name=label, mode='lines', visible=None if i < 3 else 'legendonly'))
 
         min_func = func_and_AIC[0][0]
+        # skip linear
+        if min_func == 'linear':
+            return
         print(
             f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
 
         fig.update_layout(title=f'{func_name}: {min_func}')
+        # autoscale with autorange
+        fig.update_yaxes(autorange=True)
         fig.write_html(plotly_htmls / f'{func_name}.html')
         fig.show()
 
 
 # %%
 # run for all files
-for file in os.listdir(path):
+for file in sorted(os.listdir(path)):
     if "." not in file and os.path.isfile(path / file):
         if not os.path.exists(analysis_path / file):
             os.mkdir(analysis_path / file)
