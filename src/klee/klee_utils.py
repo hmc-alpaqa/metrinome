@@ -157,7 +157,7 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self._logger = logger
 
-    def show_func_defs(self, filename: str, size: int = 10,
+    def show_func_defs(self, filename: str, size: int = 1000,
                        optimized: bool = False) -> dict[str, str]:
         """
         Generate the set of klee-compatible files.
