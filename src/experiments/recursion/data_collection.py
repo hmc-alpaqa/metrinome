@@ -28,8 +28,8 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],
-                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [],
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],  "brapc": [],
+                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [], "brapc_time": [],
                              "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
         with open('/app/code/experiments/recursion/files/files.txt') as funcs:
@@ -48,15 +48,35 @@ class DataCollector:
                 start_time = time.time()
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
+                brapc= ""
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
                 exception_type = "na"
                 runtime = 0.0
                 rruntime = 0.0
+                bruntime = 0.0
                 try:
                     with Timeout(300):
                         rapc = self.recursive_apc_computer.evaluate(graph)
                         rruntime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                start_time = time.time()
+                try:
+                    with Timeout(300):
+                        recurlist = []
+                        end = graph.graph.num_vertices - 1
+                        for node in graph.metadata.calls.keys():
+                            if graph.name.split(".")[1] in graph.metadata.calls[node]:
+                                recurlist += [int(node)]
+                        oldEdges = graph.graph.edges
+                        for node in recurlist:
+                            graph.graph.edges = graph.graph.edges + [[node, 0]]
+                            graph.graph.edges = graph.graph.edges + [[end, node]]
+                        brapc = self.apc_computer.evaluate(graph)
+                        bruntime = time.time() - start_time
+                        graph.graph.edges = oldEdges
                 except Exception as exc:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
@@ -80,8 +100,8 @@ class DataCollector:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "rapc": rapc, "cyclo": cyclo, "npath": npath,
-                           "apc_time": runtime, "rapc_time": rruntime,
+                           "rapc": rapc, "brapc": brapc, "cyclo": cyclo, "npath": npath,
+                           "apc_time": runtime, "rapc_time": rruntime, "brapc_time": bruntime,
                            "num_vertices": graph.graph.num_vertices,
                            "edge_count": graph.graph.edge_count(),
                            "exception_type": exception_type}
