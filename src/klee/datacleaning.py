@@ -7,7 +7,8 @@ from pathlib import Path
 import plotly.express as px
 
 
-path = Path('../../src/tests/cFiles/example_apc/kleedata')
+# path = Path('../../src/tests/cFiles/example_apc/kleedata')
+path = Path('../../src/tests/cFiles/example_apc/kleetest_long_array')
 cleaned_path = path / '../cleaned_kleedata'
 if not os.path.exists(cleaned_path):
     os.mkdir(cleaned_path)
@@ -22,7 +23,7 @@ for file in os.listdir(path):
     if "." not in file and os.path.isfile(path / file):
         func_name = file[len('example_apc_functions_'):]
         plt.clf()
-        fram = pd.read_csv(pa th / file)
+        fram = pd.read_csv(path / file)
         x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])
         y = np.array([int(j) for j in fram.loc[:, "CompletedPaths"]])
 
@@ -59,3 +60,5 @@ for file in os.listdir(path):
         # plt.grid(visible=True)
         # plt.show()
         # new_fram.to_csv(cleaned_path / file)
+
+# %%
