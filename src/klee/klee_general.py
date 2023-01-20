@@ -85,9 +85,8 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
             results = klee_with_preferences_general(klee_command, timeout)
             klee_stats_params = "--table-format=simple --print-all"
             stats = subprocess.run(f"{klee_path}-stats {klee_stats_params} {output_file}", shell=True, stdout=PIPE, stderr=PIPE, check=True)
-
             if remove:
-                subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
+                subprocess.run(f"rm -r {output_file}", shell=True, check=False)
             else:
                 subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
             stats_decoded = stats.stdout.decode().split("\n")
@@ -100,7 +99,7 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
             results_dict[(name, i)] = stats_dict
         except Exception as e:
             if remove:
-                subprocess.run(f"rm -rf {output_file}", shell=True, check=False)
+                subprocess.run(f"rm -r {output_file}", shell=True, check=False)
             else:
                 subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
             print(f"FAILED TO RUN ON {name}, depth={i}")

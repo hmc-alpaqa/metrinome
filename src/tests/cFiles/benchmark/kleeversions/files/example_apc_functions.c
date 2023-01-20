@@ -552,11 +552,10 @@ int ackermann_rec(int m, int n)
 }
 
 // function that counts down in O(n^2) time
-int minmaxsum_iter(int A[])
+int minmaxsum_iter(int A[], int n)
 {
     int max = INT_MIN;
     int min = INT_MAX;
-    int n = sizeof(A) / sizeof(A[0]);
     for (int i = 0; i < n; i++)
     {
         if (A[i] > max)
