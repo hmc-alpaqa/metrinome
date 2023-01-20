@@ -22,7 +22,7 @@ for file in os.listdir(path):
     if "." not in file and os.path.isfile(path / file):
         func_name = file[len('example_apc_functions_'):]
         plt.clf()
-        fram = pd.read_csv(path / file)
+        fram = pd.read_csv(pa th / file)
         x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])
         y = np.array([int(j) for j in fram.loc[:, "CompletedPaths"]])
 
