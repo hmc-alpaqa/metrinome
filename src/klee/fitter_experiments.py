@@ -134,8 +134,8 @@ def experiment_plotly(file):
 
         min_func = func_and_AIC[0][0]
         # skip linear
-        if min_func == 'linear':
-            return
+        # if min_func == 'linear':
+        # return
         print(
             f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
 
