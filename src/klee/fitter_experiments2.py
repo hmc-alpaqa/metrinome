@@ -129,8 +129,8 @@ def experiment_plotly(file):
 
         min_func = func_and_AIC[0][0]
         # skip linear
-        if min_func == 'linear':
-            return
+        # if min_func == 'linear':
+        #     return
         # print coeffs for all funcs
         # for func in coeffs_dict:
         #     print(func, coeffs_dict[func])
