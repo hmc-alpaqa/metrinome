@@ -24,6 +24,14 @@ for dir_ in [analysis_path, plotly_htmls]:
 # %%
 
 
+def basic_expon1(x, A):
+    return np.exp(A * x)
+
+
+def basic_expon2(x, A):
+    return A * np.exp(x)
+
+
 def expon_func(x, A, B):
     return A*np.exp(B*x)
 
@@ -40,20 +48,24 @@ def linear(x, A):
     return A*x
 
 
-def quadratic(x, A, B):
-    return A*(x**2) + B*x
+def linear_exp(x, A, B):
+    return A * x * np.exp(B * x)
 
 
-def cubic(x, A, B, C):
-    return A*(x**3) + B*(x**2) + C*x
+def quadratic(x, A):
+    return A*(x**2)
 
 
-def quartic(x, A, B, C, D):
-    return A*(x**4) + B*(x**3) + C*(x**2) + D*x
+def cubic(x, A):
+    return A*(x**3)
 
 
-def quintic(x, A, B, C, D, E):
-    return A*(x**5) + B*(x**4) + C*(x**3) + D*(x**2) + E*x
+def quartic(x, A):
+    return A*(x**4)
+
+
+def quintic(x, A):
+    return A*(x**5)
 
 
 def num_params(func):
@@ -75,6 +87,8 @@ def experiment_plotly(file):
     fram = pd.read_csv(path / file)
     funcs = [constant, linear, quadratic, cubic,
              expon_func, weird_expon, quartic][::-1]
+    funcs = [constant, linear, quadratic, cubic,
+             basic_expon1, basic_expon2, expon_func, weird_expon, quartic][::-1]
     numparams = [num_params(func) for func in funcs]
 
     x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
@@ -136,6 +150,9 @@ def experiment_plotly(file):
         # skip linear
         if min_func == 'linear':
             return
+        # print coeffs for all funcs
+        for func in coeffs_dict:
+            print(func, coeffs_dict[func])
         print(
             f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
 
@@ -146,7 +163,6 @@ def experiment_plotly(file):
         fig.show()
 
 
-# %%
 # run for all files
 for file in sorted(os.listdir(path)):
     if "." not in file and os.path.isfile(path / file):
