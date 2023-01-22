@@ -7,8 +7,8 @@ from pathlib import Path
 import plotly.express as px
 
 
-# path = Path('../../src/tests/cFiles/example_apc/kleedata')
-path = Path('../../src/tests/cFiles/example_apc/kleetest_long_array')
+path = Path('../../src/tests/cFiles/example_apc/kleedata')
+# path = Path('../../src/tests/cFiles/example_apc/kleetest_long_array')
 cleaned_path = path / '../cleaned_kleedata'
 if not os.path.exists(cleaned_path):
     os.mkdir(cleaned_path)
