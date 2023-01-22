@@ -1,0 +1,42 @@
+graph_names = '''
+example_apc_functions_cfg._Z15polypath_notrecii
+example_apc_functions_cfg._Z26longest_common_subsequencePcS_ii
+example_apc_functions_cfg._Z11bubble_sortPii
+example_apc_functions_cfg._Z18vector_product_recPiS_i
+example_apc_functions_cfg._Z13ackermann_recii
+example_apc_functions_cfg._Z17binary_search_recPiii
+example_apc_functions_cfg._Z10power_iterii
+example_apc_functions_cfg._Z18newtons_method_recdid
+example_apc_functions_cfg._Z9power_recii
+example_apc_functions_cfg._Z13insertionSortPii
+example_apc_functions_cfg._Z14selection_sortPii
+example_apc_functions_cfg._Z17linear_search_recPiii
+example_apc_functions_cfg._Z9fact_iteri
+example_apc_functions_cfg._Z13max_value_recPii
+example_apc_functions_cfg._Z19vector_product_iterPiS_i
+example_apc_functions_cfg._Z7fib_reci
+example_apc_functions_cfg._Z8fact_reci
+example_apc_functions_cfg._Z19newtons_method_iterdid
+example_apc_functions_cfg._Z18binary_search_iterPiii
+example_apc_functions_cfg._Z24longest_common_substringPcS_ii
+example_apc_functions_cfg._Z12polypath_recii
+example_apc_functions_cfg._ZSt3absd
+example_apc_functions_cfg._Z9mergeSortPii
+example_apc_functions_cfg._Z14max_value_iterPii
+example_apc_functions_cfg._Z18linear_search_iterPiii
+example_apc_functions_cfg._Z16dot_product_iterPiS_i
+example_apc_functions_cfg._Z19matrix_product_iterPiS_i
+example_apc_functions_cfg._Z8fib_iteri
+example_apc_functions_cfg._Z9quickSortPii
+'''.strip().splitlines()
+
+# remove example_apc_functions_cfg._Z and any numbers to get graph name
+graph_names = [name[28:] for name in graph_names]
+
+new_names = []
+for name in graph_names:
+    while name[0].isdigit():
+        name = name[1:]
+    new_names.append(name)
+
+print('\n'.join(new_names))

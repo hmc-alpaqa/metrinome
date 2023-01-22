@@ -22,50 +22,31 @@ for dir_ in [analysis_path, plotly_htmls]:
     if not os.path.exists(dir_):
         os.mkdir(dir_)
 # %%
-
-
-def basic_expon1(x, A):
-    return np.exp(A * x)
-
-
-def basic_expon2(x, A):
-    return A * np.exp(x)
-
-
-def expon_func(x, A, B):
+def exp(x, A, B):
     return A*np.exp(B*x)
 
-
-def weird_expon(x, A, B):
-    return A*x*np.exp(B*x)
-
-
-def constant(x, A):
+def const(x, A):
     return A * np.ones(len(x))
 
 
 def linear(x, A):
     return A*x
 
-
-def linear_exp(x, A, B):
-    return A * x * np.exp(B * x)
-
+# def linear_exp(x, A, B):
+#     return A * x * np.exp(B * x)
 
 def quadratic(x, A):
     return A*(x**2)
 
-
 def cubic(x, A):
     return A*(x**3)
-
 
 def quartic(x, A):
     return A*(x**4)
 
-
 def quintic(x, A):
     return A*(x**5)
+
 
 
 def num_params(func):
@@ -79,16 +60,15 @@ def AIC(resid, n, k):
 # def BIC(resid, obs, params):
 #     return obs * np.log(resid/obs) + params * np.log(obs)
 
+def RSS(resid):
+    return np.sum(resid**2)
 
 # %%
 def experiment_plotly(file):
     func_name = file[len('example_apc_functions_'):]
     column_name = 'CompletedPaths'
     fram = pd.read_csv(path / file)
-    funcs = [constant, linear, quadratic, cubic,
-             expon_func, weird_expon, quartic][::-1]
-    funcs = [constant, linear, quadratic, cubic,
-             basic_expon1, basic_expon2, expon_func, weird_expon, quartic][::-1]
+    funcs = [const, linear, quadratic, cubic, quartic, quintic, exp]
     numparams = [num_params(func) for func in funcs]
 
     x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
@@ -128,7 +108,8 @@ def experiment_plotly(file):
             coeffs_dict[func.__name__] = params
             params_dict[func.__name__] = numparams[i]
             name_to_func[func.__name__] = func
-            aic_val = AIC(sum_residuals, len(x), numparams[i])
+            # aic_val = AIC(sum_residuals, len(x), numparams[i])
+            aic_val = sum_residuals / len(residuals)
             aic_dict[func.__name__] = aic_val
             # plt.show()
             # print(
@@ -138,21 +119,21 @@ def experiment_plotly(file):
 
         func_and_AIC = [(func, aic_dict[func]) for func in aic_dict]
         func_and_AIC.sort(key=lambda x: x[1])
-        # add plots, default show only top 3 lowest AICs
+        # add plots, default show only top 2 lowest AICs
         for i, (func, aic) in enumerate(func_and_AIC):
             plot_x = np.linspace(min(x), max(x))
             plot_y = name_to_func[func](plot_x, *coeffs_dict[func])
             label = f'{func} {aic:.3f}'
             fig.add_trace(go.Scatter(x=plot_x, y=plot_y,
-                                     name=label, mode='lines', visible=None if i < 3 else 'legendonly'))
+                                     name=label, mode='lines', visible=None if i < 2 else 'legendonly'))
 
         min_func = func_and_AIC[0][0]
         # skip linear
         if min_func == 'linear':
             return
         # print coeffs for all funcs
-        for func in coeffs_dict:
-            print(func, coeffs_dict[func])
+        # for func in coeffs_dict:
+        #     print(func, coeffs_dict[func])
         print(
             f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
 
@@ -163,6 +144,7 @@ def experiment_plotly(file):
         fig.show()
 
 
+#%%
 # run for all files
 for file in sorted(os.listdir(path)):
     if "." not in file and os.path.isfile(path / file):
