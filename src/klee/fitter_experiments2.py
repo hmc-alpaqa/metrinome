@@ -22,8 +22,11 @@ for dir_ in [analysis_path, plotly_htmls]:
     if not os.path.exists(dir_):
         os.mkdir(dir_)
 # %%
+
+
 def exp(x, A, B):
     return A*np.exp(B*x)
+
 
 def const(x, A):
     return A * np.ones(len(x))
@@ -35,18 +38,21 @@ def linear(x, A):
 # def linear_exp(x, A, B):
 #     return A * x * np.exp(B * x)
 
+
 def quadratic(x, A):
     return A*(x**2)
+
 
 def cubic(x, A):
     return A*(x**3)
 
+
 def quartic(x, A):
     return A*(x**4)
 
+
 def quintic(x, A):
     return A*(x**5)
-
 
 
 def num_params(func):
@@ -60,10 +66,13 @@ def AIC(resid, n, k):
 # def BIC(resid, obs, params):
 #     return obs * np.log(resid/obs) + params * np.log(obs)
 
+
 def RSS(resid):
     return np.sum(resid**2)
 
 # %%
+
+
 def experiment_plotly(file):
     func_name = file[len('example_apc_functions_'):]
     column_name = 'CompletedPaths'
@@ -134,23 +143,52 @@ def experiment_plotly(file):
         # print coeffs for all funcs
         # for func in coeffs_dict:
         #     print(func, coeffs_dict[func])
-        print(
-            f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
+        # print(
+        #     f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
+        # print(f'{func_name}', min_func, convert_func_to_order(
+        #     min_func, coeffs_dict[min_func]))
+        print(convert_func_to_order(
+            min_func, coeffs_dict[min_func]))
 
         fig.update_layout(title=f'{func_name}: {min_func}')
         # autoscale with autorange
         fig.update_yaxes(autorange=True)
-        fig.write_html(plotly_htmls / f'{func_name}.html')
-        fig.show()
+        # fig.write_html(plotly_htmls / f'{func_name}.html')
+        # fig.show()
 
 
-#%%
+def convert_func_to_order(func_name, coeffs):
+    ''' e.g quadratic -> O(n^2) '''
+    if func_name == 'constant':
+        a = coeffs[0]
+        return f'O({a})'
+    elif func_name == 'cubic':
+        return 'O(n^3)'
+    elif func_name == 'exp':
+        base = coeffs[1]
+        # format base to 2 decimal places
+        base = f'{base:.2f}'
+        return f'O({base}^n)'
+    elif func_name == 'linear':
+        return 'O(n)'
+    elif func_name == 'quadratic':
+        return 'O(n^2)'
+    elif func_name == 'quartic':
+        return 'O(n^4)'
+    elif func_name == 'quintic':
+        return 'O(n^5)'
+
+
+# %%
 # run for all files
+num_files = 0
 for file in sorted(os.listdir(path)):
     if "." not in file and os.path.isfile(path / file):
         if not os.path.exists(analysis_path / file):
             os.mkdir(analysis_path / file)
         experiment_plotly(file)
+        num_files += 1
+print(f'Finished {num_files} files')
 
 # %%
 # single file debugging
@@ -319,3 +357,35 @@ experiment(file)
 #             do_analysis(file, column)
 
 # %%
+'''
+O(0.36^n)
+O(0.23^n)
+O(0.23^n)
+O(0.47^n)
+O(n)
+O(n)
+O(n)
+O(n)
+O(n)
+O(0.47^n)
+O(n)
+O(n)
+O(n)
+O(n)
+None
+O(0.39^n)
+O(0.39^n)
+O(0.47^n)
+O(0.41^n)
+O(n)
+O(n)
+O(n^2)
+O(n^2)
+O(n)
+O(n)
+O(n)
+O(0.58^n)
+O(0.47^n)
+O(n)
+O(n)
+'''
