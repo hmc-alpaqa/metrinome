@@ -145,27 +145,27 @@ def experiment_plotly(file):
         #     print(func, coeffs_dict[func])
         # print(
         #     f'Best fit for {func_name} is {min_func} with AIC {func_and_AIC[0][1]}')
-        # print(f'{func_name}', min_func, convert_func_to_order(
-        #     min_func, coeffs_dict[min_func]))
-        print(convert_func_to_order(
+        print(f'{func_name}', min_func, convert_func_to_order_with_lead(
             min_func, coeffs_dict[min_func]))
+        # print(convert_func_to_order_with_lead(
+        #     min_func, coeffs_dict[min_func]))
 
         fig.update_layout(title=f'{func_name}: {min_func}')
         # autoscale with autorange
         fig.update_yaxes(autorange=True)
         # fig.write_html(plotly_htmls / f'{func_name}.html')
-        # fig.show()
+        fig.show()
 
 
 def convert_func_to_order(func_name, coeffs):
     ''' e.g quadratic -> O(n^2) '''
-    if func_name == 'constant':
+    if func_name == 'const':
         a = coeffs[0]
         return f'O({a})'
     elif func_name == 'cubic':
         return 'O(n^3)'
     elif func_name == 'exp':
-        base = coeffs[1]
+        base = np.exp(coeffs[1])
         # format base to 2 decimal places
         base = f'{base:.2f}'
         return f'O({base}^n)'
@@ -177,6 +177,34 @@ def convert_func_to_order(func_name, coeffs):
         return 'O(n^4)'
     elif func_name == 'quintic':
         return 'O(n^5)'
+
+
+def convert_func_to_order_with_lead(func_name, coeffs):
+    ''' e.g quadratic -> O(n^2) '''
+    if func_name == 'const':
+        a = f'{coeffs[0]:.2f}'
+        return f'O({a})'
+    elif func_name == 'linear':
+        a = f'{coeffs[0]:.2f}'
+        return f'O({a} * n)'
+    elif func_name == 'quadratic':
+        a = f'{coeffs[0]:.2f}'
+        return f'O({a} * n^2)'
+    elif func_name == 'cubic':
+        a = f'{coeffs[0]:.2f}'
+        return f'O({a} * n^3)'
+    elif func_name == 'quartic':
+        a = f'{coeffs[0]:.2f}'
+        return f'O({a} * n^4)'
+    elif func_name == 'quintic':
+        a = f'{coeffs[0]:.2f}'
+        return f'O({a} * n^5)'
+    elif func_name == 'exp':
+        a = f'{coeffs[0]:.2f}'
+        base = np.exp(coeffs[1])
+        # format base to 2 decimal places
+        base = f'{base:.2f}'
+        return f'O({a} * {base}^n)'
 
 
 # %%
@@ -197,6 +225,7 @@ file = 'example_apc_functions_max_value_iter_normal'
 file = 'example_apc_functions_fib_rec_normal'
 file = 'example_apc_functions_power_rec_normal'
 file = 'example_apc_functions_' + 'polypath_notrec_eli_normal'
+file = 'example_apc_functions_' + 'matrix_product_iter_normal' 
 experiment_plotly(file)
 # %%
 
@@ -358,25 +387,25 @@ experiment(file)
 
 # %%
 '''
-O(0.36^n)
-O(0.23^n)
-O(0.23^n)
-O(0.47^n)
+O(1.43^n)
+O(1.26^n)
+O(1.26^n)
+O(1.60^n)
 O(n)
 O(n)
 O(n)
 O(n)
 O(n)
-O(0.47^n)
+O(1.60^n)
 O(n)
 O(n)
-O(n)
-O(n)
-None
-O(0.39^n)
-O(0.39^n)
-O(0.47^n)
-O(0.41^n)
+O(1.02^n)
+O(1.02^n)
+O(1.0)
+O(1.48^n)
+O(1.48^n)
+O(1.61^n)
+O(1.51^n)
 O(n)
 O(n)
 O(n^2)
@@ -384,8 +413,71 @@ O(n^2)
 O(n)
 O(n)
 O(n)
-O(0.58^n)
-O(0.47^n)
+O(1.79^n)
+O(1.60^n)
 O(n)
 O(n)
+'''
+'''
+ackermann_rec_normal exp O(0.36^n)
+binary_search_iter_normal exp O(0.23^n)
+binary_search_rec_normal exp O(0.23^n)
+bubble_sort_normal exp O(0.47^n)
+dot_product_iter_normal linear O(n)
+fact_iter_normal linear O(n)
+fact_rec_normal linear O(n)
+fib_iter_normal linear O(n)
+fib_rec_normal linear O(n)
+insertionSort_normal exp O(0.47^n)
+linear_search_iter_normal linear O(n)
+linear_search_rec_normal linear O(n)
+longest_common_subsequence_normal exp O(0.02^n)
+longest_common_substring_normal exp O(0.02^n)
+matrix_product_iter_normal const None
+max_value_iter_normal exp O(0.39^n)
+max_value_rec_normal exp O(0.39^n)
+mergeSort_normal exp O(0.47^n)
+minmaxsum_iter_normal exp O(0.41^n)
+newtons_method_iter_normal linear O(n)
+newtons_method_rec_normal linear O(n)
+polypath_notrec_eli_normal quadratic O(n^2)
+polypath_rec_eli_normal quadratic O(n^2)
+polypath_rec_normal linear O(n)
+power_iter_normal linear O(n)
+power_rec_normal linear O(n)
+quickSort_normal exp O(0.58^n)
+selection_sort_normal exp O(0.47^n)
+vector_product_iter_normal linear O(n)
+vector_product_rec_normal linear O(n)
+
+
+O(1.35^n)
+O(1.15^n)
+O(0.15*1.27^n)
+O(0.33*n)
+O(0.33*n)
+O(0.33*n)
+O(0.33*n)
+O(1.26^n)
+O(0.11*1.35^n)
+O(0.50*n)
+O(0.50*n)
+O(0.68*1.31^n)
+O(0.57*1.28^n)
+O(0.12*1.25^n)
+O(0.98*1.17^n)
+O(1.35^n)
+na
+O(1.17^n)
+O(0.66*1.19^n)
+O(0.66*1.19^n)
+O(0.12*n^2)
+O(0.08*n^2)
+O(0.33*n)
+O(0.33*n)
+O(1.39^n)
+O(0.15*1.27^n)
+O(1)
+O(0.33*n)
+O(0.33*n)
 '''
