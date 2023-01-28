@@ -1,0 +1,1 @@
+vector_product_rec_normal linear O(1.00 * n)

@@ -17,6 +17,7 @@ import plotly.graph_objects as go
 path = Path('../../src/tests/cFiles/example_apc/cleaned_kleedata')
 analysis_path = path / 'bestfitanalysis'
 plotly_htmls = path / 'plotly_htmls'
+plotly_images = path / 'plotly_images'
 
 for dir_ in [analysis_path, plotly_htmls]:
     if not os.path.exists(dir_):
@@ -80,7 +81,7 @@ def experiment_plotly(file):
     funcs = [const, linear, quadratic, cubic, quartic, quintic, exp]
     numparams = [num_params(func) for func in funcs]
 
-    x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])
+    x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
     y = np.array([int(j) for j in fram.loc[:, column_name]])
     # ensure intercept is (0, 0) (default is (1, 0))
     x -= 1
@@ -154,6 +155,9 @@ def experiment_plotly(file):
         # autoscale with autorange
         fig.update_yaxes(autorange=True)
         # fig.write_html(plotly_htmls / f'{func_name}.html')
+        # save to file
+        fig.write_image(plotly_images / f'{func_name}.png', format='png', width=1000, height=600, scale=1)
+        results_file.write(f'{func_name} {min_func} {convert_func_to_order_with_lead(min_func, coeffs_dict[min_func])}\n')
         fig.show()
 
 

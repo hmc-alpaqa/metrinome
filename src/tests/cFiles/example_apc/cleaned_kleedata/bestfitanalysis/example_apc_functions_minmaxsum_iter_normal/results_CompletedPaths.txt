@@ -1,0 +1,1 @@
+minmaxsum_iter_normal exp O(0.38 * 1.51^n)

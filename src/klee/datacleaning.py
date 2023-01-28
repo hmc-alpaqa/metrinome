@@ -22,8 +22,6 @@ def comparedepth(series, depth):
 for file in os.listdir(path):
     if "." not in file and os.path.isfile(path / file):
         func_name = file[len('example_apc_functions_'):]
-        if 'matrix_mul_no' not in func_name:
-            continue
         plt.clf()
         fram = pd.read_csv(path / file)
         x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])

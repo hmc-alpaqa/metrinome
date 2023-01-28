@@ -1,0 +1,1 @@
+quickSort_normal exp O(0.03 * 1.79^n)

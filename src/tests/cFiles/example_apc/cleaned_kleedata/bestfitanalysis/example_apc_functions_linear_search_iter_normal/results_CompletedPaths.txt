@@ -1,0 +1,1 @@
+linear_search_iter_normal linear O(1.00 * n)
