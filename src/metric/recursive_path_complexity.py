@@ -19,6 +19,8 @@ from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, ca
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
+PRECISION = 11
+
 class RecursivePathComplexity(ABC):
     """The interface that all metric computers should follow."""
 
@@ -32,20 +34,23 @@ class RecursivePathComplexity(ABC):
 
     def evaluate(self, cfg: ControlFlowGraph) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
-        adjMatrix = cfg.graph.adjacency_matrix()
-        edgelist = []
+        # adjMatrix = cfg.graph.adjacency_matrix()
+        # print(cfg.graph.edge_rules())
+        # edgelist = []
         recurlist = []
-        for rowIndex, row in enumerate(adjMatrix):
-            for colIndex, value in enumerate(row):
-                if value ==1:
-                    edgelist += [[rowIndex, colIndex]]
+        # for rowIndex, row in enumerate(adjMatrix):
+        #     for colIndex, value in enumerate(row):
+        #         if value ==1:
+        #             edgelist += [[rowIndex, colIndex]]
         for node in cfg.metadata.calls.keys():
             for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                 recurlist += [int(node)]
-        self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
+        edgelist = cfg.graph.edge_rules()
+        # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
         apc = self.recurapc(edgelist, recurlist)
+        print(apc)
         return apc
 
     def recurapc(self, edgelist, recurlist):
@@ -95,12 +100,12 @@ class RecursivePathComplexity(ABC):
             if numRoots < maxPow:
                 newRootsDict = {}
 
-                approxroots = sympy.nroots(denominator, n=12, maxsteps=1000)
+                approxroots = sympy.nroots(denominator, n=(PRECISION + 1), maxsteps=1000)
 
                 for root in approxroots:
                     found = False
                     for dictRoot in newRootsDict.keys():
-                        if abs(root-dictRoot)<10**(-11):
+                        if abs(root-dictRoot)<10**(-PRECISION):
                             newRootsDict[dictRoot] += 1
                             found = True
                             break
@@ -163,7 +168,7 @@ class RecursivePathComplexity(ABC):
             self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
-            rStar = min(map(lambda x: x if x >10**(-11) else sympy.oo,self.realnroots(discrim)))
+            rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
@@ -171,6 +176,7 @@ class RecursivePathComplexity(ABC):
             pc = sympy.N(1/rStar)**symbols("n")
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
+            apc = big_o(list(apc.args))
         apc = sympy.N(apc)
         return (apc, pc)
 
@@ -307,6 +313,8 @@ class RecursivePathComplexity(ABC):
 
     def clean(self, system, symb):
         """Gets rid of complex numbers and makes things cleaner"""
+        if type(system) == str:
+            system = sympy.parse_expr(system)
         if "I" in str(system):
             if str(symb) in str(system):
                 if type(system) == sympy.Add:
@@ -333,21 +341,21 @@ class RecursivePathComplexity(ABC):
             splitEq = str(eq).split("/")
             numerator = sympy.parse_expr(splitEq[0])
             denominator = sympy.parse_expr(splitEq[1])
-            numroots = sympy.nroots(numerator, n=12, maxsteps=1000)
+            numroots = sympy.nroots(numerator, n=(PRECISION + 1), maxsteps=1000)
             self.logger.d_msg(f"numroots: {numroots}")
-            denoroots = sympy.nroots(denominator, n=12, maxsteps=1000)
+            denoroots = sympy.nroots(denominator, n=(PRECISION + 1), maxsteps=1000)
             self.logger.d_msg(f"denoroots: {denoroots}")
             for root in numroots:
                 for badRoot in denoroots:
-                    if abs(root-badRoot)<10**(-11):
+                    if abs(root-badRoot)<10**(-PRECISION):
                         numroots.remove(root)
                         break
             self.logger.d_msg(f"numroots: {numroots}")
             #ask bang about root nonsense
         else:
-            numroots = sympy.nroots(eq, n=12, maxsteps=1000)
+            numroots = sympy.nroots(eq, n=(PRECISION + 1), maxsteps=1000)
         realnroots = []
         for root in numroots:
-            if sympy.Abs(sympy.im(root))<10**(-11):
+            if sympy.Abs(sympy.im(root))<10**(-PRECISION):
                 realnroots += [sympy.re(root)]
         return realnroots

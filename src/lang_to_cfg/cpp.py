@@ -73,6 +73,7 @@ class CPPConvert(converter.ConverterAbstract):
             content = old_file.readlines()
             for line in content[1:]:
                 line = line.strip()
+                print(line)
 
                 # Throw out the label (e.g. label="CFG for 'main' function")
                 # for the graph and remove whitespace.
@@ -84,6 +85,7 @@ class CPPConvert(converter.ConverterAbstract):
                 if is_edge is None:
                     node_name = re.match(self._name_pattern, line.lstrip())
                     if node_name is None:
+
                         continue
 
                     node_name_str = node_name.groups()[0].strip()
@@ -91,21 +93,26 @@ class CPPConvert(converter.ConverterAbstract):
                     node_to_add = str(counter)
                     calls = re.finditer(self._call_pattern, line.lstrip())
                     label = ""
+                    call_label = ""
                     for call in calls:
-                        if counter == 0 and call is not None:
-                            call_label = call.group(0)[1:-1]
-                            label = f" [label=\"START CALLS {call_label}\"]"
-                        elif counter == 0:
-                            label = " [label=\"START\"]"
-                        elif call is not None:
-                            call_label = call.group(0)[1:-1]
-                            label = f" [label=\"CALLS {call_label}\"]"
-                        node_to_add += label
+                        call_label += " "
+                        call_label += call.group(0)[1:-1]
+                    if counter == 0 and call_label != "":
+                        label = f" [label=\"START CALLS{call_label}\"]"
+                    elif counter == 0:
+                        label = " [label=\"START\"]"
+                    elif call_label != "":
+                        label = f" [label=\"CALLS{call_label}\"]"
+                    node_to_add += label
+                        #print(label)
+                    print(node_to_add)
                     nodes.append(node_to_add)
 
                     counter += 1
                 else:
                     edges += [line]
+            print(node_map)
+            print(edges)
         return nodes, edges, node_map, counter
 
     def convert_file_to_standard(self, file: str,
