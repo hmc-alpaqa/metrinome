@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// empty integer array of size 1000
+int mem[1000];
+int used = 0;
+char lcs[1000];
+
 int linear_search_iter(int A[], int n, int x)
 {
     for (int i = 0; i < n; i++)
@@ -212,9 +217,8 @@ int vector_product_rec(int A[], int B[], int n)
 }
 
 // function that multiplies two 2d matrices
-int *matrix_product_iter(int A[], int B[], int n)
+void matrix_product_iter(int A[], int B[], int n, int product[])
 {
-    int *product = (int *)malloc(n * n * sizeof(int));
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
@@ -226,7 +230,7 @@ int *matrix_product_iter(int A[], int B[], int n)
             }
         }
     }
-    return product;
+    return;
 }
 
 // function that finds the approximation of a n-root of a number using newton's method
@@ -301,8 +305,6 @@ char* longest_common_subsequence(char *a, char *b, int a_len, int b_len)
             }
         }
     }
-    // create a string to store the longest common subsequence
-    char* lcs = (char *)malloc((dp[a_len][b_len] + 1) * sizeof(char));
     // initialize the string
     for (int i = 0; i < dp[a_len][b_len] + 1; i++)
     {
@@ -372,8 +374,6 @@ char* longest_common_substring(char *a, char *b, int a_len, int b_len)
             }
         }
     }
-    // create a string to store the longest common substring
-    char *lcs = (char *)malloc((max + 1) * sizeof(char));
     // initialize the string
     for (int i = 0; i < max + 1; i++)
     {
@@ -488,16 +488,19 @@ void quickSort(int A[], int n)
 }
 
 // function that performs mergesort on array
-void mergeSort(int A[], int n)
+void mergeSort(int A[], int n, int left, int right)
 {
     if (n <= 1)
     {
         return;
     }
     int m = n / 2;
-    mergeSort(A, m);
-    mergeSort(A + m, n - m);
-    int *temp = (int *)malloc(n * sizeof(int));
+    int start = used;
+    used += m;
+    mergeSort(A, m, start, start + m);
+    used += (n-m);
+    mergeSort(A + m, n - m, start + m, start + n);
+    int *temp = &mem[left];
     int i = 0;
     int j = m;
     int k = 0;
@@ -531,7 +534,6 @@ void mergeSort(int A[], int n)
     {
         A[i] = temp[i];
     }
-    free(temp);
 }
 
 // function that implements ackermann's function
@@ -593,14 +595,5 @@ int polypath_rec(int n)
  
 int main(void)
 {
-    for(int i = 0; i < 10; i++)
-    {
-        printf("%d ", triangle_rec(i));
-        printf("%d ", triangle_iter(i));
-        printf("\n");
-    }
-    // printf("%d ", triangle_rec(4));
-    // printf("%d ", test);
-
     return 0;
 }
