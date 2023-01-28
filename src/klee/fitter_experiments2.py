@@ -80,7 +80,7 @@ def experiment_plotly(file):
     funcs = [const, linear, quadratic, cubic, quartic, quintic, exp]
     numparams = [num_params(func) for func in funcs]
 
-    x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
+    x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])
     y = np.array([int(j) for j in fram.loc[:, column_name]])
     # ensure intercept is (0, 0) (default is (1, 0))
     x -= 1
