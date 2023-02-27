@@ -1,0 +1,21 @@
+array b65a9c6dd14c4ca08ce7f6955dc56508[8] : w32 -> w8 = symbolic
+array fd79f77ec4cf47868a48dff96655c5ac[8] : w32 -> w8 = symbolic
+(query [(Ult (Add w64 18446649255189012224
+                       (ReadLSB w64 0 b65a9c6dd14c4ca08ce7f6955dc56508))
+              5)
+         (Eq false
+             (Eq 0
+                 N0:(ReadLSB w64 0 fd79f77ec4cf47868a48dff96655c5ac)))
+         (Eq false
+             (Ult (Add w64 9 N0) 19))
+         (Eq false
+             (Ult (Add w64 9 N1:(SDiv w64 N0 10))
+                  19))
+         (Ult (Add w64 9 N2:(SDiv w64 N1 10))
+              19)
+         (Eq false
+             (Slt 9
+                  (Mul w32 (Mul w32 (Extract w32 0 (SRem w64 N0 10))
+                                    (Extract w32 0 (SRem w64 N1 10)))
+                           (Extract w32 0 (SRem w64 N2 10)))))]
+        false)
