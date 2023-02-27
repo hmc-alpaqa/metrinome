@@ -1,0 +1,8 @@
+Error: memory error: object read only
+File: /app/code/tests/cFiles/benchmark/kleeversions/files/digital-root-multiplicative-digital-root.c
+Line: 16
+assembly.ll line: 59
+State: 4
+Stack: 
+	#000000059 in _mdr (, , ) at /app/code/tests/cFiles/benchmark/kleeversions/files/digital-root-multiplicative-digital-root.c:16
+	#100000087 in main () at /app/code/tests/cFiles/benchmark/kleeversions/kleetest/digital-root-multiplicative-digital-root__mdr_.c:14
