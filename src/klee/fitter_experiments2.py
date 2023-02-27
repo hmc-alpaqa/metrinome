@@ -94,6 +94,12 @@ def experiment_plotly(file):
         y = y[1:]
 
     fig = go.Figure()
+    # small fig size
+    fig.update_layout(
+        autosize=False,
+        width=500,
+        height=350,
+    )
     fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='data'))
     fig.update_xaxes(title='Depth')
     fig.update_yaxes(range=[-1, max(y) + 1], title='Number of Completed Paths')
@@ -136,6 +142,9 @@ def experiment_plotly(file):
             label = f'{func} {aic:.3f}'
             fig.add_trace(go.Scatter(x=plot_x, y=plot_y,
                                      name=label, mode='lines', visible=None if i < 2 else 'legendonly'))
+        
+        # label the legend "MSEs"
+        fig.update_layout(legend_title_text='MSEs')
 
         min_func = func_and_AIC[0][0]
         # skip linear
@@ -229,7 +238,7 @@ file = 'example_apc_functions_max_value_iter_normal'
 file = 'example_apc_functions_fib_rec_normal'
 file = 'example_apc_functions_power_rec_normal'
 file = 'example_apc_functions_' + 'polypath_notrec_eli_normal'
-file = 'example_apc_functions_' + 'matrix_product_iter_normal' 
+file = 'example_apc_functions_' + 'insertionSort_normal' 
 experiment_plotly(file)
 # %%
 
