@@ -42,7 +42,7 @@ class FunctionCallPathComplexity(ABC):
         all_edges = []
         # TODO: use full name of cfg (file name is deleted here)
         used_graphs = [cfg.name.split('.')[1]]
-        print('ALL CFGS', all_cfgs)
+        print('CFG NAME', cfg.name.split('.')[1])
         graphs_to_process = deque([cfg])
         # for rowIndex, row in enumerate(adjMatrix):
         #     for colIndex, value in enumerate(row):
