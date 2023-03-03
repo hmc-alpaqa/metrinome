@@ -49,6 +49,7 @@ class DataCollector:
                 print("No Graphs")
                 continue
 
+            print('**GRAPH', graphs)
             for graph in graphs.values():
                 start_time = time.time()
                 apc: Union[str, PathComplexityRes] = "na"

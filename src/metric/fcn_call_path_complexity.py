@@ -43,9 +43,10 @@ class FunctionCallPathComplexity(ABC):
         #         if value ==1:
         #             edgelist += [[rowIndex, colIndex]]
         # ?? function call finding?
+        print('CALLS', cfg.metadata.calls)
         for node in cfg.metadata.calls.keys():
             print('node', node)
-            print('cfg.name.split', cfg.name.split(".")[1])
+            print('cfg.name.split', cfg.name)
             for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                 recurlist += [int(node)]
         edgelist = cfg.graph.edge_rules()
@@ -53,7 +54,7 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
         apc = self.recurapc(edgelist, recurlist)
-        print(apc)
+        # print(apc)
         return apc
 
     def recurapc(self, edgelist, recurlist):
@@ -65,7 +66,7 @@ class FunctionCallPathComplexity(ABC):
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
         try:
-            print("hello")
+            # print("hello")
             numroots = len(self.realnroots(discrim))
         except:
             numroots = 0
@@ -74,7 +75,7 @@ class FunctionCallPathComplexity(ABC):
             T = symbols("T")
             x = symbols("x")
             gens = sympy.solve(gamma,T)
-            print(gens)
+            # print(gens)
             possibleGenFunc = []
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
@@ -84,7 +85,7 @@ class FunctionCallPathComplexity(ABC):
                 genFunc = possibleGenFunc[0]/(1-x)
                 self.logger.d_msg(f"Generating Function: {genFunc}")
             else:
-                print(possibleGenFunc)
+                # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
             denominator = 1
             for factor in genFunc.args:
@@ -132,7 +133,7 @@ class FunctionCallPathComplexity(ABC):
             exprs = []
             symbs = set()
             for term in Tseries.args:
-                print(term)
+                # print(term)
                 if not type(term) == sympy.Order:
                     c = str(term).split("*")[0]
                     if c == "x":
@@ -217,6 +218,7 @@ class FunctionCallPathComplexity(ABC):
             system += [expr - sym]
         eq1 = symbols("V0")*x - firstnode
         symbs = [firstnode]+symbs
+        print('SYSTEM', [eq1] + system)
         gamma = sympy.expand(self.eliminate([eq1]+system, symbs))
         return gamma
 
@@ -276,7 +278,7 @@ class FunctionCallPathComplexity(ABC):
                     MatrixArray[j + Qpow][i +j] = Qcoeffs[i]
         m = Matrix(MatrixArray)
         m = m.T
-        print(m)
+        # print(m)
         return m.det()
 
     def termPow(self, term, symb):
@@ -329,8 +331,8 @@ class FunctionCallPathComplexity(ABC):
                     for term in system.args:
                         newSys *= self.clean(term, symb)
                 else:
-                    print(system)
-                    print(type(system))
+                    # print(system)
+                    # print(type(system))
                     newSys = system
                 return newSys
             else:
