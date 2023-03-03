@@ -228,11 +228,8 @@ class FunctionCallPathComplexity(ABC):
         num_cfgs = max([int(edge[0].split('_')[0]) for edge in edgelist]) + 1
 
         init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
-        firstnode = symbols("T")
-        recurexpr = firstnode
         system = []
         x = symbols('x')
-        accGF = 1/(1-x)
         symbs = []
         for startnode in edgedict:
             endnodes = edgedict[startnode]
@@ -248,15 +245,9 @@ class FunctionCallPathComplexity(ABC):
                 for calling_node, called_fcn_idx in call_list:
                     if calling_node == startnode:
                         expr = init_nodes[called_fcn_idx] * expr
-
-                # for i in range(call_list.count(int(startnode))):
-                #     expr = recurexpr * expr #recursion
             system += [expr - sym]
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
-        print(init_eqns)
-        # eq1 = symbols("V0")*x - firstnode
-        # symbs = [firstnode]+symbs
         print('SYSTEM', init_eqns + system)
         gamma = sympy.expand(self.eliminate(init_eqns + system, symbs))
         return gamma
