@@ -2,8 +2,8 @@
 
 import re
 from abc import ABC, abstractmethod
-from collections import defaultdict
-from typing import Union
+from collections import defaultdict, deque
+from typing import Union, List
 
 import numpy as np  # type: ignore
 import sympy  # type: ignore
@@ -38,18 +38,43 @@ class FunctionCallPathComplexity(ABC):
         # print(cfg.graph.edge_rules())
         # edgelist = []
         recurlist = []
+        call_list = []
+        # TODO: use full name of cfg (file name is deleted here)
+        used_graphs = [cfg.name]
+        print('ALL CFGS', all_cfgs)
+        graphs_to_process = deque([cfg])
         # for rowIndex, row in enumerate(adjMatrix):
         #     for colIndex, value in enumerate(row):
         #         if value ==1:
         #             edgelist += [[rowIndex, colIndex]]
         # ?? function call finding?
-        print('CALLS', cfg.metadata.calls)
-        for node in cfg.metadata.calls.keys():
-            print('node', node)
-            print('cfg.name.split', cfg.name)
-            for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
-                recurlist += [int(node)]
-        edgelist = cfg.graph.edge_rules()
+        while graphs_to_process:
+            cfg = graphs_to_process.popleft()
+            print('CALLS', cfg.metadata.calls)
+            for node in cfg.metadata.calls.keys():
+                for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
+                    recurlist += [int(node)]
+                
+                # loop through functions that are called
+                for called_fcn in cfg.metadata.calls[node].split():
+                    # add graphs to used_graphs
+                    if called_fcn in ['START', 'CALLS']:
+                        continue
+                    if called_fcn not in used_graphs:
+                        used_graphs.append(called_fcn)
+                        # find graph from all_cfgs, add to graphs_to_process
+                        for graph_name in all_cfgs:
+                            if graph_name.split('.')[1] == called_fcn:
+                                graphs_to_process.append(all_cfgs[graph_name])
+                                break
+                    # Call (i, j) from function i node j
+                    print('***')
+                    print(used_graphs)
+                    print(cfg.name)
+                    call_list.append((int(node), called_fcn))
+            print('CALL LIST', call_list)
+            edgelist = cfg.graph.edge_rules()
+            print('EDGES', edgelist)
         # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")

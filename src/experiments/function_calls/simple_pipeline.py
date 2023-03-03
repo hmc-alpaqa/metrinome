@@ -1,4 +1,3 @@
-# %%
 """Various utilities used only for testing and not the main REPL."""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
@@ -10,17 +9,14 @@ from typing import Union
 import time
 import os
 import sys
-sys.path.append("../")
-
-
-# %%
 
 class DataCollector:
     """Compute and store all complexity metrics and timing data."""
 
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
-        log = Log(log_level=LogLevel.DEBUG)
+        # log = Log(log_level=LogLevel.DEBUG)
+        log = Log(log_level=LogLevel.REGULAR)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
         self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(
