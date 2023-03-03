@@ -15,8 +15,8 @@ class DataCollector:
 
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
-        # log = Log(log_level=LogLevel.DEBUG)
-        log = Log(log_level=LogLevel.REGULAR)
+        log = Log(log_level=LogLevel.DEBUG)
+        # log = Log(log_level=LogLevel.REGULAR)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
         self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(

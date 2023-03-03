@@ -1,44 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-int fact(int n)
-{
-    if (n == 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return n * fact(n - 1);
-    }
-}
-
-int fact_wrapper(int n)
-{
-    return fact(n);
-}
-
-// int gcd(int a, int b)
+// int fact(int n)
 // {
-//     while (a != b)
+//     if (n == 0)
 //     {
-//         if (a > b)
-//         {
-//             a = a - b;
-//         }
-//         else
-//         {
-//             b = b - a;
-//         }
+//         return 1;
 //     }
-//     return a;
+//     else
+//     {
+//         return n * fact(n - 1);
+//     }
 // }
 
-// int gcd_wrapper(int a, int b)
+// int fact_wrapper(int n)
 // {
-//     return gcd(a, b);
+//     return fact(n);
 // }
+
+int gcd(int a, int b)
+{
+    while (a != b)
+    {
+        if (a > b)
+        {
+            a = a - b;
+        }
+        else
+        {
+            b = b - a;
+        }
+    }
+    return a;
+}
+
+int gcd_wrapper(int a, int b)
+{
+    return gcd(a, b);
+}
 
 // void merge(int arr[], int l, int m, int r)
 // {
@@ -106,39 +105,39 @@ int fact_wrapper(int n)
 //     }
 // }
 
-// void swap(int *a, int *b)
-// {
-//     int temp = *a;
-//     *a = *b;
-//     *b = temp;
-// }
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
-// int partition(int arr[], int low, int high)
-// {
-//     int pivot = arr[high];
-//     int i = (low - 1);
+int partition(int arr[], int low, int high)
+{
+    int pivot = arr[high];
+    int i = (low - 1);
 
-//     for (int j = low; j <= high - 1; j++)
-//     {
-//         if (arr[j] < pivot)
-//         {
-//             i++;
-//             swap(&arr[i], &arr[j]);
-//         }
-//     }
-//     swap(&arr[i + 1], &arr[high]);
-//     return (i + 1);
-// }
+    for (int j = low; j <= high - 1; j++)
+    {
+        if (arr[j] < pivot)
+        {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
 
-// void quickSort(int arr[], int low, int high)
-// {
-//     if (low < high)
-//     {
-//         int pi = partition(arr, low, high);
-//         quickSort(arr, low, pi - 1);
-//         quickSort(arr, pi + 1, high);
-//     }
-// }
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
 
 // // calls fact_wrapper -> calls fact
 // int sum_factorials(int n)
@@ -151,20 +150,26 @@ int fact_wrapper(int n)
 //     return sum;
 // }
 
-// bool is_even(int n) {
-//     if (n == 0) {
-//         return true;
+// int is_even(int n)
+// {
+//     if (n == 0)
+//     {
+//         return 1;
 //     }
-//     else {
+//     else
+//     {
 //         return is_odd(n - 1);
 //     }
 // }
 
-// bool is_odd(int n) {
-//     if (n == 0) {
-//         return false;
+// int is_odd(int n)
+// {
+//     if (n == 0)
+//     {
+//         return 0;
 //     }
-//     else {
+//     else
+//     {
 //         return is_even(n - 1);
 //     }
 // }
