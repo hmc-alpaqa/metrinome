@@ -69,7 +69,7 @@ class FunctionCallPathComplexity(ABC):
                                 graphs_to_process.append(all_cfgs[graph_name])
                                 break
                     # Call (i, j) from function i node j
-                    call_list.append((f'{fcn_idx}_{int(node)}', called_fcn))
+                    call_list.append((f'{fcn_idx}_{int(node)}', used_graphs.index(called_fcn)))
             edge_list = cfg.graph.edge_rules()
             # add fcn_idx to tuple (i, j) where i is fcn_idx and j is node num
             # edge_list = [((fcn_idx, edge[0]), (fcn_idx, edge[1])) for edge in edge_list]
@@ -217,43 +217,48 @@ class FunctionCallPathComplexity(ABC):
         return (apc, pc)
 
 
-    def gammaFunction(self, edgelist, recurlist):
+    def gammaFunction(self, edgelist, call_list):
         """Takes in a list of all edges in a graph, and a list of where recursive calls are
         located, and calculates a gamma function in terms of x and the start node"""
-        edgedict = {}
+        edgedict = defaultdict(list)
         for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
-            startnode = str(edge[0])
-            print('****', startnode)
-            if startnode in edgedict:
-                endnodes = edgedict[startnode] + [str(edge[1])]
-            else:
-                endnodes = [str(edge[1])]
-            edgedict[startnode] = endnodes
+            edgedict[edge[0]].append(edge[1])
+
+        # num_cfgs is max i in i_j for all edges + 1
+        num_cfgs = max([int(edge[0].split('_')[0]) for edge in edgelist]) + 1
+
+        init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
+        firstnode = symbols("T")
+        recurexpr = firstnode
         system = []
         x = symbols('x')
         accGF = 1/(1-x)
-        firstnode = symbols("T")
-        recurexpr = firstnode
         symbs = []
-        for startnode in edgedict.keys():
+        for startnode in edgedict:
             endnodes = edgedict[startnode]
             expr = 0
             sym = symbols("V" + str(startnode)) #chr(int(startnode) + 65)
             symbs += [sym]
             for node in endnodes:
-                if str(node) in edgedict.keys(): #makes sure the end node is not terminal
+                if str(node) in edgedict: #makes sure the end node is not terminal
                     var = symbols("V" + str(node)) #str(chr(node+ 65))
-                    print(var, x)
                     expr = expr + var*x
                 else:
                     expr = expr + x
-                for i in range(recurlist.count(int(startnode))):
-                    expr = recurexpr * expr #recursion
+                for calling_node, called_fcn_idx in call_list:
+                    if calling_node == startnode:
+                        expr = init_nodes[called_fcn_idx] * expr
+
+                # for i in range(call_list.count(int(startnode))):
+                #     expr = recurexpr * expr #recursion
             system += [expr - sym]
-        eq1 = symbols("V0")*x - firstnode
-        symbs = [firstnode]+symbs
-        print('SYSTEM', [eq1] + system)
-        gamma = sympy.expand(self.eliminate([eq1]+system, symbs))
+
+        init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
+        print(init_eqns)
+        # eq1 = symbols("V0")*x - firstnode
+        # symbs = [firstnode]+symbs
+        print('SYSTEM', init_eqns + system)
+        gamma = sympy.expand(self.eliminate(init_eqns + system, symbs))
         return gamma
 
 
