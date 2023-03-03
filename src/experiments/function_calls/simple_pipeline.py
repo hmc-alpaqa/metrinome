@@ -2,7 +2,7 @@
 """Various utilities used only for testing and not the main REPL."""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
-from metric import cyclomatic_complexity, npath_complexity, path_complexity, recursive_path_complexity
+from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
 import pandas as pd  # type: ignore
@@ -23,7 +23,7 @@ class DataCollector:
         log = Log(log_level=LogLevel.DEBUG)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
-        self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(
+        self.recursive_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(
             log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)

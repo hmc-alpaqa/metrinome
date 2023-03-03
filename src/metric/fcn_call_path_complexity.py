@@ -21,7 +21,7 @@ PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
 PRECISION = 11
 
-class RecursivePathComplexity(ABC):
+class FunctionCallPathComplexity(ABC):
     """The interface that all metric computers should follow."""
 
     def __init__(self, logger: Log) -> None:
@@ -42,7 +42,10 @@ class RecursivePathComplexity(ABC):
         #     for colIndex, value in enumerate(row):
         #         if value ==1:
         #             edgelist += [[rowIndex, colIndex]]
+        # ?? function call finding?
         for node in cfg.metadata.calls.keys():
+            print('node', node)
+            print('cfg.name.split', cfg.name.split(".")[1])
             for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                 recurlist += [int(node)]
         edgelist = cfg.graph.edge_rules()
