@@ -118,8 +118,11 @@ class DataCollector:
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
+                # create directory if it doesn't exist
+                if not os.path.exists("/app/code/experiments/function_calls/data"):
+                    os.makedirs("/app/code/experiments/function_calls/data")
                 data.to_csv(
-                    f"/app/code/experiments/function_calls/data/functionCallData.csv")
+                    "/app/code/experiments/function_calls/data/functionCallData.csv")
 
 
 def main() -> None:
