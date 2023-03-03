@@ -23,7 +23,7 @@ class DataCollector:
         log = Log(log_level=LogLevel.DEBUG)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
-        self.recursive_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(
+        self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(
             log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)
@@ -63,7 +63,7 @@ class DataCollector:
                 bruntime = 0.0
                 try:
                     with Timeout(300):
-                        rapc = self.recursive_apc_computer.evaluate(graph)
+                        rapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
                         rruntime = time.time() - start_time
                 except Exception as exc:
                     print(f"Exception: {exc}")
