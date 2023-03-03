@@ -52,7 +52,6 @@ class FunctionCallPathComplexity(ABC):
         while graphs_to_process:
             cfg = graphs_to_process.popleft()
             fcn_idx = used_graphs.index(cfg.name.split('.')[1])
-            print('CALLS', cfg.metadata.calls)
             for node in cfg.metadata.calls.keys():
                 for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
                     recurlist += [int(node)]
@@ -70,19 +69,23 @@ class FunctionCallPathComplexity(ABC):
                                 graphs_to_process.append(all_cfgs[graph_name])
                                 break
                     # Call (i, j) from function i node j
-                    call_list.append(((fcn_idx, int(node)), called_fcn))
+                    call_list.append((f'{fcn_idx}_{int(node)}', called_fcn))
             edge_list = cfg.graph.edge_rules()
             # add fcn_idx to tuple (i, j) where i is fcn_idx and j is node num
-            edge_list = [((fcn_idx, edge[0]), (fcn_idx, edge[1])) for edge in edge_list]
+            # edge_list = [((fcn_idx, edge[0]), (fcn_idx, edge[1])) for edge in edge_list]
+            edge_list = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in edge_list]
             all_edges += edge_list
 
-        print('CALL LIST', call_list)
 
+        # convert all ((i0, j0), (i1, j1)) edges to (i0_j0, i1_j1)
+        # all_edges = [(f"{edge[0][0]}_{edge[0][1]}", f"{edge[1][0]}_{edge[1][1]}") for edge in all_edges]
+        print('CALL LIST', call_list)
         print('ALL EDGES', all_edges)
         # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {all_edges}")
-        self.logger.d_msg(f"Recur List: {recurlist}")
-        apc = self.recurapc(all_edges, recurlist)
+        self.logger.d_msg(f"Call List: {call_list}")
+        # self.logger.d_msg(f"Recur List: {recurlist}")
+        apc = self.recurapc(all_edges, call_list)
         # print(apc)
         return apc
 
@@ -220,10 +223,11 @@ class FunctionCallPathComplexity(ABC):
         edgedict = {}
         for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
             startnode = str(edge[0])
+            print('****', startnode)
             if startnode in edgedict:
-                endnodes = edgedict[startnode] + [edge[1]]
+                endnodes = edgedict[startnode] + [str(edge[1])]
             else:
-                endnodes = [edge[1]]
+                endnodes = [str(edge[1])]
             edgedict[startnode] = endnodes
         system = []
         x = symbols('x')
@@ -239,6 +243,7 @@ class FunctionCallPathComplexity(ABC):
             for node in endnodes:
                 if str(node) in edgedict.keys(): #makes sure the end node is not terminal
                     var = symbols("V" + str(node)) #str(chr(node+ 65))
+                    print(var, x)
                     expr = expr + var*x
                 else:
                     expr = expr + x
