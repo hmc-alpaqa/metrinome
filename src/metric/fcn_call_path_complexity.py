@@ -94,6 +94,7 @@ class FunctionCallPathComplexity(ABC):
         if edgelist == []:
             return (0, 0)
         gamma = self.gammaFunction(edgelist, recurlist)
+        print('GAMMA', gamma)
         self.logger.d_msg(f"Gamma Function: {gamma}")
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
@@ -104,7 +105,7 @@ class FunctionCallPathComplexity(ABC):
             numroots = 0
         if numroots == 0:
             self.logger.d_msg(f"case1")
-            T = symbols("T")
+            T = symbols("T0")
             x = symbols("x")
             gens = sympy.solve(gamma,T)
             # print(gens)
@@ -248,6 +249,7 @@ class FunctionCallPathComplexity(ABC):
             system += [expr - sym]
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
+        symbs = init_nodes + symbs
         print('SYSTEM', init_eqns + system)
         gamma = sympy.expand(self.eliminate(init_eqns + system, symbs))
         return gamma
