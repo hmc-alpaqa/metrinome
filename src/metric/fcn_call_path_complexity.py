@@ -40,7 +40,7 @@ class FunctionCallPathComplexity(ABC):
         recurlist = []
         call_list = []
         # TODO: use full name of cfg (file name is deleted here)
-        used_graphs = [cfg.name]
+        used_graphs = [cfg.name.split('.')[1]]
         print('ALL CFGS', all_cfgs)
         graphs_to_process = deque([cfg])
         # for rowIndex, row in enumerate(adjMatrix):
@@ -68,10 +68,8 @@ class FunctionCallPathComplexity(ABC):
                                 graphs_to_process.append(all_cfgs[graph_name])
                                 break
                     # Call (i, j) from function i node j
-                    print('***')
-                    print(used_graphs)
-                    print(cfg.name)
-                    call_list.append((int(node), called_fcn))
+                    fcn_idx = used_graphs.index(cfg.name.split('.')[1])
+                    call_list.append(((fcn_idx, int(node)), called_fcn))
             print('CALL LIST', call_list)
             edgelist = cfg.graph.edge_rules()
             print('EDGES', edgelist)
