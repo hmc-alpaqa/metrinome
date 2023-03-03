@@ -27,7 +27,7 @@ class DataCollector:
             log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)
-        self.base_path = "/app/code/experiments/recursion/files/"
+        self.base_path = "/app/code/experiments/function_calls/files/"
 
     # pylint: disable=broad-except
     def collect(self) -> None:
@@ -36,7 +36,7 @@ class DataCollector:
                              "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [], "brapc_time": [],
                              "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
-        with open('/app/code/experiments/recursion/files/files.txt') as funcs:
+        with open('/app/code/experiments/function_calls/files/files.txt') as funcs:
             files = [self.base_path + line.rstrip() for line in funcs]
 
         for file in files:
@@ -119,7 +119,7 @@ class DataCollector:
 
                 data = data.append(new_row, ignore_index=True)
                 data.to_csv(
-                    f"/app/code/experiments/recursion/data/recursiveData.csv")
+                    f"/app/code/experiments/function_calls/data/functionCallData.csv")
 
 
 def main() -> None:
