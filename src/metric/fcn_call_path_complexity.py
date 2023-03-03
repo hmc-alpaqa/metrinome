@@ -39,6 +39,7 @@ class FunctionCallPathComplexity(ABC):
         # edgelist = []
         recurlist = []
         call_list = []
+        all_edges = []
         # TODO: use full name of cfg (file name is deleted here)
         used_graphs = [cfg.name.split('.')[1]]
         print('ALL CFGS', all_cfgs)
@@ -50,6 +51,7 @@ class FunctionCallPathComplexity(ABC):
         # ?? function call finding?
         while graphs_to_process:
             cfg = graphs_to_process.popleft()
+            fcn_idx = used_graphs.index(cfg.name.split('.')[1])
             print('CALLS', cfg.metadata.calls)
             for node in cfg.metadata.calls.keys():
                 for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
@@ -68,15 +70,19 @@ class FunctionCallPathComplexity(ABC):
                                 graphs_to_process.append(all_cfgs[graph_name])
                                 break
                     # Call (i, j) from function i node j
-                    fcn_idx = used_graphs.index(cfg.name.split('.')[1])
                     call_list.append(((fcn_idx, int(node)), called_fcn))
-            print('CALL LIST', call_list)
-            edgelist = cfg.graph.edge_rules()
-            print('EDGES', edgelist)
+            edge_list = cfg.graph.edge_rules()
+            # add fcn_idx to tuple (i, j) where i is fcn_idx and j is node num
+            edge_list = [((fcn_idx, edge[0]), (fcn_idx, edge[1])) for edge in edge_list]
+            all_edges += edge_list
+
+        print('CALL LIST', call_list)
+
+        print('ALL EDGES', all_edges)
         # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
-        self.logger.d_msg(f"Edge List: {edgelist}")
+        self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Recur List: {recurlist}")
-        apc = self.recurapc(edgelist, recurlist)
+        apc = self.recurapc(all_edges, recurlist)
         # print(apc)
         return apc
 
