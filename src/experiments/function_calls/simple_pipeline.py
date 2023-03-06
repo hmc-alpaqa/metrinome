@@ -46,8 +46,8 @@ class DataCollector:
                 continue
 
             for graph_name, graph in graphs.items():
-                if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
-                    continue
+                # if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
+                #     continue
                 print('Graph Name: ', graph_name)
                 start_time = time.time()
                 apc: Union[str, PathComplexityRes] = "na"
