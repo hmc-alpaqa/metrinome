@@ -1,4 +1,2 @@
 ,graph_name,rapc,num_vertices,edge_count
-0,fcn_calls_cfg._Z4facti,na,4.0,4.0
-1,fcn_calls_cfg._Z18multi_fact_wrapperi,"(0.666666666666667*n, 2*n/3 - 2)",3.0,2.0
-2,fcn_calls_cfg._Z12fact_wrapperi,"(0.666666666666667*n, 2*n/3 - 2)",3.0,2.0
+0,fcn_calls_cfg._Z18multi_fact_wrapperi,"(0.666666666666667*n, 2*n/3 - 2)",3.0,2.0
