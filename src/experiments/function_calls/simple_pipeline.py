@@ -45,8 +45,10 @@ class DataCollector:
                 print("No Graphs")
                 continue
 
-            print('**GRAPH', graphs)
-            for graph in graphs.values():
+            for graph_name, graph in graphs.items():
+                if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
+                    continue
+                print('Graph Name: ', graph_name)
                 start_time = time.time()
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"

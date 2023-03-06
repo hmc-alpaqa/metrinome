@@ -18,126 +18,126 @@
 //     return fact(n);
 // }
 
-int gcd(int a, int b)
-{
-    while (a != b)
-    {
-        if (a > b)
-        {
-            a = a - b;
-        }
-        else
-        {
-            b = b - a;
-        }
-    }
-    return a;
-}
-
-int gcd_wrapper(int a, int b)
-{
-    return gcd(a, b);
-}
-
-// void merge(int arr[], int l, int m, int r)
+// int gcd(int a, int b)
 // {
-//     int i, j, k;
-//     int n1 = m - l + 1;
-//     int n2 = r - m;
-
-//     // create temporary arrays
-//     int L[n1], R[n2];
-
-//     // copy data to temp arrays L[] and R[]
-//     for (i = 0; i < n1; i++)
-//         L[i] = arr[l + i];
-//     for (j = 0; j < n2; j++)
-//         R[j] = arr[m + 1 + j];
-
-//     // merge the temp arrays back into arr[l..r]
-//     i = 0;
-//     j = 0;
-//     k = l;
-//     while (i < n1 && j < n2)
+//     while (a != b)
 //     {
-//         if (L[i] <= R[j])
+//         if (a > b)
 //         {
-//             arr[k] = L[i];
-//             i++;
+//             a = a - b;
 //         }
 //         else
 //         {
-//             arr[k] = R[j];
-//             j++;
+//             b = b - a;
 //         }
-//         k++;
 //     }
-
-//     // copy the remaining elements of L[], if there are any
-//     while (i < n1)
-//     {
-//         arr[k] = L[i];
-//         i++;
-//         k++;
-//     }
-
-//     // copy the remaining elements of R[], if there are any
-//     while (j < n2)
-//     {
-//         arr[k] = R[j];
-//         j++;
-//         k++;
-//     }
+//     return a;
 // }
 
-// void mergeSort(int arr[], int l, int r)
+// int gcd_wrapper(int a, int b)
 // {
-//     if (l < r)
-//     {
-//         int m = l + (r - l) / 2;
-
-//         // sort first and second halves
-//         mergeSort(arr, l, m);
-//         mergeSort(arr, m + 1, r);
-
-//         // merge the sorted halves
-//         merge(arr, l, m, r);
-//     }
+//     return gcd(a, b);
 // }
 
-void swap(int *a, int *b)
+void merge(int arr[], int l, int m, int r)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
 
-int partition(int arr[], int low, int high)
-{
-    int pivot = arr[high];
-    int i = (low - 1);
+    // create temporary arrays
+    int L[n1], R[n2];
 
-    for (int j = low; j <= high - 1; j++)
+    // copy data to temp arrays L[] and R[]
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    // merge the temp arrays back into arr[l..r]
+    i = 0;
+    j = 0;
+    k = l;
+    while (i < n1 && j < n2)
     {
-        if (arr[j] < pivot)
+        if (L[i] <= R[j])
         {
+            arr[k] = L[i];
             i++;
-            swap(&arr[i], &arr[j]);
         }
+        else
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
     }
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+
+    // copy the remaining elements of L[], if there are any
+    while (i < n1)
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // copy the remaining elements of R[], if there are any
+    while (j < n2)
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
 }
 
-void quickSort(int arr[], int low, int high)
+void mergeSort(int arr[], int l, int r)
 {
-    if (low < high)
+    if (l < r)
     {
-        int pi = partition(arr, low, high);
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+        int m = l + (r - l) / 2;
+
+        // sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        // merge the sorted halves
+        merge(arr, l, m, r);
     }
 }
+
+// void swap(int *a, int *b)
+// {
+//     int temp = *a;
+//     *a = *b;
+//     *b = temp;
+// }
+
+// int partition(int arr[], int low, int high)
+// {
+//     int pivot = arr[high];
+//     int i = (low - 1);
+
+//     for (int j = low; j <= high - 1; j++)
+//     {
+//         if (arr[j] < pivot)
+//         {
+//             i++;
+//             swap(&arr[i], &arr[j]);
+//         }
+//     }
+//     swap(&arr[i + 1], &arr[high]);
+//     return (i + 1);
+// }
+
+// void quickSort(int arr[], int low, int high)
+// {
+//     if (low < high)
+//     {
+//         int pi = partition(arr, low, high);
+//         quickSort(arr, low, pi - 1);
+//         quickSort(arr, pi + 1, high);
+//     }
+// }
 
 // // calls fact_wrapper -> calls fact
 // int sum_factorials(int n)
