@@ -1,32 +1,37 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-int fact(int n)
-{
-    if (n == 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return n * fact(n - 1);
-    }
-}
+// bool is_even(int n);
+// bool is_odd(int n);
 
-int fact_wrapper(int n)
-{
-    return fact(n);
-}
+// int fact(int n)
+// {
+//     if (n == 0)
+//     {
+//         return 1;
+//     }
+//     else
+//     {
+//         return n * fact(n - 1);
+//     }
+// }
 
-int fact_wrapper_2x(int n)
-{
-    return fact(n) + fact(n);
-}
+// int fact_wrapper(int n)
+// {
+//     return fact(n);
+// }
 
-int fact_wrapper_3x(int n)
-{
-    return fact(n) + fact(n) + fact(n);
-}
+// int fact_wrapper_2x(int n)
+// {
+//     return fact(n) + fact(n);
+// }
+
+// int fact_wrapper_3x(int n)
+// {
+//     return fact(n) + fact(n) + fact(n);
+// }
 
 // int gcd(int a, int b)
 // {
@@ -49,70 +54,116 @@ int fact_wrapper_3x(int n)
 //     return gcd(a, b);
 // }
 
-// void merge(int arr[], int l, int m, int r)
+void merge(int arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // create temporary arrays
+    int L[n1], R[n2];
+
+    // copy data to temp arrays L[] and R[]
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    // merge the temp arrays back into arr[l..r]
+    i = 0;
+    j = 0;
+    k = l;
+    while (i < n1 && j < n2)
+    {
+        if (L[i] <= R[j])
+        {
+            arr[k] = L[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // copy the remaining elements of L[], if there are any
+    while (i < n1)
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // copy the remaining elements of R[], if there are any
+    while (j < n2)
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int l, int r)
+{
+    if (l < r)
+    {
+        int m = l + (r - l) / 2;
+
+        // sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        // merge the sorted halves
+        merge(arr, l, m, r);
+    }
+}
+
+// void mergeSortSingleFcn(int A[], int n)
 // {
-//     int i, j, k;
-//     int n1 = m - l + 1;
-//     int n2 = r - m;
-
-//     // create temporary arrays
-//     int L[n1], R[n2];
-
-//     // copy data to temp arrays L[] and R[]
-//     for (i = 0; i < n1; i++)
-//         L[i] = arr[l + i];
-//     for (j = 0; j < n2; j++)
-//         R[j] = arr[m + 1 + j];
-
-//     // merge the temp arrays back into arr[l..r]
-//     i = 0;
-//     j = 0;
-//     k = l;
-//     while (i < n1 && j < n2)
+//     if (n <= 1)
 //     {
-//         if (L[i] <= R[j])
+//         return;
+//     }
+//     int m = n / 2;
+//     mergeSortSingleFcn(A, m);
+//     mergeSortSingleFcn(A + m, n - m);
+//     int *temp = (int *)malloc(n * sizeof(int));
+//     int i = 0;
+//     int j = m;
+//     int k = 0;
+//     while (i < m && j < n)
+//     {
+//         if (A[i] < A[j])
 //         {
-//             arr[k] = L[i];
+//             temp[k] = A[i];
 //             i++;
 //         }
 //         else
 //         {
-//             arr[k] = R[j];
+//             temp[k] = A[j];
 //             j++;
 //         }
 //         k++;
 //     }
-
-//     // copy the remaining elements of L[], if there are any
-//     while (i < n1)
+//     while (i < m)
 //     {
-//         arr[k] = L[i];
+//         temp[k] = A[i];
 //         i++;
 //         k++;
 //     }
-
-//     // copy the remaining elements of R[], if there are any
-//     while (j < n2)
+//     while (j < n)
 //     {
-//         arr[k] = R[j];
+//         temp[k] = A[j];
 //         j++;
 //         k++;
 //     }
-// }
-
-// void mergeSort(int arr[], int l, int r)
-// {
-//     if (l < r)
+//     for (int i = 0; i < n; i++)
 //     {
-//         int m = l + (r - l) / 2;
-
-//         // sort first and second halves
-//         mergeSort(arr, l, m);
-//         mergeSort(arr, m + 1, r);
-
-//         // merge the sorted halves
-//         merge(arr, l, m, r);
+//         A[i] = temp[i];
 //     }
+//     free(temp);
 // }
 
 // void swap(int *a, int *b)
@@ -160,11 +211,11 @@ int fact_wrapper_3x(int n)
 //     return sum;
 // }
 
-// int is_even(int n)
+// bool is_even(int n)
 // {
 //     if (n == 0)
 //     {
-//         return 1;
+//         return true;
 //     }
 //     else
 //     {
@@ -172,11 +223,11 @@ int fact_wrapper_3x(int n)
 //     }
 // }
 
-// int is_odd(int n)
+// bool is_odd(int n)
 // {
 //     if (n == 0)
 //     {
-//         return 0;
+//         return false;
 //     }
 //     else
 //     {
@@ -189,13 +240,7 @@ int fact_wrapper_3x(int n)
 //     int arr[] = {12, 11, 13, 5, 6, 7};
 //     int n = sizeof(arr) / sizeof(arr[0]);
 
-//     printf("Given array is \n");
-//     for (int i = 0; i < n; i++)
-//         printf("%d ", arr[i]);
-//     printf("\n");
-
-//     // mergeSort(arr, 0, n - 1);
-//     quickSort(arr, 0, n - 1);
+//     mergeSortSingleFcn(arr, n);
 
 //     printf("Sorted array is \n");
 //     for (int i = 0; i < n; i++)
