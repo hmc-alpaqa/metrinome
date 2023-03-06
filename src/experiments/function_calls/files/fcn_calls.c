@@ -18,9 +18,14 @@ int fact_wrapper(int n)
     return fact(n);
 }
 
-int multi_fact_wrapper(int n)
+int fact_wrapper_2x(int n)
 {
     return fact(n) + fact(n);
+}
+
+int fact_wrapper_3x(int n)
+{
+    return fact(n) + fact(n) + fact(n);
 }
 
 // int gcd(int a, int b)

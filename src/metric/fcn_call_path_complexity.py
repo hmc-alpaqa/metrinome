@@ -2,7 +2,7 @@
 
 import re
 from abc import ABC, abstractmethod
-from collections import defaultdict, deque
+from collections import defaultdict, deque, Counter
 from typing import Union, List
 
 import numpy as np  # type: ignore
@@ -37,7 +37,6 @@ class FunctionCallPathComplexity(ABC):
         # adjMatrix = cfg.graph.adjacency_matrix()
         # print(cfg.graph.edge_rules())
         # edgelist = []
-        recurlist = []
         call_list = []
         all_edges = []
         # TODO: use full name of cfg (file name is deleted here)
@@ -53,8 +52,6 @@ class FunctionCallPathComplexity(ABC):
             cfg = graphs_to_process.popleft()
             fcn_idx = used_graphs.index(cfg.name.split('.')[1])
             for node in cfg.metadata.calls.keys():
-                for i in range(cfg.metadata.calls[node].count(cfg.name.split(".")[1])):
-                    recurlist += [int(node)]
                 
                 # loop through functions that are called
                 for called_fcn in cfg.metadata.calls[node].split():
@@ -89,11 +86,11 @@ class FunctionCallPathComplexity(ABC):
         # print(apc)
         return apc
 
-    def recurapc(self, edgelist, recurlist):
+    def recurapc(self, edgelist, call_list):
         """Calculates the apc of a recursive function"""
         if edgelist == []:
             return (0, 0)
-        gamma = self.gammaFunction(edgelist, recurlist)
+        gamma = self.gammaFunction(edgelist, call_list)
         print('GAMMA', gamma)
         self.logger.d_msg(f"Gamma Function: {gamma}")
         discrim = self.calculateDiscrim(gamma)
@@ -222,6 +219,8 @@ class FunctionCallPathComplexity(ABC):
     def gammaFunction(self, edgelist, call_list):
         """Takes in a list of all edges in a graph, and a list of where recursive calls are
         located, and calculates a gamma function in terms of x and the start node"""
+        # calls: [('0_0', 1), ('0_0', 1), ('1_2', 1)] -> {'(0_0, 1)': 2, '(1_2, 1)': 1}
+        call_count = Counter(call_list)
         edgedict = defaultdict(list)
         for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
             edgedict[edge[0]].append(edge[1])
@@ -244,9 +243,13 @@ class FunctionCallPathComplexity(ABC):
                     expr = expr + var*x
                 else:
                     expr = expr + x
-                for calling_node, called_fcn_idx in call_list:
+                # for calling_node, called_fcn_idx in call_list:
+                #     if calling_node == startnode:
+                #         expr = init_nodes[called_fcn_idx] * expr
+                for call in call_count:
+                    calling_node, called_fcn_idx = call
                     if calling_node == startnode:
-                        expr = init_nodes[called_fcn_idx] * expr
+                        expr = call_count[call] * init_nodes[called_fcn_idx] * expr
             system += [expr - sym]
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
@@ -259,7 +262,7 @@ class FunctionCallPathComplexity(ABC):
 
         # sys_ = [-T0 + V0_0*x, -T1 + V1_0*x, -V0_0 + V0_1*x + x, T0*x + T1*x - V0_1, -V1_0 + V1_1*x, -V1_1 + V1_2*x + V1_4*x, -V1_2 + V1_3*x, V1_1*x - V1_3, -V1_4 + V1_5*x, -V1_5 + V1_6*x + V1_8*x, -V1_6 + V1_7*x, V1_5*x - V1_7, -V1_8 + V1_9*x, V1_10*x + V1_11*x - V1_9, -V1_10 + V1_11*x, -V1_11 + V1_12*x + V1_16*x, -V1_12 + V1_13*x + V1_14*x, -V1_13 + V1_15*x, -V1_14 + V1_15*x, -V1_15 + V1_9*x, -V1_16 + V1_17*x, -V1_17 + V1_18*x + V1_19*x, V1_17*x - V1_18, -V1_19 + V1_20*x, -V1_20 + V1_21*x + x, V1_20*x - V1_21]
 
-        full_sys = [-T0 + V0_0*x, -T1 + V1_0*x, 2*T1*V0_1*x - V0_0, -V0_1 + x, -V1_0 + V1_1*x + V1_2*x, -V1_1 + x, T1*x - V1_2]
+        # full_sys = [-T0 + V0_0*x, -T1 + V1_0*x, 2*T1*V0_1*x - V0_0, -V0_1 + x, -V1_0 + V1_1*x + V1_2*x, -V1_1 + x, T1*x - V1_2]
         print('SYSTEM', full_sys)
 
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
