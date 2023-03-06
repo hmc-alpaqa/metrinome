@@ -40,17 +40,17 @@
 //     return a;
 // }
 //
-int fib_rec(int n)
-{
-    if (n > 2)
-    {
-        return n;
-    }
-    else
-    {
-        return fib_rec(n - 1) + fib_rec(n - 2);
-    }
-}
+// int fib_rec(int n)
+// {
+//     if (n > 2)
+//     {
+//         return n;
+//     }
+//     else
+//     {
+//         return fib_rec(n - 1) + fib_rec(n - 2);
+//     }
+// }
 //
 // int fact_iter(int n)
 // {
@@ -484,51 +484,51 @@ int fib_rec(int n)
 // }
 //
 // // function that performs mergesort on array
-// void mergeSort(int A[], int n)
-// {
-//     if (n <= 1)
-//     {
-//         return;
-//     }
-//     int m = n / 2;
-//     mergeSort(A, m);
-//     mergeSort(A + m, n - m);
-//     int *temp = (int *)malloc(n * sizeof(int));
-//     int i = 0;
-//     int j = m;
-//     int k = 0;
-//     while (i < m && j < n)
-//     {
-//         if (A[i] < A[j])
-//         {
-//             temp[k] = A[i];
-//             i++;
-//         }
-//         else
-//         {
-//             temp[k] = A[j];
-//             j++;
-//         }
-//         k++;
-//     }
-//     while (i < m)
-//     {
-//         temp[k] = A[i];
-//         i++;
-//         k++;
-//     }
-//     while (j < n)
-//     {
-//         temp[k] = A[j];
-//         j++;
-//         k++;
-//     }
-//     for (int i = 0; i < n; i++)
-//     {
-//         A[i] = temp[i];
-//     }
-//     free(temp);
-// }
+void mergeSort(int A[], int n)
+{
+    if (n <= 1)
+    {
+        return;
+    }
+    int m = n / 2;
+    mergeSort(A, m);
+    mergeSort(A + m, n - m);
+    int *temp = (int *)malloc(n * sizeof(int));
+    int i = 0;
+    int j = m;
+    int k = 0;
+    while (i < m && j < n)
+    {
+        if (A[i] < A[j])
+        {
+            temp[k] = A[i];
+            i++;
+        }
+        else
+        {
+            temp[k] = A[j];
+            j++;
+        }
+        k++;
+    }
+    while (i < m)
+    {
+        temp[k] = A[i];
+        i++;
+        k++;
+    }
+    while (j < n)
+    {
+        temp[k] = A[j];
+        j++;
+        k++;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        A[i] = temp[i];
+    }
+    free(temp);
+}
 //
 // // function that implements ackermann's function
 // int ackermann_rec(int m, int n)
@@ -548,35 +548,35 @@ int fib_rec(int n)
 // }
 //
 // function that counts down in O(n^2) time
-int polypath_notrec(int n, int k)
-{
-    int count = 0;
-    while(k > 0) {
-      count++;
-      k--;
-    }
-    while(n > 0) {
-      count++;
-      n--;
-    }
-    return count;
-}
+// int polypath_notrec(int n, int k)
+// {
+//     int count = 0;
+//     while(k > 0) {
+//       count++;
+//       k--;
+//     }
+//     while(n > 0) {
+//       count++;
+//       n--;
+//     }
+//     return count;
+// }
 
-// recursive function with O(n^2) path complexity
-int polypath_rec(int n, int k)
-{
-  if (n > 0)
-  {
-    return 1 + polypath_rec(n - 1, k);
-  } else {
-    int count = 0;
-    while(k > 0) {
-      count++;
-      k--;
-    }
-    return count;
-  }
-}
+// // recursive function with O(n^2) path complexity
+// int polypath_rec(int n, int k)
+// {
+//   if (n > 0)
+//   {
+//     return 1 + polypath_rec(n - 1, k);
+//   } else {
+//     int count = 0;
+//     while(k > 0) {
+//       count++;
+//       k--;
+//     }
+//     return count;
+//   }
+// }
 //
 // int main(void)
 // {
