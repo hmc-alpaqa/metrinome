@@ -276,6 +276,9 @@ class FunctionCallPathComplexity(ABC):
         full_sys = [-T0 + V0_0*x, -T1 + V1_0*x, -V0_0 + V0_1*x + x, -V0_1 + T0**2*T1*x*x, -V1_0 + V1_1*x, -V1_1 + V1_2*x + V1_4*x, -V1_2 + V1_3*x, V1_1*x - V1_3, -V1_4 + V1_5*x, -V1_5 + V1_6*x + V1_8*x, -V1_6 + V1_7*x, V1_5*x - V1_7, -V1_8 + V1_9*x, V1_10*x + V1_11*x - V1_9, -V1_10 + V1_11*x, -V1_11 + V1_12*x + V1_16*x, -V1_12 + V1_13*x + V1_14*x, -V1_13 + V1_15*x, -V1_14 + V1_15*x, -V1_15 + V1_9*x, -V1_16 + V1_17*x, -V1_17 + V1_18*x + V1_19*x, V1_17*x - V1_18, -V1_19 + V1_20*x, -V1_20 + V1_21*x + x, V1_20*x - V1_21]
 
         full_sys = [-T0 + V0_0*x, -T1 + V1_0*x, -V0_0 + V0_1*x + x, -V0_1 + T0**2*V0_2*x, -V0_2 + T1, -V1_0 + V1_1*x, -V1_1 + V1_2*x + V1_4*x, -V1_2 + V1_3*x, V1_1*x - V1_3, -V1_4 + V1_5*x, -V1_5 + V1_6*x + V1_8*x, -V1_6 + V1_7*x, V1_5*x - V1_7, -V1_8 + V1_9*x, V1_10*x + V1_11*x - V1_9, -V1_10 + V1_11*x, -V1_11 + V1_12*x + V1_16*x, -V1_12 + V1_13*x + V1_14*x, -V1_13 + V1_15*x, -V1_14 + V1_15*x, -V1_15 + V1_9*x, -V1_16 + V1_17*x, -V1_17 + V1_18*x + V1_19*x, V1_17*x - V1_18, -V1_19 + V1_20*x, -V1_20 + V1_21*x + x, V1_20*x - V1_21]
+
+        full_sys = [-T0 + V0_0*x, -T1 + V1_0*x, -V0_0 + 2*T0*T1*x, -V1_0 + x]
+        symbs = [T0, T1, V0_0, V1_0]
         print('SYSTEM', full_sys)
 
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
@@ -359,9 +362,11 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
+        print('ELIMINATE', system)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]
+        print('sub', sub)
         if symbs[-1] in sub.free_symbols:
             for eq in system:
                 if symbs[-1] in eq.free_symbols:
