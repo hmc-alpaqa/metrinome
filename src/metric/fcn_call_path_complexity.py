@@ -30,7 +30,7 @@ class FunctionCallPathComplexity(ABC):
 
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
-        return "Recursive Path Complexity"
+        return "Function Call Path Complexity"
 
     def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
@@ -81,13 +81,12 @@ class FunctionCallPathComplexity(ABC):
         # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
-        # self.logger.d_msg(f"Recur List: {recurlist}")
-        apc = self.recurapc(all_edges, call_list)
+        apc = self.fcn_call_apc(all_edges, call_list)
         # print(apc)
         return apc
 
-    def recurapc(self, edgelist, call_list):
-        """Calculates the apc of a recursive function"""
+    def fcn_call_apc(self, edgelist, call_list):
+        """Calculates the apc of a function that can call other functions """
         if edgelist == []:
             return (0, 0)
         gamma = self.gammaFunction(edgelist, call_list)
@@ -217,7 +216,7 @@ class FunctionCallPathComplexity(ABC):
 
 
     def gammaFunction(self, edgelist, call_list):
-        """Takes in a list of all edges in a graph, and a list of where recursive calls are
+        """Takes in a list of all edges in a graph, and a list of where function calls are
         located, and calculates a gamma function in terms of x and the start node"""
         # calls: [('0_0', 1), ('0_0', 1), ('1_2', 1)] -> {'(0_0, 1)': 2, '(1_2, 1)': 1}
         call_count = Counter(call_list)
