@@ -18,15 +18,30 @@ int fact(int n)
     }
 }
 
-int fact_wrapper(int n)
-{
-    return fact(n);
-}
+// int fact_wrapper(int n)
+// {
+//     return fact(n);
+// }
 
 // int fact_wrapper_2x(int n)
 // {
 //     return fact(n) + fact(n);
 // }
+
+void mergeSortSimple(int arr[], int l, int r)
+{
+    if (l < r)
+    {
+        int m = l + (r - l) / 2;
+
+        // sort first and second halves
+        mergeSortSimple(arr, l, m);
+        mergeSortSimple(arr, m + 1, r);
+
+        // merge the sorted halves
+        fact(m);
+    }
+}
 
 // int fact_wrapper_3x(int n)
 // {
