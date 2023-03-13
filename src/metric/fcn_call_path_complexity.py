@@ -245,14 +245,18 @@ class FunctionCallPathComplexity(ABC):
                 # for calling_node, called_fcn_idx in call_list:
                 #     if calling_node == startnode:
                 #         expr = init_nodes[called_fcn_idx] * expr
-                fcn_call_Ts = 0  # will become 2*T0 + T1 (for example)
-                for call in call_count:
-                    calling_node, called_fcn_idx = call
+                # fcn_call_Ts = 0  # will become 2*T0 + T1 (for example)
+                # for call in call_count:
+                #     calling_node, called_fcn_idx = call
+                #     if calling_node == startnode:
+                #         # expr = call_count[call] * init_nodes[called_fcn_idx] * expr
+                #         fcn_call_Ts = fcn_call_Ts + call_count[call] * init_nodes[called_fcn_idx]
+                # if fcn_call_Ts != 0:
+                #     expr = fcn_call_Ts * expr
+            
+                for calling_node, called_fcn_idx in call_list:
                     if calling_node == startnode:
-                        # expr = call_count[call] * init_nodes[called_fcn_idx] * expr
-                        fcn_call_Ts = fcn_call_Ts + call_count[call] * init_nodes[called_fcn_idx]
-                if fcn_call_Ts != 0:
-                    expr = fcn_call_Ts * expr
+                        expr =  init_nodes[called_fcn_idx] * expr
             system += [expr - sym]
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
