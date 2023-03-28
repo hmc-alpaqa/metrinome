@@ -9,6 +9,7 @@ from typing import Union
 import time
 import os
 import sys
+from sympy import Number
 
 class DataCollector:
     """Compute and store all complexity metrics and timing data."""
@@ -121,11 +122,23 @@ class DataCollector:
                 # only keep columns graph_name, rapc, num_vertices, edge_count
                 data = data[["graph_name", "rapc", "num_vertices", "edge_count"]]
 
+                # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
+                data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
+                print(data[['graph_name', 'rapc']])
+
+
+
                 # create directory if it doesn't exist
                 if not os.path.exists("/app/code/experiments/function_calls/data"):
                     os.makedirs("/app/code/experiments/function_calls/data")
                 data.to_csv(
                     "/app/code/experiments/function_calls/data/functionCallData.csv")
+
+def round_tuple_of_exprs(tup, num_digits):
+    return tuple(round_expr(expr, num_digits) for expr in tup)
+                
+def round_expr(expr, num_digits):
+    return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
 
 def main() -> None:
