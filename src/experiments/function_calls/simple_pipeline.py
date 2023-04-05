@@ -62,7 +62,9 @@ class DataCollector:
                 rruntime = 0.0
                 bruntime = 0.0
                 try:
-                    with Timeout(300):
+                    with Timeout(2000):
+                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                        #     continue
                         rapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
                         rruntime = time.time() - start_time
                 except Exception as exc:
@@ -123,7 +125,7 @@ class DataCollector:
                 data = data[["graph_name", "rapc", "num_vertices", "edge_count"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
+                # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 print(data[['graph_name', 'rapc']])
 
 

@@ -95,7 +95,6 @@ class FunctionCallPathComplexity(ABC):
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
         try:
-            # print("hello")
             numroots = len(self.realnroots(discrim))
         except Exception as e:
             self.logger.e_msg(f"Error: {e}")
@@ -270,6 +269,8 @@ class FunctionCallPathComplexity(ABC):
 
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
+        # replace all T0's with T in polynomial
+        polynomial = polynomial.subs(symbols("T0"), symbols("T"))
         terms = polynomial.args
         domPow = max([self.termPow(term, "T") for term in terms])
         maxcoeff = 0
