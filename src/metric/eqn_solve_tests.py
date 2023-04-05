@@ -153,6 +153,7 @@ class EqnSolverTest:
 
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
+        polynomial = polynomial.subs(symbols("T0"), symbols("T"))
         terms = polynomial.args
         domPow = max([self.termPow(term, "T") for term in terms])
         maxcoeff = 0
