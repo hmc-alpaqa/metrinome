@@ -254,7 +254,68 @@ class FunctionCallPathComplexity(ABC):
         # numerator (since the overall expression is equal to 0, ignore denom)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
-        
+
+    # def calculateDiscrim(self, polynomial):
+    #     """Takes in a polynomial and calculates its discriminant"""
+    #     # replace all T0's with T in polynomial
+    #     polynomial = polynomial.subs(symbols("T0"), symbols("T"))
+    #     polynomial = sympy.fraction(sympy.together(polynomial))[0]
+    #     terms = polynomial.args
+    #     domPow = max([self.termPow(term, "T") for term in terms])
+    #     maxcoeff = 0
+    #     for term in terms:
+    #         if self.termPow(term, "T") == domPow:
+    #             newprod = 1
+    #             for arg in term.args:
+    #                 if not "T" in str(arg):
+    #                     newprod *= arg
+    #             maxcoeff += newprod
+
+    #     power = int(domPow*(domPow-1)/2)
+    #     result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
+    #     self.logger.d_msg(f"resultant: {result}")
+    #     self.logger.d_msg(f"maxcoeff: {maxcoeff}")
+    #     disc = ((-1)**power)/(maxcoeff)*result
+    #     return disc
+
+    # def resultant(self, p, q, symb):
+    #     """Calculates the resultant of two polynomials"""
+    #     Ppow = 0
+    #     Qpow = 0
+    #     Pcoeffs = {}
+    #     Qcoeffs = {}
+    #     for term in p.args:
+    #         pow = self.termPow(term, symb)
+    #         if pow in Pcoeffs.keys():
+    #             Pcoeffs[pow] += term/(symb**pow)
+    #         else:
+    #             Pcoeffs[pow] = term/(symb**pow)
+    #         if  pow > Ppow:
+    #             Ppow = pow
+    #     for term in q.args:
+    #         pow = self.termPow(term, symb)
+    #         if pow in Qcoeffs.keys():
+    #             Qcoeffs[pow] += term/(symb**pow)
+    #         else:
+    #             Qcoeffs[pow] = term/(symb**pow)
+    #         if  pow > Qpow:
+    #             Qpow = pow
+    #     MatrixArray = []
+    #     for i in range(Ppow + Qpow):
+    #         MatrixArray += [[0]*(Ppow + Qpow)]
+    #     for i in range(Ppow + 1):
+    #         for j in range(Qpow):
+    #             if i in Pcoeffs.keys():
+    #                 MatrixArray[j][i + j] = Pcoeffs[i]
+    #     for i in range(Qpow + 1):
+    #         for j in range(Ppow):
+    #             if i in Qcoeffs.keys():
+    #                 MatrixArray[j + Qpow][i +j] = Qcoeffs[i]
+    #     m = Matrix(MatrixArray)
+    #     m = m.T
+    #     # print(m)
+    #     return m.det()
+
     def termPow(self, term, symb):
         """for a expression, find the power a symbol is raised to"""
         if not str(symb) in str(term):
