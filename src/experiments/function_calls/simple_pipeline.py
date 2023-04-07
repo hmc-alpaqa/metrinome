@@ -49,6 +49,7 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 # if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
                 # if graph_name != 'fcn_calls_cfg._Z18multi_fact_wrapperi.dot':
+                # if graph_name != 'fcn_calls_cfg._Z10fcn_medleyi.dot':
                     # continue
                 print('Graph Name: ', graph_name)
                 start_time = time.time()
