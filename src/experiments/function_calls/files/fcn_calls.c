@@ -5,6 +5,13 @@
 
 // bool is_even(int n);
 // bool is_odd(int n);
+int max_value_iter(int arr[], int n);
+void merge(int arr[], int l, int m, int r);
+int fact(int n);
+void fcn_medley(int n);
+int fact_wrapper(int n);
+int fib_iter(int n);
+int fib_rec(int n);
 
 // int fact(int n)
 // {
@@ -18,6 +25,14 @@
 //     }
 // }
 
+// void fcn_medley(int n)
+// {
+//     fact(n);
+//     fib_iter(n);
+//     fib_rec(n);
+//     fact_wrapper(n);
+// }
+
 // int fact_wrapper(int n)
 // {
 //     return fact(n);
@@ -26,6 +41,32 @@
 // int fact_wrapper_2x(int n)
 // {
 //     return fact(n) + fact(n);
+// }
+
+// int fib_iter(int n)
+// {
+//     int a = 0;
+//     int b = 1;
+//     int f;
+//     for (int i = 0; i < n; i++)
+//     {
+//         f = a + b;
+//         a = b;
+//         b = f;
+//     }
+//     return a;
+// }
+
+// int fib_rec(int n)
+// {
+//     if (n > 2)
+//     {
+//         return n;
+//     }
+//     else
+//     {
+//         return fib_rec(n - 1) + fib_rec(n - 2);
+//     }
 // }
 
 // void mergeSortSimple(int arr[], int l, int r)
@@ -39,7 +80,9 @@
 //         mergeSortSimple(arr, m + 1, r);
 
 //         // merge the sorted halves
-//         fact(m);
+//         // merge(arr, l, m, r);
+//         // fact(m);
+//         max_value_iter(arr, m);
 //     }
 // }
 
@@ -135,51 +178,53 @@ void mergeSort(int arr[], int l, int r)
     }
 }
 
-void mergeSortSingleFcn(int A[], int n)
-{
-    if (n <= 1)
-    {
-        return;
-    }
-    int m = n / 2;
-    mergeSortSingleFcn(A, m);
-    mergeSortSingleFcn(A + m, n - m);
-    int *temp = (int *)malloc(n * sizeof(int));
-    int i = 0;
-    int j = m;
-    int k = 0;
-    while (i < m && j < n)
-    {
-        if (A[i] < A[j])
-        {
-            temp[k] = A[i];
-            i++;
-        }
-        else
-        {
-            temp[k] = A[j];
-            j++;
-        }
-        k++;
-    }
-    while (i < m)
-    {
-        temp[k] = A[i];
-        i++;
-        k++;
-    }
-    while (j < n)
-    {
-        temp[k] = A[j];
-        j++;
-        k++;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        A[i] = temp[i];
-    }
-    free(temp);
-}
+// void mergeSortSingleFcn(int A[], int n)
+// {
+//     if (n <= 1)
+//     {
+//         return;
+//     }
+//     int m = n / 2;
+//     mergeSortSingleFcn(A, m);
+//     mergeSortSingleFcn(A + m, n - m);
+//     int *temp = (int *)malloc(n * sizeof(int));
+//     int i = 0;
+//     int j = m;
+//     int k = 0;
+//     while (i < m && j < n)
+//     {
+//         if (A[i] < A[j])
+//         {
+//             temp[k] = A[i];
+//             i++;
+//         }
+//         else
+//         {
+//             temp[k] = A[j];
+//             j++;
+//         }
+//         k++;
+//     }
+//     while (i < m)
+//     {
+//         temp[k] = A[i];
+//         i++;
+//         k++;
+//     }
+//     while (j < n)
+//     {
+//         temp[k] = A[j];
+//         j++;
+//         k++;
+//     }
+//     for (int i = 0; i < n; i++)
+//     {
+//         A[i] = temp[i];
+//     }
+//     free(temp);
+
+//     return;
+// }
 
 // void swap(int *a, int *b)
 // {
@@ -250,16 +295,92 @@ void mergeSortSingleFcn(int A[], int n)
 //     }
 // }
 
-// int main()
+// int max_value_iter(int A[], int n)
 // {
-//     int arr[] = {12, 11, 13, 5, 6, 7};
-//     int n = sizeof(arr) / sizeof(arr[0]);
-
-//     mergeSortSingleFcn(arr, n);
-
-//     printf("Sorted array is \n");
+//     int best = INT_MIN;
 //     for (int i = 0; i < n; i++)
-//         printf("%d ", arr[i]);
-//     printf("\n");
-//     return 0;
+//     {
+//         if (best < A[i])
+//         {
+//             best = A[i];
+//         }
+//     }
+//     return best;
 // }
+
+// int max_value_rec(int A[], int n)
+// {
+//     if (n == 1)
+//     {
+//         return A[0];
+//     }
+//     else
+//     {
+//         int rec = max_value_rec(A + 1, n - 1);
+//         if (rec > A[0])
+//         {
+//             return rec;
+//         }
+//         else
+//         {
+//             return A[0];
+//         }
+//     }
+// }
+
+void heapify(int arr[], int n, int i)
+{
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+    {
+        largest = left;
+    }
+
+    if (right < n && arr[right] > arr[largest])
+    {
+        largest = right;
+    }
+
+    if (largest != i)
+    {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(int arr[], int n)
+{
+    for (int i = n / 2 - 1; i >= 0; i--)
+    {
+        heapify(arr, n, i);
+    }
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        int temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+
+        heapify(arr, i, 0);
+    }
+}
+
+int main()
+{
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    heapSort(arr, n);
+
+    printf("Sorted array is \n");
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}

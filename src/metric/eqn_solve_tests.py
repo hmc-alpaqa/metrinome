@@ -44,6 +44,7 @@ class EqnSolverTest:
             gens = sympy.solve(gamma,T)
             # print(gens)
             possibleGenFunc = []
+            genFunc = None
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
                 if "-" not in str(partialSeries) and gen != 0:
@@ -55,6 +56,8 @@ class EqnSolverTest:
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
             denominator = 1
+            if genFunc == None:
+                print('***', possibleGenFunc, gens)
             for factor in genFunc.args:
                 if type(factor) == sympy.Pow and factor.args[1] < 0:
                     denominator *= 1/factor
