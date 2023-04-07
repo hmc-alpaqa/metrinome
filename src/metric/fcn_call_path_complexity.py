@@ -74,13 +74,10 @@ class FunctionCallPathComplexity(ABC):
             all_edges += edge_list
 
 
-        # convert all ((i0, j0), (i1, j1)) edges to (i0_j0, i1_j1)
-        # all_edges = [(f"{edge[0][0]}_{edge[0][1]}", f"{edge[1][0]}_{edge[1][1]}") for edge in all_edges]
-        # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
+       
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
         apc = self.fcn_call_apc(all_edges, call_list)
-        # print(apc)
         return apc
 
     def fcn_call_apc(self, edgelist, call_list):
@@ -88,7 +85,6 @@ class FunctionCallPathComplexity(ABC):
         if edgelist == []:
             return (0, 0)
         gamma = self.gammaFunction(edgelist, call_list)
-        # multiply by T0**2 (ensure no T0 in denominators, make it a polynomial)
         self.logger.d_msg(f"Gamma Function: {gamma}")
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
@@ -102,7 +98,6 @@ class FunctionCallPathComplexity(ABC):
             T = symbols("T0")
             x = symbols("x")
             gens = sympy.solve(gamma,T)
-            print('GENS', gens)
             possibleGenFunc = []
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
@@ -216,7 +211,6 @@ class FunctionCallPathComplexity(ABC):
         """Takes in a list of all edges in a graph, and a list of where function calls are
         located, and calculates a gamma function in terms of x and the start node"""
         # calls: [('0_0', 1), ('0_0', 1), ('1_2', 1)] -> {'(0_0, 1)': 2, '(1_2, 1)': 1}
-        call_count = Counter(call_list)
         edgedict = defaultdict(list)
         for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
             edgedict[edge[0]].append(edge[1])
@@ -239,17 +233,6 @@ class FunctionCallPathComplexity(ABC):
                     expr = expr + var*x
                 else:
                     expr = expr + x
-                # for calling_node, called_fcn_idx in call_list:
-                #     if calling_node == startnode:
-                #         expr = init_nodes[called_fcn_idx] * expr
-                # fcn_call_Ts = 0  # will become 2*T0 + T1 (for example)
-                # for call in call_count:
-                #     calling_node, called_fcn_idx = call
-                #     if calling_node == startnode:
-                #         # expr = call_count[call] * init_nodes[called_fcn_idx] * expr
-                #         fcn_call_Ts = fcn_call_Ts + call_count[call] * init_nodes[called_fcn_idx]
-                # if fcn_call_Ts != 0:
-                #     expr = fcn_call_Ts * expr
             
                 for calling_node, called_fcn_idx in call_list:
                     if calling_node == startnode:
@@ -264,74 +247,14 @@ class FunctionCallPathComplexity(ABC):
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
         return gamma
 
-
-    # def calculateDiscrim(self, polynomial):
-    #     """Takes in a polynomial and calculates its discriminant"""
-    #     # replace all T0's with T in polynomial
-    #     polynomial = polynomial.subs(symbols("T0"), symbols("T"))
-    #     terms = polynomial.args
-    #     domPow = max([self.termPow(term, "T") for term in terms])
-    #     maxcoeff = 0
-    #     for term in terms:
-    #         if self.termPow(term, "T") == domPow:
-    #             newprod = 1
-    #             for arg in term.args:
-    #                 if not "T" in str(arg):
-    #                     newprod *= arg
-    #             maxcoeff += newprod
-
-    #     power = int(domPow*(domPow-1)/2)
-    #     result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
-    #     self.logger.d_msg(f"resultant: {result}")
-    #     self.logger.d_msg(f"maxcoeff: {maxcoeff}")
-    #     disc = ((-1)**power)/(maxcoeff)*result
-    #     return disc
-
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
-        # replace all T0's with T in polynomial
-        # polynomial = polynomial.subs(symbols("T0"), symbols("T"))
+        # polynomial is not actually a polynomial, it can have fractions
+        # so combine it with a common denominator, and then find discriminant of 
+        # numerator (since the overall expression is equal to 0, ignore denom)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
-
-    def resultant(self, p, q, symb):
-        """Calculates the resultant of two polynomials"""
-        Ppow = 0
-        Qpow = 0
-        Pcoeffs = {}
-        Qcoeffs = {}
-        for term in p.args:
-            pow = self.termPow(term, symb)
-            if pow in Pcoeffs.keys():
-                Pcoeffs[pow] += term/(symb**pow)
-            else:
-                Pcoeffs[pow] = term/(symb**pow)
-            if  pow > Ppow:
-                Ppow = pow
-        for term in q.args:
-            pow = self.termPow(term, symb)
-            if pow in Qcoeffs.keys():
-                Qcoeffs[pow] += term/(symb**pow)
-            else:
-                Qcoeffs[pow] = term/(symb**pow)
-            if  pow > Qpow:
-                Qpow = pow
-        MatrixArray = []
-        for i in range(Ppow + Qpow):
-            MatrixArray += [[0]*(Ppow + Qpow)]
-        for i in range(Ppow + 1):
-            for j in range(Qpow):
-                if i in Pcoeffs.keys():
-                    MatrixArray[j][i + j] = Pcoeffs[i]
-        for i in range(Qpow + 1):
-            for j in range(Ppow):
-                if i in Qcoeffs.keys():
-                    MatrixArray[j + Qpow][i +j] = Qcoeffs[i]
-        m = Matrix(MatrixArray)
-        m = m.T
-        # print(m)
-        return m.det()
-
+        
     def termPow(self, term, symb):
         """for a expression, find the power a symbol is raised to"""
         if not str(symb) in str(term):
