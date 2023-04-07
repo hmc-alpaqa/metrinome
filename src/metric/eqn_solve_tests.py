@@ -158,22 +158,31 @@ class EqnSolverTest:
         """Takes in a polynomial and calculates its discriminant"""
         polynomial = polynomial.subs(symbols("T0"), symbols("T"))
         terms = polynomial.args
-        domPow = max([self.termPow(term, "T") for term in terms])
-        maxcoeff = 0
+        print(sympy.together(polynomial))
+        print(terms)
+        denom = 1
         for term in terms:
-            if self.termPow(term, "T") == domPow:
-                newprod = 1
-                for arg in term.args:
-                    if not "T" in str(arg):
-                        newprod *= arg
-                maxcoeff += newprod
+            if '/' in str(term):
+                denom *= sympy.parse_expr(str(term).split('/')[1])
+        
+        print(denom)
+        # print([self.termPow(term, "T") for term in terms])
+        # domPow = max([self.termPow(term, "T") for term in terms])
+        # maxcoeff = 0
+        # for term in terms:
+        #     if self.termPow(term, "T") == domPow:
+        #         newprod = 1
+        #         for arg in term.args:
+        #             if not "T" in str(arg):
+        #                 newprod *= arg
+        #         maxcoeff += newprod
 
-        power = int(domPow*(domPow-1)/2)
-        result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
-        self.logger.d_msg(f"resultant: {result}")
-        self.logger.d_msg(f"maxcoeff: {maxcoeff}")
-        disc = ((-1)**power)/(maxcoeff)*result
-        return disc
+        # power = int(domPow*(domPow-1)/2)
+        # result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
+        # self.logger.d_msg(f"resultant: {result}")
+        # self.logger.d_msg(f"maxcoeff: {maxcoeff}")
+        # disc = ((-1)**power)/(maxcoeff)*result
+        # return disc
 
     def resultant(self, p, q, symb):
         """Calculates the resultant of two polynomials"""

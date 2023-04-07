@@ -76,8 +76,6 @@ class FunctionCallPathComplexity(ABC):
 
         # convert all ((i0, j0), (i1, j1)) edges to (i0_j0, i1_j1)
         # all_edges = [(f"{edge[0][0]}_{edge[0][1]}", f"{edge[1][0]}_{edge[1][1]}") for edge in all_edges]
-        print('CALL LIST', call_list)
-        print('ALL EDGES', all_edges)
         # self.logger.d_msg(f"Adjacency Matrix: {adjMatrix}")
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
@@ -90,7 +88,7 @@ class FunctionCallPathComplexity(ABC):
         if edgelist == []:
             return (0, 0)
         gamma = self.gammaFunction(edgelist, call_list)
-        print('GAMMA', gamma)
+        # multiply by T0**2 (ensure no T0 in denominators, make it a polynomial)
         self.logger.d_msg(f"Gamma Function: {gamma}")
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
@@ -104,7 +102,7 @@ class FunctionCallPathComplexity(ABC):
             T = symbols("T0")
             x = symbols("x")
             gens = sympy.solve(gamma,T)
-            # print(gens)
+            print('GENS', gens)
             possibleGenFunc = []
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
@@ -177,7 +175,7 @@ class FunctionCallPathComplexity(ABC):
                         expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
-            self.logger.d_msg(f"exprs: {exprs}")
+            # self.logger.d_msg(f"exprs: {exprs}")
             try:
                 with Timeout(seconds = 200, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
@@ -267,27 +265,34 @@ class FunctionCallPathComplexity(ABC):
         return gamma
 
 
+    # def calculateDiscrim(self, polynomial):
+    #     """Takes in a polynomial and calculates its discriminant"""
+    #     # replace all T0's with T in polynomial
+    #     polynomial = polynomial.subs(symbols("T0"), symbols("T"))
+    #     terms = polynomial.args
+    #     domPow = max([self.termPow(term, "T") for term in terms])
+    #     maxcoeff = 0
+    #     for term in terms:
+    #         if self.termPow(term, "T") == domPow:
+    #             newprod = 1
+    #             for arg in term.args:
+    #                 if not "T" in str(arg):
+    #                     newprod *= arg
+    #             maxcoeff += newprod
+
+    #     power = int(domPow*(domPow-1)/2)
+    #     result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
+    #     self.logger.d_msg(f"resultant: {result}")
+    #     self.logger.d_msg(f"maxcoeff: {maxcoeff}")
+    #     disc = ((-1)**power)/(maxcoeff)*result
+    #     return disc
+
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
         # replace all T0's with T in polynomial
-        polynomial = polynomial.subs(symbols("T0"), symbols("T"))
-        terms = polynomial.args
-        domPow = max([self.termPow(term, "T") for term in terms])
-        maxcoeff = 0
-        for term in terms:
-            if self.termPow(term, "T") == domPow:
-                newprod = 1
-                for arg in term.args:
-                    if not "T" in str(arg):
-                        newprod *= arg
-                maxcoeff += newprod
-
-        power = int(domPow*(domPow-1)/2)
-        result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
-        self.logger.d_msg(f"resultant: {result}")
-        self.logger.d_msg(f"maxcoeff: {maxcoeff}")
-        disc = ((-1)**power)/(maxcoeff)*result
-        return disc
+        # polynomial = polynomial.subs(symbols("T0"), symbols("T"))
+        polynomial = sympy.fraction(sympy.together(polynomial))[0]
+        return sympy.discriminant(polynomial, sympy.symbols("T0"))
 
     def resultant(self, p, q, symb):
         """Calculates the resultant of two polynomials"""
@@ -346,11 +351,9 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        print('ELIMINATE', system)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]
-        print('sub', sub)
         if symbs[-1] in sub.free_symbols:
             for eq in system:
                 if symbs[-1] in eq.free_symbols:
