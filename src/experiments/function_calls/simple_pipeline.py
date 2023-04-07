@@ -50,7 +50,8 @@ class DataCollector:
                 # if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
                 # if graph_name != 'fcn_calls_cfg._Z18multi_fact_wrapperi.dot':
                 # if graph_name != 'fcn_calls_cfg._Z10fcn_medleyi.dot':
-                    # continue
+                if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                    continue
                 print('Graph Name: ', graph_name)
                 start_time = time.time()
                 apc: Union[str, PathComplexityRes] = "na"
