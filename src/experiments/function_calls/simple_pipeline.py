@@ -94,13 +94,13 @@ class DataCollector:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
                 # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         apc = self.apc_computer.evaluate(graph)
-                #         runtime = time.time() - start_time
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
+                try:
+                    with Timeout(300):
+                        apc = self.apc_computer.evaluate(graph)
+                        runtime = time.time() - start_time
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
                 # try:
                 #     with Timeout(200):
                 #         cyclo = self.cyclo_computer.evaluate(graph)
