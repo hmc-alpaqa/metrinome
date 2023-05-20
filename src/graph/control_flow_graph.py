@@ -168,7 +168,7 @@ class ControlFlowGraph:
         return ControlFlowGraph(graph, Metadata(*options, Metadata.with_calls(calls)))
 
     @staticmethod
-    def get_calls_structure(graphs: dict[str, ControlFlowGraph]) -> Optional[Tuple[list[list[str]], list[str]]]:
+    def get_calls_structure(graphs: dict[str, ControlFlowGraph]) -> Tuple[list[list[str]], list[str]]:
         """Create lists describing the hierarchy of a program's function calls."""
         calls_list = []
         simple_funcs = []
@@ -180,38 +180,39 @@ class ControlFlowGraph:
             for func2 in graphs:
                 if calls_function(graphs[func1].metadata.calls, func2):
                     calls_list.append([func1, func2])
-                if graphs[func2].metadata.calls is None:
+                if graphs[func2].metadata.calls is None or graphs[func2].metadata.calls == {}:
                     simple_funcs.append(func2)
         return calls_list, simple_funcs
 
     @staticmethod
     def stitch(graphs: dict[str, ControlFlowGraph]) -> ControlFlowGraph:
         """Create new CFG by substituting function calls with their graphs."""
-        call_structure = ControlFlowGraph.get_calls_structure(graphs)
-        if call_structure is not None:
-            calls_list, simple_funcs = call_structure
+        calls_list, simple_funcs = ControlFlowGraph.get_calls_structure(graphs)
 
         while calls_list:
             for func_pair in calls_list:
-                func0, func1 = func_pair
-                if func0 == func1:
-                    for _ in range(len(calls_function(graphs[func0].metadata.calls, func1))):
-                        node = calls_function(graphs[func0].metadata.calls, func1)[0]
-                        graphs[func0] = ControlFlowGraph.recursify(graphs[func0], node)
+                if func_pair[0] == func_pair[1]:
+                    for _ in range(len(
+                        calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])
+                    )):
+                        node = calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])[0]
+                        graphs[func_pair[0]] = ControlFlowGraph.recursify(graphs[func_pair[0]], node)
                     calls_list.remove(func_pair)
-                    if func0 not in [i[0] for i in calls_list]:
-                        simple_funcs.append(func0)
+                    if func_pair[0] not in [i[0] for i in calls_list]:
+                        simple_funcs.append(func_pair[0])
 
-                elif func1 in simple_funcs:
-                    for _ in range(len(calls_function(graphs[func0].metadata.calls, func1))):
-                        cfg1, cfg2 = graphs[func0], graphs[func1]
+                elif func_pair[1] in simple_funcs:
+                    for _ in range(len(
+                        calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])
+                    )):
+                        cfg1, cfg2 = graphs[func_pair[0]], graphs[func_pair[1]]
+                        node = calls_function(graphs[func_pair[0]].metadata.calls, func_pair[1])[0]
                         if cfg1.metadata.calls is not None:
-                            node = calls_function(cfg1.metadata.calls, func1)[0]
                             cfg1.metadata.calls.pop(node)
-                            graphs[func0] = ControlFlowGraph.compose(cfg1, cfg2, node)
+                        graphs[func_pair[0]] = ControlFlowGraph.compose(cfg1, cfg2, node)
                     calls_list.remove(func_pair)
-                    if func0 not in [i[0] for i in calls_list]:
-                        simple_funcs.append(func0)
+                    if func_pair[0] not in [i[0] for i in calls_list]:
+                        simple_funcs.append(func_pair[0])
 
         return graphs[simple_funcs[-1]]
 

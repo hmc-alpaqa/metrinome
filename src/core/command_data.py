@@ -77,6 +77,7 @@ class Data:
                                  "cyclo": [], "npath": []})
             for m_name in self.metrics:
                 metric_value = self.metrics[m_name]
+                metric_value = sorted(metric_value, key=lambda val: val[0])
                 new_row = {"graph_name": m_name, "apc": metric_value[2][1],
                            "cyclo": metric_value[0][1], "npath": metric_value[1][1]}
                 data = data.append(new_row, ignore_index=True)
