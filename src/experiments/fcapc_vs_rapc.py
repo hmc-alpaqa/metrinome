@@ -1,7 +1,7 @@
 """Various utilities used only for testing and not the main REPL."""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
-from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity,recursive_path_complexity
+from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
 import pandas as pd  # type: ignore
@@ -41,6 +41,7 @@ class DataCollector:
         for file in files:
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
+            print(graphs)
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
@@ -97,25 +98,25 @@ class DataCollector:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
 
-                # start_time = time.time()
-                # try:
-                #     with Timeout(2000):
-                #         rapc = self.recursive_apc_computer.evaluate(graph)
-                #         rruntime = time.time() - start_time
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
+                start_time = time.time()
+                try:
+                    with Timeout(2000):
+                        rapc = self.recursive_apc_computer.evaluate(graph)
+                        rruntime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
     
-                # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         apc = self.apc_computer.evaluate(graph)
-                #         runtime = time.time() - start_time
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
-
+                start_time = time.time()
+                try:
+                    with Timeout(300):
+                        apc = self.apc_computer.evaluate(graph)
+                        runtime = time.time() - start_time
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
+                        
                 # try:
                 #     with Timeout(200):
                 #         cyclo = self.cyclo_computer.evaluate(graph)
@@ -139,11 +140,11 @@ class DataCollector:
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "fcapc","fcapc_time","num_vertices", "edge_count"]]
+                data = data[["graph_name", "rapc", "fcapc", "rapc_time","fcapc_time","num_vertices", "edge_count"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
-                print(data[['graph_name', "fcapc","fcapc_time","num_vertices", "edge_count"]])
+                print(data[['graph_name', 'rapc',"rapc_time","fcapc","fcapc_time"]])
 
 
 
