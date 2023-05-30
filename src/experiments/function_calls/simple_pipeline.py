@@ -39,6 +39,7 @@ class DataCollector:
         for file in files:
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
+            print(show_graphs(graphs))
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
@@ -118,13 +119,10 @@ class DataCollector:
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
                            "rapc": rapc, "brapc": brapc, "cyclo": cyclo, "npath": npath,
                            "apc_time": runtime, "rapc_time": rruntime, "brapc_time": bruntime,
-                           "num_vertices": graph.graph.num_vertices,
-                           "edge_count": graph.graph.edge_count(),
+                           "num_vertices": graph.graph.num_vertices, "edge_count":graph.graph.edge_count(),
                            "exception_type": exception_type}
-
-                data = data.append(new_row, ignore_index=True)
-                # only keep columns graph_name, rapc, num_vertices, edge_count
-                data = data[["graph_name", "rapc", "num_vertices", "edge_count"]]
+                data = data.append(new_row, ignore_index = True)
+                data = data[["graph_name", "rapc"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
@@ -153,3 +151,25 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+class Command:
+    def show_graphs(self, name: str, names: list[str]) -> None:
+        """Display a Graph we know about to the REPL."""
+        if name == "*":
+            names = list(self.graphs.keys())
+
+        for graph_name in names:
+            if graph_name in self.graphs:
+                if self.rich:
+                    rows = self.graphs[graph_name].rich_repr()
+                    table = Table(title=f"Graph {graph_name}")
+                    table.add_column("Graph Property", style="cyan")
+                    table.add_column("Value", style="magenta")
+                    for row in rows:
+                        table.add_row(*row)
+                    Console().print(table)
+                else:
+                    self.logger.v_msg(str(self.graphs[graph_name]))
+            else:
+                self.logger.v_msg(f"Graph {Colors.MAGENTA}{graph_name}{Colors.ENDC} not found.")
+ 

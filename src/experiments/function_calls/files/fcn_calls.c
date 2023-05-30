@@ -14,17 +14,17 @@ int fib_iter(int n);
 int fib_rec(int n);
 int gcd(int a, int b);
 
-// int split_func(int n)
-// {
-//     if (n % 2 == 0)
-//     {
-//         return fib_rec(n); // exp
-//     }
-//     else
-//     {
-//         return gcd(n, 24); // exp
-//     }
-// }
+int split_func(int n)
+{
+    if (n % 2 == 0)
+    {
+        return fib_rec(n); // exp
+    }
+    else
+    {
+        return gcd(n, 24); // exp
+    }
+}
 
 // int mul_inv(int a, int b)
 // {
@@ -43,21 +43,21 @@ int gcd(int a, int b);
 //     return x1;
 // }
 
-// int gcd(int a, int b)
-// {
-//     while (a != b)
-//     {
-//         if (a > b)
-//         {
-//             a = a - b;
-//         }
-//         else
-//         {
-//             b = b - a;
-//         }
-//     }
-//     return a;
-// }
+int gcd(int a, int b)
+{
+    while (a != b)
+    {
+        if (a > b)
+        {
+            a = a - b;
+        }
+        else
+        {
+            b = b - a;
+        }
+    }
+    return a;
+}
 
 // int chinese_remainder(int *n, int *a, int len)
 // {
@@ -105,9 +105,8 @@ int gcd(int a, int b);
 //     return fact(n) + fact(n);
 // }
 
-// int fib_iter(int n)
-// {
-//     int a = 0;
+// int fib_iter(
+//     else;
 //     int b = 1;
 //     int f;
 //     for (int i = 0; i < n; i++)
@@ -119,17 +118,17 @@ int gcd(int a, int b);
 //     return a;
 // }
 
-// int fib_rec(int n)
-// {
-//     if (n > 2)
-//     {
-//         return n;
-//     }
-//     else
-//     {
-//         return fib_rec(n - 1) + fib_rec(n - 2);
-//     }
-// }
+int fib_rec(int n)
+{
+    if (n > 2)
+    {
+        return n;
+    }
+    else
+    {
+        return fib_rec(n - 1) + fib_rec(n - 2);
+    }
+}
 
 // void mergeSortSimple(int arr[], int l, int r)
 // {
