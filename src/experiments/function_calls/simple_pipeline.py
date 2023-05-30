@@ -37,18 +37,19 @@ class DataCollector:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
             files = [line.rstrip() for line in funcs]
-
+        print(files)
         for file in files:
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            print(show_graphs(graphs))
+            print(graphs)
+            #print(show_graphs(graphs))
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
             if graphs is None:
                 print("No Graphs")
                 continue
-
+            print("LIST",graphs.items())
             for graph_name, graph in graphs.items():
                 # if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
                 # if graph_name != 'fcn_calls_cfg._Z18multi_fact_wrapperi.dot':
@@ -77,26 +78,26 @@ class DataCollector:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
 
-                # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         recurlist = []
-                #         end = graph.graph.num_vertices - 1
-                #         for node in graph.metadata.calls.keys():
-                #             if graph.name.split(".")[1] in graph.metadata.calls[node]:
-                #                 recurlist += [int(node)]
-                #         oldEdges = graph.graph.edges
-                #         for node in recurlist:
-                #             graph.graph.edges = graph.graph.edges + [[node, 0]]
-                #             graph.graph.edges = graph.graph.edges + \
-                #                 [[end, node]]
-                #         brapc = self.apc_computer.evaluate(graph)
-                #         bruntime = time.time() - start_time
-                #         graph.graph.edges = oldEdges
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
+                start_time = time.time()
+                try:
+                    with Timeout(300):
+                        recurlist = []
+                        end = graph.graph.num_vertices - 1
+                        for node in graph.metadata.calls.keys():
+                            if graph.name.split(".")[1] in graph.metadata.calls[node]:
+                                recurlist += [int(node)]
+                        oldEdges = graph.graph.edges
+                        for node in recurlist:
+                            graph.graph.edges = graph.graph.edges + [[node, 0]]
+                            graph.graph.edges = graph.graph.edges + \
+                                [[end, node]]
+                        brapc = self.apc_computer.evaluate(graph)
+                        bruntime = time.time() - start_time
+                        graph.graph.edges = oldEdges
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -141,15 +142,14 @@ class DataCollector:
                            "num_vertices": graph.graph.num_vertices, "edge_count":graph.graph.edge_count(),
                            "exception_type": exception_type}
 
-                data = data.append(new_row, ignore_index=True)
+                #data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
                 data = data[["graph_name", "fcapc","fcapc_time","num_vertices", "edge_count"]]
                 data = data.append(new_row, ignore_index = True)
-                data = data[["graph_name", "rapc"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
-                print(data[['graph_name', "fcapc","fcapc_time","num_vertices", "edge_count"]])
+                print(data[['graph_name', "fcapc","fcapc_time"]])
 
 
 

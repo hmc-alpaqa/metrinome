@@ -241,7 +241,7 @@ class FunctionCallPathComplexity(ABC):
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
-        print(symbs)
+        print("SYMBS:", symbs)
         full_sys = init_eqns + system
         print('SYSTEM', full_sys)
 
