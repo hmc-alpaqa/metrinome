@@ -605,6 +605,8 @@ class Command:
                    graph.metadata.language is not KnownExtensions.Python:
                     continue
                 start_time = time.time()
+
+                # checkes if the function is recursive
                 recursiveCalls = False
                 for node in graph.metadata.calls.keys():
                     if graph.metadata.calls[node].split()[1] == graph.name.split(".")[1]:
