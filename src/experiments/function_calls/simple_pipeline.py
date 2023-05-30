@@ -41,13 +41,16 @@ class DataCollector:
         for file in files:
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            print(show_graphs(graphs))
+
+
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
             if graphs is None:
                 print("No Graphs")
                 continue
+
+            print(show_graphs(graphs))
 
             for graph_name, graph in graphs.items():
                 # if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
