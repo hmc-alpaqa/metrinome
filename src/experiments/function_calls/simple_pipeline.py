@@ -2,6 +2,7 @@
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity,recursive_path_complexity
+from core.command_data import Data
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
 import pandas as pd  # type: ignore
@@ -17,6 +18,7 @@ class DataCollector:
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
         log = Log(log_level=LogLevel.DEBUG)
+        self.data = Data(log, True)
         # log = Log(log_level=LogLevel.REGULAR)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
@@ -44,7 +46,9 @@ class DataCollector:
 
 
             print(graphs)
-            #print(show_graphs(graphs))
+            self.data.graphs = graphs
+            self.data.show_graphs("*",graphs)
+
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
@@ -52,8 +56,6 @@ class DataCollector:
                 print("No Graphs")
                 continue
             print("LIST",graphs.items())
-
-            print(show_graphs(graphs))
 
             for graph_name, graph in graphs.items():
                 # if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
