@@ -1,3 +1,4 @@
+
 """Compute the path complexity and asymptotic path complexity metrics."""
 
 import re
@@ -212,9 +213,14 @@ class RecursivePathComplexity(ABC):
                 for i in range(recurlist.count(int(startnode))):
                     expr = recurexpr * expr #recursion
             system += [expr - sym]
+        eq1 = symbols("V0")*x - firstnode # add T = VOX to system
+        # all nodes in variable form
+        print("printing systems of equations")
+        print(system)
         eq1 = symbols("V0")*x - firstnode
         symbs = [firstnode]+symbs
-        gamma = sympy.expand(self.eliminate([eq1]+system, symbs))
+        gamma = sympy.expand(self.eliminate([eq1]+system, symbs)) #solves the system of equations for T & x equation
+        print(gamma)
         return gamma
 
 

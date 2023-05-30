@@ -126,10 +126,10 @@ class REPLOptions():
     def __init__(self, curr_path: str, debug_mode: bool, poor: bool, recursive_apc: bool, multithreaded: bool = False) -> None:
         """Initialize information about the REPL."""
         self.curr_path = curr_path
-        self.debug_mode = debug_mode
-        self.rich = not poor
+        self.debug_mode = debug_mode #flag is '--debug' or '--d'
+        self.rich = not poor #flag is '--poor' or '--p'
         self.multithreaded = multithreaded
-        self.recursive_apc = recursive_apc
+        self.recursive_apc = recursive_apc #flag is '--recursion' or '--r'
 
     def get_curr_path(self) -> str:
         """Return the current path."""
@@ -605,6 +605,8 @@ class Command:
                    graph.metadata.language is not KnownExtensions.Python:
                     continue
                 start_time = time.time()
+
+                # checkes if the function is recursive
                 recursiveCalls = False
                 for node in graph.metadata.calls.keys():
                     if graph.metadata.calls[node].split()[1] == graph.name.split(".")[1]:

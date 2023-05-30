@@ -65,7 +65,7 @@ class FunctionCallPathComplexity(ABC):
                             if graph_name.split('.')[1] == called_fcn:
                                 graphs_to_process.append(all_cfgs[graph_name])
                                 break
-                    # Call (i, j) from function i node j
+                    # Call (i, j) from function i node j to called_fcn
                     call_list.append((f'{fcn_idx}_{int(node)}', used_graphs.index(called_fcn)))
             edge_list = cfg.graph.edge_rules()
             # add fcn_idx to tuple (i, j) where i is fcn_idx and j is node num
@@ -241,6 +241,7 @@ class FunctionCallPathComplexity(ABC):
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
+        print(symbs)
         full_sys = init_eqns + system
         print('SYSTEM', full_sys)
 
