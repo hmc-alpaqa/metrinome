@@ -18,16 +18,22 @@ class Eliminator:
         self.fullsystem = [eqn for system in self.systems for eqn in system]
         self.symbs = []
         self.fullsymbs = set()
+        self.parse()
+
+    def parse(self):
         for system in self.systems:
             systemsymbs = set()
             for eqn in system:
-                eqn.remove("-")
-                eqn.remove("+")
-                eqn.remove("*x")
+                eqn.replace("-", "")
+                eqn.replace("+", "")
+                eqn.replace("*", " ") # delete this text processing & above lines
                 eqn.split(" ")
-                systemsymbs += eqn.free_symbols
-                self.fullsymbs += eqn.free_symbols
-            self.symbs += systemsymbs
+                for symb in eqn:
+                    if symb != "": # replace with if symb contains V, T, or x
+                        systemsymbs.add(symbols(symb))
+                        self.fullsymbs.add(symbols(symb))
+            self.symbs += list(systemsymbs)
+        self.fullsymbs = list(self.fullsymbs)
 
     def simpleEliminate(self):
         """Takes in a system of equations and gets the gamma function"""
