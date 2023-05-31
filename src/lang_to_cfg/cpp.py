@@ -73,7 +73,7 @@ class CPPConvert(converter.ConverterAbstract):
             content = old_file.readlines()
             for line in content[1:]:
                 line = line.strip()
-                print(line)
+                # print(line)
 
                 # Throw out the label (e.g. label="CFG for 'main' function")
                 # for the graph and remove whitespace.
@@ -105,14 +105,14 @@ class CPPConvert(converter.ConverterAbstract):
                         label = f" [label=\"CALLS{call_label}\"]"
                     node_to_add += label
                         #print(label)
-                    print(node_to_add)
+                    # print(node_to_add)
                     nodes.append(node_to_add)
 
                     counter += 1
                 else:
                     edges += [line]
-            print(node_map)
-            print(edges)
+            #print(node_map)
+            #print(edges)
         return nodes, edges, node_map, counter
 
     def convert_file_to_standard(self, file: str,

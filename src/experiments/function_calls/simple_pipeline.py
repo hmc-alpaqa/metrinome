@@ -39,13 +39,12 @@ class DataCollector:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
             files = [line.rstrip() for line in funcs]
-        print(files)
+        
         for file in files:
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
 
 
-            print(graphs)
             self.data.graphs = graphs
             self.data.show_graphs("*",graphs)
 
