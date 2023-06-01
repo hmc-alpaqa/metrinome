@@ -1,4 +1,5 @@
-"""Various utilities used only for testing and not the main REPL."""
+"""compare the fcn call path complexity and recursive path complexity and their run time for 
+   files in experiments/function_calls/files/files.txt"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity
@@ -64,7 +65,7 @@ class DataCollector:
                 exception_type = "na"
                 runtime = 0.0
                 rruntime = 0.0
-                bruntime = 0.0
+                fcruntime = 0.0
                 start_time = time.time()
                 try:
                     with Timeout(2000):
@@ -108,14 +109,14 @@ class DataCollector:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
     
-                start_time = time.time()
-                try:
-                    with Timeout(300):
-                        apc = self.apc_computer.evaluate(graph)
-                        runtime = time.time() - start_time
-                except Exception as exc:
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                # start_time = time.time()
+                # try:
+                #     with Timeout(300):
+                #         apc = self.apc_computer.evaluate(graph)
+                #         runtime = time.time() - start_time
+                # except Exception as exc:
+                #     exception_type = "Timeout" if isinstance(
+                #         exc, TimeoutError) else "Other"
                         
                 # try:
                 #     with Timeout(200):

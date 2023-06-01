@@ -243,7 +243,7 @@ class FunctionCallPathComplexity(ABC):
         symbs = init_nodes + symbs
         print("SYMBS:", symbs)
         full_sys = init_eqns + system
-        print('SYSTEM', full_sys)
+        print('SYSTEM:', full_sys)
 
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
         return gamma
