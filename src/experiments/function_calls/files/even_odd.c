@@ -25,7 +25,7 @@ int is_odd(int n)
         return is_even(n - 1);
     }
 }
-/*
+
 int gcd(int a, int b)
 {
     while (a != b)
@@ -41,4 +41,3 @@ int gcd(int a, int b)
     }
     return a;
 }
-*/

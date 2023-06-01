@@ -63,7 +63,6 @@ class RecursivePathComplexity(ABC):
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
         try:
-            print("hello")
             numroots = len(self.realnroots(discrim))
         except:
             numroots = 0

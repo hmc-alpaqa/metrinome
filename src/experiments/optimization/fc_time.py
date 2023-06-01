@@ -33,11 +33,10 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],  "fcapc": [],
-                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [], "fcapc_time": [],
-                             "num_vertices": [], "edge_count": [], "exception": [],
-                             "exception_type": []})
-        with open('/app/code/experiments/function_calls/files/files.txt') as funcs:
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
+                             "gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
+                             "exprsTime": [],"soluTime":[], "apcTime":[], "apcTime2":[],"longest":[]})
+        with open('/app/code/experiments/optimization/files.txt') as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
             files = [line.rstrip() for line in funcs]
@@ -47,8 +46,8 @@ class DataCollector:
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
 
 
-            self.data.graphs = graphs
-            self.data.show_graphs("*",graphs)
+            # self.data.graphs = graphs
+            # self.data.show_graphs("*",graphs)
 
             if graphs is None:
                 graphs = self.converter.to_graph(
@@ -87,26 +86,26 @@ class DataCollector:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
 
-                start_time = time.time()
-                try:
-                    with Timeout(300):
-                        recurlist = []
-                        end = graph.graph.num_vertices - 1
-                        for node in graph.metadata.calls.keys():
-                            if graph.name.split(".")[1] in graph.metadata.calls[node]:
-                                recurlist += [int(node)]
-                        oldEdges = graph.graph.edges
-                        for node in recurlist:
-                            graph.graph.edges = graph.graph.edges + [[node, 0]]
-                            graph.graph.edges = graph.graph.edges + \
-                                [[end, node]]
-                        brapc = self.apc_computer.evaluate(graph)
-                        bruntime = time.time() - start_time
-                        graph.graph.edges = oldEdges
-                except Exception as exc:
-                    print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                # start_time = time.time()
+                # try:
+                #     with Timeout(300):
+                #         recurlist = []
+                #         end = graph.graph.num_vertices - 1
+                #         for node in graph.metadata.calls.keys():
+                #             if graph.name.split(".")[1] in graph.metadata.calls[node]:
+                #                 recurlist += [int(node)]
+                #         oldEdges = graph.graph.edges
+                #         for node in recurlist:
+                #             graph.graph.edges = graph.graph.edges + [[node, 0]]
+                #             graph.graph.edges = graph.graph.edges + \
+                #                 [[end, node]]
+                #         brapc = self.apc_computer.evaluate(graph)
+                #         bruntime = time.time() - start_time
+                #         graph.graph.edges = oldEdges
+                # except Exception as exc:
+                #     print(f"Exception: {exc}")
+                #     exception_type = "Timeout" if isinstance(
+                #         exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -140,39 +139,48 @@ class DataCollector:
                 # except Exception as exc:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
+            
 
-                new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "rapc": rapc, "fcapc": fcapc, "cyclo": cyclo, "npath": npath,
-                           "apc_time": runtime, "rapc_time": rruntime, "fcapc_time": fcruntime,
-                           "num_vertices": graph.graph.num_vertices,
-                           "edge_count": graph.graph.edge_count(),
-                           "rapc": rapc, "brapc": brapc, "cyclo": cyclo, "npath": npath,
-                           "apc_time": runtime, "rapc_time": rruntime, "brapc_time": bruntime,
-                           "num_vertices": graph.graph.num_vertices, "edge_count":graph.graph.edge_count(),
-                           "exception_type": exception_type}
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"],fcapc["pc"]), "gammaTime": fcapc["gammaTime"], 
+                           "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
+                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "apcTime":fcapc["apcTime"], "apcTime2": fcapc["apcTime2"],
+                           "fcapc_time": fcruntime,"exception_type": exception_type, "longest":get_max_time(fcapc)}
 
-                #data = data.append(new_row, ignore_index=True)
-                # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "fcapc","fcapc_time"]]
                 data = data.append(new_row, ignore_index = True)
-
+                data = data[["graph_name", "fcapc","fcapc_time", "gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
+                                "soluTime", "apcTime", "apcTime2", "longest"]]
+                
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
-                print(data[['graph_name', "fcapc","fcapc_time"]])
+                data['fcapc'] = data['fcapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
+
+                print(data[["graph_name", "fcapc","fcapc_time", "gammaTime", "discrimTime", 
+                "realnrootsTime", "coeffsTime", "exprsTime",
+                "soluTime", "apcTime", "apcTime2", "longest"]])
 
 
 
                 # create directory if it doesn't exist
-                if not os.path.exists("/app/code/experiments/function_calls/data"):
-                    os.makedirs("/app/code/experiments/function_calls/data")
+                if not os.path.exists("/app/code/experiments/optimization/data"):
+                    os.makedirs("/app/code/experiments/optimization/data")
                 data.to_csv(
-                    "/app/code/experiments/function_calls/data/functionCallData.csv")
+                    "/app/code/experiments/optimization/data/functionCallData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
     return tuple(round_expr(expr, num_digits) for expr in tup)
                 
 def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
+
+def get_max_time(apc):
+    l = ["gammaTime","discrimTime", "realnrootsTime", "coeffsTime", 
+        "exprsTime", "soluTime", "apcTime", "apcTime2"]
+    maxTime  = apc[l[0]]
+    maxName = 'gammaTime'
+    for name in l:
+        if apc[name] > maxTime:
+            maxTime = apc[name]
+            maxName = name
+    return maxName
 
 
 def main() -> None:
@@ -183,25 +191,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-class Command:
-    def show_graphs(self, name: str, names: list[str]) -> None:
-        """Display a Graph we know about to the REPL."""
-        if name == "*":
-            names = list(self.graphs.keys())
-
-        for graph_name in names:
-            if graph_name in self.graphs:
-                if self.rich:
-                    rows = self.graphs[graph_name].rich_repr()
-                    table = Table(title=f"Graph {graph_name}")
-                    table.add_column("Graph Property", style="cyan")
-                    table.add_column("Value", style="magenta")
-                    for row in rows:
-                        table.add_row(*row)
-                    Console().print(table)
-                else:
-                    self.logger.v_msg(str(self.graphs[graph_name]))
-            else:
-                self.logger.v_msg(f"Graph {Colors.MAGENTA}{graph_name}{Colors.ENDC} not found.")
- 
