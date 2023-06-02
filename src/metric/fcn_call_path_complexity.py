@@ -170,7 +170,7 @@ class FunctionCallPathComplexity(ABC):
                         expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
-            # self.logger.d_msg(f"exprs: {exprs}")
+            self.logger.d_msg(f"exprs: {exprs}")
             try:
                 with Timeout(seconds = 200, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
@@ -186,24 +186,30 @@ class FunctionCallPathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
-            self.logger.d_msg(f"pc: {pc}")
-            if type(pc) == sympy.Add:
-                apc = big_o(list(pc.args))
-            else:
-                apc = pc
-            self.logger.d_msg(f"apc: {apc}")
+            #self.logger.d_msg(f"pc: {pc}")
+            # if type(pc) == sympy.Add:
+            #     print("ADD")
+            #     apc = big_o(list(pc.args))
+            # else:
+            #     apc = pc
+            #     apc = big_o(list(pc.args))
+            #apc = pc
+            #self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
-            apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
+        self.logger.d_msg(f"pc: {pc}")
+        apc = pc
+        if type(pc) == sympy.Add:
+            apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             apc = big_o(list(apc.args))
-        apc = sympy.N(apc)
+        self.logger.d_msg(f"apc: {apc}")
         return (apc, pc)
 
 
