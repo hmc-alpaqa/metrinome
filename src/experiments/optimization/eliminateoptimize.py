@@ -2,16 +2,14 @@ import re
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque, Counter
 from typing import Union, List
-​
-​
 import numpy as np  # type: ignore
-import sympy  # type: ignore
+import sympy # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
 from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal, simplify, symbols,
                    sympify)
 #from graph.control_flow_graph import ControlFlowGraph
 #from graph.graph import Graph
-​
+
 class Eliminator:
     # graph representation: [namestring, edgelist, calldict]
     def __init__(self, all_graphs: dict, graphname):
@@ -24,7 +22,7 @@ class Eliminator:
         self.fullsystem = []
         self.fullsymbs = []
         self.processGraphs()
-​
+
     def processGraphs(self):
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
@@ -41,7 +39,7 @@ class Eliminator:
             for edge in curr_graph_edges: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
                 edgedict[edge[0]].append(edge[1])
             self.dictgraphs.append(edgedict)
-​
+
             for node in curr_graph_calls:
                 # loop through functions that are called
                 for called_fcn in curr_graph_calls[node]:
@@ -60,12 +58,12 @@ class Eliminator:
                     self.calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
         print(self.calldict)
         print(self.dictgraphs)
-​
+
     def evaluate(self):
         self.graphsToSystems()
         gamma = self.simpleEliminate(self.fullsystem,self.fullsymbs)
         print(gamma)
-​
+
     def graphsToSystems(self):
         systems = []
         systemsymbs = []
@@ -90,7 +88,7 @@ class Eliminator:
                         expr = expr + var*x
                     else:
                         expr = expr + x
-                
+
                     for called_fcn_idx in self.calldict[startnode]:
                         expr =  init_nodes[called_fcn_idx] * expr
                         symbs += [init_nodes[called_fcn_idx]]
@@ -113,7 +111,7 @@ class Eliminator:
         print(self.fullsymbs)
         print(self.systems)
         print(self.systemsymbs)
-​
+
     def simpleEliminate(self, fullsys, fullsym):
         """Takes in a system of equations and gets the gamma function"""
         if len(fullsys) == 1:
@@ -131,7 +129,7 @@ class Eliminator:
             if fullsym[-1] in eq.free_symbols:
                 fullsys[count] = sympy.expand(eq.subs(fullsym[-1], sub))
         return sympy.expand(self.simpleEliminate(fullsys[:-1], fullsym[:-1]))
-​
+
     def optimizedEliminate(self):
         """Takes in a system of equations and gets the gamma function"""
         if len(system) == 1:
@@ -149,7 +147,7 @@ class Eliminator:
             if symbs[-1] in eq.free_symbols:
                 system[count] = sympy.expand(eq.subs(symbs[-1], sub))
         return sympy.expand(self.optimizedEliminate(system[:-1], symbs[:-1]))
-​
+
 def main():
     graphname = "odd"
     graphs = {"zero": ["zero",[[0, 1],[0, 2], [1, 2]], {2: ["one"]}],"one":["one",[[0, 1], [1, 2], [1, 3]],{}]}
@@ -164,6 +162,6 @@ def main():
     elim = Eliminator(graphs, graphname)
     elim.evaluate()
     #elim.simpleEliminate()
-​
+
 if __name__ == "__main__":
     main()
