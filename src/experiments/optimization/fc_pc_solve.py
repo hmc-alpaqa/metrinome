@@ -1,5 +1,4 @@
-"""Compute the path complexity and asymptotic path complexity metrics. 
-basically fcn_call_path_complexity with run time printed along the way. call by fc_time.py"""
+"""Compute the path complexity and asymptotic path complexity metrics for solve vs nsolve"""
 
 import re
 from abc import ABC, abstractmethod
@@ -17,7 +16,6 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
-import time
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
@@ -34,7 +32,7 @@ class FunctionCallPathComplexity(ABC):
         """Return the name of the metric computed by this class."""
         return "Function Call Path Complexity"
 
-    def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
+    def evaluate(self, solve, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # adjMatrix = cfg.graph.adjacency_matrix()
         # print(cfg.graph.edge_rules())
@@ -77,55 +75,30 @@ class FunctionCallPathComplexity(ABC):
 
 
        
-        self.logger.d_msg(f"Edge List: {all_edges}")
-        self.logger.d_msg(f"Call List: {call_list}")
-        apc_and_time = self.fcn_call_apc(all_edges, call_list)
-        return apc_and_time
+        # self.logger.d_msg(f"Edge List: {all_edges}")
+        # self.logger.d_msg(f"Call List: {call_list}")
+        apc = self.fcn_call_apc(all_edges, call_list,solve)
+        return apc
 
-    def fcn_call_apc(self, edgelist, call_list):
+
+    def fcn_call_apc(self, edgelist, call_list,solve):
         """Calculates the apc of a function that can call other functions """
-
-        # initialize the times
-        gammaTime = 0.0
-        discrimTime = 0.0
-        realnrootsTime = 0.0
-        genFuncTime = 0.0
-        coeffsTime = 0.0
-        exprsTime = 0.0
-        soluTime = 0.0
-        UpboundTime = 0.0
-        apcTime2 = 0.0
-
         if edgelist == []:
             return (0, 0)
-
-        start_time = time.time()
         gamma = self.gammaFunction(edgelist, call_list)
-        gammaTime = time.time()-start_time
-        self.logger.d_msg(f"Gamma Function: {gamma}, time: {gammaTime}")
-
-        start_time = time.time()
+        self.logger.d_msg(f"Gamma Function: {gamma}")
         discrim = self.calculateDiscrim(gamma)
-        discrimTime = time.time()-start_time
-        self.logger.d_msg(f"Discriminant: {discrim}, time:{discrimTime}")
-
-        start_time = time.time()
+        self.logger.d_msg(f"Discriminant: {discrim}")
         try:
             numroots = len(self.realnroots(discrim))
-            realnrootsTime = time.time()-start_time
-            print(f"realnrootsTime:{realnrootsTime}")
         except Exception as e:
             self.logger.e_msg(f"Error: {e}")
             numroots = 0
-
         if numroots == 0:
             self.logger.d_msg(f"case1")
-
-            start_time = time.time()
             T = symbols("T0")
             x = symbols("x")
-            gens = sympy.solve(gamma,T) #"T as an expression of z" in fraction, example: [-x**6/(2*x**6 - 1)]
-            # print(f"printing gens..{gens}")
+            gens = sympy.solve(gamma,T)
             possibleGenFunc = []
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
@@ -133,13 +106,10 @@ class FunctionCallPathComplexity(ABC):
                     possibleGenFunc += [gen]
             if len(possibleGenFunc) == 1:
                 genFunc = possibleGenFunc[0]/(1-x)
-                genFuncTime = time.time()-start_time
-                self.logger.d_msg(f"Generating Function: {genFunc}, time: {genFuncTime}")
+                self.logger.d_msg(f"Generating Function: {genFunc}")
             else:
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
-
-            start_time = time.time()
             denominator = 1
             for factor in genFunc.args:
                 if type(factor) == sympy.Pow and factor.args[1] < 0:
@@ -192,30 +162,25 @@ class FunctionCallPathComplexity(ABC):
                     if c == "x":
                         c = "1"
                     coeffs[self.termPow(term, x)] = int(c)
-            coeffsTime = time.time()-start_time
-            self.logger.d_msg(f"coeffs: {coeffs}, time:{coeffsTime}")
-
-            start_time = time.time()
+            self.logger.d_msg(f"coeffs: {coeffs}")
             for val in range(nonZeroIndex, nonZeroIndex + numRoots):
                 expr = -coeffs[val]
+
                 for rootindex, root in enumerate(rootsDict.keys()):
                     for mj in range(rootsDict[root]):
                         expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
-            exprsTime = time.time()- start_time
-            self.logger.d_msg(f"exprs: {exprs}, time:{exprsTime}")
-
-            start_time = time.time()
-            try:
-                with Timeout(seconds = 400, error_message="Root solver Timed Out"):
-                    solutions = sympy.solve(exprs)
-            except:
-                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0] #numerically solve the root
-            soluTime = time.time()-start_time
-            self.logger.d_msg(f"solutions: {solutions}, time: {soluTime}")
-
-            start_time = time.time()
+            # self.logger.d_msg(f"exprs: {exprs}")
+            if (solve == True):
+                try:
+                    with Timeout(seconds = 50):
+                        solutions = sympy.solve(exprs)
+                except TimeoutError:
+                    print ("SOLVE cannot solve, need help from nsolve!!!")
+            else:
+                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+            self.logger.d_msg(f"solutions: {solutions}")
             patheq = 0
             for rootindex, root in enumerate(rootsDict.keys()):
                 for mj in range(rootsDict[root]):
@@ -230,29 +195,20 @@ class FunctionCallPathComplexity(ABC):
                 apc = big_o(list(pc.args))
             else:
                 apc = pc
-            UpboundTime = time.time() - start_time
-            self.logger.d_msg(f"apc: {apc}, time: {UpboundTime}")
-
+            self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
-
-            start_time = time.time()
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
             apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
-            apcTime2 = time.time()-start_time
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             apc = big_o(list(apc.args))
-
         apc = sympy.N(apc)
-        apc_and_time = {"apc":apc, "pc":pc, "gammaTime": gammaTime, "discrimTime":discrimTime, 
-                "realnrootsTime":realnrootsTime, "coeffsTime": coeffsTime, "exprsTime": exprsTime,
-                "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2}
-        return apc_and_time
+        return (apc, pc)
 
 
     def gammaFunction(self, edgelist, call_list):
