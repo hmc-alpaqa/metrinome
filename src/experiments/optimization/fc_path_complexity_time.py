@@ -93,7 +93,7 @@ class FunctionCallPathComplexity(ABC):
         coeffsTime = 0.0
         exprsTime = 0.0
         soluTime = 0.0
-        apcTime = 0.0
+        UpboundTime = 0.0
         apcTime2 = 0.0
 
         if edgelist == []:
@@ -210,9 +210,9 @@ class FunctionCallPathComplexity(ABC):
             try:
                 with Timeout(seconds = 400, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
-                soluTime = time.time()-start_time
             except:
-                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0] #numerically solve the root
+            soluTime = time.time()-start_time
             self.logger.d_msg(f"solutions: {solutions}, time: {soluTime}")
 
             start_time = time.time()
@@ -230,8 +230,8 @@ class FunctionCallPathComplexity(ABC):
                 apc = big_o(list(pc.args))
             else:
                 apc = pc
-            apcTime = time.time() - start_time
-            self.logger.d_msg(f"apc: {apc}, time: {apcTime}")
+            UpboundTime = time.time() - start_time
+            self.logger.d_msg(f"apc: {apc}, time: {UpboundTime}")
 
         else:
             self.logger.d_msg(f"case2")
@@ -251,7 +251,7 @@ class FunctionCallPathComplexity(ABC):
         apc = sympy.N(apc)
         apc_and_time = {"apc":apc, "pc":pc, "gammaTime": gammaTime, "discrimTime":discrimTime, 
                 "realnrootsTime":realnrootsTime, "coeffsTime": coeffsTime, "exprsTime": exprsTime,
-                "soluTime":soluTime, "apcTime":apcTime, "apcTime2":apcTime2}
+                "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2}
         return apc_and_time
 
 

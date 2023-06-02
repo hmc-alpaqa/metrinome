@@ -35,7 +35,7 @@ class DataCollector:
         """Compute the metrics for all files and store the data."""
         data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
                              "gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
-                             "exprsTime": [],"soluTime":[], "apcTime":[], "apcTime2":[],"longest":[]})
+                             "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
         with open('/app/code/experiments/optimization/files.txt') as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
@@ -141,21 +141,21 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
             
 
-                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"],fcapc["pc"]), "gammaTime": fcapc["gammaTime"], 
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "gammaTime": fcapc["gammaTime"], 
                            "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
-                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "apcTime":fcapc["apcTime"], "apcTime2": fcapc["apcTime2"],
+                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
                            "fcapc_time": fcruntime,"exception_type": exception_type, "longest":get_max_time(fcapc)}
 
                 data = data.append(new_row, ignore_index = True)
                 data = data[["graph_name", "fcapc","fcapc_time", "gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
-                                "soluTime", "apcTime", "apcTime2", "longest"]]
+                                "soluTime", "UpboundTime", "apcTime2", "longest"]]
                 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                data['fcapc'] = data['fcapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
+                data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
 
                 print(data[["graph_name", "fcapc","fcapc_time", "gammaTime", "discrimTime", 
                 "realnrootsTime", "coeffsTime", "exprsTime",
-                "soluTime", "apcTime", "apcTime2", "longest"]])
+                "soluTime", "UpboundTime", "apcTime2", "longest"]])
 
 
 
@@ -173,14 +173,15 @@ def round_expr(expr, num_digits):
 
 def get_max_time(apc):
     l = ["gammaTime","discrimTime", "realnrootsTime", "coeffsTime", 
-        "exprsTime", "soluTime", "apcTime", "apcTime2"]
+        "exprsTime", "soluTime", "UpboundTime", "apcTime2"]
     maxTime  = apc[l[0]]
     maxName = 'gammaTime'
     for name in l:
         if apc[name] > maxTime:
             maxTime = apc[name]
             maxName = name
-    return maxName
+    maxTime = round(maxTime,3)
+    return (maxName,maxTime)
 
 
 def main() -> None:
