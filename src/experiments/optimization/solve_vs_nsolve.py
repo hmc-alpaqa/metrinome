@@ -2,7 +2,7 @@
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity
-import fc_path_complexity_time
+import fc_pc_solve
 from core.command_data import Data
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
@@ -24,7 +24,7 @@ class DataCollector:
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
         self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
-        self.fcn_call_apc_time_computer = fc_path_complexity_time.FunctionCallPathComplexity(log)
+        self.fc_pc_solve_nsolve_computer = fc_pc_solve.FunctionCallPathComplexity(log)
         self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)
@@ -33,18 +33,15 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
-                             "gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
-                             "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "solve_apc": [],"solve_runtime": [],"nsolve_apc": [],"nsolve_runtime": [],"exception": [], "exception_type": [],
+                             })
         with open('/app/code/experiments/optimization/files.txt') as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
-
             files = [line.rstrip() for line in funcs]
         
         for file in files:
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-
 
             # self.data.graphs = graphs
             # self.data.show_graphs("*",graphs)
@@ -66,21 +63,36 @@ class DataCollector:
                 print('Graph Name: ', graph_name)
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
-                fcapc: Union[str, PathComplexityRes] = "na"
+                solve_apc: Union[str, PathComplexityRes] = "na"
+                nsolve_apc: Union[str, PathComplexityRes] = "na"
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
                 exception_type = "na"
+                exception = 'na'
                 runtime = 0.0
                 rruntime = 0.0
                 bruntime = 0.0
-                fcruntime = 0.0
+                solve_runtime = 0.0
+                nsolve_runtime = 0.0
                 start_time = time.time()
                 try:
                     with Timeout(2000):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
-                        fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
-                        fcruntime = time.time() - start_time
+                        solve_apc = self.fc_pc_solve_nsolve_computer.evaluate(True, graph, graphs)
+                        solve_runtime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
+
+                start_time = time.time()
+                try:
+                    with Timeout(2000):
+                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                        #     continue
+                        nsolve_apc = self.fc_pc_solve_nsolve_computer.evaluate(False, graph, graphs)
+                        nsolve_runtime = time.time() - start_time
                 except Exception as exc:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(
@@ -141,21 +153,16 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
             
 
-                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "gammaTime": fcapc["gammaTime"], 
-                           "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
-                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
-                           "fcapc_time": fcruntime,"exception_type": exception_type, "longest":get_max_time(fcapc)}
+                new_row = {"file_name": file, "graph_name": graph.name,"exception_type": exception_type, "solve_apc": solve_apc,
+                "solve_runtime": solve_runtime,"nsolve_apc": nsolve_apc,"nsolve_runtime": nsolve_runtime}
 
                 data = data.append(new_row, ignore_index = True)
-                data = data[["graph_name", "fcapc","fcapc_time", "gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
-                                "soluTime", "UpboundTime", "apcTime2", "longest"]]
+                data = data[["graph_name", "solve_apc","solve_runtime","nsolve_apc","nsolve_runtime"]]
                 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
+                # data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
 
-                print(data[["graph_name", "fcapc","fcapc_time", "gammaTime", "discrimTime", 
-                "realnrootsTime", "coeffsTime", "exprsTime",
-                "soluTime", "UpboundTime", "apcTime2", "longest"]])
+                print(data[["graph_name", "solve_apc","solve_runtime","nsolve_apc","nsolve_runtime"]])
 
 
 
@@ -170,18 +177,6 @@ def round_tuple_of_exprs(tup, num_digits):
                 
 def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
-
-def get_max_time(apc):
-    l = ["gammaTime","discrimTime", "realnrootsTime", "coeffsTime", 
-        "exprsTime", "soluTime", "UpboundTime", "apcTime2"]
-    maxTime  = apc[l[0]]
-    maxName = 'gammaTime'
-    for name in l:
-        if apc[name] > maxTime:
-            maxTime = apc[name]
-            maxName = name
-    maxTime = round(maxTime,3)
-    return (maxName,maxTime)
 
 
 def main() -> None:
