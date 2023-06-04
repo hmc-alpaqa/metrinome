@@ -1,4 +1,5 @@
-"""Compute the path complexity and asymptotic path complexity metrics for solve vs nsolve"""
+"""Compute the path complexity and asymptotic path complexity metrics for solve vs nsolve
+   called by solve_vs_nsolve"""
 
 import re
 from abc import ABC, abstractmethod
@@ -75,8 +76,8 @@ class FunctionCallPathComplexity(ABC):
 
 
        
-        # self.logger.d_msg(f"Edge List: {all_edges}")
-        # self.logger.d_msg(f"Call List: {call_list}")
+        self.logger.d_msg(f"Edge List: {all_edges}")
+        self.logger.d_msg(f"Call List: {call_list}")
         apc = self.fcn_call_apc(all_edges, call_list,solve)
         return apc
 

@@ -65,6 +65,7 @@ class DataCollector:
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
                 fcapc: Union[str, PathComplexityRes] = "na"
+                brapc: Union[str, PathComplexityRes] = "na"
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
                 exception_type = "na"
@@ -83,26 +84,26 @@ class DataCollector:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
 
-                start_time = time.time()
-                try:
-                    with Timeout(300):
-                        recurlist = []
-                        end = graph.graph.num_vertices - 1
-                        for node in graph.metadata.calls.keys():
-                            if graph.name.split(".")[1] in graph.metadata.calls[node]:
-                                recurlist += [int(node)]
-                        oldEdges = graph.graph.edges
-                        for node in recurlist:
-                            graph.graph.edges = graph.graph.edges + [[node, 0]]
-                            graph.graph.edges = graph.graph.edges + \
-                                [[end, node]]
-                        brapc = self.apc_computer.evaluate(graph)
-                        bruntime = time.time() - start_time
-                        graph.graph.edges = oldEdges
-                except Exception as exc:
-                    print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                # start_time = time.time()
+                # try:
+                #     with Timeout(300):
+                #         recurlist = []
+                #         end = graph.graph.num_vertices - 1
+                #         for node in graph.metadata.calls.keys():
+                #             if graph.name.split(".")[1] in graph.metadata.calls[node]:
+                #                 recurlist += [int(node)]
+                #         oldEdges = graph.graph.edges
+                #         for node in recurlist:
+                #             graph.graph.edges = graph.graph.edges + [[node, 0]]
+                #             graph.graph.edges = graph.graph.edges + \
+                #                 [[end, node]]
+                #         brapc = self.apc_computer.evaluate(graph)
+                #         bruntime = time.time() - start_time
+                #         graph.graph.edges = oldEdges
+                # except Exception as exc:
+                #     print(f"Exception: {exc}")
+                #     exception_type = "Timeout" if isinstance(
+                #         exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -175,25 +176,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-class Command:
-    def show_graphs(self, name: str, names: list[str]) -> None:
-        """Display a Graph we know about to the REPL."""
-        if name == "*":
-            names = list(self.graphs.keys())
-
-        for graph_name in names:
-            if graph_name in self.graphs:
-                if self.rich:
-                    rows = self.graphs[graph_name].rich_repr()
-                    table = Table(title=f"Graph {graph_name}")
-                    table.add_column("Graph Property", style="cyan")
-                    table.add_column("Value", style="magenta")
-                    for row in rows:
-                        table.add_row(*row)
-                    Console().print(table)
-                else:
-                    self.logger.v_msg(str(self.graphs[graph_name]))
-            else:
-                self.logger.v_msg(f"Graph {Colors.MAGENTA}{graph_name}{Colors.ENDC} not found.")
- 
