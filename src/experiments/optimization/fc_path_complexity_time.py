@@ -208,7 +208,7 @@ class FunctionCallPathComplexity(ABC):
 
             start_time = time.time()
             try:
-                with Timeout(seconds = 400, error_message="Root solver Timed Out"):
+                with Timeout(seconds = 200, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
             except:
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0] #numerically solve the root

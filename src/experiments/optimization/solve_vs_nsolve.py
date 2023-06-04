@@ -2,7 +2,7 @@
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity
-import fc_pc_solve
+import fc_path_complexity_solve
 from core.command_data import Data
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
@@ -24,7 +24,7 @@ class DataCollector:
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
         self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
-        self.fc_pc_solve_nsolve_computer = fc_pc_solve.FunctionCallPathComplexity(log)
+        self.fc_pc_solve_nsolve_computer = fc_path_complexity_solve.FunctionCallPathComplexity(log)
         self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
         self.npath_computer = npath_complexity.NPathComplexity(log)
@@ -163,7 +163,6 @@ class DataCollector:
                 # data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
 
                 print(data[["graph_name", "solve_apc","solve_runtime","nsolve_apc","nsolve_runtime"]])
-
 
 
                 # create directory if it doesn't exist
