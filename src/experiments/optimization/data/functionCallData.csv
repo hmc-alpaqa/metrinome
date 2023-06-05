@@ -1,2 +1,5 @@
-,graph_name,solve_apc,solve_runtime,nsolve_apc,nsolve_runtime
-0,fcn_calls_cfg._Z4facti,"(0.333333333333333*n, n/3)",0.49524402618408203,"(n, n*(0.333333333333333 - 1.82460737542294e-48*I))",0.22613096237182617
+,graph_name,solve_apc,solve_runtime,just_solve_runtime,nsolve_apc,nsolve_runtime,just_nsolve_runtime
+0,fcn_calls_cfg._Z12fact_wrapperi,na,0.0,0.0,na,0.0,0.0
+1,fcn_calls_cfg._Z4facti,na,0.0,0.0,na,0.0,0.0
+2,fcn_calls_cfg._Z7fib_reci,"(1.25992104989473**n, 1.25992104989473**n)",0.02171921730041504,0.0,"(1.25992104989473**n, 1.25992104989473**n)",0.012664079666137695,0.0
+3,fcn_calls_cfg._Z10fcn_medleyi,"(1.25992104989473**n, 1.25992104989473**n)",28.72145938873291,0.0,"(1.25992104989473**n, 1.25992104989473**n)",29.277092218399048,0.0
