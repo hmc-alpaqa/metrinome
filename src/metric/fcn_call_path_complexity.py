@@ -193,7 +193,7 @@ class FunctionCallPathComplexity(ABC):
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            apc = big_o(list(apc.args))
+            # #apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
         return (apc, pc)
   
@@ -319,6 +319,7 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
+        print("SYMBS:", symbs)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]
