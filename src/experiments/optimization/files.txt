@@ -1,9 +1,1 @@
-<<<<<<< HEAD
-/app/code/experiments/function_calls/files/fcn_calls.c
-=======
 /app/code/experiments/function_calls/files/even_odd.c
-/app/code/experiments/recursion/files/combinations-1.c
-/app/code/experiments/function_calls/files/bst.c
-/app/code/experiments/recursion/files/binary-search.c
-/app/code/experiments/recursion/files/catalan-numbers-1.c
->>>>>>> 707c6dd35 (edit time function)

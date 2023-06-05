@@ -17,6 +17,8 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
+from scipy.optimize import fsolve
+from sympy.utilities import lambdify
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
@@ -80,7 +82,8 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"Call List: {call_list}")
         apc = self.fcn_call_apc(all_edges, call_list,solve)
         return apc
-
+    
+   
 
     def fcn_call_apc(self, edgelist, call_list,solve):
         """Calculates the apc of a function that can call other functions """
@@ -173,12 +176,46 @@ class FunctionCallPathComplexity(ABC):
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
             # self.logger.d_msg(f"exprs: {exprs}")
-            if (solve == True):
+            if (solve == 0):
                 try:
                     with Timeout(seconds = 50):
                         solutions = sympy.solve(exprs)
                 except TimeoutError:
                     print ("SOLVE cannot solve, need help from nsolve!!!")
+            elif (solve == 1):
+                #[c\-0\-0 + 4*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**4 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**4 - 1, 
+                # c\-0\-0 + 5*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**5 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**5 - 1, 
+                # c\-0\-0 + 6*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**6 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**6 - 2, 
+                # c\-0\-0 + 7*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**7 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**7 - 2]
+                """ Approach 1
+                try:
+                    print(exprs)
+                    with Timeout(seconds = 50):
+                        print(f"symbols for exprs {symbs}")
+                        def myFunction(symbs):
+                            return [expr.subs(zip(coeffs,list(symbs))) for expr in exprs]
+                        print(f"this should be functions{myFunction(symbs)}")
+                        print(type(myFunction))
+                        initial_guess = np.zeros(len(list(symbs)))
+                        print(initial_guess)
+                        solutions = fsolve(myFunction,initial_guess) 
+                except TimeoutError:
+                    print ("FSOLVE cannot solve, need help from nsolve!!!")
+                """
+                try:
+                    print(exprs)
+                    with Timeout(seconds = 50):
+                        print(f"symbols for exprs {symbs}")
+                        eval_exprs = lambdify(list(symbs),exprs)
+                        def myFunction(symbs):
+                            return eval_exprs(*symbs)
+                        print(f"this should be functions {myFunction(symbs)}")
+                        print(type(myFunction))
+                        initial_guess = np.zeros(len(list(symbs)))
+                        print(initial_guess)
+                        solutions = fsolve(myFunction, initial_guess, complex) 
+                except TimeoutError:
+                    print ("FSOLVE cannot solve, need help from nsolve!!!")
             else:
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
             self.logger.d_msg(f"solutions: {solutions}")
@@ -211,7 +248,8 @@ class FunctionCallPathComplexity(ABC):
         apc = sympy.N(apc)
         return (apc, pc)
 
-
+    
+    
     def gammaFunction(self, edgelist, call_list):
         """Takes in a list of all edges in a graph, and a list of where function calls are
         located, and calculates a gamma function in terms of x and the start node"""

@@ -64,6 +64,7 @@ class DataCollector:
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
                 solve_apc: Union[str, PathComplexityRes] = "na"
+                fsolve_apc: Union[str, PathComplexityRes] = "na"
                 nsolve_apc: Union[str, PathComplexityRes] = "na"
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
@@ -73,30 +74,44 @@ class DataCollector:
                 rruntime = 0.0
                 bruntime = 0.0
                 solve_runtime = 0.0
+                fsolve_runtime = 0.0
                 nsolve_runtime = 0.0
-                start_time = time.time()
-                try:
-                    with Timeout(2000):
-                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
-                        #     continue
-                        solve_apc = self.fc_pc_solve_nsolve_computer.evaluate(True, graph, graphs)
-                        solve_runtime = time.time() - start_time
-                except Exception as exc:
-                    print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+
+                # start_time = time.time()
+                # try:
+                #     with Timeout(2000):
+                #         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                #         #     continue
+                #         solve_apc = self.fc_pc_solve_nsolve_computer.evaluate(0, graph, graphs)
+                #         solve_runtime = time.time() - start_time
+                # except Exception as exc:
+                #     print(f"Exception: {exc}")
+                #     exception_type = "Timeout" if isinstance(
+                #         exc, TimeoutError) else "Other"
 
                 start_time = time.time()
                 try:
                     with Timeout(2000):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
-                        nsolve_apc = self.fc_pc_solve_nsolve_computer.evaluate(False, graph, graphs)
-                        nsolve_runtime = time.time() - start_time
+                        fsolve_apc = self.fc_pc_solve_nsolve_computer.evaluate(1, graph, graphs)
+                        fsolve_runtime = time.time() - start_time
                 except Exception as exc:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                        exc, TimeoutError) else "Other"       
+                    
+                # start_time = time.time()    
+                # try:
+                #     with Timeout(2000):
+                #         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                #         #     continue
+                #         nsolve_apc = self.fc_pc_solve_nsolve_computer.evaluate(2, graph, graphs)
+                #         nsolve_runtime = time.time() - start_time
+                # except Exception as exc:
+                #     print(f"Exception: {exc}")
+                #     exception_type = "Timeout" if isinstance(
+                #         exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -154,15 +169,16 @@ class DataCollector:
             
 
                 new_row = {"file_name": file, "graph_name": graph.name,"exception_type": exception_type, "solve_apc": solve_apc,
-                "solve_runtime": solve_runtime,"nsolve_apc": nsolve_apc,"nsolve_runtime": nsolve_runtime}
+                "solve_runtime": solve_runtime, "fsolve_apc": fsolve_apc,"fsolve_runtime": fsolve_runtime,"nsolve_apc": nsolve_apc,
+                "nsolve_runtime": nsolve_runtime}
 
                 data = data.append(new_row, ignore_index = True)
-                data = data[["graph_name", "solve_apc","solve_runtime","nsolve_apc","nsolve_runtime"]]
+                data = data[["graph_name", "solve_apc","solve_runtime","fsolve_apc","fsolve_runtime","nsolve_apc","nsolve_runtime"]]
                 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
 
-                print(data[["graph_name", "solve_apc","solve_runtime","nsolve_apc","nsolve_runtime"]])
+                print(data[["graph_name", "fsolve_apc","fsolve_runtime"]])
 
 
                 # create directory if it doesn't exist
