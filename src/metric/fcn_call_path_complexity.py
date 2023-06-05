@@ -319,6 +319,7 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
+        print("SYMBS:", symbs)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]
