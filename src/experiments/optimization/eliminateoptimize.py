@@ -90,12 +90,13 @@ class Eliminator:
                     else:
                         expr = expr + x
 
-                    for called_fcn_idx in self.calldict[startnode]:
-                        expr =  init_nodes[called_fcn_idx] * expr
-                        if init_nodes[called_fcn_idx] not in symbs:
-                            symbs = [init_nodes[called_fcn_idx]] + symbs
+                for called_fcn_idx in self.calldict[startnode]:
+                    expr =  init_nodes[called_fcn_idx] * expr
+                    if init_nodes[called_fcn_idx] not in symbs:
+                        symbs = [init_nodes[called_fcn_idx]] + symbs
                 system += [expr - sym]
-            symbs = [init_node] + symbs
+            if init_node not in symbs:
+                symbs = [init_node] + symbs
             self.fullsystem += system
             init_eqn = symbols(f'V{fcn_idx}_0')*x - init_node
             system = [init_eqn] + system
@@ -121,14 +122,16 @@ class Eliminator:
         print("SYSTEM:", system)
         if len(system) == 1:
             return system[0]
-        sub = system[-1] + symbs[-1]
+        sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
         print("SUB:", sub)
-        if symbs[-1] in sub.free_symbols:
+        print("SUB FREE SYMBOLS:",sub.free_symbols)
+        if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
             for eq in system:
                 if symbs[-1] in eq.free_symbols:
                     sol = sympy.solve(eq, symbs[-1], dict=True)
                     if len(sol) == 1:
                         sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
+                        break
         if symbs[-1] in sub.free_symbols:
             self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
         for count, eq in enumerate(system):
@@ -175,7 +178,7 @@ def main():
         "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
     }
 
-    graphname = "rec"
+    graphname = "split"
     elim = Eliminator(graphs, graphname)
     elim.evaluate()
 
