@@ -64,8 +64,8 @@ class FunctionCallPathComplexity(ABC):
             edge_list = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in edge_list]
             all_edges += edge_list
        
-        # self.logger.d_msg(f"Edge List: {all_edges}")
-        # self.logger.d_msg(f"Call List: {call_list}")
+        self.logger.d_msg(f"Edge List: {all_edges}")
+        self.logger.d_msg(f"Call List: {call_list}")
         apc = self.fcn_call_apc(all_edges, call_list)
         return apc
     def fcn_call_apc(self, edgelist, call_list):
@@ -319,6 +319,7 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
+        print("SYMBS:", symbs)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]

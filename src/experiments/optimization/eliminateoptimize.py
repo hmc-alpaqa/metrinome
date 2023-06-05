@@ -71,6 +71,7 @@ class Eliminator:
         x = symbols("x")
         num_cfgs = len(self.dictgraphs)
         init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
+        self.fullsymbs = init_nodes
         for fcn_idx in range(len(self.dictgraphs)):
             print("FCNIDX:",fcn_idx)
             curr_graph = self.dictgraphs[fcn_idx]
@@ -91,13 +92,14 @@ class Eliminator:
 
                     for called_fcn_idx in self.calldict[startnode]:
                         expr =  init_nodes[called_fcn_idx] * expr
-                        symbs += [init_nodes[called_fcn_idx]]
+                        if init_nodes[called_fcn_idx] not in symbs:
+                            symbs = [init_nodes[called_fcn_idx]] + symbs
                 system += [expr - sym]
+            symbs = [init_node] + symbs
             self.fullsystem += system
             init_eqn = symbols(f'V{fcn_idx}_0')*x - init_node
             system = [init_eqn] + system
             init_eqns.append(init_eqn)
-            symbs += [init_node]
             print("SYS: ", fcn_idx, "IS",system)
             self.systems.append(system)
             self.systemsymbs.append(symbs)
@@ -107,28 +109,32 @@ class Eliminator:
         print(init_eqns)
         print("INIT EQNS ABOVE")
         self.fullsystem = init_eqns + self.fullsystem
-        print(self.fullsystem)
-        print(self.fullsymbs)
-        print(self.systems)
-        print(self.systemsymbs)
+        print("FULLSYS:", self.fullsystem)
+        print("FULLSYM:", self.fullsymbs)
+        print("SYSTEMS:", self.systems)
+        print("SYMBOLS:", self.systemsymbs)
 
-    def simpleEliminate(self, fullsys, fullsym):
+    def simpleEliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        if len(fullsys) == 1:
-            return fullsys[0]
-        sub = fullsys[-1] + fullsym[-1]
-        if fullsym[-1] in sub.free_symbols:
-            for eq in fullsys:
-                if fullsym[-1] in eq.free_symbols:
-                    sol = sympy.solve(eq, fullsym[-1], dict=True)
+        print("NEW RUN ============================================================")
+        print("SYMBS:", symbs)
+        print("SYSTEM:", system)
+        if len(system) == 1:
+            return system[0]
+        sub = system[-1] + symbs[-1]
+        print("SUB:", sub)
+        if symbs[-1] in sub.free_symbols:
+            for eq in system:
+                if symbs[-1] in eq.free_symbols:
+                    sol = sympy.solve(eq, symbs[-1], dict=True)
                     if len(sol) == 1:
-                        sub = sympy.expand(sub.subs(fullsys[-1], sol[0][fullsym[-1]]))
-        if fullsym[-1] in sub.free_symbols:
-            print("PANIC PANIC not sure how to substitute.")
-        for count, eq in enumerate(fullsys):
-            if fullsym[-1] in eq.free_symbols:
-                fullsys[count] = sympy.expand(eq.subs(fullsym[-1], sub))
-        return sympy.expand(self.simpleEliminate(fullsys[:-1], fullsym[:-1]))
+                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
+        if symbs[-1] in sub.free_symbols:
+            self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+        for count, eq in enumerate(system):
+            if symbs[-1] in eq.free_symbols:
+                system[count] = sympy.expand(eq.subs(symbs[-1], sub))
+        return self.simpleEliminate(system[:-1], symbs[:-1])
 
     def optimizedEliminate(self):
         """Takes in a system of equations and gets the gamma function"""
@@ -149,19 +155,29 @@ class Eliminator:
         return sympy.expand(self.optimizedEliminate(system[:-1], symbs[:-1]))
 
 def main():
-    graphname = "odd"
-    graphs = {"zero": ["zero",[[0, 1],[0, 2], [1, 2]], {2: ["one"]}],"one":["one",[[0, 1], [1, 2], [1, 3]],{}]}
-    graphs = {"zero": ["zero", [[0, 1]], {0: ["one"]}],
-              "one": ["one", [[0, 1], [1, 0], [1, 2]], {1: ["two"]}],
-              "two": ["two", [[0, 1]], {}]}
-    #graphs = {"zero": ["zero",[[0, 1],[0, 2], [1, 2]], {2: ["one"]}],"one":["one",[[0, 1], [1, 2], [1, 3]],{}]}
+
+    # made up
     graphs = {
-        "odd": ["odd", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ["even"]}],
-        "even": ["even", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ["odd"]}]
+        "zero": ["zero",[[0, 1],[0, 2], [1, 2]], {2: ["one"]}],
+        "one":["one",[[0, 1], [1, 2], [1, 3]],{}]
+        }
+    # board example
+    graphs = {
+        "zero": ["zero", [[0, 1]], {0: ["one"]}],
+        "one": ["one", [[0, 1], [1, 0], [1, 2]], {1: ["two"]}],
+        "two": ["two", [[0, 1]], {}]
+        }
+    # experiments/function_calls/files.even_odd.c
+    graphs = {
+        "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
+        "rec": ["rec", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ['CALLS', 'rec', 'rec']}],
+        "split": ["split", [[0, 1], [0, 2], [1, 3], [2, 3]], {1: ['CALLS','rec'], 2: ['CALLS','gcd']}],
+        "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
     }
+
+    graphname = "rec"
     elim = Eliminator(graphs, graphname)
     elim.evaluate()
-    #elim.simpleEliminate()
 
 if __name__ == "__main__":
     main()

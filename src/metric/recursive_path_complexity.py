@@ -298,23 +298,35 @@ class RecursivePathComplexity(ABC):
             self.logger.e_msg(f"PANIC PANIC termPow type is {type(term)}.")
             return 0
 
+    
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
         if len(system) == 1:
             return system[0]
-        sub = system[-1] + symbs[-1]
-        if symbs[-1] in sub.free_symbols:
-            for eq in system:
-                if symbs[-1] in eq.free_symbols:
-                    sol = sympy.solve(eq, symbs[-1], dict=True)
+        sub = system[-1] + symbs[-1] #sub is what the last symbol equals to 
+        # print("printing sub..")
+        # print(sub)
+        # if the last equation has the last symbol on both side
+        if symbs[-1] in sub.free_symbols: #free_symbols in this case is all the symbols in sub
+            for eq in system: 
+                if symbs[-1] in eq.free_symbols: #if the last symbol appears (only once) in the previous equations
+                    sol = sympy.solve(eq, symbs[-1], dict=True) #use that equation and solve for the last symbol
+                    # sol is a dictionary: [{last symbol: expresion}]
+                    # print(f"printing sol: {sol}")
                     if len(sol) == 1:
-                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
-        if symbs[-1] in sub.free_symbols:
+                        #in the last equation substitute the last symbol ---> the expresion
+                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]])) 
+                        #TODO: suggestion: last equation has already been substituted, symbs[-1] 
+                        # should not appear for this point on. No further sub should be needed.
+        if symbs[-1] in sub.free_symbols: #if the last symbol is still in sub
             self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+
+        #for each equation in the system, find the last symbol, ans substitute it with sub
         for count, eq in enumerate(system):
             if symbs[-1] in eq.free_symbols:
                 system[count] = sympy.expand(eq.subs(symbs[-1], sub))
         return self.eliminate(system[:-1], symbs[:-1])
+
 
     def clean(self, system, symb):
         """Gets rid of complex numbers and makes things cleaner"""
