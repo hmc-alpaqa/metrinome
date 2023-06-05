@@ -92,13 +92,14 @@ class Eliminator:
 
                     for called_fcn_idx in self.calldict[startnode]:
                         expr =  init_nodes[called_fcn_idx] * expr
-                        symbs += [init_nodes[called_fcn_idx]]
+                        if init_nodes[called_fcn_idx] not in symbs:
+                            symbs = [init_nodes[called_fcn_idx]] + symbs
                 system += [expr - sym]
+            symbs = [init_node] + symbs
             self.fullsystem += system
             init_eqn = symbols(f'V{fcn_idx}_0')*x - init_node
             system = [init_eqn] + system
             init_eqns.append(init_eqn)
-            symbs += [init_node]
             print("SYS: ", fcn_idx, "IS",system)
             self.systems.append(system)
             self.systemsymbs.append(symbs)
@@ -168,18 +169,13 @@ def main():
         }
     # experiments/function_calls/files.even_odd.c
     graphs = {
-        "odd": ["odd", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ["even"]}],
-        "even": ["even", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ["odd"]}]
+        "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
+        "rec": ["rec", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ['CALLS', 'rec', 'rec']}],
+        "split": ["split", [[0, 1], [0, 2], [1, 3], [2, 3]], {1: ['CALLS','rec'], 2: ['CALLS','gcd']}],
+        "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
     }
-    # experiments/function_calls/files/fcn_calls.c
-    # graphs = {
-    #     "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
-    #     "rec": ["rec", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ['CALLS', 'rec', 'rec']}],
-    #     "split": ["split", [[0, 1], [0, 2], [1, 3], [2, 3]], {1: ['CALLS','rec'], 2: ['CALLS','gcd']}],
-    #     "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
-    # }
 
-    graphname = "odd"
+    graphname = "rec"
     elim = Eliminator(graphs, graphname)
     elim.evaluate()
 
