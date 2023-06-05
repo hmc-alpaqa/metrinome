@@ -87,6 +87,9 @@ class FunctionCallPathComplexity(ABC):
 
     def fcn_call_apc(self, edgelist, call_list,solve):
         """Calculates the apc of a function that can call other functions """
+
+        time = 0.0
+
         if edgelist == []:
             return (0, 0)
         gamma = self.gammaFunction(edgelist, call_list)
@@ -176,10 +179,13 @@ class FunctionCallPathComplexity(ABC):
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
             # self.logger.d_msg(f"exprs: {exprs}")
-            if (solve == 0):
+
+            if (solve == True):
                 try:
                     with Timeout(seconds = 50):
+                        start_time = time.time()
                         solutions = sympy.solve(exprs)
+                        time = time.time()-start_time
                 except TimeoutError:
                     print ("SOLVE cannot solve, need help from nsolve!!!")
             elif (solve == 1):
@@ -217,7 +223,9 @@ class FunctionCallPathComplexity(ABC):
                 except TimeoutError:
                     print ("FSOLVE cannot solve, need help from nsolve!!!")
             else:
+                start_time = time.time()
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+                time = time.time()- start_time
             self.logger.d_msg(f"solutions: {solutions}")
             patheq = 0
             for rootindex, root in enumerate(rootsDict.keys()):
@@ -228,25 +236,28 @@ class FunctionCallPathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
-            self.logger.d_msg(f"pc: {pc}")
-            if type(pc) == sympy.Add:
-                apc = big_o(list(pc.args))
-            else:
-                apc = pc
-            self.logger.d_msg(f"apc: {apc}")
+            # self.logger.d_msg(f"pc: {pc}")
+            # if type(pc) == sympy.Add:
+            #     apc = big_o(list(pc.args))
+            # else:
+            #     apc = pc
+            # self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
-            apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
+        self.logger.d_msg(f"pc: {pc}")
+        apc = pc
+        if type(pc) == sympy.Add:
+            apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            apc = big_o(list(apc.args))
-        apc = sympy.N(apc)
-        return (apc, pc)
+            # apc = big_o(list(apc.args))
+        self.logger.d_msg(f"apc: {apc}")
+        return (apc, pc, time)
 
     
     
