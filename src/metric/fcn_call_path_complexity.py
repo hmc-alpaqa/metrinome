@@ -193,7 +193,7 @@ class FunctionCallPathComplexity(ABC):
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            apc = big_o(list(apc.args))
+            # apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
         return (apc, pc)
   
