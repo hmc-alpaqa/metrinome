@@ -19,6 +19,7 @@ from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
 from scipy.optimize import fsolve
 from sympy.utilities import lambdify
+import time
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
@@ -88,7 +89,7 @@ class FunctionCallPathComplexity(ABC):
     def fcn_call_apc(self, edgelist, call_list,solve):
         """Calculates the apc of a function that can call other functions """
 
-        time = 0.0
+        timeVal = 0.0
 
         if edgelist == []:
             return (0, 0)
@@ -179,13 +180,14 @@ class FunctionCallPathComplexity(ABC):
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
             # self.logger.d_msg(f"exprs: {exprs}")
-
-            if (solve == True):
+            if (solve == 0):
+                print("print time")
+                print(time.time())
+                start_time = time.time()
                 try:
                     with Timeout(seconds = 50):
-                        start_time = time.time()
                         solutions = sympy.solve(exprs)
-                        time = time.time()-start_time
+                        timeVal = time.time()-start_time
                 except TimeoutError:
                     print ("SOLVE cannot solve, need help from nsolve!!!")
             elif (solve == 1):
@@ -225,7 +227,7 @@ class FunctionCallPathComplexity(ABC):
             else:
                 start_time = time.time()
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
-                time = time.time()- start_time
+                timeVal = time.time()- start_time
             self.logger.d_msg(f"solutions: {solutions}")
             patheq = 0
             for rootindex, root in enumerate(rootsDict.keys()):
@@ -257,7 +259,7 @@ class FunctionCallPathComplexity(ABC):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             # apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
-        return (apc, pc, time)
+        return (apc, pc, timeVal)
 
     
     
