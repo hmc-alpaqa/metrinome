@@ -180,7 +180,7 @@ class DataCollector:
                 "nsolve_runtime": nsolve_runtime, "just_nsolve_runtime": just_nsolve_runtime, "solve_pc":solve_pc, "nsolve_pc":nsolve_pc}
 
                 data = data.append(new_row, ignore_index = True)
-                data = data[["graph_name", "solve_apc","solve_runtime","just_solve_runtime","fsolve_apc","fsolve_runtime","nsolve_apc","nsolve_runtime","just_nsolve_runtime","solve_pc","nsolve_pc"]]
+                data = data[["graph_name", "solve_apc","solve_pc","solve_runtime","just_solve_runtime","nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime"]]
                 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 data['solve_apc'] = data['solve_apc'].apply(lambda x: round_expr(x, 3))
@@ -195,12 +195,14 @@ class DataCollector:
                 if not os.path.exists("/app/code/experiments/optimization/data"):
                     os.makedirs("/app/code/experiments/optimization/data")
                 data.to_csv(
-                    "/app/code/experiments/optimization/data/functionCallData.csv")
+                    "/app/code/experiments/optimization/data/solvevsNsolveData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
     return tuple(round_expr(expr, num_digits) for expr in tup)
                 
 def round_expr(expr, num_digits):
+    if type(expr) == str:
+        return expr
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
 

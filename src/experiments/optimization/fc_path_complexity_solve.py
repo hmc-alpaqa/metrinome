@@ -179,13 +179,11 @@ class FunctionCallPathComplexity(ABC):
                         expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
-            # self.logger.d_msg(f"exprs: {exprs}")
-            if (solve == 0):
-                print("print time")
-                print(time.time())
+            self.logger.d_msg(f"exprs: {exprs}")
+            if (solve == 0): #use solve
                 start_time = time.time()
                 try:
-                    with Timeout(seconds = 50):
+                    with Timeout(seconds = 1000):
                         solutions = sympy.solve(exprs)
                         timeVal = time.time()-start_time
                 except TimeoutError:
@@ -256,6 +254,7 @@ class FunctionCallPathComplexity(ABC):
         if type(pc) == sympy.Add:
             apc = big_o(list(pc.args))
         if "I" in str(apc):
+            # print(f"printing big o{big_o(list(apc.args))}")
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             #apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
