@@ -61,8 +61,12 @@ class Eliminator:
 
     def evaluate(self):
         self.graphsToSystems()
-        gamma = self.simpleEliminate(self.fullsystem,self.fullsymbs)
-        print(gamma)
+        simpleGamma = self.simpleEliminate(self.fullsystem,self.fullsymbs)
+        print(simpleGamma)
+        print("===========================================================================================")
+        optimizedGamma = self.optimizedEliminate(self.systems,self.systemsymbs)
+        print(optimizedGamma)
+        print(simpleGamma == optimizedGamma)
 
     def graphsToSystems(self):
         systems = []
@@ -92,8 +96,8 @@ class Eliminator:
 
                 for called_fcn_idx in self.calldict[startnode]:
                     expr =  init_nodes[called_fcn_idx] * expr
-                    if init_nodes[called_fcn_idx] not in symbs:
-                        symbs = [init_nodes[called_fcn_idx]] + symbs
+                    # if init_nodes[called_fcn_idx] not in symbs:
+                    #     symbs = [init_nodes[called_fcn_idx]] + symbs
                 system += [expr - sym]
             if init_node not in symbs:
                 symbs = [init_node] + symbs
@@ -117,7 +121,7 @@ class Eliminator:
 
     def simpleEliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        print("NEW RUN ============================================================")
+        print("NEW RUN ===========================")
         print("SYMBS:", symbs)
         print("SYSTEM:", system)
         if len(system) == 1:
@@ -139,23 +143,21 @@ class Eliminator:
                 system[count] = sympy.expand(eq.subs(symbs[-1], sub))
         return self.simpleEliminate(system[:-1], symbs[:-1])
 
-    def optimizedEliminate(self):
+    def optimizedEliminate(self,systems,symbs):
         """Takes in a system of equations and gets the gamma function"""
-        if len(system) == 1:
-            return system[0]
-        sub = system[-1] + symbs[-1]
-        if symbs[-1] in sub.free_symbols:
-            for eq in system:
-                if symbs[-1] in eq.free_symbols:
-                    sol = sympy.solve(eq, symbs[-1], dict=True)
-                    if len(sol) == 1:
-                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
-        if symbs[-1] in sub.free_symbols:
-            print("PANIC PANIC not sure how to substitute.")
-        for count, eq in enumerate(system):
-            if symbs[-1] in eq.free_symbols:
-                system[count] = sympy.expand(eq.subs(symbs[-1], sub))
-        return sympy.expand(self.optimizedEliminate(system[:-1], symbs[:-1]))
+        Ts = []
+        Teqns = []
+        for idx, system in enumerate(systems):
+            Teqn = self.simpleEliminate(system, symbs[idx])
+            print(Teqn)
+            Ts += [sympy.solve(Teqn, symbs[idx][0], dict=True)]
+            Teqns += [Teqn]
+        print(Ts)
+        Tsyms = [syms[0] for syms in symbs]
+        gamma = self.simpleEliminate(Teqns,Tsyms)
+        print(gamma)
+        return gamma
+
 
 def main():
 
