@@ -1,0 +1,2 @@
+,graph_name,solve_apc,solve_pc,solve_runtime,just_solve_runtime,nsolve_apc,nsolve_pc,nsolve_runtime,just_nsolve_runtime
+0,fcn_calls_cfg._Z7mul_invii,1,1,0.39855360984802246,0.006911277770996094,1.00000000000000,1.00000000000000,0.24524903297424316,0.008153915405273438
