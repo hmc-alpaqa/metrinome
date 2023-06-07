@@ -60,6 +60,10 @@ class BaseCaseBFS(BaseCaseGetter):
             depth += 1
             num_paths = new_num_paths
 
+        all_paths = np.array(base_cases[start_idx: end_idx], dtype="float64")
+        print(f"all paths{all_paths}")
+        print(f"start_index:{start_idx}")
+
         return np.array(base_cases[start_idx: end_idx], dtype="float64"), start_idx
 
 
@@ -69,10 +73,15 @@ class BaseCaseTaylor(BaseCaseGetter):
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> tuple[np.array, int]:
         """Use taylor coefficients of the generating function to get base cases."""
+        print(f"printing graph...{graph}")
         x_sub = x_mat.copy()
+        print(x_sub)
         x_sub.col_del(0)
         x_sub.row_del(1)
+        print(f"denominator ...{denominator}")
+        print(x_sub.det(method="det_LU"))
         generating_function = x_sub.det(method="det_LU") / denominator
+        print(f"printing generating function...{generating_function}")
         self.logger.d_msg(f"Getting {num_coeffs} many coeffs.")
 
         taylor_coeffs, new_start_idx = get_taylor_coeffs(generating_function,
@@ -167,8 +176,11 @@ class PathComplexity(metric.MetricAbstract):
         """Get the denominator of the generating function and its roots/degree."""
         x_det = x_mat.det()
         denominator = Poly(sympify(-x_det))
+        print(f"denominator: {denominator}")
         recurrence_kernel = denominator.all_coeffs()[::-1]
+        print(f"recurrence_kernel:{recurrence_kernel}")
         test = [round(-x, 2) for x in recurrence_kernel]
+        print(test)
         roots = polyroots(test, maxsteps=250, extraprec=250)
 
         return degree(denominator, gen=self._t_var), denominator, roots
@@ -180,6 +192,7 @@ class PathComplexity(metric.MetricAbstract):
         Return both the path complexity and the asymptotic path complexity.
         """
         x_mat, dimension = self.get_matrix(cfg.graph)
+        print(f"printing matrix..{x_mat}")
         recurrence_degree, denominator, roots = self.get_roots(x_mat)
 
         base_cases, start_idx = self.base_case_getter.get(cfg.graph, x_mat, denominator,
