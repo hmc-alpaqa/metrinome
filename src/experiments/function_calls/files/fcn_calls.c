@@ -7,73 +7,73 @@
 // bool is_odd(int n);
 // int max_value_iter(int arr[], int n);
 // void merge(int arr[], int l, int m, int r);
-// int fact(int n);
+int fact(int n);
 // void fcn_medley(int n);
-// int fact_wrapper(int n);
+int fact_wrapper(int n);
 // int fib_iter(int n);
-// int fib_rec(int n);
-// int gcd(int a, int b);
+int fib_rec(int n);
+int gcd(int a, int b);
 
-// int split_func(int n)
-// {
-//     if (n % 2 == 0)
-//     {
-//         return fib_rec(n); // exp
-//     }
-//     else
-//     {
-//         return gcd(n, 24); // exp
-//     }
-// }
+int split_func(int n)
+{
+    if (n % 2 == 0)
+    {
+        return fib_rec(n); // exp
+    }
+    else
+    {
+        return gcd(n, 24); // exp
+    }
+}
 
-// int mul_inv(int a, int b)
-// {
-//     int b0 = b, t, q;
-//     int x0 = 0, x1 = 1;
-//     if (b == 1)
-//         return 1;
-//     while (a > 1)
-//     {
-//         q = a / b;
-//         t = b, b = a % b, a = t;
-//         t = x0, x0 = x1 - q * x0, x1 = t;
-//     }
-//     if (x1 < 0)
-//         x1 += b0;
-//     return x1;
-// }
+int mul_inv(int a, int b)
+{
+    int b0 = b, t, q;
+    int x0 = 0, x1 = 1;
+    if (b == 1)
+        return 1;
+    while (a > 1)
+    {
+        q = a / b;
+        t = b, b = a % b, a = t;
+        t = x0, x0 = x1 - q * x0, x1 = t;
+    }
+    if (x1 < 0)
+        x1 += b0;
+    return x1;
+}
 
-// int gcd(int a, int b)
-// {
-//     while (a != b)
-//     {
-//         if (a > b)
-//         {
-//             a = a - b;
-//         }
-//         else
-//         {
-//             b = b - a;
-//         }
-//     }
-//     return a;
-// }
+int gcd(int a, int b)
+{
+    while (a != b)
+    {
+        if (a > b)
+        {
+            a = a - b;
+        }
+        else
+        {
+            b = b - a;
+        }
+    }
+    return a;
+}
 
-// int chinese_remainder(int *n, int *a, int len)
-// {
-//     int p, i, prod = 1, sum = 0;
+int chinese_remainder(int *n, int *a, int len)
+{
+    int p, i, prod = 1, sum = 0;
 
-//     for (i = 0; i < len; i++)
-//         prod *= n[i];
+    for (i = 0; i < len; i++)
+        prod *= n[i];
 
-//     for (i = 0; i < len; i++)
-//     {
-//         p = prod / n[i];
-//         sum += a[i] * mul_inv(p, n[i]) * p;
-//     }
+    for (i = 0; i < len; i++)
+    {
+        p = prod / n[i];
+        sum += a[i] * mul_inv(p, n[i]) * p;
+    }
 
-//     return sum % prod;
-// }
+    return sum % prod;
+}
 
 int fact(int n)
 {
@@ -100,10 +100,10 @@ int fact_wrapper(int n)
     return fact(n);
 }
 
-// int fact_wrapper_2x(int n)
-// {
-//     return fact(n) + fact(n);
-// }
+int fact_wrapper_2x(int n)
+{
+    return fact(n) + fact(n);
+}
 
 // int fib_iter(
 //     else;
@@ -118,40 +118,40 @@ int fact_wrapper(int n)
 //     return a;
 // }
 
-// int fib_rec(int n)
-// {
-//     if (n > 2)
-//     {
-//         return n;
-//     }
-//     else
-//     {
-//         return fib_rec(n - 1) + fib_rec(n - 2);
-//     }
-// }
+int fib_rec(int n)
+{
+    if (n > 2)
+    {
+        return n;
+    }
+    else
+    {
+        return fib_rec(n - 1) + fib_rec(n - 2);
+    }
+}
 
-// void mergeSortSimple(int arr[], int l, int r)
-// {
-//     if (l < r)
-//     {
-//         int m = l + (r - l) / 2;
+void mergeSortSimple(int arr[], int l, int r)
+{
+    if (l < r)
+    {
+        int m = l + (r - l) / 2;
 
-//         // sort first and second halves
-//         mergeSortSimple(arr, l, m);
-//         mergeSortSimple(arr, m + 1, r);
+        // sort first and second halves
+        mergeSortSimple(arr, l, m);
+        mergeSortSimple(arr, m + 1, r);
 
-//         // merge the sorted halves
-//         // merge(arr, l, m, r);
-//         // fact(m);
-//         // max_value_iter(arr, m);
-//         fib_rec(m);
-//     }
-// }
+        // merge the sorted halves
+        // merge(arr, l, m, r);
+        // fact(m);
+        // max_value_iter(arr, m);
+        fib_rec(m);
+    }
+}
 
-// int fact_wrapper_3x(int n)
-// {
-//     return fact(n) + fact(n) + fact(n);
-// }
+int fact_wrapper_3x(int n)
+{
+    return fact(n) + fact(n) + fact(n);
+}
 
 // int gcd(int a, int b)
 // {
