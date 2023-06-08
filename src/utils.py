@@ -37,6 +37,7 @@ def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], 
                 solution += [term]
                 simplified_solution += [term]
             else:
+                # root is actually 1/root, so (root)**n matches the paper
                 solution += [sympify(f"(n**{i})*{root}**n")]
                 abs_root = Abs(root)
                 if abs_root == 1:
