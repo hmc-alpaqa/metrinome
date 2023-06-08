@@ -11,24 +11,33 @@
 int bad_addition(int x, int y)
 {
     if (y > 0)
+    {
         while (y != 0)
+        {
             x = x + 1;
             y = y - 1;
+
+        }
+    }
     return x + y;
 }
 
 // int impossible_call(int x)
 // {
 //     if (x > 10 && x < 5)
+//     {
 //         //return x + 1;
 //         return bad_addition(x,x);
+//     }
 //     return 1;
 // }
 
 // int possible_call(int x)
 // {
 //     if (x > 10 && x < 15)
+//     {
 //         return bad_addition(x,x);
+//     }
 //     return 1;
 // }
 
