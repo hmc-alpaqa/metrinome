@@ -43,21 +43,21 @@
 //     return x1;
 // }
 
-// int gcd(int a, int b)
-// {
-//     while (a != b)
-//     {
-//         if (a > b)
-//         {
-//             a = a - b;
-//         }
-//         else
-//         {
-//             b = b - a;
-//         }
-//     }
-//     return a;
-// }
+int gcd(int a, int b)
+{
+    while (a != b)
+    {
+        if (a > b)
+        {
+            a = a - b;
+        }
+        else
+        {
+            b = b - a;
+        }
+    }
+    return a;
+}
 
 // int chinese_remainder(int *n, int *a, int len)
 // {
@@ -75,17 +75,17 @@
 //     return sum % prod;
 // }
 
-int fact(int n)
-{
-    if (n == 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return n * fact(n - 1);
-    }
-}
+// int fact(int n)
+// {
+//     if (n == 0)
+//     {
+//         return 1;
+//     }
+//     else
+//     {
+//         return n * fact(n - 1);
+//     }
+// }
 
 // void fcn_medley(int n)
 // {
@@ -95,10 +95,10 @@ int fact(int n)
 //     fact_wrapper(n);
 // }
 
-int fact_wrapper(int n)
-{
-    return fact(n);
-}
+// int fact_wrapper(int n)
+// {
+//     return fact(n);
+// }
 
 // int fact_wrapper_2x(int n)
 // {
@@ -445,4 +445,13 @@ int fact_wrapper(int n)
 //         printf("%d ", arr[i]);
 //     printf("\n");
 //     return 0;
+// }
+
+// int simple_while(int x)
+// {
+//     while (x > 2)
+//     {
+//         x = 1;
+//     }
+//     return x;
 // }

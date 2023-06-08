@@ -158,6 +158,16 @@ class FunctionCallPathComplexity(ABC):
                 if not type(zseries) == sympy.Order:
                     break
                 nonZeroIndex += 1
+            #Trying to compute dimension and setting nonZeroIndex 
+            # to dimension instead
+            nodes = []
+            for i in range(len(edgelist)):
+                if edgelist[i][0] not in nodes:
+                    nodes.append(edgelist[i][0])
+                if edgelist[i][1] not in nodes:
+                    nodes.append(edgelist[i][1])
+            print(f"nodes list...{nodes}")
+            nonZeroIndex = len(nodes) 
             self.logger.d_msg(f"nonZeroIndex: {nonZeroIndex}")
             coeffs = [0]*(numRoots + nonZeroIndex)
             Tseries = sympy.series(genFunc, x, 0, numRoots + nonZeroIndex)
@@ -183,7 +193,7 @@ class FunctionCallPathComplexity(ABC):
             if (solve == 0): #use solve
                 start_time = time.time()
                 try:
-                    with Timeout(seconds = 1000):
+                    with Timeout(seconds = 100):
                         solutions = sympy.solve(exprs)
                         timeVal = time.time()-start_time
                 except TimeoutError:
