@@ -227,11 +227,11 @@ class PathComplexity(metric.MetricAbstract):
         #TODO: Understand why it i not a problem if the rows are not linearly 
         #independent or if they are always linearly independent (check documentation
         #for np.linalg.lstsq)
-        #matrix = np.array([[1+2j,3-4j,5+6j,1+2j,3-4j],
-                            [1+2j,3-4j,5+6j,1+2j,3-4j],
-                            [1+2j,3-4j,5+6j,1+2j,3-4j],
-                            [1+2j,3-4j,5+6j,1+2j,3-4j],
-                            [1+2j,3-4j,5+6j,1+2j,3-4j]])
+        # matrix = np.array([[1+2j,3-4j,5+6j,1+2j,3-4j],
+        #                     [1+2j,3-4j,5+6j,1+2j,3-4j],
+        #                     [1+2j,3-4j,5+6j,1+2j,3-4j],
+        #                     [1+2j,3-4j,5+6j,1+2j,3-4j],
+        #                     [1+2j,3-4j,5+6j,1+2j,3-4j]])
 
         # Finds coefficients for closed form equation (the Cs)
         print(f"matrix...{matrix}")
