@@ -15,23 +15,15 @@ import copy
 
 class Eliminator:
     # graph representation: [namestring, edgelist, calldict]
-    def __init__(self, all_graphs: dict, graphname):
-        self.graph = all_graphs[graphname]
-        self.all_graphs = all_graphs
-        self.calldict = defaultdict(list)
-        self.dictgraphs = []
-        self.systems = []
-        self.systemsymbs = []
-        self.fullsystem = []
-        self.fullsymbs = []
-        self.lookupDict = defaultdict(set)
-        self.processGraphs()
+    # def __init__(self):
 
-    def processGraphs(self):
+    def processGraphs(self, graph, all_graphs):
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
-        used_graphs = [self.graph[0]]
-        graphs_to_process = deque([self.graph])
+        dictgraphs = []
+        used_graphs = [graph[0]]
+        graphs_to_process = deque([graph])
+        calldict = defaultdict(list)
         while graphs_to_process:
             curr_graph = graphs_to_process.popleft()
             curr_graph_name = curr_graph[0]
@@ -40,9 +32,9 @@ class Eliminator:
             fcn_idx = used_graphs.index(curr_graph_name)
             curr_graph_edges = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in curr_graph_edges]
             edgedict = defaultdict(list)
-            for edge in curr_graph_edges: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
+            for edge in curr_graph_edges: #reformatting our graph from edgelist form to dictionary form
                 edgedict[edge[0]].append(edge[1])
-            self.dictgraphs.append(edgedict)
+            dictgraphs.append(edgedict)
 
             for node in curr_graph_calls:
                 # loop through functions that are called
@@ -53,58 +45,71 @@ class Eliminator:
                     if called_fcn not in used_graphs:
                         used_graphs.append(called_fcn)
                         # find graph from all_cfgs, add to graphs_to_process
-                        for graph in self.all_graphs:
+                        for graph in all_graphs:
                             if graph == called_fcn:
-                                print("NEW")
-                                graphs_to_process.append(self.all_graphs[graph])
+                                graphs_to_process.append(all_graphs[graph])
                                 break
                     # Call (i, j) from function i node j to called_fcn
-                    self.calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
-        print(self.calldict)
-        print(self.dictgraphs)
+                    calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
+        return calldict, dictgraphs
 
-    def evaluate(self):
-        fullsys, fullsym, systems, symbols = self.graphsToSystems()
-        simpleGamma = self.eliminate(fullsys,fullsym)
-        sys = copy.deepcopy(systems) # bc python is the WORST and changes systems when we pass it to modGamma, and we need to pass it to optimizedGamma :)))))
-        syms = copy.deepcopy(symbols)
-        print("OG SYSTEMS",systems)
-        modGamma = self.modEliminate(sys,syms)
-        print("POST PROCESSING SYSTEMS",systems)
-        #print(simpleGamma)
-        #print(modGamma)
-        print(simpleGamma == modGamma)
-        print("===========================================================================================")
-        optimizedGamma = self.optimizedEliminate(systems, symbols)
-        print(simpleGamma)
-        print(optimizedGamma)
-        print(simpleGamma == optimizedGamma)
-        #print(simpleGamma == modGamma)
+    def evaluate(self, all_graphs: dict, graphname):
+        
+        print('')
+        print("Graph Name: ", graphname)
+        print("ALL GRAPHS: ", all_graphs)
+        print('')
 
+        graph = all_graphs[graphname]
+        lookupDict = defaultdict(set)
 
-    def graphsToSystems(self):
-        fullsystem = []
-        fullsymbs = []
-        systems = []
-        systemsymbs = []
-        init_eqns = []
+        calldict, dictgraphs = self.processGraphs(graph, all_graphs)
+        fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict = self.graphsToSystems(dictgraphs, calldict)
+
+        modSystems = copy.deepcopy(splitsystems)
+        modSymbols = copy.deepcopy(splitsymbols)
+        optimizedSystems = copy.deepcopy(splitsystems)
+        optimizedSymbols = copy.deepcopy(splitsymbols)
+
+        simpleGamma = self.simpleEliminate(fullsystem,fullsymbols)
+        modGamma = self.modEliminate(modSystems,modSymbols)
+        optimizedGamma = self.optimizedEliminate(optimizedSystems, optimizedSymbols, lookupDict)
+        
+        print('')
+        print(f'simpleGamma: {simpleGamma}')
+        print(f'modGamma: {modGamma}')
+        print(f'simpleGamma = modGamma check: {simpleGamma == modGamma}')
+        print('')
+        print(f'simpleGamma: {simpleGamma}')
+        print(f'optimizedGamma: {optimizedGamma}')
+        print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
+
+    def graphsToSystems(self, dictgraphs, calldict):
+
         lookupDict = defaultdict(set)
         x = symbols("x")
-        num_cfgs = len(self.dictgraphs)
+        num_cfgs = len(dictgraphs)
         init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
-        fullsymbs = init_nodes
-        for fcn_idx in range(len(self.dictgraphs)):
-            #print("FCNIDX:",fcn_idx)
-            curr_graph = self.dictgraphs[fcn_idx]
+        fullsymbols = init_nodes
+        fullsystem = []
+        splitsystems = []
+        splitsymbols = []
+        init_eqns = []
+
+        for fcn_idx in range(len(dictgraphs)):
+
+            curr_graph = dictgraphs[fcn_idx]
             init_node = init_nodes[fcn_idx]
             system = []
             symbs = []
+
             for startnode in curr_graph:
                 endnodes = curr_graph[startnode]
                 expr = 0
                 sym = symbols("V" + str(startnode)) #chr(int(startnode) + 65)
                 symbs += [sym]
                 lookupDict[sym].add(sym)
+
                 for node in endnodes:
                     var = symbols("V" + str(node))
                     lookupDict[var].add(sym)
@@ -112,46 +117,40 @@ class Eliminator:
                         expr = expr + var*x
                     else:
                         expr = expr + x
-
-                for called_fcn_idx in self.calldict[startnode]:
+                
+                for called_fcn_idx in calldict[startnode]:
                     expr =  init_nodes[called_fcn_idx] * expr
-                    # if init_nodes[called_fcn_idx] not in symbs:
-                    #     symbs = [init_nodes[called_fcn_idx]] + symbs
                 system += [expr - sym]
+            
             if init_node not in symbs:
                 symbs = [init_node] + symbs
+            
             fullsystem += system
             init_eqn = symbols(f'V{fcn_idx}_0')*x - init_node
             lookupDict[symbols(f'V{fcn_idx}_0')].add(init_node)
             system = [init_eqn] + system
             init_eqns.append(init_eqn)
-            #print("SYS: ", fcn_idx, "IS",system)
-            #print("LOOKUP DICTIONARY:",lookupDict)
-            systems.append(system)
-            systemsymbs.append(symbs)
+            splitsystems.append(system)
+            splitsymbols.append(symbs)
+            
             for symb in symbs:
-                if symb not in fullsymbs:
-                    fullsymbs.append(symb)
-        print(init_eqns)
-        print("INIT EQNS ABOVE")
+                if symb not in fullsymbols:
+                    fullsymbols.append(symb)
+        
         fullsystem = init_eqns + fullsystem
-        self.lookupDict = lookupDict
-        print("FULLSYS:", fullsystem)
-        print("FULLSYM:", fullsymbs)
-        print("SYSTEMS:", systems)
-        print("SYMBOLS:", systemsymbs)
-        return fullsystem, fullsymbs, systems, systemsymbs
+        print("FULL SYSTEM:", fullsystem)
+        print("FULL SYMBOLS:", fullsymbols)
+        print("SPLIT SYSTEMS:", splitsystems)
+        print("SPLIT SYMBOLS:", splitsymbols)
+        return fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict
 
     def modPartialEliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        #print("NEW RUN ===========================")
-        #print("SYMBS:", symbs)
-        #print("SYSTEM:", system)
+        
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
-        #print("SUB:", sub)
-        #print("SUB FREE SYMBOLS:",sub.free_symbols)
+        
         if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
             for eq in system:
                 if symbs[-1] in eq.free_symbols:
@@ -159,40 +158,34 @@ class Eliminator:
                     if len(sol) == 1:
                         sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
                         break
+        
         if symbs[-1] in sub.free_symbols:
             self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+        
         for count, eq in enumerate(system):
             if symbs[-1] in eq.free_symbols:
                 system[count] = sympy.expand(eq.subs(symbs[-1], sub))
+        
         return self.modPartialEliminate(system[:-1], symbs[:-1])
 
-    def modEliminate(self,systems,symbs):
+    def modEliminate(self, systems, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        Ts = []
         Teqns = []
-        print("HERE",systems)
+        
         for idx, system in enumerate(systems):
             Teqn = self.modPartialEliminate(system, symbs[idx])
-            #print(Teqn)
-            Ts += [sympy.solve(Teqn, symbs[idx][0], dict=True)]
             Teqns += [Teqn]
-        #print(Ts)
+        
         Tsyms = [syms[0] for syms in symbs]
-        print(Tsyms)
         gamma = self.modPartialEliminate(Teqns,Tsyms)
-        #print(gamma)
         return gamma
 
-
     def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool):
-        #print("NEW RUN ===========================")
-        #print("SYMBS:", symbs)
-        #print("SYSTEM:", system)
+        
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
-        #print("SUB:", sub)
-        #print("SUB FREE SYMBOLS:",sub.free_symbols)
+        
         if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
             for eq in system:
                 if symbs[-1] in eq.free_symbols:
@@ -200,64 +193,33 @@ class Eliminator:
                     if len(sol) == 1:
                         sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
                         break
+        
         if symbs[-1] in sub.free_symbols:
             self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+        
         for count, eq in enumerate(system):
             if symbs[-1] in eq.free_symbols:
                 system[count] = sympy.expand(eq.subs(symbs[-1], sub))
+        
         return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices)
 
-    def optimizedEliminate(self,systems,symbs):
+    def optimizedEliminate(self, systems, symbs, lookupDict):
         """Takes in a system of equations and gets the gamma function"""
-        print("START")
-        print(symbs)
-        Ts = []
         Teqns = []
-        print("IS THIS THE LINE?",systems)
-        print(systems)
         TlookupDict = defaultdict(set)
         for idx, system in enumerate(systems):
-            Teqn = self.optimizedPartialEliminate(system, symbs[idx], self.lookupDict, True)
-            #print(symbs[idx][0])
-            #print(Teqn.free_symbols)
+            Teqn = self.optimizedPartialEliminate(system, symbs[idx], lookupDict, True)
             for var in Teqn.free_symbols:
                 if var == symbols("x"):
                     continue
                 TlookupDict[var].add(symbs[idx][0])
-            print(Teqn)
-            Ts += [sympy.solve(Teqn, symbs[idx][0], dict=True)]
             Teqns += [Teqn]
-            #Tdictionary[idx] = Teqn + symbs[idx][0]
-        #print(Ts)
-        print(symbs)
         Tsyms = [syms[0] for syms in symbs]
-        print(TlookupDict)
-        print("TSYMS",Tsyms)
-        print("-----------------------------------------------")
         gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False)
-        print(gamma)
-        #print(Tdictionary)
         return gamma
 
-        Ts = []
-        Teqns = []
-        print("HERE",systems)
-        for idx, system in enumerate(systems):
-            Teqn = self.modPartialEliminate(system, symbs[idx])
-            #print(Teqn)
-            Ts += [sympy.solve(Teqn, symbs[idx][0], dict=True)]
-            Teqns += [Teqn]
-        #print(Ts)
-        Tsyms = [syms[0] for syms in symbs]
-        gamma = self.modPartialEliminate(Teqns,Tsyms)
-        #print(gamma)
-        print(systems)
-        return gamma
-
-
-    def eliminate(self, system, symbs):
+    def simpleEliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        #print("SYMBS:", symbs)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]
@@ -272,8 +234,7 @@ class Eliminator:
         for count, eq in enumerate(system):
             if symbs[-1] in eq.free_symbols:
                 system[count] = sympy.expand(eq.subs(symbs[-1], sub))
-        return self.eliminate(system[:-1], symbs[:-1])
-
+        return self.simpleEliminate(system[:-1], symbs[:-1])
 
 def main():
 
@@ -283,11 +244,11 @@ def main():
         "one":["one",[[0, 1], [1, 2], [1, 3]],{}]
         }
     # board example
-    graphs = {
-        "zero": ["zero", [[0, 1]], {0: ["one"]}],
-        "one": ["one", [[0, 1], [1, 0], [1, 2]], {1: ["two"]}],
-        "two": ["two", [[0, 1]], {}]
-        }
+    # graphs = {
+    #     "zero": ["zero", [[0, 1]], {0: ["one"]}],
+    #     "one": ["one", [[0, 1], [1, 0], [1, 2]], {1: ["two"]}],
+    #     "two": ["two", [[0, 1]], {}]
+    #     }
     # experiments/function_calls/files.even_odd.c
     graphs = {
         "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
@@ -296,9 +257,9 @@ def main():
         "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
     }
 
-    graphname = "split"
-    elim = Eliminator(graphs, graphname)
-    elim.evaluate()
+    graphname = "mul_inv"
+    elim = Eliminator()
+    elim.evaluate(graphs, graphname)
 
 if __name__ == "__main__":
     main()
