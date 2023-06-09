@@ -237,6 +237,9 @@ class PathComplexity(metric.MetricAbstract):
         print(f"matrix...{matrix}")
         print(f"liner algebra...{np.linalg.lstsq(matrix, base_cases, rcond=None)}")
         bound_sol_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
+
+        #TODO: absolute gives a upper bound on path(n), we can use clean function in r_path_complexity and fc_path_complexity 
+        # if we want better path(n) that doesn't make -3 becomes +3
         bound_sol_terms = np.absolute(bound_sol_terms)
         self.logger.d_msg(f"Coeffs: {bound_sol_terms}")
 
