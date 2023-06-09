@@ -1,29 +1,42 @@
-"""Compute the path complexity and asymptotic path complexity metrics."""
+"""Compute the path complexity and asymptotic path complexity metrics for solve vs nsolve
+   called by solve_vs_nsolve"""
+
 import re
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque, Counter
 from typing import Union, List
+
 import numpy as np  # type: ignore
 import sympy  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
 from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal, simplify, symbols,
                    sympify)
+
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
+from scipy.optimize import fsolve
+from sympy.utilities import lambdify
+import time
+
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
+
 PRECISION = 11
+
 class FunctionCallPathComplexity(ABC):
     """The interface that all metric computers should follow."""
+
     def __init__(self, logger: Log) -> None:
         """Initialize a new object capable of computing a metric."""
         self.logger = logger
+
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
         return "Function Call Path Complexity"
-    def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
+
+    def evaluate(self, solve, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # adjMatrix = cfg.graph.adjacency_matrix()
         # print(cfg.graph.edge_rules())
@@ -66,10 +79,16 @@ class FunctionCallPathComplexity(ABC):
        
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
-        apc = self.fcn_call_apc(all_edges, call_list)
+        apc = self.fcn_call_apc(all_edges, call_list,solve)
         return apc
-    def fcn_call_apc(self, edgelist, call_list):
+    
+   
+
+    def fcn_call_apc(self, edgelist, call_list,solve):
         """Calculates the apc of a function that can call other functions """
+
+        timeVal = 0.0
+
         if edgelist == []:
             return (0, 0)
         gamma = self.gammaFunction(edgelist, call_list)
@@ -113,7 +132,9 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"denominator: {denominator}")
             if numRoots < maxPow:
                 newRootsDict = {}
+
                 approxroots = sympy.nroots(denominator, n=(PRECISION + 1), maxsteps=1000)
+
                 for root in approxroots:
                     found = False
                     for dictRoot in newRootsDict.keys():
@@ -127,8 +148,14 @@ class FunctionCallPathComplexity(ABC):
                 numRoots = sum(rootsDict.values())
             if numRoots < maxPow:
                 raise Exception("Can't find all the roots :(")
+            # nonZeroIndex = 0
             self.logger.d_msg(f"Found all Roots")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
+            # while True:
+            #     zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
+            #     if not type(zseries) == sympy.Order:
+            #         break
+            #     nonZeroIndex += 1
             # Computing number of nodes and changing from the start index
             # from nonZeroIndex to number of nodes instead
             nodes = []
@@ -154,18 +181,59 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"coeffs: {coeffs}")
             for val in range(numNodes, numNodes + numRoots):
                 expr = -coeffs[val]
+
                 for rootindex, root in enumerate(rootsDict.keys()):
                     for mj in range(rootsDict[root]):
                         expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
             self.logger.d_msg(f"exprs: {exprs}")
-            self.logger.d_msg(f"exprs type: {type(exprs)}")
-            try:
-                with Timeout(seconds = 50, error_message="Root solver Timed Out"):
-                    solutions = sympy.solve(exprs)
-            except:
+            if (solve == 0): #use solve
+                start_time = time.time()
+                try:
+                    with Timeout(seconds = 100):
+                        solutions = sympy.solve(exprs)
+                        timeVal = time.time()-start_time
+                except TimeoutError:
+                    print ("SOLVE cannot solve, need help from nsolve!!!")
+            elif (solve == 1):
+                #[c\-0\-0 + 4*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**4 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**4 - 1, 
+                # c\-0\-0 + 5*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**5 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**5 - 1, 
+                # c\-0\-0 + 6*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**6 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**6 - 2, 
+                # c\-0\-0 + 7*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**7 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**7 - 2]
+                """ Approach 1
+                try:
+                    print(exprs)
+                    with Timeout(seconds = 50):
+                        print(f"symbols for exprs {symbs}")
+                        def myFunction(symbs):
+                            return [expr.subs(zip(coeffs,list(symbs))) for expr in exprs]
+                        print(f"this should be functions{myFunction(symbs)}")
+                        print(type(myFunction))
+                        initial_guess = np.zeros(len(list(symbs)))
+                        print(initial_guess)
+                        solutions = fsolve(myFunction,initial_guess) 
+                except TimeoutError:
+                    print ("FSOLVE cannot solve, need help from nsolve!!!")
+                """
+                try:
+                    print(exprs)
+                    with Timeout(seconds = 50):
+                        print(f"symbols for exprs {symbs}")
+                        eval_exprs = lambdify(list(symbs),exprs)
+                        def myFunction(symbs):
+                            return eval_exprs(*symbs)
+                        print(f"this should be functions {myFunction(symbs)}")
+                        print(type(myFunction))
+                        initial_guess = np.zeros(len(list(symbs)))
+                        print(initial_guess)
+                        solutions = fsolve(myFunction, initial_guess, complex) 
+                except TimeoutError:
+                    print ("FSOLVE cannot solve, need help from nsolve!!!")
+            else:
+                start_time = time.time()
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+                timeVal = time.time()- start_time
             self.logger.d_msg(f"solutions: {solutions}")
             patheq = 0
             for rootindex, root in enumerate(rootsDict.keys()):
@@ -176,15 +244,13 @@ class FunctionCallPathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
-            #self.logger.d_msg(f"pc: {pc}")
+            # self.logger.d_msg(f"pc: {pc}")
             # if type(pc) == sympy.Add:
-            #     print("ADD")
             #     apc = big_o(list(pc.args))
             # else:
             #     apc = pc
-            #     apc = big_o(list(pc.args))
-            #apc = pc
-            #self.logger.d_msg(f"apc: {apc}")
+            # self.logger.d_msg(f"apc: {apc}")
+            
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
@@ -197,11 +263,13 @@ class FunctionCallPathComplexity(ABC):
         if type(pc) == sympy.Add:
             apc = big_o(list(pc.args))
         if "I" in str(apc):
+            # print(f"printing big o{big_o(list(apc.args))}")
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            # apc = big_o(list(apc.args))
+            #apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
-        return (apc, pc)
-  
+        return (apc, pc, timeVal)
+
+
     def gammaFunction(self, edgelist, call_list):
         """Takes in a list of all edges in a graph, and a list of where function calls are
         located, and calculates a gamma function in terms of x and the start node"""
@@ -209,8 +277,10 @@ class FunctionCallPathComplexity(ABC):
         edgedict = defaultdict(list)
         for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
             edgedict[edge[0]].append(edge[1])
+
         # num_cfgs is max i in i_j for all edges + 1
         num_cfgs = max([int(edge[0].split('_')[0]) for edge in edgelist]) + 1
+
         init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
         system = []
         x = symbols('x')
@@ -231,11 +301,13 @@ class FunctionCallPathComplexity(ABC):
                     if calling_node == startnode:
                         expr =  init_nodes[called_fcn_idx] * expr
             system += [expr - sym]
+
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
         print("SYMBS:", symbs)
         full_sys = init_eqns + system
         print('SYSTEM:', full_sys)
+
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
         return gamma
 
@@ -246,6 +318,7 @@ class FunctionCallPathComplexity(ABC):
         # numerator (since the overall expression is equal to 0, ignore denom)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
+
     # def calculateDiscrim(self, polynomial):
     #     """Takes in a polynomial and calculates its discriminant"""
     #     # replace all T0's with T in polynomial
@@ -261,12 +334,14 @@ class FunctionCallPathComplexity(ABC):
     #                 if not "T" in str(arg):
     #                     newprod *= arg
     #             maxcoeff += newprod
+
     #     power = int(domPow*(domPow-1)/2)
     #     result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
     #     self.logger.d_msg(f"resultant: {result}")
     #     self.logger.d_msg(f"maxcoeff: {maxcoeff}")
     #     disc = ((-1)**power)/(maxcoeff)*result
     #     return disc
+
     # def resultant(self, p, q, symb):
     #     """Calculates the resultant of two polynomials"""
     #     Ppow = 0
@@ -324,7 +399,6 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        print("SYMBS:", symbs)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]
@@ -389,3 +463,4 @@ class FunctionCallPathComplexity(ABC):
             if sympy.Abs(sympy.im(root))<10**(-PRECISION):
                 realnroots += [sympy.re(root)]
         return realnroots
+
