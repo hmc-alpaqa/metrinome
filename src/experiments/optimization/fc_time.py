@@ -1,4 +1,4 @@
-"""Various utilities used only for testing and not the main REPL."""
+"""computes the various time used in different part of fc_path_complexity, call fc_path_complexity_time"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity

@@ -99,15 +99,15 @@ class DataCollector:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
 
-                # start_time = time.time()
-                # try:
-                #     with Timeout(2000):
-                #         rapc = self.recursive_apc_computer.evaluate(graph)
-                #         rruntime = time.time() - start_time
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
+                start_time = time.time()
+                try:
+                    with Timeout(2000):
+                        rapc = self.recursive_apc_computer.evaluate(graph)
+                        rruntime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
     
                 # start_time = time.time()
                 # try:
@@ -141,12 +141,12 @@ class DataCollector:
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "apc","rapc", "fcapc", "rapc_time","fcapc_time"]]
+                data = data[["graph_name", "rapc", "fcapc", "rapc_time","fcapc_time"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[['graph_name', "fcapc"]])
+                print(data[["graph_name", "rapc", "fcapc", "rapc_time","fcapc_time"]])
 
 
 
