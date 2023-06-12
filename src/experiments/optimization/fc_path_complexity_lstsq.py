@@ -76,8 +76,6 @@ class FunctionCallPathComplexity(ABC):
             # edge_list = [((fcn_idx, edge[0]), (fcn_idx, edge[1])) for edge in edge_list]
             edge_list = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in edge_list]
             all_edges += edge_list
-
-
        
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
@@ -169,10 +167,10 @@ class FunctionCallPathComplexity(ABC):
             print(f"nodes list...{nodes}")
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
-            coeffs = [0]*(numRoots + numNodes) # plus 1 because counts start at 0
+            coeffs = [0]*(numRoots + numNodes)
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
-            symbs = [0]*numRoots
+            symbs = set()
             for term in Tseries.args:
                 # print(term)
                 if not type(term) == sympy.Order:
@@ -180,31 +178,16 @@ class FunctionCallPathComplexity(ABC):
                     if c == "x":
                         c = "1"
                     coeffs[self.termPow(term, x)] = int(c)
-            self.logger.d_msg(f"coeffs: {coeffs}") # a list of coefficient in tayler series, the ith index represent the coeff of x^i
-
-            #initialize a matrix and base cases, later use numpy.linalg.lstsq to solve the matrix
-            matrix = np.empty(shape = (numRoots,numRoots),dtype = complex)
-            base_cases = np.zeros(numRoots)
-
-            for val in range(numNodes, numNodes+ numRoots):
-                print(f'n is {val}')
+            self.logger.d_msg(f"coeffs: {coeffs}")
+            for val in range(numNodes, numNodes + numRoots):
                 expr = -coeffs[val]
-                base_cases[val-numNodes] = coeffs[val]
-                index = 0 #to keep track of the columns of the matrix
+
                 for rootindex, root in enumerate(rootsDict.keys()):
                     for mj in range(rootsDict[root]):
-                        coeff_of_c = (val**mj)*((1/root)**val)
-                        expr += symbols(f'c\-{rootindex}\-{mj}')* coeff_of_c
-                        coeff_of_c = complex(coeff_of_c) # convert coeff_of_c from sympy.complex to numpy.complex
-                        matrix[val-numNodes][index] = coeff_of_c
-                        symbs[index] = symbols(f'c\-{rootindex}\-{mj}')
-                        index += 1
+                        expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
+                        symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
             self.logger.d_msg(f"exprs: {exprs}")
-            self.logger.d_msg(f"base_cases: {base_cases}")
-            self.logger.d_msg(f"matrix: {matrix}")
-            self.logger.d_msg(f"symbols list: {symbs}")
-
             if (solve == 0): #use solve
                 start_time = time.time()
                 try:
@@ -247,26 +230,11 @@ class FunctionCallPathComplexity(ABC):
                         solutions = fsolve(myFunction, initial_guess, complex) 
                 except TimeoutError:
                     print ("FSOLVE cannot solve, need help from nsolve!!!")
-
-            elif (solve == 2): #use matrix
-                start_time = time.time()
-                try:
-                    with Timeout(seconds = 100):
-                        solutions_list = np.linalg.lstsq(matrix,base_cases,rcond = None)[0]
-                        solutions = dict(zip(symbs,solutions_list))
-                        # print(solutions)
-                        timeVal = time.time()-start_time
-                except TimeoutError:
-                    print ("MSOLVE cannot solve, need help from nsolve!!!")
-
             else:
                 start_time = time.time()
-                print('running nsolve...')
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
-                print(type(solutions))
                 timeVal = time.time()- start_time
             self.logger.d_msg(f"solutions: {solutions}")
-            
             patheq = 0
             for rootindex, root in enumerate(rootsDict.keys()):
                 for mj in range(rootsDict[root]):
@@ -282,6 +250,7 @@ class FunctionCallPathComplexity(ABC):
             # else:
             #     apc = pc
             # self.logger.d_msg(f"apc: {apc}")
+            
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))

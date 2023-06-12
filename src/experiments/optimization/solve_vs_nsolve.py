@@ -1,4 +1,4 @@
-"""Various utilities used only for testing and not the main REPL."""
+"""test interface for various method for solving exprs (the c's in the closed form)"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity
@@ -33,8 +33,12 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "solve_apc": [],"just_solve_runtime": [],"nsolve_apc": [],"just_nsolve_runtime": [],"exception": [], "exception_type": [],
-                              "solve_runtime":[], "nsolve_runtime":[]})
+        data = pd.DataFrame({"file_name": [], "graph_name": [], 
+                             "solve_apc": [],"solve_pc":[],"just_solve_runtime": [],"solve_runtime":[],
+                             "nsolve_apc": [],"nsolve_pc":[],"just_nsolve_runtime": [], "nsolve_runtime":[],
+                             "msolve_apc": [],"msolve_pc":[],"just_msolve_runtime": [], "msolve_runtime":[],
+                             "exception": [], "exception_type": [],
+                              })
         with open('/app/code/experiments/optimization/files.txt') as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
             files = [line.rstrip() for line in funcs]
@@ -66,8 +70,10 @@ class DataCollector:
                 solve_apc: Union[str, PathComplexityRes] = "na"
                 fsolve_apc: Union[str, PathComplexityRes] = "na"
                 nsolve_apc: Union[str, PathComplexityRes] = "na"
+                msolve_apc: Union[str, PathComplexityRes] = "na"
                 solve_pc: Union[str, PathComplexityRes] = "na"
                 nsolve_pc: Union[str, PathComplexityRes] = "na"
+                msolve_pc: Union[str, PathComplexityRes] = "na"
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
                 exception_type = "na"
@@ -78,21 +84,25 @@ class DataCollector:
                 solve_runtime = 0.0
                 fsolve_runtime = 0.0
                 nsolve_runtime = 0.0
+                msolve_runtime = 0.0
                 just_nsolve_runtime = 0.0
+                just_msolve_runtime = 0.0
                 just_solve_runtime = 0.0
-                start_time = time.time()
-                try:
-                    with Timeout(2000):
-                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
-                        #     continue
-                        result = self.fc_pc_solve_nsolve_computer.evaluate(0, graph, graphs)
-                        solve_apc = result[0]
-                        solve_pc = result[1]
-                        just_solve_runtime = result[2]
-                        solve_runtime = time.time() - start_time
-                except Exception as exc:
-                    print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
+                # start_time = time.time()
+                # try:
+                #     with Timeout(2000):
+                #         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                #         #     continue
+                #         print("trying solve...")
+                #         result = self.fc_pc_solve_nsolve_computer.evaluate(0, graph, graphs)
+                #         solve_apc = result[0]
+                #         solve_pc = result[1]
+                #         just_solve_runtime = result[2]
+                #         solve_runtime = time.time() - start_time
+                # except Exception as exc:
+                #     print(f"Exception: {exc}")
+                #     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -105,13 +115,29 @@ class DataCollector:
                 #     print(f"Exception: {exc}")
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"       
-                    
+                
                 start_time = time.time()    
                 try:
                     with Timeout(2000):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
+                        print('trying msolve....')
                         result = self.fc_pc_solve_nsolve_computer.evaluate(2, graph, graphs)
+                        msolve_apc = result[0]
+                        msolve_pc = result[1]
+                        just_msolve_runtime = result[2]
+                        msolve_runtime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
+                start_time = time.time()    
+                try:
+                    with Timeout(2000):
+                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                        #     continue
+                        print('trying nsolve....')
+                        result = self.fc_pc_solve_nsolve_computer.evaluate(3, graph, graphs)
                         nsolve_apc = result[0]
                         nsolve_pc = result[1]
                         just_nsolve_runtime = result[2]
@@ -175,20 +201,24 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
             
 
-                new_row = {"file_name": file, "graph_name": graph.name,"exception_type": exception_type, "solve_apc": solve_apc,
-                "solve_runtime": solve_runtime, "fsolve_apc": fsolve_apc,"fsolve_runtime": fsolve_runtime, "just_solve_runtime":just_solve_runtime, "nsolve_apc": nsolve_apc,
-                "nsolve_runtime": nsolve_runtime, "just_nsolve_runtime": just_nsolve_runtime, "solve_pc":solve_pc, "nsolve_pc":nsolve_pc}
+                new_row = {"file_name": file, "graph_name": graph.name,"exception_type": exception_type, 
+                           "solve_apc": solve_apc, "solve_pc":solve_pc, "solve_runtime": solve_runtime, "just_solve_runtime":just_solve_runtime,
+                           "fsolve_apc": fsolve_apc, "fsolve_runtime": fsolve_runtime,
+                           "nsolve_apc": nsolve_apc, "nsolve_pc":nsolve_pc, "nsolve_runtime": nsolve_runtime, "just_nsolve_runtime": just_nsolve_runtime,
+                           "msolve_apc": msolve_apc, "msolve_pc":msolve_pc, "msolve_runtime": msolve_runtime, "just_msolve_runtime": just_msolve_runtime}
 
                 data = data.append(new_row, ignore_index = True)
-                data = data[["graph_name", "solve_apc","solve_pc","solve_runtime","just_solve_runtime","nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime"]]
+                data = data[["graph_name", "nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime","msolve_apc","msolve_pc","msolve_runtime","just_msolve_runtime"]]
                 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                data['solve_apc'] = data['solve_apc'].apply(lambda x: round_expr(x, 3))
-                data['solve_pc'] = data['solve_pc'].apply(lambda x: round_expr(x, 3))
+                # data['solve_apc'] = data['solve_apc'].apply(lambda x: round_expr(x, 3))
+                # data['solve_pc'] = data['solve_pc'].apply(lambda x: round_expr(x, 3))
                 data['nsolve_apc'] = data['nsolve_apc'].apply(lambda x: round_expr(x, 3))
                 data['nsolve_pc'] = data['nsolve_pc'].apply(lambda x: round_expr(x, 3))
+                data['msolve_apc'] = data['msolve_apc'].apply(lambda x: round_expr(x, 3))
+                data['msolve_pc'] = data['msolve_pc'].apply(lambda x: round_expr(x, 3))
 
-                print(data[["graph_name", "solve_apc","solve_pc","solve_runtime","just_solve_runtime","nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime"]])
+                print(data[["graph_name", "nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime","msolve_apc","msolve_pc","msolve_runtime","just_msolve_runtime"]])
 
 
                 # create directory if it doesn't exist

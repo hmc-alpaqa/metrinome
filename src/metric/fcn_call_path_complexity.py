@@ -127,17 +127,21 @@ class FunctionCallPathComplexity(ABC):
                 numRoots = sum(rootsDict.values())
             if numRoots < maxPow:
                 raise Exception("Can't find all the roots :(")
-            nonZeroIndex = 0
             self.logger.d_msg(f"Found all Roots")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
-            while True:
-                zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
-                if not type(zseries) == sympy.Order:
-                    break
-                nonZeroIndex += 1
-            self.logger.d_msg(f"nonZeroIndex: {nonZeroIndex}")
-            coeffs = [0]*(numRoots + nonZeroIndex)
-            Tseries = sympy.series(genFunc, x, 0, numRoots + nonZeroIndex)
+            # Computing number of nodes and changing from the start index
+            # from nonZeroIndex to number of nodes instead
+            nodes = []
+            for i in range(len(edgelist)):
+                if edgelist[i][0] not in nodes:
+                    nodes.append(edgelist[i][0])
+                if edgelist[i][1] not in nodes:
+                    nodes.append(edgelist[i][1])
+            print(f"nodes list...{nodes}")
+            numNodes = len(nodes) 
+            self.logger.d_msg(f"numNodes: {numNodes}")
+            coeffs = [0]*(numRoots + numNodes)
+            Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
             symbs = set()
             for term in Tseries.args:
@@ -148,7 +152,7 @@ class FunctionCallPathComplexity(ABC):
                         c = "1"
                     coeffs[self.termPow(term, x)] = int(c)
             self.logger.d_msg(f"coeffs: {coeffs}")
-            for val in range(nonZeroIndex, nonZeroIndex + numRoots):
+            for val in range(numNodes, numNodes + numRoots):
                 expr = -coeffs[val]
                 for rootindex, root in enumerate(rootsDict.keys()):
                     for mj in range(rootsDict[root]):
@@ -156,6 +160,7 @@ class FunctionCallPathComplexity(ABC):
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
             self.logger.d_msg(f"exprs: {exprs}")
+            self.logger.d_msg(f"exprs type: {type(exprs)}")
             try:
                 with Timeout(seconds = 50, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
