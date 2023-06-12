@@ -72,17 +72,18 @@ class DataCollector:
                 runtime = 0.0
                 rruntime = 0.0
                 bruntime = 0.0
-                start_time = time.time()
-                try:
-                    with Timeout(2000):
-                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
-                        #     continue
-                        fcapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
-                        fcruntime = time.time() - start_time
-                except Exception as exc:
-                    print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                fcruntime = 0.0
+                # start_time = time.time()
+                # try:
+                #     with Timeout(2000):
+                #         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                #         #     continue
+                #         fcapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
+                #         fcruntime = time.time() - start_time
+                # except Exception as exc:
+                #     print(f"Exception: {exc}")
+                #     exception_type = "Timeout" if isinstance(
+                #         exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -115,14 +116,14 @@ class DataCollector:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
     
-                # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         apc = self.apc_computer.evaluate(graph)
-                #         runtime = time.time() - start_time
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
+                start_time = time.time()
+                try:
+                    with Timeout(300):
+                        apc = self.apc_computer.evaluate(graph)
+                        runtime = time.time() - start_time
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
 
                 # try:
                 #     with Timeout(200):
@@ -147,11 +148,11 @@ class DataCollector:
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "fcapc","fcapc_time","num_vertices", "edge_count"]]
+                data = data[["graph_name", 'apc']]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
-                print(data[['graph_name', "fcapc","fcapc_time"]])
+                print(data[['graph_name', "apc"]])
 
 
 
