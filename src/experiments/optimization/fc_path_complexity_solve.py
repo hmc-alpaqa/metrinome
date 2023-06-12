@@ -20,6 +20,7 @@ from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, ca
 from scipy.optimize import fsolve
 from sympy.utilities import lambdify
 import time
+import unittest
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
@@ -184,6 +185,7 @@ class FunctionCallPathComplexity(ABC):
 
             #initialize a matrix and base cases, later use numpy.linalg.lstsq to solve the matrix
             matrix = np.empty(shape = (numRoots,numRoots),dtype = complex)
+            matrix.fill(0)
             base_cases = np.zeros(numRoots)
 
             for val in range(numNodes, numNodes+ numRoots):
@@ -196,6 +198,8 @@ class FunctionCallPathComplexity(ABC):
                         coeff_of_c = (val**mj)*((1/root)**val)
                         expr += symbols(f'c\-{rootindex}\-{mj}')* coeff_of_c
                         coeff_of_c = complex(coeff_of_c) # convert coeff_of_c from sympy.complex to numpy.complex
+                        # print(f"coeff_of_c:{coeff_of_c}")
+                        # print(f"coeff_of_c type:{type(coeff_of_c)}")
                         matrix[val-numNodes][index] = coeff_of_c
                         symbs[index] = symbols(f'c\-{rootindex}\-{mj}')
                         index += 1
@@ -203,12 +207,19 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"exprs: {exprs}")
             self.logger.d_msg(f"base_cases: {base_cases}")
             self.logger.d_msg(f"matrix: {matrix}")
+            self.logger.d_msg(f"matrix: {matrix[-3][-1]}")
             self.logger.d_msg(f"symbols list: {symbs}")
 
+            # check_exprs = matrix.dot(symbs)
+            # check_exprs = check_exprs.flatten().tolist()
+            # print(check_exprs)
+            # #assert check_exprs == exprs, "no matrix does not equal exprs"
+            # print(f"solution of check_exprs{sympy.nsolve(check_exprs, symbs, [0]*numRoots, dict=True)[0]}")
+            
             if (solve == 0): #use solve
                 start_time = time.time()
                 try:
-                    with Timeout(seconds = 100):
+                    with Timeout(seconds = 20):
                         solutions = sympy.solve(exprs)
                         timeVal = time.time()-start_time
                 except TimeoutError:
@@ -250,11 +261,14 @@ class FunctionCallPathComplexity(ABC):
 
             elif (solve == 2): #use matrix
                 start_time = time.time()
+                print('running msolve...')
                 try:
                     with Timeout(seconds = 100):
-                        solutions_list = np.linalg.lstsq(matrix,base_cases,rcond = None)[0]
-                        solutions = dict(zip(symbs,solutions_list))
-                        # print(solutions)
+                        solutions_list_solve = np.linalg.solve(matrix,base_cases)
+                        solutions_list_lstsq = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
+                        solutions = dict(zip(symbs,solutions_list_lstsq))
+                        print(f"solutions using lstsq: {solutions}")
+                        solutions = dict(zip(symbs,solutions_list_solve))
                         timeVal = time.time()-start_time
                 except TimeoutError:
                     print ("MSOLVE cannot solve, need help from nsolve!!!")
@@ -263,8 +277,8 @@ class FunctionCallPathComplexity(ABC):
                 start_time = time.time()
                 print('running nsolve...')
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
-                print(type(solutions))
                 timeVal = time.time()- start_time
+
             self.logger.d_msg(f"solutions: {solutions}")
             
             patheq = 0

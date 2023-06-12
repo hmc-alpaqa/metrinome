@@ -89,21 +89,22 @@ class DataCollector:
                 just_msolve_runtime = 0.0
                 just_solve_runtime = 0.0
 
-                # start_time = time.time()
-                # try:
-                #     with Timeout(2000):
-                #         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
-                #         #     continue
-                #         print("trying solve...")
-                #         result = self.fc_pc_solve_nsolve_computer.evaluate(0, graph, graphs)
-                #         solve_apc = result[0]
-                #         solve_pc = result[1]
-                #         just_solve_runtime = result[2]
-                #         solve_runtime = time.time() - start_time
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                start_time = time.time()
+                try:
+                    with Timeout(2000):
+                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                        #     continue
+                        print("trying solve...")
+                        result = self.fc_pc_solve_nsolve_computer.evaluate(0, graph, graphs)
+                        solve_apc = result[0]
+                        solve_pc = result[1]
+                        just_solve_runtime = result[2]
+                        solve_runtime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
+                # fsolve does not work with complex numbers
                 # start_time = time.time()
                 # try:
                 #     with Timeout(2000):
@@ -208,17 +209,21 @@ class DataCollector:
                            "msolve_apc": msolve_apc, "msolve_pc":msolve_pc, "msolve_runtime": msolve_runtime, "just_msolve_runtime": just_msolve_runtime}
 
                 data = data.append(new_row, ignore_index = True)
-                data = data[["graph_name", "nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime","msolve_apc","msolve_pc","msolve_runtime","just_msolve_runtime"]]
+                data = data[["graph_name", "solve_apc","solve_pc","solve_runtime","just_solve_runtime",
+                                           "nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime",
+                                           "msolve_apc","msolve_pc","msolve_runtime","just_msolve_runtime"]]
                 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['solve_apc'] = data['solve_apc'].apply(lambda x: round_expr(x, 3))
                 # data['solve_pc'] = data['solve_pc'].apply(lambda x: round_expr(x, 3))
-                data['nsolve_apc'] = data['nsolve_apc'].apply(lambda x: round_expr(x, 3))
-                data['nsolve_pc'] = data['nsolve_pc'].apply(lambda x: round_expr(x, 3))
-                data['msolve_apc'] = data['msolve_apc'].apply(lambda x: round_expr(x, 3))
-                data['msolve_pc'] = data['msolve_pc'].apply(lambda x: round_expr(x, 3))
+                # data['nsolve_apc'] = data['nsolve_apc'].apply(lambda x: round_expr(x, 3))
+                # data['nsolve_pc'] = data['nsolve_pc'].apply(lambda x: round_expr(x, 3))
+                # data['msolve_apc'] = data['msolve_apc'].apply(lambda x: round_expr(x, 3))
+                # data['msolve_pc'] = data['msolve_pc'].apply(lambda x: round_expr(x, 3))
 
-                print(data[["graph_name", "nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime","msolve_apc","msolve_pc","msolve_runtime","just_msolve_runtime"]])
+                print(data[["graph_name", "solve_apc","solve_pc","solve_runtime","just_solve_runtime",
+                                          "nsolve_apc","nsolve_pc","nsolve_runtime","just_nsolve_runtime",
+                                          "msolve_apc","msolve_pc","msolve_runtime","just_msolve_runtime"]])
 
 
                 # create directory if it doesn't exist
