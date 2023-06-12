@@ -41,6 +41,13 @@ int bad_addition(int x, int y)
 //     return 1;
 // }
 
+// int two_bad_addition(int x,int y)
+// {
+//     x = bad_addition(x,y);
+//     x = bad_addition(x,y);
+//     return x;
+// }
+
 // int three_bad_addition(int x, int y)
 // {
 //     x = bad_addition(x,y);
@@ -54,6 +61,15 @@ int bad_addition(int x, int y)
 //     bad_addition(2,1);
 //     bad_addition(2,1);
 //     bad_addition(2,1);
+//     return x;
+// }
+
+// int four_bad_addition(int x, int y)
+// {
+//     x = bad_addition(x,y);
+//     x = bad_addition(x,y);
+//     x = bad_addition(x,y);
+//     x = bad_addition(x,y);
 //     return x;
 // }
 
