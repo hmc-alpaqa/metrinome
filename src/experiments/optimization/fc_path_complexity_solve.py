@@ -162,6 +162,30 @@ class FunctionCallPathComplexity(ABC):
             #     nonZeroIndex += 1
             # Computing number of nodes and changing from the start index
             # from nonZeroIndex to number of nodes instead
+            
+            #Creates number of nodes per graph
+            #1st step) Identify how many graphs
+            sumAllNodes = 0
+            graphsNumbers = []
+            for i in range(len(edgelist)):
+                graphsNumbers.append(int(edgelist[i][0][0]))
+                graphsNumbers.append(int(edgelist[i][1][0]))
+
+            graphsNumbers = list(sorted(set(graphsNumbers)))
+            print(f"updated graph numbers:{graphsNumbers}")
+
+            numCalls = [0]*len(graphsNumbers)
+            #2nd step) Identify how many calls for each graph
+            currentCall = 0
+            for i in range(len(call_list)):
+                currentCall = call_list[i][1]
+                numCalls[currentCall] = numCalls[currentCall] + 1
+            #include original graph being called
+            numCalls[0] += 1
+            print(f"num of calls per graph:{numCalls}")
+            
+
+            #3rd step) Number of nodes for each graph
             nodes = []
             for i in range(len(edgelist)):
                 if edgelist[i][0] not in nodes:
@@ -171,6 +195,21 @@ class FunctionCallPathComplexity(ABC):
             print(f"nodes list...{nodes}")
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
+
+            listOfListsNodesGraphs = [[] for j in range(len(graphsNumbers))]
+            for i in range(len(nodes)):
+                listOfListsNodesGraphs[int(nodes[i][0])].append(nodes[i])
+            
+            numberNodesPerGraph = []
+            for i in range(len(graphsNumbers)):
+                numberNodesPerGraph.append(len(listOfListsNodesGraphs[i]) + 1)
+                print(f"number nodes per graph: {numberNodesPerGraph}")
+
+            dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
+            print(f"dot product:{dot_product}")
+            
+            numNodes = dot_product
+
 
             # numNodes += 23
             coeffs = [0]*(numRoots + numNodes) # plus 1 because counts start at 0
