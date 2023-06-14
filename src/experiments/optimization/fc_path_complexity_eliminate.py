@@ -14,13 +14,18 @@ from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
 import copy
+import time
+from sympy.utilities import lambdify
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 PRECISION = 11
+
+
 class FunctionCallPathComplexity(ABC):
     """The interface that all metric computers should follow."""
     def __init__(self, logger: Log) -> None:
         """Initialize a new object capable of computing a metric."""
         self.logger = logger
+        self.apc_times = {}
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
         return "Function Call Path Complexity"
@@ -28,57 +33,79 @@ class FunctionCallPathComplexity(ABC):
     def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
-        print("HELLO")
         print("CFG ELIM", cfg)
-        calldict, dictgraphs = self.processGraphs(cfg, all_cfgs)
-        print("CALLDICT: ",calldict)
-        print("DICTGRAPHS: ", dictgraphs)
-        print('')
-        print("Graph Name: ", cfg.name)
-        print("ALL GRAPHS: ", all_cfgs)
-        print('')
-
-        graphname = cfg.name
-        
-        fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict = self.graphsToSystems(dictgraphs, calldict)
-        print("FULLSYSTEM",fullsystem)
-        modSystems = copy.deepcopy(splitsystems)
-        modSymbols = copy.deepcopy(splitsymbols)
-        optimizedSystems = copy.deepcopy(splitsystems)
-        optimizedSymbols = copy.deepcopy(splitsymbols)
-        print("PLEASE PLEASE PLEASE")
+        print("ALL CFGS", all_cfgs)
+        graphProcessTime = 0.0
+        start_time = time.time()
+        calldict, dictgraphs, numNodes = self.processGraphs(cfg, all_cfgs)
+        graphProcessTime = time.time() - start_time
+        # print("CALLDICT: ",calldict)
+        # print("DICTGRAPHS: ", dictgraphs)
+        # print('')
+        # print("Graph Name: ", cfg.name)
+        # print("ALL GRAPHS: ", all_cfgs)
+        # print('')
+        graphSystemsTime = 0.0
+        start_time = time.time()
+        splitsystems, splitsymbols, lookupDict = self.graphsToSystems(dictgraphs, calldict)
+        graphSystemsTime = time.time() - start_time
+        # modSystems = copy.deepcopy(splitsystems)
+        # modSymbols = copy.deepcopy(splitsymbols)
+        gammaTime = 0.0
+        start_time = time.time()
+        # optimizedSystems = copy.deepcopy(splitsystems)
+        # optimizedSymbols = copy.deepcopy(splitsymbols)
         #ISSUE STARTS W/ SELF.ELIMINATE
-        simpleGamma = self.eliminate(fullsystem,fullsymbols)
-        print("DONE")
-        modGamma = self.modEliminate(modSystems,modSymbols)
-        optimizedGamma = self.optimizedEliminate(optimizedSystems, optimizedSymbols, lookupDict)
-        
-        print('')
-        print(f'simpleGamma: {simpleGamma}')
-        print(f'modGamma: {modGamma}')
-        print(f'simpleGamma = modGamma check: {simpleGamma == modGamma}')
-        print('')
-        print(f'simpleGamma: {simpleGamma}')
-        print(f'optimizedGamma: {optimizedGamma}')
-        print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
+        #simpleGamma = self.eliminate(fullsystem,fullsymbols)
+        #modGamma = self.modEliminate(modSystems,modSymbols)
+        optimizedGamma = self.optimizedEliminate(splitsystems, splitsymbols, lookupDict)
+        gammaTime = time.time() - start_time
+        # print(f'simpleGamma: {simpleGamma}')
+        # print(f'modGamma: {modGamma}')
+        # print(f'simpleGamma = modGamma check: {simpleGamma == modGamma}')
+        # print('')
+        # print(f'simpleGamma: {simpleGamma}')
+        # print(f'optimizedGamma: {optimizedGamma}')
+        # print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
 
-        apc = self.fcn_call_apc(optimizedGamma)
-        return apc
+        self.apc_times["graphProcessTime"] = graphProcessTime
+        self.apc_times["graphSystemsTime"] = graphSystemsTime
+        self.apc_times["gammaTime"] = gammaTime
+        apc = self.fcn_call_apc(optimizedGamma, numNodes)
+        return apc, self.apc_times
 
-    def fcn_call_apc(self, gamma):
+    def fcn_call_apc(self, gamma, numNodes):
         """Calculates the apc of a function that can call other functions """
         if gamma == 0:
             return (0, 0)
         self.logger.d_msg(f"Gamma Function: {gamma}")
+
+        discrimTime = 0.0
+        realnrootsTime = 0.0
+        genFuncTime = 0.0
+        coeffsTime = 0.0
+        exprsTime = 0.0
+        soluTime = 0.0
+        UpboundTime = 0.0
+        apcTime2 = 0.0
+        cleanTime = 0.0
+
+        start_time = time.time()
         discrim = self.calculateDiscrim(gamma)
-        self.logger.d_msg(f"Discriminant: {discrim}")
+        discrimTime = time.time() - start_time
+        self.logger.d_msg(f"Discriminant: {discrim}, time:{discrimTime}")
+
+        start_time = time.time()
         try:
             numroots = len(self.realnroots(discrim))
         except Exception as e:
             self.logger.e_msg(f"Error: {e}")
             numroots = 0
+        realnrootsTime = time.time() - start_time
+        print(f"realnrootsTime:{realnrootsTime}")
         if numroots == 0:
             self.logger.d_msg(f"case1")
+            start_time = time.time()
             T = symbols("T0")
             x = symbols("x")
             gens = sympy.solve(gamma,T)
@@ -89,10 +116,13 @@ class FunctionCallPathComplexity(ABC):
                     possibleGenFunc += [gen]
             if len(possibleGenFunc) == 1:
                 genFunc = possibleGenFunc[0]/(1-x)
+                
                 self.logger.d_msg(f"Generating Function: {genFunc}")
             else:
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
+            genFuncTime = time.time()-start_time
+            start_time = time.time()
             denominator = 1
             for factor in genFunc.args:
                 if type(factor) == sympy.Pow and factor.args[1] < 0:
@@ -123,19 +153,13 @@ class FunctionCallPathComplexity(ABC):
                 numRoots = sum(rootsDict.values())
             if numRoots < maxPow:
                 raise Exception("Can't find all the roots :(")
-            nonZeroIndex = 0
             self.logger.d_msg(f"Found all Roots")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
-            while True:
-                zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
-                if not type(zseries) == sympy.Order:
-                    break
-                nonZeroIndex += 1
-            self.logger.d_msg(f"nonZeroIndex: {nonZeroIndex}")
-            coeffs = [0]*(numRoots + nonZeroIndex)
-            Tseries = sympy.series(genFunc, x, 0, numRoots + nonZeroIndex)
+
+            coeffs = [0]*(numRoots + numNodes)
+            Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
-            symbs = set()
+            symbs = [0]*numRoots
             for term in Tseries.args:
                 # print(term)
                 if not type(term) == sympy.Order:
@@ -143,21 +167,47 @@ class FunctionCallPathComplexity(ABC):
                     if c == "x":
                         c = "1"
                     coeffs[self.termPow(term, x)] = int(c)
-            self.logger.d_msg(f"coeffs: {coeffs}")
-            for val in range(nonZeroIndex, nonZeroIndex + numRoots):
+            coeffsTime = time.time()-start_time
+            self.logger.d_msg(f"coeffs: {coeffs}, time:{coeffsTime}")
+            start_time = time.time()
+            #initialize a matrix and base cases, later use numpy.linalg.lstsq to solve the matrix
+            matrix = np.empty(shape = (numRoots,numRoots),dtype = complex)
+            base_cases = np.zeros(numRoots)
+            for val in range(numNodes, numNodes+ numRoots):
                 expr = -coeffs[val]
+                base_cases[val-numNodes] = coeffs[val]
+                index = 0 #to keep track of the columns of the matrix
                 for rootindex, root in enumerate(rootsDict.keys()):
                     for mj in range(rootsDict[root]):
-                        expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
-                        symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
+                        coeff_of_c = (val**mj)*((1/root)**val)
+                        expr += symbols(f'c\-{rootindex}\-{mj}')* coeff_of_c
+                        coeff_of_c = complex(coeff_of_c) # convert coeff_of_c from sympy.complex to numpy.complex
+                        matrix[val-numNodes][index] = coeff_of_c
+                        symbs[index] = symbols(f'c\-{rootindex}\-{mj}')
+                        index += 1
                 exprs += [expr]
-            self.logger.d_msg(f"exprs: {exprs}")
+            exprsTime = time.time()- start_time
+            self.logger.d_msg(f"exprs: {exprs}, time:{exprsTime}")
+            self.logger.d_msg(f"base_cases: {base_cases}")
+            self.logger.d_msg(f"matrix: {matrix}")
+            self.logger.d_msg(f"symbols list: {symbs}")
+            
+
+            start_time = time.time()
             try:
-                with Timeout(seconds = 10, error_message="Root solver Timed Out"):
-                    solutions = sympy.solve(exprs)
-            except:
+                with Timeout(seconds = 100):
+                    solutions_list = np.linalg.lstsq(matrix,base_cases,rcond = None)[0]
+                    solutions = dict(zip(symbs,solutions_list))
+                    # print(solutions)
+                    timeVal = time.time()-start_time
+            except TimeoutError:
+                print ("MSOLVE cannot solve, need help from nsolve!!!")
+                print('running nsolve...')
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
-            self.logger.d_msg(f"solutions: {solutions}")
+            soluTime = time.time() - start_time
+            self.logger.d_msg(f"solutions: {solutions}, time: {soluTime}")
+
+            start_time = time.time()
             patheq = 0
             for rootindex, root in enumerate(rootsDict.keys()):
                 for mj in range(rootsDict[root]):
@@ -176,21 +226,36 @@ class FunctionCallPathComplexity(ABC):
             #     apc = big_o(list(pc.args))
             #apc = pc
             #self.logger.d_msg(f"apc: {apc}")
+            UpboundTime = time.time() - start_time
         else:
             self.logger.d_msg(f"case2")
+            start_time = time.time()
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
             pc = sympy.N(1/rStar)**symbols("n")
+            apcTime2 = time.time()-start_time
         self.logger.d_msg(f"pc: {pc}")
+        start_time = time.time()
         apc = pc
         if type(pc) == sympy.Add:
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             # apc = big_o(list(apc.args))
+        cleanTime = time.time() - start_time
         self.logger.d_msg(f"apc: {apc}")
+        self.apc_times["discrimTime"] = discrimTime
+        self.apc_times["realnrootsTime"] = realnrootsTime
+        self.apc_times["genFuncTime"] = genFuncTime
+        self.apc_times["coeffsTime"] = coeffsTime
+        self.apc_times["exprsTime"] = exprsTime
+        self.apc_times["soluTime"] = soluTime
+        self.apc_times["UpboundTime"] = UpboundTime
+        self.apc_times["apcTime2"] = apcTime2
+        self.apc_times["cleanTime"] = cleanTime
+        print("APC",apc)
         return (apc, pc)
   
     # def gammaFunction(self, edgelist, call_list):
@@ -234,33 +299,26 @@ class FunctionCallPathComplexity(ABC):
     def processGraphs(self, graph, all_graphs):
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
-        print(all_graphs)
         dictgraphs = []
-        print(graph)
-        used_graphs = [graph.name]
+        used_graphs = [graph.name.split(".")[-1]]
         graphs_to_process = deque([graph])
-        
+        numNodes = 0
         calldict = defaultdict(list)
         while graphs_to_process:
             curr_graph = graphs_to_process.popleft()
-            print(curr_graph)
             curr_graph_name = curr_graph.name
-            print(curr_graph_name)
             curr_graph_edges = curr_graph.graph.edge_rules()
-            print(curr_graph_edges)
             curr_graph_calls = curr_graph.metadata.calls
-            print(curr_graph_calls)
-            fcn_idx = used_graphs.index(curr_graph_name)
-            print(fcn_idx)
+            fcn_idx = used_graphs.index(curr_graph_name.split(".")[-1])
             curr_graph_edges = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in curr_graph_edges]
-            print(curr_graph_edges)
             edgedict = defaultdict(list)
+            nodes = set()
             for edge in curr_graph_edges: #reformatting our graph from edgelist form to dictionary form
                 edgedict[edge[0]].append(edge[1])
+                nodes.update(edge)
+            numNodes += len(nodes)
             dictgraphs.append(edgedict)
-            print(edgedict)
             for node in curr_graph_calls.keys():
-                print(node)
                 # loop through functions that are called
                 for called_fcn in curr_graph_calls[node].split(" "):
                     # add graphs to used_graphs
@@ -270,13 +328,14 @@ class FunctionCallPathComplexity(ABC):
                         used_graphs.append(called_fcn)
                         # find graph from all_cfgs, add to graphs_to_process
                         for graph in all_graphs:
-                            if graph == called_fcn:
+                            if graph.split(".")[-2] == called_fcn:
                                 graphs_to_process.append(all_graphs[graph])
                                 break
                     # Call (i, j) from function i node j to called_fcn
                     calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
-        print("D",dictgraphs)
-        return calldict, dictgraphs
+        #numNodes = sum([len(graph) for graph in dictgraphs])
+        #print(numNodes)
+        return calldict, dictgraphs, numNodes
 
     # def evaluate(self, all_graphs: dict, graphname):
         
@@ -310,7 +369,6 @@ class FunctionCallPathComplexity(ABC):
     #     print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
 
     def graphsToSystems(self, dictgraphs, calldict):
-
         lookupDict = defaultdict(set)
         x = symbols("x")
         num_cfgs = len(dictgraphs)
@@ -320,14 +378,11 @@ class FunctionCallPathComplexity(ABC):
         splitsystems = []
         splitsymbols = []
         init_eqns = []
-
         for fcn_idx in range(len(dictgraphs)):
-
             curr_graph = dictgraphs[fcn_idx]
             init_node = init_nodes[fcn_idx]
             system = []
             symbs = []
-
             for startnode in curr_graph:
                 endnodes = curr_graph[startnode]
                 expr = 0
@@ -367,7 +422,7 @@ class FunctionCallPathComplexity(ABC):
         print("FULL SYMBOLS:", fullsymbols)
         print("SPLIT SYSTEMS:", splitsystems)
         print("SPLIT SYMBOLS:", splitsymbols)
-        return fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict
+        return splitsystems, splitsymbols, lookupDict
 
     def modPartialEliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
@@ -395,6 +450,7 @@ class FunctionCallPathComplexity(ABC):
 
     def modEliminate(self, systems, symbs):
         """Takes in a system of equations and gets the gamma function"""
+        print("IN MOD ELIMINATE")
         Teqns = []
         
         for idx, system in enumerate(systems):
@@ -406,17 +462,30 @@ class FunctionCallPathComplexity(ABC):
         return gamma
 
     def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool):
-        
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
         
         if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
-            for eq in system:
+            symb_idx = int(str(symbs[-1])[1:].split("_")[-1])
+            for eqn_symb in lookupDict[symbs[-1]]:
+                if vertices == False:
+                    eq_idx = int(str(eqn_symb)[1:])
+                elif "T" in str(eqn_symb):
+                    eq_idx = 0
+                else:
+                    eq_idx = int(str(eqn_symb)[1:].split("_")[1]) + 1
+                if eq_idx > symb_idx:
+                    if (str(eqn_symb)[0] != "T") or (str(symbs[-1])[0] != "V"):
+                        continue
+                    else:
+                        pass
+                eq = system[eq_idx]
                 if symbs[-1] in eq.free_symbols:
                     sol = sympy.solve(eq, symbs[-1], dict=True)
                     if len(sol) == 1:
-                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
+                        #sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
+                        sub = sub.subs(symbs[-1], sol[0][symbs[-1]])
                         break
         
         if symbs[-1] in sub.free_symbols:
@@ -424,11 +493,12 @@ class FunctionCallPathComplexity(ABC):
         
         for count, eq in enumerate(system):
             if symbs[-1] in eq.free_symbols:
-                system[count] = sympy.expand(eq.subs(symbs[-1], sub))
+                system[count] = eq.subs(symbs[-1], sub)
         
         return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices)
 
     def optimizedEliminate(self, systems, symbs, lookupDict):
+        print("IN OPTIMIZED ELIMINATE")
         """Takes in a system of equations and gets the gamma function"""
         Teqns = []
         TlookupDict = defaultdict(set)
@@ -439,8 +509,10 @@ class FunctionCallPathComplexity(ABC):
                     continue
                 TlookupDict[var].add(symbs[idx][0])
             Teqns += [Teqn]
+            #print(Teqn)
         Tsyms = [syms[0] for syms in symbs]
-        gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False)
+        gamma = sympy.simplify(self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False))
+        print(gamma)
         return gamma
 
     # def simpleEliminate(self, system, symbs):

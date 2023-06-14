@@ -103,9 +103,7 @@ class FunctionCallPathComplexity(ABC):
         if edgelist == []:
             return (0, 0)
 
-        start_time = time.time()
-        gamma = self.gammaFunction(edgelist, call_list)
-        gammaTime = time.time()-start_time
+        gamma, gammaTime, graphSystemsTime = self.gammaFunction(edgelist, call_list)
         self.logger.d_msg(f"Gamma Function: {gamma}, time: {gammaTime}")
 
         start_time = time.time()
@@ -255,7 +253,7 @@ class FunctionCallPathComplexity(ABC):
             apc = big_o(list(apc.args))
 
         apc = sympy.N(apc)
-        apc_and_time = {"apc":apc, "pc":pc, "gammaTime": gammaTime, "discrimTime":discrimTime, 
+        apc_and_time = {"apc":apc, "pc":pc, "graphSystemsTime":graphSystemsTime, "gammaTime": gammaTime, "discrimTime":discrimTime, 
                 "realnrootsTime":realnrootsTime, "coeffsTime": coeffsTime, "exprsTime": exprsTime,
                 "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2}
         return apc_and_time
@@ -265,6 +263,9 @@ class FunctionCallPathComplexity(ABC):
         """Takes in a list of all edges in a graph, and a list of where function calls are
         located, and calculates a gamma function in terms of x and the start node"""
         # calls: [('0_0', 1), ('0_0', 1), ('1_2', 1)] -> {'(0_0, 1)': 2, '(1_2, 1)': 1}
+        graphSystemsTime = 0.0
+        start_time = time.time()
+
         edgedict = defaultdict(list)
         for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
             edgedict[edge[0]].append(edge[1])
@@ -298,9 +299,12 @@ class FunctionCallPathComplexity(ABC):
         print("SYMBS:", symbs)
         full_sys = init_eqns + system
         print('SYSTEM:', full_sys)
-
+        graphSystemsTime = time.time() - start_time
+        gammaTime = 0.0
+        start_time = time.time()
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
-        return gamma
+        gammaTime = time.time() - start_time
+        return gamma, gammaTime, graphSystemsTime
 
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
@@ -454,4 +458,3 @@ class FunctionCallPathComplexity(ABC):
             if sympy.Abs(sympy.im(root))<10**(-PRECISION):
                 realnroots += [sympy.re(root)]
         return realnroots
-
