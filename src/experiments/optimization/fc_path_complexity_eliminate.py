@@ -167,6 +167,7 @@ class FunctionCallPathComplexity(ABC):
                     coeffs[self.termPow(term, x)] = int(c)
             coeffsTime = time.time()-start_time
             self.logger.d_msg(f"coeffs: {coeffs}, time:{coeffsTime}")
+
             start_time = time.time()
             #initialize a matrix and base cases, later use numpy.linalg.lstsq to solve the matrix
             matrix = np.empty(shape = (numRoots,numRoots),dtype = complex)
@@ -194,10 +195,11 @@ class FunctionCallPathComplexity(ABC):
             start_time = time.time()
             try:
                 with Timeout(seconds = 100):
-                    solutions_list = np.linalg.lstsq(matrix,base_cases,rcond = None)[0]
+                    print("trying msolve...")
+                    solutions_list = np.linalg.solve(matrix,base_cases)
                     solutions = dict(zip(symbs,solutions_list))
                     # print(solutions)
-                    timeVal = time.time()-start_time
+                    # timeVal = time.time()-start_time
             except TimeoutError:
                 print ("MSOLVE cannot solve, need help from nsolve!!!")
                 print('running nsolve...')
