@@ -21,6 +21,7 @@ from scipy.optimize import fsolve
 from sympy.utilities import lambdify
 import time
 import unittest
+import math
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
@@ -172,6 +173,9 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"numNodes: {numNodes}")
             coeffs = [0]*(numRoots + numNodes) # plus 1 because counts start at 0
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
+            # coeffs = [0]*(2*numRoots + numNodes) # plus 1 because counts start at 0
+            # Tseries = sympy.series(genFunc, x, 0, 2*numRoots + numNodes)
+
             exprs = []
             symbs = [0]*numRoots
             for term in Tseries.args:
@@ -188,11 +192,16 @@ class FunctionCallPathComplexity(ABC):
             matrix.fill(0)
             base_cases = np.zeros(numRoots)
 
-            for val in range(numNodes, numNodes+ numRoots):
+            # if (numNodes % 2 == 1):
+            #     numNodes += 1
+
+            rows = 0 #to keep track of the rows in the matrix
+            # for val in range(numNodes, numNodes+2*numRoots,2):
+            for val in range(numNodes, numNodes + numRoots):
                 print(f'n is {val}')
                 expr = -coeffs[val]
-                base_cases[val-numNodes] = coeffs[val]
                 index = 0 #to keep track of the columns of the matrix
+                base_cases[rows] = coeffs[val]
                 for rootindex, root in enumerate(rootsDict.keys()):
                     for mj in range(rootsDict[root]):
                         coeff_of_c = (val**mj)*((1/root)**val)
@@ -200,14 +209,15 @@ class FunctionCallPathComplexity(ABC):
                         coeff_of_c = complex(coeff_of_c) # convert coeff_of_c from sympy.complex to numpy.complex
                         # print(f"coeff_of_c:{coeff_of_c}")
                         # print(f"coeff_of_c type:{type(coeff_of_c)}")
-                        matrix[val-numNodes][index] = coeff_of_c
-                        symbs[index] = symbols(f'c\-{rootindex}\-{mj}')
+                        matrix[rows][index] = coeff_of_c
+                        symbs[index] = symbols(f'c\-{rootindex}\-{mj}') #record the symbols (c's) in a list
                         index += 1
                 exprs += [expr]
+                rows +=1
             self.logger.d_msg(f"exprs: {exprs}")
             self.logger.d_msg(f"base_cases: {base_cases}")
             self.logger.d_msg(f"matrix: {matrix}")
-            self.logger.d_msg(f"matrix: {matrix[-3][-1]}")
+            # self.logger.d_msg(f"matrix: {matrix[-3][-1]}")
             self.logger.d_msg(f"symbols list: {symbs}")
 
             # check_exprs = matrix.dot(symbs)
@@ -264,11 +274,11 @@ class FunctionCallPathComplexity(ABC):
                 print('running msolve...')
                 try:
                     with Timeout(seconds = 100):
-                        solutions_list_solve = np.linalg.solve(matrix,base_cases)
-                        solutions_list_lstsq = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
-                        solutions = dict(zip(symbs,solutions_list_lstsq))
-                        print(f"solutions using lstsq: {solutions}")
-                        solutions = dict(zip(symbs,solutions_list_solve))
+                        solutions_list_solve = np.linalg.solve(matrix,base_cases) #get the exact solution in decimals
+                        # solutions_list_lstsq = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
+                        # solutions = dict(zip(symbs,solutions_list_lstsq))
+                        # print(f"solutions using lstsq: {solutions}")
+                        solutions = dict(zip(symbs,solutions_list_solve)) #make it into a dictionary so that we can later substitute
                         timeVal = time.time()-start_time
                 except TimeoutError:
                     print ("MSOLVE cannot solve, need help from nsolve!!!")
