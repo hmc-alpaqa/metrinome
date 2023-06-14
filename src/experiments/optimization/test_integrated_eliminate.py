@@ -12,6 +12,7 @@ import os
 import sys
 from sympy import Number
 import fc_path_complexity_eliminate
+import fc_path_complexity_elim_og
 
 class DataCollector:
     """Compute and store all complexity metrics and timing data."""
@@ -23,6 +24,7 @@ class DataCollector:
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
         self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
+        self.fcn_call_apc_time_computer = fc_path_complexity_elim_og.FunctionCallPathComplexity(log)
         self.optimized_elim_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
         self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
@@ -32,11 +34,13 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],  "fcapc": [], "eliminate_apc": [],
-                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [], "fcapc_time": [], "eliminate_runtime": [],
-                             "num_vertices": [], "edge_count": [], "exception": [],
-                             "exception_type": []})
-        with open('/app/code/experiments/function_calls/files/files.txt') as funcs:
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
+                             "graphProcessTime": [], "graphSystemsTime": [], "gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
+                             "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
+        data_elim = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
+                             "graphProcessTime": [], "graphSystemsTime": [],"gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
+                             "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
+        with open('/app/code/experiments/optimization/files.txt') as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
             files = [line.rstrip() for line in funcs]
@@ -71,17 +75,17 @@ class DataCollector:
                 rruntime = 0.0
                 fcruntime = 0.0
                 eliminate_runtime = 0.0
-                start_time = time.time()
-                try:
-                    with Timeout(2000):
-                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
-                        #     continue
-                        fcapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
-                        fcruntime = time.time() - start_time
-                except Exception as exc:
-                    print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                # start_time = time.time()
+                # try:
+                #     with Timeout(2000):
+                #         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                #         #     continue
+                #         fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
+                #         fcruntime = time.time() - start_time
+                # except Exception as exc:
+                #     print(f"Exception: {exc}")
+                #     exception_type = "Timeout" if isinstance(
+                #         exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -126,10 +130,11 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(300):
-                        print("HI")
-                        eliminate_apc = self.optimized_elim_computer.evaluate(graph, graphs)
+                    with Timeout(57600):
+                        print("IN ELIMINATE APC")
+                        eliminate_apc, elim_times = self.optimized_elim_computer.evaluate(graph, graphs)
                         eliminate_runtime = time.time() - start_time
+                        print(elim_times)
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
@@ -148,21 +153,37 @@ class DataCollector:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
 
-                new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "rapc": rapc, "fcapc": fcapc, "eliminate_apc": eliminate_apc, "cyclo": cyclo, "npath": npath,
-                           "apc_time": runtime, "rapc_time": rruntime, "fcapc_time": fcruntime, "eliminate_time": eliminate_runtime,
-                           "num_vertices": graph.graph.num_vertices,
-                           "edge_count": graph.graph.edge_count(),
-                           "exception_type": exception_type}
-
-                data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "apc","rapc", "fcapc", "eliminate_apc", "rapc_time","fcapc_time", "eliminate_time"]]
 
-                # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
-                # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[['graph_name', "fcapc", "fcapc_time", "eliminate_apc", "eliminate_time"]])
+                # new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
+                #            "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
+                #            "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
+                #            "fcapc_time": fcruntime,"exception_type": exception_type}
+
+                # data = data.append(new_row, ignore_index = True)
+                # data = data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
+                #                 "soluTime", "UpboundTime", "apcTime2", "longest"]]
+                
+                # # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
+                # data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
+
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": eliminate_apc[0], "gammaTime": elim_times["gammaTime"], "graphProcessTime": elim_times["graphProcessTime"],
+                           "graphSystemsTime":elim_times["graphSystemsTime"], "discrimTime": elim_times["discrimTime"], "realnrootsTime": elim_times["realnrootsTime"], "coeffsTime": elim_times["coeffsTime"], 
+                           "exprsTime": elim_times["exprsTime"], "soluTime":elim_times["soluTime"], "UpboundTime":elim_times["UpboundTime"], "apcTime2": elim_times["apcTime2"],
+                           "fcapc_time": eliminate_runtime,"cleanTime":elim_times["cleanTime"],"exception_type": exception_type}
+                data_elim = data_elim.append(new_row, ignore_index = True)
+                data_elim = data_elim[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
+                                "soluTime", "UpboundTime", "apcTime2", "cleanTime","longest"]]
+                data_elim['fcapc'] = data_elim['fcapc'].apply(lambda x: round_expr(x, 3))
+
+                # print(data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
+                # "realnrootsTime", "coeffsTime", "exprsTime",
+                # "soluTime", "UpboundTime", "apcTime2"]])
+
+                print(data_elim[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
+                "realnrootsTime", "coeffsTime", "exprsTime",
+                "soluTime", "UpboundTime", "apcTime2","cleanTime"]])
+
 
 
 
@@ -170,7 +191,7 @@ class DataCollector:
                 if not os.path.exists("/app/code/experiments/function_calls/data"):
                     os.makedirs("/app/code/experiments/function_calls/data")
                 data.to_csv(
-                    "/app/code/experiments/function_calls/data/functionCallData.csv")
+                    "/app/code/experiments/function_calls/data/elimData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
     return tuple(round_expr(expr, num_digits) for expr in tup)
