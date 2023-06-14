@@ -155,7 +155,7 @@ int main()
           7      12       42
     */
 
-    // root = delete_(root, 40);
+    root = delete_(root, 40);
     // /*
     //                20
     //              /    \
@@ -188,7 +188,7 @@ int main()
     //         /     \
     //        7      12
     // */
-    root = delete_(root, 9);
+    // root = delete_(root, 9);
     // // inorder(root);
     // // /*
     // //                20

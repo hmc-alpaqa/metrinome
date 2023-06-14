@@ -33,8 +33,6 @@ class FunctionCallPathComplexity(ABC):
     def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
-        print("CFG ELIM", cfg)
-        print("ALL CFGS", all_cfgs)
         graphProcessTime = 0.0
         start_time = time.time()
         calldict, dictgraphs, numNodes = self.processGraphs(cfg, all_cfgs)
