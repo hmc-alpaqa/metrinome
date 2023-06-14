@@ -8,6 +8,7 @@ from mpmath import mpc, mpf, polyroots  # type: ignore
 from sympy import (Basic, Float, Matrix, Poly, degree, eye, preorder_traversal, simplify, symbols,
                    sympify)
 import copy
+import time
 #from graph.control_flow_graph import ControlFlowGraph
 #from graph.graph import Graph
 
@@ -65,6 +66,7 @@ class Eliminator:
 
         calldict, dictgraphs = self.processGraphs(graph, all_graphs)
         fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict = self.graphsToSystems(dictgraphs, calldict)
+        print("DICTGRAPHS", dictgraphs)
 
         modSystems = copy.deepcopy(splitsystems)
         modSymbols = copy.deepcopy(splitsymbols)
@@ -251,13 +253,17 @@ def main():
     #     }
     # experiments/function_calls/files.even_odd.c
     graphs = {
-        "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
-        "rec": ["rec", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ['CALLS', 'rec', 'rec']}],
-        "split": ["split", [[0, 1], [0, 2], [1, 3], [2, 3]], {1: ['CALLS','rec'], 2: ['CALLS','gcd']}],
-        "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
+        "even": ["even", [[0, 1],[0, 2], [1, 3], [1, 2]], {2: ['odd']}],
+        "odd": ["odd", [[0, 1], [0, 2], [1, 3], [1, 2]], {2:["even"]}]
     }
+    # graphs = {
+    #     "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
+    #     "rec": ["rec", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ['CALLS', 'rec', 'rec']}],
+    #     "split": ["split", [[0, 1], [0, 2], [1, 3], [2, 3]], {1: ['CALLS','rec'], 2: ['CALLS','gcd']}],
+    #     "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
+    # }
 
-    graphname = "mul_inv"
+    graphname = "odd"
     elim = Eliminator()
     elim.evaluate(graphs, graphname)
 
