@@ -190,7 +190,7 @@ class DataCollector:
                 # create directory if it doesn't exist
                 if not os.path.exists("/app/code/experiments/function_calls/data"):
                     os.makedirs("/app/code/experiments/function_calls/data")
-                data.to_csv(
+                data_elim.to_csv(
                     "/app/code/experiments/function_calls/data/elimData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
