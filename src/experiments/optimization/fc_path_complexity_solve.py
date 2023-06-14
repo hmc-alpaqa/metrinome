@@ -171,6 +171,8 @@ class FunctionCallPathComplexity(ABC):
             print(f"nodes list...{nodes}")
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
+
+            # numNodes += 23
             coeffs = [0]*(numRoots + numNodes) # plus 1 because counts start at 0
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             # coeffs = [0]*(2*numRoots + numNodes) # plus 1 because counts start at 0
@@ -283,7 +285,7 @@ class FunctionCallPathComplexity(ABC):
                 except TimeoutError:
                     print ("MSOLVE cannot solve, need help from nsolve!!!")
 
-            else:
+            else: #try nsolve
                 start_time = time.time()
                 print('running nsolve...')
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
