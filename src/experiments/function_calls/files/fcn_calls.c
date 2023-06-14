@@ -43,21 +43,21 @@ int mul_inv(int a, int b)
     return x1;
 }
 
-int gcd(int a, int b)
-{
-    while (a != b)
-    {
-        if (a > b)
-        {
-            a = a - b;
-        }
-        else
-        {
-            b = b - a;
-        }
-    }
-    return a;
-}
+// int gcd(int a, int b)
+// {
+//     while (a != b)
+//     {
+//         if (a > b)
+//         {
+//             a = a - b;
+//         }
+//         else
+//         {
+//             b = b - a;
+//         }
+//     }
+//     return a;
+// }
 
 // int chinese_remainder(int *n, int *a, int len)
 // {
@@ -288,29 +288,29 @@ int fib_rec(int n)
 //     return;
 // }
 
-// void swap(int *a, int *b)
-// {
-//     int temp = *a;
-//     *a = *b;
-//     *b = temp;
-// }
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
-// int partition(int arr[], int low, int high)
-// {
-//     int pivot = arr[high];
-//     int i = (low - 1);
+int partition(int arr[], int low, int high)
+{
+    int pivot = arr[high];
+    int i = (low - 1);
 
-//     for (int j = low; j <= high - 1; j++)
-//     {
-//         if (arr[j] < pivot)
-//         {
-//             i++;
-//             swap(&arr[i], &arr[j]);
-//         }
-//     }
-//     swap(&arr[i + 1], &arr[high]);
-//     return (i + 1);
-// }
+    for (int j = low; j <= high - 1; j++)
+    {
+        if (arr[j] < pivot)
+        {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
 
 // void quickSort(int arr[], int low, int high)
 // {
