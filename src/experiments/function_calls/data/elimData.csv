@@ -1,1 +1,2 @@
-,file_name,graph_name,fcapc,fcapc_time,exception,exception_type,graphProcessTime,graphSystemsTime,gammaTime,discrimTime,realnrootsTime,coeffsTime,exprsTime,soluTime,UpboundTime,apcTime2,longest
+,graph_name,fcapc,fcapc_time,graphProcessTime,graphSystemsTime,gammaTime,discrimTime,realnrootsTime,coeffsTime,exprsTime,soluTime,UpboundTime,apcTime2,longest
+0,bst_cfg._Z6insertP4nodei,2.0**(0.167*n),10.993499517440796,0.00010943412780761719,0.04012775421142578,0.019318103790283203,0.0042724609375,0.0,0.09919857978820801,0.017065048217773438,10.168969869613647,0.2525217533111572,0.0,
