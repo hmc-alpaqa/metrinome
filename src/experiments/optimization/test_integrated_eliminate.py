@@ -39,7 +39,7 @@ class DataCollector:
                              "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
         data_elim = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
                              "graphProcessTime": [], "graphSystemsTime": [],"gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
-                             "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
+                             "genFuncTime":[], "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
         with open('/app/code/experiments/optimization/files.txt') as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
@@ -75,17 +75,17 @@ class DataCollector:
                 rruntime = 0.0
                 fcruntime = 0.0
                 eliminate_runtime = 0.0
-                # start_time = time.time()
-                # try:
-                #     with Timeout(2000):
-                #         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
-                #         #     continue
-                #         fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
-                #         fcruntime = time.time() - start_time
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
+                start_time = time.time()
+                try:
+                    with Timeout(2000):
+                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                        #     continue
+                        fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
+                        fcruntime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -131,7 +131,6 @@ class DataCollector:
                 start_time = time.time()
                 try:
                     with Timeout(57600):
-                        print("IN ELIMINATE APC")
                         eliminate_apc, elim_times = self.optimized_elim_computer.evaluate(graph, graphs)
                         eliminate_runtime = time.time() - start_time
                         print(elim_times)
@@ -155,34 +154,37 @@ class DataCollector:
 
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
 
-                # new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
-                #            "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
-                #            "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
-                #            "fcapc_time": fcruntime,"exception_type": exception_type}
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
+                           "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
+                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
+                           "fcapc_time": fcruntime,"exception_type": exception_type}
 
-                # data = data.append(new_row, ignore_index = True)
-                # data = data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
-                #                 "soluTime", "UpboundTime", "apcTime2", "longest"]]
+                data = data.append(new_row, ignore_index = True)
+                data = data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
+                                "soluTime", "UpboundTime", "apcTime2", "longest"]]
                 
-                # # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                # data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
+                # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
+                data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
 
-                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": eliminate_apc[0], "gammaTime": elim_times["gammaTime"], "graphProcessTime": elim_times["graphProcessTime"],
-                           "graphSystemsTime":elim_times["graphSystemsTime"], "discrimTime": elim_times["discrimTime"], "realnrootsTime": elim_times["realnrootsTime"], "coeffsTime": elim_times["coeffsTime"], 
-                           "exprsTime": elim_times["exprsTime"], "soluTime":elim_times["soluTime"], "UpboundTime":elim_times["UpboundTime"], "apcTime2": elim_times["apcTime2"],
-                           "fcapc_time": eliminate_runtime,"cleanTime":elim_times["cleanTime"],"exception_type": exception_type}
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": eliminate_apc[0], "gamma": elim_times["gammaTime"], "graphProcess": elim_times["graphProcessTime"],
+                           "graphSystems":elim_times["graphSystemsTime"], "discrim": elim_times["discrimTime"], "realnroots": elim_times["realnrootsTime"], 
+                           "genFunc":elim_times["genFuncTime"],"coeffs": elim_times["coeffsTime"], 
+                           "exprs": elim_times["exprsTime"], "solu":elim_times["soluTime"], "Upbound":elim_times["UpboundTime"], "apcTime2": elim_times["apcTime2"],
+                           "fcapc_time": eliminate_runtime,"clean":elim_times["cleanTime"],"exception_type": exception_type,
+                           "sum":elim_times["gammaTime"]+elim_times["graphProcessTime"]+elim_times["graphSystemsTime"]+elim_times["discrimTime"]+elim_times["realnrootsTime"]
+                           +elim_times["genFuncTime"]+elim_times["coeffsTime"]+elim_times["exprsTime"]+elim_times["soluTime"]+elim_times["UpboundTime"]+elim_times["apcTime2"]+elim_times["cleanTime"]}
                 data_elim = data_elim.append(new_row, ignore_index = True)
-                data_elim = data_elim[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
-                                "soluTime", "UpboundTime", "apcTime2", "cleanTime","longest"]]
+                data_elim = data_elim[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc","coeffs", "exprs",
+                                "solu", "Upbound", "apcTime2", "clean","sum"]]
                 data_elim['fcapc'] = data_elim['fcapc'].apply(lambda x: round_expr(x, 3))
 
-                # print(data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
-                # "realnrootsTime", "coeffsTime", "exprsTime",
-                # "soluTime", "UpboundTime", "apcTime2"]])
-
-                print(data_elim[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
+                print(data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
                 "realnrootsTime", "coeffsTime", "exprsTime",
-                "soluTime", "UpboundTime", "apcTime2","cleanTime"]])
+                "soluTime", "UpboundTime", "apcTime2"]])
+
+                print(data_elim[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", 
+                "realnroots", "genFunc","coeffs", "exprs",
+                "solu", "Upbound", "apcTime2","clean","sum"]])
 
 
 
