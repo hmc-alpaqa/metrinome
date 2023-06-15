@@ -175,11 +175,15 @@ class FunctionCallPathComplexity(ABC):
             print(f"updated graph numbers:{graphsNumbers}")
 
             numCalls = [0]*len(graphsNumbers)
-            #2nd step) Identify how many calls for each graph
+            #  2nd step) Identify how many calls for each graph
+            # but only for graphs that are not calling themselves 
             currentCall = 0
             for i in range(len(call_list)):
-                currentCall = call_list[i][1]
-                numCalls[currentCall] = numCalls[currentCall] + 1
+                # print(f"edge comes from graph:{int(call_list[i][0][0])}")
+                # print(f"edge goes to graph:{call_list[i][1]}")
+                if (int(call_list[i][0][0]) !=  call_list[i][1]):
+                    currentCall = call_list[i][1]
+                    numCalls[currentCall] = numCalls[currentCall] + 1
             #include original graph being called
             numCalls[0] += 1
             print(f"num of calls per graph:{numCalls}")
