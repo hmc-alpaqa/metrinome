@@ -298,6 +298,8 @@ class FunctionCallPathComplexity(ABC):
 
 #=========================================INTEGRATION IN PROGRESS====================================================================
     def processGraphs(self, graph, all_graphs):
+        print(graph.name)
+        print(graph)
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
         dictgraphs = []
@@ -322,6 +324,7 @@ class FunctionCallPathComplexity(ABC):
             for node in curr_graph_calls.keys():
                 # loop through functions that are called
                 for called_fcn in curr_graph_calls[node].split(" "):
+                    print("CALL PAIR", node," ",called_fcn)
                     # add graphs to used_graphs
                     if called_fcn in ['START', 'CALLS']:
                         continue
@@ -336,6 +339,7 @@ class FunctionCallPathComplexity(ABC):
                     calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
         #numNodes = sum([len(graph) for graph in dictgraphs])
         #print(numNodes)
+        print(calldict)
         return calldict, dictgraphs, numNodes
 
     # def evaluate(self, all_graphs: dict, graphname):
