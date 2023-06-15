@@ -162,6 +162,30 @@ class FunctionCallPathComplexity(ABC):
             #     nonZeroIndex += 1
             # Computing number of nodes and changing from the start index
             # from nonZeroIndex to number of nodes instead
+            
+            #Creates number of nodes per graph
+            #1st step) Identify how many graphs
+            sumAllNodes = 0
+            graphsNumbers = []
+            for i in range(len(edgelist)):
+                graphsNumbers.append(int(edgelist[i][0][0]))
+                graphsNumbers.append(int(edgelist[i][1][0]))
+
+            graphsNumbers = list(sorted(set(graphsNumbers)))
+            print(f"updated graph numbers:{graphsNumbers}")
+
+            numCalls = [0]*len(graphsNumbers)
+            #2nd step) Identify how many calls for each graph
+            currentCall = 0
+            for i in range(len(call_list)):
+                currentCall = call_list[i][1]
+                numCalls[currentCall] = numCalls[currentCall] + 1
+            #include original graph being called
+            numCalls[0] += 1
+            print(f"num of calls per graph:{numCalls}")
+            
+
+            #3rd step) Number of nodes for each graph
             nodes = []
             for i in range(len(edgelist)):
                 if edgelist[i][0] not in nodes:
@@ -172,7 +196,27 @@ class FunctionCallPathComplexity(ABC):
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
 
-            # numNodes += 23
+            listOfListsNodesGraphs = [[] for j in range(len(graphsNumbers))]
+            for i in range(len(nodes)):
+                listOfListsNodesGraphs[int(nodes[i][0])].append(nodes[i])
+            
+            numberNodesPerGraph = []
+            for i in range(len(graphsNumbers)):
+                numberNodesPerGraph.append(len(listOfListsNodesGraphs[i]) + 1)
+                print(f"number nodes per graph: {numberNodesPerGraph}")
+
+            dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
+            print(f"dot product:{dot_product}")
+            
+            # numNodes is overcounting for recursive functions. It shouldn't be
+            # a problem since any finite consecutive coefficients after the number of nodes
+            # should give us the correct PC. If time in this part becomes a problem, 
+            # change this so that it's accurate for recursive functions. 
+            # Idea: Use that if in call list an element has the same number in beginning, ex 
+            # (0_1, 0), ignore it. 
+            numNodes = dot_product
+
+
             coeffs = [0]*(numRoots + numNodes) # plus 1 because counts start at 0
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             # coeffs = [0]*(2*numRoots + numNodes) # plus 1 because counts start at 0
@@ -193,9 +237,6 @@ class FunctionCallPathComplexity(ABC):
             matrix = np.empty(shape = (numRoots,numRoots),dtype = complex)
             matrix.fill(0)
             base_cases = np.zeros(numRoots)
-
-            # if (numNodes % 2 == 1):
-            #     numNodes += 1
 
             rows = 0 #to keep track of the rows in the matrix
             # for val in range(numNodes, numNodes+2*numRoots,2):
@@ -231,12 +272,15 @@ class FunctionCallPathComplexity(ABC):
             if (solve == 0): #use solve
                 start_time = time.time()
                 try:
-                    with Timeout(seconds = 20):
+                    tryTime = 20
+                    with Timeout(seconds = tryTime):
+                        print(f"trying solve for {tryTime} seconds")
                         solutions = sympy.solve(exprs)
                         timeVal = time.time()-start_time
                 except TimeoutError:
-                    print ("SOLVE cannot solve, need help from nsolve!!!")
-            elif (solve == 1):
+                    print ("SOLVE cannot solve, need help!!!")
+
+            elif (solve == 1): # use fsolve, did not work out
                 #[c\-0\-0 + 4*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**4 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**4 - 1, 
                 # c\-0\-0 + 5*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**5 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**5 - 1, 
                 # c\-0\-0 + 6*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**6 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**6 - 2, 
@@ -269,13 +313,14 @@ class FunctionCallPathComplexity(ABC):
                         print(initial_guess)
                         solutions = fsolve(myFunction, initial_guess, complex) 
                 except TimeoutError:
-                    print ("FSOLVE cannot solve, need help from nsolve!!!")
+                    print ("FSOLVE cannot solve, need help!!!")
 
             elif (solve == 2): #use matrix
+                tryTime = 100
                 start_time = time.time()
-                print('running msolve...')
+                print(f'running msolve for {tryTime} seconds')
                 try:
-                    with Timeout(seconds = 100):
+                    with Timeout(seconds = tryTime):
                         solutions_list_solve = np.linalg.solve(matrix,base_cases) #get the exact solution in decimals
                         # solutions_list_lstsq = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
                         # solutions = dict(zip(symbs,solutions_list_lstsq))
@@ -283,13 +328,22 @@ class FunctionCallPathComplexity(ABC):
                         solutions = dict(zip(symbs,solutions_list_solve)) #make it into a dictionary so that we can later substitute
                         timeVal = time.time()-start_time
                 except TimeoutError:
-                    print ("MSOLVE cannot solve, need help from nsolve!!!")
+                    print ("MSOLVE cannot solve, need help!!!")
 
-            else: #try nsolve
+            elif (solve ==3): #use nsolve
+                tryTime = 100
                 start_time = time.time()
-                print('running nsolve...')
-                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
-                timeVal = time.time()- start_time
+                print(f'running nsolve for {tryTime} seconds')
+                try:
+                    with Timeout(seconds = tryTime):
+                        solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+                        timeVal = time.time()- start_time
+                except TimeoutError:
+                    print("NSOLVE cannot solve, need help!!")
+            else: 
+                solutions = []
+                
+
 
             self.logger.d_msg(f"solutions: {solutions}")
             
