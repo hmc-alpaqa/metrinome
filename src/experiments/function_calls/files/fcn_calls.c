@@ -7,10 +7,10 @@
 // bool is_odd(int n);
 // int max_value_iter(int arr[], int n);
 // void merge(int arr[], int l, int m, int r);
-// int fact(int n);
+int fact(int n);
 // void fcn_medley(int n);
-// int fact_wrapper(int n);
-// int fib_iter(int n);
+int fact_wrapper(int n);
+int fib_iter(int n);
 int fib_rec(int n);
 int gcd(int a, int b);
 
@@ -59,33 +59,33 @@ int gcd(int a, int b)
     return a;
 }
 
-// int chinese_remainder(int *n, int *a, int len)
-// {
-//     int p, i, prod = 1, sum = 0;
+int chinese_remainder(int *n, int *a, int len)
+{
+    int p, i, prod = 1, sum = 0;
 
-//     for (i = 0; i < len; i++)
-//         prod *= n[i];
+    for (i = 0; i < len; i++)
+        prod *= n[i];
 
-//     for (i = 0; i < len; i++)
-//     {
-//         p = prod / n[i];
-//         sum += a[i] * mul_inv(p, n[i]) * p;
-//     }
+    for (i = 0; i < len; i++)
+    {
+        p = prod / n[i];
+        sum += a[i] * mul_inv(p, n[i]) * p;
+    }
 
-//     return sum % prod;
-// }
+    return sum % prod;
+}
 
-// int fact(int n)
-// {
-//     if (n == 0)
-//     {
-//         return 1;
-//     }
-//     else
-//     {
-//         return n * fact(n - 1);
-//     }
-// }
+int fact(int n)
+{
+    if (n == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return n * fact(n - 1);
+    }
+}
 
 // void fcn_medley(int n)
 // {
@@ -95,28 +95,15 @@ int gcd(int a, int b)
 //     fact_wrapper(n);
 // }
 
-// int fact_wrapper(int n)
-// {
-//     return fact(n);
-// }
+int fact_wrapper(int n)
+{
+    return fact(n);
+}
 
-// int fact_wrapper_2x(int n)
-// {
-//     return fact(n) + fact(n);
-// }
-
-// int fib_iter(
-//     else;
-//     int b = 1;
-//     int f;
-//     for (int i = 0; i < n; i++)
-//     {
-//         f = a + b;
-//         a = b;
-//         b = f;
-//     }
-//     return a;
-// }
+int fact_wrapper_2x(int n)
+{
+    return fact(n) + fact(n);
+}
 
 int fib_rec(int n)
 {

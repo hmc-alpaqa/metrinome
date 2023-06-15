@@ -75,6 +75,18 @@ class DataCollector:
                 rruntime = 0.0
                 fcruntime = 0.0
                 eliminate_runtime = 0.0
+
+
+                start_time = time.time()
+                try:
+                    with Timeout(57600):
+                        eliminate_apc, elim_times = self.optimized_elim_computer.evaluate(graph, graphs)
+                        eliminate_runtime = time.time() - start_time
+                        print(elim_times)
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
+
                 start_time = time.time()
                 try:
                     with Timeout(2000):
@@ -82,6 +94,7 @@ class DataCollector:
                         #     continue
                         fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
                         fcruntime = time.time() - start_time
+                        print(fcapc)
                 except Exception as exc:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(
@@ -128,15 +141,7 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
 
 
-                start_time = time.time()
-                try:
-                    with Timeout(57600):
-                        eliminate_apc, elim_times = self.optimized_elim_computer.evaluate(graph, graphs)
-                        eliminate_runtime = time.time() - start_time
-                        print(elim_times)
-                except Exception as exc:
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+
  
                 # try:
                 #     with Timeout(200):
@@ -154,8 +159,7 @@ class DataCollector:
 
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
 
-                # print(fcapc)
-                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc["apc"], "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
                            "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
                            "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
                            "fcapc_time": fcruntime,"exception_type": exception_type}
@@ -188,11 +192,18 @@ class DataCollector:
                 "solu", "Upbound", "apcTime2","clean","sum"]])
 
 
-                 # create directory if it doesn't exist
+
+
+                # create directory if it doesn't exist
                 if not os.path.exists("/app/code/experiments/optimization/data"):
                     os.makedirs("/app/code/experiments/optimization/data")
                 data_elim.to_csv(
-                    "/app/code/experiments/optimization/data/solvevsNsolveData.csv")
+                    "/app/code/experiments/optimization/data/elimData.csv")
+
+                if not os.path.exists("/app/code/experiments/optimization/data"):
+                    os.makedirs("/app/code/experiments/optimization/data")
+                data.to_csv(
+                    "/app/code/experiments/optimization/data/elimOgData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
     return tuple(round_expr(expr, num_digits) for expr in tup)
