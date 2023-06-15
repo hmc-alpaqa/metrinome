@@ -77,15 +77,7 @@ class DataCollector:
                 eliminate_runtime = 0.0
 
 
-                start_time = time.time()
-                try:
-                    with Timeout(57600):
-                        eliminate_apc, elim_times = self.optimized_elim_computer.evaluate(graph, graphs)
-                        eliminate_runtime = time.time() - start_time
-                        print(elim_times)
-                except Exception as exc:
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+
 
                 start_time = time.time()
                 try:
@@ -97,6 +89,16 @@ class DataCollector:
                         print(fcapc)
                 except Exception as exc:
                     print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
+
+                start_time = time.time()
+                try:
+                    with Timeout(57600):
+                        eliminate_apc, elim_times = self.optimized_elim_computer.evaluate(graph, graphs)
+                        eliminate_runtime = time.time() - start_time
+                        print(elim_times)
+                except Exception as exc:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
 
@@ -189,7 +191,7 @@ class DataCollector:
 
                 print(data_elim[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", 
                 "realnroots", "genFunc","coeffs", "exprs",
-                "solu", "Upbound", "apcTime2","clean","sum"]])
+                "solu", "Upbound", "apcTime2","clean"]])
 
 
 
