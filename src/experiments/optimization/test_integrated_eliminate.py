@@ -154,6 +154,7 @@ class DataCollector:
 
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
 
+                # print(fcapc)
                 new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
                            "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
                            "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
@@ -187,13 +188,11 @@ class DataCollector:
                 "solu", "Upbound", "apcTime2","clean","sum"]])
 
 
-
-
-                # create directory if it doesn't exist
-                if not os.path.exists("/app/code/experiments/function_calls/data"):
-                    os.makedirs("/app/code/experiments/function_calls/data")
+                 # create directory if it doesn't exist
+                if not os.path.exists("/app/code/experiments/optimization/data"):
+                    os.makedirs("/app/code/experiments/optimization/data")
                 data_elim.to_csv(
-                    "/app/code/experiments/function_calls/data/elimData.csv")
+                    "/app/code/experiments/optimization/data/solvevsNsolveData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
     return tuple(round_expr(expr, num_digits) for expr in tup)

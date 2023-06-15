@@ -272,12 +272,15 @@ class FunctionCallPathComplexity(ABC):
             if (solve == 0): #use solve
                 start_time = time.time()
                 try:
-                    with Timeout(seconds = 20):
+                    tryTime = 20
+                    with Timeout(seconds = tryTime):
+                        print(f"trying solve for {tryTime} seconds")
                         solutions = sympy.solve(exprs)
                         timeVal = time.time()-start_time
                 except TimeoutError:
-                    print ("SOLVE cannot solve, need help from nsolve!!!")
-            elif (solve == 1):
+                    print ("SOLVE cannot solve, need help!!!")
+
+            elif (solve == 1): # use fsolve, did not work out
                 #[c\-0\-0 + 4*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**4 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**4 - 1, 
                 # c\-0\-0 + 5*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**5 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**5 - 1, 
                 # c\-0\-0 + 6*c\-0\-1 + c\-1\-0/(-1/2 - sqrt(3)*I/2)**6 + c\-2\-0/(-1/2 + sqrt(3)*I/2)**6 - 2, 
@@ -310,13 +313,14 @@ class FunctionCallPathComplexity(ABC):
                         print(initial_guess)
                         solutions = fsolve(myFunction, initial_guess, complex) 
                 except TimeoutError:
-                    print ("FSOLVE cannot solve, need help from nsolve!!!")
+                    print ("FSOLVE cannot solve, need help!!!")
 
             elif (solve == 2): #use matrix
+                tryTime = 100
                 start_time = time.time()
-                print('running msolve...')
+                print(f'running msolve for {tryTime} seconds')
                 try:
-                    with Timeout(seconds = 100):
+                    with Timeout(seconds = tryTime):
                         solutions_list_solve = np.linalg.solve(matrix,base_cases) #get the exact solution in decimals
                         # solutions_list_lstsq = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
                         # solutions = dict(zip(symbs,solutions_list_lstsq))
@@ -324,13 +328,22 @@ class FunctionCallPathComplexity(ABC):
                         solutions = dict(zip(symbs,solutions_list_solve)) #make it into a dictionary so that we can later substitute
                         timeVal = time.time()-start_time
                 except TimeoutError:
-                    print ("MSOLVE cannot solve, need help from nsolve!!!")
+                    print ("MSOLVE cannot solve, need help!!!")
 
-            else: #try nsolve
+            elif (solve ==3): #use nsolve
+                tryTime = 100
                 start_time = time.time()
-                print('running nsolve...')
-                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
-                timeVal = time.time()- start_time
+                print(f'running nsolve for {tryTime} seconds')
+                try:
+                    with Timeout(seconds = tryTime):
+                        solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+                        timeVal = time.time()- start_time
+                except TimeoutError:
+                    print("NSOLVE cannot solve, need help!!")
+            else: 
+                solutions = []
+                
+
 
             self.logger.d_msg(f"solutions: {solutions}")
             
