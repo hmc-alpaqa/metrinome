@@ -373,8 +373,8 @@ class FunctionCallPathComplexity(ABC):
         x = symbols("x")
         num_cfgs = len(dictgraphs)
         init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
-        fullsymbols = init_nodes
-        fullsystem = []
+        #fullsymbols = init_nodes
+        #fullsystem = []
         splitsystems = []
         splitsymbols = []
         init_eqns = []
@@ -405,7 +405,7 @@ class FunctionCallPathComplexity(ABC):
             if init_node not in symbs:
                 symbs = [init_node] + symbs
             
-            fullsystem += system
+            #fullsystem += system
             init_eqn = symbols(f'V{fcn_idx}_0')*x - init_node
             lookupDict[symbols(f'V{fcn_idx}_0')].add(init_node)
             system = [init_eqn] + system
@@ -413,13 +413,13 @@ class FunctionCallPathComplexity(ABC):
             splitsystems.append(system)
             splitsymbols.append(symbs)
             
-            for symb in symbs:
-                if symb not in fullsymbols:
-                    fullsymbols.append(symb)
+            # for symb in symbs:
+            #     if symb not in fullsymbols:
+            #         fullsymbols.append(symb)
         
-        fullsystem = init_eqns + fullsystem
-        print("FULL SYSTEM:", fullsystem)
-        print("FULL SYMBOLS:", fullsymbols)
+        # fullsystem = init_eqns + fullsystem
+        # print("FULL SYSTEM:", fullsystem)
+        # print("FULL SYMBOLS:", fullsymbols)
         print("SPLIT SYSTEMS:", splitsystems)
         print("SPLIT SYMBOLS:", splitsymbols)
         return splitsystems, splitsymbols, lookupDict
@@ -540,6 +540,7 @@ class FunctionCallPathComplexity(ABC):
         # polynomial is not actually a polynomial, it can have fractions
         # so combine it with a common denominator, and then find discriminant of 
         # numerator (since the overall expression is equal to 0, ignore denom)
+        print("POLYNOMIAL",polynomial)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
     # def calculateDiscrim(self, polynomial):
