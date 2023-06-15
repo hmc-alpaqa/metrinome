@@ -27,24 +27,24 @@ int addition(int x, int y)
 //     return x + y;
 // }
 
-int worst_addition(int x, int y)
-{
-    int z = 0;
-    if (y > 0)
-    {
-        while (y != 0)
-        {
-            x = x + 1;
-            y = y - 1;
+// int worst_addition(int x, int y)
+// {
+//     int z = 0;
+//     if (y > 0)
+//     {
+//         while (y != 0)
+//         {
+//             x = x + 1;
+//             y = y - 1;
 
-        }
-        while (x != 0)
-        {
-            z = addition(2,1);
-        }
-    }
-    return x + y;
-}
+//         }
+//         while (x != 0)
+//         {
+//             z = addition(2,1);
+//         }
+//     }
+//     return x + y;
+// }
 
 int one_loop(int x, int y)
 {
@@ -261,23 +261,59 @@ int one_loop(int x, int y)
 //     return x;
 // }
 
-int five_worst_addition(int x, int y)
+// int five_worst_addition(int x, int y)
+// {
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     return x;
+// }
+
+// int six_worst_addition(int x, int y)
+// {
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     x = worst_addition(2,1);
+//     return x;
+// }
+
+// TESTING ONE LOOP
+
+int two_one_loop(int x, int y)
 {
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
     return x;
 }
 
-int six_worst_addition(int x, int y)
+int three_one_loop(int x, int y)
 {
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
-    x = worst_addition(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    return x;
+}
+
+int four_one_loop(int x, int y)
+{
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    return x;
+}
+
+int five_one_loop(int x, int y)
+{
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
+    x = one_loop(2,1);
     return x;
 }
