@@ -140,7 +140,7 @@ class FunctionCallPathComplexity(ABC):
             else:
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
-
+            #coeffs time starts here
             start_time = time.time()
             denominator = 1
             for factor in genFunc.args:
@@ -311,7 +311,7 @@ class FunctionCallPathComplexity(ABC):
         # polynomial is not actually a polynomial, it can have fractions
         # so combine it with a common denominator, and then find discriminant of 
         # numerator (since the overall expression is equal to 0, ignore denom)
-        print("POLYNOMIAL",polynomial)
+        #print("POLYNOMIAL",polynomial)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
 
