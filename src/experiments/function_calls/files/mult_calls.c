@@ -3,9 +3,19 @@
 bool givetrue(int a);
 
 
-bool caller(int a)
-{
-    return givetrue(a) && givetrue(a);
+bool partition(int arr[], int low, int high, bool iF) {
+
+    int pivot = arr[high];
+    int i = (low - 1);
+    for (int j = low; j <= high - 1; j++) {
+        if (iF) {
+            i++;
+            // return givetrue(high);
+            givetrue(high);
+        }
+    }
+    givetrue(high);
+    return true;
 }
 
 
