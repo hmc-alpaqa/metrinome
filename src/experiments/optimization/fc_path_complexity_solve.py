@@ -208,10 +208,15 @@ class FunctionCallPathComplexity(ABC):
             dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
             print(f"dot product:{dot_product}")
             
+            # numNodes is overcounting for recursive functions. It shouldn't be
+            # a problem since any finite consecutive coefficients after the number of nodes
+            # should give us the correct PC. If time in this part becomes a problem, 
+            # change this so that it's accurate for recursive functions. 
+            # Idea: Use that if in call list an element has the same number in beginning, ex 
+            # (0_1, 0), ignore it. 
             numNodes = dot_product
 
 
-            # numNodes += 23
             coeffs = [0]*(numRoots + numNodes) # plus 1 because counts start at 0
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             # coeffs = [0]*(2*numRoots + numNodes) # plus 1 because counts start at 0
@@ -232,9 +237,6 @@ class FunctionCallPathComplexity(ABC):
             matrix = np.empty(shape = (numRoots,numRoots),dtype = complex)
             matrix.fill(0)
             base_cases = np.zeros(numRoots)
-
-            # if (numNodes % 2 == 1):
-            #     numNodes += 1
 
             rows = 0 #to keep track of the rows in the matrix
             # for val in range(numNodes, numNodes+2*numRoots,2):
