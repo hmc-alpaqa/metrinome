@@ -11,53 +11,53 @@
 // void fcn_medley(int n);
 // int fact_wrapper(int n);
 // int fib_iter(int n);
-int fib_rec(int n);
-int gcd(int a, int b);
+// int fib_rec(int n);
+// int gcd(int a, int b);
 
-int split_func(int n)
-{
-    if (n % 2 == 0)
-    {
-        return fib_rec(n); // exp
-    }
-    else
-    {
-        return gcd(n, 24); // exp
-    }
-}
+// int split_func(int n)
+// {
+//     if (n % 2 == 0)
+//     {
+//         return fib_rec(n); // exp
+//     }
+//     else
+//     {
+//         return gcd(n, 24); // exp
+//     }
+// }
 
-int mul_inv(int a, int b)
-{
-    int b0 = b, t, q;
-    int x0 = 0, x1 = 1;
-    if (b == 1)
-        return 1;
-    while (a > 1)
-    {
-        q = a / b;
-        t = b, b = a % b, a = t;
-        t = x0, x0 = x1 - q * x0, x1 = t;
-    }
-    if (x1 < 0)
-        x1 += b0;
-    return x1;
-}
+// int mul_inv(int a, int b)
+// {
+//     int b0 = b, t, q;
+//     int x0 = 0, x1 = 1;
+//     if (b == 1)
+//         return 1;
+//     while (a > 1)
+//     {
+//         q = a / b;
+//         t = b, b = a % b, a = t;
+//         t = x0, x0 = x1 - q * x0, x1 = t;
+//     }
+//     if (x1 < 0)
+//         x1 += b0;
+//     return x1;
+// }
 
-int gcd(int a, int b)
-{
-    while (a != b)
-    {
-        if (a > b)
-        {
-            a = a - b;
-        }
-        else
-        {
-            b = b - a;
-        }
-    }
-    return a;
-}
+// int gcd(int a, int b)
+// {
+//     while (a != b)
+//     {
+//         if (a > b)
+//         {
+//             a = a - b;
+//         }
+//         else
+//         {
+//             b = b - a;
+//         }
+//     }
+//     return a;
+// }
 
 // int chinese_remainder(int *n, int *a, int len)
 // {
@@ -87,13 +87,13 @@ int gcd(int a, int b)
 //     }
 // }
 
-// void fcn_medley(int n)
-// {
-//     fact(n);
-//     fib_iter(n);
-//     fib_rec(n);
-//     fact_wrapper(n);
-// }
+// // void fcn_medley(int n)
+// // {
+// //     fact(n);
+// //     fib_iter(n);
+// //     fib_rec(n);
+// //     fact_wrapper(n);
+// // }
 
 // int fact_wrapper(int n)
 // {
@@ -105,30 +105,17 @@ int gcd(int a, int b)
 //     return fact(n) + fact(n);
 // }
 
-// int fib_iter(
-//     else;
-//     int b = 1;
-//     int f;
-//     for (int i = 0; i < n; i++)
+// int fib_rec(int n)
+// {
+//     if (n > 2)
 //     {
-//         f = a + b;
-//         a = b;
-//         b = f;
+//         return n;
 //     }
-//     return a;
+//     else
+//     {
+//         return fib_rec(n - 1) + fib_rec(n - 2);
+//     }
 // }
-
-int fib_rec(int n)
-{
-    if (n > 2)
-    {
-        return n;
-    }
-    else
-    {
-        return fib_rec(n - 1) + fib_rec(n - 2);
-    }
-}
 
 // void mergeSortSimple(int arr[], int l, int r)
 // {
@@ -308,7 +295,7 @@ int partition(int arr[], int low, int high)
             swap(&arr[i], &arr[j]);
         }
     }
-    swap(&arr[i + 1], &arr[high]);
+    // swap(&arr[i + 1], &arr[high]);
     return (i + 1);
 }
 

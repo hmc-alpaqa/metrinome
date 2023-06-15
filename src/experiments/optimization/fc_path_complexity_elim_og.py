@@ -140,7 +140,7 @@ class FunctionCallPathComplexity(ABC):
             else:
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
-
+            #coeffs time starts here
             start_time = time.time()
             denominator = 1
             for factor in genFunc.args:
@@ -186,16 +186,24 @@ class FunctionCallPathComplexity(ABC):
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
             coeffs = [0]*(numRoots + numNodes)
+            print("HERE?")
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
             symbs = set()
+            print(len(Tseries.args))
             for term in Tseries.args:
+                print("INSIDE")
                 # print(term)
                 if not type(term) == sympy.Order:
+                    print(term)
                     c = str(term).split("*")[0]
                     if c == "x":
                         c = "1"
+                    print("B4")
+                    print(coeffs)
+                    print(self.termPow(term, x))
                     coeffs[self.termPow(term, x)] = int(c)
+                    print("AFTER")
             coeffsTime = time.time()-start_time
             self.logger.d_msg(f"coeffs: {coeffs}, time:{coeffsTime}")
 
@@ -311,6 +319,7 @@ class FunctionCallPathComplexity(ABC):
         # polynomial is not actually a polynomial, it can have fractions
         # so combine it with a common denominator, and then find discriminant of 
         # numerator (since the overall expression is equal to 0, ignore denom)
+        #print("POLYNOMIAL",polynomial)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
 
