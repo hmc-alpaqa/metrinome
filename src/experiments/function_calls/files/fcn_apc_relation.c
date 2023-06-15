@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int addition(int x, int y)
-{
-    return x + y;
-}
+// int addition(int x, int y)
+// {
+//     return x + y;
+// }
 
 // int addition_wrapper(int x, int y)
 // {
@@ -46,19 +46,33 @@ int addition(int x, int y)
 //     return x + y;
 // }
 
-int one_loop(int x, int y)
+// int one_loop(int x, int y)
+// {
+//     x = 1;
+//     if (y > 0)
+//     {
+//         y = y + 1;
+//         y = y - 1;
+//     }
+//     while (x > 0)
+//     {
+//         x = x - 1;
+//     }
+//     return x + y;
+// }
+
+int nested_loops(int x)
 {
-    x = 1;
-    if (y > 0)
-    {
-        y = y + 1;
-        y = y - 1;
-    }
+    x = 2;
     while (x > 0)
     {
+        while (x > 1)
+        {
+            x = x - 1;
+        }
         x = x - 1;
     }
-    return x + y;
+    return x;
 }
 
 // int impossible_call(int x)
@@ -284,36 +298,62 @@ int one_loop(int x, int y)
 
 // TESTING ONE LOOP
 
-int two_one_loop(int x, int y)
+// int two_one_loop(int x, int y)
+// {
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     return x;
+// }
+
+// int three_one_loop(int x, int y)
+// {
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     return x;
+// }
+
+// int four_one_loop(int x, int y)
+// {
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     return x;
+// }
+
+// int five_one_loop(int x, int y)
+// {
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     x = one_loop(2,1);
+//     return x;
+// }
+
+// TESTING NESTED LOOPS
+
+int two_nested_loops(int x, int y)
 {
-    x = one_loop(2,1);
-    x = one_loop(2,1);
+    x = nested_loops(2);
+    x = nested_loops(2);
     return x;
 }
 
-int three_one_loop(int x, int y)
+int three_nested_loops(int x, int y)
 {
-    x = one_loop(2,1);
-    x = one_loop(2,1);
-    x = one_loop(2,1);
+    x = nested_loops(2);
+    x = nested_loops(2);
+    x = nested_loops(2);
     return x;
 }
 
-int four_one_loop(int x, int y)
+int four_nested_loops(int x, int y)
 {
-    x = one_loop(2,1);
-    x = one_loop(2,1);
-    x = one_loop(2,1);
-    x = one_loop(2,1);
-    return x;
-}
-
-int five_one_loop(int x, int y)
-{
-    x = one_loop(2,1);
-    x = one_loop(2,1);
-    x = one_loop(2,1);
-    x = one_loop(2,1);
-    x = one_loop(2,1);
+    x = nested_loops(2);
+    x = nested_loops(2);
+    x = nested_loops(2);
+    x = nested_loops(2);
     return x;
 }
