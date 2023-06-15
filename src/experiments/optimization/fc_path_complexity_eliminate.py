@@ -120,6 +120,7 @@ class FunctionCallPathComplexity(ABC):
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
             genFuncTime = time.time()-start_time
+            #coeffs time starts here
             start_time = time.time()
             denominator = 1
             for factor in genFunc.args:
