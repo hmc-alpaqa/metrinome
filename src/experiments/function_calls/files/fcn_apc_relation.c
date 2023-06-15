@@ -75,6 +75,24 @@ int nested_loops(int x)
     return x;
 }
 
+int super_nested_loops(int x)
+{
+    x = 3;
+    while (x > 0)
+    {
+        while (x > 1)
+        {
+            while (x > 2)
+            {
+                x = x - 1;
+            }
+            x = x - 1;
+        }
+        x = x - 1;
+    }
+    return x;    
+}
+
 // int impossible_call(int x)
 // {
 //     if (x > 10 && x < 5)
@@ -334,26 +352,90 @@ int nested_loops(int x)
 
 // TESTING NESTED LOOPS
 
-int two_nested_loops(int x, int y)
+// int two_nested_loops(int x, int y)
+// {
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     return x;
+// }
+
+// int three_nested_loops(int x, int y)
+// {
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     return x;
+// }
+
+// int four_nested_loops(int x, int y)
+// {
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     return x;
+// }
+
+// int five_nested_loops(int x, int y)
+// {
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     return x;
+// }
+
+// int six_nested_loops(int x, int y)
+// {
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     x = nested_loops(2);
+//     return x;
+// }
+
+// TESTING SUPER NESTED LOOPS
+
+// int two_super_nested_loops(int x)
+// {
+//     x = super_nested_loops(2);
+//     x = super_nested_loops(2);
+//     return x;
+// }
+
+// int three_super_nested_loops(int x)
+// {
+//     x = super_nested_loops(2);
+//     x = super_nested_loops(2);
+//     x = super_nested_loops(2);
+//     return x;
+// }
+
+//MIXING PRIMARY FUNCTIONS
+
+int first_mix(int x, int y)
 {
     x = nested_loops(2);
-    x = nested_loops(2);
+    x = super_nested_loops(2);
     return x;
 }
 
-int three_nested_loops(int x, int y)
+int two_first_mix(int x, int y)
 {
     x = nested_loops(2);
+    x = super_nested_loops(2);
     x = nested_loops(2);
-    x = nested_loops(2);
+    x = super_nested_loops(2);
     return x;
 }
 
-int four_nested_loops(int x, int y)
-{
-    x = nested_loops(2);
-    x = nested_loops(2);
-    x = nested_loops(2);
-    x = nested_loops(2);
-    return x;
-}
+// TO DO: Do a different mix
+// int second_mix(int x, int y)
+// {
+//     x = nested_loops(2);
+//     x = super_nested_loops(2);
+//     return x;
+// }
