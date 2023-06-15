@@ -160,7 +160,7 @@ class FunctionCallPathComplexity(ABC):
                         symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
                 exprs += [expr]
             self.logger.d_msg(f"exprs: {exprs}")
-            self.logger.d_msg(f"exprs type: {type(exprs)}")
+            # self.logger.d_msg(f"exprs type: {type(exprs)}")
             try:
                 with Timeout(seconds = 50, error_message="Root solver Timed Out"):
                     solutions = sympy.solve(exprs)
