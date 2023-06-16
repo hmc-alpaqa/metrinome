@@ -325,7 +325,10 @@ class FunctionCallPathComplexity(ABC):
                 print(f'running msolve for {tryTime} seconds')
                 try:
                     with Timeout(seconds = tryTime):
+                        # this function requires matrix to be singular , aka is invertible
+                        #TODO: check whether the determinant is zero, if yes, change the last row to be n+1, then check the determinant again
                         solutions_list_solve = np.linalg.solve(matrix,base_cases) #get the exact solution in decimals
+                        # .lstsq gives approximated solution, and is inaccurate in some circumstances (ten bad addition)
                         # solutions_list_lstsq = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
                         # solutions = dict(zip(symbs,solutions_list_lstsq))
                         # print(f"solutions using lstsq: {solutions}")
