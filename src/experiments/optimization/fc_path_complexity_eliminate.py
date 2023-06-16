@@ -35,7 +35,7 @@ class FunctionCallPathComplexity(ABC):
         # TODO: use full name of cfg (file name is deleted here)
         graphProcessTime = 0.0
         start_time = time.time()
-        calldict, dictgraphs, numNodes = self.processGraphs(cfg, all_cfgs)
+        calldict, dictgraphs = self.processGraphs(cfg, all_cfgs)
         graphProcessTime = time.time() - start_time
         # print("CALLDICT: ",calldict)
         # print("DICTGRAPHS: ", dictgraphs)
@@ -45,7 +45,7 @@ class FunctionCallPathComplexity(ABC):
         # print('')
         graphSystemsTime = 0.0
         start_time = time.time()
-        splitsystems, splitsymbols, lookupDict = self.graphsToSystems(dictgraphs, calldict)
+        splitsystems, splitsymbols, lookupDict, numNodes = self.graphsToSystems(dictgraphs, calldict)
         graphSystemsTime = time.time() - start_time
         # modSystems = copy.deepcopy(splitsystems)
         # modSymbols = copy.deepcopy(splitsymbols)
@@ -305,7 +305,6 @@ class FunctionCallPathComplexity(ABC):
         dictgraphs = []
         used_graphs = [graph.name.split(".")[-1]]
         graphs_to_process = deque([graph])
-        numNodes = 0
         calldict = defaultdict(list)
         while graphs_to_process:
             curr_graph = graphs_to_process.popleft()
@@ -319,7 +318,6 @@ class FunctionCallPathComplexity(ABC):
             for edge in curr_graph_edges: #reformatting our graph from edgelist form to dictionary form
                 edgedict[edge[0]].append(edge[1])
                 nodes.update(edge)
-            numNodes += len(nodes)
             dictgraphs.append(edgedict)
             for node in curr_graph_calls.keys():
                 # loop through functions that are called
@@ -339,8 +337,8 @@ class FunctionCallPathComplexity(ABC):
                     calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
         #numNodes = sum([len(graph) for graph in dictgraphs])
         #print(numNodes)
-        print(calldict)
-        return calldict, dictgraphs, numNodes
+
+        return calldict, dictgraphs
 
     # def evaluate(self, all_graphs: dict, graphname):
         
@@ -374,6 +372,7 @@ class FunctionCallPathComplexity(ABC):
     #     print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
 
     def graphsToSystems(self, dictgraphs, calldict):
+        print(dictgraphs)
         lookupDict = defaultdict(set)
         x = symbols("x")
         num_cfgs = len(dictgraphs)
@@ -383,6 +382,8 @@ class FunctionCallPathComplexity(ABC):
         splitsystems = []
         splitsymbols = []
         init_eqns = []
+        numCalls = [0]*len(dictgraphs)
+        graphNodes = [set() for i in range(len(dictgraphs))]
         for fcn_idx in range(len(dictgraphs)):
             curr_graph = dictgraphs[fcn_idx]
             init_node = init_nodes[fcn_idx]
@@ -394,8 +395,9 @@ class FunctionCallPathComplexity(ABC):
                 sym = symbols("V" + str(startnode)) #chr(int(startnode) + 65)
                 symbs += [sym]
                 lookupDict[sym].add(sym)
-
+                print(fcn_idx, endnodes)
                 for node in endnodes:
+                    graphNodes[fcn_idx].add(node)
                     var = symbols("V" + str(node))
                     lookupDict[var].add(sym)
                     if str(node) in curr_graph: #makes sure the end node is not terminal
@@ -404,6 +406,7 @@ class FunctionCallPathComplexity(ABC):
                         expr = expr + x
                 
                 for called_fcn_idx in calldict[startnode]:
+                    numCalls[called_fcn_idx] += 1
                     expr =  init_nodes[called_fcn_idx] * expr
                 system += [expr - sym]
             
@@ -427,7 +430,16 @@ class FunctionCallPathComplexity(ABC):
         # print("FULL SYMBOLS:", fullsymbols)
         print("SPLIT SYSTEMS:", splitsystems)
         print("SPLIT SYMBOLS:", splitsymbols)
-        return splitsystems, splitsymbols, lookupDict
+        # graphNodes = [len(symbollist) for symbollist in splitsymbols]
+        numCalls[0] += 1
+        print("graph nodes", graphNodes)
+        print("num calls", numCalls)
+        numGraphNodes = [(len(singleGraphNodes) + 2) for singleGraphNodes in graphNodes]
+        print(graphNodes)
+        print(numGraphNodes)
+        dot_product = sum([x * y for x, y in zip(numGraphNodes, numCalls)])
+        print("Dot product", dot_product)
+        return splitsystems, splitsymbols, lookupDict, dot_product
 
     def modPartialEliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
