@@ -81,7 +81,7 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(100):
+                    with Timeout(200):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
                         fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
