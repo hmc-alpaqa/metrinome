@@ -133,7 +133,7 @@ class CPPConvert(converter.ConverterAbstract):
         f_name = os.path.basename(file)
         # f_name: cfg._Z7mul_invii.dot
         # with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w') as new_file:
-        print(f"OPEN!!! {open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+')}")
+        #print(f"OPEN!!! {open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+')}")
         with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+') as new_file:
             new_file.write("digraph { \n")
 
