@@ -133,7 +133,6 @@ class RecursivePathComplexity(ABC):
             exprs = []
             symbs = set()
             for term in Tseries.args:
-                print(term)
                 if not type(term) == sympy.Order:
                     c = str(term).split("*")[0]
                     if c == "x":
@@ -150,7 +149,8 @@ class RecursivePathComplexity(ABC):
                 exprs += [expr]
             self.logger.d_msg(f"exprs: {exprs}")
             try:
-                with Timeout(seconds = 200, error_message="Root solver Timed Out"):
+                with Timeout(seconds = 50, error_message="Root solver Timed Out"):
+                    print(f"trying sympy.solve for 50 seconds")
                     solutions = sympy.solve(exprs)
             except:
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
@@ -165,23 +165,27 @@ class RecursivePathComplexity(ABC):
                 patheq = patheq.subs(solutions)
             pc = patheq
             self.logger.d_msg(f"pc: {pc}")
-            if type(pc) == sympy.Add:
-                apc = big_o(list(pc.args))
-            else:
-                apc = pc
-            self.logger.d_msg(f"apc: {apc}")
+            # if type(pc) == sympy.Add:
+            #     apc = big_o(list(pc.args))
+            # else:
+            #     apc = pc
+            # self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
-            apc = sympy.N(1/rStar)**symbols("n")
+            # apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
+        apc = pc
+        if type(pc) == sympy.Add:
+            apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            apc = big_o(list(apc.args))
-        apc = sympy.N(apc)
+            # apc = big_o(list(apc.args))
+        # apc = sympy.N(apc)
+        self.logger.d_msg(f"apc: {apc}")
         return (apc, pc)
 
 
