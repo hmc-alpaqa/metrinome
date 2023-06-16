@@ -81,12 +81,12 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(2000):
+                    with Timeout(100):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
                         fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
                         fcruntime = time.time() - start_time
-                        print(fcapc)
+                        # print(fcapc)
                 except Exception as exc:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(
@@ -97,7 +97,7 @@ class DataCollector:
                     with Timeout(57600):
                         eliminate_apc, elim_times = self.optimized_elim_computer.evaluate(graph, graphs)
                         eliminate_runtime = time.time() - start_time
-                        print(elim_times)
+                        # print(elim_times)
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
