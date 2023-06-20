@@ -256,7 +256,6 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["UpboundTime"] = UpboundTime
         self.apc_times["apcTime2"] = apcTime2
         self.apc_times["cleanTime"] = cleanTime
-        print("APC",apc)
         return (apc, pc)
   
     # def gammaFunction(self, edgelist, call_list):
@@ -298,8 +297,6 @@ class FunctionCallPathComplexity(ABC):
 
 #=========================================INTEGRATION IN PROGRESS====================================================================
     def processGraphs(self, graph, all_graphs):
-        print(graph.name)
-        print(graph)
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
         dictgraphs = []
@@ -322,7 +319,6 @@ class FunctionCallPathComplexity(ABC):
             for node in curr_graph_calls.keys():
                 # loop through functions that are called
                 for called_fcn in curr_graph_calls[node].split(" "):
-                    print("CALL PAIR", node," ",called_fcn)
                     # add graphs to used_graphs
                     if called_fcn in ['START', 'CALLS']:
                         continue
@@ -426,19 +422,12 @@ class FunctionCallPathComplexity(ABC):
         # fullsystem = init_eqns + fullsystem
         # print("FULL SYSTEM:", fullsystem)
         # print("FULL SYMBOLS:", fullsymbols)
-        print("SPLIT SYSTEMS:", splitsystems)
-        print("SPLIT SYMBOLS:", splitsymbols)
         # graphNodes = [len(symbollist) for symbollist in splitsymbols]
         numCalls[0] += 1
-        print("graph nodes", graphNodes)
-        print("num calls", numCalls)
         # add 2 nodes not in endnodes for each graph: V[n]_0 & T[n]
         numGraphNodes = [(len(singleGraphNodes) + 2) for singleGraphNodes in graphNodes]
-        print(graphNodes)
-        print(numGraphNodes)
         # dot product is the numNodes for coeffs
         dot_product = sum([x * y for x, y in zip(numGraphNodes, numCalls)])
-        print("Dot product", dot_product)
         return splitsystems, splitsymbols, lookupDict, dot_product
 
     def modPartialEliminate(self, system, symbs):
@@ -467,7 +456,6 @@ class FunctionCallPathComplexity(ABC):
 
     def modEliminate(self, systems, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        print("IN MOD ELIMINATE")
         Teqns = []
         
         for idx, system in enumerate(systems):
@@ -557,7 +545,6 @@ class FunctionCallPathComplexity(ABC):
         # polynomial is not actually a polynomial, it can have fractions
         # so combine it with a common denominator, and then find discriminant of 
         # numerator (since the overall expression is equal to 0, ignore denom)
-        print("POLYNOMIAL",polynomial)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
     # def calculateDiscrim(self, polynomial):
@@ -638,7 +625,6 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        print("IN ELIM OG")
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]

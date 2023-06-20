@@ -109,8 +109,10 @@ class ControlFlowGraph:
         matches = itertools.chain([first_match], matches)
         for match in matches:
             label = match.group(3)
-        if "CALLS" in label:
-            return {node: label}
+        # there is the possibility of multiple labels (i.e. calls, start, exit)
+        # if any call label occurs, return that (& ignore other labels)
+            if "CALLS" in label:
+                return {node: label}
         return None
 
     @staticmethod
@@ -148,24 +150,25 @@ class ControlFlowGraph:
 
                 edge_regex = r"([0-9]*)\s*->\s*([0-9]*)"
                 # node_with_label_regex = r"([0-9]*)\s*\[label=\"(.*)\"\]"
+                # node with label refers to a line defining a node with a function / recursive call or a start/exit node
                 node_with_label_regex = r"([0-9]*)\s*(\[label=\"([^\"]*)\"\]+)"
                 node_without_label_regex = r"([0-9]+)"
+
+                # Current line in the dot file represents an edge
                 if (match := re.search(edge_regex, line)) is not None:
-                    # The current line in the text file represents an edge.
                     graph.update_with_edge(match)
-                # Current line is not an edge - check if it defines a node.
+                # Current line is not an edge - check if it defines a node with a start/exit/call label.
                 elif (match := re.search(node_with_label_regex, line)) is not None:
                     matches = re.finditer(node_with_label_regex, line)
                     graph.update_with_node(matches, True)
                     matches = re.finditer(node_with_label_regex, line)
                     call = ControlFlowGraph.check_call(matches)
-
                     if call is not None:
                         calls.update(call)
+                # Current line defines a node without a start/exit/call label
                 elif (match := re.search(node_without_label_regex, line)) is not None:
                     matches = re.finditer(node_without_label_regex, line)
                     graph.update_with_node(matches, False)
-
             if graph.start_node == -1 or graph.end_node == -1:
                 raise ValueError("Start and end nodes must both be defined.")
 

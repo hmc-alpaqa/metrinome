@@ -48,7 +48,6 @@ class DataCollector:
         for file in files:
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            print(graphs)
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
@@ -57,13 +56,11 @@ class DataCollector:
                 continue
 
             for graph_name, graph in graphs.items():
-                print("GRAPH?", graph)
                 # if graph_name != 'fcn_calls_cfg._Z9mergeSortPiii.dot':
                 # if graph_name != 'fcn_calls_cfg._Z18multi_fact_wrapperi.dot':
                 # if graph_name != 'fcn_calls_cfg._Z10fcn_medleyi.dot':
                 # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                     # continue
-                print('Graph Name: ', graph_name)
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
                 fcapc: Union[str, PathComplexityRes] = "na"
