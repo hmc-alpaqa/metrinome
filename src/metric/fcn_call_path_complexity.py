@@ -32,7 +32,6 @@ class FunctionCallPathComplexity(ABC):
         all_edges = []
         # TODO: use full name of cfg (file name is deleted here)
         used_graphs = [cfg.name.split('.')[1]]
-        print('CFG NAME', cfg.name.split('.')[1])
         graphs_to_process = deque([cfg])
         # for rowIndex, row in enumerate(adjMatrix):
         #     for colIndex, value in enumerate(row):
@@ -137,7 +136,6 @@ class FunctionCallPathComplexity(ABC):
                     nodes.append(edgelist[i][0])
                 if edgelist[i][1] not in nodes:
                     nodes.append(edgelist[i][1])
-            print(f"nodes list...{nodes}")
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
             coeffs = [0]*(numRoots + numNodes)
@@ -233,9 +231,7 @@ class FunctionCallPathComplexity(ABC):
             system += [expr - sym]
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
-        print("SYMBS:", symbs)
         full_sys = init_eqns + system
-        print('SYSTEM:', full_sys)
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
         return gamma
 
