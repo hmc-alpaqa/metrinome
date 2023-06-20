@@ -129,8 +129,11 @@ class CPPConvert(converter.ConverterAbstract):
 
         # Make a temporary file (with the new content).
         source_name = os.path.basename(filename)
+        # file:/app/code/tmp/cfg._Z7mul_invii.dot
         f_name = os.path.basename(file)
+        # f_name: cfg._Z7mul_invii.dot
         # with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w') as new_file:
+        #print(f"OPEN!!! {open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+')}")
         with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+') as new_file:
             new_file.write("digraph { \n")
 
@@ -157,6 +160,7 @@ class CPPConvert(converter.ConverterAbstract):
         Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
         """
+        print(f"filename in convert_to_standard_format {filename}")
         files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
         for name in files:
             if "global" in name.lower():
@@ -164,6 +168,7 @@ class CPPConvert(converter.ConverterAbstract):
                 files.remove(name)
 
         for file in files:
+            print(f"file in files: {file}")
             self.convert_file_to_standard(file, filename)
 
         return len(files)

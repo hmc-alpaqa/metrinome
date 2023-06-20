@@ -335,8 +335,6 @@ class FunctionCallPathComplexity(ABC):
                                 break
                     # Call (i, j) from function i node j to called_fcn
                     calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
-        #numNodes = sum([len(graph) for graph in dictgraphs])
-        #print(numNodes)
 
         return calldict, dictgraphs
 
@@ -372,7 +370,7 @@ class FunctionCallPathComplexity(ABC):
     #     print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
 
     def graphsToSystems(self, dictgraphs, calldict):
-        print(dictgraphs)
+        #print(dictgraphs)
         lookupDict = defaultdict(set)
         x = symbols("x")
         num_cfgs = len(dictgraphs)
@@ -395,7 +393,7 @@ class FunctionCallPathComplexity(ABC):
                 sym = symbols("V" + str(startnode)) #chr(int(startnode) + 65)
                 symbs += [sym]
                 lookupDict[sym].add(sym)
-                print(fcn_idx, endnodes)
+                #print(fcn_idx, endnodes)
                 for node in endnodes:
                     graphNodes[fcn_idx].add(node)
                     var = symbols("V" + str(node))
@@ -434,9 +432,11 @@ class FunctionCallPathComplexity(ABC):
         numCalls[0] += 1
         print("graph nodes", graphNodes)
         print("num calls", numCalls)
+        # add 2 nodes not in endnodes for each graph: V[n]_0 & T[n]
         numGraphNodes = [(len(singleGraphNodes) + 2) for singleGraphNodes in graphNodes]
         print(graphNodes)
         print(numGraphNodes)
+        # dot product is the numNodes for coeffs
         dot_product = sum([x * y for x, y in zip(numGraphNodes, numCalls)])
         print("Dot product", dot_product)
         return splitsystems, splitsymbols, lookupDict, dot_product
