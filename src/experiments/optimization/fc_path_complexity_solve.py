@@ -266,6 +266,7 @@ class FunctionCallPathComplexity(ABC):
             # #assert check_exprs == exprs, "no matrix does not equal exprs"
             # print(f"solution of check_exprs{sympy.nsolve(check_exprs, symbs, [0]*numRoots, dict=True)[0]}")
             
+            solutions = []
             if (solve == 0): #use solve
                 start_time = time.time()
                 try:
@@ -340,9 +341,6 @@ class FunctionCallPathComplexity(ABC):
                         timeVal = time.time()- start_time
                 except TimeoutError:
                     print("NSOLVE cannot solve, need help!!")
-            else: 
-                solutions = []
-                
 
 
             self.logger.d_msg(f"solutions: {solutions}")
