@@ -22,6 +22,7 @@ class DataCollector:
         # log = Log(log_level=LogLevel.REGULAR)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
+        self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
         self.fcn_call_apc_new_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
         self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
         self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
@@ -32,8 +33,8 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],  "nfcapc": [],
-                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [], "nfcapc_time": [],
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],  "nfcapc": [], "fcapc":[], 
+                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [], "nfcapc_time": [], "fcapc_time":[], 
                              "num_vertices": [], "edge_count": [], "exception": [],
                              "exception_type": []})
         with open('/app/code/experiments/optimization/files.txt') as funcs:
@@ -61,24 +62,39 @@ class DataCollector:
                 print('Graph Name: ', graph_name)
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
+                fcapc: Union[str, PathComplexityRes] = "na"
                 nfcapc: Union[str, PathComplexityRes] = "na"
                 npath: Union[str, int] = "na"
                 cyclo: Union[str, int] = "na"
                 exception_type = "na"
                 runtime = 0.0
                 rruntime = 0.0
+                fcruntime = 0.0
                 nfcruntime = 0.0
+
                 start_time = time.time()
                 try:
                     with Timeout(2000):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
+                        print("======================running new fcn_call_path_complexity for 2000 seconds=======================")
                         nfcapc = self.fcn_call_apc_new_computer.evaluate(graph, graphs)
                         nfcruntime = time.time() - start_time
                 except Exception as exc:
                     print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
+                start_time = time.time()
+                try:
+                    with Timeout(100):
+                        # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
+                        #     continue
+                        print("=====================running old fcn_call_path_complexity for 100 seconds=========================")
+                        fcapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
+                        fcruntime = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -103,22 +119,22 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(2000):
+                    with Timeout(100):
+                        print("====================running recursive function path complexity for 100 seconds==========================")
                         rapc = self.recursive_apc_computer.evaluate(graph)
                         rruntime = time.time() - start_time
                 except Exception as exc:
                     print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
     
                 start_time = time.time()
                 try:
-                    with Timeout(300):
+                    with Timeout(100):
+                        print("=========================runing regular path complexity for 100 seconds==========================")
                         apc = self.apc_computer.evaluate(graph)
                         runtime = time.time() - start_time
                 except Exception as exc:
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
                         
                 # try:
                 #     with Timeout(200):
@@ -135,20 +151,20 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "rapc": rapc, "nfcapc": nfcapc, "cyclo": cyclo, "npath": npath,
-                           "apc_time": runtime, "rapc_time": rruntime, "nfcapc_time": nfcruntime,
+                           "rapc": rapc, "nfcapc": nfcapc[0], 'fcapc':fcapc, "cyclo": cyclo, "npath": npath,
+                           "apc_time": runtime, "rapc_time": rruntime, "nfcapc_time": nfcruntime, "fcapc_time":fcruntime,
                            "num_vertices": graph.graph.num_vertices,
                            "edge_count": graph.graph.edge_count(),
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "apc","rapc", "nfcapc", "apc_time","rapc_time","nfcapc_time"]]
+                data = data[["graph_name", "apc","rapc", "nfcapc", 'fcapc', "apc_time","rapc_time","nfcapc_time",'fcapc_time']]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name",  "apc","rapc", "nfcapc", "apc_time","rapc_time","nfcapc_time"]])
+                print(data[["graph_name", "apc","rapc", "nfcapc", 'fcapc', "apc_time","rapc_time","nfcapc_time",'fcapc_time']])
 
 
 
