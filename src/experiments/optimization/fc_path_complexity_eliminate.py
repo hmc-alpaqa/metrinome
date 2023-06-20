@@ -100,7 +100,7 @@ class FunctionCallPathComplexity(ABC):
             self.logger.e_msg(f"Error: {e}")
             numroots = 0
         realnrootsTime = time.time() - start_time
-        print(f"realnrootsTime:{realnrootsTime}")
+        self.logger.d_msg(f"realnrootsTime:{realnrootsTime}")
         if numroots == 0:
             self.logger.d_msg(f"case1")
             start_time = time.time()
@@ -256,50 +256,9 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["UpboundTime"] = UpboundTime
         self.apc_times["apcTime2"] = apcTime2
         self.apc_times["cleanTime"] = cleanTime
-        print("APC",apc)
         return (apc, pc)
   
-    # def gammaFunction(self, edgelist, call_list):
-    #     """Takes in a list of all edges in a graph, and a list of where function calls are
-    #     located, and calculates a gamma function in terms of x and the start node"""
-    #     # calls: [('0_0', 1), ('0_0', 1), ('1_2', 1)] -> {'(0_0, 1)': 2, '(1_2, 1)': 1}
-    #     edgedict = defaultdict(list)
-    #     for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
-    #         edgedict[edge[0]].append(edge[1])
-    #     # num_cfgs is max i in i_j for all edges + 1
-    #     num_cfgs = max([int(edge[0].split('_')[0]) for edge in edgelist]) + 1
-    #     init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
-    #     system = []
-    #     x = symbols('x')
-    #     symbs = []
-    #     for startnode in edgedict:
-    #         endnodes = edgedict[startnode]
-    #         expr = 0
-    #         sym = symbols("V" + str(startnode)) #chr(int(startnode) + 65)
-    #         symbs += [sym]
-    #         for node in endnodes:
-    #             if str(node) in edgedict: #makes sure the end node is not terminal
-    #                 var = symbols("V" + str(node)) #str(chr(node+ 65))
-    #                 expr = expr + var*x
-    #             else:
-    #                 expr = expr + x
-            
-    #             for calling_node, called_fcn_idx in call_list:
-    #                 if calling_node == startnode:
-    #                     expr =  init_nodes[called_fcn_idx] * expr
-    #         system += [expr - sym]
-    #     init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
-    #     symbs = init_nodes + symbs
-    #     print("SYMBS:", symbs)
-    #     full_sys = init_eqns + system
-    #     print('SYSTEM:', full_sys)
-    #     gamma = sympy.expand(self.eliminate(full_sys, symbs))
-    #     return gamma
-
-#=========================================INTEGRATION IN PROGRESS====================================================================
     def processGraphs(self, graph, all_graphs):
-        print(graph.name)
-        print(graph)
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
         dictgraphs = []
@@ -322,7 +281,6 @@ class FunctionCallPathComplexity(ABC):
             for node in curr_graph_calls.keys():
                 # loop through functions that are called
                 for called_fcn in curr_graph_calls[node].split(" "):
-                    print("CALL PAIR", node," ",called_fcn)
                     # add graphs to used_graphs
                     if called_fcn in ['START', 'CALLS']:
                         continue
@@ -337,37 +295,6 @@ class FunctionCallPathComplexity(ABC):
                     calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
 
         return calldict, dictgraphs
-
-    # def evaluate(self, all_graphs: dict, graphname):
-        
-    #     print('')
-    #     print("Graph Name: ", graphname)
-    #     print("ALL GRAPHS: ", all_graphs)
-    #     print('')
-
-    #     graph = all_graphs[graphname]
-    #     lookupDict = defaultdict(set)
-
-    #     calldict, dictgraphs = self.processGraphs(graph, all_graphs)
-    #     fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict = self.graphsToSystems(dictgraphs, calldict)
-
-    #     modSystems = copy.deepcopy(splitsystems)
-    #     modSymbols = copy.deepcopy(splitsymbols)
-    #     optimizedSystems = copy.deepcopy(splitsystems)
-    #     optimizedSymbols = copy.deepcopy(splitsymbols)
-
-    #     simpleGamma = self.simpleEliminate(fullsystem,fullsymbols)
-    #     modGamma = self.modEliminate(modSystems,modSymbols)
-    #     optimizedGamma = self.optimizedEliminate(optimizedSystems, optimizedSymbols, lookupDict)
-        
-    #     print('')
-    #     print(f'simpleGamma: {simpleGamma}')
-    #     print(f'modGamma: {modGamma}')
-    #     print(f'simpleGamma = modGamma check: {simpleGamma == modGamma}')
-    #     print('')
-    #     print(f'simpleGamma: {simpleGamma}')
-    #     print(f'optimizedGamma: {optimizedGamma}')
-    #     print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
 
     def graphsToSystems(self, dictgraphs, calldict):
         #print(dictgraphs)
@@ -418,27 +345,12 @@ class FunctionCallPathComplexity(ABC):
             init_eqns.append(init_eqn)
             splitsystems.append(system)
             splitsymbols.append(symbs)
-            
-            # for symb in symbs:
-            #     if symb not in fullsymbols:
-            #         fullsymbols.append(symb)
         
-        # fullsystem = init_eqns + fullsystem
-        # print("FULL SYSTEM:", fullsystem)
-        # print("FULL SYMBOLS:", fullsymbols)
-        print("SPLIT SYSTEMS:", splitsystems)
-        print("SPLIT SYMBOLS:", splitsymbols)
-        # graphNodes = [len(symbollist) for symbollist in splitsymbols]
         numCalls[0] += 1
-        print("graph nodes", graphNodes)
-        print("num calls", numCalls)
         # add 2 nodes not in endnodes for each graph: V[n]_0 & T[n]
         numGraphNodes = [(len(singleGraphNodes) + 2) for singleGraphNodes in graphNodes]
-        print(graphNodes)
-        print(numGraphNodes)
         # dot product is the numNodes for coeffs
         dot_product = sum([x * y for x, y in zip(numGraphNodes, numCalls)])
-        print("Dot product", dot_product)
         return splitsystems, splitsymbols, lookupDict, dot_product
 
     def modPartialEliminate(self, system, symbs):
@@ -467,7 +379,6 @@ class FunctionCallPathComplexity(ABC):
 
     def modEliminate(self, systems, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        print("IN MOD ELIMINATE")
         Teqns = []
         
         for idx, system in enumerate(systems):
@@ -532,92 +443,13 @@ class FunctionCallPathComplexity(ABC):
         print(gamma)
         return gamma
 
-    # def simpleEliminate(self, system, symbs):
-    #     """Takes in a system of equations and gets the gamma function"""
-    #     if len(system) == 1:
-    #         return system[0]
-    #     sub = system[-1] + symbs[-1]
-    #     if symbs[-1] in sub.free_symbols:
-    #         for eq in system:
-    #             if symbs[-1] in eq.free_symbols:
-    #                 sol = sympy.solve(eq, symbs[-1], dict=True)
-    #                 if len(sol) == 1:
-    #                     sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
-    #     if symbs[-1] in sub.free_symbols:
-    #         self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
-    #     for count, eq in enumerate(system):
-    #         if symbs[-1] in eq.free_symbols:
-    #             system[count] = sympy.expand(eq.subs(symbs[-1], sub))
-    #     return self.simpleEliminate(system[:-1], symbs[:-1])
-
-#======================================END OF INTEGRATION IN PROCESS====================================================
-
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
         # polynomial is not actually a polynomial, it can have fractions
         # so combine it with a common denominator, and then find discriminant of 
         # numerator (since the overall expression is equal to 0, ignore denom)
-        print("POLYNOMIAL",polynomial)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
-    # def calculateDiscrim(self, polynomial):
-    #     """Takes in a polynomial and calculates its discriminant"""
-    #     # replace all T0's with T in polynomial
-    #     polynomial = polynomial.subs(symbols("T0"), symbols("T"))
-    #     polynomial = sympy.fraction(sympy.together(polynomial))[0]
-    #     terms = polynomial.args
-    #     domPow = max([self.termPow(term, "T") for term in terms])
-    #     maxcoeff = 0
-    #     for term in terms:
-    #         if self.termPow(term, "T") == domPow:
-    #             newprod = 1
-    #             for arg in term.args:
-    #                 if not "T" in str(arg):
-    #                     newprod *= arg
-    #             maxcoeff += newprod
-    #     power = int(domPow*(domPow-1)/2)
-    #     result = self.resultant(polynomial, sympy.diff(polynomial, symbols("T")), symbols("T"))
-    #     self.logger.d_msg(f"resultant: {result}")
-    #     self.logger.d_msg(f"maxcoeff: {maxcoeff}")
-    #     disc = ((-1)**power)/(maxcoeff)*result
-    #     return disc
-    # def resultant(self, p, q, symb):
-    #     """Calculates the resultant of two polynomials"""
-    #     Ppow = 0
-    #     Qpow = 0
-    #     Pcoeffs = {}
-    #     Qcoeffs = {}
-    #     for term in p.args:
-    #         pow = self.termPow(term, symb)
-    #         if pow in Pcoeffs.keys():
-    #             Pcoeffs[pow] += term/(symb**pow)
-    #         else:
-    #             Pcoeffs[pow] = term/(symb**pow)
-    #         if  pow > Ppow:
-    #             Ppow = pow
-    #     for term in q.args:
-    #         pow = self.termPow(term, symb)
-    #         if pow in Qcoeffs.keys():
-    #             Qcoeffs[pow] += term/(symb**pow)
-    #         else:
-    #             Qcoeffs[pow] = term/(symb**pow)
-    #         if  pow > Qpow:
-    #             Qpow = pow
-    #     MatrixArray = []
-    #     for i in range(Ppow + Qpow):
-    #         MatrixArray += [[0]*(Ppow + Qpow)]
-    #     for i in range(Ppow + 1):
-    #         for j in range(Qpow):
-    #             if i in Pcoeffs.keys():
-    #                 MatrixArray[j][i + j] = Pcoeffs[i]
-    #     for i in range(Qpow + 1):
-    #         for j in range(Ppow):
-    #             if i in Qcoeffs.keys():
-    #                 MatrixArray[j + Qpow][i +j] = Qcoeffs[i]
-    #     m = Matrix(MatrixArray)
-    #     m = m.T
-    #     # print(m)
-    #     return m.det()
 
     def termPow(self, term, symb):
         """for a expression, find the power a symbol is raised to"""
@@ -638,7 +470,6 @@ class FunctionCallPathComplexity(ABC):
 
     def eliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
-        print("IN ELIM OG")
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1]
