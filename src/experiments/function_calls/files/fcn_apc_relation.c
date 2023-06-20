@@ -75,24 +75,524 @@ int nested_loops(int x)
     return x;
 }
 
-int super_nested_loops(int x)
+//sed to be call super_nested_loops
+// int triple_nested_loops(int x)
+// {
+//     x = 3;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;    
+// }
+
+// int quadruple_nested_loops(int x)
+// {
+//     x = 4;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     x = x -1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;    
+// }
+
+// int quintuple_nested_loops(int x)
+// {
+//     x = 5;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// int sextuple_nested_loops(int x)
+// {
+//     x = 6;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// int septuple_nested_loops(int x)
+// {
+//     x = 7;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// int octuple_nested_loops(int x)
+// {
+//     x = 8;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// int nonuple_nested_loops(int x)
+// {
+//     x = 9;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// int decuple_nested_loops(int x)
+// {
+//     x = 10;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         while (x > 9)
+//                                         {
+//                                             x = x - 1;
+//                                         }
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+int vigintuple_nested_loops(int x)
 {
-    x = 3;
+    x = 20;
     while (x > 0)
     {
         while (x > 1)
         {
             while (x > 2)
             {
+                while (x > 3)
+                {
+                    while (x > 4)
+                    {
+                        while (x > 5)
+                        {
+                            while (x > 6)
+                            {
+                                while (x > 7)
+                                {
+                                    while (x > 8)
+                                    {
+                                        while (x > 9)
+                                        {
+                                            while (x > 10)
+                                                {
+                                                    while (x > 11)
+                                                    {
+                                                        while (x > 12)
+                                                        {
+                                                            while (x > 13)
+                                                            {
+                                                                while (x > 14)
+                                                                {
+                                                                    while (x > 15)
+                                                                    {
+                                                                        while (x > 16)
+                                                                        {
+                                                                            while (x > 17)
+                                                                            {
+                                                                                while (x > 18)
+                                                                                {
+                                                                                    while (x > 19)
+                                                                                    {
+                                                                                        x = x - 1;
+                                                                                    }
+                                                                                    x = x - 1;
+                                                                                }
+                                                                                x = x - 1;
+                                                                            }
+                                                                            x = x - 1;
+                                                                        }
+                                                                        x = x - 1;
+                                                                    }
+                                                                    x = x - 1;
+                                                                }
+                                                                x = x - 1;
+                                                            }
+                                                            x = x - 1;
+                                                        }
+                                                        x = x - 1;
+                                                    }
+                                                    x = x - 1;
+                                                }
+                                            x = x - 1;
+                                        }
+                                        x = x - 1;
+                                    }
+                                    x = x - 1;
+                                }
+                                x = x - 1;
+                            }
+                            x = x - 1;
+                        }
+                        x = x - 1;
+                    }
+                    x = x - 1;
+                }
                 x = x - 1;
             }
             x = x - 1;
         }
         x = x - 1;
     }
-    return x;    
+    return x;  
 }
 
+int quadragintuple_nested_loops(int x)
+{
+    x = 20;
+    while (x > 0)
+    {
+        while (x > 1)
+        {
+            while (x > 2)
+            {
+                while (x > 3)
+                {
+                    while (x > 4)
+                    {
+                        while (x > 5)
+                        {
+                            while (x > 6)
+                            {
+                                while (x > 7)
+                                {
+                                    while (x > 8)
+                                    {
+                                        while (x > 9)
+                                        {
+                                            while (x > 10)
+                                                {
+                                                    while (x > 11)
+                                                    {
+                                                        while (x > 12)
+                                                        {
+                                                            while (x > 13)
+                                                            {
+                                                                while (x > 14)
+                                                                {
+                                                                    while (x > 15)
+                                                                    {
+                                                                        while (x > 16)
+                                                                        {
+                                                                            while (x > 17)
+                                                                            {
+                                                                                while (x > 18)
+                                                                                {
+                                                                                    while (x > 19)
+                                                                                    {
+                                                                                        x = vigintuple_nested_loops(2);
+                                                                                        x = 20;
+                                                                                        x = x - 1;
+                                                                                    }
+                                                                                    x = x - 1;
+                                                                                }
+                                                                                x = x - 1;
+                                                                            }
+                                                                            x = x - 1;
+                                                                        }
+                                                                        x = x - 1;
+                                                                    }
+                                                                    x = x - 1;
+                                                                }
+                                                                x = x - 1;
+                                                            }
+                                                            x = x - 1;
+                                                        }
+                                                        x = x - 1;
+                                                    }
+                                                    x = x - 1;
+                                                }
+                                            x = x - 1;
+                                        }
+                                        x = x - 1;
+                                    }
+                                    x = x - 1;
+                                }
+                                x = x - 1;
+                            }
+                            x = x - 1;
+                        }
+                        x = x - 1;
+                    }
+                    x = x - 1;
+                }
+                x = x - 1;
+            }
+            x = x - 1;
+        }
+        x = x - 1;
+    }
+    return x;  
+}
+
+int octogintuple_nested_loops(int x)
+{
+    x = 20;
+    while (x > 0)
+    {
+        while (x > 1)
+        {
+            while (x > 2)
+            {
+                while (x > 3)
+                {
+                    while (x > 4)
+                    {
+                        while (x > 5)
+                        {
+                            while (x > 6)
+                            {
+                                while (x > 7)
+                                {
+                                    while (x > 8)
+                                    {
+                                        while (x > 9)
+                                        {
+                                            while (x > 10)
+                                                {
+                                                    while (x > 11)
+                                                    {
+                                                        while (x > 12)
+                                                        {
+                                                            while (x > 13)
+                                                            {
+                                                                while (x > 14)
+                                                                {
+                                                                    while (x > 15)
+                                                                    {
+                                                                        while (x > 16)
+                                                                        {
+                                                                            while (x > 17)
+                                                                            {
+                                                                                while (x > 18)
+                                                                                {
+                                                                                    while (x > 19)
+                                                                                    {
+                                                                                        x = quadragintuple_nested_loops(2);
+                                                                                        x = 20;
+                                                                                        x = x - 1;
+                                                                                    }
+                                                                                    x = x - 1;
+                                                                                }
+                                                                                x = x - 1;
+                                                                            }
+                                                                            x = x - 1;
+                                                                        }
+                                                                        x = x - 1;
+                                                                    }
+                                                                    x = x - 1;
+                                                                }
+                                                                x = x - 1;
+                                                            }
+                                                            x = x - 1;
+                                                        }
+                                                        x = x - 1;
+                                                    }
+                                                    x = x - 1;
+                                                }
+                                            x = x - 1;
+                                        }
+                                        x = x - 1;
+                                    }
+                                    x = x - 1;
+                                }
+                                x = x - 1;
+                            }
+                            x = x - 1;
+                        }
+                        x = x - 1;
+                    }
+                    x = x - 1;
+                }
+                x = x - 1;
+            }
+            x = x - 1;
+        }
+        x = x - 1;
+    }
+    return x;  
+}
 // int impossible_call(int x)
 // {
 //     if (x > 10 && x < 5)
@@ -397,45 +897,45 @@ int super_nested_loops(int x)
 //     return x;
 // }
 
-// TESTING SUPER NESTED LOOPS
+// TESTING triple NESTED LOOPS
 
-// int two_super_nested_loops(int x)
+// int two_triple_nested_loops(int x)
 // {
-//     x = super_nested_loops(2);
-//     x = super_nested_loops(2);
+//     x = triple_nested_loops(2);
+//     x = triple_nested_loops(2);
 //     return x;
 // }
 
-// int three_super_nested_loops(int x)
+// int three_triple_nested_loops(int x)
 // {
-//     x = super_nested_loops(2);
-//     x = super_nested_loops(2);
-//     x = super_nested_loops(2);
+//     x = triple_nested_loops(2);
+//     x = triple_nested_loops(2);
+//     x = triple_nested_loops(2);
 //     return x;
 // }
 
 //MIXING PRIMARY FUNCTIONS
 
-int first_mix(int x, int y)
-{
-    x = nested_loops(2);
-    x = super_nested_loops(2);
-    return x;
-}
+// int first_mix(int x, int y)
+// {
+//     x = nested_loops(2);
+// //     x = triple_nested_loops(2);
+//     return x;
+// }
 
-int two_first_mix(int x, int y)
-{
-    x = nested_loops(2);
-    x = super_nested_loops(2);
-    x = nested_loops(2);
-    x = super_nested_loops(2);
-    return x;
-}
+// int two_first_mix(int x, int y)
+// {
+//     x = nested_loops(2);
+//     x = triple_nested_loops(2);
+//     x = nested_loops(2);
+//     x = triple_nested_loops(2);
+//     return x;
+// }
 
 // TO DO: Do a different mix
 // int second_mix(int x, int y)
 // {
 //     x = nested_loops(2);
-//     x = super_nested_loops(2);
+//     x = triple_nested_loops(2);
 //     return x;
 // }
