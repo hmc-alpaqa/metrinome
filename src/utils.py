@@ -133,13 +133,16 @@ def big_o(terms: List[str]) -> str:
             term_one = terms[0]
             term_two = terms[1]
 
+            # TODO: something wrong over here. for partition function in fcn_calls, the pc is really similar but after
+            # passing it into big_o, the result is vastly different, need to understand how big_o works
             lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
-
-            if lim == 0:
+            print(f"limit in big o: {lim}")
+            # if lim == 0: #BEFORE: only drops the second term if the second term is strickly smaller than the first term
+            if lim < 1: # AFTER: if second term is smaller than first term (even by coefficients when the power is the same)
                 terms.remove(term_two)
                 return big_o(terms)
 
-            return big_o(terms[1:])
+            return big_o(terms[1:]) # delete the first term
     except:
         return str(terms[0]) + " + " + str(big_o(terms[1:]))
 
