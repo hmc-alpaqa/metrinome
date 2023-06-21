@@ -268,30 +268,30 @@ class FunctionCallPathComplexity(ABC):
                 patheq = patheq.subs(solutions)
             pc = patheq
             self.logger.d_msg(f"pc: {pc}")
-            if type(pc) == sympy.Add:
-                apc = big_o(list(pc.args))
-            else:
-                apc = pc
+            # if type(pc) == sympy.Add:
+            #     print(list(pc.args))
+            #     apc = big_o(list(pc.args))
+            # else:
+            #     apc = pc
             UpboundTime = time.time() - start_time
-            self.logger.d_msg(f"apc: {apc}, time: {UpboundTime}")
+            self.logger.d_msg(f"time: {UpboundTime}")
 
         else:
             self.logger.d_msg(f"case2")
-
-            start_time = time.time()
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
-            apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
-            apcTime2 = time.time()-start_time
-        start_time = time.time()
+        self.logger.d_msg(f"pc: {pc}")
+        apc = pc
+        if type(pc) == sympy.Add:
+            print(list(pc.args))
+            apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            apc = big_o(list(apc.args))
-
-        apc = sympy.N(apc)
+            # apc = big_o(list(apc.args))
+        self.logger.d_msg(f"apc: {apc}")
         cleanTime = time.time() - start_time
         apc_and_time = {"apc":apc, "pc":pc, "graphSystemsTime":graphSystemsTime, "gammaTime": gammaTime, "discrimTime":discrimTime, 
                 "realnrootsTime":realnrootsTime, "coeffsTime": coeffsTime, "exprsTime": exprsTime,

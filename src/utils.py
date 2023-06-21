@@ -16,7 +16,7 @@ from typing import Dict, List, Optional, Tuple, Type, Union
 import pycparser  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
 from pycparser import parse_file
-from sympy import Abs, Basic, Mul, Poly, Pow, limit, symbols, sympify  # type: ignore
+from sympy import Abs, Basic, Mul, Poly, Pow, limit, symbols, sympify, simplify  # type: ignore
 
 
 def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], List[Basic]]:
@@ -120,7 +120,7 @@ def big_o(terms: List[str]) -> str:
 
     The terms should be a list of expressions represented as strings.
     """
-    print(terms)
+    # print(terms)
     try:
         with Timeout(seconds = 200, error_message="Big O Timed Out"):
             n_var = symbols('n')
@@ -136,13 +136,27 @@ def big_o(terms: List[str]) -> str:
             # TODO: something wrong over here. for partition function in fcn_calls, the pc is really similar but after
             # passing it into big_o, the result is vastly different, need to understand how big_o works
             lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
-            print(f"limit in big o: {lim}")
-            # if lim == 0: #BEFORE: only drops the second term if the second term is strickly smaller than the first term
-            if lim < 1: # AFTER: if second term is smaller than first term (even by coefficients when the power is the same)
+            # print(f"limit in big o: {lim}")
+            if lim == 0: #BEFORE: only drops the second term if the second term is strickly smaller than the first term
+                terms.remove(term_two)
+                return big_o(terms)
+            elif lim == float('inf'):
+                terms.remove(term_one)
+                return big_o(terms)
+            else: # AFTER: if second term is smaller than first term (even by coefficients when the power is the same)
+                print("term one:",term_one)
+                print("term two:",term_two)
+                terms[0] = simplify(term_one + term_two)
+                print("combined:",terms[0])
                 terms.remove(term_two)
                 return big_o(terms)
 
             return big_o(terms[1:]) # delete the first term
+            # if lim < 1: # AFTER: if second term is smaller than first term (even by coefficients when the power is the same)
+            #     terms.remove(term_two)
+            #     return big_o(terms)
+
+            # return big_o(terms[1:])
     except:
         return str(terms[0]) + " + " + str(big_o(terms[1:]))
 

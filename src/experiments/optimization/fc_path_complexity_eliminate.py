@@ -538,8 +538,8 @@ class FunctionCallPathComplexity(ABC):
         print("into T elims")
         gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False)
         print("okie")
-        gamma = sympy.expand(gamma)
-        print("expanded")
+        #gamma = sympy.expand(gamma)
+        #print("expanded")
         gamma = sympy.simplify(gamma)
         print("simplified")
         return gamma
