@@ -418,93 +418,93 @@ int decuple_nested_loops(int x)
 //     return x;  
 // }
 
-// int trigintuple_nested_loops(int x)
-// {
-//     x = 20;
-//     while (x > 0)
-//     {
-//         while (x > 1)
-//         {
-//             while (x > 2)
-//             {
-//                 while (x > 3)
-//                 {
-//                     while (x > 4)
-//                     {
-//                         while (x > 5)
-//                         {
-//                             while (x > 6)
-//                             {
-//                                 while (x > 7)
-//                                 {
-//                                     while (x > 8)
-//                                     {
-//                                         while (x > 9)
-//                                         {
-//                                             while (x > 10)
-//                                                 {
-//                                                     while (x > 11)
-//                                                     {
-//                                                         while (x > 12)
-//                                                         {
-//                                                             while (x > 13)
-//                                                             {
-//                                                                 while (x > 14)
-//                                                                 {
-//                                                                     while (x > 15)
-//                                                                     {
-//                                                                         while (x > 16)
-//                                                                         {
-//                                                                             while (x > 17)
-//                                                                             {
-//                                                                                 while (x > 18)
-//                                                                                 {
-//                                                                                     while (x > 19)
-//                                                                                     {
-//                                                                                         x = decuple_nested_loops(2);
-//                                                                                         x = 20;
-//                                                                                         x = x - 1;
-//                                                                                     }
-//                                                                                     x = x - 1;
-//                                                                                 }
-//                                                                                 x = x - 1;
-//                                                                             }
-//                                                                             x = x - 1;
-//                                                                         }
-//                                                                         x = x - 1;
-//                                                                     }
-//                                                                     x = x - 1;
-//                                                                 }
-//                                                                 x = x - 1;
-//                                                             }
-//                                                             x = x - 1;
-//                                                         }
-//                                                         x = x - 1;
-//                                                     }
-//                                                     x = x - 1;
-//                                                 }
-//                                             x = x - 1;
-//                                         }
-//                                         x = x - 1;
-//                                     }
-//                                     x = x - 1;
-//                                 }
-//                                 x = x - 1;
-//                             }
-//                             x = x - 1;
-//                         }
-//                         x = x - 1;
-//                     }
-//                     x = x - 1;
-//                 }
-//                 x = x - 1;
-//             }
-//             x = x - 1;
-//         }
-//         x = x - 1;
-//     }
-//     return x;  
-// }
+int trigintuple_nested_loops(int x)
+{
+    x = 20;
+    while (x > 0)
+    {
+        while (x > 1)
+        {
+            while (x > 2)
+            {
+                while (x > 3)
+                {
+                    while (x > 4)
+                    {
+                        while (x > 5)
+                        {
+                            while (x > 6)
+                            {
+                                while (x > 7)
+                                {
+                                    while (x > 8)
+                                    {
+                                        while (x > 9)
+                                        {
+                                            while (x > 10)
+                                                {
+                                                    while (x > 11)
+                                                    {
+                                                        while (x > 12)
+                                                        {
+                                                            while (x > 13)
+                                                            {
+                                                                while (x > 14)
+                                                                {
+                                                                    while (x > 15)
+                                                                    {
+                                                                        while (x > 16)
+                                                                        {
+                                                                            while (x > 17)
+                                                                            {
+                                                                                while (x > 18)
+                                                                                {
+                                                                                    while (x > 19)
+                                                                                    {
+                                                                                        x = decuple_nested_loops(2);
+                                                                                        x = 20;
+                                                                                        x = x - 1;
+                                                                                    }
+                                                                                    x = x - 1;
+                                                                                }
+                                                                                x = x - 1;
+                                                                            }
+                                                                            x = x - 1;
+                                                                        }
+                                                                        x = x - 1;
+                                                                    }
+                                                                    x = x - 1;
+                                                                }
+                                                                x = x - 1;
+                                                            }
+                                                            x = x - 1;
+                                                        }
+                                                        x = x - 1;
+                                                    }
+                                                    x = x - 1;
+                                                }
+                                            x = x - 1;
+                                        }
+                                        x = x - 1;
+                                    }
+                                    x = x - 1;
+                                }
+                                x = x - 1;
+                            }
+                            x = x - 1;
+                        }
+                        x = x - 1;
+                    }
+                    x = x - 1;
+                }
+                x = x - 1;
+            }
+            x = x - 1;
+        }
+        x = x - 1;
+    }
+    return x;  
+}
 
 
 // int quadragintuple_nested_loops(int x)
@@ -595,7 +595,10 @@ int decuple_nested_loops(int x)
 //     return x;  
 // }
 
-// int octogintuple_nested_loops(int x)
+// //THIS IS ACTUALLY SIXTY BRO: 40 + 20 = 60
+// // Changed name from octogintuple_nested_loops to sexagintuple_nested_loops on
+// // June 21, 2023. 09 AM
+// int sexagintuple_nested_loops(int x)
 // {
 //     x = 20;
 //     while (x > 0)
@@ -639,6 +642,96 @@ int decuple_nested_loops(int x)
 //                                                                                     while (x > 19)
 //                                                                                     {
 //                                                                                         x = quadragintuple_nested_loops(2);
+//                                                                                         x = 20;
+//                                                                                         x = x - 1;
+//                                                                                     }
+//                                                                                     x = x - 1;
+//                                                                                 }
+//                                                                                 x = x - 1;
+//                                                                             }
+//                                                                             x = x - 1;
+//                                                                         }
+//                                                                         x = x - 1;
+//                                                                     }
+//                                                                     x = x - 1;
+//                                                                 }
+//                                                                 x = x - 1;
+//                                                             }
+//                                                             x = x - 1;
+//                                                         }
+//                                                         x = x - 1;
+//                                                     }
+//                                                     x = x - 1;
+//                                                 }
+//                                             x = x - 1;
+//                                         }
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// // Changed name from actual_octogintuple_nested_loops to octogintuple_nested_loops 
+// // on June 21, 2023. 09 AM
+// int octogintuple_nested_loops(int x)
+// {
+//     x = 20;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         while (x > 9)
+//                                         {
+//                                             while (x > 10)
+//                                                 {
+//                                                     while (x > 11)
+//                                                     {
+//                                                         while (x > 12)
+//                                                         {
+//                                                             while (x > 13)
+//                                                             {
+//                                                                 while (x > 14)
+//                                                                 {
+//                                                                     while (x > 15)
+//                                                                     {
+//                                                                         while (x > 16)
+//                                                                         {
+//                                                                             while (x > 17)
+//                                                                             {
+//                                                                                 while (x > 18)
+//                                                                                 {
+//                                                                                     while (x > 19)
+//                                                                                     {
+//                                                                                         x = sexagintuple_nested_loops(2);
 //                                                                                         x = 20;
 //                                                                                         x = x - 1;
 //                                                                                     }
