@@ -210,7 +210,7 @@ class FunctionCallPathComplexity(ABC):
                 print(f"number nodes per graph: {numberNodesPerGraph}")
 
             dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
-            print(f"dot product:{dot_product}")
+            print(f"dot product (new new node):{dot_product}")
             
             numNodes = dot_product
 
@@ -272,7 +272,7 @@ class FunctionCallPathComplexity(ABC):
                 try:
                     tryTime = 20
                     with Timeout(seconds = tryTime):
-                        print(f"trying solve for {tryTime} seconds")
+                        print(f"running solve for {tryTime} seconds")
                         solutions = sympy.solve(exprs)
                         timeVal = time.time()-start_time
                 except TimeoutError:
@@ -367,10 +367,13 @@ class FunctionCallPathComplexity(ABC):
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
             pc = sympy.N(1/rStar)**symbols("n")
-        self.logger.d_msg(f"pc: {pc}")
+        self.logger.d_msg(f"original pc: {pc}")
         apc = pc
         if type(pc) == sympy.Add:
+            pc = simplify(pc)
+            self.logger.d_msg(f"simplified pc: {pc}")
             apc = big_o(list(pc.args))
+        self.logger.d_msg(f"apc before clean:{apc}")
         if "I" in str(apc):
             # print(f"printing big o{big_o(list(apc.args))}")
             apc = sympy.simplify(self.clean(apc, symbols("n")))
@@ -529,6 +532,7 @@ class FunctionCallPathComplexity(ABC):
         """Gets rid of complex numbers and makes things cleaner"""
         if type(system) == str:
             system = sympy.parse_expr(system)
+        print("==================IN CLEAN===================")
         if "I" in str(system):
             if str(symb) in str(system):
                 if type(system) == sympy.Add:

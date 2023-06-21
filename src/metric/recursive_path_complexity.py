@@ -180,6 +180,7 @@ class RecursivePathComplexity(ABC):
             pc = sympy.N(1/rStar)**symbols("n")
         apc = pc
         if type(pc) == sympy.Add:
+            pc = simplify(pc)
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
