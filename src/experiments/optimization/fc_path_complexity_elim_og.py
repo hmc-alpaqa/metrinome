@@ -186,24 +186,16 @@ class FunctionCallPathComplexity(ABC):
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
             coeffs = [0]*(numRoots + numNodes)
-            print("HERE?")
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
             symbs = set()
-            print(len(Tseries.args))
             for term in Tseries.args:
-                print("INSIDE")
-                # print(term)
                 if not type(term) == sympy.Order:
                     print(term)
                     c = str(term).split("*")[0]
                     if c == "x":
                         c = "1"
-                    print("B4")
-                    print(coeffs)
-                    print(self.termPow(term, x))
                     coeffs[self.termPow(term, x)] = int(c)
-                    print("AFTER")
             coeffsTime = time.time()-start_time
             self.logger.d_msg(f"coeffs: {coeffs}, time:{coeffsTime}")
 
