@@ -158,12 +158,12 @@ class DataCollector:
 
                 new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc["apc"], "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
                            "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
-                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"],
+                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"], "cleanTime": fcapc["cleanTime"],
                            "fcapc_time": fcruntime,"exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index = True)
                 data = data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
-                                "soluTime", "UpboundTime", "apcTime2", "longest"]]
+                                "soluTime", "UpboundTime", "apcTime2", "longest","cleanTime"]]
                 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
@@ -182,7 +182,7 @@ class DataCollector:
 
                 print(data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
                 "realnrootsTime", "coeffsTime", "exprsTime",
-                "soluTime", "UpboundTime", "apcTime2"]])
+                "soluTime", "UpboundTime", "apcTime2","cleanTime"]])
 
                 print(data_elim[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", 
                 "realnroots", "genFunc","coeffs", "exprs",
