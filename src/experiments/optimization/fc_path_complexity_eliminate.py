@@ -36,6 +36,8 @@ class FunctionCallPathComplexity(ABC):
         graphProcessTime = 0.0
         start_time = time.time()
         calldict, dictgraphs = self.processGraphs(cfg, all_cfgs)
+        self.logger.d_msg(f"calldict: {calldict}")
+        self.logger.d_msg(f"dictgraphs: {dictgraphs}")
         graphProcessTime = time.time() - start_time
         # print("CALLDICT: ",calldict)
         # print("DICTGRAPHS: ", dictgraphs)
@@ -46,6 +48,10 @@ class FunctionCallPathComplexity(ABC):
         graphSystemsTime = 0.0
         start_time = time.time()
         splitsystems, splitsymbols, lookupDict, numNodes = self.graphsToSystems(dictgraphs, calldict)
+        self.logger.d_msg(f"split systems: {splitsystems}")
+        self.logger.d_msg(f"split symbols: {splitsymbols}")
+        self.logger.d_msg(f"lookup dict: {lookupDict}")
+        self.logger.d_msg(f"num nodes: {numNodes}")
         graphSystemsTime = time.time() - start_time
         # modSystems = copy.deepcopy(splitsystems)
         # modSymbols = copy.deepcopy(splitsymbols)
@@ -244,9 +250,9 @@ class FunctionCallPathComplexity(ABC):
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            # apc = big_o(list(apc.args))
+        apc = sympy.N(apc)
         cleanTime = time.time() - start_time
-        self.logger.d_msg(f"apc: {apc}")
+        self.logger.d_msg(f"apc: {apc}, cleanTime: {cleanTime}")
         self.apc_times["discrimTime"] = discrimTime
         self.apc_times["realnrootsTime"] = realnrootsTime
         self.apc_times["genFuncTime"] = genFuncTime
@@ -440,7 +446,6 @@ class FunctionCallPathComplexity(ABC):
             #print(Teqn)
         Tsyms = [syms[0] for syms in symbs]
         gamma = sympy.simplify(self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False))
-        print(gamma)
         return gamma
 
     def calculateDiscrim(self, polynomial):

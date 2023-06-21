@@ -176,14 +176,55 @@ class FunctionCallPathComplexity(ABC):
                 raise Exception("Can't find all the roots :(")
             self.logger.d_msg(f"Found all Roots")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
+            # Computing number of nodes and changing from the start index
+            # from nonZeroIndex to number of nodes instead
+            
+            #Creates number of nodes per graph
+            #1st step) Identify how many graphs
+            sumAllNodes = 0
+            graphsNumbers = []
+            for i in range(len(edgelist)):
+                graphsNumbers.append(int(edgelist[i][0][0]))
+                graphsNumbers.append(int(edgelist[i][1][0]))
+
+            graphsNumbers = list(sorted(set(graphsNumbers)))
+            print(f"updated graph numbers:{graphsNumbers}")
+
+            numCalls = [0]*len(graphsNumbers)
+            #  2nd step) Identify how many calls for each graph
+            # but only for graphs that are not calling themselves 
+            currentCall = 0
+            for i in range(len(call_list)):
+                # print(f"edge comes from graph:{int(call_list[i][0][0])}")
+                # print(f"edge goes to graph:{call_list[i][1]}")
+                if (int(call_list[i][0][0]) !=  call_list[i][1]):
+                    currentCall = call_list[i][1]
+                    numCalls[currentCall] = numCalls[currentCall] + 1
+            #include original graph being called
+            numCalls[0] += 1
+            print(f"num of calls per graph:{numCalls}")
+            
+
+            #3rd step) Number of nodes for each graph
             nodes = []
             for i in range(len(edgelist)):
                 if edgelist[i][0] not in nodes:
                     nodes.append(edgelist[i][0])
                 if edgelist[i][1] not in nodes:
                     nodes.append(edgelist[i][1])
-            print(f"Nodes list...{nodes}")
             numNodes = len(nodes) 
+
+            listOfListsNodesGraphs = [[] for j in range(len(graphsNumbers))]
+            for i in range(len(nodes)):
+                listOfListsNodesGraphs[int(nodes[i][0])].append(nodes[i])
+            
+            numberNodesPerGraph = []
+            for i in range(len(graphsNumbers)):
+                numberNodesPerGraph.append(len(listOfListsNodesGraphs[i]) + 1)
+
+            dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
+            
+            numNodes = dot_product
             self.logger.d_msg(f"numNodes: {numNodes}")
             coeffs = [0]*(numRoots + numNodes)
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
@@ -191,7 +232,6 @@ class FunctionCallPathComplexity(ABC):
             symbs = set()
             for term in Tseries.args:
                 if not type(term) == sympy.Order:
-                    print(term)
                     c = str(term).split("*")[0]
                     if c == "x":
                         c = "1"
