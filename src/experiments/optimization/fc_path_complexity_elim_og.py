@@ -39,13 +39,14 @@ class FunctionCallPathComplexity(ABC):
         # adjMatrix = cfg.graph.adjacency_matrix()
         # print(cfg.graph.edge_rules())
         # edgelist = []
+        self.logger.d_msg(f"graph:{cfg.name.split('.')[1]}")
+        self.logger.d_msg(f"OLD FCAPC =========================================================")
         graphProcessTime = 0.0
         call_list = []
         all_edges = []
         # TODO: use full name of cfg (file name is deleted here)
         start_time = time.time()
         used_graphs = [cfg.name.split('.')[1]]
-        print('CFG NAME', cfg.name.split('.')[1])
         graphs_to_process = deque([cfg])
         # for rowIndex, row in enumerate(adjMatrix):
         #     for colIndex, value in enumerate(row):
@@ -99,6 +100,7 @@ class FunctionCallPathComplexity(ABC):
         soluTime = 0.0
         UpboundTime = 0.0
         apcTime2 = 0.0
+        cleanTime = 0.0
 
         if edgelist == []:
             return (0, 0)
@@ -188,8 +190,6 @@ class FunctionCallPathComplexity(ABC):
                 graphsNumbers.append(int(edgelist[i][1][0]))
 
             graphsNumbers = list(sorted(set(graphsNumbers)))
-            print(f"updated graph numbers:{graphsNumbers}")
-
             numCalls = [0]*len(graphsNumbers)
             #  2nd step) Identify how many calls for each graph
             # but only for graphs that are not calling themselves 
@@ -201,9 +201,7 @@ class FunctionCallPathComplexity(ABC):
                     currentCall = call_list[i][1]
                     numCalls[currentCall] = numCalls[currentCall] + 1
             #include original graph being called
-            numCalls[0] += 1
-            print(f"num of calls per graph:{numCalls}")
-            
+            numCalls[0] += 1            
 
             #3rd step) Number of nodes for each graph
             nodes = []
@@ -288,14 +286,16 @@ class FunctionCallPathComplexity(ABC):
             apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
             apcTime2 = time.time()-start_time
+        start_time = time.time()
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             apc = big_o(list(apc.args))
 
         apc = sympy.N(apc)
+        cleanTime = time.time() - start_time
         apc_and_time = {"apc":apc, "pc":pc, "graphSystemsTime":graphSystemsTime, "gammaTime": gammaTime, "discrimTime":discrimTime, 
                 "realnrootsTime":realnrootsTime, "coeffsTime": coeffsTime, "exprsTime": exprsTime,
-                "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2}
+                "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2, "cleanTime":cleanTime}
         return apc_and_time
 
 
@@ -336,9 +336,7 @@ class FunctionCallPathComplexity(ABC):
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
-        print("SYMBS:", symbs)
         full_sys = init_eqns + system
-        print('SYSTEM:', full_sys)
         graphSystemsTime = time.time() - start_time
         gammaTime = 0.0
         start_time = time.time()
