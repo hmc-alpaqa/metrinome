@@ -164,6 +164,7 @@ class RecursivePathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
+            pc = sympy.N(pc)
             self.logger.d_msg(f"pc: {pc}")
             # if type(pc) == sympy.Add:
             #     apc = big_o(list(pc.args))

@@ -74,10 +74,10 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(2000):
+                    with Timeout(4000):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
-                        print("======================running new fcn_call_path_complexity for 2000 seconds=======================")
+                        print("======================running new fcn_call_path_complexity for 4000 seconds=======================")
                         nfcapc = self.fcn_call_apc_new_computer.evaluate(graph, graphs)
                         nfcruntime = time.time() - start_time
                 except Exception as exc:
@@ -86,10 +86,10 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(100):
+                    with Timeout(200):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
-                        print("=====================running old fcn_call_path_complexity for 100 seconds=========================")
+                        print("=====================running old fcn_call_path_complexity for 200 seconds=========================")
                         fcapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
                         fcruntime = time.time() - start_time
                 except Exception as exc:
