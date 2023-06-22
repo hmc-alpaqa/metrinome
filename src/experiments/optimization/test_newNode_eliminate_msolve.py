@@ -151,7 +151,7 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "rapc": rapc, "nfcapc": nfcapc[0], 'fcapc':fcapc, "cyclo": cyclo, "npath": npath,
+                           "rapc": rapc, "nfcapc": nfcapc, 'fcapc':fcapc, "cyclo": cyclo, "npath": npath,
                            "apc_time": runtime, "rapc_time": rruntime, "nfcapc_time": nfcruntime, "fcapc_time":fcruntime,
                            "num_vertices": graph.graph.num_vertices,
                            "edge_count": graph.graph.edge_count(),
