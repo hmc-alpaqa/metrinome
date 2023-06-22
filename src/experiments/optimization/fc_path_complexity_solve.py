@@ -370,7 +370,7 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"original pc: {pc}")
         apc = pc
         if type(pc) == sympy.Add:
-            pc = simplify(pc)
+            # pc = simplify(pc)
             self.logger.d_msg(f"simplified pc: {pc}")
             apc = big_o(list(pc.args))
         self.logger.d_msg(f"apc before clean:{apc}")

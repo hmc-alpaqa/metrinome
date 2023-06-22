@@ -120,7 +120,7 @@ def big_o(terms: List[str]) -> str:
 
     The terms should be a list of expressions represented as strings.
     """
-    # print(terms)
+    print(terms)
     try:
         with Timeout(seconds = 200, error_message="Big O Timed Out"):
             n_var = symbols('n')
@@ -133,21 +133,20 @@ def big_o(terms: List[str]) -> str:
             term_one = terms[0]
             term_two = terms[1]
 
-            # TODO: something wrong over here. for partition function in fcn_calls, the pc is really similar but after
-            # passing it into big_o, the result is vastly different, need to understand how big_o works
             lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
             # print(f"limit in big o: {lim}")
-            if lim == 0: #BEFORE: only drops the second term if the second term is strickly smaller than the first term
+
+            if lim == 0: # second term strickly less than first term
                 terms.remove(term_two)
                 return big_o(terms)
-            elif lim == float('inf'):
+            elif lim == float('inf'): # first term strickly less than second term
                 terms.remove(term_one)
                 return big_o(terms)
-            else: # AFTER: if second term is smaller than first term (even by coefficients when the power is the same)
-                print("term one:",term_one)
-                print("term two:",term_two)
+            else: #first and second term have the same power, add them
+                # print("term one:",term_one)
+                # print("term two:",term_two)
                 terms[0] = simplify(term_one + term_two)
-                print("combined:",terms[0])
+                # print("combined:",terms[0])
                 terms.remove(term_two)
                 return big_o(terms)
 

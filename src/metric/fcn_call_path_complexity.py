@@ -201,7 +201,7 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"pc: {pc}")
         apc = pc
         if type(pc) == sympy.Add:
-            pc = simplify(pc)
+            # pc = simplify(pc)
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
