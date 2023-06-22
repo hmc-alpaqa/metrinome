@@ -79,7 +79,8 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["graphSystemsTime"] = graphSystemsTime
         self.apc_times["gammaTime"] = gammaTime
         apc = self.fcn_call_apc(optimizedGamma, numNodes)
-        return apc, self.apc_times
+        self.apc_times["nfcapc"] = apc
+        return self.apc_times
 
     def fcn_call_apc(self, gamma, numNodes):
         """Calculates the apc of a function that can call other functions """
