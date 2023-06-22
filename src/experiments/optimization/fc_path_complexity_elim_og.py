@@ -250,19 +250,19 @@ class FunctionCallPathComplexity(ABC):
                 expr = -coeffs[val]
                 base_cases[val-numNodes] = coeffs[val]
                 index = 0 #to keep track of the columns of the matrix
-                print("HERE")
+                #print("HERE")
                 for rootindex, root in enumerate(rootsDict.keys()):
-                    print("HI")
+                    #print("HI")
                     for mj in range(rootsDict[root]):
                         coeff_of_c = (val**mj)*((1/root)**val)
                         expr += symbols(f'c\-{rootindex}\-{mj}')* coeff_of_c
-                        print("HI 2")
+                        #print("HI 2")
                         coeff_of_c = complex(coeff_of_c) # convert coeff_of_c from sympy.complex to numpy.complex
-                        print("maybe")
+                        #print("maybe")
                         matrix[val-numNodes][index] = coeff_of_c
-                        print("pls")
+                        #print("pls")
                         symbs[index] = symbols(f'c\-{rootindex}\-{mj}')
-                        print("HI 2")
+                        #print("HI 2")
                         index += 1
                 exprs += [expr]
             exprsTime = time.time()- start_time
