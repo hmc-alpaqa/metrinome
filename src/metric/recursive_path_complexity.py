@@ -51,7 +51,6 @@ class RecursivePathComplexity(ABC):
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
         apc = self.recurapc(edgelist, recurlist)
-        print(apc)
         return apc
 
     def recurapc(self, edgelist, recurlist):
