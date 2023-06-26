@@ -567,6 +567,92 @@ int nested_loops(int x)
 //     return x;  
 // }
 
+int vigintuple_nested_loops(int x)
+{
+    x = 20;
+    while (x > 0)
+    {
+        while (x > 1)
+        {
+            while (x > 2)
+            {
+                while (x > 3)
+                {
+                    while (x > 4)
+                    {
+                        while (x > 5)
+                        {
+                            while (x > 6)
+                            {
+                                while (x > 7)
+                                {
+                                    while (x > 8)
+                                    {
+                                        while (x > 9)
+                                        {
+                                            while (x > 10)
+                                                {
+                                                    while (x > 11)
+                                                    {
+                                                        while (x > 12)
+                                                        {
+                                                            while (x > 13)
+                                                            {
+                                                                while (x > 14)
+                                                                {
+                                                                    while (x > 15)
+                                                                    {
+                                                                        while (x > 16)
+                                                                        {
+                                                                            while (x > 17)
+                                                                            {
+                                                                                while (x > 18)
+                                                                                {
+                                                                                    while (x > 19)
+                                                                                    {
+                                                                                        x = x - 1;
+                                                                                    }
+                                                                                    x = x - 1;
+                                                                                }
+                                                                                x = x - 1;
+                                                                            }
+                                                                            x = x - 1;
+                                                                        }
+                                                                        x = x - 1;
+                                                                    }
+                                                                    x = x - 1;
+                                                                }
+                                                                x = x - 1;
+                                                            }
+                                                            x = x - 1;
+                                                        }
+                                                        x = x - 1;
+                                                    }
+                                                    x = x - 1;
+                                                }
+                                            x = x - 1;
+                                        }
+                                        x = x - 1;
+                                    }
+                                    x = x - 1;
+                                }
+                                x = x - 1;
+                            }
+                            x = x - 1;
+                        }
+                        x = x - 1;
+                    }
+                    x = x - 1;
+                }
+                x = x - 1;
+            }
+            x = x - 1;
+        }
+        x = x - 1;
+    }
+    return x;  
+}
+
 // int trigintuple_nested_loops(int x)
 // {
 //     x = 20;

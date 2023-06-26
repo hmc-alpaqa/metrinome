@@ -51,7 +51,6 @@ class RecursivePathComplexity(ABC):
         self.logger.d_msg(f"Edge List: {edgelist}")
         self.logger.d_msg(f"Recur List: {recurlist}")
         apc = self.recurapc(edgelist, recurlist)
-        print(apc)
         return apc
 
     def recurapc(self, edgelist, recurlist):
@@ -164,6 +163,7 @@ class RecursivePathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
+            pc = sympy.N(pc)
             self.logger.d_msg(f"pc: {pc}")
             # if type(pc) == sympy.Add:
             #     apc = big_o(list(pc.args))
@@ -180,6 +180,7 @@ class RecursivePathComplexity(ABC):
             pc = sympy.N(1/rStar)**symbols("n")
         apc = pc
         if type(pc) == sympy.Add:
+            # pc = simplify(pc)
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))

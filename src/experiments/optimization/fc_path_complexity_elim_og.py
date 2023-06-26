@@ -17,7 +17,11 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
+from scipy.optimize import fsolve
+from sympy.utilities import lambdify
 import time
+import unittest
+import math
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
@@ -39,13 +43,14 @@ class FunctionCallPathComplexity(ABC):
         # adjMatrix = cfg.graph.adjacency_matrix()
         # print(cfg.graph.edge_rules())
         # edgelist = []
+        self.logger.d_msg(f"graph:{cfg.name.split('.')[1]}")
+        self.logger.d_msg(f"OLD FCAPC =========================================================")
         graphProcessTime = 0.0
         call_list = []
         all_edges = []
         # TODO: use full name of cfg (file name is deleted here)
         start_time = time.time()
         used_graphs = [cfg.name.split('.')[1]]
-        print('CFG NAME', cfg.name.split('.')[1])
         graphs_to_process = deque([cfg])
         # for rowIndex, row in enumerate(adjMatrix):
         #     for colIndex, value in enumerate(row):
@@ -99,6 +104,7 @@ class FunctionCallPathComplexity(ABC):
         soluTime = 0.0
         UpboundTime = 0.0
         apcTime2 = 0.0
+        cleanTime = 0.0
 
         if edgelist == []:
             return (0, 0)
@@ -176,22 +182,58 @@ class FunctionCallPathComplexity(ABC):
                 raise Exception("Can't find all the roots :(")
             self.logger.d_msg(f"Found all Roots")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
+            # Computing number of nodes and changing from the start index
+            # from nonZeroIndex to number of nodes instead
+            
+            #Creates number of nodes per graph
+            #1st step) Identify how many graphs
+            sumAllNodes = 0
+            graphsNumbers = []
+            for i in range(len(edgelist)):
+                graphsNumbers.append(int(edgelist[i][0][0]))
+                graphsNumbers.append(int(edgelist[i][1][0]))
+
+            graphsNumbers = list(sorted(set(graphsNumbers)))
+            numCalls = [0]*len(graphsNumbers)
+            #  2nd step) Identify how many calls for each graph
+            # but only for graphs that are not calling themselves 
+            currentCall = 0
+            for i in range(len(call_list)):
+                # print(f"edge comes from graph:{int(call_list[i][0][0])}")
+                # print(f"edge goes to graph:{call_list[i][1]}")
+                if (int(call_list[i][0][0]) !=  call_list[i][1]):
+                    currentCall = call_list[i][1]
+                    numCalls[currentCall] = numCalls[currentCall] + 1
+            #include original graph being called
+            numCalls[0] += 1            
+
+            #3rd step) Number of nodes for each graph
             nodes = []
             for i in range(len(edgelist)):
                 if edgelist[i][0] not in nodes:
                     nodes.append(edgelist[i][0])
                 if edgelist[i][1] not in nodes:
                     nodes.append(edgelist[i][1])
-            print(f"Nodes list...{nodes}")
             numNodes = len(nodes) 
+
+            listOfListsNodesGraphs = [[] for j in range(len(graphsNumbers))]
+            for i in range(len(nodes)):
+                listOfListsNodesGraphs[int(nodes[i][0])].append(nodes[i])
+            
+            numberNodesPerGraph = []
+            for i in range(len(graphsNumbers)):
+                numberNodesPerGraph.append(len(listOfListsNodesGraphs[i]) + 1)
+
+            dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
+            
+            numNodes = dot_product
             self.logger.d_msg(f"numNodes: {numNodes}")
             coeffs = [0]*(numRoots + numNodes)
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
-            symbs = set()
+            symbs = [0]*numRoots
             for term in Tseries.args:
                 if not type(term) == sympy.Order:
-                    print(term)
                     c = str(term).split("*")[0]
                     if c == "x":
                         c = "1"
@@ -200,23 +242,48 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"coeffs: {coeffs}, time:{coeffsTime}")
 
             start_time = time.time()
-            for val in range(numNodes, numNodes + numRoots):
+            #initialize a matrix and base cases, later use numpy.linalg.lstsq to solve the matrix
+            matrix = np.empty(shape = (numRoots,numRoots),dtype = complex)
+            base_cases = np.zeros(numRoots)
+            print("HERE")
+            for val in range(numNodes, numNodes+ numRoots):
                 expr = -coeffs[val]
+                base_cases[val-numNodes] = coeffs[val]
+                index = 0 #to keep track of the columns of the matrix
+                #print("HERE")
                 for rootindex, root in enumerate(rootsDict.keys()):
+                    #print("HI")
                     for mj in range(rootsDict[root]):
-                        expr += symbols(f'c\-{rootindex}\-{mj}')*(val**mj)*((1/root)**val)
-                        symbs.add(symbols(f'c\-{rootindex}\-{mj}'))
+                        coeff_of_c = (val**mj)*((1/root)**val)
+                        expr += symbols(f'c\-{rootindex}\-{mj}')* coeff_of_c
+                        #print("HI 2")
+                        coeff_of_c = complex(coeff_of_c) # convert coeff_of_c from sympy.complex to numpy.complex
+                        #print("maybe")
+                        matrix[val-numNodes][index] = coeff_of_c
+                        #print("pls")
+                        symbs[index] = symbols(f'c\-{rootindex}\-{mj}')
+                        #print("HI 2")
+                        index += 1
                 exprs += [expr]
             exprsTime = time.time()- start_time
             self.logger.d_msg(f"exprs: {exprs}, time:{exprsTime}")
-
+            self.logger.d_msg(f"base_cases: {base_cases}")
+            self.logger.d_msg(f"matrix: {matrix}")
+            self.logger.d_msg(f"symbols list: {symbs}")
+            
             start_time = time.time()
             try:
-                with Timeout(seconds = 10, error_message="Root solver Timed Out"):
-                    solutions = sympy.solve(exprs)
-            except:
-                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0] #numerically solve the root
-            soluTime = time.time()-start_time
+                with Timeout(seconds = 100):
+                    print("trying msolve...")
+                    solutions_list = np.linalg.solve(matrix,base_cases)
+                    solutions = dict(zip(symbs,solutions_list))
+                    # print(solutions)
+                    # timeVal = time.time()-start_time
+            except TimeoutError:
+                print ("MSOLVE cannot solve, need help from nsolve!!!")
+                print('running nsolve...')
+                solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]
+            soluTime = time.time() - start_time
             self.logger.d_msg(f"solutions: {solutions}, time: {soluTime}")
 
             start_time = time.time()
@@ -230,32 +297,35 @@ class FunctionCallPathComplexity(ABC):
                 patheq = patheq.subs(solutions)
             pc = patheq
             self.logger.d_msg(f"pc: {pc}")
-            if type(pc) == sympy.Add:
-                apc = big_o(list(pc.args))
-            else:
-                apc = pc
+            # if type(pc) == sympy.Add:
+            #     print(list(pc.args))
+            #     apc = big_o(list(pc.args))
+            # else:
+            #     apc = pc
             UpboundTime = time.time() - start_time
-            self.logger.d_msg(f"apc: {apc}, time: {UpboundTime}")
+            self.logger.d_msg(f"time: {UpboundTime}")
 
         else:
             self.logger.d_msg(f"case2")
-
-            start_time = time.time()
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
-            apc = sympy.N(1/rStar)**symbols("n")
             pc = sympy.N(1/rStar)**symbols("n")
-            apcTime2 = time.time()-start_time
+        self.logger.d_msg(f"pc: {pc}")
+        apc = pc
+        if type(pc) == sympy.Add:
+            print(list(pc.args))
+            apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-            apc = big_o(list(apc.args))
-
-        apc = sympy.N(apc)
+            # apc = big_o(list(apc.args))
+        self.logger.d_msg(f"apc: {apc}")
+        cleanTime = time.time() - start_time
         apc_and_time = {"apc":apc, "pc":pc, "graphSystemsTime":graphSystemsTime, "gammaTime": gammaTime, "discrimTime":discrimTime, 
                 "realnrootsTime":realnrootsTime, "coeffsTime": coeffsTime, "exprsTime": exprsTime,
-                "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2}
+                "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2, "cleanTime":cleanTime}
+        print(apc_and_time)
         return apc_and_time
 
 
@@ -296,9 +366,7 @@ class FunctionCallPathComplexity(ABC):
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
-        print("SYMBS:", symbs)
         full_sys = init_eqns + system
-        print('SYSTEM:', full_sys)
         graphSystemsTime = time.time() - start_time
         gammaTime = 0.0
         start_time = time.time()
