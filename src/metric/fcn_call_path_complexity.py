@@ -65,8 +65,8 @@ class FunctionCallPathComplexity(ABC):
        
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
-        apc = self.fcn_call_apc(all_edges, call_list)
-        return apc
+        apc, nonZeroIndex = self.fcn_call_apc(all_edges, call_list)
+        return apc, nonZeroIndex
     def fcn_call_apc(self, edgelist, call_list):
         """Calculates the apc of a function that can call other functions """
         if edgelist == []:
@@ -207,7 +207,7 @@ class FunctionCallPathComplexity(ABC):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             # apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
-        return (apc, pc)
+        return (apc, pc), nonZeroIndex
   
     def gammaFunction(self, edgelist, call_list):
         """Takes in a list of all edges in a graph, and a list of where function calls are
