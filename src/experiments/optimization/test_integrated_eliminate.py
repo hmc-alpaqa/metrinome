@@ -24,12 +24,10 @@ class DataCollector:
         # log = Log(log_level=LogLevel.REGULAR)
         self.converter = CPPConvert(log)
         self.apc_computer = path_complexity.PathComplexity(log)
-        self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
-        self.fcn_call_apc_time_computer = fc_path_complexity_elim_og.FunctionCallPathComplexity(log)
-        self.optimized_elim_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
-        self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
-        self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
-        self.npath_computer = npath_complexity.NPathComplexity(log)
+        self.og_fcapc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
+        self.fcapc_computer = fc_path_complexity_elim_og.FunctionCallPathComplexity(log)
+        self.nfcapc_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
+        self.rapc_computer = recursive_path_complexity.RecursivePathComplexity(log)
         self.base_path = "/app/code/experiments/function_calls/files/"
 
     # pylint: disable=broad-except
@@ -38,7 +36,7 @@ class DataCollector:
         data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
                              "graphProcessTime": [], "graphSystemsTime": [], "gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
                              "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
-        data_elim = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
+        new_data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
                              "graphProcessTime": [], "graphSystemsTime": [],"gammaTime": [], "discrimTime":[], "realnrootsTime":[], "coeffsTime": [], 
                              "genFuncTime":[], "exprsTime": [],"soluTime":[], "UpboundTime":[], "apcTime2":[],"longest":[]})
         with open('/app/code/experiments/optimization/files.txt') as funcs:
@@ -65,59 +63,34 @@ class DataCollector:
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
                 fcapc: Union[str, PathComplexityRes] = "na"
-                eliminate_apc: Union[str, PathComplexityRes] = "na"
-                npath: Union[str, int] = "na"
-                cyclo: Union[str, int] = "na"
+                nfapc: Union[str, PathComplexityRes] = "na"
                 exception_type = "na"
                 runtime = 0.0
                 rruntime = 0.0
                 fcruntime = 0.0
                 eliminate_runtime = 0.0
 
-
-
-
-                start_time = time.time()
-                try:
-                    with Timeout(200):
-                        fcapc = self.fcn_call_apc_time_computer.evaluate(graph, graphs)
-                        fcruntime = time.time() - start_time
-                        # print(fcapc)
-                except Exception as exc:
-                    print(f"Exception: {exc}")
-                    exception_type = "Timeout" if isinstance(
-                        exc, TimeoutError) else "Other"
-
                 start_time = time.time()
                 try:
                     with Timeout(57600):
-                        nfcapc = self.optimized_elim_computer.evaluate(graph, graphs)
+                        nfcapc = self.nfcapc_computer.evaluate(graph, graphs)
                         nfcapc_runtime = time.time() - start_time
-                        # print(nfcapc)
+                        print(nfcapc)
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
+                
+                new_row = {"file_name": file, "graph_name": graph.name, "nfcapc": nfcapc["nfcapc"], "gamma": nfcapc["gammaTime"], "graphProcess": nfcapc["graphProcessTime"],
+                        "graphSystems":nfcapc["graphSystemsTime"], "discrim": nfcapc["discrimTime"], "realnroots": nfcapc["realnrootsTime"], 
+                        "genFunc":nfcapc["genFuncTime"],"coeffs": nfcapc["coeffsTime"], 
+                        "exprs": nfcapc["exprsTime"], "solu":nfcapc["soluTime"], "Upbound":nfcapc["UpboundTime"], "apcTime2": nfcapc["apcTime2"],
+                        "fcapc_time": nfcapc_runtime,"clean":nfcapc["cleanTime"],"exception_type": exception_type,
+                        "sum":nfcapc["gammaTime"]+nfcapc["graphProcessTime"]+nfcapc["graphSystemsTime"]+nfcapc["discrimTime"]+nfcapc["realnrootsTime"]
+                        +nfcapc["genFuncTime"]+nfcapc["coeffsTime"]+nfcapc["exprsTime"]+nfcapc["soluTime"]+nfcapc["UpboundTime"]+nfcapc["apcTime2"]+nfcapc["cleanTime"]}
+                new_data = new_data.append(new_row, ignore_index = True)
+                new_data = new_data[["graph_name", "nfcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc","coeffs", "exprs",
+                                "solu", "Upbound", "apcTime2", "clean","sum"]]
 
-                # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         recurlist = []
-                #         end = graph.graph.num_vertices - 1
-                #         for node in graph.metadata.calls.keys():
-                #             if graph.name.split(".")[1] in graph.metadata.calls[node]:
-                #                 recurlist += [int(node)]
-                #         oldEdges = graph.graph.edges
-                #         for node in recurlist:
-                #             graph.graph.edges = graph.graph.edges + [[node, 0]]
-                #             graph.graph.edges = graph.graph.edges + \
-                #                 [[end, node]]
-                #         brapc = self.apc_computer.evaluate(graph)
-                #         bruntime = time.time() - start_time
-                #         graph.graph.edges = oldEdges
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
 
                 # start_time = time.time()
                 # try:
@@ -138,70 +111,53 @@ class DataCollector:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
 
-
-
- 
-                # try:
-                #     with Timeout(200):
-                #         cyclo = self.cyclo_computer.evaluate(graph)
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
-
-                # try:
-                #     with Timeout(200):
-                #         npath = self.npath_computer.evaluate(graph)
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
-
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
 
+            for graph_name, graph in graphs.items():
+
+                fcapc: Union[str, PathComplexityRes] = "na"
+                exception_type = "na"
+                fcruntime = 0.0
+
+                start_time = time.time()
+                try:
+                    with Timeout(200):
+                        fcapc = self.fcapc_computer.evaluate(graph, graphs)
+                        fcruntime = time.time() - start_time
+                        # print(fcapc)
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
+                
                 new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc["apc"], "graphSystemsTime": fcapc["graphSystemsTime"],"gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],
-                           "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
-                           "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"], "cleanTime": fcapc["cleanTime"],
-                           "fcapc_time": fcruntime,"exception_type": exception_type}
+                        "discrimTime": fcapc["discrimTime"], "realnrootsTime": fcapc["realnrootsTime"], "coeffsTime": fcapc["coeffsTime"], 
+                        "exprsTime": fcapc["exprsTime"], "soluTime":fcapc["soluTime"], "UpboundTime":fcapc["UpboundTime"], "apcTime2": fcapc["apcTime2"], "cleanTime": fcapc["cleanTime"],
+                        "fcapc_time": fcruntime,"exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index = True)
                 data = data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", "realnrootsTime", "coeffsTime", "exprsTime",
                                 "soluTime", "UpboundTime", "apcTime2", "longest","cleanTime"]]
-                
-                # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
-                # data['fcapc'] = data['fcapc'].apply(lambda x: round_expr(x, 3))
-
-                new_row = {"file_name": file, "graph_name": graph.name, "nfcapc": nfcapc["nfcapc"], "gamma": nfcapc["gammaTime"], "graphProcess": nfcapc["graphProcessTime"],
-                           "graphSystems":nfcapc["graphSystemsTime"], "discrim": nfcapc["discrimTime"], "realnroots": nfcapc["realnrootsTime"], 
-                           "genFunc":nfcapc["genFuncTime"],"coeffs": nfcapc["coeffsTime"], 
-                           "exprs": nfcapc["exprsTime"], "solu":nfcapc["soluTime"], "Upbound":nfcapc["UpboundTime"], "apcTime2": nfcapc["apcTime2"],
-                           "fcapc_time": nfcapc_runtime,"clean":nfcapc["cleanTime"],"exception_type": exception_type,
-                           "sum":nfcapc["gammaTime"]+nfcapc["graphProcessTime"]+nfcapc["graphSystemsTime"]+nfcapc["discrimTime"]+nfcapc["realnrootsTime"]
-                           +nfcapc["genFuncTime"]+nfcapc["coeffsTime"]+nfcapc["exprsTime"]+nfcapc["soluTime"]+nfcapc["UpboundTime"]+nfcapc["apcTime2"]+nfcapc["cleanTime"]}
-                data_elim = data_elim.append(new_row, ignore_index = True)
-                data_elim = data_elim[["graph_name", "nfcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc","coeffs", "exprs",
-                                "solu", "Upbound", "apcTime2", "clean","sum"]]
-                # data_elim['nfcapc'] = data_elim['nfcapc'].apply(lambda x: round_expr(x, 3))
-                
-                print(data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
-                "realnrootsTime", "coeffsTime", "exprsTime",
-                "soluTime", "UpboundTime", "apcTime2","cleanTime"]])
-
-                print(data_elim[["graph_name", "nfcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", 
-                "realnroots", "genFunc","coeffs", "exprs",
-                "solu", "Upbound", "apcTime2","clean"]])
 
 
+            print(data[["graph_name", "fcapc","fcapc_time", "graphProcessTime", "graphSystemsTime","gammaTime", "discrimTime", 
+            "realnrootsTime", "coeffsTime", "exprsTime",
+            "soluTime", "UpboundTime", "apcTime2","cleanTime"]])
 
+            print(new_data[["graph_name", "nfcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", 
+            "realnroots", "genFunc","coeffs", "exprs",
+            "solu", "Upbound", "apcTime2","clean"]])
 
-                # create directory if it doesn't exist
-                if not os.path.exists("/app/code/experiments/optimization/data"):
-                    os.makedirs("/app/code/experiments/optimization/data")
-                data_elim.to_csv(
-                    "/app/code/experiments/optimization/data/elimData.csv")
+            # create directory if it doesn't exist
+            if not os.path.exists("/app/code/experiments/optimization/data"):
+                os.makedirs("/app/code/experiments/optimization/data")
+            new_data.to_csv(
+                "/app/code/experiments/optimization/data/elimData.csv")
 
-                if not os.path.exists("/app/code/experiments/optimization/data"):
-                    os.makedirs("/app/code/experiments/optimization/data")
-                data.to_csv(
-                    "/app/code/experiments/optimization/data/elimOgData.csv")
+            if not os.path.exists("/app/code/experiments/optimization/data"):
+                os.makedirs("/app/code/experiments/optimization/data")
+            data.to_csv(
+                "/app/code/experiments/optimization/data/elimOgData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
     return tuple(round_expr(expr, num_digits) for expr in tup)
