@@ -13,19 +13,19 @@
 //     return addition(x,y);
 // }
 
-// int bad_addition(int x, int y)
-// {
-//     if (y > 0)
-//     {
-//         while (y != 0)
-//         {
-//             x = x + 1;
-//             y = y - 1;
+int bad_addition(int x, int y)
+{
+    if (y > 0)
+    {
+        while (y != 0)
+        {
+            x = x + 1;
+            y = y - 1;
 
-//         }
-//     }
-//     return x + y;
-// }
+        }
+    }
+    return x + y;
+}
 
 // int worst_addition(int x, int y)
 // {
@@ -59,6 +59,27 @@
 //         x = x - 1;
 //     }
 //     return x + y;
+// }
+
+int simple_loop(int x)
+{
+    x = 2;
+    while (x > 1)
+    {
+        x = x - 1;
+    }
+    return x;
+}
+
+// int fcncall_nested_loops(int x)
+// {
+//     x = 2;
+//     while (x > 0)
+//     {
+//         simple_loop(2);
+//         x = x -1;
+//     }
+//     return x;
 // }
 
 int nested_loops(int x)
@@ -288,7 +309,53 @@ int nested_loops(int x)
 
 // int decuple_nested_loops(int x)
 // {
-//     x = 10;
+    // x = 10;
+    // while (x > 0)
+    // {
+    //     while (x > 1)
+    //     {
+    //         while (x > 2)
+    //         {
+    //             while (x > 3)
+    //             {
+    //                 while (x > 4)
+    //                 {
+    //                     while (x > 5)
+    //                     {
+    //                         while (x > 6)
+    //                         {
+    //                             while (x > 7)
+    //                             {
+    //                                 while (x > 8)
+    //                                 {
+    //                                     while (x > 9)
+    //                                     {
+    //                                         x = x - 1;
+    //                                     }
+    //                                     x = x - 1;
+    //                                 }
+    //                                 x = x - 1;
+    //                             }
+    //                             x = x - 1;
+    //                         }
+    //                         x = x - 1;
+    //                     }
+    //                     x = x - 1;
+    //                 }
+    //                 x = x - 1;
+    //             }
+    //             x = x - 1;
+    //         }
+    //         x = x - 1;
+    //     }
+    //     x = x - 1;
+    // }
+//     return x;  
+// }
+
+// int vigintuple_nested_loops(int x)
+// {
+//     x = 20;
 //     while (x > 0)
 //     {
 //         while (x > 1)
@@ -309,6 +376,174 @@ int nested_loops(int x)
 //                                     {
 //                                         while (x > 9)
 //                                         {
+//                                             while (x > 10)
+//                                                 {
+//                                                     while (x > 11)
+//                                                     {
+//                                                         while (x > 12)
+//                                                         {
+//                                                             while (x > 13)
+//                                                             {
+//                                                                 while (x > 14)
+//                                                                 {
+//                                                                     while (x > 15)
+//                                                                     {
+//                                                                         while (x > 16)
+//                                                                         {
+//                                                                             while (x > 17)
+//                                                                             {
+//                                                                                 while (x > 18)
+//                                                                                 {
+//                                                                                     while (x > 19)
+//                                                                                     {
+//                                                                                         x = x - 1;
+//                                                                                     }
+//                                                                                     x = x - 1;
+//                                                                                 }
+//                                                                                 x = x - 1;
+//                                                                             }
+//                                                                             x = x - 1;
+//                                                                         }
+//                                                                         x = x - 1;
+//                                                                     }
+//                                                                     x = x - 1;
+//                                                                 }
+//                                                                 x = x - 1;
+//                                                             }
+//                                                             x = x - 1;
+//                                                         }
+//                                                         x = x - 1;
+//                                                     }
+//                                                     x = x - 1;
+//                                                 }
+//                                             x = x - 1;
+//                                         }
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// int extended_trigintuple_nested_loops(int x)
+// {
+//     x = 20;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         while (x > 9)
+//                                         {
+//                                             while (x > 10)
+//                                                 {
+//                                                     while (x > 11)
+//                                                     {
+//                                                         while (x > 12)
+//                                                         {
+//                                                             while (x > 13)
+//                                                             {
+//                                                                 while (x > 14)
+//                                                                 {
+//                                                                     while (x > 15)
+//                                                                     {
+//                                                                         while (x > 16)
+//                                                                         {
+//                                                                             while (x > 17)
+//                                                                             {
+//                                                                                 while (x > 18)
+//                                                                                 {
+//                                                                                     while (x > 19)
+//                                                                                     {
+//                                                                                          x = 10;
+//                                                                                             while (x > 0)
+//                                                                                             {
+//                                                                                                 while (x > 1)
+//                                                                                                 {
+//                                                                                                     while (x > 2)
+//                                                                                                     {
+//                                                                                                         while (x > 3)
+//                                                                                                         {
+//                                                                                                             while (x > 4)
+//                                                                                                             {
+//                                                                                                                 while (x > 5)
+//                                                                                                                 {
+//                                                                                                                     while (x > 6)
+//                                                                                                                     {
+//                                                                                                                         while (x > 7)
+//                                                                                                                         {
+//                                                                                                                             while (x > 8)
+//                                                                                                                             {
+//                                                                                                                                 while (x > 9)
+//                                                                                                                                 {
+//                                                                                                                                     x = x - 1;
+//                                                                                                                                 }
+//                                                                                                                                 x = x - 1;
+//                                                                                                                             }
+//                                                                                                                             x = x - 1;
+//                                                                                                                         }
+//                                                                                                                         x = x - 1;
+//                                                                                                                     }
+//                                                                                                                     x = x - 1;
+//                                                                                                                 }
+//                                                                                                                 x = x - 1;
+//                                                                                                             }
+//                                                                                                             x = x - 1;
+//                                                                                                         }
+//                                                                                                         x = x - 1;
+//                                                                                                     }
+//                                                                                                     x = x - 1;
+//                                                                                                 }
+//                                                                                                 x = x - 1;
+//                                                                                             }
+//                                                                                         x = 20;
+//                                                                                         x = x - 1;
+//                                                                                     }
+//                                                                                     x = x - 1;
+//                                                                                 }
+//                                                                                 x = x - 1;
+//                                                                             }
+//                                                                             x = x - 1;
+//                                                                         }
+//                                                                         x = x - 1;
+//                                                                     }
+//                                                                     x = x - 1;
+//                                                                 }
+//                                                                 x = x - 1;
+//                                                             }
+//                                                             x = x - 1;
+//                                                         }
+//                                                         x = x - 1;
+//                                                     }
+//                                                     x = x - 1;
+//                                                 }
 //                                             x = x - 1;
 //                                         }
 //                                         x = x - 1;
@@ -506,96 +741,265 @@ int vigintuple_nested_loops(int x)
 //     return x;  
 // }
 
+// int quadragintuple_nested_loops(int x)
+// {
+//     x = 20;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         while (x > 9)
+//                                         {
+//                                             while (x > 10)
+//                                                 {
+//                                                     while (x > 11)
+//                                                     {
+//                                                         while (x > 12)
+//                                                         {
+//                                                             while (x > 13)
+//                                                             {
+//                                                                 while (x > 14)
+//                                                                 {
+//                                                                     while (x > 15)
+//                                                                     {
+//                                                                         while (x > 16)
+//                                                                         {
+//                                                                             while (x > 17)
+//                                                                             {
+//                                                                                 while (x > 18)
+//                                                                                 {
+//                                                                                     while (x > 19)
+//                                                                                     {
+//                                                                                         x = vigintuple_nested_loops(2);
+//                                                                                         x = 20;
+//                                                                                         x = x - 1;
+//                                                                                     }
+//                                                                                     x = x - 1;
+//                                                                                 }
+//                                                                                 x = x - 1;
+//                                                                             }
+//                                                                             x = x - 1;
+//                                                                         }
+//                                                                         x = x - 1;
+//                                                                     }
+//                                                                     x = x - 1;
+//                                                                 }
+//                                                                 x = x - 1;
+//                                                             }
+//                                                             x = x - 1;
+//                                                         }
+//                                                         x = x - 1;
+//                                                     }
+//                                                     x = x - 1;
+//                                                 }
+//                                             x = x - 1;
+//                                         }
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
 
-int quadragintuple_nested_loops(int x)
-{
-    x = 20;
-    while (x > 0)
-    {
-        while (x > 1)
-        {
-            while (x > 2)
-            {
-                while (x > 3)
-                {
-                    while (x > 4)
-                    {
-                        while (x > 5)
-                        {
-                            while (x > 6)
-                            {
-                                while (x > 7)
-                                {
-                                    while (x > 8)
-                                    {
-                                        while (x > 9)
-                                        {
-                                            while (x > 10)
-                                                {
-                                                    while (x > 11)
-                                                    {
-                                                        while (x > 12)
-                                                        {
-                                                            while (x > 13)
-                                                            {
-                                                                while (x > 14)
-                                                                {
-                                                                    while (x > 15)
-                                                                    {
-                                                                        while (x > 16)
-                                                                        {
-                                                                            while (x > 17)
-                                                                            {
-                                                                                while (x > 18)
-                                                                                {
-                                                                                    while (x > 19)
-                                                                                    {
-                                                                                        x = vigintuple_nested_loops(2);
-                                                                                        x = 20;
-                                                                                        x = x - 1;
-                                                                                    }
-                                                                                    x = x - 1;
-                                                                                }
-                                                                                x = x - 1;
-                                                                            }
-                                                                            x = x - 1;
-                                                                        }
-                                                                        x = x - 1;
-                                                                    }
-                                                                    x = x - 1;
-                                                                }
-                                                                x = x - 1;
-                                                            }
-                                                            x = x - 1;
-                                                        }
-                                                        x = x - 1;
-                                                    }
-                                                    x = x - 1;
-                                                }
-                                            x = x - 1;
-                                        }
-                                        x = x - 1;
-                                    }
-                                    x = x - 1;
-                                }
-                                x = x - 1;
-                            }
-                            x = x - 1;
-                        }
-                        x = x - 1;
-                    }
-                    x = x - 1;
-                }
-                x = x - 1;
-            }
-            x = x - 1;
-        }
-        x = x - 1;
-    }
-    return x;  
-}
+// int extended_quadragintuple_nested_loops(int x)
+// {
+//     x = 20;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         while (x > 9)
+//                                         {
+//                                             while (x > 10)
+//                                             {
+//                                                 while (x > 11)
+//                                                 {
+//                                                     while (x > 12)
+//                                                     {
+//                                                         while (x > 13)
+//                                                         {
+//                                                             while (x > 14)
+//                                                             {
+//                                                                 while (x > 15)
+//                                                                 {
+//                                                                     while (x > 16)
+//                                                                     {
+//                                                                         while (x > 17)
+//                                                                         {
+//                                                                             while (x > 18)
+//                                                                             {
+//                                                                                 while (x > 19)
+//                                                                                 {
+//                                                                                     x = 20;
+//                                                                                     while (x > 0)
+//                                                                                     {
+//                                                                                         while (x > 1)
+//                                                                                         {
+//                                                                                             while (x > 2)
+//                                                                                             {
+//                                                                                                 while (x > 3)
+//                                                                                                 {
+//                                                                                                     while (x > 4)
+//                                                                                                     {
+//                                                                                                         while (x > 5)
+//                                                                                                         {
+//                                                                                                             while (x > 6)
+//                                                                                                             {
+//                                                                                                                 while (x > 7)
+//                                                                                                                 {
+//                                                                                                                     while (x > 8)
+//                                                                                                                     {
+//                                                                                                                         while (x > 9)
+//                                                                                                                         {
+//                                                                                                                             while (x > 10)
+//                                                                                                                             {
+//                                                                                                                                 while (x > 11)
+//                                                                                                                                 {
+//                                                                                                                                     while (x > 12)
+//                                                                                                                                     {
+//                                                                                                                                         while (x > 13)
+//                                                                                                                                         {
+//                                                                                                                                             while (x > 14)
+//                                                                                                                                             {
+//                                                                                                                                                 while (x > 15)
+//                                                                                                                                                 {
+//                                                                                                                                                     while (x > 16)
+//                                                                                                                                                     {
+//                                                                                                                                                         while (x > 17)
+//                                                                                                                                                         {
+//                                                                                                                                                             while (x > 18)
+//                                                                                                                                                             {
+//                                                                                                                                                                 while (x > 19)
+//                                                                                                                                                                 {
+//                                                                                                                                                                     x = 20;
+//                                                                                                                                                                     x = x - 1;
+//                                                                                                                                                                 }
+//                                                                                                                                                                 x = x - 1;
+//                                                                                                                                                             }
+//                                                                                                                                                             x = x - 1;
+//                                                                                                                                                         }
+//                                                                                                                                                         x = x - 1;
+//                                                                                                                                                     }
+//                                                                                                                                                     x = x - 1;
+//                                                                                                                                                 }
+//                                                                                                                                                 x = x - 1;
+//                                                                                                                                             }
+//                                                                                                                                             x = x - 1;
+//                                                                                                                                         }
+//                                                                                                                                         x = x - 1;
+//                                                                                                                                     }
+//                                                                                                                                     x = x - 1;
+//                                                                                                                                 }
+//                                                                                                                                 x = x - 1;
+//                                                                                                                             }
+//                                                                                                                             x = x - 1;
+//                                                                                                                         }
+//                                                                                                                         x = x - 1;
+//                                                                                                                     }
+//                                                                                                                     x = x - 1;
+//                                                                                                                 }
+//                                                                                                                 x = x - 1;
+//                                                                                                             }
+//                                                                                                             x = x - 1;
+//                                                                                                         }
+//                                                                                                         x = x - 1;
+//                                                                                                     }
+//                                                                                                     x = x - 1;
+//                                                                                                 }
+//                                                                                                 x = x - 1;
+//                                                                                             }
+//                                                                                             x = x - 1;
+//                                                                                         }
+//                                                                                         x = x - 1;
+//                                                                                     }
+//                                                                                 }
+//                                                                                 x = x - 1;
+//                                                                             }
+//                                                                             x = x - 1;
+//                                                                         }
+//                                                                         x = x - 1;
+//                                                                     }
+//                                                                     x = x - 1;
+//                                                                 }
+//                                                                 x = x - 1;
+//                                                             }
+//                                                             x = x - 1;
+//                                                         }
+//                                                         x = x - 1;
+//                                                     }
+//                                                     x = x - 1;
+//                                                 }
+//                                                 x = x - 1;
+//                                             }
+//                                             x = x - 1;
+//                                         }
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
 
-// int octogintuple_nested_loops(int x)
+// //THIS IS ACTUALLY SIXTY BRO: 40 + 20 = 60
+// // Changed name from octogintuple_nested_loops to sexagintuple_nested_loops on
+// // June 21, 2023. 09 AM
+// int sexagintuple_nested_loops(int x)
 // {
 //     x = 20;
 //     while (x > 0)
@@ -639,6 +1043,343 @@ int quadragintuple_nested_loops(int x)
 //                                                                                     while (x > 19)
 //                                                                                     {
 //                                                                                         x = quadragintuple_nested_loops(2);
+//                                                                                         x = 20;
+//                                                                                         x = x - 1;
+//                                                                                     }
+//                                                                                     x = x - 1;
+//                                                                                 }
+//                                                                                 x = x - 1;
+//                                                                             }
+//                                                                             x = x - 1;
+//                                                                         }
+//                                                                         x = x - 1;
+//                                                                     }
+//                                                                     x = x - 1;
+//                                                                 }
+//                                                                 x = x - 1;
+//                                                             }
+//                                                             x = x - 1;
+//                                                         }
+//                                                         x = x - 1;
+//                                                     }
+//                                                     x = x - 1;
+//                                                 }
+//                                             x = x - 1;
+//                                         }
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// int extended_sexagintuple_nested_loops(int x)
+// {
+//     x = 20;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         while (x > 9)
+//                                         {
+//                                             while (x > 10)
+//                                             {
+//                                                 while (x > 11)
+//                                                 {
+//                                                     while (x > 12)
+//                                                     {
+//                                                         while (x > 13)
+//                                                         {
+//                                                             while (x > 14)
+//                                                             {
+//                                                                 while (x > 15)
+//                                                                 {
+//                                                                     while (x > 16)
+//                                                                     {
+//                                                                         while (x > 17)
+//                                                                         {
+//                                                                             while (x > 18)
+//                                                                             {
+//                                                                                 while (x > 19)
+//                                                                                 {
+//                                                                                     x = 20;
+//                                                                                     while (x > 0)
+//                                                                                     {
+//                                                                                         while (x > 1)
+//                                                                                         {
+//                                                                                             while (x > 2)
+//                                                                                             {
+//                                                                                                 while (x > 3)
+//                                                                                                 {
+//                                                                                                     while (x > 4)
+//                                                                                                     {
+//                                                                                                         while (x > 5)
+//                                                                                                         {
+//                                                                                                             while (x > 6)
+//                                                                                                             {
+//                                                                                                                 while (x > 7)
+//                                                                                                                 {
+//                                                                                                                     while (x > 8)
+//                                                                                                                     {
+//                                                                                                                         while (x > 9)
+//                                                                                                                         {
+//                                                                                                                             while (x > 10)
+//                                                                                                                                 {
+//                                                                                                                                     while (x > 11)
+//                                                                                                                                     {
+//                                                                                                                                         while (x > 12)
+//                                                                                                                                         {
+//                                                                                                                                             while (x > 13)
+//                                                                                                                                             {
+//                                                                                                                                                 while (x > 14)
+//                                                                                                                                                 {
+//                                                                                                                                                     while (x > 15)
+//                                                                                                                                                     {
+//                                                                                                                                                         while (x > 16)
+//                                                                                                                                                         {
+//                                                                                                                                                             while (x > 17)
+//                                                                                                                                                             {
+//                                                                                                                                                                 while (x > 18)
+//                                                                                                                                                                 {
+//                                                                                                                                                                     while (x > 19)
+//                                                                                                                                                                     {
+//                                                                                                                                                                         x = 20;
+//                                                                                                                                                                         while (x > 0)
+//                                                                                                                                                                         {
+//                                                                                                                                                                             while (x > 1)
+//                                                                                                                                                                             {
+//                                                                                                                                                                                 while (x > 2)
+//                                                                                                                                                                                 {
+//                                                                                                                                                                                     while (x > 3)
+//                                                                                                                                                                                     {
+//                                                                                                                                                                                         while (x > 4)
+//                                                                                                                                                                                         {
+//                                                                                                                                                                                             while (x > 5)
+//                                                                                                                                                                                             {
+//                                                                                                                                                                                                 while (x > 6)
+//                                                                                                                                                                                                 {
+//                                                                                                                                                                                                     while (x > 7)
+//                                                                                                                                                                                                     {
+//                                                                                                                                                                                                         while (x > 8)
+//                                                                                                                                                                                                         {
+//                                                                                                                                                                                                             while (x > 9)
+//                                                                                                                                                                                                             {
+//                                                                                                                                                                                                                 while (x > 10)
+//                                                                                                                                                                                                                 {
+//                                                                                                                                                                                                                     while (x > 11)
+//                                                                                                                                                                                                                     {
+//                                                                                                                                                                                                                         while (x > 12)
+//                                                                                                                                                                                                                         {
+//                                                                                                                                                                                                                             while (x > 13)
+//                                                                                                                                                                                                                             {
+//                                                                                                                                                                                                                                 while (x > 14)
+//                                                                                                                                                                                                                                 {
+//                                                                                                                                                                                                                                     while (x > 15)
+//                                                                                                                                                                                                                                     {
+//                                                                                                                                                                                                                                         while (x > 16)
+//                                                                                                                                                                                                                                         {
+//                                                                                                                                                                                                                                             while (x > 17)
+//                                                                                                                                                                                                                                             {
+//                                                                                                                                                                                                                                                 while (x > 18)
+//                                                                                                                                                                                                                                                 {
+//                                                                                                                                                                                                                                                     while (x > 19)
+//                                                                                                                                                                                                                                                     {
+//                                                                                                                                                                                                                                                         x = 20;
+//                                                                                                                                                                                                                                                         x = x - 1;
+//                                                                                                                                                                                                                                                     }
+//                                                                                                                                                                                                                                                     x = x - 1;
+//                                                                                                                                                                                                                                                 }
+//                                                                                                                                                                                                                                                 x = x - 1;
+//                                                                                                                                                                                                                                             }
+//                                                                                                                                                                                                                                             x = x - 1;
+//                                                                                                                                                                                                                                         }
+//                                                                                                                                                                                                                                         x = x - 1;
+//                                                                                                                                                                                                                                     }
+//                                                                                                                                                                                                                                     x = x - 1;
+//                                                                                                                                                                                                                                 }
+//                                                                                                                                                                                                                                 x = x - 1;
+//                                                                                                                                                                                                                             }
+//                                                                                                                                                                                                                             x = x - 1;
+//                                                                                                                                                                                                                         }
+//                                                                                                                                                                                                                         x = x - 1;
+//                                                                                                                                                                                                                     }
+//                                                                                                                                                                                                                     x = x - 1;
+//                                                                                                                                                                                                                 }
+//                                                                                                                                                                                                                 x = x - 1;
+//                                                                                                                                                                                                             }
+//                                                                                                                                                                                                             x = x - 1;
+//                                                                                                                                                                                                         }
+//                                                                                                                                                                                                         x = x - 1;
+//                                                                                                                                                                                                     }
+//                                                                                                                                                                                                     x = x - 1;
+//                                                                                                                                                                                                 }
+//                                                                                                                                                                                                 x = x - 1;
+//                                                                                                                                                                                             }
+//                                                                                                                                                                                             x = x - 1;
+//                                                                                                                                                                                         }
+//                                                                                                                                                                                         x = x - 1;
+//                                                                                                                                                                                     }
+//                                                                                                                                                                                     x = x - 1;
+//                                                                                                                                                                                 }
+//                                                                                                                                                                                 x = x - 1;
+//                                                                                                                                                                             }
+//                                                                                                                                                                             x = x - 1;
+//                                                                                                                                                                         }
+//                                                                                                                                                                     }
+//                                                                                                                                                                     x = x - 1;
+//                                                                                                                                                                 }
+//                                                                                                                                                                 x = x - 1;
+//                                                                                                                                                             }
+//                                                                                                                                                             x = x - 1;
+//                                                                                                                                                         }
+//                                                                                                                                                         x = x - 1;
+//                                                                                                                                                     }
+//                                                                                                                                                     x = x - 1;
+//                                                                                                                                                 }
+//                                                                                                                                                 x = x - 1;
+//                                                                                                                                             }
+//                                                                                                                                             x = x - 1;
+//                                                                                                                                         }
+//                                                                                                                                         x = x - 1;
+//                                                                                                                                     }
+//                                                                                                                                     x = x - 1;
+//                                                                                                                                 }
+//                                                                                                                             x = x - 1;
+//                                                                                                                         }
+//                                                                                                                         x = x - 1;
+//                                                                                                                     }
+//                                                                                                                     x = x - 1;
+//                                                                                                                 }
+//                                                                                                                 x = x - 1;
+//                                                                                                             }
+//                                                                                                             x = x - 1;
+//                                                                                                         }
+//                                                                                                         x = x - 1;
+//                                                                                                     }
+//                                                                                                     x = x - 1;
+//                                                                                                 }
+//                                                                                                 x = x - 1;
+//                                                                                             }
+//                                                                                             x = x - 1;
+//                                                                                         }
+//                                                                                         x = x - 1;
+//                                                                                     }
+//                                                                                 }
+//                                                                                 x = x - 1;
+//                                                                             }
+//                                                                             x = x - 1;
+//                                                                         }
+//                                                                         x = x - 1;
+//                                                                     }
+//                                                                     x = x - 1;
+//                                                                 }
+//                                                                 x = x - 1;
+//                                                             }
+//                                                             x = x - 1;
+//                                                         }
+//                                                         x = x - 1;
+//                                                     }
+//                                                     x = x - 1;
+//                                                 }
+//                                                 x = x - 1;
+//                                             }
+//                                             x = x - 1;
+//                                         }
+//                                         x = x - 1;
+//                                     }
+//                                     x = x - 1;
+//                                 }
+//                                 x = x - 1;
+//                             }
+//                             x = x - 1;
+//                         }
+//                         x = x - 1;
+//                     }
+//                     x = x - 1;
+//                 }
+//                 x = x - 1;
+//             }
+//             x = x - 1;
+//         }
+//         x = x - 1;
+//     }
+//     return x;  
+// }
+
+// // Changed name from actual_octogintuple_nested_loops to octogintuple_nested_loops 
+// // on June 21, 2023. 09 AM
+// int octogintuple_nested_loops(int x)
+// {
+//     x = 20;
+//     while (x > 0)
+//     {
+//         while (x > 1)
+//         {
+//             while (x > 2)
+//             {
+//                 while (x > 3)
+//                 {
+//                     while (x > 4)
+//                     {
+//                         while (x > 5)
+//                         {
+//                             while (x > 6)
+//                             {
+//                                 while (x > 7)
+//                                 {
+//                                     while (x > 8)
+//                                     {
+//                                         while (x > 9)
+//                                         {
+//                                             while (x > 10)
+//                                                 {
+//                                                     while (x > 11)
+//                                                     {
+//                                                         while (x > 12)
+//                                                         {
+//                                                             while (x > 13)
+//                                                             {
+//                                                                 while (x > 14)
+//                                                                 {
+//                                                                     while (x > 15)
+//                                                                     {
+//                                                                         while (x > 16)
+//                                                                         {
+//                                                                             while (x > 17)
+//                                                                             {
+//                                                                                 while (x > 18)
+//                                                                                 {
+//                                                                                     while (x > 19)
+//                                                                                     {
+//                                                                                         x = sexagintuple_nested_loops(2);
 //                                                                                         x = 20;
 //                                                                                         x = x - 1;
 //                                                                                     }
