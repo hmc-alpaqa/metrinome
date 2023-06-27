@@ -462,7 +462,6 @@ class FunctionCallPathComplexity(ABC):
 
     def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool):
         if len(system) == 1:
-            # print("hi done")
             return system[0]
         # print("=====run for",symbs[-1])
         # print("b4 making sub var")
@@ -538,15 +537,9 @@ class FunctionCallPathComplexity(ABC):
                 TlookupDict[var].add(symbs[idx][0])
             Teqns += [Teqn]
             #print(Teqn)
-        print("onto T elims")
         Tsyms = [syms[0] for syms in symbs]
-        print("into T elims")
         gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False)
-        print("okie")
-        #gamma = sympy.expand(gamma)
-        #print("expanded")
-        gamma = sympy.simplify(gamma)
-        print("simplified")
+        # gamma = sympy.simplify(gamma)
         return gamma
 
     def calculateDiscrim(self, polynomial):
