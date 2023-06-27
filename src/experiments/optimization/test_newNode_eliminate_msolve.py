@@ -74,10 +74,10 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(2000):
+                    with Timeout(4000):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
-                        print("======================running new fcn_call_path_complexity for 2000 seconds=======================")
+                        print("======================running new fcn_call_path_complexity for 4000 seconds=======================")
                         nfcapc = self.fcn_call_apc_new_computer.evaluate(graph, graphs)
                         nfcruntime = time.time() - start_time
                 except Exception as exc:
@@ -86,10 +86,10 @@ class DataCollector:
 
                 start_time = time.time()
                 try:
-                    with Timeout(100):
+                    with Timeout(200):
                         # if graph_name != 'fcn_calls_cfg._Z15mergeSortSimplePiii.dot':
                         #     continue
-                        print("=====================running old fcn_call_path_complexity for 100 seconds=========================")
+                        print("=====================running old fcn_call_path_complexity for 200 seconds=========================")
                         fcapc = self.fcn_call_apc_computer.evaluate(graph, graphs)
                         fcruntime = time.time() - start_time
                 except Exception as exc:
@@ -151,21 +151,21 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "rapc": rapc, "nfcapc": nfcapc, 'fcapc':fcapc, "cyclo": cyclo, "npath": npath,
+                           "rapc": rapc, "nfcapc": nfcapc["nfcapc"], 'fcapc':fcapc, "cyclo": cyclo, "npath": npath,
                            "apc_time": runtime, "rapc_time": rruntime, "nfcapc_time": nfcruntime, "fcapc_time":fcruntime,
+                           "longest for nfcapc": get_max_time(nfcapc)[0], "longest time portion":(get_max_time(nfcapc)[1])/nfcruntime,
                            "num_vertices": graph.graph.num_vertices,
                            "edge_count": graph.graph.edge_count(),
                            "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "apc","rapc", "nfcapc", 'fcapc', "apc_time","rapc_time","nfcapc_time",'fcapc_time']]
+                data = data[["graph_name", "apc","rapc", "nfcapc", 'fcapc', "apc_time","rapc_time","nfcapc_time",'fcapc_time', "longest for nfcapc", "longest time portion"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name", "apc","rapc", "nfcapc", 'fcapc', "apc_time","rapc_time","nfcapc_time",'fcapc_time']])
-
+                print(data[["graph_name", "apc","rapc", "nfcapc", 'fcapc', "apc_time","rapc_time","nfcapc_time",'fcapc_time', "longest for nfcapc", "longest time portion"]])
 
 
                 # create directory if it doesn't exist
@@ -180,6 +180,17 @@ def round_tuple_of_exprs(tup, num_digits):
 def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
+def get_max_time(apc):
+    l = ["graphProcessTime","graphSystemsTime", "gammaTime", "discrimTime", 
+        "realnrootsTime", "genFuncTime", "coeffsTime", "exprsTime","soluTime", "UpboundTime","apcTime2","cleanTime"]
+    maxTime  = apc[l[0]]
+    maxName = 'graphProcessTime'
+    for name in l:
+        if apc[name] > maxTime:
+            maxTime = apc[name]
+            maxName = name
+    maxTime = round(maxTime,3)
+    return (maxName,maxTime)
 
 def main() -> None:
     """Compute metrics for many graphs."""

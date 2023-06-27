@@ -227,6 +227,7 @@ class FunctionCallPathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
+            pc = sympy.N(pc)
             #self.logger.d_msg(f"pc: {pc}")
             # if type(pc) == sympy.Add:
             #     print("ADD")
@@ -246,6 +247,7 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"rStar: {rStar}")
             pc = sympy.N(1/rStar)**symbols("n")
             apcTime2 = time.time()-start_time
+            
         self.logger.d_msg(f"pc: {pc}")
         start_time = time.time()
         apc = pc
@@ -254,7 +256,7 @@ class FunctionCallPathComplexity(ABC):
             apc = big_o(list(pc.args))
         if "I" in str(apc):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
-        apc = sympy.N(apc)
+        # apc = sympy.N(apc)
         cleanTime = time.time() - start_time
         self.logger.d_msg(f"apc: {apc}, cleanTime: {cleanTime}")
         self.apc_times["discrimTime"] = discrimTime
@@ -467,6 +469,7 @@ class FunctionCallPathComplexity(ABC):
         sol = []
         #print(system[-1])
         #print(lookupDict)
+        print(symbs[-1])
         symb_idx = int(str(symbs[-1])[1:].split("_")[-1])
         if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
             for eqn_symb in lookupDict[symbs[-1]]:
