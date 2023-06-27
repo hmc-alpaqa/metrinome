@@ -268,6 +268,7 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["UpboundTime"] = UpboundTime
         self.apc_times["apcTime2"] = apcTime2
         self.apc_times["cleanTime"] = cleanTime
+        self.apc_times["numNodes"] = numNodes
         return (apc, pc)
   
     def processGraphs(self, graph, all_graphs):
