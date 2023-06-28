@@ -92,7 +92,7 @@ class FunctionCallPathComplexity(ABC):
         discrimTime = 0.0
         realnrootsTime = 0.0
         genFuncTime = 0.0
-        rootDictTime = 0.0
+        rootsDictTime = 0.0
         coeffsTime = 0.0
         exprsTime = 0.0
         soluTime = 0.0
