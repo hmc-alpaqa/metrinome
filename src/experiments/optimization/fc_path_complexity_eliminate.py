@@ -340,10 +340,13 @@ class FunctionCallPathComplexity(ABC):
                     lookupDict[var].add(sym)
                     if str(node) in curr_graph: #makes sure the end node is not terminal
                         expr = expr + var*x
-                    else:
+                    else:                       # node is terminal
                         expr = expr + x
+                        for called_fcn_idx in calldict[node]: # edge case: terminal node calls a function (see: fcn_calls/partition)
+                            numCalls[called_fcn_idx] += 1
+
                 
-                for called_fcn_idx in calldict[startnode]:
+                for called_fcn_idx in calldict[startnode]: # handle function calls for all non-terminal nodes  (all nodes in startnodes)
                     numCalls[called_fcn_idx] += 1
                     expr =  init_nodes[called_fcn_idx] * expr
                 system += [expr - sym]
