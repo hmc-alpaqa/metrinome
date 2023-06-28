@@ -43,6 +43,7 @@
 //     return x1;
 // }
 
+// Goes to Case 1
 // int gcd(int a, int b)
 // {
 //     while (a != b)
@@ -105,6 +106,7 @@
 //     return fact(n) + fact(n);
 // }
 
+// Goes to Case 2
 // int fib_rec(int n)
 // {
 //     if (n > 2)
@@ -117,6 +119,7 @@
 //     }
 // }
 
+// Goes to Case 2
 // void mergeSortSimple(int arr[], int l, int r)
 // {
 //     if (l < r)
@@ -140,27 +143,28 @@
 //     return fact(n) + fact(n) + fact(n);
 // }
 
-// int gcd(int a, int b)
-// {
-//     while (a != b)
-//     {
-//         if (a > b)
-//         {
-//             a = a - b;
-//         }
-//         else
-//         {
-//             b = b - a;
-//         }
-//     }
-//     return a;
-// }
+int gcd(int a, int b)
+{
+    while (a != b)
+    {
+        if (a > b)
+        {
+            a = a - b;
+        }
+        else
+        {
+            b = b - a;
+        }
+    }
+    return a;
+}
 
-// int gcd_wrapper(int a, int b)
-// {
-//     return gcd(a, b);
-// }
+int gcd_wrapper(int a, int b)
+{
+    return gcd(a, b);
+}
 
+// Goes to Case 1
 // void merge(int arr[], int l, int m, int r)
 // {
 //     int i, j, k;
@@ -212,6 +216,7 @@
 //     }
 // }
 
+// // Goes to Case 2
 // void mergeSort(int arr[], int l, int r)
 // {
 //     if (l < r)
@@ -227,6 +232,7 @@
 //     }
 // }
 
+// // Goes to Case 2
 // void mergeSortSingleFcn(int A[], int n)
 // {
 //     if (n <= 1)
@@ -275,6 +281,7 @@
 //     return;
 // }
 
+// // Goes to Case 1
 // void swap(int *a, int *b)
 // {
 //     int temp = *a;
@@ -282,6 +289,7 @@
 //     *b = temp;
 // }
 
+// // Goes to Case 1
 // int partition(int arr[], int low, int high)
 // {
 //     int pivot = arr[high];
@@ -299,6 +307,7 @@
 //     return (i + 1);
 // }
 
+// // Goes to Case 2
 // void quickSort(int arr[], int low, int high)
 // {
 //     if (low < high)
@@ -320,6 +329,7 @@
 //     return sum;
 // }
 
+// // Goes to Case 1
 // bool is_even(int n)
 // {
 //     if (n == 0)
@@ -332,6 +342,7 @@
 //     }
 // }
 
+// // Goes to Case 1
 // bool is_odd(int n)
 // {
 //     if (n == 0)
@@ -377,6 +388,7 @@
 //     }
 // }
 
+// Goes to Case 1
 // void heapify(int arr[], int n, int i)
 // {
 //     int largest = i;
