@@ -49,10 +49,12 @@ class FunctionCallPathComplexity(ABC):
         # print('')
         graphSystemsTime = 0.0
         start_time = time.time()
-        splitsystems, splitsymbols, lookupDict, numNodes = self.graphsToSystems(dictgraphs, calldict)
+        splitsystems, splitsymbols, lookupDict, numNodes, idxDict = self.graphsToSystems(dictgraphs, calldict)
         self.logger.d_msg(f"split systems: {splitsystems}")
         self.logger.d_msg(f"split symbols: {splitsymbols}")
+        print(cfg.rich_repr())
         self.logger.d_msg(f"lookup dict: {lookupDict}")
+        self.logger.d_msg(f"idx dict: {idxDict}")
         self.logger.d_msg(f"num nodes: {numNodes}")
         graphSystemsTime = time.time() - start_time
         # modSystems = copy.deepcopy(splitsystems)
@@ -64,7 +66,7 @@ class FunctionCallPathComplexity(ABC):
         #ISSUE STARTS W/ SELF.ELIMINATE
         #simpleGamma = self.eliminate(fullsystem,fullsymbols)
         #modGamma = self.modEliminate(modSystems,modSymbols)
-        optimizedGamma = self.optimizedEliminate(splitsystems, splitsymbols, lookupDict)
+        optimizedGamma = self.optimizedEliminate(splitsystems, splitsymbols, lookupDict, idxDict)
         gammaTime = time.time() - start_time
         self.logger.d_msg(f"Gamma Function: {optimizedGamma}, time: {gammaTime}")
         # print(f'simpleGamma: {simpleGamma}')
@@ -90,6 +92,7 @@ class FunctionCallPathComplexity(ABC):
         discrimTime = 0.0
         realnrootsTime = 0.0
         genFuncTime = 0.0
+        rootDictTime = 0.0
         coeffsTime = 0.0
         exprsTime = 0.0
         soluTime = 0.0
@@ -123,13 +126,13 @@ class FunctionCallPathComplexity(ABC):
                     possibleGenFunc += [gen]
             if len(possibleGenFunc) == 1:
                 genFunc = possibleGenFunc[0]/(1-x)
-                
+                genFunc = sympy.simplify(sympy.factor(genFunc)) # simplifies generating function :)
                 self.logger.d_msg(f"Generating Function: {genFunc}")
             else:
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
             genFuncTime = time.time()-start_time
-            #coeffs time starts here
+            #rootsDict time starts here
             start_time = time.time()
             denominator = 1
             for factor in genFunc.args:
@@ -143,7 +146,7 @@ class FunctionCallPathComplexity(ABC):
                     maxPow = power
             rootsDict = sympy.roots(denominator)
             numRoots = sum(rootsDict.values())
-            self.logger.d_msg(f"numRoots: {numRoots}")
+            
             self.logger.d_msg(f"denominator: {denominator}")
             if numRoots < maxPow:
                 newRootsDict = {}
@@ -162,8 +165,12 @@ class FunctionCallPathComplexity(ABC):
             if numRoots < maxPow:
                 raise Exception("Can't find all the roots :(")
             self.logger.d_msg(f"Found all Roots")
-            self.logger.d_msg(f"rootsDict: {rootsDict}")
-
+            self.logger.d_msg(f"numRoots: {numRoots}")
+            rootsDictTime = time.time() - start_time
+            self.logger.d_msg(f"rootsDict: {rootsDict}, time: {rootsDictTime}")
+            
+            # coeff time starts here
+            start_time = time.time()
             coeffs = [0]*(numRoots + numNodes)
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
@@ -262,6 +269,7 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["discrimTime"] = discrimTime
         self.apc_times["realnrootsTime"] = realnrootsTime
         self.apc_times["genFuncTime"] = genFuncTime
+        self.apc_times["rootsDictTime"] = rootsDictTime
         self.apc_times["coeffsTime"] = coeffsTime
         self.apc_times["exprsTime"] = exprsTime
         self.apc_times["soluTime"] = soluTime
@@ -285,6 +293,7 @@ class FunctionCallPathComplexity(ABC):
             curr_graph_calls = curr_graph.metadata.calls
             fcn_idx = used_graphs.index(curr_graph_name.split(".")[-1])
             curr_graph_edges = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in curr_graph_edges]
+            #print(curr_graph_edges)
             edgedict = defaultdict(list)
             nodes = set()
             for edge in curr_graph_edges: #reformatting our graph from edgelist form to dictionary form
@@ -312,6 +321,7 @@ class FunctionCallPathComplexity(ABC):
     def graphsToSystems(self, dictgraphs, calldict):
         #print(dictgraphs)
         lookupDict = defaultdict(set)
+        idxDict = {}
         x = symbols("x")
         num_cfgs = len(dictgraphs)
         init_nodes = [symbols(f'T{i}') for i in range(num_cfgs)]
@@ -325,14 +335,17 @@ class FunctionCallPathComplexity(ABC):
         for fcn_idx in range(len(dictgraphs)):
             curr_graph = dictgraphs[fcn_idx]
             init_node = init_nodes[fcn_idx]
+            idxDict[init_node] = [0, int(str(init_node)[1:])]
             system = []
             symbs = []
+            idx_counter = 1
             for startnode in curr_graph:
                 endnodes = curr_graph[startnode]
                 expr = 0
                 sym = symbols("V" + str(startnode)) #chr(int(startnode) + 65)
                 symbs += [sym]
                 lookupDict[sym].add(sym)
+                idxDict[sym] = [idx_counter]
                 #print(fcn_idx, endnodes)
                 for node in endnodes:
                     graphNodes[fcn_idx].add(node)
@@ -350,6 +363,7 @@ class FunctionCallPathComplexity(ABC):
                     numCalls[called_fcn_idx] += 1
                     expr =  init_nodes[called_fcn_idx] * expr
                 system += [expr - sym]
+                idx_counter = idx_counter + 1
             
             if init_node not in symbs:
                 symbs = [init_node] + symbs
@@ -367,7 +381,7 @@ class FunctionCallPathComplexity(ABC):
         numGraphNodes = [(len(singleGraphNodes) + 2) for singleGraphNodes in graphNodes]
         # dot product is the numNodes for coeffs
         dot_product = sum([x * y for x, y in zip(numGraphNodes, numCalls)])
-        return splitsystems, splitsymbols, lookupDict, dot_product
+        return splitsystems, splitsymbols, lookupDict, dot_product, idxDict
 
     def modPartialEliminate(self, system, symbs):
         """Takes in a system of equations and gets the gamma function"""
@@ -463,7 +477,9 @@ class FunctionCallPathComplexity(ABC):
     #     return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices)
 
 
-    def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool):
+    def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool, idxDict):
+        #print("hi")
+        #print("LEN",len(system))
         if len(system) == 1:
             return system[0]
         # print("=====run for",symbs[-1])
@@ -471,32 +487,27 @@ class FunctionCallPathComplexity(ABC):
         sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
         # print("after making sub var")
         sol = []
-        #print(system[-1])
-        #print(lookupDict)
-        print(symbs[-1])
-        symb_idx = int(str(symbs[-1])[1:].split("_")[-1])
+        #print("eliminating",symbs[-1])
+        if vertices == False:
+            symb_idx = idxDict[symbs[-1]][1]
+        else:
+            symb_idx = idxDict[symbs[-1]][0]
         if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
             for eqn_symb in lookupDict[symbs[-1]]:
                 if vertices == False:
-                    eq_idx = int(str(eqn_symb)[1:])
-                elif "T" in str(eqn_symb):
-                    eq_idx = 0
+                    eq_idx = idxDict[eqn_symb][1]
                 else:
-                    eq_idx = int(str(eqn_symb)[1:].split("_")[1]) + 1
+                    eq_idx = idxDict[eqn_symb][0]
                 if eq_idx > symb_idx:
-                    if (str(eqn_symb)[0] != "T") or (str(symbs[-1])[0] != "V"):
-                        continue
-                    else:
-                        pass
+                    continue
+                else:
+                    pass
                 eq = system[eq_idx]
                 if symbs[-1] in eq.free_symbols:
                     sol = sympy.solve(eq, symbs[-1], dict=True)
-                    # print("solve done")
                     if len(sol) == 1:
-                        # print(sol)
                         #sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
-                        # print("into substitution")
-                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
+                        sub = sub.subs(symbs[-1], sol[0][symbs[-1]])
                         # print("done w substitution")
                         break
         if symbs[-1] in sub.free_symbols:
@@ -506,34 +517,36 @@ class FunctionCallPathComplexity(ABC):
             # print("eq_symb",eqn_symb)
             if vertices == False:
                 # print("case1")
-                eq_idx = int(str(eqn_symb)[1:])
-            elif "T" in str(eqn_symb):
-                # print("case2")
-                eq_idx = 0
+                eq_idx = idxDict[eqn_symb][1]
             else:
-                # print("case3")
-                eq_idx = int(str(eqn_symb)[1:].split("_")[1]) + 1
+                # print("case2")
+                eq_idx = idxDict[eqn_symb][0]
                 # print(eq_idx)
             if eq_idx <= symb_idx:
                 # print("sub eqn found")
                 eq = system[eq_idx]
                 if symbs[-1] in eq.free_symbols:
                     # print("substitution pt.2")
-                    system[eq_idx] = sympy.expand(eq.subs(symbs[-1], sub))
+                    system[eq_idx] = eq.subs(symbs[-1], sub)
+                    if symbs[-1] in system[eq_idx].free_symbols:
+                        self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+                #print("OG SYM",symbs[-1],"IN EQN SYMB",eqn_symb, "LEN IDX",symb_idx, "SUBS IDX",eq_idx, "FIN EQN",system[eq_idx])
                     # print("done w sub pt. 2")
         # for count, eq in enumerate(system):
         #     if symbs[-1] in eq.free_symbols:
         #         system[count] = sympy.expand(eq.subs(symbs[-1], sub))
         # print("run done")
-        return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices)
+        #print(system)
+        return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices, idxDict)
 
-    def optimizedEliminate(self, systems, symbs, lookupDict):
+    def optimizedEliminate(self, systems, symbs, lookupDict, idxDict):
         # print("IN OPTIMIZED ELIMINATE")
         """Takes in a system of equations and gets the gamma function"""
         Teqns = []
         TlookupDict = defaultdict(set)
         for idx, system in enumerate(systems):
-            Teqn = sympy.simplify(self.optimizedPartialEliminate(system, symbs[idx], lookupDict, True))
+            Teqn = self.optimizedPartialEliminate(system, symbs[idx], lookupDict, True, idxDict)
+            Teqn = sympy.simplify(Teqn)
             for var in Teqn.free_symbols:
                 if var == symbols("x"):
                     continue
@@ -541,8 +554,10 @@ class FunctionCallPathComplexity(ABC):
             Teqns += [Teqn]
             #print(Teqn)
         Tsyms = [syms[0] for syms in symbs]
-        gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False)
-        # gamma = sympy.simplify(gamma)
+        print("at t elims")
+        print(Teqns)
+        gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False, idxDict)
+        gamma = sympy.simplify(gamma)
         return gamma
 
     def calculateDiscrim(self, polynomial):
@@ -570,23 +585,23 @@ class FunctionCallPathComplexity(ABC):
             self.logger.e_msg(f"PANIC PANIC termPow type is {type(term)}.")
             return 0
 
-    def eliminate(self, system, symbs):
-        """Takes in a system of equations and gets the gamma function"""
-        if len(system) == 1:
-            return system[0]
-        sub = system[-1] + symbs[-1]
-        if symbs[-1] in sub.free_symbols:
-            for eq in system:
-                if symbs[-1] in eq.free_symbols:
-                    sol = sympy.solve(eq, symbs[-1], dict=True)
-                    if len(sol) == 1:
-                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
-        if symbs[-1] in sub.free_symbols:
-            self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
-        for count, eq in enumerate(system):
-            if symbs[-1] in eq.free_symbols:
-                system[count] = sympy.expand(eq.subs(symbs[-1], sub))
-        return self.eliminate(system[:-1], symbs[:-1])
+    # def eliminate(self, system, symbs):
+    #     """Takes in a system of equations and gets the gamma function"""
+    #     if len(system) == 1:
+    #         return system[0]
+    #     sub = system[-1] + symbs[-1]
+    #     if symbs[-1] in sub.free_symbols:
+    #         for eq in system:
+    #             if symbs[-1] in eq.free_symbols:
+    #                 sol = sympy.solve(eq, symbs[-1], dict=True)
+    #                 if len(sol) == 1:
+    #                     sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
+    #     if symbs[-1] in sub.free_symbols:
+    #         self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+    #     for count, eq in enumerate(system):
+    #         if symbs[-1] in eq.free_symbols:
+    #             system[count] = sympy.expand(eq.subs(symbs[-1], sub))
+    #     return self.eliminate(system[:-1], symbs[:-1])
 
     def clean(self, system, symb):
         """Gets rid of complex numbers and makes things cleaner"""
