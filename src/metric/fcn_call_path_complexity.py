@@ -67,6 +67,7 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"Call List: {call_list}")
         apc, nonZeroIndex = self.fcn_call_apc(all_edges, call_list)
         return apc, nonZeroIndex
+        
     def fcn_call_apc(self, edgelist, call_list):
         """Calculates the apc of a function that can call other functions """
         if edgelist == []:
@@ -192,6 +193,7 @@ class FunctionCallPathComplexity(ABC):
             #apc = pc
             #self.logger.d_msg(f"apc: {apc}")
         else:
+            nonZeroIndex = -1
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
