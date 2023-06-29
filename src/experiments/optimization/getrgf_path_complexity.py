@@ -19,74 +19,71 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
+import math
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
 PRECISION = 11
 
 
-""" Finds the root with the maximum rho (1/root) among those. This root 
-will originate the greatest APC.
-Input: rootsDict, dictionary of all roots of the generating function
-Return: maxrho and rhoDict
-"""
-def getRhoDict(rootsDict):
-    rhoDict = {}
-    maxRho = 0
-    for root in rootsDict:
-        rho = 1/root
-        rhoDict[rho] = rootsDict[root]
-        if abs(rho) > abs(maxRho):
-            maxRho = rho
-    return rhoDict, maxRho
+# """ Finds the root with the maximum rho (1/root) among those. This root 
+# will originate the greatest APC.
+# Input: rootsDict, dictionary of all roots of the generating function
+# Return: maxrho and rhoDict
+# """
+# def getRhoDict(rootsDict):
+#     return 0
 
-"""
-Input: denominator
-Return: q0
-"""
-def getQ0(denominator):
-    q0 = Poly(sympy.expand(denominator)).all_coeffs()[-1]
-    return q0
+# """
+# Input: denominator
+# Return: q0
+# """
+# def getQ0(denominator):
+#     return 0
 
 
-""" Identifies other roots with same magnitude as the root with
-maximum APC.
-Input: rootsDict, rootsAPCDict
-Return: APC
-"""
-def getAPC(genFunc, denominator, rootsDict):
-    numerator = sympy.simplify(genFunc*denominator)
-    rhoDict, maxRho = getRhoDict(rootsDict)
-    q0 = getQ0(denominator)
-    coeff = 0
-    for rho in rhoDict:
-        if abs(rho) == abs(maxRho):
-            Ak = shiftAk(numerator, rho)/calculateAk(q0, rho, rhoDict)
-            coeff = coeff + Ak
-    apc = coeff*symbols("n")**(rhoDict[maxRho]-1)*maxrho**symbols("n")
-    return apc
+# """ Identifies other roots with same magnitude as the root with
+# maximum APC.
+# Input: rootsDict, rootsAPCDict
+# Return: APC
+# """
+# def getAPC(rhoDict, maxRho, q0, numerator):
+#     return 0 
 
 """
 Input:
 Return: Denominator of Ak
 """
 def calculateAk(q0,rhok,rhoDict):
-    return 0
+    denominator = q0
+    mult = rhoDict[rhok]
+    denominator *= math.factorial(mult-1)
+    productory = 1
+    for rho in rhoDict:
+        if rho != rhok:
+            productory *= (1-rho/rhok)^rhoDict[rho]
+    denominator *= productory
+    return denominator
 
+
+# x = sympy.Symbol("x")
+# f = sympy.Function('f')(x)
+# equation = sympy.Eq(f,x**3+x**2)
+# numerator = sympy.solve(equation,f)
+# numerator = numerator[0]
+# rhok = 0.5
 """
 Input:
 Return:
 """
 def shiftAk(numerator, rhok):
-    return 0
-
-
+    rhokDict = {symbols("x"):1/rhok}
+    numeratorAK = numerator.subs(rhokDict)
+    # print(numeratorAK)
+    return numeratorAK
 
 def main():
-    print(getRhoDict({1: 2, 2: 1, 0.6: 1, 0.5 + 0.02j: 2}))
-    #x = symbols("x")
-    expr = sympy.sympify("(2-x)*(5*x**3 - 1)")
-    print(getQ0(expr))
+    shiftAk(numerator,rhok)
 
 
 if __name__ == "__main__":
