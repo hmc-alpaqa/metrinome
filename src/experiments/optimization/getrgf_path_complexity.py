@@ -19,6 +19,7 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
+import math
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 
@@ -71,22 +72,40 @@ Input:
 Return: Denominator of Ak
 """
 def calculateAk(q0,rhok,rhoDict):
-    return 0
+    denominator = q0
+    mult = rhoDict[rhok]
+    denominator *= math.factorial(mult-1)
+    productory = 1
+    for rho in rhoDict:
+        if rho != rhok:
+            productory *= (1-rho/rhok)^rhoDict[rho]
+    denominator *= productory
+    return denominator
 
+
+# x = sympy.Symbol("x")
+# f = sympy.Function('f')(x)
+# equation = sympy.Eq(f,x**3+x**2)
+# numerator = sympy.solve(equation,f)
+# numerator = numerator[0]
+# rhok = 0.5
 """
 Input:
 Return:
 """
 def shiftAk(numerator, rhok):
-    return 0
-
-
+    rhokDict = {symbols("x"):1/rhok}
+    numeratorAK = numerator.subs(rhokDict)
+    # print(numeratorAK)
+    return numeratorAK
 
 def main():
+    shiftAk(numerator,rhok)
     print(getRhoDict({1: 2, 2: 1, 0.6: 1, 0.5 + 0.02j: 2}))
     #x = symbols("x")
     expr = sympy.sympify("(2-x)*(5*x**3 - 1)")
     print(getQ0(expr))
+
 
 
 if __name__ == "__main__":
