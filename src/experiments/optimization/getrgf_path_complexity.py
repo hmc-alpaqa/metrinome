@@ -8,7 +8,6 @@ import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from typing import Union
-
 import numpy as np  # type: ignore
 import sympy  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
@@ -32,14 +31,22 @@ Input: rootsDict, dictionary of all roots of the generating function
 Return: maxrho and rhoDict
 """
 def getRhoDict(rootsDict):
-    return 0
+    rhoDict = {}
+    maxRho = 0
+    for root in rootsDict:
+        rho = 1/root
+        rhoDict[rho] = rootsDict[root]
+        if abs(rho) > abs(maxRho):
+            maxRho = rho
+    return rhoDict, maxRho
 
 """
 Input: denominator
 Return: q0
 """
 def getQ0(denominator):
-    return 0
+    q0 = Poly(sympy.expand(denominator)).all_coeffs()[-1]
+    return q0
 
 
 """ Identifies other roots with same magnitude as the root with
@@ -47,14 +54,23 @@ maximum APC.
 Input: rootsDict, rootsAPCDict
 Return: APC
 """
-def getAPC(rhosDict, maxRho, q0, numerator):
-    return 0 
+def getAPC(genFunc, denominator, rootsDict):
+    numerator = sympy.simplify(genFunc*denominator)
+    rhoDict, maxRho = getRhoDict(rootsDict)
+    q0 = getQ0(denominator)
+    coeff = 0
+    for rho in rhoDict:
+        if abs(rho) == abs(maxRho):
+            Ak = shiftAk(numerator, rho)/calculateAk(q0, rho, rhoDict)
+            coeff = coeff + Ak
+    apc = coeff*symbols("n")**(rhoDict[maxRho]-1)*maxrho**symbols("n")
+    return apc
 
 """
 Input:
 Return: Denominator of Ak
 """
-def calculateAk(q0,rhok,rhosDict):
+def calculateAk(q0,rhok,rhoDict):
     return 0
 
 """
@@ -63,3 +79,15 @@ Return:
 """
 def shiftAk(numerator, rhok):
     return 0
+
+
+
+def main():
+    print(getRhoDict({1: 2, 2: 1, 0.6: 1, 0.5 + 0.02j: 2}))
+    #x = symbols("x")
+    expr = sympy.sympify("(2-x)*(5*x**3 - 1)")
+    print(getQ0(expr))
+
+
+if __name__ == "__main__":
+    main()
