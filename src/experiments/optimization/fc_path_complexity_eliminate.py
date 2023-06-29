@@ -146,6 +146,10 @@ class FunctionCallPathComplexity(ABC):
                     maxPow = power
             rootsDict = sympy.roots(denominator)
             numRoots = sum(rootsDict.values())
+            # printRoots = {}
+            # for root in rootsDict:
+            #     printRoots[sympy.N(root)] = rootsDict[root]
+            # print("numeric roots dict:",printRoots)
             
             self.logger.d_msg(f"denominator: {denominator}")
             if numRoots < maxPow:
