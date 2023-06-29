@@ -123,17 +123,17 @@ int main()
     */
     struct node *root;
     root = new_node(20);
-    // insert(root, 5);
+    insert(root, 5);
     insert(root, 1);
     insert(root, 15);
     insert(root, 9);
-    // insert(root, 7);
-    // insert(root, 12);
-    // insert(root, 30);
-    // insert(root, 25);
-    // insert(root, 40);
-    // insert(root, 45);
-    // insert(root, 42);
+    insert(root, 7);
+    insert(root, 12);
+    insert(root, 30);
+    insert(root, 25);
+    insert(root, 40);
+    insert(root, 45);
+    insert(root, 42);
 
     // inorder(root);
     // printf("\n");
@@ -155,7 +155,7 @@ int main()
           7      12       42
     */
 
-    // root = delete_(root, 40);
+    root = delete_(root, 40);
     // /*
     //                20
     //              /    \
@@ -172,7 +172,7 @@ int main()
     //        7      12
     // */
 
-    // root = delete_(root, 45);
+    root = delete_(root, 45);
     // /*
     //                20
     //              /    \
@@ -188,8 +188,8 @@ int main()
     //         /     \
     //        7      12
     // */
-    // root = delete_(root, 9);
-    // // inorder(root);
+    root = delete_(root, 9);
+    // inorder(root);
     // // /*
     // //                20
     // //              /    \

@@ -17,7 +17,9 @@
 # echo "Runing old function call apc"
 #python /app/code/tests/test_fcapc.py
 # echo "Runing new function call apc"
-python /app/code/tests/test_nfcapc.py
+#python /app/code/tests/test_nfcapc.py
+python /app/code/tests/test_getrgf.py
+
 
 
 
