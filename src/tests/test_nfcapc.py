@@ -50,10 +50,10 @@ class DataCollector:
                 exception_type = "na"
                 nfcruntime = 0.0
 
-                print("======================running new fcn_call_path_complexity for 4000 seconds=======================")
+                print("======================running new fcn_call_path_complexity for 400 seconds=======================")
                 start_time = time.time()
                 try:
-                    with Timeout(4000):
+                    with Timeout(400):
                         nfcapc = self.optimized_elim_computer.evaluate(graph, graphs)
                         nfcruntime = time.time() - start_time
                         print(nfcapc)
