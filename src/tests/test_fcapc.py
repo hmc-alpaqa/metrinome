@@ -52,7 +52,7 @@ class DataCollector:
                 try:
                     with Timeout(200):
                         fcapc, nonZeroIndex = self.fcn_call_apc_computer.evaluate(graph,graphs)
-                        print(fcapc)
+                        # print(fcapc)
                         fcruntime = time.time() - start_time
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"

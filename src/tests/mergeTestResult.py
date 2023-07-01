@@ -57,7 +57,7 @@ if os.path.exists(nfcapc_csv_file_path):
         nfcapc_df = nfcapc_df.drop("longest time",axis = 1)
         nfcapc_df = nfcapc_df.drop("numNode",axis = 1)
 
-print(fcapc_df)
+# print(fcapc_df)
 merge1 = pd.merge(apc_df,rapc_df)
 merge2 = pd.merge(merge1, fcapc_df)
 merge3 = pd.merge(merge2, nfcapc_df)

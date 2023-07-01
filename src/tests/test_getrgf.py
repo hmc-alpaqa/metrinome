@@ -56,7 +56,7 @@ class DataCollector:
                     with Timeout(4000):
                         nfcapc = self.getrgf_computer.evaluate(graph, graphs)
                         nfcruntime = time.time() - start_time
-                        print(nfcapc)
+                        # print(nfcapc)
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
