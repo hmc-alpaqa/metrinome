@@ -176,6 +176,7 @@ class FunctionCallPathComplexity(ABC):
             # coeff time starts here
             start_time = time.time()
             coeffs = [0]*(numRoots + numNodes)
+            print(f"computing taylor series with {numRoots+numNodes} terms")
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
             symbs = [0]*numRoots
