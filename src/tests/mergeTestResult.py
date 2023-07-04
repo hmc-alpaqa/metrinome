@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import sys
 
 
 apc_csv_file_path = '/app/code/tests/data/apc_data.csv'
@@ -13,7 +14,8 @@ if os.path.exists(getrgfapc_csv_file_path):
     getrgfapc_df = pd.read_csv(getrgfapc_csv_file_path)
     getrgfapc_df = getrgfapc_df.iloc[:,1:]
 else:
-    raise CustomError("PANIC, no getrgf data, cannot proceed")
+    print("PANIC, no getrgf data, cannot proceed")
+    sys.exit()
     
 
 ###########Initializing dataframs##############
@@ -59,6 +61,8 @@ if os.path.exists(ogapc_csv_file_path):
     if df['graph_name'].equals(getrgfapc_df['graph_name']):
         ogapc_df = df
         ogapc_df = ogapc_df.iloc[:,1:]
+        ogapc_df = ogapc_df.drop("longest for og",axis = 1)
+        ogapc_df = ogapc_df.drop("longest time",axis = 1)
 if os.path.exists(nfcapc_csv_file_path):
     df = pd.read_csv(nfcapc_csv_file_path)
     if df['graph_name'].equals(getrgfapc_df['graph_name']):
@@ -77,6 +81,7 @@ mergefinal = pd.merge(merge4, getrgfapc_df)
 new_order = ['graph_name','apc','rapc','fcapc','ogapc','nfcapc','getrgfapc','apc_time','rapc_time','fcapc_time','ogapc_time','nfcapc_time','getrgfapc_time','longest for getrgf','longest time']
 mergefinal = mergefinal[new_order]
 
+print('=========================printing final data table===================')
 print(mergefinal)
 
 mergefinal.to_csv("/app/code/tests/data/merge_data.csv")
