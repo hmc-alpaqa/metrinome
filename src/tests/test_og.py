@@ -55,18 +55,20 @@ class DataCollector:
                     with Timeout(200):
                         ogapc = self.og_fcapc_computer.evaluate(graph, graphs)
                         ogruntime = time.time() - start_time
+                        # print(ogapc)
                 except Exception as exc:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
                 
                 new_row = {"file_name": file, "graph_name": graph.name, "ogapc": (ogapc["apc"],ogapc['pc']), 
-                        "ogapc_time": ogruntime,"exception_type": exception_type}
+                        "ogapc_time": ogruntime,
+                        'longest for og':get_max_time(ogapc)[0],"longest time":get_max_time(ogapc)[1],"exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index = True)
-                data = data[["graph_name", "ogapc","ogapc_time"]]
+                data = data[["graph_name", "ogapc","ogapc_time",'longest for og','longest time']]
 
 
-                print(data[["graph_name", "ogapc","ogapc_time"]])
+                print(data[["graph_name", "ogapc","ogapc_time",'longest for og','longest time']])
 
                 # create directory if it doesn't exist
                 if not os.path.exists("/app/code/tests/data"):
@@ -80,6 +82,19 @@ def round_tuple_of_exprs(tup, num_digits):
 def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
+def get_max_time(apc):
+    if apc == {'apc':"na",'pc':"na"}:
+        return ("na",0)
+    l = ["graphProcessTime","graphSystemsTime", "gammaTime", "discrimTime", 
+        "realnrootsTime", "coeffsTime", 'exprsTime',"soluTime",'UpboundTime',"apcTime2","cleanTime"]
+    maxTime  = apc[l[0]]
+    maxName = 'graphProcessTime'
+    for name in l:
+        if apc[name] > maxTime:
+            maxTime = apc[name]
+            maxName = name
+    maxTime = round(maxTime,3)
+    return (maxName,maxTime)
 
 def main() -> None:
     """Compute metrics for many graphs."""
