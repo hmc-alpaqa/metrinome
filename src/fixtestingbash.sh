@@ -10,15 +10,19 @@
 #     python /app/code/experiments/optimization/test_newNode_eliminate_msolve.py
 # done
 
-# echo "Running regular apc"
-#python /app/code/tests/test_apc.py
-# echo "Runing recursive apc"
-#python /app/code/tests/test_rapc.py
-# echo "Runing old function call apc"
-#python /app/code/tests/test_fcapc.py
-# echo "Runing new function call apc"
-#python /app/code/tests/test_nfcapc.py
-python /app/code/tests/test_getrgf.py
+python /app/code/tests/test_apc.py
+
+python /app/code/tests/test_rapc.py
+
+python /app/code/tests/test_fcapc.py
+
+python /app/code/tests/test_og.py
+
+python /app/code/tests/test_nfcapc.py
+
+python /app/code/tests/test_getrgf.py #must run this in order for mergeTestResult to work
+
+python /app/code/tests/mergeTestResult.py
 
 
 

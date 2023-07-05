@@ -25,8 +25,8 @@ class DataCollector:
     # @lru_cache(maxsize =None) #disable caching, but not working
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "nfcapc": [],
-                             "nfcapc_time": [], "exception": [],"exception_type": []})
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "getrgfapc": [],
+                             "getrgfapc_time": [], "exception": [],"exception_type": []})
         with open('/app/code/experiments/optimization/files.txt') as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
@@ -46,33 +46,31 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
                
-                nfcapc: Union[str, PathComplexityRes] = {"nfcapc":"na"}
+                getrgfapc: Union[str, PathComplexityRes] = {'nfcapc': 'na'}
                 exception_type = "na"
-                nfcruntime = 0.0
+                getrgfruntime = 0.0
 
-                print("======================running new fcn_call_path_complexity for 4000 seconds=======================")
+                print("======================running getrgf fcn_call_path_complexity for 4000 seconds=======================")
                 start_time = time.time()
                 try:
                     with Timeout(4000):
-                        nfcapc = self.getrgf_computer.evaluate(graph, graphs)
-                        nfcruntime = time.time() - start_time
-                        print(nfcapc)
+                        getrgfapc = self.getrgf_computer.evaluate(graph, graphs)
+                        getrgfruntime = time.time() - start_time
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                 
-                new_row = {"file_name": file, "graph_name": graph.name,  "nfcapc": nfcapc["nfcapc"], 
-                        "nfcapc_time": nfcruntime, "longest for nfcapc": get_max_time(nfcapc)[0], "longest time":get_max_time(nfcapc)[1],
-                           "numNode": nfcapc["numNodes"], "exception_type": exception_type}
+                new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["nfcapc"], 
+                        "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time":get_max_time(getrgfapc)[1], "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "nfcapc", "nfcapc_time", "longest for nfcapc", "longest time","numNode"]]
+                data = data[["graph_name", "getrgfapc", "getrgfapc_time", "longest for getrgf", "longest time"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name","nfcapc","nfcapc_time", "longest for nfcapc", "longest time","numNode"]])
+                print(data[["graph_name", "getrgfapc", "getrgfapc_time", "longest for getrgf", "longest time"]])
 
 
                 # create directory if it doesn't exist
@@ -88,6 +86,8 @@ def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
 def get_max_time(apc):
+    if apc == {'nfcapc':"na"}:
+        return ("na",0)
     l = ["graphProcessTime","graphSystemsTime", "gammaTime", "discrimTime", 
         "realnrootsTime", "genFuncTime", "rootsDictTime","getrgfTime","apcTime2","cleanTime"]
     maxTime  = apc[l[0]]

@@ -46,17 +46,16 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
                
-                nfcapc: Union[str, PathComplexityRes] = {"nfcapc":"na"}
+                nfcapc: Union[str, PathComplexityRes] = {"nfcapc":"na",'numNodes': 0}
                 exception_type = "na"
                 nfcruntime = 0.0
 
-                print("======================running new fcn_call_path_complexity for 4000 seconds=======================")
+                print("======================running new fcn_call_path_complexity for 400 seconds=======================")
                 start_time = time.time()
                 try:
-                    with Timeout(4000):
+                    with Timeout(400):
                         nfcapc = self.optimized_elim_computer.evaluate(graph, graphs)
                         nfcruntime = time.time() - start_time
-                        print(nfcapc)
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
@@ -90,6 +89,8 @@ def round_expr(expr, num_digits):
 def get_max_time(apc):
     l = ["graphProcessTime","graphSystemsTime", "gammaTime", "discrimTime", 
         "realnrootsTime", "genFuncTime", "rootsDictTime","coeffsTime", "exprsTime","soluTime", "UpboundTime","apcTime2","cleanTime"]
+    if apc == {"nfcapc":"na",'numNodes': 0}:
+        return ("na",0)
     maxTime  = apc[l[0]]
     maxName = 'graphProcessTime'
     for name in l:
