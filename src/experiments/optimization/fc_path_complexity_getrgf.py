@@ -145,6 +145,9 @@ class FunctionCallPathComplexity(ABC):
                 if power > maxPow:
                     maxPow = power
             rootsDict = sympy.roots(denominator)
+            #TODO: do the numerical value of the roots
+            #search in bst is taking a long time in getrgf, WHY
+            #catalan1 is also taking a long time in getrgf
 
             numRoots = sum(rootsDict.values())
             # printRoots = {}
@@ -171,6 +174,9 @@ class FunctionCallPathComplexity(ABC):
                 raise Exception("Can't find all the roots :(")
             rootsDictTime = time.time() - start_time
             self.logger.d_msg(f"Found all Roots")
+            newRootsDict = {}
+            for root in rootsDict:
+                newRootsDict[sympy.N(root)] = rootsDict[root]
             self.logger.d_msg(f"rootsDict: {rootsDict}, time: {rootsDictTime}")
             
             start_time =  time.time()
@@ -577,11 +583,11 @@ class FunctionCallPathComplexity(ABC):
         print("numerator",numerator)
         for rho in rhoDict:
             if (abs(rho) == abs(maxRho)) and (rhoDict[rho] == maxMultiplicity):
-                Ak = self.shiftAk(numerator, rho)/self.calculateAk(q0, rho, rhoDict)
+                Ak = sympy.N(self.shiftAk(numerator, rho)/self.calculateAk(q0, rho, rhoDict))
                 print("Ak",Ak)
                 coeff = coeff + Ak
                 print("coeff",coeff)
-        apc = sympy.simplify(coeff*(symbols("n")**(maxMultiplicity-1))*abs(maxRho)**symbols("n"))
+        apc = sympy.simplify(coeff*(symbols("n")**(maxMultiplicity-1))*abs(sympy.N(maxRho))**symbols("n"))
         # apc = coeff*(symbols("n")**(maxMultiplicity-1))*abs(maxRho)**symbols("n")
         return apc
 
