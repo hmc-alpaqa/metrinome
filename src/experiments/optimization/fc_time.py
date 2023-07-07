@@ -85,60 +85,6 @@ class DataCollector:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
-
-                # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         recurlist = []
-                #         end = graph.graph.num_vertices - 1
-                #         for node in graph.metadata.calls.keys():
-                #             if graph.name.split(".")[1] in graph.metadata.calls[node]:
-                #                 recurlist += [int(node)]
-                #         oldEdges = graph.graph.edges
-                #         for node in recurlist:
-                #             graph.graph.edges = graph.graph.edges + [[node, 0]]
-                #             graph.graph.edges = graph.graph.edges + \
-                #                 [[end, node]]
-                #         brapc = self.apc_computer.evaluate(graph)
-                #         bruntime = time.time() - start_time
-                #         graph.graph.edges = oldEdges
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
-
-                # start_time = time.time()
-                # try:
-                #     with Timeout(2000):
-                #         rapc = self.recursive_apc_computer.evaluate(graph)
-                #         rruntime = time.time() - start_time
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
-    
-                # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         apc = self.apc_computer.evaluate(graph)
-                #         runtime = time.time() - start_time
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
-
-                # try:
-                #     with Timeout(200):
-                #         cyclo = self.cyclo_computer.evaluate(graph)
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
-
-                # try:
-                #     with Timeout(200):
-                #         npath = self.npath_computer.evaluate(graph)
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(
-                #         exc, TimeoutError) else "Other"
             
 
                 new_row = {"file_name": file, "graph_name": graph.name, "fcapc": (fcapc["apc"]), "gammaTime": fcapc["gammaTime"], "graphProcessTime": fcapc["graphProcessTime"],

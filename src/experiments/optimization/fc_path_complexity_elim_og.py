@@ -1,5 +1,8 @@
-"""Compute the path complexity and asymptotic path complexity metrics. 
-basically fcn_call_path_complexity with run time printed along the way. call by fc_time.py"""
+"""
+Uses old eliminate function, but with some small fix
+Uses new numNodes, counts fcn_call multiple times, does not count recursive calls
+Uses msolve
+ """
 
 import re
 from abc import ABC, abstractmethod
@@ -325,7 +328,7 @@ class FunctionCallPathComplexity(ABC):
         apc_and_time = {"apc":apc, "pc":pc, "graphSystemsTime":graphSystemsTime, "gammaTime": gammaTime, "discrimTime":discrimTime, 
                 "realnrootsTime":realnrootsTime, "coeffsTime": coeffsTime, "exprsTime": exprsTime,
                 "soluTime":soluTime, "UpboundTime":UpboundTime, "apcTime2":apcTime2, "cleanTime":cleanTime}
-        print(apc_and_time)
+        #print(apc_and_time)
         return apc_and_time
 
 

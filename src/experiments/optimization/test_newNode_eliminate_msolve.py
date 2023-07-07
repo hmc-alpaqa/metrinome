@@ -1,5 +1,8 @@
 """compare the regular path complexity, recursive path complexity, new fcn calls path complexity, and their run time for 
-   files in experiments/optimization/files.txt"""
+   files in experiments/optimization/files.txt
+   
+   The runtime for each metric depends on the order in which we test it. end up not using this. 
+   """
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity
