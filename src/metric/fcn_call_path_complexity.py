@@ -65,8 +65,8 @@ class FunctionCallPathComplexity(ABC):
        
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
-        apc, nonZeroIndex = self.fcn_call_apc(all_edges, call_list)
-        return apc, nonZeroIndex
+        apc = self.fcn_call_apc(all_edges, call_list)
+        return apc
         
     def fcn_call_apc(self, edgelist, call_list):
         """Calculates the apc of a function that can call other functions """
@@ -127,27 +127,73 @@ class FunctionCallPathComplexity(ABC):
                 numRoots = sum(rootsDict.values())
             if numRoots < maxPow:
                 raise Exception("Can't find all the roots :(")
-            nonZeroIndex = 0
+            #nonZeroIndex = 0
             self.logger.d_msg(f"Found all Roots")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
-            while True:
-                zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
-                if not type(zseries) == sympy.Order:
-                    break
-                nonZeroIndex += 1
+            # Replacing old nonZeroIndex for numNodes: July 7, 2023
+            # while True:
+            #     zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
+            #     if not type(zseries) == sympy.Order:
+            #         break
+            #     nonZeroIndex += 1
+
             # Computing number of nodes and changing from the start index
             # from nonZeroIndex to number of nodes instead
-            # nodes = []
-            # for i in range(len(edgelist)):
-            #     if edgelist[i][0] not in nodes:
-            #         nodes.append(edgelist[i][0])
-            #     if edgelist[i][1] not in nodes:
-            #         nodes.append(edgelist[i][1])
-            # print(f"nodes list...{nodes}")
-            # numNodes = len(nodes) 
-            self.logger.d_msg(f"nonZeroIndex: {nonZeroIndex}")
-            coeffs = [0]*(numRoots + nonZeroIndex)
-            Tseries = sympy.series(genFunc, x, 0, numRoots + nonZeroIndex)
+            
+            #Creates number of nodes per graph
+            #1st step) Identify how many graphs
+            sumAllNodes = 0
+            graphsNumbers = []
+            for i in range(len(edgelist)):
+                graphsNumbers.append(int(edgelist[i][0][0]))
+                graphsNumbers.append(int(edgelist[i][1][0]))
+
+            graphsNumbers = list(sorted(set(graphsNumbers)))
+            print(f"updated graph numbers:{graphsNumbers}")
+
+            numCalls = [0]*len(graphsNumbers)
+
+            #  2nd step) Identify how many calls for each graph
+            # but only for graphs that are not calling themselves 
+            currentCall = 0
+            for i in range(len(call_list)):
+                # print(f"edge comes from graph:{int(call_list[i][0][0])}")
+                # print(f"edge goes to graph:{call_list[i][1]}")
+                if (int(call_list[i][0][0]) !=  call_list[i][1]):
+                    currentCall = call_list[i][1]
+                    numCalls[currentCall] = numCalls[currentCall] + 1
+            #include original graph being called
+            numCalls[0] += 1
+            print(f"num of calls per graph:{numCalls}")
+
+            #3rd step) Number of nodes for each graph
+            nodes = []
+            for i in range(len(edgelist)):
+                if edgelist[i][0] not in nodes:
+                    nodes.append(edgelist[i][0])
+                if edgelist[i][1] not in nodes:
+                    nodes.append(edgelist[i][1])
+            print(f"nodes list...{nodes}")
+            numNodes = len(nodes) 
+            self.logger.d_msg(f"numNodes: {numNodes}")
+
+            listOfListsNodesGraphs = [[] for j in range(len(graphsNumbers))]
+            for i in range(len(nodes)):
+                listOfListsNodesGraphs[int(nodes[i][0])].append(nodes[i])
+            
+            numberNodesPerGraph = []
+            for i in range(len(graphsNumbers)):
+                numberNodesPerGraph.append(len(listOfListsNodesGraphs[i]) + 1)
+                print(f"number nodes per graph: {numberNodesPerGraph}")
+
+            dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
+            print(f"dot product (new new node):{dot_product}")
+            
+            numNodes = dot_product
+            
+            #self.logger.d_msg(f"nonZeroIndex: {nonZeroIndex}")
+            coeffs = [0]*(numRoots + numNodes)
+            Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
             symbs = set()
             for term in Tseries.args:
@@ -158,7 +204,7 @@ class FunctionCallPathComplexity(ABC):
                         c = "1"
                     coeffs[self.termPow(term, x)] = int(c)
             self.logger.d_msg(f"coeffs: {coeffs}")
-            for val in range(nonZeroIndex, nonZeroIndex + numRoots):
+            for val in range(numNodes, numNodes + numRoots):
                 expr = -coeffs[val]
                 for rootindex, root in enumerate(rootsDict.keys()):
                     for mj in range(rootsDict[root]):
@@ -183,7 +229,8 @@ class FunctionCallPathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
-            #self.logger.d_msg(f"pc: {pc}")
+            # Debugging cases in which we drop the coefficient of the APC, Summer 2023
+            # self.logger.d_msg(f"pc: {pc}")
             # if type(pc) == sympy.Add:
             #     print("ADD")
             #     apc = big_o(list(pc.args))
@@ -193,7 +240,6 @@ class FunctionCallPathComplexity(ABC):
             #apc = pc
             #self.logger.d_msg(f"apc: {apc}")
         else:
-            nonZeroIndex = -1
             self.logger.d_msg(f"case2")
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
@@ -209,7 +255,7 @@ class FunctionCallPathComplexity(ABC):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             # apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
-        return (apc, pc), nonZeroIndex
+        return (apc, pc)
   
     def gammaFunction(self, edgelist, call_list):
         """Takes in a list of all edges in a graph, and a list of where function calls are
