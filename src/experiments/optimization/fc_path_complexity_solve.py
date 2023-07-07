@@ -1,5 +1,13 @@
 """Compute the path complexity and asymptotic path complexity metrics for solve vs nsolve
-   called by solve_vs_nsolve"""
+   called by solve_vs_nsolve.py
+   Old eliminate
+   correct number of nodes, counting fcn calls multiple times and recursive only once
+   tried for sympy.solve (if solve ==0), it works but it is very slow
+   tried for scipy.fsolve (if sovle == 1), but it cannot deal with complex numbers
+   tried for numpy.linalg.solve, (aka msolve) (if solve ==2), which uses matrix to find an approximate solution. works, runs in 0.000ish seconds most of the time
+   tried for numpy.linalg.lstsq, uses matrix but not accurate for ten bad addition, slow
+   tried for sympy.nsolve (if solve ==3), approximates solution, inconsistent results (but later figured out this is because of wrong numNodes)
+   """
 
 import re
 from abc import ABC, abstractmethod
