@@ -1,4 +1,4 @@
-"""test file for new function call apc"""
+"""test file for new function call apc (before getrgf)"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from lang_to_cfg.cpp import CPPConvert

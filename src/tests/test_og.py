@@ -1,5 +1,4 @@
-"""compare the fcn call path complexity and recursive path complexity and their run time for 
-   files in experiments/function_calls/files/files.txt"""
+"""test file for fc_path_complexity_og"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from lang_to_cfg.cpp import CPPConvert
