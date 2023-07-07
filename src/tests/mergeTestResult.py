@@ -83,5 +83,6 @@ mergefinal = mergefinal[new_order]
 
 print('=========================printing final data table===================')
 print(mergefinal)
+print(mergefinal[['apc','rapc','fcapc','ogapc','nfcapc','getrgfapc']])
 
 mergefinal.to_csv("/app/code/tests/data/merge_data.csv")

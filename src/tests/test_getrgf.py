@@ -46,7 +46,7 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
                
-                getrgfapc: Union[str, PathComplexityRes] = {'nfcapc': 'na'}
+                getrgfapc: Union[str, PathComplexityRes] = {'rfcapc': 'na'}
                 exception_type = "na"
                 getrgfruntime = 0.0
 
@@ -56,11 +56,20 @@ class DataCollector:
                     with Timeout(4000):
                         getrgfapc = self.getrgf_computer.evaluate(graph, graphs)
                         getrgfruntime = time.time() - start_time
+                        if "V0_3" in str(getrgfapc["rfcapc"]):
+                            print("ERROR V0_3 in apc")
+                            sys.exit()
+                        if getrgfapc['rfcapc'] == 'na':
+                            print("ERROR apc didn't complete")
+                            sys.exit()
+                        if str(getrgf['rfcapc']) != "0.150373068898858*1.30927065104311**n":
+                            print("error incorrect apc:",getrgf['rfcapc'])
+                            sys.exit()
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                 
-                new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["nfcapc"], 
+                new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"], 
                         "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time":get_max_time(getrgfapc)[1], "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
@@ -86,7 +95,7 @@ def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
 def get_max_time(apc):
-    if apc == {'nfcapc':"na"}:
+    if apc == {'rfcapc':"na"}:
         return ("na",0)
     l = ["graphProcessTime","graphSystemsTime", "gammaTime", "discrimTime", 
         "realnrootsTime", "genFuncTime", "rootsDictTime","getrgfTime","apcTime2","cleanTime"]
