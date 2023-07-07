@@ -296,7 +296,6 @@ class FunctionCallPathComplexity(ABC):
         return splitsystems, splitsymbols, lookupDict, idxDict
 
     def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool, idxDict):
-        print(system)
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
@@ -352,7 +351,6 @@ class FunctionCallPathComplexity(ABC):
                     continue
                 TlookupDict[var].add(symbs[idx][0])
             Teqns += [Teqn]
-        print(Teqns)
         Tsyms = [syms[0] for syms in symbs]
         gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False, idxDict)
         gamma = sympy.simplify(gamma)
