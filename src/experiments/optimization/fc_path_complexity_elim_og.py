@@ -359,9 +359,9 @@ class FunctionCallPathComplexity(ABC):
                 else:
                     expr = expr + x
             
-                for calling_node, called_fcn_idx in call_list:
-                    if calling_node == startnode:
-                        expr =  init_nodes[called_fcn_idx] * expr
+            for calling_node, called_fcn_idx in call_list:
+                if calling_node == startnode:
+                    expr =  init_nodes[called_fcn_idx] * expr
             system += [expr - sym]
 
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
