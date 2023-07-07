@@ -483,8 +483,6 @@ class FunctionCallPathComplexity(ABC):
 
 
     def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool, idxDict):
-        #print("hi")
-        #print("LEN",len(system))
         if len(system) == 1:
             return system[0]
         # print("=====run for",symbs[-1])
@@ -513,6 +511,7 @@ class FunctionCallPathComplexity(ABC):
                     if len(sol) == 1:
                         #sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
                         sub = sub.subs(symbs[-1], sol[0][symbs[-1]])
+                        sub = sympy.simplify(sub)
                         # print("done w substitution")
                         break
         if symbs[-1] in sub.free_symbols:
@@ -533,6 +532,10 @@ class FunctionCallPathComplexity(ABC):
                 if symbs[-1] in eq.free_symbols:
                     # print("substitution pt.2")
                     system[eq_idx] = eq.subs(symbs[-1], sub)
+                    system[eq_idx] = sympy.simplify(system[eq_idx])
+                    for symbol in sub.free_symbols:
+                        if symbol != symbols("x"):
+                            lookupDict[symbol].add(eqn_symb)
                     if symbs[-1] in system[eq_idx].free_symbols:
                         self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
                 #print("OG SYM",symbs[-1],"IN EQN SYMB",eqn_symb, "LEN IDX",symb_idx, "SUBS IDX",eq_idx, "FIN EQN",system[eq_idx])
@@ -559,12 +562,10 @@ class FunctionCallPathComplexity(ABC):
             Teqns += [Teqn]
             #print(Teqn)
         Tsyms = [syms[0] for syms in symbs]
-        print("at t elims")
-        print(Teqns)
         gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False, idxDict)
         gamma = sympy.simplify(gamma)
         return gamma
-
+        
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
         # polynomial is not actually a polynomial, it can have fractions
