@@ -445,6 +445,7 @@ class FunctionCallPathComplexity(ABC):
                     if len(sol) == 1:
                         #sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
                         sub = sub.subs(symbs[-1], sol[0][symbs[-1]])
+                        sub = sympy.simplify(sub)
                         # print("done w substitution")
                         break
         if symbs[-1] in sub.free_symbols:
@@ -465,6 +466,7 @@ class FunctionCallPathComplexity(ABC):
                 if symbs[-1] in eq.free_symbols:
                     # print("substitution pt.2")
                     system[eq_idx] = eq.subs(symbs[-1], sub)
+                    system[eq_idx] = sympy.simplify(system[eq_idx])
                     if symbs[-1] in system[eq_idx].free_symbols:
                         self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
                 #print("OG SYM",symbs[-1],"IN EQN SYMB",eqn_symb, "LEN IDX",symb_idx, "SUBS IDX",eq_idx, "FIN EQN",system[eq_idx])
@@ -580,7 +582,6 @@ class FunctionCallPathComplexity(ABC):
         coeff = 0
         print("rhoDict:",rhoDict)
         print("q0",q0)
-        print("numerator",numerator)
         for rho in rhoDict:
             if (abs(rho) == abs(maxRho)) and (rhoDict[rho] == maxMultiplicity):
                 Ak = sympy.N(self.shiftAk(numerator, rho)/self.calculateAk(q0, rho, rhoDict))
