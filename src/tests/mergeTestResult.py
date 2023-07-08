@@ -55,7 +55,6 @@ if os.path.exists(fcapc_csv_file_path):
     if df['graph_name'].equals(getrgfapc_df['graph_name']):
         fcapc_df = df
         fcapc_df = fcapc_df.iloc[:,1:]
-        fcapc_df = fcapc_df.drop('nonZeroIndex',axis = 1)
 if os.path.exists(ogapc_csv_file_path):
     df = pd.read_csv(ogapc_csv_file_path)
     if df['graph_name'].equals(getrgfapc_df['graph_name']):
