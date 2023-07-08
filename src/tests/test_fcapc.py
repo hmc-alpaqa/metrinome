@@ -24,7 +24,7 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [], "fcapc_time": [], "numNode":[],"exception": [],"exception_type": []})
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [], "fcapc_time": [],"exception": [],"exception_type": []})
         with open('/app/code/experiments/optimization/files.txt') as funcs:
             files = [line.rstrip() for line in funcs]
 
