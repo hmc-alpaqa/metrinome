@@ -304,7 +304,15 @@ class FunctionCallPathComplexity(ABC):
         else:
             symb_idx = idxDict[symbs[-1]][0]
         if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
-            for eqn_symb in lookupDict[symbs[-1]]:
+            subs_options = lookupDict[symbs[-1]]
+
+            # these 2 lines below implement the sorting of substitution options by simplicity during T elimination
+            # they are only necessary to prevent really long gammaTimes from occuring with certain functions (intergrated-digits-squaring-2.c)
+            # they can be commented out to return to the older version without this optimization, which is often faster
+            # if vertices == False:
+            #     subs_options = self.simpleOrder(system, subs_options, idxDict, vertices)
+
+            for eqn_symb in subs_options:
                 if vertices == False:
                     eq_idx = idxDict[eqn_symb][1]
                 else:
@@ -355,6 +363,21 @@ class FunctionCallPathComplexity(ABC):
         gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False, idxDict)
         gamma = sympy.simplify(gamma)
         return gamma
+
+    def simpleOrder(self, system, symblist, idxDict, vertices):
+        """Orders the potential legitimate substitution options for a symbol in order of simplicity"""
+        lengthDictionary = {}
+        for symb in symblist:
+            if vertices:
+                idx = idxDict[symb][0]
+            else:
+                idx = idxDict[symb][1]
+            if idx < len(system):
+                lengthDictionary[symb] = len(str(system[idx]))
+        sorted_symbols_by_simplicity = sorted(lengthDictionary.items(), key=lambda x:x[1], reverse=False)
+        sorted_options = [pair[0] for pair in sorted_symbols_by_simplicity]
+        return sorted_options
+
 
     def calculateDiscrim(self, polynomial):
         """Takes in a polynomial and calculates its discriminant"""
@@ -412,7 +435,7 @@ class FunctionCallPathComplexity(ABC):
     Return: APC
     """
     def getAPC(self,genFunc, denominator, rootsDict):
-        numerator = sympy.simplify(genFunc*denominator)
+        numerator = sympy.simplify(sympy.factor(genFunc*denominator))
         self.logger.d_msg(f"numerator: {numerator}")
         rhoDict, maxRho, maxMultiplicity = self.getRhoDict(rootsDict)
         self.logger.d_msg(f"rhoDict: {rhoDict}")
