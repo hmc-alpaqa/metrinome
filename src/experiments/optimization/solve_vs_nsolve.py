@@ -1,4 +1,5 @@
-"""test interface for various method for solving exprs (the c's in the closed form)"""
+"""test interface for various method for solving exprs (the c's in the closed form)
+   calls fc_path_complexity_solve"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
 from metric import cyclomatic_complexity, npath_complexity, path_complexity, fcn_call_path_complexity, recursive_path_complexity

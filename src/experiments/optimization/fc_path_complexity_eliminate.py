@@ -1,4 +1,8 @@
-"""Compute the path complexity and asymptotic path complexity metrics."""
+"""Compute the path complexity and asymptotic path complexity metrics.
+new eliminate
+msolve
+correct numNodes where we call function calls multiple times, what about recursive?
+"""
 import re
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque, Counter
