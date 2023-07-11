@@ -70,8 +70,8 @@ class DataCollector:
 
 
                 # create directory if it doesn't exist
-                if not os.path.exists("/app/code/experiments/function_calls_data"):
-                    os.makedirs("/app/code/experiments/function_calls_data")
+                if not os.path.exists("/app/code/experiments/function_calls/data"):
+                    os.makedirs("/app/code/experiments/function_calls/data")
                 data.to_csv("/app/code/experiments/function_calls/data/apc_data.csv")
 
 
