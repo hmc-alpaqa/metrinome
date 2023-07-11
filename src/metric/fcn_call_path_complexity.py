@@ -280,7 +280,11 @@ class FunctionCallPathComplexity(ABC):
                     var = symbols("V" + str(node)) #str(chr(node+ 65))
                     expr = expr + var*x
                 else:
-                    expr = expr + x
+                    add_to_expr = x
+                    for calling_node, called_fcn_idx in call_list:
+                        if calling_node == node:
+                            add_to_expr = init_nodes[called_fcn_idx] * add_to_expr
+                    expr = expr + add_to_expr
             # before, the for loop is indented and it gives the wrong gamma function
             # fixed it by unindent the for loop, this should be correct now (7/10/2023)
             for calling_node, called_fcn_idx in call_list:
@@ -290,6 +294,7 @@ class FunctionCallPathComplexity(ABC):
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
         full_sys = init_eqns + system
+        print(full_sys)
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
         return gamma
 
