@@ -55,6 +55,7 @@ class DataCollector:
                         fcruntime = time.time() - start_time
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                    print(exception_type)
 
 
                 new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc,
