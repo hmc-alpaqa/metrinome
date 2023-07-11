@@ -294,7 +294,6 @@ class FunctionCallPathComplexity(ABC):
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
         full_sys = init_eqns + system
-        print(full_sys)
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
         return gamma
 
