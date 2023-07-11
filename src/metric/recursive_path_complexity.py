@@ -218,9 +218,8 @@ class RecursivePathComplexity(ABC):
                     expr = expr + var*x
                 else:
                     add_to_expr = x
-                    for calling_node, called_fcn_idx in call_list:
-                        if calling_node == node:
-                            add_to_expr = init_nodes[called_fcn_idx] * add_to_expr
+                    if node in recurlist:
+                        add_to_expr = firstnode*x
                     expr = expr + add_to_expr
             # before, the for loop is indented and it gives the wrong gamma function
             # fixed it by unindent the for loop, this should be correct now (7/10/2023)
