@@ -409,19 +409,25 @@ class FunctionCallPathComplexity(ABC):
 
     def getRhoDict(self, rootsDict):
         rhoDict = {}
-        maxRho = 0
+        minRootMagnitude = 0
         maxMultiplicity = 0
         for root in rootsDict:
-            rho = 1/root
+            rho = 1/sympy.N(root)
             multiplicity = rootsDict[root]
-            rhoDict[rho] = rootsDict[root]
-            if abs(rho) > abs(maxRho):
-                maxRho = rho
+            rootMagnitude = abs(root)
+            rhoDict[rho] = (rootMagnitude, multiplicity)
+            # rhoDict is {numerical rho: (exact magnitude of its corresponding root, multiplicity of its corresponding root)}
+            # the exact magnitude is used for checking which rhos are the correct magnitude for its Ak to be calculated
+            if minRootMagnitude == 0:
+                minRootMagnitude = rootMagnitude
                 maxMultiplicity = multiplicity
-            elif abs(rho) == abs(maxRho):
+            if rootMagnitude < minRootMagnitude:
+                minRootMagnitude = rootMagnitude
+                maxMultiplicity = multiplicity
+            elif rootMagnitude == minRootMagnitude:
                 maxMultiplicity = max(maxMultiplicity,multiplicity)
-        maxRho = abs(maxRho)
-        return rhoDict, maxRho, maxMultiplicity
+        minRootMagnitude = abs(minRootMagnitude)
+        return rhoDict, minRootMagnitude, maxMultiplicity
 
     """
     Input: denominator
@@ -431,7 +437,6 @@ class FunctionCallPathComplexity(ABC):
         q0 = Poly(sympy.expand(denominator)).all_coeffs()[-1]
         return q0
 
-
     """ Identifies other roots with same magnitude as the root with
     maximum APC.
     Input: rootsDict, rootsAPCDict
@@ -440,19 +445,21 @@ class FunctionCallPathComplexity(ABC):
     def getAPC(self,genFunc, denominator, rootsDict):
         numerator = sympy.simplify(sympy.factor(genFunc*denominator))
         self.logger.d_msg(f"numerator: {numerator}")
-        rhoDict, maxRho, maxMultiplicity = self.getRhoDict(rootsDict)
+        rhoDict, minRootMagnitude, maxMultiplicity = self.getRhoDict(rootsDict)
         self.logger.d_msg(f"rhoDict: {rhoDict}")
         self.logger.d_msg(f"maxMultiplicity: {maxMultiplicity}")
-        self.logger.d_msg(f"maxMagnitude: {abs(maxRho)}")
+        self.logger.d_msg(f"minRootMagnitude: {minRootMagnitude}")
         q0 = self.getQ0(denominator)
         coeff = 0
         self.logger.d_msg(f"q0: {q0}")
         for rho in rhoDict:
-            if (abs(rho) == maxRho) and (rhoDict[rho] == maxMultiplicity):
+            rootMagnitude = rhoDict[rho][0]
+            multiplicity = rhoDict[rho][1]
+            if (rootMagnitude == minRootMagnitude) and (multiplicity == maxMultiplicity):
                 Ak = sympy.N(self.shiftAk(numerator, rho)/self.calculateAk(q0, rho, rhoDict))
                 coeff = coeff + Ak
         self.logger.d_msg(f"coeff: {coeff}")
-        apc = sympy.simplify(coeff*(symbols("n")**(maxMultiplicity-1))*sympy.N(maxRho)**symbols("n"))
+        apc = sympy.simplify(coeff*(symbols("n")**(maxMultiplicity-1))*(1/sympy.N(minRootMagnitude))**symbols("n"))
         return apc
 
     """
@@ -461,12 +468,12 @@ class FunctionCallPathComplexity(ABC):
     """
     def calculateAk(self,q0,rhok,rhoDict):
         denominator = q0
-        mult = rhoDict[rhok]
+        mult = rhoDict[rhok][1]
         denominator *= math.factorial(mult-1)
         productory = 1
         for rho in rhoDict:
             if rho != rhok:
-                productory *= (1-sympy.N(rho)/sympy.N(rhok))**rhoDict[rho]
+                productory *= (1-sympy.N(rho)/sympy.N(rhok))**rhoDict[rho][1]
         denominator *= productory
         return denominator
 
