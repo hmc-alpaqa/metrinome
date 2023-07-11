@@ -1,0 +1,7 @@
+,graph_name,getrgfapc,getrgfapc_time,longest for getrgf,longest time
+0,bst_cfg._Z8new_nodei,1.0**(n + 1),0.18367886543273926,gammaTime,0.124
+1,bst_cfg._Z6searchP4nodei,2.0*1.14869835499704**n,0.3609592914581299,getrgfTime,0.155
+2,bst_cfg._Z6insertP4nodei,1.0*1.12246204830937**n,0.30197739601135254,gammaTime,0.113
+3,bst_cfg._Z7inorderP4node,1.3195079107727**n,0.0547938346862793,gammaTime,0.04
+4,bst_cfg._Z12find_minimumP4node,0.5*1.0**n*n,0.15980839729309082,gammaTime,0.072
+5,bst_cfg._Z7delete_P4nodei,1.12734911669785*1.20758237909899**n,1.37559175491333,gammaTime,0.596
