@@ -64,6 +64,7 @@ class FunctionCallPathComplexity(ABC):
         optimizedGamma = self.optimizedEliminate(splitsystems, splitsymbols, lookupDict, idxDict)
         gammaTime = time.time() - start_time
         self.logger.d_msg(f"Gamma Function: {optimizedGamma}, time: {gammaTime}")
+        self.apc_times['gamma'] = optimizedGamma #TODO: delete for real testing
 
         # calculate apc from gamma function
         apc, pc = self.fcn_call_apc(optimizedGamma)
@@ -107,6 +108,7 @@ class FunctionCallPathComplexity(ABC):
         # case 1: discriminant has no real roots (getrgf)
         if numroots == 0:
             self.logger.d_msg(f"case1")
+            self.apc_times['case'] = 1
 
             # solve for generating function (genFuncTime)
             start_time = time.time()
@@ -175,6 +177,7 @@ class FunctionCallPathComplexity(ABC):
         # case 2: discriminant has real roots
         else:
             self.logger.d_msg(f"case2")
+            self.apc_times['case'] = 2
             start_time = time.time()
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:

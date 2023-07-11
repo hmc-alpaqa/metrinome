@@ -1,6 +1,7 @@
-"""test file for new function call apc (getrgf)"""
+"""test file for old function call apc in metrics folder"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
+from metric import fcn_call_path_complexity
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
 import pandas as pd  # type: ignore
@@ -8,7 +9,6 @@ from typing import Union
 import time
 import os
 import sys
-from experiments.optimization import fc_path_complexity_getrgf
 from sympy import Number
 
 class DataCollector:
@@ -17,19 +17,15 @@ class DataCollector:
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
         log = Log(log_level=LogLevel.DEBUG)
-        self.getrgf_computer = fc_path_complexity_getrgf.FunctionCallPathComplexity(log)
+        self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
         self.converter = CPPConvert(log)
 
     # nfcapc stands for new function call apc, which is the apc computed by fc_path_complexity_final
     # pylint: disable=broad-except
-    # @lru_cache(maxsize =None) #disable caching, but not working
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "getrgfapc": [],
-                             "getrgfapc_time": [], "exception": [],"exception_type": []})
-        with open('/app/code/experiments/optimization/files.txt') as funcs:
-            # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
-
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [], "fcapc_time": [],"exception": [],"exception_type": []})
+        with open('/app/code/experiments/function_calls/benchmark/files.txt') as funcs:
             files = [line.rstrip() for line in funcs]
 
         for file in files:
@@ -45,47 +41,39 @@ class DataCollector:
 
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
-               
-                getrgfapc: Union[str, PathComplexityRes] = {'rfcapc': 'na'}
+                
+                fcapc: Union[str, PathComplexityRes] = "na"
                 exception_type = "na"
-                getrgfruntime = 0.0
-
-                print("======================running getrgf fcn_call_path_complexity for 4000 seconds=======================")
+                fcruntime = 0.0
+            
+                print("=========================runing old function call path complexity for 200 seconds==========================")
                 start_time = time.time()
                 try:
-                    with Timeout(4000):
-                        getrgfapc = self.getrgf_computer.evaluate(graph, graphs)
-                        getrgfruntime = time.time() - start_time
-                        if "V0_3" in str(getrgfapc["rfcapc"]):
-                            print("ERROR V0_3 in apc")
-                            sys.exit()
-                        if getrgfapc['rfcapc'] == 'na':
-                            print("ERROR apc didn't complete")
-                            sys.exit()
-                        if str(getrgf['rfcapc']) != "0.150373068898858*1.30927065104311**n":
-                            print("error incorrect apc:",getrgf['rfcapc'])
-                            sys.exit()
+                    with Timeout(200):
+                        fcapc = self.fcn_call_apc_computer.evaluate(graph,graphs)
+                        # print(fcapc)
+                        fcruntime = time.time() - start_time
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                
-                new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"], 
-                        "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time":get_max_time(getrgfapc)[1], "exception_type": exception_type}
+
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc,
+                           "fcapc_time": fcruntime, "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "getrgfapc", "getrgfapc_time", "longest for getrgf", "longest time"]]
+                data = data[["graph_name", "fcapc", "fcapc_time"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name", "getrgfapc", "getrgfapc_time", "longest for getrgf", "longest time"]])
+                print(data[["graph_name", "fcapc", "fcapc_time"]])
 
 
                 # create directory if it doesn't exist
-                if not os.path.exists("/app/code/tests/data"):
-                    os.makedirs("/app/code/tests/data")
-                data.to_csv("/app/code/tests/data/getrgfapc_data.csv")
+                if not os.path.exists("/app/code/experiments/function_calls_data"):
+                    os.makedirs("/app/code/experiments/function_calls_data")
+                data.to_csv("/app/code/experiments/function_calls/data/fcapc_data.csv")
 
 
 def round_tuple_of_exprs(tup, num_digits):
@@ -95,10 +83,8 @@ def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
 def get_max_time(apc):
-    if apc == {'rfcapc':"na"}:
-        return ("na",0)
     l = ["graphProcessTime","graphSystemsTime", "gammaTime", "discrimTime", 
-        "realnrootsTime", "genFuncTime", "rootsDictTime","getrgfTime","apcTime2","cleanTime"]
+        "realnrootsTime", "genFuncTime", "coeffsTime", "exprsTime","soluTime", "UpboundTime","apcTime2","cleanTime"]
     maxTime  = apc[l[0]]
     maxName = 'graphProcessTime'
     for name in l:

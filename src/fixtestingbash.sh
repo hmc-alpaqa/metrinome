@@ -1,3 +1,9 @@
+#old bash file for testing, apc, rapc, fcapc, and getrgf is not in the folder anymore
+
+
+
+
+
 #!/bin/bash
 
 # Set the path to your Python file
@@ -20,10 +26,6 @@
 
 # python /app/code/tests/test_nfcapc.py
 
-python /app/code/tests/test_getrgf.py #must run this in order for mergeTestResult to work
+# python /app/code/tests/test_getrgf.py #must run this in order for mergeTestResult to work
 
 # python /app/code/tests/mergeTestResult.py
-
-
-
-

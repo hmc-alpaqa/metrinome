@@ -218,8 +218,10 @@ class RecursivePathComplexity(ABC):
                     expr = expr + var*x
                 else:
                     expr = expr + x
-                for i in range(recurlist.count(int(startnode))):
-                    expr = recurexpr * expr #recursion
+            # before, the for loop is indented and it gives the wrong gamma function
+            # fixed it by unindent the for loop, this should be correct now (7/10/2023)
+            for i in range(recurlist.count(int(startnode))):
+                expr = recurexpr * expr #recursion
             system += [expr - sym]
         eq1 = symbols("V0")*x - firstnode # add T = VOX to system
         # all nodes in variable form
