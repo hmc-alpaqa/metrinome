@@ -46,10 +46,10 @@ class DataCollector:
                 exception_type = "na"
                 rruntime = 0.0
             
-                print("=========================runing recursive path complexity for 100 seconds==========================")
+                print("=========================runing recursive path complexity for 200 seconds==========================")
                 start_time = time.time()
                 try:
-                    with Timeout(100):
+                    with Timeout(200):
                         rapc = self.rapc_computer.evaluate(graph)
                         rruntime = time.time() - start_time
                 except Exception as exc:
