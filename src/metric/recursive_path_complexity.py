@@ -70,7 +70,6 @@ class RecursivePathComplexity(ABC):
             T = symbols("T")
             x = symbols("x")
             gens = sympy.solve(gamma,T)
-            print(gens)
             possibleGenFunc = []
             for gen in gens:
                 partialSeries = sympy.series(gen, x, 0, 40)
@@ -228,12 +227,10 @@ class RecursivePathComplexity(ABC):
             system += [expr - sym]
         eq1 = symbols("V0")*x - firstnode # add T = VOX to system
         # all nodes in variable form
-        print("printing systems of equations")
-        print(system)
+        self.logger.d_msg(f"system of equations:{system}")
         eq1 = symbols("V0")*x - firstnode
         symbs = [firstnode]+symbs
         gamma = sympy.expand(self.eliminate([eq1]+system, symbs)) #solves the system of equations for T & x equation
-        print(gamma)
         return gamma
 
 
@@ -292,7 +289,6 @@ class RecursivePathComplexity(ABC):
                     MatrixArray[j + Qpow][i +j] = Qcoeffs[i]
         m = Matrix(MatrixArray)
         m = m.T
-        print(m)
         return m.det()
 
     def termPow(self, term, symb):
@@ -357,8 +353,6 @@ class RecursivePathComplexity(ABC):
                     for term in system.args:
                         newSys *= self.clean(term, symb)
                 else:
-                    print(system)
-                    print(type(system))
                     newSys = system
                 return newSys
             else:
