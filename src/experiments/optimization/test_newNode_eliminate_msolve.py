@@ -13,10 +13,8 @@ from typing import Union
 import time
 import os
 import sys
-import fc_path_complexity_eliminate
-import sub_test
+import fc_path_complexity_eliminate, fc_path_complexity_elim_og, fc_path_complexity_getrgf
 from sympy import Number
-from functools import lru_cache
 
 class DataCollector:
     """Compute and store all complexity metrics and timing data."""
@@ -33,13 +31,26 @@ class DataCollector:
     # @lru_cache(maxsize =None) #disable caching, but not working
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],  "nfcapc": [], "fcapc":[], 
-                             "cyclo": [], "npath": [], "apc_time": [], "rapc_time": [], "nfcapc_time": [], "fcapc_time":[], 
-                             "num_vertices": [], "edge_count": [], "exception": [],
-                             "exception_type": []})
-        with open('/app/code/experiments/optimization/files.txt') as funcs:
-            # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
 
+        # data for all metrics and their overall runtimes
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "apc": [], "rapc": [],  "fcapc": [], "efcapc":[], "eofcapc":[], "rgfcapc":[],
+                             "apc_time": [], "rapc_time": [], "fcapc_time": [], "efcapc_time":[], "eofcapc_time":[], "rgfcapc_time":[],
+                             "exception": [], "exception_type": []})
+
+        # time breakdowns for all the metrics in the optimization folder
+        elim_data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
+                             "graphProcess": [], "graphSystems": [],"gamma": [], "discrim":[], "realnroots":[], "rootsDict":[], "coeffs": [], 
+                             "genFunc":[], "exprs": [],"solu":[], "upbound":[], "apc2":[],"longest":[]})
+
+        elim_og_data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
+                             "graphProcess": [], "graphSystems": [],"gamma": [], "discrim":[], "realnroots":[], "rootsDict":[], "coeffs": [], 
+                             "genFunc":[], "exprs": [],"solu":[], "upbound":[], "apc2":[],"longest":[]})
+
+        rgf_data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [],"fcapc_time": [],"exception": [], "exception_type": [],
+                             "graphProcess": [], "graphSystems": [], "gamma": [], "discrim":[], "realnroots":[], "rootsDict":[], 
+                             "genFunc":[], "getrgf": [], "apc2":[],"longest":[]})
+
+        with open('/app/code/experiments/optimization/files.txt') as funcs:
             files = [line.rstrip() for line in funcs]
 
         for file in files:
@@ -56,115 +67,102 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
                 log = Log(log_level=LogLevel.DEBUG)
+
+                # from metrics folder with no time breakdown
                 self.apc_computer = path_complexity.PathComplexity(log)
-                self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
-                self.optimized_elim_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
-                self.recursive_apc_computer = recursive_path_complexity.RecursivePathComplexity(log)
-                self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
-                self.npath_computer = npath_complexity.NPathComplexity(log)
+                self.fcapc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
+                self.rapc_computer = recursive_path_complexity.RecursivePathComplexity(log)
+
+                # from optimize folder with time breakdown
+                self.elim_fcapc_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
+                self.elim_og_fcapc_computer = fc_path_complexity_elim_og.FunctionCallPathComplexity(log)
+                self.rgf_fcapc_computer = fc_path_complexity_getrgf.FunctionCallPathComplexity(log)
+
+                # self.cyclo_computer = cyclomatic_complexity.CyclomaticComplexity(log)
+                # self.npath_computer = npath_complexity.NPathComplexity(log)
 
                 apc: Union[str, PathComplexityRes] = "na"
                 rapc: Union[str, PathComplexityRes] = "na"
                 fcapc: Union[str, PathComplexityRes] = "na"
-                nfcapc: Union[str, PathComplexityRes] = {"nfcapc":"na"}
-                npath: Union[str, int] = "na"
-                cyclo: Union[str, int] = "na"
+                efcapc: Union[str, PathComplexityRes] = {"efcapc":"na"}
+                eofcapc: Union[str, PathComplexityRes] = {"eofcapc":"na"}
+                rgfcapc: Union[str, PathComplexityRes] = {"rgfcapc":"na"}
+                # npath: Union[str, int] = "na"
+                # cyclo: Union[str, int] = "na"
+
                 exception_type = "na"
-                runtime = 0.0
-                rruntime = 0.0
-                fcruntime = 0.0
-                nfcruntime = 0.0
-                nonZeroIndex = 0.0
+                apc_time = 0.0
+                rapc_time = 0.0
+                fcapc_time = 0.0
+                efcapc_time = 0.0
+                eofcapc_time = 0.0
+                rgfcapc_time = 0.0
+                # nonZeroIndex = 0.0
                 # fakenonZeroIndex = 0.0
 
-                
-                # print("=====================running old fcn_call_path_complexity for 200 seconds=========================")
-                # start_time = time.time()
-                # try:
-                #     with Timeout(200):   
-                #         fcapc, nonZeroIndex = self.fcn_call_apc_computer.evaluate(graph, graphs)
-                #         fcruntime = time.time() - start_time
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                # running the three metrics in metrics folder
+                print("=========================runing regular path complexity for 100 seconds==========================")
+                start_time = time.time()
+                try:
+                    with Timeout(100):
+                        apc = self.apc_computer.evaluate(graph)
+                        runtime = time.time() - start_time
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                print("======================running new fcn_call_path_complexity for 4000 seconds=======================")
+                print("====================running recursive function path complexity for 100 seconds==========================")
+                start_time = time.time()
+                try:
+                    with Timeout(100):
+                        rapc = self.rapc_computer.evaluate(graph)
+                        rapc_time = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
+                print("=====================running old fcn_call_path_complexity for 200 seconds=========================")
+                start_time = time.time()
+                try:
+                    with Timeout(200):   
+                        fcapc = self.fcapc_computer.evaluate(graph, graphs)
+                        fcapc_time = time.time() - start_time
+                except Exception as exc:
+                    print(f"Exception: {exc}")
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+                
+                # running the three metrics in optimization folder (with time breakdown)
+                print("=========================runing elim fcn_call_path_complexity for 100 seconds==========================")
+                start_time = time.time()
+                try:
+                    with Timeout(100):
+                        efcapc = self.elim_fcapc_computer.evaluate(graph, graphs)
+                        efcapc_time = time.time() - start_time
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
+                print("======================running elim_og fcn_call_path_complexity for 4000 seconds=======================")
                 start_time = time.time()
                 try:
                     with Timeout(4000):
-                        nfcapc = self.optimized_elim_computer.evaluate(graph, graphs)
-                        nfcruntime = time.time() - start_time
-                        print(nfcapc)
+                        eofcapc = self.elim_og_fcapc_computer.evaluate(graph, graphs)
+                        eofcapc_time = time.time() - start_time
+                except Exception as exc:
+                    exception_type = "Timeout" if isinstance(
+                        exc, TimeoutError) else "Other"
+    
+                print("======================running getrgf fcn_call_path_complexity for 4000 seconds=======================")
+                start_time = time.time()
+                try:
+                    with Timeout(4000):
+                        rgfcapc = self.rgf_fcapc_computer.evaluate(graph, graphs)
+                        rgfcapc_time = time.time() - start_time
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(
                         exc, TimeoutError) else "Other"
 
-                # print("====================running recursive function path complexity for 100 seconds==========================")
-                # start_time = time.time()
-                # try:
-                #     with Timeout(100):
-                #         rapc = self.recursive_apc_computer.evaluate(graph)
-                #         rruntime = time.time() - start_time
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
-    
-                # print("=========================runing regular path complexity for 100 seconds==========================")
-                # start_time = time.time()
-                # try:
-                #     with Timeout(100):
-                #         
-                #         apc = self.apc_computer.evaluate(graph)
-                #         runtime = time.time() - start_time
-                # except Exception as exc:
-                #     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                #############################trying sub_test, not working########################
-                # sub_test.cache_clear()
-                # helper = sub_test.Helper()
-                # apc,runtime, fakenonZeroIndex = helper.callEvaluate(graph,graphs,"apc",100)
-                #
-                # helper = sub_test.Helper()
-                # rapc,rruntime, fakenonZeroIndex = helper.callEvaluate(graph,graphs,"rapc",100)
-                #
-                # helper1 = sub_test.Helper()
-                # nfcapc,nfcruntime, fakenonZeroIndex = helper1.callEvaluate(graph,graphs,"nfcapc",4000)
-                #
-                # helper = sub_test.Helper()
-                # fcapc,fcruntime, nonZeroIndex = helper.callEvaluate(graph,graphs,"fcapc",200)
-                #
-                # helper1 = sub_test.Helper()
-                # nfcapc,nfcruntime, fakenonZeroIndex = helper1.callEvaluate(graph,graphs,"nfcapc",4000)
-                ##############################################################################
+                # other path complexities (not asymptotic path complexity); not in use
 
-                
-                # nfcapc,nfcruntime = callnfcapc(self,graph,graphs,4000)
-                # callnfcapc.cache_clear()
-
-
-                # start_time = time.time()
-                # try:
-                #     with Timeout(300):
-                #         recurlist = []
-                #         end = graph.graph.num_vertices - 1
-                #         for node in graph.metadata.calls.keys():
-                #             if graph.name.split(".")[1] in graph.metadata.calls[node]:
-                #                 recurlist += [int(node)]
-                #         oldEdges = graph.graph.edges
-                #         for node in recurlist:
-                #             graph.graph.edges = graph.graph.edges + [[node, 0]]
-                #             graph.graph.edges = graph.graph.edges + \
-                #                 [[end, node]]
-                #         brapc = self.apc_computer.evaluate(graph)
-                #         bruntime = time.time() - start_time
-                #         graph.graph.edges = oldEdges
-                # except Exception as exc:
-                #     print(f"Exception: {exc}")
-                #     exception_type = "Timeout" if isinstance(self.optimized_elim_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
-                #         exc, TimeoutError) else "Other"
-
-                
-                        
                 # try:
                 #     with Timeout(200):
                 #         cyclo = self.cyclo_computer.evaluate(graph)
@@ -179,49 +177,77 @@ class DataCollector:
                 #     exception_type = "Timeout" if isinstance(
                 #         exc, TimeoutError) else "Other"
 
-                new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
-                           "rapc": rapc, "nfcapc": nfcapc["nfcapc"], 'fcapc':fcapc, "cyclo": cyclo, "npath": npath,
-                           "apc_time": runtime, "rapc_time": rruntime, "nfcapc_time": nfcruntime, "fcapc_time":fcruntime,
-                           "longest for nfcapc": get_max_time(nfcapc)[0], "longest time":get_max_time(nfcapc)[1],
-                           "numNode": nfcapc["numNodes"], "nonZeroIndex": nonZeroIndex,
-                           "num_vertices": graph.graph.num_vertices,
-                           "edge_count": graph.graph.edge_count(),
-                           "exception_type": exception_type}
+                # data table for fc_path_complexity_eliminate
+                print(efcapc)
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": efcapc["nfcapc"][0],
+                           "gamma": efcapc["gammaTime"], "graphProcess": efcapc["graphProcessTime"], "graphSystems":efcapc["graphSystemsTime"],
+                           "discrim": efcapc["discrimTime"], "realnroots": efcapc["realnrootsTime"], "rootsDict":efcapc["rootsDictTime"], "genFunc":efcapc["genFuncTime"],
+                           "coeffs": efcapc["coeffsTime"], "exprs": efcapc["exprsTime"], "solu":efcapc["soluTime"], 
+                           "upbound":efcapc["UpboundTime"], "apcTime2": efcapc["apcTime2"], "clean": efcapc["cleanTime"],
+                           "fcapc_time": efcapc_time, "exception_type": exception_type}
 
+                elim_data = elim_data.append(new_row, ignore_index=True)
+                elim_data = elim_data[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc", "rootsDict",
+                "coeffs", "exprs", "solu", "upbound", "apcTime2", "clean"]]
+                print()
+                print("PRINTING FC_PATH_COMPLEXITY_ELIMINATE TIME BREAKDOWN")
+                print(elim_data[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc", "rootsDict",
+                "coeffs", "exprs", "solu", "upbound", "apcTime2", "clean"]])
+
+                # data table for fc_path_complexity_elim_og
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": eofcapc["apc"],
+                           "gamma": eofcapc["gammaTime"], "graphProcess": eofcapc["graphProcessTime"], "graphSystems": eofcapc["graphSystemsTime"],
+                           "discrim": eofcapc["discrimTime"], "realnroots": eofcapc["realnrootsTime"], "genFunc": eofcapc["genFuncTime"],
+                           "coeffs": eofcapc["coeffsTime"], "exprs": eofcapc["exprsTime"], "solu": eofcapc["soluTime"], 
+                           "upbound": eofcapc["UpboundTime"], "apcTime2": eofcapc["apcTime2"], "clean": eofcapc["cleanTime"],
+                           "fcapc_time": eofcapc_time, "exception_type": exception_type}
+                elim_og_data = elim_og_data.append(new_row, ignore_index=True)
+                elim_og_data = elim_og_data[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc",
+                "coeffs", "exprs", "solu", "upbound", "apcTime2", "clean"]]
+                print()
+                print("PRINTING FC_PATH_COMPLEXITY_ELIM_OG TIME BREAKDOWN")
+                print(elim_og_data[["graph_name", "fcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc",
+                "coeffs", "exprs", "solu", "upbound", "apcTime2", "clean"]])
+
+
+                # data table for fc_path_complexity_getrgf
+                new_row = {"file_name": file, "graph_name": graph.name, "rgfcapc": rgfcapc["rfcapc"],
+                           "gamma": rgfcapc["gammaTime"], "graphProcess": rgfcapc["graphProcessTime"], "graphSystems": rgfcapc["graphSystemsTime"],
+                           "discrim": rgfcapc["discrimTime"], "realnroots": rgfcapc["realnrootsTime"], "rootsDict":efcapc["rootsDictTime"], "genFunc": rgfcapc["genFuncTime"],
+                           "getrgf": rgfcapc["getrgfTime"], "apcTime2": rgfcapc["apcTime2"], "clean":rgfcapc["cleanTime"],
+                           "fcapc_time": rgfcapc_time, "exception_type": exception_type}
+                rgf_data = rgf_data.append(new_row, ignore_index = True)
+                rgf_data = rgf_data[["graph_name", "rgfcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc", "rootsDict",
+                "getrgf", "apcTime2", "clean"]]
+                print()
+                print("PRINTING FC_PATH_COMPLEXITY_GETRGF TIME BREAKDOWN")
+                print(rgf_data[["graph_name", "rgfcapc","fcapc_time", "graphProcess", "graphSystems","gamma", "discrim", "realnroots", "genFunc", "rootsDict",
+                "getrgf", "apcTime2", "clean"]])
+
+                # data table for all metrics and overall runtimes
+                new_row = {"file_name": file, "graph_name": graph.name, 
+                           "apc": apc[0], "rapc": rapc[0], "fcapc": fcapc[0],
+                           "apc_time": apc_time, "rapc_time": rapc_time, "fcapc_time": fcapc_time,
+                           "efcapc": efcapc["nfcapc"], "eofcapc": eofcapc["apc"], "rgfcapc": rgfcapc["rfcapc"],
+                           "efcapc_time": efcapc_time, "eofcapc_time": eofcapc_time, "rgfcapc_time": rgfcapc_time,
+                           "exception_type": exception_type}
                 data = data.append(new_row, ignore_index=True)
-                # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "apc","rapc", "nfcapc", 'fcapc', "apc_time","rapc_time","nfcapc_time",'fcapc_time', "longest for nfcapc", "longest time","numNode","nonZeroIndex"]]
+                # only keep columns graph_name, metrics and runtimes
+                print()
+                print("PRINTING FINAL TABLE")
+                data = data[["graph_name", "apc","rapc", "fcapc", "efcapc", "eofcapc", "rgfcapc", 
+                             "apc_time","rapc_time", "fcapc_time", "efcapc_time", "eofcapc_time", "rgfcapc_time"]]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
-                # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name","nfcapc_time",'fcapc_time', "longest for nfcapc", "longest time","numNode","nonZeroIndex"]])
+                print(data[["graph_name", "apc","rapc", "fcapc", "efcapc", "eofcapc", "rgfcapc", 
+                             "apc_time","rapc_time", "fcapc_time", "efcapc_time", "eofcapc_time","rgfcapc_time"]])
 
 
                 # create directory if it doesn't exist
-                if not os.path.exists("/app/code/experiments/optimization/data"):
-                    os.makedirs("/app/code/experiments/optimization/data")
-                data.to_csv("/app/code/experiments/optimization/data/finalTestData.csv")
-
-
-######################tried calling helper functions in order to clean up cache, not working#######################
-# @lru_cache(maxsize = None)
-# def callnfcapc (self,graph,graphs,tryTime):
-#     print(f"======================running new fcn_call_path_complexity for {tryTime} seconds=======================")
-#     apc: Union[str, PathComplexityRes] = {"nfcapc":"na"}
-#     runtime = 0.0
-#     log = Log(log_level=LogLevel.DEBUG)
-#     self.optimized_elim_computer = fc_path_complexity_eliminate.FunctionCallPathComplexity(log)
-#     start_time = time.time()
-#     try:
-#         with Timeout(tryTime): 
-#             apc = self.optimized_elim_computer.evaluate(graph, graphs)
-#             runtime = time.time() - start_time
-#     except Exception as exc:
-#         exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
-#     return apc, runtime
-###################################################################
-
+                # if not os.path.exists("/app/code/experiments/optimization/data"):
+                #     os.makedirs("/app/code/experiments/optimization/data")
+                # data.to_csv("/app/code/experiments/optimization/data/finalTestData.csv")
 
 def round_tuple_of_exprs(tup, num_digits):
     return tuple(round_expr(expr, num_digits) for expr in tup)
