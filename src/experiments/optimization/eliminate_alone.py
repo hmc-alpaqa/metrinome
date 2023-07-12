@@ -12,7 +12,6 @@ import time
 #from graph.control_flow_graph import ControlFlowGraph
 #from graph.graph import Graph
 
-# WE R SORRY FOR THE VARIABLE NAMES I PROMISE YOU WE SUFFERED TOO
 
 class Eliminator:
     # graph representation: [namestring, edgelist, calldict]
@@ -66,26 +65,40 @@ class Eliminator:
 
         calldict, dictgraphs = self.processGraphs(graph, all_graphs)
         fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict = self.graphsToSystems(dictgraphs, calldict)
-        print("DICTGRAPHS", dictgraphs)
 
         modSystems = copy.deepcopy(splitsystems)
         modSymbols = copy.deepcopy(splitsymbols)
         optimizedSystems = copy.deepcopy(splitsystems)
         optimizedSymbols = copy.deepcopy(splitsymbols)
 
+        start_time = time.time()
         simpleGamma = self.simpleEliminate(fullsystem,fullsymbols)
-        # modGamma = self.modEliminate(modSystems,modSymbols)
+        simpleGammaTime = time.time() - start_time
+
+        start_time = time.time()
+        modGamma = self.modEliminate(modSystems,modSymbols)
+        modGammaTime = time.time() - start_time
+
+        start_time = time.time()
         optimizedGamma = self.optimizedEliminate(optimizedSystems, optimizedSymbols, lookupDict)
+        optimizedGammaTime = time.time() - start_time
         
-        # print('')
-        # print(f'simpleGamma: {simpleGamma}')
-        # print(f'modGamma: {modGamma}')
-        # print(f'simpleGamma = modGamma check: {simpleGamma == modGamma}')
+        print('')
+        print(f'simpleGamma: {simpleGamma}')
+        print(f'modGamma: {modGamma}')
+        print(f'simpleGamma = modGamma check: {simpleGamma == modGamma}')
+        
         print('')
         print(f'simpleGamma: {simpleGamma}')
         print(f'optimizedGamma: {optimizedGamma}')
-        print(f'expanded optimizedGamma: {sympy.expand(optimizedGamma)}')
-        print(f'simpleGamma = optimizedGamma check: {simpleGamma == sympy.expand(optimizedGamma)}')
+        print(f'simpleGamma = optimizedGamma check: {simpleGamma == optimizedGamma}')
+
+        print('')
+        print(f"simple Gamma Time:{simpleGammaTime}")
+        print(f"mod Gamma Time: {modGammaTime}")
+        print(f"optimized Gamma Time: {optimizedGammaTime}")
+        
+
 
     def graphsToSystems(self, dictgraphs, calldict):
 
@@ -145,7 +158,6 @@ class Eliminator:
         print("FULL SYMBOLS:", fullsymbols)
         print("SPLIT SYSTEMS:", splitsystems)
         print("SPLIT SYMBOLS:", splitsymbols)
-        print("LOOKUP DICT:",lookupDict)
         return fullsystem, fullsymbols, splitsystems, splitsymbols, lookupDict
 
     def modPartialEliminate(self, system, symbs):
@@ -189,48 +201,21 @@ class Eliminator:
         if len(system) == 1:
             return system[0]
         sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
-        print(symbs[-1])
-        sol = []
-        symb_idx = int(str(symbs[-1])[1:].split("_")[-1])
+        
         if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
-            for eqn_symb in lookupDict[symbs[-1]]:
-                print("EQN SYMB",eqn_symb)
-                if vertices == False:
-                    eq_idx = int(str(eqn_symb)[1:])
-                elif "T" in str(eqn_symb):
-                    eq_idx = 0
-                else:
-                    eq_idx = int(str(eqn_symb)[1:].split("_")[1]) + 1
-                if eq_idx > symb_idx:
-                    if (str(eqn_symb)[0] != "T") or (str(symbs[-1])[0] != "V"):
-                        continue
-                    else:
-                        pass
-                eq = system[eq_idx]
+            for eq in system:
                 if symbs[-1] in eq.free_symbols:
                     sol = sympy.solve(eq, symbs[-1], dict=True)
-                    print("solve done")
                     if len(sol) == 1:
-                        print(sol)
-                        #sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
-                        print("into substitution")
-                        sub = sub.subs(symbs[-1], sol[0][symbs[-1]])
-                        print("done w substitution")
+                        sub = sympy.expand(sub.subs(symbs[-1], sol[0][symbs[-1]]))
                         break
-        for eqn_symb in lookupDict[symbs[-1]]:
-            if vertices == False:
-                    eq_idx = int(str(eqn_symb)[1:])
-            elif "T" in str(eqn_symb):
-                eq_idx = 0
-            else:
-                eq_idx = int(str(eqn_symb)[1:].split("_")[1]) + 1
-            if eq_idx <= symb_idx:
-                eq = system[eq_idx]
-                if symbs[-1] in eq.free_symbols:
-                    system[eq_idx] = eq.subs(symbs[-1], sub)
-        # for count, eq in enumerate(system):
-        #     if symbs[-1] in eq.free_symbols:
-        #         system[count] = sympy.expand(eq.subs(symbs[-1], sub))
+        
+        if symbs[-1] in sub.free_symbols:
+            self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+        
+        for count, eq in enumerate(system):
+            if symbs[-1] in eq.free_symbols:
+                system[count] = sympy.expand(eq.subs(symbs[-1], sub))
         
         return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices)
 
@@ -275,24 +260,35 @@ def main():
         "one":["one",[[0, 1], [1, 2], [1, 3]],{}]
         }
     # board example
+    # graphs = {
+    #     "zero": ["zero", [[0, 1]], {0: ["one"]}],
+    #     "one": ["one", [[0, 1], [1, 0], [1, 2]], {1: ["two"]}],
+    #     "two": ["two", [[0, 1]], {}]
+    #     }
+    # experiments/function_calls/files/fcn_calls.c
     graphs = {
-        "zero": ["zero", [[0, 1]], {0: ["one"]}],
-        "one": ["one", [[0, 1], [1, 0], [1, 2]], {1: ["two"]}],
-        "two": ["two", [[0, 1]], {}]
-        }
-    # experiments/function_calls/files.even_odd.c
+        "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
+        "rec": ["rec", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ['CALLS', 'rec', 'rec']}],
+        "split": ["split", [[0, 1], [0, 2], [1, 3], [2, 3]], {1: ['CALLS','rec'], 2: ['CALLS','gcd']}],
+        "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}],
+        "fact":["fact",[[0,1],[0,2],[1,3],[2,3]],{2:["CALLS",'fact']}],
+        "fib_rec":['fib_rec',[[0,1],[0,2],[1,3],[2,3]],{2:['CALLS','fib_rec',"fib_rec"]}],
+        "mergeSortSimple":['mergeSortSimple',[[0,1],[0,2],[1,2]],{1:['CALLS','mergeSortSimple','mergeSortSimple','fib_rec']}]
+    }
+    # experiments/function_calls/files/fcn_apc_relation.c
     # graphs = {
-    #     "even": ["even", [[0, 1],[0, 2], [1, 3], [1, 2]], {2: ['odd']}],
-    #     "odd": ["odd", [[0, 1], [0, 2], [1, 3], [1, 2]], {2:["even"]}]
-    # }
-    # graphs = {
-    #     "gcd": ["gcd", [[0, 1], [1, 2], [1, 6], [2, 3], [2, 4], [3, 5], [4, 5], [5, 1]], {}],
-    #     "rec": ["rec", [[0, 1], [0, 2], [1, 3], [2, 3]], {2: ['CALLS', 'rec', 'rec']}],
-    #     "split": ["split", [[0, 1], [0, 2], [1, 3], [2, 3]], {1: ['CALLS','rec'], 2: ['CALLS','gcd']}],
-    #     "mul_inv": ["mul_inv", [[0, 1], [0, 2], [1, 8], [2, 3], [3, 4], [3, 5], [4, 3], [5, 6], [5, 7], [6, 7], [7, 8]], {}]
+    #     "bad_addition":["bad_addition",[[0,1],[0,5],[1,2],[2,3],[2,4],[3,2],[4,5]],{}],
+    #     "ten_bad_addition":["ten_bad_addition",[[0,1],[1,2]],{0:['CALLS','bad_addition','bad_addition','bad_addition','bad_addition'
+    #     ,'bad_addition','bad_addition','bad_addition','bad_addition','bad_addition','bad_addition']}]
     # }
 
-    graphname = "one"
+    #experiments/function_calls/files/even_odd.c
+    # graphs = {
+    #     "is_odd":["is_odd",[[0,1],[0,2],[1,3],[2,3]],{2:['CALLS','is_even']}],
+    #     "is_even":["is_even",[[0,1],[0,2],[1,3],[2,3]],{2:['CALLS','is_odd']}]
+    # }
+
+    graphname = "mergeSortSimple"
     elim = Eliminator()
     elim.evaluate(graphs, graphname)
 

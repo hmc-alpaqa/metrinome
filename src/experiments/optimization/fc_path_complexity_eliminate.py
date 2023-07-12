@@ -1,4 +1,5 @@
-"""Compute the path complexity and asymptotic path complexity metrics.
+"""
+Compute the path complexity and asymptotic path complexity metrics.
 new eliminate
 msolve
 correct numNodes where we call function calls multiple times, what about recursive?
@@ -363,9 +364,11 @@ class FunctionCallPathComplexity(ABC):
                     if str(node) in curr_graph: #makes sure the end node is not terminal
                         expr = expr + var*x
                     else:                       # node is terminal
-                        expr = expr + x
+                        add_to_expr = x
                         for called_fcn_idx in calldict[node]: # edge case: terminal node calls a function (see: fcn_calls/partition)
                             numCalls[called_fcn_idx] += 1
+                            add_to_expr = add_to_expr * init_nodes[called_fcn_idx]
+                        expr = expr + add_to_expr
 
                 
                 for called_fcn_idx in calldict[startnode]: # handle function calls for all non-terminal nodes  (all nodes in startnodes)
