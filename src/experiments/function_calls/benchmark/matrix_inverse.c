@@ -1,37 +1,131 @@
 #include <stdio.h>
 
-// Finds inverse for 3x3 matrix
+#define N 3 // Change this value to match the size of the matrix
+
+void getCofactor(int matrix[N][N], int temp[N][N], int p, int q, int n) {
+    int i = 0, j = 0;
+
+    for (int row = 0; row < n; row++) {
+        for (int col = 0; col < n; col++) {
+            if (row != p && col != q) {
+                temp[i][j++] = matrix[row][col];
+
+                if (j == n - 1) {
+                    j = 0;
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+int determinant(int matrix[N][N], int n) {
+    int D = 0;
+
+    if (n == 1) {
+        return matrix[0][0];
+    }
+
+    int temp[N][N];
+    int sign = 1;
+
+    for (int f = 0; f < n; f++) {
+        getCofactor(matrix, temp, 0, f, n);
+        D += sign * matrix[0][f] * determinant(temp, n - 1);
+        sign = -sign;
+    }
+
+    return D;
+}
+
+void transpose(int matrix[N][N], int transposed[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            transposed[i][j] = matrix[j][i];
+        }
+    }
+}
+
+void adjoint(int matrix[N][N], int adj[N][N]) {
+    if (N == 1) {
+        adj[0][0] = 1;
+        return;
+    }
+
+    int temp[N][N];
+    int sign = 1;
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            getCofactor(matrix, temp, i, j, N);
+            sign = ((i + j) % 2 == 0) ? 1 : -1;
+            adj[j][i] = sign * determinant(temp, N - 1);
+        }
+    }
+}
+
+int inverse(int matrix[N][N], float inverse[N][N]) {
+    int det = determinant(matrix, N);
+
+    if (det == 0) {
+        printf("Matrix is not invertible.\n");
+        return 0;
+    }
+
+    int adj[N][N];
+    adjoint(matrix, adj);
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            inverse[i][j] = adj[i][j] / (float)det;
+        }
+    }
+
+    return 1;
+}
+
+void displayMatrix(int matrix[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void displayInverse(float inverse[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%.2f ", inverse[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 int main() {
-    int mat[3][3], i, j;
-    float determinant = 0;
+    int matrix[N][N] = {
+        {1, 2, -1},
+        {2, 1, 2},
+        {-1, 2, 1}
+    };
 
-    printf("Enter elements of the matrix row-wise:\n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            scanf("%d", &mat[i][j]);
-        }
-    }
+    printf("Matrix:\n");
+    displayMatrix(matrix);
 
-    printf("\nGiven matrix is:\n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            printf("%d\t", mat[i][j]);
-        }
-        printf("\n");
-    }
+    int det = determinant(matrix, N);
+    printf("\nDeterminant: %d\n", det);
 
-    // Finding determinant
-    for (i = 0; i < 3; i++) {
-        determinant = determinant + (mat[0][i] * (mat[1][(i + 1) % 3] * mat[2][(i + 2) % 3] - mat[1][(i + 2) % 3] * mat[2][(i + 1) % 3]));
-    }
+    int transposedMatrix[N][N];
+    transpose(matrix, transposedMatrix);
+    printf("\nTranspose:\n");
+    displayMatrix(transposedMatrix);
 
-    printf("\nDeterminant: %f\n", determinant);
-    printf("\nInverse of matrix is: \n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            printf("%.2f\t", ((mat[(j + 1) % 3][(i + 1) % 3] * mat[(j + 2) % 3][(i + 2) % 3]) - (mat[(j + 1) % 3][(i + 2) % 3] * mat[(j + 2) % 3][(i + 1) % 3])) / determinant);
-        }
-        printf("\n");
+    float inverseMatrix[N][N];
+    int inv = inverse(matrix, inverseMatrix);
+
+    if (inv) {
+        printf("\nInverse:\n");
+        displayInverse(inverseMatrix);
     }
 
     return 0;
