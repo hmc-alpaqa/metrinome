@@ -367,7 +367,7 @@ class FunctionCallPathComplexity(ABC):
                         add_to_expr = x
                         for called_fcn_idx in calldict[node]: # edge case: terminal node calls a function (see: fcn_calls/partition)
                             if called_fcn_idx != fcn_idx: # if recursive, don't count nodes again
-                            numCalls[called_fcn_idx] += 1
+                                numCalls[called_fcn_idx] += 1
                             add_to_expr = add_to_expr * init_nodes[called_fcn_idx]
                         expr = expr + add_to_expr
 
