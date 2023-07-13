@@ -438,7 +438,11 @@ class FunctionCallPathComplexity(ABC):
     Return: APC
     """
     def getAPC(self,genFunc, denominator, rootsDict):
+
         numerator = sympy.simplify(sympy.factor(genFunc*denominator))
+        if sympy.polys.polytools.degree(numerator) >= sympy.polys.polytools.degree(denominator):
+            quotient, remainder = sympy.div(numerator, denominator)
+            numerator = remainder
         self.logger.d_msg(f"numerator: {numerator}")
         rhoDict, maxRho, maxMultiplicity = self.getRhoDict(rootsDict)
         self.logger.d_msg(f"rhoDict: {rhoDict}")
