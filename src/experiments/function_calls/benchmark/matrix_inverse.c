@@ -1,3 +1,5 @@
+// we currently can't compute apc of the inverse function bc solving the system of equations is impossible (all solutions are quadratic)
+// apc case 1 (probably)
 #include <stdio.h>
 
 #define N 3 // Change this value to match the size of the matrix
@@ -84,49 +86,49 @@ int inverse(int matrix[N][N], float inverse[N][N]) {
     return 1;
 }
 
-void displayMatrix(int matrix[N][N]) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
+// void displayMatrix(int matrix[N][N]) {
+//     for (int i = 0; i < N; i++) {
+//         for (int j = 0; j < N; j++) {
+//             printf("%d ", matrix[i][j]);
+//         }
+//         printf("\n");
+//     }
+// }
 
-void displayInverse(float inverse[N][N]) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            printf("%.2f ", inverse[i][j]);
-        }
-        printf("\n");
-    }
-}
+// void displayInverse(float inverse[N][N]) {
+//     for (int i = 0; i < N; i++) {
+//         for (int j = 0; j < N; j++) {
+//             printf("%.2f ", inverse[i][j]);
+//         }
+//         printf("\n");
+//     }
+// }
 
-int main() {
-    int matrix[N][N] = {
-        {1, 2, -1},
-        {2, 1, 2},
-        {-1, 2, 1}
-    };
+// int main() {
+//     int matrix[N][N] = {
+//         {1, 2, -1},
+//         {2, 1, 2},
+//         {-1, 2, 1}
+//     };
 
-    printf("Matrix:\n");
-    displayMatrix(matrix);
+//     printf("Matrix:\n");
+//     displayMatrix(matrix);
 
-    int det = determinant(matrix, N);
-    printf("\nDeterminant: %d\n", det);
+//     int det = determinant(matrix, N);
+//     printf("\nDeterminant: %d\n", det);
 
-    int transposedMatrix[N][N];
-    transpose(matrix, transposedMatrix);
-    printf("\nTranspose:\n");
-    displayMatrix(transposedMatrix);
+//     int transposedMatrix[N][N];
+//     transpose(matrix, transposedMatrix);
+//     printf("\nTranspose:\n");
+//     displayMatrix(transposedMatrix);
 
-    float inverseMatrix[N][N];
-    int inv = inverse(matrix, inverseMatrix);
+//     float inverseMatrix[N][N];
+//     int inv = inverse(matrix, inverseMatrix);
 
-    if (inv) {
-        printf("\nInverse:\n");
-        displayInverse(inverseMatrix);
-    }
+//     if (inv) {
+//         printf("\nInverse:\n");
+//         displayInverse(inverseMatrix);
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
