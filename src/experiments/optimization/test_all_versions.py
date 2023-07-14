@@ -178,7 +178,6 @@ class DataCollector:
                 #         exc, TimeoutError) else "Other"
 
                 # data table for fc_path_complexity_eliminate
-                print(efcapc)
                 new_row = {"file_name": file, "graph_name": graph.name, "fcapc": efcapc["nfcapc"][0],
                            "gamma": efcapc["gammaTime"], "graphProcess": efcapc["graphProcessTime"], "graphSystems":efcapc["graphSystemsTime"],
                            "discrim": efcapc["discrimTime"], "realnroots": efcapc["realnrootsTime"], "rootsDict":efcapc["rootsDictTime"], "genFunc":efcapc["genFuncTime"],
