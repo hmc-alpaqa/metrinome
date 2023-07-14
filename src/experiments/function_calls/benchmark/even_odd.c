@@ -1,3 +1,5 @@
+// copied from experiments/function_calls/files/fcn_calls
+
 #include <stdbool.h>
 int is_even(int n);
 int is_odd(int n);
@@ -25,19 +27,3 @@ int is_odd(int n)
         return is_even(n - 1);
     }
 }
-
-// int gcd(int a, int b)
-// {
-//     while (a != b)
-//     {
-//         if (a > b)
-//         {
-//             a = a - b;
-//         }
-//         else
-//         {
-//             b = b - a;
-//         }
-//     }
-//     return a;
-// }
