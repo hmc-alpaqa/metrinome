@@ -1,4 +1,4 @@
-// Goes to Case 1
+// copied from fcn_calls.c
 void heapify(int arr[], int n, int i)
 {
     int largest = i;
