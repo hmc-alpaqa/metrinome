@@ -109,7 +109,7 @@ class FunctionCallPathComplexity(ABC):
                     maxPow = power
             rootsDict = sympy.roots(denominator)
             numRoots = sum(rootsDict.values())
-            self.logger.d_msg(f"numRoots: {numRoots}")
+            
             self.logger.d_msg(f"denominator: {denominator}")
             if numRoots < maxPow:
                 newRootsDict = {}
@@ -129,6 +129,7 @@ class FunctionCallPathComplexity(ABC):
                 raise Exception("Can't find all the roots :(")
             #nonZeroIndex = 0
             self.logger.d_msg(f"Found all Roots")
+            self.logger.d_msg(f"numRoots: {numRoots}")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
             # Replacing old nonZeroIndex for numNodes: July 7, 2023
             # while True:
@@ -149,7 +150,7 @@ class FunctionCallPathComplexity(ABC):
                 graphsNumbers.append(int(edgelist[i][1][0]))
 
             graphsNumbers = list(sorted(set(graphsNumbers)))
-            print(f"updated graph numbers:{graphsNumbers}")
+            self.logger.d_msg(f"updated graph numbers:{graphsNumbers}")
 
             numCalls = [0]*len(graphsNumbers)
 
@@ -164,7 +165,7 @@ class FunctionCallPathComplexity(ABC):
                     numCalls[currentCall] = numCalls[currentCall] + 1
             #include original graph being called
             numCalls[0] += 1
-            print(f"num of calls per graph:{numCalls}")
+            self.logger.d_msg(f"num of calls per graph:{numCalls}")
 
             #3rd step) Number of nodes for each graph
             nodes = []
@@ -173,7 +174,7 @@ class FunctionCallPathComplexity(ABC):
                     nodes.append(edgelist[i][0])
                 if edgelist[i][1] not in nodes:
                     nodes.append(edgelist[i][1])
-            print(f"nodes list...{nodes}")
+            self.logger.d_msg(f"nodes list...{nodes}")
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
 
@@ -184,15 +185,16 @@ class FunctionCallPathComplexity(ABC):
             numberNodesPerGraph = []
             for i in range(len(graphsNumbers)):
                 numberNodesPerGraph.append(len(listOfListsNodesGraphs[i]) + 1)
-                print(f"number nodes per graph: {numberNodesPerGraph}")
 
+            self.logger.d_msg(f"number nodes per graph:{numberNodesPerGraph}")
             dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
-            print(f"dot product (new new node):{dot_product}")
+            self.logger.d_msg(f"dot product (new new node):{dot_product}")
             
             numNodes = dot_product
             
             #self.logger.d_msg(f"nonZeroIndex: {nonZeroIndex}")
             coeffs = [0]*(numRoots + numNodes)
+            self.logger.d_msg(f"computing taylor series with {numRoots+numNodes} terms")
             Tseries = sympy.series(genFunc, x, 0, numRoots + numNodes)
             exprs = []
             symbs = set()
