@@ -1,5 +1,5 @@
 // Copied from src/tests/cFiles/benchmark/07_bubble_sort_helper.c
-// Function to function bubble sort version
+// Bubble sort - function to function version
 
 #include <stdio.h>
 
