@@ -312,8 +312,8 @@ class FunctionCallPathComplexity(ABC):
             # these 2 lines below implement the sorting of substitution options by simplicity during T elimination
             # they are only necessary to prevent really long gammaTimes from occuring with certain functions (intergrated-digits-squaring-2.c)
             # they can be commented out to return to the older version without this optimization, which is often faster
-            # if vertices == False:
-            #     subs_options = self.simpleOrder(system, subs_options, idxDict, vertices)
+            if vertices == False:
+                subs_options = self.simpleOrder(system, subs_options, idxDict, vertices)
 
             for eqn_symb in subs_options:
                 if vertices == False:
