@@ -40,6 +40,8 @@ class DataCollector:
                 continue
 
             for graph_name, graph in graphs.items():
+                # if graph_name != 'sudoku_f2f_cfg._Z7trycellPii.dot':
+                #     continue
                 print('Graph Name: ', graph_name)
                 
                 rapc: Union[str, PathComplexityRes] = "na"
