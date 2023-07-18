@@ -1,2 +1,8 @@
 ,graph_name,apc,apc_time
+<<<<<<< HEAD
 0,newtons_method_recursive_cfg._Z18newtons_method_recdid,"(n, '0.6667*n')",0.1844491958618164
+=======
+0,tic_tac_toe_f2f_cfg._Z12check_winnerv,"('1.3824**n', '0.7685*1.3824**n')",0.6917483806610107
+1,tic_tac_toe_f2f_cfg._Z9showboardv,"('1.1939**n', '0.4658*1.1939**n')",0.24801063537597656
+2,tic_tac_toe_f2f_cfg._Z4gamei,"('1.4376**n', '0.0898*1.4376**n')",3.0540943145751953
+>>>>>>> origin/function-calls
