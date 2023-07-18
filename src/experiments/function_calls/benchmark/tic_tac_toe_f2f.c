@@ -57,7 +57,6 @@ int test_move(int val, int depth)
 	return changed ? best : 0;
 }
 
-// this is function calls
 const char* game(int user)
 {
 	int i, j, k, move, win = 0;
