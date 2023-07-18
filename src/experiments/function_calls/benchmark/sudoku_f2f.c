@@ -39,6 +39,7 @@ int trycell(int *x, int pos)
 	return 0;
 }
 
+// this is function calls
 void solve(const char *s)
 {
 	int i, x[81];
