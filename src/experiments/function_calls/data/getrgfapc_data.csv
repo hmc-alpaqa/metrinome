@@ -1,0 +1,2 @@
+,graph_name,getrgfapc,getrgfapc_time,longest for getrgf,longest time,case,gamma
+0,newtons_method_recursive_cfg._Z18newtons_method_recdid,0.663912525162638*1.1938591113212**n,0.43773770332336426,gammaTime,0.233,1.0,-(T0*(x**3 - 1) + x**5*(T0 + 1))/(x**3 - 1)
