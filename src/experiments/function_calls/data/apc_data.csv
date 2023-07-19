@@ -1,7 +1,4 @@
 ,graph_name,apc,apc_time
-0,sudoku_f2f_cfg._Z5solvePKc,"('1.2149**n', '0.9234*1.2149**n')",0.4043745994567871
-1,sudoku_f2f_cfg._Z4showPi,"('1.277**n', '0.2078*1.277**n')",0.4479711055755615
-2,sudoku_f2f_cfg._Z7trycellPii,"('1.1939**n', '9.9162*1.1939**n')",1.833127498626709
-3,truncatable_primes_f2f_cfg._Z8is_primei,"(n, '0.6*n')",0.1255173683166504
-4,truncatable_primes_f2f_cfg._Z4leftii,"('1.1673**n', '1.3397*1.1673**n')",0.19546079635620117
-5,truncatable_primes_f2f_cfg._Z5righti,"('1.1673**n', '1.3397*1.1673**n')",0.07152247428894043
+0,digits_squaring_f2f_cfg._Z9factoriali,"(2.00000000000000, 2.00000000000000)",0.023476123809814453
+1,digits_squaring_f2f_cfg._Z17sum_square_digitsj,"(n, '0.5*n')",0.11791801452636719
+2,digits_squaring_f2f_cfg._Z23choose_sum_and_count_89PiiiiiS_,"('1.2207**n', '1.6028*1.2207**n')",2.433377265930176
