@@ -187,8 +187,8 @@ def prepare(klee_path, src_filepath, filepath, file_generation_function, functio
 def main() -> None:
 
     klee_path = "/app/build/bin/klee" # location of the klee command
-    src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/files/" # location of source files to run klee on, end with a slash
-    filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest/" # directory to create (if it doesn't exist) and put all results/created files in
+    src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/" # location of source files to run klee on, end with a slash
+    filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/" # directory to create (if it doesn't exist) and put all results/created files in
                                                                         # both filepaths needs to end with a slash
     # src_filepath = "/app/code/tests/cFiles/fse_2020_benchmark/"
     # filepath =   "/app/code/tests/cFiles/fse_2020_benchmark/kleetest/"
@@ -224,12 +224,12 @@ def main() -> None:
 # 'recursive_func', 'merge_sort', 'quick-sort',
     # functions = ['digital-root-multiplicative-digital-root', 'parsing-rpn-calculator-algorithm-2', 'arrays-10', 'chinese-remainder-theorem', 'multifactorial', 'combinations-1', 'spiral-matrix-2', 'non-continuous-subsequences-3', 'mutual-recursion', 'huffman-coding-2', 'ulam-spiral--for-primes--2', 'quickselect-algorithm', '24-game', 'combinations-with-repetitions', 'binary-search', 'abc-problem', 'iterated-digits-squaring-2', 'n-queens-problem-1', 'power-set', 'zebra-puzzle-1', 'percolation-site-percolation-2', 'reverse-words-in-a-string', 'greatest-common-divisor-2', 'ackermann-function-1', 'happy-numbers-1', 'catalan-numbers-1', 'permutation-test-1', 'heronian-triangles', 'factorial-3', 'factorial-5', 'factorial-4', 'towers-of-hanoi-1', 'long-multiplication-1', 'permutations-by-swapping', 'balanced-ternary', 'call-an-object-method', 'truncatable-primes-3', 'pascals-triangle-2', 'permutations-derangements', 'matrix-arithmetic-1', 'topswops-1', 'sorting-algorithms-stooge-sort', 'hailstone-sequence-2', 'sorting-algorithms-radix-sort', 'stern-brocot-sequence-1', 'visualize-a-tree', 'dinesmans-multiple-dwelling-problem', 'sorting-algorithms-quicksort-1', 'sorting-algorithms-quicksort-2', 'sierpinski-carpet-3', 'find-limit-of-recursion-2', 'find-limit-of-recursion-1', 'palindrome-detection-3', 'ordered-partitions-2', 'sudoku', 'fibonacci-sequence-1', 'levenshtein-distance-1']
     # functions = ['lina_determinant']
-    functions = ['example_apc_functions']
+    functions = ['quicksort']
 
 
     labels = ["normal"] # the labels for the different "compilation methods"
 
-    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '30', '35', '50', '100']
+    xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'] #for quicksort
     # xaxis = ['1', '2', '3', '200']
     timeout = 1000 #timeout
     fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
