@@ -2,19 +2,14 @@
 #include <stdlib.h>
 
 int
-main(void)
+dot_product(int *a, int *b, size_t n)
 {
-        int a[3] = {1, 3, -5};
-        int b[3] = {4, -2, -1};
-
         int sum = 0;
         size_t i;
 
-        for (i = 0; i < sizeof(a) / sizeof(a[0]); i++) {
+        for (i = 0; i < n; i++) {
                 sum += a[i] * b[i];
         }
 
         return sum;
-
-        return EXIT_SUCCESS;
 }
