@@ -1,0 +1,2 @@
+KLEE: WARNING: undefined reference to function: rand
+KLEE: WARNING ONCE: calling external: rand() at /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/partition.c:11 26

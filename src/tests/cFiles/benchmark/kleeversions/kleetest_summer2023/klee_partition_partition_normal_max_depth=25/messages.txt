@@ -1,0 +1,9 @@
+KLEE: Using Z3 solver backend
+KLEE: ERROR: /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/partition.c:11: divide by zero
+KLEE: NOTE: now ignoring this error at this location
+KLEE: ERROR: /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/partition.c:5: memory error: out of bound pointer
+KLEE: NOTE: now ignoring this error at this location
+KLEE: ERROR: /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/partition.c:6: memory error: out of bound pointer
+KLEE: NOTE: now ignoring this error at this location
+KLEE: ERROR: /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/partition.c:15: memory error: out of bound pointer
+KLEE: NOTE: now ignoring this error at this location
