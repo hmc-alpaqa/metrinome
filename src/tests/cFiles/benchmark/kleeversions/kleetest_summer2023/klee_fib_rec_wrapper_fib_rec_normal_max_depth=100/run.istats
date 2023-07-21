@@ -1,0 +1,93 @@
+version: 1
+creator: klee
+pid: 2322
+cmd: /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/fib_rec_wrapper_fib_rec_.bc
+
+
+positions: instr line
+event: Icov : CoveredInstructions
+event: Forks : Forks
+event: Ireal : InstructionRealTimes
+event: Itime : InstructionTimes
+event: I : Instructions
+event: UCdist : MinDistToUncovered
+event: Rtime : ResolveTime
+event: States : States
+event: Iuncov : UncoveredInstructions
+event: Q : Queries
+event: Qiv : QueriesInvalid
+event: Qv : QueriesValid
+event: Qtime : QueryTime
+events: Icov Forks Ireal Itime I UCdist Rtime States Iuncov Q Qiv Qv Qtime 
+ob=assembly.ll
+fl=/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/fib_rec_wrapper.c
+fn=fib_rec
+10 4 1 0 0 0 5681907 0 0 0 0 0 0 0 0 
+11 4 1 0 0 0 5681902 0 0 0 0 0 0 0 0 
+12 4 1 0 0 0 5681896 0 0 0 0 0 0 0 0 
+13 4 1 0 0 0 5681893 0 0 0 0 0 0 0 0 
+14 4 1 0 0 0 5681890 0 0 0 0 0 0 0 0 
+15 4 1 0 0 0 5681882 0 0 0 0 0 0 0 0 
+16 6 1 0 0 0 5681880 0 0 0 0 0 0 0 0 
+17 6 1 0 0 0 5681877 0 0 0 0 0 0 0 0 
+18 4 1 0 0 0 5681874 0 0 0 0 0 0 0 0 
+19 6 1 99 0 0 5681872 0 0 0 0 196 99 97 1748937 
+22 7 1 0 0 0 2841536 0 0 0 0 0 0 0 0 
+23 7 1 0 0 0 2841535 0 0 0 0 0 0 0 0 
+26 9 1 0 0 0 2840430 0 0 0 0 0 0 0 0 
+27 9 1 0 0 0 2840429 0 0 0 0 0 0 0 0 
+28 9 1 0 0 0 2840429 0 0 0 0 0 0 0 0 
+cfn=fib_rec
+calls=2840429 8 4
+28 9 0 98 0 0 107452352 0 0 0 0 194 98 96 1738559 
+29 9 1 0 0 0 2841488 0 0 0 0 0 0 0 0 
+30 10 1 0 0 0 2841485 0 0 0 0 0 0 0 0 
+31 10 1 0 0 0 2841485 0 0 0 0 0 0 0 0 
+32 10 1 0 0 0 2841482 0 0 0 0 0 0 0 0 
+33 10 1 0 0 0 2841480 0 0 0 0 0 0 0 0 
+cfn=fib_rec
+calls=2841480 8 4
+33 10 0 0 0 0 59933736 0 0 0 0 97 0 97 851163 
+34 10 1 0 0 0 2841145 0 0 0 0 0 0 0 0 
+35 11 1 0 0 0 2841145 0 0 0 0 0 0 0 0 
+36 11 1 0 0 0 2841145 0 0 0 0 0 0 0 0 
+37 11 1 0 0 0 2841143 0 0 0 0 0 0 0 0 
+38 11 1 0 0 0 2841140 0 0 0 0 0 0 0 0 
+39 11 1 0 0 0 2841137 0 0 0 0 0 0 0 0 
+42 13 1 0 0 0 5682669 0 0 0 0 0 0 0 0 
+43 13 1 0 0 0 5682664 0 0 0 0 0 0 0 0 
+fn=fib_rec_wrapper
+51 15 0 0 0 0 0 1 0 0 1 0 0 0 0 
+52 15 0 0 0 0 0 1 0 0 1 0 0 0 0 
+53 15 0 0 0 0 0 1 0 0 1 0 0 0 0 
+54 16 0 0 0 0 0 1 0 0 1 0 0 0 0 
+55 16 0 0 0 0 0 1 0 0 1 0 0 0 0 
+56 16 0 0 0 0 0 1 0 0 1 0 0 0 0 
+fl=/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/fib_rec_wrapper_fib_rec_.c
+fn=main
+61 4 1 0 0 0 1 0 0 0 0 0 0 0 0 
+62 4 1 0 0 0 1 0 0 0 0 0 0 0 0 
+63 4 1 0 0 0 1 0 0 0 0 0 0 0 0 
+64 6 1 0 0 0 1 0 0 0 0 0 0 0 0 
+65 7 1 0 0 0 1 0 0 0 0 0 0 0 0 
+66 7 1 0 0 0 1 0 0 0 0 0 0 0 0 
+67 8 1 0 0 0 1 0 0 0 0 0 0 0 0 
+68 8 1 0 0 0 1 0 0 0 0 0 0 0 0 
+69 8 1 0 0 0 1 0 0 0 0 0 0 0 0 
+70 8 1 0 0 0 1 0 0 0 0 0 0 0 0 
+71 8 1 0 0 0 1 0 0 0 0 0 0 0 0 
+72 8 1 1 0 0 1 0 0 0 0 2 2 0 10980 
+75 9 1 0 0 0 1 0 0 0 0 0 0 0 0 
+76 9 1 0 0 0 1 0 0 0 0 0 0 0 0 
+79 10 1 0 0 0 1 0 0 0 0 0 0 0 0 
+80 10 1 0 0 0 1 0 0 0 0 0 0 0 0 
+cfl=/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/fib_rec_wrapper.c
+cfn=fib_rec
+calls=1 8 4
+80 10 28 99 0 0 113642840 0 0 0 0 196 99 97 1748937 
+81 10 1 0 0 0 27 0 0 0 0 0 0 0 0 
+82 10 1 0 0 0 27 0 0 0 0 0 0 0 0 
+85 11 1 0 0 0 28 0 0 0 0 0 0 0 0 
+86 11 1 0 0 0 28 0 0 0 0 1 1 0 6979 
+
+
