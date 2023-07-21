@@ -1,0 +1,28 @@
+Error: memory error: out of bound pointer
+File: /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/binary_search.c
+Line: 48
+assembly.ll line: 122
+State: 129
+Stack: 
+	#000000122 in bSearchAsc (=94586256539648, , ) at /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/binary_search.c:48
+	#100000208 in main () at /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/binary_search_bSearchAsc_.c:18
+Info: 
+	address: (Add w64 94586256539648
+          (Mul w64 4
+                   (SExt w64 (SDiv w32 (Add w32 (SDiv w32 (Add w32 (SDiv w32 (Add w32 (SDiv w32 (Add w32 (SDiv w32 (Add w32 (SDiv w32 (Add w32 4294967295
+                                                                                                                                               N0:(ReadLSB w32 0 4b9ac7d35bbd4877bfdb9c24417618d6))
+                                                                                                                                      2)
+                                                                                                                            N0)
+                                                                                                                   2)
+                                                                                                         N0)
+                                                                                                2)
+                                                                                      N0)
+                                                                             2)
+                                                                   N0)
+                                                          2)
+                                                N0)
+                                       2))))
+	example: 94586256543676
+	range: [94586256543648, 94586256543676]
+	next: object at 94586255133264 of size 16
+		MO11[16] allocated at global:.str.4

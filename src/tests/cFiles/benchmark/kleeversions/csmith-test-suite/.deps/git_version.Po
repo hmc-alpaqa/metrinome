@@ -1,0 +1,5 @@
+git_version.o: git_version.cpp ../config.h git_version.h
+
+../config.h:
+
+git_version.h:

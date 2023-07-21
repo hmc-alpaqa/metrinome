@@ -1,0 +1,22 @@
+/app/build/bin/klee --output-dir=/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/klee_binary_search_bSearchAsc_normal_max_depth=20 --max-depth=20 /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/binary_search_bSearchAsc_.bc
+PID: 3291
+Using monotonic steady clock with 1/1000000000s resolution
+Started: 2023-07-21 17:36:23
+BEGIN searcher description
+<InterleavedSearcher> containing 2 searchers:
+RandomPathSearcher
+WeightedRandomSearcher::CoveringNew
+</InterleavedSearcher>
+END searcher description
+Finished: 2023-07-21 17:36:36
+Elapsed: 00:00:13
+KLEE: done: explored paths = 247
+KLEE: done: avg. constructs per query = 171
+KLEE: done: total queries = 468
+KLEE: done: valid queries = 206
+KLEE: done: invalid queries = 262
+KLEE: done: query cex = 468
+
+KLEE: done: total instructions = 4053
+KLEE: done: completed paths = 247
+KLEE: done: generated tests = 246

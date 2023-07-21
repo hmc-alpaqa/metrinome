@@ -1,0 +1,20 @@
+array 02bccb40e027413a9b690bdc4740589a[4] : w32 -> w8 = symbolic
+array 97c45b37fda84cfcb1d0c69ad781e69c[4] : w32 -> w8 = symbolic
+(query [(Eq false
+             (Slt N0:(ReadLSB w32 0 02bccb40e027413a9b690bdc4740589a)
+                  4294967295))
+         (Eq false (Slt 1024 N0))
+         (Eq false
+             (Slt N1:(ReadLSB w32 0 97c45b37fda84cfcb1d0c69ad781e69c)
+                  4294967295))
+         (Eq false (Slt 1024 N1))
+         (Eq false
+             (Eq 4294967295 N2:(Sub w32 N1 N0)))
+         (Ult (Mul w64 4
+                       (SExt w64 (Add w32 N0
+                                          (SRem w32 1804289383 (Add w32 1 N2)))))
+              3997)
+         (Eq false
+             (Ult (Mul w64 4 (SExt w64 N1))
+                  3997))]
+        false)

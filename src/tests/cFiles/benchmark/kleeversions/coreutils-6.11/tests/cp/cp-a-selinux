@@ -1,0 +1,83 @@
+#!/bin/sh
+# Ensure that cp -a and cp --preserve=context work properly.
+# In particular, test on a writable NFS partition.
+
+# Copyright (C) 2007-2008 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+if test "$VERBOSE" = yes; then
+  set -x
+  cp --version
+fi
+
+. $srcdir/../lang-default
+. $srcdir/../test-lib.sh
+require_root_
+require_selinux_
+
+cwd=`pwd`
+cleanup_() { cd /; umount "$cwd/mnt"; }
+
+# Create a file system, then mount it with the context=... option.
+dd if=/dev/zero of=blob bs=8192 count=200 > /dev/null 2>&1 \
+                                             || framework_failure
+mkdir mnt                                    || framework_failure
+mkfs -t ext2 -F blob > /dev/null 2>&1        || framework_failure
+
+# This context is special: it works even when mcstransd isn't running.
+ctx=root:object_r:tmp_t:s0
+
+mount -oloop,context=$ctx blob mnt           || framework_failure
+cd mnt                                       || framework_failure
+
+echo > f                                     || framework_failure
+echo > g                                     || framework_failure
+
+fail=0
+
+# /bin/cp from coreutils-6.7-3.fc7 would fail this test by letting cp
+# succeed (giving no diagnostics), yet leaving the destination file empty.
+cp -a f g 2>err || fail=1
+test -s g       || fail=1     # The destination file must not be empty.
+test -s err     && fail=1     # There must be no stderr output.
+
+rm -f g err
+echo > g
+
+# =====================================================
+# Here, we expect cp to fail, because it cannot set the SELinux
+# security context through NFS or a mount with fixed context.
+cp --preserve=context f g 2> out && fail=1
+
+# Here, we *do* expect the destination to be empty.
+test -s g && fail=1
+
+# An alternative to the current approach would be to run in a confined
+# domain (maybe creating/loading it) that lacks the required permissions
+# to the file type.
+# Note: this test could also be run by a regular (non-root) user in an
+# NFS mounted directory.  When doing that, I get this diagnostic:
+# cp: failed to set the security context of `g' to `system_u:object_r:nfs_t': \
+#   Operation not supported
+sed "s/ .g' to .*//" out > k
+mv k out
+
+cat <<\EOF > exp || fail=1
+cp: failed to set the security context of
+EOF
+
+compare out exp || fail=1
+
+(exit $fail); exit $fail

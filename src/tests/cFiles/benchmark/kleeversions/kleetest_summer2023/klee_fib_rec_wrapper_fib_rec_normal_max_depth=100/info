@@ -1,0 +1,22 @@
+/app/build/bin/klee --output-dir=/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/klee_fib_rec_wrapper_fib_rec_normal_max_depth=100 --max-depth=100 /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/fib_rec_wrapper_fib_rec_.bc
+PID: 2322
+Using monotonic steady clock with 1/1000000000s resolution
+Started: 2023-07-20 22:32:42
+BEGIN searcher description
+<InterleavedSearcher> containing 2 searchers:
+RandomPathSearcher
+WeightedRandomSearcher::CoveringNew
+</InterleavedSearcher>
+END searcher description
+Finished: 2023-07-20 22:35:02
+Elapsed: 00:02:20
+KLEE: done: explored paths = 101
+KLEE: done: avg. constructs per query = 313
+KLEE: done: total queries = 199
+KLEE: done: valid queries = 97
+KLEE: done: invalid queries = 102
+KLEE: done: query cex = 199
+
+KLEE: done: total instructions = 113642966
+KLEE: done: completed paths = 101
+KLEE: done: generated tests = 101

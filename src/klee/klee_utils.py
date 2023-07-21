@@ -157,7 +157,7 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self._logger = logger
 
-    def show_func_defs(self, filename: str, size: int = 10,
+    def show_func_defs(self, filename: str, size: int = 1000,
                        optimized: bool = False) -> dict[str, str]:
         """
         Generate the set of klee-compatible files.
@@ -170,6 +170,7 @@ class KleeUtils:
             cppargs = ['-O3', '-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
         else:
             cppargs = ['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
+            # cppargs = ['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include', r'-I/usr/include/x86_64-linux-gnu/']
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc', cpp_args=cppargs)
         self._logger.d_msg("Going to visit functions.")
         func_visitor = FuncVisitor(self._logger)
@@ -198,12 +199,15 @@ class KleeUtils:
 
                 file_str += f"\tklee_make_symbolic(&{var[1]}," + \
                             f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
-
+                if ('int' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
+                    file_str += f"""\tif (({var[1]}<-1) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
                 var_names.append(var[1])
 
             if func_visitor.types[func_name] == 'void':
                 file_str += f"\t{func_name}({', '.join(var_names)});\n"
                 file_str += "\treturn 0;\n"
+            elif None in var_names:
+                file_str += f"\treturn {func_name}();\n"
             else:
                 file_str += f"\treturn {func_name}({', '.join(var_names)});\n"
             file_str += "}\n"

@@ -1,0 +1,15 @@
+array arg00[6] : w32 -> w8 = symbolic
+array model_version[4] : w32 -> w8 = symbolic
+(query [(Sle 32
+              (SExt w32 (Read w8 0 arg00)))
+         (Sle 32
+              (SExt w32 (Read w8 1 arg00)))
+         (Sle 32
+              (SExt w32 (Read w8 2 arg00)))
+         (Sle 32
+              (SExt w32 (Read w8 3 arg00)))
+         (Sle 32
+              (SExt w32 (Read w8 4 arg00)))
+         (Eq 1
+             (ReadLSB w32 0 model_version))]
+        false)

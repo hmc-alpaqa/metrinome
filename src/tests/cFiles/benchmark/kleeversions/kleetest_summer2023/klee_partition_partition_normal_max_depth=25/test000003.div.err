@@ -1,0 +1,9 @@
+Error: divide by zero
+File: /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/partition.c
+Line: 11
+assembly.ll line: 60
+State: 3
+Stack: 
+	#000000191 in klee_div_zero_check () at /app/klee/runtime/Intrinsic/klee_div_zero_check.c:14
+	#100000060 in partition (=94875902074880, , ) at /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/cFiles/partition.c:11
+	#200000170 in main () at /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/partition_partition_.c:18

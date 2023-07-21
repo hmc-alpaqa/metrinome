@@ -1,0 +1,57 @@
+#!/bin/sh
+# Test "cut".                                                   -*- perl -*-
+
+# Copyright (C) 2006, 2007 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+: ${srcdir=.}
+. $srcdir/../require-perl
+
+me=`echo $0|sed 's,.*/,,'`
+exec $PERL -w -I$srcdir/.. -MCoreutils -M"CuTmpdir qw($me)" -- - <<\EOF
+require 5.003;
+use strict;
+
+(my $ME = $0) =~ s|.*/||;
+
+# Turn off localisation of executable's ouput.
+@ENV{qw(LANGUAGE LANG LC_ALL)} = ('C') x 3;
+
+my $prog = 'cut';
+my $diag = <<DIAG_EOF;
+$prog: fields and positions are numbered from 1
+Try \`cut --help' for more information.
+DIAG_EOF
+
+my @Tests =
+  (
+   # Provoke a double-free in cut from coreutils-6.7.
+   ['dbl-free', '-f2-', {IN=>{f=>'x'}}, {IN=>{g=>'y'}}, {OUT=>"x\ny\n"}],
+
+   # This failed (as it should) even before coreutils-6.9.90,
+   # but cut from 6.9.90 produces a more useful diagnostic.
+   ['zero-1', '-b0',   {ERR=>$diag}, {EXIT => 1} ],
+
+   # Up to coreutils-6.9, specifying a range of 0-2 was not an error.
+   # It was treated just like "-2".
+   ['zero-2', '-f0-2', {ERR=>$diag}, {EXIT => 1} ],
+  );
+
+my $save_temps = $ENV{DEBUG};
+my $verbose = $ENV{VERBOSE};
+
+my $fail = run_tests ($ME, $prog, \@Tests, $save_temps, $verbose);
+exit $fail;
+EOF

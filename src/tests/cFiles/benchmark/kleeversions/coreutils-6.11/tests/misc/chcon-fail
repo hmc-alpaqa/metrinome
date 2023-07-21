@@ -1,0 +1,28 @@
+#!/bin/sh
+# Ensure that chcon fails when it should.
+# These tests don't use any actual SE Linux syscalls.
+
+if test "$VERBOSE" = yes; then
+  set -x
+  chcon --version
+fi
+
+. $srcdir/../lang-default
+. $srcdir/../test-lib.sh
+
+fail=0
+
+# neither context nor file
+chcon 2> /dev/null && fail=1
+
+# No file
+chcon CON 2> /dev/null && fail=1
+
+# No file
+touch f
+chcon --reference=f 2> /dev/null && fail=1
+
+# No file
+chcon -u anyone 2> /dev/null && fail=1
+
+(exit $fail); exit $fail
