@@ -1,0 +1,3 @@
+,graph_name,getrgfapc,getrgfapc_time,longest for getrgf,longest time,case,gamma
+0,partition_cfg._Z4swapPiS_,1.0**(n + 1),0.1591334342956543,gammaTime,0.107,1.0,-T0 + x**3
+1,partition_cfg._Z9partitionPiii,0.723606797749937*1.12783848556168**n,0.42708683013916016,gammaTime,0.203,1.0,-(T0*(x**8 + x**4 - 1) + x**6)/(x**8 + x**4 - 1)
