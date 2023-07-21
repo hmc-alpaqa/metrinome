@@ -1,4 +1,3 @@
 ,graph_name,apc,apc_time
-0,digits_squaring_f2f_cfg._Z9factoriali,"(2.00000000000000, 2.00000000000000)",0.023476123809814453
-1,digits_squaring_f2f_cfg._Z17sum_square_digitsj,"(n, '0.5*n')",0.11791801452636719
-2,digits_squaring_f2f_cfg._Z23choose_sum_and_count_89PiiiiiS_,"('1.2207**n', '1.6028*1.2207**n')",2.433377265930176
+0,partition_cfg._Z4swapPiS_,"(1.00000000000000, 1.00000000000000)",0.022338151931762695
+1,partition_cfg._Z9partitionPiii,"('1.1673**n', '1.1477*1.1673**n')",0.3525121212005615
