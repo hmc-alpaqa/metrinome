@@ -3,28 +3,28 @@
 
 #include <stdio.h>
 
-int bSearchAsc(int A[], int s, int data);
+// int bSearchAsc(int A[], int s, int data);
 
-int main()
+int bSearchAsc_wrapper(int l[], int n, int val, int i)
 {
-    int list[100], n, val, i;
+    // int list[100], n, val, i;
     int found;
 
     printf("Enter the number of elements you want to insert : ");
-    scanf("%d", &n);
+    // scanf("%d", &n);
 
     printf("Enter element in ascending order \n");
 
     for (i = 0; i < n; i++)
     {
         printf("Enter element %d : ", i + 1);
-        scanf("%d", &list[i]);
+        // scanf("%d", &list[i]);
     }
 
     printf("Enter the number you want to search : ");
-    scanf("%d", &val);
+    // scanf("%d", &val);
 
-    found = bSearchAsc(list, n, val);
+    found = bSearchAsc(l, n, val);
 
     if (found ==  - 1)
     {
