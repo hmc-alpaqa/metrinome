@@ -1,0 +1,5 @@
+array b8835ef609ea403c92de3f4e0766d96f[4] : w32 -> w8 = symbolic
+(query [(Or (Slt N0:(ReadLSB w32 0 b8835ef609ea403c92de3f4e0766d96f)
+                  4294967295)
+             (Slt 1024 N0))]
+        false)

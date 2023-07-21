@@ -1,0 +1,22 @@
+/app/build/bin/klee --output-dir=/app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/klee_even_odd_is_odd_normal_max_depth=7 --max-depth=7 /app/code/tests/cFiles/benchmark/kleeversions/kleetest_summer2023/even_odd_is_odd_.bc
+PID: 3771
+Using monotonic steady clock with 1/1000000000s resolution
+Started: 2023-07-21 00:38:44
+BEGIN searcher description
+<InterleavedSearcher> containing 2 searchers:
+RandomPathSearcher
+WeightedRandomSearcher::CoveringNew
+</InterleavedSearcher>
+END searcher description
+Finished: 2023-07-21 00:38:44
+Elapsed: 00:00:00
+KLEE: done: explored paths = 2
+KLEE: done: avg. constructs per query = 12
+KLEE: done: total queries = 3
+KLEE: done: valid queries = 0
+KLEE: done: invalid queries = 3
+KLEE: done: query cex = 3
+
+KLEE: done: total instructions = 12
+KLEE: done: completed paths = 2
+KLEE: done: generated tests = 2
