@@ -1,6 +1,7 @@
 """test file for new function call apc (getrgf)"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
+from metric import fcn_call_path_complexity
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
 import pandas as pd  # type: ignore
@@ -8,7 +9,6 @@ from typing import Union
 import time
 import os
 import sys
-from experiments.optimization import fc_path_complexity_getrgf
 from sympy import Number
 
 class DataCollector:
@@ -17,7 +17,7 @@ class DataCollector:
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
         log = Log(log_level=LogLevel.DEBUG)
-        self.getrgf_computer = fc_path_complexity_getrgf.FunctionCallPathComplexity(log)
+        self.getrgf_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
         self.converter = CPPConvert(log)
 
     # nfcapc stands for new function call apc, which is the apc computed by fc_path_complexity_final

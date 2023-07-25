@@ -1,7 +1,7 @@
 """test file for old function call apc in metrics folder"""
 from utils import Timeout
 from metric.path_complexity import PathComplexityRes
-from metric import fcn_call_path_complexity
+from metric import fcn_call_path_complexity_old
 from lang_to_cfg.cpp import CPPConvert
 from core.log import Log, LogLevel
 import pandas as pd  # type: ignore
@@ -17,7 +17,7 @@ class DataCollector:
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
         log = Log(log_level=LogLevel.DEBUG)
-        self.fcn_call_apc_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
+        self.fcn_call_apc_computer = fcn_call_path_complexity_old.FunctionCallPathComplexity(log)
         self.converter = CPPConvert(log)
 
     # nfcapc stands for new function call apc, which is the apc computed by fc_path_complexity_final
