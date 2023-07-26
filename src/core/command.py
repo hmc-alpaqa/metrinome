@@ -222,9 +222,10 @@ class Options:
         "pwd": CmdInfo(0, ReplErrors.CANNOT_ACCEPT_ARGS)
     }
 
-    def __init__(self, recursive_mode: bool = False, graph_stitching: bool = False,
+    def __init__(self, recursive_mode: bool = False, fc_mode: bool = False, graph_stitching: bool = False,
                  inlining: bool = False, heuristic_inlining: bool = False) -> None:
         """Create a new set of flags to pass in to a command."""
+        self.fc_mode = fc_mode
         self.recursive_mode = recursive_mode
         self.graph_stitching = graph_stitching
         self.inlining = inlining
@@ -632,7 +633,18 @@ class Command:
                 isRecursive = self.recursive_apc and recursiveCalls
                 if metric_generator.name() == "Path Complexity" and isRecursive:
                     continue
-                if metric_generator.name() == "Recursive Path Complexity" and not isRecursive:
+                if metric_generator.name() == "Recursive Path Complexity":
+                    if not isRecursive and not self.fc_apc:
+                        continue
+                if metric_generator.name() == "Function Call Path Complexity" and not self.fc_apc:
+                    continue
+                if metric_generator.name() == "Function Call Path Complexity Naive" and not self.fc_apc:
+                    continue
+                if metric_generator.name() == "Path Complexity" and self.fc_apc:
+                    continue
+                if metric_generator.name() == "NPath Complexity" and self.fc_apc:
+                    continue
+                if metric_generator.name() == "Cyclomatic Complexity" and self.fc_apc:
                     continue
                 try:
                     with Timeout(6000, "Took too long!"):
@@ -640,7 +652,10 @@ class Command:
                             result = metric_generator.evaluate(graph, self.data.graphs)['rfcapc']
                         elif metric_generator.name() == 'Function Call Path Complexity Naive':
                             result = metric_generator.evaluate(graph, self.data.graphs)
-                        else: result = metric_generator.evaluate(graph)
+                        elif metric_generator.name() == "Recursive Path Complexity" and self.fc_apc:
+                            result = metric_generator.evaluate(graph)
+                        else: 
+                            result = metric_generator.evaluate(graph)
                         runtime = time.time() - start_time
                     if result is not None:
                         results.append((metric_generator.name(), result))
