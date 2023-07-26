@@ -204,7 +204,7 @@ class FunctionCallPathComplexity(ABC):
                     nodes.append(edgelist[i][0])
                 if edgelist[i][1] not in nodes:
                     nodes.append(edgelist[i][1])
-            print(f"nodes list...{nodes}")
+            self.logger.d_msg(f"nodes list...{nodes}")
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
 
@@ -218,7 +218,7 @@ class FunctionCallPathComplexity(ABC):
                 print(f"number nodes per graph: {numberNodesPerGraph}")
 
             dot_product = sum([x * y for x, y in zip(numberNodesPerGraph, numCalls)])
-            print(f"dot product (new new node):{dot_product}")
+            self.logger.d_msg(f"dot product (new new node):{dot_product}")
             
             numNodes = dot_product
 

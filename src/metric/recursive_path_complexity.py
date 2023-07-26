@@ -4,7 +4,7 @@
 import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from typing import Union
+from typing import Union, List
 
 import numpy as np  # type: ignore
 import sympy  # type: ignore
@@ -33,7 +33,7 @@ class RecursivePathComplexity(ABC):
         """Return the name of the metric computed by this class."""
         return "Recursive Path Complexity"
 
-    def evaluate(self, cfg: ControlFlowGraph) -> Union[int, PathComplexityRes]:
+    def evaluate(self, cfg: ControlFlowGraph,  all_cfgs: List[ControlFlowGraph]=[]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # adjMatrix = cfg.graph.adjacency_matrix()
         # print(cfg.graph.edge_rules())
