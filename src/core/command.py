@@ -126,7 +126,7 @@ class REPLOptions():
     recursive_apc: bool
     fcapc: bool
 
-    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, recursive_apc: bool, multithreaded: bool = False, fcapc: bool) -> None:
+    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, recursive_apc: bool,  fcapc: bool, multithreaded: bool = False) -> None:
         """Initialize information about the REPL."""
         self.curr_path = curr_path
         self.debug_mode = debug_mode #flag is '--debug' or '--d'
@@ -166,13 +166,15 @@ class CmdInfo:
     num_args: int
     err: str
     check_recursive: bool
+    check_fc: bool
     var_args: bool
 
-    def __init__(self, num_args: int, err: str, check_recursive: bool = False, var_args: bool = False) -> None:
+    def __init__(self, num_args: int, err: str, check_recursive: bool = False, check_fc: bool = False, var_args: bool = False) -> None:
         """Initialize information about a command."""
         self.num_args = num_args
         self.err = err
         self.check_recursive = check_recursive
+        self.check_fc = check_fc
         self.var_args = var_args
 
     def get_num_args(self) -> int:
@@ -186,6 +188,10 @@ class CmdInfo:
     def get_recursive(self) -> bool:
         """Return whether the command has a recursive mode."""
         return self.check_recursive
+    
+    def get_fc(self) -> bool:
+        """Return whether the command has a fc mode"""
+        return self.check_fc
 
     def get_var_args(self) -> bool:
         """Return whether the command accepts a variable number of arguments."""
