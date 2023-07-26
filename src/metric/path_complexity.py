@@ -3,7 +3,7 @@
 import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from typing import Union
+from typing import Union, List
 
 import numpy as np  # type: ignore
 import sympy  # type: ignore
@@ -192,7 +192,7 @@ class PathComplexity(metric.MetricAbstract):
         return degree(denominator, gen=self._t_var), denominator, roots
 
     # pylint: disable=too-many-locals
-    def evaluate(self, cfg: ControlFlowGraph) -> PathComplexityRes:
+    def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]=[]) -> PathComplexityRes:
         """
         Compute the path complexity given the CFG of some function.
         Return both the path complexity and the asymptotic path complexity.
