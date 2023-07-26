@@ -30,7 +30,7 @@ from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
 from lang_to_cfg import converter, cpp, java, python
-from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity, recursive_path_complexity
+from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity, recursive_path_complexity, fcn_call_path_complexity
 from utils import Timeout, calls_function
 
 # Temporarily disable unused arguments due to flags.
@@ -60,9 +60,10 @@ class Controller:
         pathcomplexity = path_complexity.PathComplexity(self.logger)
         recursivepathcomplexity = recursive_path_complexity.RecursivePathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
+        fc_path_complexity = fcn_call_path_complexity.FunctionCallPathComplexity(self.logger)
 
         self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity, recursivepathcomplexity, locs]
+                                                                pathcomplexity, recursivepathcomplexity, locs, fc_path_complexity]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -619,7 +620,9 @@ class Command:
                     continue
                 try:
                     with Timeout(6000, "Took too long!"):
-                        result = metric_generator.evaluate(graph)
+                        if metric_generator.name() == 'Function Call Path Complexity':
+                            result = metric_generator.evaluate(graph, self.data.graphs)['rfcapc']
+                        else: result = metric_generator.evaluate(graph)
                         runtime = time.time() - start_time
                     if result is not None:
                         results.append((metric_generator.name(), result))

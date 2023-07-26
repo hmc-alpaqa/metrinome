@@ -1,7 +1,7 @@
 """The interface that all classes able to compute metrics should inherit from."""
 
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Union, List
 
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
@@ -21,5 +21,5 @@ class MetricAbstract(ABC):
         """Obtain the name of the metric that we are computing."""
 
     @abstractmethod
-    def evaluate(self, cfg: ControlFlowGraph) -> Union[int, PathComplexityRes]:
+    def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]=[]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
