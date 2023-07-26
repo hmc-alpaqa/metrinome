@@ -22,7 +22,7 @@ class FunctionCallPathComplexity(ABC):
         self.logger = logger
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
-        return "Function Call Path Complexity"
+        return "Function Call Path Complexity Naive"
     def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # adjMatrix = cfg.graph.adjacency_matrix()

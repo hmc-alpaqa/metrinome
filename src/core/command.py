@@ -30,7 +30,7 @@ from graph.control_flow_graph import ControlFlowGraph
 from inlining import inlining_script, inlining_script_heuristic
 from klee.klee_utils import KleeUtils
 from lang_to_cfg import converter, cpp, java, python
-from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity, recursive_path_complexity, fcn_call_path_complexity
+from metric import cyclomatic_complexity, loc, metric, npath_complexity, path_complexity, recursive_path_complexity, fcn_call_path_complexity, fcn_call_path_complexity_naive
 from utils import Timeout, calls_function
 
 # Temporarily disable unused arguments due to flags.
@@ -61,9 +61,10 @@ class Controller:
         recursivepathcomplexity = recursive_path_complexity.RecursivePathComplexity(self.logger)
         locs = loc.LinesOfCode(self.logger)
         fc_path_complexity = fcn_call_path_complexity.FunctionCallPathComplexity(self.logger)
+        fc_path_complexity_naive = fcn_call_path_complexity_naive.FunctionCallPathComplexity(self.logger)
 
         self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity, recursivepathcomplexity, locs, fc_path_complexity]
+                                                                pathcomplexity, recursivepathcomplexity, locs, fc_path_complexity, fc_path_complexity_naive]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)
@@ -123,14 +124,17 @@ class REPLOptions():
     rich: bool
     multithreaded: bool
     recursive_apc: bool
+    fcapc: bool
 
-    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, recursive_apc: bool, multithreaded: bool = False) -> None:
+    def __init__(self, curr_path: str, debug_mode: bool, poor: bool, recursive_apc: bool, multithreaded: bool = False, fcapc: bool) -> None:
         """Initialize information about the REPL."""
         self.curr_path = curr_path
         self.debug_mode = debug_mode #flag is '--debug' or '--d'
         self.rich = not poor #flag is '--poor' or '--p'
         self.multithreaded = multithreaded
         self.recursive_apc = recursive_apc #flag is '--recursion' or '--r'
+        self.fcapc = fcapc #flag is '--interprocedural' or '--f'
+
 
     def get_curr_path(self) -> str:
         """Return the current path."""
@@ -151,7 +155,10 @@ class REPLOptions():
     def get_recursive_apc(self) -> bool:
         """Return whether or not the REPL should be initialized in recursive apc mode."""
         return self.recursive_apc
-
+    
+    def get_fcapc(self) -> bool:
+        """Return whether or not the REPL should be initialized in fcapc mode."""
+        return self.fcapc
 
 class CmdInfo:
     """Information about the arguments to a REPL command."""
@@ -241,8 +248,11 @@ class Command:
         self.curr_path = options.get_curr_path()
         self.debug_mode = options.get_debug_mode()
         self.recursive_apc = options.get_recursive_apc()
+        self.fc_apc = options.get_fcapc()
         if self.recursive_apc:
             print("It's Herald time :D")
+        elif self.fc_apc:
+            print("It's getrgf time")
         else:
             print("Herald is napping zzzzzzzzz")
 
@@ -622,6 +632,8 @@ class Command:
                     with Timeout(6000, "Took too long!"):
                         if metric_generator.name() == 'Function Call Path Complexity':
                             result = metric_generator.evaluate(graph, self.data.graphs)['rfcapc']
+                        elif metric_generator.name() == 'Function Call Path Complexity Naive':
+                            result = metric_generator.evaluate(graph, self.data.graphs)
                         else: result = metric_generator.evaluate(graph)
                         runtime = time.time() - start_time
                     if result is not None:

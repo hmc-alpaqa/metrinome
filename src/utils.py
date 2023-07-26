@@ -120,7 +120,7 @@ def big_o(terms: List[str]) -> str:
 
     The terms should be a list of expressions represented as strings.
     """
-    print(terms)
+    # print(terms)
     try:
         with Timeout(seconds = 200, error_message="Big O Timed Out"):
             n_var = symbols('n')
