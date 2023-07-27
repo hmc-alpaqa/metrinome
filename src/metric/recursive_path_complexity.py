@@ -123,7 +123,7 @@ class RecursivePathComplexity(ABC):
                     nodes.append(edgelist[i][0])
                 if edgelist[i][1] not in nodes:
                     nodes.append(edgelist[i][1])
-            print(f"nodes list...{nodes}")
+            self.logger.d_msg(f"nodes list...{nodes}")
             numNodes = len(nodes) 
             self.logger.d_msg(f"numNodes: {numNodes}")
             coeffs = [0]*(numRoots + numNodes)
@@ -148,7 +148,7 @@ class RecursivePathComplexity(ABC):
             self.logger.d_msg(f"exprs: {exprs}")
             try:
                 with Timeout(seconds = 50, error_message="Root solver Timed Out"):
-                    print(f"trying sympy.solve for 50 seconds")
+                    self.logger.d_msg(f"trying sympy.solve for 50 seconds")
                     solutions = sympy.solve(exprs)
             except:
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]

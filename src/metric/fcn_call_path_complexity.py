@@ -454,7 +454,7 @@ class FunctionCallPathComplexity(ABC):
         for rho in rhoDict:
             if (abs(abs(rho) - maxRho) < 10**(-10)) and (rhoDict[rho] == maxMultiplicity):
                 Ak = sympy.N(self.shiftAk(numerator, rho)/self.calculateAk(q0, rho, rhoDict))
-                print(Ak)
+                self.logger.d_msg(Ak)
                 coeff = coeff + Ak
         self.logger.d_msg(f"coeff: {coeff}")
         apc = sympy.simplify(coeff*(symbols("n")**(maxMultiplicity-1))*sympy.N(maxRho)**symbols("n"))

@@ -59,10 +59,10 @@ class BaseCaseBFS(BaseCaseGetter):
                 base_cases[depth] += base_cases[depth - 1]
             depth += 1
             num_paths = new_num_paths
-        print(f"base cases: {base_cases}")
+        self.logger.d_msg(f"base cases: {base_cases}")
         all_paths = np.array(base_cases[start_idx: end_idx], dtype="float64")
-        print(f"all paths{all_paths}")
-        print(f"start_index:{start_idx}")
+        self.logger.d_msg(f"all paths{all_paths}")
+        self.logger.d_msg(f"start_index:{start_idx}")
 
         return np.array(base_cases[start_idx: end_idx], dtype="float64"), start_idx
 
@@ -73,15 +73,15 @@ class BaseCaseTaylor(BaseCaseGetter):
     def get(self, graph: Graph, x_mat: Basic, denominator: Basic,
             start_idx: int, num_coeffs: int) -> tuple[np.array, int]:
         """Use taylor coefficients of the generating function to get base cases."""
-        print(f"printing graph...{graph}")
+        self.logger.d_msg(f"printing graph...{graph}")
         x_sub = x_mat.copy()
-        print(x_sub)
+        self.logger.d_msg(x_sub)
         x_sub.col_del(0)
         x_sub.row_del(1)
-        print(f"denominator ...{denominator}")
-        print(x_sub.det(method="det_LU"))
+        self.logger.d_msg(f"denominator ...{denominator}")
+        self.logger.d_msg(x_sub.det(method="det_LU"))
         generating_function = x_sub.det(method="det_LU") / denominator
-        print(f"printing generating function...{generating_function}")
+        self.logger.d_msg(f"printing generating function...{generating_function}")
         self.logger.d_msg(f"Getting {num_coeffs} many coeffs.")
 
         taylor_coeffs, new_start_idx = get_taylor_coeffs(generating_function,
@@ -176,19 +176,19 @@ class PathComplexity(metric.MetricAbstract):
         """Get the denominator of the generating function and its roots/degree."""
         x_det = x_mat.det()
         denominator = Poly(sympify(-x_det))
-        print(f"denominator: {denominator}")
+        self.logger.d_msg(f"denominator: {denominator}")
         recurrence_kernel = denominator.all_coeffs()[::-1]
-        print(f"recurrence_kernel:{recurrence_kernel}")
+        self.logger.d_msg(f"recurrence_kernel:{recurrence_kernel}")
         # Doing round(x,2) breaks the code. Not sure why, but the roots for 
         # eq = 0 and -eq = 0 are the same.
         test = [round(-x, 2) for x in recurrence_kernel]
-        print(f"test: {test}")
+        self.logger.d_msg(f"test: {test}")
         # test are the coefficients of the denominator of the gen. function from
         # the smallest exponent to the largest. polyroots expects the coefficients
         # from largest to smallest. however, the roots for a polynomial with flipped
         # polynomials is 1/roots of the nonflipped polynomial.
         roots = polyroots(test, maxsteps=250, extraprec=250)
-        print(f"print roots: {roots}")
+        self.logger.d_msg(f"print roots: {roots}")
         return degree(denominator, gen=self._t_var), denominator, roots
 
     # pylint: disable=too-many-locals
@@ -198,9 +198,9 @@ class PathComplexity(metric.MetricAbstract):
         Return both the path complexity and the asymptotic path complexity.
         """
         edge_list = cfg.graph.edge_rules()
-        print(f"edge_list:{edge_list}")
+        self.logger.d_msg(f"edge_list:{edge_list}")
         x_mat, dimension = self.get_matrix(cfg.graph)
-        print(f"printing matrix..{x_mat}")
+        self.logger.d_msg(f"printing matrix..{x_mat}")
         recurrence_degree, denominator, roots = self.get_roots(x_mat)
 
         base_cases, start_idx = self.base_case_getter.get(cfg.graph, x_mat, denominator,
@@ -234,8 +234,8 @@ class PathComplexity(metric.MetricAbstract):
         #                     [1+2j,3-4j,5+6j,1+2j,3-4j]])
 
         # Finds coefficients for closed form equation (the Cs)
-        print(f"matrix...{matrix}")
-        print(f"liner algebra...{np.linalg.lstsq(matrix, base_cases, rcond=None)}")
+        self.logger.d_msg(f"matrix...{matrix}")
+        self.logger.d_msg(f"liner algebra...{np.linalg.lstsq(matrix, base_cases, rcond=None)}")
         bound_sol_terms = np.linalg.lstsq(matrix, base_cases, rcond=None)[0]
 
         #TODO: absolute gives a upper bound on path(n), we can use clean function in r_path_complexity and fc_path_complexity 
