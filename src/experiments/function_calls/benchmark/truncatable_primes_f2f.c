@@ -25,13 +25,13 @@ void left(int n, int tens)
 				left(nn, tens);
 }
 
-void right(int n)
-{
-	int i, nn;
-	static int d[] = {1,3,7,9};
+// void right(int n)
+// {
+// 	int i, nn;
+// 	static int d[] = {1,3,7,9};
 
-	if (n > maxr) maxr = n;
-	if (n < MAXN / 10)
-		for (i = 1; i < 4; i++)
-			if (is_prime(nn = n * 10 + d[i])) right(nn);
-}
+// 	if (n > maxr) maxr = n;
+// 	if (n < MAXN / 10)
+// 		for (i = 1; i < 4; i++)
+// 			if (is_prime(nn = n * 10 + d[i])) right(nn);
+// }

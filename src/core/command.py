@@ -64,7 +64,7 @@ class Controller:
         fc_path_complexity_naive = fcn_call_path_complexity_naive.FunctionCallPathComplexity(self.logger)
 
         self.metrics_generators: list[metric.MetricAbstract] = [cyclomatic, npath,
-                                                                pathcomplexity, recursivepathcomplexity, locs, fc_path_complexity, fc_path_complexity_naive]
+                                                                pathcomplexity, recursivepathcomplexity, locs, fc_path_complexity_naive, fc_path_complexity]
 
         cpp_converter = cpp.CPPConvert(self.logger)
         java_converter = java.JavaConvert(self.logger)

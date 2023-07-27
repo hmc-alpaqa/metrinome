@@ -217,7 +217,7 @@ class FunctionCallPathComplexity(ABC):
             # self.logger.d_msg(f"exprs type: {type(exprs)}")
             try:
                 with Timeout(seconds = 50, error_message="Root solver Timed Out"):
-                    print(f"trying sympy.solve for 50 seconds")
+                    self.logger.d_msg(f"trying sympy.solve for 50 seconds")
                     solutions = sympy.solve(exprs)
             except:
                 solutions = sympy.nsolve(exprs, list(symbs), [0]*numRoots, dict=True)[0]

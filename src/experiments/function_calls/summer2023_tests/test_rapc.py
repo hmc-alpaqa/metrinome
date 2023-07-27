@@ -40,9 +40,30 @@ class DataCollector:
                 continue
 
             for graph_name, graph in graphs.items():
-                # if graph_name != 'sudoku_f2f_cfg._Z7trycellPii.dot':
-                #     continue
                 print('Graph Name: ', graph_name)
+                if graph_name == 'sudoku_f2f_cfg._Z7trycellPii.dot':
+                    new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
+                           "rapc_time": 'na'}
+                    data = data.append(new_row, ignore_index=True)
+                    data = data[["graph_name", "rapc", "rapc_time"]]
+                    print(data[["graph_name", "rapc", "rapc_time"]])
+
+                    if not os.path.exists("/app/code/experiments/function_calls/data"):
+                        os.makedirs("/app/code/experiments/function_calls/data")
+                    data.to_csv("/app/code/experiments/function_calls/data/rapc_data.csv")
+                    continue
+
+                if graph_name == 'truncatable_primes_f2f_cfg._Z4leftii.dot':
+                    new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
+                           "rapc_time": 'na'}
+                    data = data.append(new_row, ignore_index=True)
+                    data = data[["graph_name", "rapc", "rapc_time"]]
+                    print(data[["graph_name", "rapc", "rapc_time"]])
+
+                    if not os.path.exists("/app/code/experiments/function_calls/data"):
+                        os.makedirs("/app/code/experiments/function_calls/data")
+                    data.to_csv("/app/code/experiments/function_calls/data/rapc_data.csv")
+                    continue
                 
                 rapc: Union[str, PathComplexityRes] = "na"
                 exception_type = "na"
