@@ -23,13 +23,19 @@ class DataCollector:
     # nfcapc stands for new function call apc, which is the apc computed by fc_path_complexity_final
     # pylint: disable=broad-except
     # @lru_cache(maxsize =None) #disable caching, but not working
+
+    
+
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
         data = pd.DataFrame({"file_name": [], "graph_name": [], "getrgfapc": [],
                              "getrgfapc_time": [], "exception": [],"exception_type": [],"case":[],'gamma':[]})
-        with open('/app/code/experiments/function_calls/benchmark/files.txt') as funcs:
+                             
+        with open("/app/code/chooseFile.txt") as filess:
+            filePath = [line.rstrip() for line in filess]
+            print(filePath)
+        with open(filePath[0]) as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
-
             files = [line.rstrip() for line in funcs]
 
         for file in files:
@@ -55,6 +61,7 @@ class DataCollector:
                 try:
                     with Timeout(4000):
                         getrgfapc = self.getrgf_computer.evaluate(graph, graphs)
+                        print(getrgfapc)
                         getrgfruntime = time.time() - start_time
                         # if "V0_3" in str(getrgfapc["rfcapc"]):
                         #     print("ERROR V0_3 in apc")
