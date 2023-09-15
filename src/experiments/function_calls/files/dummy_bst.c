@@ -14,12 +14,13 @@ int collatz(int n) {
 int inorder_mock(int n) {
     if (n == 1) {
         inorder_mock(2);
-    } else {
-        return 1;
-    }
+        n += 1;
+        inorder_mock(2);
+    } 
 }
 
 int main() {
     collatz(10);
+    inorder_mock(1);
     inorder_mock(1);
 }
