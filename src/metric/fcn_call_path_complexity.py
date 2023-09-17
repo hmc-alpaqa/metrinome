@@ -306,8 +306,8 @@ class FunctionCallPathComplexity(ABC):
             symb_idx = idxDict[symbs[-1]][1]
         else:
             symb_idx = idxDict[symbs[-1]][0]
-        if symbs[-1] in sub.free_symbols: # according to yuki, this is if the last symbol is on both sides
-            subs_options = lookupDict[symbs[-1]]
+        if symbs[-1] in sub.free_symbols: # if the last symbol is on both sides, we must solve for it before substituting it out
+            subs_options = lookupDict[symbs[-1]] # all the equations in the system containing symbs[-1] (all options for substitution)
 
             # these 2 lines below implement the sorting of substitution options by simplicity during T elimination
             # they are only necessary to prevent really long gammaTimes from occuring with certain functions (intergrated-digits-squaring-2.c)
@@ -315,6 +315,7 @@ class FunctionCallPathComplexity(ABC):
             if vertices == False:
                 subs_options = self.simpleOrder(system, subs_options, idxDict, vertices)
 
+            # loop through substitution options
             for eqn_symb in subs_options:
                 if vertices == False:
                     eq_idx = idxDict[eqn_symb][1]
@@ -325,14 +326,15 @@ class FunctionCallPathComplexity(ABC):
                 else:
                     pass
                 eq = system[eq_idx]
+                # extra check that our symbol is in the equation
                 if symbs[-1] in eq.free_symbols:
                     sol = sympy.solve(eq, symbs[-1], dict=True)
-                    if len(sol) == 1:
+                    if len(sol) == 1: # we have found a unique (non-quadratic) solution
                         sub = sub.subs(symbs[-1], sol[0][symbs[-1]])
                         sub = sympy.simplify(sub)
                         break
         if symbs[-1] in sub.free_symbols:
-            self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+            self.logger.e_msg(f"PANIC PANIC no unique solution found for {symbs[-1]}, not sure how to substitute.")
         for eqn_symb in lookupDict[symbs[-1]]:
             if vertices == False:
                 eq_idx = idxDict[eqn_symb][1]
@@ -347,7 +349,7 @@ class FunctionCallPathComplexity(ABC):
                         if symbol != symbols("x"):
                             lookupDict[symbol].add(eqn_symb)
                     if symbs[-1] in system[eq_idx].free_symbols:
-                        self.logger.e_msg(f"PANIC PANIC not sure how to substitute.")
+                        self.logger.e_msg(f"PANIC PANIC failed to substitute solution for {symbs[-1]} not sure how to substitute.")
         return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices, idxDict)
 
     def optimizedEliminate(self, systems, symbs, lookupDict, idxDict):
