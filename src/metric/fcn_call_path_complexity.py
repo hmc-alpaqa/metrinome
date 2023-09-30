@@ -22,7 +22,6 @@ import cmath
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 PRECISION = 11
 
-
 class FunctionCallPathComplexity(ABC):
     """The interface that all metric computers should follow."""
     def __init__(self, logger: Log) -> None:
@@ -208,7 +207,7 @@ class FunctionCallPathComplexity(ABC):
         return (apc, pc)
   
     def processGraphs(self, graph, all_graphs):
-        """Given a graph, compute the metric."""
+        """Given a graph in CFG form, processes it along with dependent graphs into dictionary form with call metadata as well"""
         # TODO: use full name of cfg (file name is deleted here)
         dictgraphs = []
         used_graphs = [graph.name.split(".")[-1]]
@@ -247,6 +246,7 @@ class FunctionCallPathComplexity(ABC):
         return calldict, dictgraphs
 
     def graphsToSystems(self, dictgraphs, calldict):
+        """Takes in the processed Graphs in dictionary / list forms and returns a split system of equations"""
         lookupDict = defaultdict(set) # lookupDict is of format {symb: [every symbol whose equation contains symb]}, used for substitution in eliminate
         idxDict = {} # contains the index of each symbol's equation in its respective system (T symbols have 2, depending on vertex or T elimination)
         x = symbols("x")
@@ -298,24 +298,48 @@ class FunctionCallPathComplexity(ABC):
         
         return splitsystems, splitsymbols, lookupDict, idxDict
 
+    def optimizedEliminate(self, systems, symbs, lookupDict, idxDict):
+        """Takes in a split system of equations and returns the gamma function"""
+        Teqns = [] # system of equations of T nodes alone
+        TlookupDict = defaultdict(set)
+        # loops through the system for each graph and solves it
+        for idx, system in enumerate(systems): 
+            Teqn = self.optimizedPartialEliminate(system, symbs[idx], lookupDict, True, idxDict) # solving system with helper function
+            Teqn = sympy.simplify(Teqn)
+            # populating lookup dict for Teqns (system of eqns of T nodes)
+            for var in Teqn.free_symbols:
+                if var == symbols("x"):
+                    continue
+                TlookupDict[var].add(symbs[idx][0])
+            Teqns += [Teqn]
+        Tsyms = [syms[0] for syms in symbs]
+        # solving the system of Teqns for just T_0 (the gamma function)
+        gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False, idxDict)
+        gamma = sympy.simplify(gamma)
+        return gamma
+    
     def optimizedPartialEliminate(self, system, symbs, lookupDict, vertices: bool, idxDict):
+        """Optimized Eliminate helper function that takes in the system for a single graph (or the system of just T nodes) and solves it to a single equation"""
         if len(system) == 1:
             return system[0]
-        sub = system[-1] + symbs[-1] # what the last symbol in symbs equals
-        if vertices == False:
-            symb_idx = idxDict[symbs[-1]][1]
-        else:
-            symb_idx = idxDict[symbs[-1]][0]
-        if symbs[-1] in sub.free_symbols: # if the last symbol is on both sides, we must solve for it before substituting it out
-            subs_options = lookupDict[symbs[-1]] # all the equations in the system containing symbs[-1] (all options for substitution)
+        s = symbs[-1] # the last symbol, which we are eliminating
+        sub = system[-1] + s # what s equals in the last equation
 
-            # these 2 lines below implement the sorting of substitution options by simplicity during T elimination
-            # they are only necessary to prevent really long gammaTimes from occuring with certain functions (intergrated-digits-squaring-2.c)
-            # they can be commented out to return to the older version without this optimization, which is often faster
+        # get the index of the symbol
+        if vertices == False:
+            symb_idx = idxDict[s][1]
+        else:
+            symb_idx = idxDict[s][0]
+
+        # must solve for s with another equation if sub contains s
+        if s in sub.free_symbols:
+            subs_options = lookupDict[s] # all  equations containing s
+            # 2 lines below implement the sorting of substitution options by simplicity during T elimination
+            # only necessary to prevent really long gammaTimes from occuring with certain functions (intergrated-digits-squaring-2.c)
+            # can be commented out to exclude this optimization, which is often faster
             if vertices == False:
                 subs_options = self.simpleOrder(system, subs_options, idxDict, vertices)
-
-            # loop through substitution options
+            # loop through equations with symbol to solve for symbol
             for eqn_symb in subs_options:
                 if vertices == False:
                     eq_idx = idxDict[eqn_symb][1]
@@ -327,50 +351,44 @@ class FunctionCallPathComplexity(ABC):
                     pass
                 eq = system[eq_idx]
                 # extra check that our symbol is in the equation
-                if symbs[-1] in eq.free_symbols:
-                    sol = sympy.solve(eq, symbs[-1], dict=True)
-                    if len(sol) == 1: # we have found a unique (non-quadratic) solution
-                        sub = sub.subs(symbs[-1], sol[0][symbs[-1]])
+                if s in eq.free_symbols:
+                    sol = sympy.solve(eq, s, dict=True)
+                    if len(sol) == 1: # found a unique (non-quadratic) solution!
+                        sub = sub.subs(s, sol[0][s])
                         sub = sympy.simplify(sub)
                         break
-        if symbs[-1] in sub.free_symbols:
-            self.logger.e_msg(f"PANIC PANIC no unique solution found for {symbs[-1]}, not sure how to substitute.")
-        for eqn_symb in lookupDict[symbs[-1]]:
-            if vertices == False:
+
+        # if solution contains symbol as well, PANIC
+        if symbs[-1] in sub.free_symbols: 
+            self.logger.e_msg(f"PANIC PANIC no unique solution found for {s}, not sure how to substitute.")
+        
+        # loop through equations with symbol to substitute out symbol
+        for eqn_symb in lookupDict[s]:
+            # find equation index to know if it's still in the system
+            if vertices == False: 
                 eq_idx = idxDict[eqn_symb][1]
             else:
                 eq_idx = idxDict[eqn_symb][0]
+
+            # if equation is still in system, substitute out symbol
             if eq_idx <= symb_idx:
                 eq = system[eq_idx]
-                if symbs[-1] in eq.free_symbols:
-                    system[eq_idx] = eq.subs(symbs[-1], sub)
+                # final check if symbol in equation
+                if s in eq.free_symbols:
+                    system[eq_idx] = eq.subs(s, sub)
                     system[eq_idx] = sympy.simplify(system[eq_idx])
+                    # update lookup dict with new symbols in solution
                     for symbol in sub.free_symbols:
                         if symbol != symbols("x"):
                             lookupDict[symbol].add(eqn_symb)
-                    if symbs[-1] in system[eq_idx].free_symbols:
-                        self.logger.e_msg(f"PANIC PANIC failed to substitute solution for {symbs[-1]} not sure how to substitute.")
+                    # if symbol still in equation, PANIC
+                    if s in system[eq_idx].free_symbols:
+                        self.logger.e_msg(f"PANIC PANIC failed to substitute solution for {s} not sure how to substitute.")
+
         return self.optimizedPartialEliminate(system[:-1], symbs[:-1], lookupDict, vertices, idxDict)
 
-    def optimizedEliminate(self, systems, symbs, lookupDict, idxDict):
-        """Takes in a system of equations and gets the gamma function"""
-        Teqns = []
-        TlookupDict = defaultdict(set)
-        for idx, system in enumerate(systems):
-            Teqn = self.optimizedPartialEliminate(system, symbs[idx], lookupDict, True, idxDict)
-            Teqn = sympy.simplify(Teqn)
-            for var in Teqn.free_symbols:
-                if var == symbols("x"):
-                    continue
-                TlookupDict[var].add(symbs[idx][0])
-            Teqns += [Teqn]
-        Tsyms = [syms[0] for syms in symbs]
-        gamma = self.optimizedPartialEliminate(Teqns,Tsyms, TlookupDict, False, idxDict)
-        gamma = sympy.simplify(gamma)
-        return gamma
-
     def simpleOrder(self, system, symblist, idxDict, vertices):
-        """Orders the potential legitimate substitution options for a symbol in order of simplicity"""
+        """Elimination helper function that orders the potential legitimate substitution options for a symbol in order of simplicity"""
         lengthDictionary = {}
         for symb in symblist:
             if vertices:
@@ -409,10 +427,46 @@ class FunctionCallPathComplexity(ABC):
             self.logger.e_msg(f"PANIC PANIC termPow type is {type(term)}.")
             return 0
 
+    """ Identifies other roots with same magnitude as the root with
+    maximum APC.
+    Input: rootsDict, rootsAPCDict
+    Return: APC
+    """
+    def getAPC(self,genFunc, denominator, rootsDict):
+        numerator = sympy.simplify(sympy.factor(genFunc*denominator))
+
+        if sympy.polys.polytools.degree(numerator) >= sympy.polys.polytools.degree(denominator):
+            quotient, remainder = sympy.div(numerator, denominator)
+            numerator = remainder
+
+        self.logger.d_msg(f"numerator: {numerator}")
+        rhoDict, maxRho, maxMultiplicity = self.getRhoDict(rootsDict)
+        self.logger.d_msg(f"rhoDict: {rhoDict}")
+        self.logger.d_msg(f"maxMultiplicity: {maxMultiplicity}")
+        self.logger.d_msg(f"maxMagnitude: {abs(maxRho)}")
+
+        q0 = self.getQ0(denominator)
+        self.logger.d_msg(f"q0: {q0}")
+
+        coeff = 0
+        # loop through rhos to calculate Aks & sum Aks to coeff
+        for rho in rhoDict:
+            # if rho defines dominant term, use to calculate an Ak
+            if (abs(abs(rho) - maxRho) < 10**(-10)) and (rhoDict[rho] == maxMultiplicity):
+                Ak = sympy.N(self.shiftAk(numerator, rho)/self.calculateAk(q0, rho, rhoDict))
+                self.logger.d_msg(f"Ak for {rho}: {Ak}")
+                coeff = coeff + Ak
+            
+        self.logger.d_msg(f"coeff: {coeff}")
+        apc = sympy.simplify(coeff*(symbols("n")**(maxMultiplicity-1))*sympy.N(maxRho)**symbols("n"))
+        return apc
+
     def getRhoDict(self, rootsDict):
+        """getAPC helper function, that from the roots calculates the rhos, max of rhos, and max multiplicity of rhos."""
         rhoDict = {}
         maxRho = 0
         maxMultiplicity = 0
+        # loop 
         for root in rootsDict:
             rho = 1/sympy.N(root)
             multiplicity = rootsDict[root]
@@ -430,38 +484,9 @@ class FunctionCallPathComplexity(ABC):
     Return: q0
     """
     def getQ0(self,denominator):
+        "getAPC helper function that calculates the leading coeff of the denominator"
         q0 = Poly(sympy.expand(denominator)).all_coeffs()[-1]
         return q0
-
-
-    """ Identifies other roots with same magnitude as the root with
-    maximum APC.
-    Input: rootsDict, rootsAPCDict
-    Return: APC
-    """
-    def getAPC(self,genFunc, denominator, rootsDict):
-
-        numerator = sympy.simplify(sympy.factor(genFunc*denominator))
-        if sympy.polys.polytools.degree(numerator) >= sympy.polys.polytools.degree(denominator):
-            quotient, remainder = sympy.div(numerator, denominator)
-            numerator = remainder
-        self.logger.d_msg(f"numerator: {numerator}")
-        rhoDict, maxRho, maxMultiplicity = self.getRhoDict(rootsDict)
-        self.logger.d_msg(f"rhoDict: {rhoDict}")
-        self.logger.d_msg(f"maxMultiplicity: {maxMultiplicity}")
-        self.logger.d_msg(f"maxMagnitude: {abs(maxRho)}")
-        q0 = self.getQ0(denominator)
-        coeff = 0
-        self.logger.d_msg(f"q0: {q0}")
-        for rho in rhoDict:
-            if (abs(abs(rho) - maxRho) < 10**(-10)) and (rhoDict[rho] == maxMultiplicity):
-                Ak = sympy.N(self.shiftAk(numerator, rho)/self.calculateAk(q0, rho, rhoDict))
-                self.logger.d_msg(Ak)
-                coeff = coeff + Ak
-        self.logger.d_msg(f"coeff: {coeff}")
-        apc = sympy.simplify(coeff*(symbols("n")**(maxMultiplicity-1))*sympy.N(maxRho)**symbols("n"))
-        return apc
-    
 
     """
     Input:
