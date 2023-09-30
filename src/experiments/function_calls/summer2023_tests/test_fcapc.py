@@ -32,7 +32,9 @@ class DataCollector:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
             files = [line.rstrip() for line in funcs]
 
-        for file in files:
+        for i in files:
+            file = i.split()[0]
+            funcs = i.split()[1:]
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
             print(graphs)
@@ -50,6 +52,9 @@ class DataCollector:
                 exception_type = "na"
                 fcruntime = 0.0
             
+                if notin(graph_name, funcs):
+                    continue
+                
                 print("=========================runing old function call path complexity for 200 seconds==========================")
                 start_time = time.time()
                 try:
@@ -98,6 +103,15 @@ def get_max_time(apc):
             maxName = name
     maxTime = round(maxTime,3)
     return (maxName,maxTime)
+
+def notin(graph_name, funcs):
+    """check if graph_name is in func"""
+    if funcs == []:
+        return False
+    for func in funcs:
+        if func in graph_name:
+            return False
+    return True
 
 def main() -> None:
     """Compute metrics for many graphs."""
