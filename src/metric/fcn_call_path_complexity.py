@@ -359,7 +359,7 @@ class FunctionCallPathComplexity(ABC):
                         break
 
         # if solution contains symbol as well, PANIC
-        if symbs[-1] in sub.free_symbols: 
+        if s in sub.free_symbols: 
             self.logger.e_msg(f"PANIC PANIC no unique solution found for {s}, not sure how to substitute.")
         
         # loop through equations with symbol to substitute out symbol
