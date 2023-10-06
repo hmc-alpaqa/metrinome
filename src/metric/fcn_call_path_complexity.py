@@ -46,6 +46,7 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"calldict: {calldict}")
         self.logger.d_msg(f"dictgraphs: {dictgraphs}")
         graphProcessTime = time.time() - start_time
+        
 
         # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_1'],'0_4': ['0_5','0_3']})] #bubble sort wo 2, 8, 6, 7 and 9
         # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_9'],'0_4': ['0_5','0_3'],'0_9': ['0_1']})] #bubble sort wo 2, 8, 6 and 7
