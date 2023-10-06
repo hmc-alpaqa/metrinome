@@ -46,9 +46,11 @@ class FunctionCallPathComplexity(ABC):
         calldict, dictgraphs = self.processGraphs(cfg, all_cfgs)
         self.logger.d_msg(f"calldict: {calldict}")
         self.logger.d_msg(f"dictgraphs: {dictgraphs}")
-        dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
-        self.logger.d_msg(f"simplified calldict: {calldict}")
-        self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
+        # for testing branch apc code, all other teams comment these 3 lines out
+        # dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
+        # self.logger.d_msg(f"simplified calldict: {calldict}")
+        # self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
+
         graphProcessTime = time.time() - start_time
 
         # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_1'],'0_4': ['0_5','0_3']})] #bubble sort wo 2, 8, 6, 7 and 9
