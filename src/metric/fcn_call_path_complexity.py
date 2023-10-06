@@ -47,7 +47,7 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"calldict: {calldict}")
         self.logger.d_msg(f"dictgraphs: {dictgraphs}")
         dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
-        self.logger.d_msg(f"simpllified calldict: {calldict}")
+        self.logger.d_msg(f"simplified calldict: {calldict}")
         self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
         graphProcessTime = time.time() - start_time
 
