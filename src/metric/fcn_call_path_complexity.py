@@ -47,6 +47,18 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"dictgraphs: {dictgraphs}")
         graphProcessTime = time.time() - start_time
 
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_1'],'0_4': ['0_5','0_3']})] #bubble sort wo 2, 8, 6, 7 and 9
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_9'],'0_4': ['0_5','0_3'],'0_9': ['0_1']})] #bubble sort wo 2, 8, 6 and 7
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_9'],'0_4': ['0_5','0_7'],'0_7': ['0_3'],'0_9': ['0_1']})] #bubble sort wo 2, 8 and 6
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_9'],'0_4': ['0_5','0_6'],'0_6': ['0_7'],'0_7': ['0_3'],'0_9': ['0_1']})] #bubble sort wo 2 and 8
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_3','0_10'],'0_3': ['0_4','0_8'],'0_4': ['0_5','0_6'],'0_6': ['0_7'],'0_7': ['0_3'],'0_8': ['0_9'],'0_9': ['0_1']})] #bubble sort wo 2
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_2','0_10'],'0_2': ['0_3'],'0_3': ['0_4','0_8'],'0_4': ['0_5','0_6'],'0_6': ['0_7'],'0_7': ['0_3'],'0_8': ['0_9'],'0_9': ['0_1']})] #bubble sort
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_0','0_2']})] #simplified loopy
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_0']})]
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1'],'0_1':['0_2'],'0_2':['0_3','0_4'],'0_3':['0_0']})] #loopy
+        # calldict = {}
+        # dictgraphs = [defaultdict(list,{'0_0': ['0_1','0,2'], '0_1': ['0_0'], '0_2': ['0_3','0_4'], '0_3':['0_2'], '0_4': ['0_5','0_6'], '0_5': ['0_9'], '0_6': ['0_7','0_8'], '0_7': ['0_6'], '0_9': ['0_10','0_11'], '0_10': ['0_11'], '0_11': ['0_5']})]
+
         # process dictionaries into systems of equations and dictionaries for substitution (graphSystemsTime)
         graphSystemsTime = 0.0
         start_time = time.time()
