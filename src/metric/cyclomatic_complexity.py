@@ -7,6 +7,7 @@
 from core.log import Log
 from graph.control_flow_graph import ControlFlowGraph
 from metric import metric
+from typing import List
 
 
 class CyclomaticComplexity(metric.MetricAbstract):
@@ -21,7 +22,7 @@ class CyclomaticComplexity(metric.MetricAbstract):
         """Return the name of the metric computed by this class."""
         return "Cyclomatic Complexity"
 
-    def evaluate(self, cfg: ControlFlowGraph) -> int:
+    def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]=[]) -> int:
         """
         Compute the cyclomatic complexity of the function.
 

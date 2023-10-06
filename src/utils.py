@@ -16,7 +16,7 @@ from typing import Dict, List, Optional, Tuple, Type, Union
 import pycparser  # type: ignore
 from mpmath import mpc, mpf, polyroots  # type: ignore
 from pycparser import parse_file
-from sympy import Abs, Basic, Mul, Poly, Pow, limit, symbols, sympify  # type: ignore
+from sympy import Abs, Basic, Mul, Poly, Pow, limit, symbols, sympify, simplify  # type: ignore
 
 
 def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], List[Basic]]:
@@ -37,6 +37,7 @@ def get_solution_from_roots(roots: List[Union[mpf, mpc]]) -> Tuple[List[Basic], 
                 solution += [term]
                 simplified_solution += [term]
             else:
+                # root is actually 1/root, so (root)**n matches the paper
                 solution += [sympify(f"(n**{i})*{root}**n")]
                 abs_root = Abs(root)
                 if abs_root == 1:
@@ -119,23 +120,44 @@ def big_o(terms: List[str]) -> str:
 
     The terms should be a list of expressions represented as strings.
     """
-    n_var = symbols('n')
-    if len(terms) == 0:
-        return '0'
+    # print(terms)
+    try:
+        with Timeout(seconds = 200, error_message="Big O Timed Out"):
+            n_var = symbols('n')
+            if len(terms) == 0:
+                return '0'
 
-    if len(terms) == 1:
-        return terms[0]
+            if len(terms) == 1:
+                return terms[0]
 
-    term_one = terms[0]
-    term_two = terms[1]
+            term_one = terms[0]
+            term_two = terms[1]
 
-    lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
+            lim = limit(Abs(sympify(term_two) / sympify(term_one)), n_var, float('inf'))
+            # print(f"limit in big o: {lim}")
 
-    if lim == 0:
-        terms.remove(term_two)
-        return big_o(terms)
+            if lim == 0: # second term strickly less than first term
+                terms.remove(term_two)
+                return big_o(terms)
+            elif lim == float('inf'): # first term strickly less than second term
+                terms.remove(term_one)
+                return big_o(terms)
+            else: #first and second term have the same power, add them
+                # print("term one:",term_one)
+                # print("term two:",term_two)
+                terms[0] = simplify(term_one + term_two)
+                # print("combined:",terms[0])
+                terms.remove(term_two)
+                return big_o(terms)
 
-    return big_o(terms[1:])
+            return big_o(terms[1:]) # delete the first term
+            # if lim < 1: # AFTER: if second term is smaller than first term (even by coefficients when the power is the same)
+            #     terms.remove(term_two)
+            #     return big_o(terms)
+
+            # return big_o(terms[1:])
+    except:
+        return str(terms[0]) + " + " + str(big_o(terms[1:]))
 
 
 def show_func_defs(filename: str) -> Dict[str, str]:

@@ -73,6 +73,7 @@ class CPPConvert(converter.ConverterAbstract):
             content = old_file.readlines()
             for line in content[1:]:
                 line = line.strip()
+                # print(line)
 
                 # Throw out the label (e.g. label="CFG for 'main' function")
                 # for the graph and remove whitespace.
@@ -84,37 +85,40 @@ class CPPConvert(converter.ConverterAbstract):
                 if is_edge is None:
                     node_name = re.match(self._name_pattern, line.lstrip())
                     if node_name is None:
+
                         continue
 
                     node_name_str = node_name.groups()[0].strip()
                     node_map[node_name_str] = str(counter)
                     node_to_add = str(counter)
-                    call = re.search(self._call_pattern, line.lstrip())
+                    calls = re.finditer(self._call_pattern, line.lstrip())
                     label = ""
-
-                    if counter == 0 and call is not None:
-                        call_label = call.group(0)[1:-1]
-                        label = f" [label=\"START CALLS {call_label}\"]"
+                    call_label = ""
+                    for call in calls:
+                        call_label += " "
+                        call_label += call.group(0)[1:-1]
+                    if counter == 0 and call_label != "":
+                        label = f" [label=\"START CALLS{call_label}\"]"
                     elif counter == 0:
                         label = " [label=\"START\"]"
-                    elif call is not None:
-                        call_label = call.group(0)[1:-1]
-                        label = f" [label=\"CALLS {call_label}\"]"
-
+                    elif call_label != "":
+                        label = f" [label=\"CALLS{call_label}\"]"
                     node_to_add += label
+                        #print(label)
+                    # print(node_to_add)
                     nodes.append(node_to_add)
 
                     counter += 1
                 else:
                     edges += [line]
-
+            #print(node_map)
+            #print(edges)
         return nodes, edges, node_map, counter
 
     def convert_file_to_standard(self, file: str,
                                  filename: str) -> None:
         """Convert a single file to the standard format."""
         nodes, edges, node_map, counter = self.parse_original(file)
-
         # Covers case of leaf CFGs.
         if len(nodes) == 1:
             nodes.append("1")
@@ -125,8 +129,12 @@ class CPPConvert(converter.ConverterAbstract):
 
         # Make a temporary file (with the new content).
         source_name = os.path.basename(filename)
+        # file:/app/code/tmp/cfg._Z7mul_invii.dot
         f_name = os.path.basename(file)
-        with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w') as new_file:
+        # f_name: cfg._Z7mul_invii.dot
+        # with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w') as new_file:
+        # print(f"OPEN!!! {open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+')}")
+        with open(Env.TMP_DOT_PATH + "/" + source_name + "_" + f_name, 'w+') as new_file:
             new_file.write("digraph { \n")
 
             # Create the nodes and then the edges.
@@ -143,6 +151,7 @@ class CPPConvert(converter.ConverterAbstract):
 
                 new_file.write(edge + "\n")
             new_file.write("}")
+            new_file.seek(0)
 
     def convert_to_standard_format(self, filename: str) -> int:
         """
@@ -151,6 +160,7 @@ class CPPConvert(converter.ConverterAbstract):
         Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
         """
+        print(f"filename in convert_to_standard_format {filename}")
         files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
         for name in files:
             if "global" in name.lower():
@@ -158,6 +168,7 @@ class CPPConvert(converter.ConverterAbstract):
                 files.remove(name)
 
         for file in files:
+            print(f"file in files: {file}")
             self.convert_file_to_standard(file, filename)
 
         return len(files)
@@ -177,7 +188,6 @@ class CPPConvert(converter.ConverterAbstract):
             c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"\
 
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
-
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
 
         self.logger.d_msg(f"Command One: {commands[0]}")

@@ -1,0 +1,3 @@
+KLEE: Using Z3 solver backend
+KLEE: ERROR: /app/code/tests/cFiles/benchmark/kleeversions/files/digital-root-multiplicative-digital-root.c:16: memory error: object read only
+KLEE: NOTE: now ignoring this error at this location
