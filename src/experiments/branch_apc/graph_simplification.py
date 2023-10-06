@@ -1,6 +1,5 @@
 # %%
 from collections import defaultdict
-import graphviz
 
 calldict = defaultdict(list)
 
@@ -34,6 +33,7 @@ def simplify_graphs(dictgraphs, calldict):
     Basic Rules:
     1. A -> B -> C gets simplified to A -> C
     '''
+    print("inside")
     simplified_graphs = []
 
     for graph in dictgraphs:
