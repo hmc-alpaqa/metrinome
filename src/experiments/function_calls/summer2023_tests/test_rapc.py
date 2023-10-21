@@ -35,6 +35,7 @@ class DataCollector:
         for i in files:
             file = i.split()[0]
             funcs = i.split()[1:]
+            print(f"function that we wish to analyze: {funcs}")
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
             print(graphs)
@@ -47,29 +48,29 @@ class DataCollector:
 
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
-                if graph_name == 'sudoku_f2f_cfg._Z7trycellPii.dot':
-                    new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
-                           "rapc_time": 'na'}
-                    data = data.append(new_row, ignore_index=True)
-                    data = data[["graph_name", "rapc", "rapc_time"]]
-                    print(data[["graph_name", "rapc", "rapc_time"]])
+                # if graph_name == 'sudoku_f2f_cfg._Z7trycellPii.dot':
+                #     new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
+                #            "rapc_time": 'na'}
+                #     data = data.append(new_row, ignore_index=True)
+                #     data = data[["graph_name", "rapc", "rapc_time"]]
+                #     print(data[["graph_name", "rapc", "rapc_time"]])
 
-                    if not os.path.exists("/app/code/experiments/function_calls/data"):
-                        os.makedirs("/app/code/experiments/function_calls/data")
-                    data.to_csv("/app/code/experiments/function_calls/data/rapc_data.csv")
-                    continue
+                #     if not os.path.exists("/app/code/experiments/function_calls/data"):
+                #         os.makedirs("/app/code/experiments/function_calls/data")
+                #     data.to_csv("/app/code/experiments/function_calls/data/rapc_data.csv")
+                #     continue
 
-                if graph_name == 'truncatable_primes_f2f_cfg._Z4leftii.dot':
-                    new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
-                           "rapc_time": 'na'}
-                    data = data.append(new_row, ignore_index=True)
-                    data = data[["graph_name", "rapc", "rapc_time"]]
-                    print(data[["graph_name", "rapc", "rapc_time"]])
+                # if graph_name == 'truncatable_primes_f2f_cfg._Z4leftii.dot':
+                #     new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
+                #            "rapc_time": 'na'}
+                #     data = data.append(new_row, ignore_index=True)
+                #     data = data[["graph_name", "rapc", "rapc_time"]]
+                #     print(data[["graph_name", "rapc", "rapc_time"]])
 
-                    if not os.path.exists("/app/code/experiments/function_calls/data"):
-                        os.makedirs("/app/code/experiments/function_calls/data")
-                    data.to_csv("/app/code/experiments/function_calls/data/rapc_data.csv")
-                    continue
+                #     if not os.path.exists("/app/code/experiments/function_calls/data"):
+                #         os.makedirs("/app/code/experiments/function_calls/data")
+                #     data.to_csv("/app/code/experiments/function_calls/data/rapc_data.csv")
+                #     continue
                 
                 rapc: Union[str, PathComplexityRes] = "na"
                 exception_type = "na"
@@ -130,7 +131,8 @@ def notin(graph_name, funcs):
     if funcs == []:
         return False
     for func in funcs:
-        if func in graph_name:
+        graphName = graph_name.split(".")[1]
+        if func in graphName:
             return False
     return True
 

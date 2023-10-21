@@ -1,32 +1,32 @@
-/app/code/experiments/function_calls/benchmark/dot_product_simple.c
-/app/code/experiments/function_calls/benchmark/even_odd_f2f.c
-/app/code/experiments/function_calls/benchmark/factorial_recursive.c
-/app/code/experiments/function_calls/benchmark/factorial_f2f.c
-/app/code/experiments/function_calls/benchmark/binary_to_decimal_simple.c
-/app/code/experiments/function_calls/benchmark/decimal_to_binary_simple.c
-/app/code/experiments/function_calls/benchmark/linear_search_recursive.c
-/app/code/experiments/function_calls/benchmark/palindrome_recursive.c
-/app/code/experiments/function_calls/benchmark/partition_f2f.c
-/app/code/experiments/function_calls/benchmark/binary_search_recursive.c
-/app/code/experiments/function_calls/benchmark/binary_search_f2f.c
-/app/code/experiments/function_calls/benchmark/newtons_method_recursive.c
-/app/code/experiments/function_calls/benchmark/quicksort_recursive.c
-/app/code/experiments/function_calls/benchmark/quicksort_f2f.c
-/app/code/experiments/function_calls/benchmark/matrix_multiplication_simple.c
-/app/code/experiments/function_calls/benchmark/fibonacci_recursive.c
-/app/code/experiments/function_calls/benchmark/fibonacci_wrapper.c
-/app/code/experiments/function_calls/benchmark/bubble_sort_simple.c
-/app/code/experiments/function_calls/benchmark/bubble_sort_f2f.c
-/app/code/experiments/function_calls/benchmark/longest_common_substring_simple.c
+/app/code/experiments/function_calls/benchmark/dot_product_simple.c dot_product
+/app/code/experiments/function_calls/benchmark/even_odd_f2f.c even
+/app/code/experiments/function_calls/benchmark/factorial_recursive.c factorialSafe
+/app/code/experiments/function_calls/benchmark/factorial_f2f.c auxSafe
+/app/code/experiments/function_calls/benchmark/binary_to_decimal_simple.c binaryToDecimal
+/app/code/experiments/function_calls/benchmark/decimal_to_binary_simple.c decimalToBinary
+/app/code/experiments/function_calls/benchmark/linear_search_recursive.c linear_search_rec
+/app/code/experiments/function_calls/benchmark/palindrome_recursive.c palindrome_r
+/app/code/experiments/function_calls/benchmark/partition_f2f.c partition
+/app/code/experiments/function_calls/benchmark/binary_search_recursive.c bsearch_r
+/app/code/experiments/function_calls/benchmark/binary_search_f2f.c main
+/app/code/experiments/function_calls/benchmark/newtons_method_recursive.c newtons_method_rec
+/app/code/experiments/function_calls/benchmark/quicksort_recursive.c quicksort
+/app/code/experiments/function_calls/benchmark/quicksort_f2f.c quicksort
+/app/code/experiments/function_calls/benchmark/matrix_multiplication_simple.c matrix_multiplication
+/app/code/experiments/function_calls/benchmark/fibonacci_recursive.c fib_rec
+/app/code/experiments/function_calls/benchmark/fibonacci_wrapper.c fib_rec_wrapper
+/app/code/experiments/function_calls/benchmark/bubble_sort_simple.c main
+/app/code/experiments/function_calls/benchmark/bubble_sort_f2f.c main
+/app/code/experiments/function_calls/benchmark/longest_common_substring_simple.c 
 /app/code/experiments/function_calls/benchmark/longest_common_subsequence_simple.c
-/app/code/experiments/function_calls/benchmark/insertion_sort_simple.c
-/app/code/experiments/function_calls/benchmark/insertion_sort_f2f.c
-/app/code/experiments/function_calls/benchmark/sudoku_f2f.c
-/app/code/experiments/function_calls/benchmark/truncatable_primes_f2f.c
-/app/code/experiments/function_calls/benchmark/digits_squaring_f2f.c
-/app/code/experiments/function_calls/benchmark/merge_sort_simple.c
-/app/code/experiments/function_calls/benchmark/merge_sort_f2f.c
-/app/code/experiments/function_calls/benchmark/parse_an_ip_address_f2f.c
-/app/code/experiments/function_calls/benchmark/tic_tac_toe_f2f.c
-/app/code/experiments/function_calls/benchmark/heap_sort_f2f.c
-/app/code/experiments/function_calls/benchmark/bst_f2f.c
+/app/code/experiments/function_calls/benchmark/insertion_sort_simple.c 
+/app/code/experiments/function_calls/benchmark/insertion_sort_f2f.c main
+/app/code/experiments/function_calls/benchmark/sudoku_f2f.c solve
+/app/code/experiments/function_calls/benchmark/truncatable_primes_f2f.c left
+/app/code/experiments/function_calls/benchmark/digits_squaring_f2f.c choose_sum_and_count_89
+/app/code/experiments/function_calls/benchmark/merge_sort_simple.c 
+/app/code/experiments/function_calls/benchmark/merge_sort_f2f.c main
+/app/code/experiments/function_calls/benchmark/parse_an_ip_address_f2f.c ParseIPv4OrIPv6
+/app/code/experiments/function_calls/benchmark/tic_tac_toe_f2f.c game
+/app/code/experiments/function_calls/benchmark/heap_sort_f2f.c heapSort
+/app/code/experiments/function_calls/benchmark/bst_f2f.c main

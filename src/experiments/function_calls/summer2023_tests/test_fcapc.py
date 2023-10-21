@@ -109,7 +109,8 @@ def notin(graph_name, funcs):
     if funcs == []:
         return False
     for func in funcs:
-        if func in graph_name:
+        graphName = graph_name.split(".")[1]
+        if func in graphName:
             return False
     return True
 
