@@ -207,8 +207,10 @@ class ControlFlowGraph:
                 func0, func1 = func_pair
                 if func0 == func1:
                     for _ in range(len(calls_function(graphs[func0].metadata.calls, func1))):
-                        node = calls_function(graphs[func0].metadata.calls, func1)[0]
-                        graphs[func0] = ControlFlowGraph.recursify(graphs[func0], node)
+                        node = calls_function(
+                            graphs[func0].metadata.calls, func1)[0]
+                        graphs[func0] = ControlFlowGraph.recursify(
+                            graphs[func0], node)
                     calls_list.remove(func_pair)
                     if func0 not in [i[0] for i in calls_list]:
                         simple_funcs.append(func0)
@@ -217,9 +219,11 @@ class ControlFlowGraph:
                     for _ in range(len(calls_function(graphs[func0].metadata.calls, func1))):
                         cfg1, cfg2 = graphs[func0], graphs[func1]
                         if cfg1.metadata.calls is not None:
-                            node = calls_function(cfg1.metadata.calls, func1)[0]
+                            node = calls_function(
+                                cfg1.metadata.calls, func1)[0]
                             cfg1.metadata.calls.pop(node)
-                            graphs[func0] = ControlFlowGraph.compose(cfg1, cfg2, node)
+                            graphs[func0] = ControlFlowGraph.compose(
+                                cfg1, cfg2, node)
                     calls_list.remove(func_pair)
                     if func0 not in [i[0] for i in calls_list]:
                         simple_funcs.append(func0)

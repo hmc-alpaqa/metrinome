@@ -27,7 +27,8 @@ class CPPConvert(converter.ConverterAbstract):
         self._edge_pattern = "->"
         self._name_pattern = "([a-zA-Z0-9]+ )"
         self._optimize = False
-        self._call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
+        # self._call_pattern = r"(@)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
+        self._call_pattern = r"(@)[A-Za-z0-9_]{2,}[A-Za-z0-9_]*\("
 
     def name(self) -> str:
         """Get the name of the CPP converter."""
@@ -39,7 +40,8 @@ class CPPConvert(converter.ConverterAbstract):
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
-        self.logger.d_msg(f"Creating dot files for {filename}, {file_extension}")
+        self.logger.d_msg(
+            f"Creating dot files for {filename}, {file_extension}")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
@@ -61,6 +63,46 @@ class CPPConvert(converter.ConverterAbstract):
         Env.clean_temps()
         return graphs
 
+    def to_graph_from_dotfiles(self, dotfiles_dir: str) -> Optional[dict[str, ControlFlowGraph]]:
+        ''' Stadardize dotfiles from provided dir and then create graphs '''
+        Env.make_temp()
+        Env.clean_temps()
+        # copy our dotfiles to tmp dir
+        self.logger.d_msg(
+            f"Copying dot files from {dotfiles_dir} to {Env.TMP_PATH}")
+        files = glob2 .glob(f"{dotfiles_dir}/*.dot", include_hidden=True)
+        for file in files:
+            basename = os.path.basename(file)
+            subprocess.call(
+                ["cp", file, f"{Env.TMP_PATH}/{basename.lstrip('.')}"])
+
+        self.logger.d_msg("Converting to standard format")
+        files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
+        for file in files:
+            self.convert_file_to_standard(file, '')
+
+        # convert dot files
+        # graphs: dict[str, ControlFlowGraph] = {}
+        # for file in files:
+        #     graph_name = os.path.basename(file)
+        #     self.logger.d_msg(f"graph_name: {graph_name}")
+        #     graph = ControlFlowGraph.from_file(file, EdgeListGraph,
+        #                                        [Metadata.with_language(KnownExtensions.C)])
+        #     graphs[graph_name] = graph
+        # return graphs
+
+        graphs: dict[str, ControlFlowGraph] = {}
+        files = glob2.glob(f"{Env.TMP_DOT_PATH}/*.dot")
+
+        for file in files:
+            graph_name = os.path.basename(file)
+            self.logger.d_msg(f"graph_name: {graph_name}")
+            graph = ControlFlowGraph.from_file(file, EdgeListGraph,
+                                               [Metadata.with_language(KnownExtensions.C)])
+            graphs[graph_name] = graph
+        Env.clean_temps()
+        return graphs
+
     def parse_original(self, file: str) -> tuple[list[str], list[str],
                                                  dict[str, str], int]:
         """Obtain all of the Graph information from an existing dot file in the original format."""
@@ -73,7 +115,6 @@ class CPPConvert(converter.ConverterAbstract):
             content = old_file.readlines()
             for line in content[1:]:
                 line = line.strip()
-                # print(line)
 
                 # Throw out the label (e.g. label="CFG for 'main' function")
                 # for the graph and remove whitespace.
@@ -92,6 +133,7 @@ class CPPConvert(converter.ConverterAbstract):
                     node_map[node_name_str] = str(counter)
                     node_to_add = str(counter)
                     calls = re.finditer(self._call_pattern, line.lstrip())
+
                     label = ""
                     call_label = ""
                     for call in calls:
@@ -104,15 +146,15 @@ class CPPConvert(converter.ConverterAbstract):
                     elif call_label != "":
                         label = f" [label=\"CALLS{call_label}\"]"
                     node_to_add += label
-                        #print(label)
+                    # print(label)
                     # print(node_to_add)
                     nodes.append(node_to_add)
 
                     counter += 1
                 else:
                     edges += [line]
-            #print(node_map)
-            #print(edges)
+            # print(node_map)
+            # print(edges)
         return nodes, edges, node_map, counter
 
     def convert_file_to_standard(self, file: str,
@@ -146,8 +188,11 @@ class CPPConvert(converter.ConverterAbstract):
             for edge in edges:
                 for name in node_map:
                     edge = edge.replace(name, node_map[name])
-                    edge = edge.replace(":s0", "")
-                    edge = edge.replace(":s1", "")
+                    # There can be a lot of ports, remove them all to make nodes the same
+                    if ':s' in edge:  # remove ports
+                        start, end = edge.split(' -> ')
+                        start = start.split(':s')[0]
+                        edge = f"{start} -> {end}"
 
                 new_file.write(edge + "\n")
             new_file.write("}")
@@ -213,7 +258,8 @@ class CPPConvert(converter.ConverterAbstract):
                 err_msg = ''.join(error_lines)
 
                 if len(err_msg) == 0:
-                    self.logger.d_msg(f"Got the following error msg: {str(err_msg)}")
+                    self.logger.d_msg(
+                        f"Got the following error msg: {str(err_msg)}")
 
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:

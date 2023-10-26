@@ -68,6 +68,8 @@ class DataCollector:
 
         for graph_name, graph in graphs.items():
             print('Graph Name: ', graph_name)
+            if graph_name != '_main.dot':
+                continue
 
             getrgfapc: Union[str, PathComplexityRes] = {'rfcapc': 'na'}
             exception_type = "na"
@@ -110,8 +112,9 @@ class DataCollector:
             # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
             # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
             # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-            print(data[["graph_name", "getrgfapc", "getrgfapc_time",
-                        "longest for getrgf", "longest time", 'case', 'gamma']])
+            # print(data[["graph_name", "getrgfapc", "getrgfapc_time",
+            #             "longest for getrgf", "longest time", 'case', 'gamma']])
+            print(data[['graph_name', 'getrgfapc']])
 
             # create directory if it doesn't exist
             if not os.path.exists("/app/code/experiments/function_calls/data"):

@@ -132,7 +132,8 @@ class GenericGraph(Graph, Generic[Type], ABC):
 
         edges_equal = self.edges == other.edges
         vertices_equal = self.num_vertices == other.num_vertices
-        labels_equal = (self.start_node == other.start_node and self.end_node == other.end_node)
+        labels_equal = (self.start_node ==
+                        other.start_node and self.end_node == other.end_node)
         return edges_equal and vertices_equal and labels_equal
 
     def vertices(self) -> list[int]:
@@ -328,7 +329,8 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
 
     def adjacency_matrix(self) -> np.ndarray:
         """Obtain the adjacency matrix representation of the graph, ignoring weights."""
-        adj_mat = np.zeros((self.num_vertices, self.num_vertices), dtype=np.int8)
+        adj_mat = np.zeros(
+            (self.num_vertices, self.num_vertices), dtype=np.int8)
         for vertex in range(self.num_vertices):
             vertex_one = self.node_to_index(vertex)
             for vertex_two in self.edges[vertex]:
@@ -351,7 +353,8 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
         """Create new edges when the current line in the dot file is an edge."""
         node_one, node_two = self._update_with_edge_helper(match)
         if len(self.edges) <= node_one:
-            self.edges += [[] for _ in range(((node_one + 1) - len(self.edges)))]
+            self.edges += [[]
+                           for _ in range(((node_one + 1) - len(self.edges)))]
 
         self.edges[node_one] += [node_two]
 
@@ -383,7 +386,8 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
         endmodule
         """
         if self.weights is None:
-            raise ValueError("Graph is not a Discrete Time Markov Chain (no weights available).")
+            raise ValueError(
+                "Graph is not a Discrete Time Markov Chain (no weights available).")
 
         prism_lines = []
 
@@ -392,20 +396,23 @@ class AdjListGraph(GenericGraph[AdjListType], Graph):
         prism_lines.append('module test\n')
 
         # Create all of the nodes we'll use.
-        prism_lines.append(f'\ts: [0..{self.num_vertices}] init {self.start_node}\n')
+        prism_lines.append(
+            f'\ts: [0..{self.num_vertices}] init {self.start_node}\n')
 
         adj_list = self.adjacency_list()
 
         for i, neighbors in enumerate(adj_list):
             # We know that the vertex corresponds to the index 'i'.
             prism_line = ' + '.join(
-                [f"{self.weights[i][j]} : (s'={neighbor})" for j, neighbor in enumerate(neighbors)]
+                [f"{self.weights[i][j]} : (s'={neighbor})" for j, neighbor in enumerate(
+                    neighbors)]
             )
             prism_line += ';\n'
             prism_lines.append(f'\t[] s={i} -> {prism_line}')
 
         # The terminal node should point to itself.
-        prism_lines.append(f"\t[] s={self.end_node} -> (s'={self.end_node});\n")
+        prism_lines.append(
+            f"\t[] s={self.end_node} -> (s'={self.end_node});\n")
 
         # Add the footer.
         prism_lines.append('endmodule')
@@ -439,7 +446,8 @@ class EdgeListGraph(GenericGraph[EdgeListType], Graph):
 
     def adjacency_matrix(self) -> np.ndarray:
         """Obtain the adjacency matrix represnetation of the graph."""
-        adj_mat = np.zeros((self.num_vertices, self.num_vertices), dtype=np.int8)
+        adj_mat = np.zeros(
+            (self.num_vertices, self.num_vertices), dtype=np.int8)
         for edge in self.edges:
             vertex_one = edge[0]
             vertex_two = edge[1]

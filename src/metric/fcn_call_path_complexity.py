@@ -37,7 +37,7 @@ class FunctionCallPathComplexity(ABC):
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
         self.logger.d_msg(f"RGF FCAPC =========================================================")
-        self.logger.d_msg(f"graph name:{cfg.name.split('.')[1]}")
+        # self.logger.d_msg(f"graph name:{cfg.name.split('.')[1]}")
         self.logger.d_msg(f"cfg repr:{cfg.rich_repr()}")
 
         # process cfgs into dictionary graphs and call dictionary (graphProcessTime)
