@@ -1,0 +1,12 @@
+digraph "CFG for 'prep_non_filename_text' function" {
+	label="CFG for 'prep_non_filename_text' function";
+
+	Node0x7b40f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8*, i8** getelementptr inbounds ([24 x %struct.bin_str], [24 x\l... %struct.bin_str]* @color_indicator, i64 0, i64 2, i32 1), align 8, !dbg\l... !1869, !tbaa !1871\l  %2 = icmp ne i8* %1, null, !dbg !1877\l  br i1 %2, label %3, label %4, !dbg !1878\l|{<s0>T|<s1>F}}"];
+	Node0x7b40f0:s0 -> Node0x7b4170;
+	Node0x7b40f0:s1 -> Node0x7b41c0;
+	Node0x7b4170 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%3:\l3:                                                \l  call void @put_indicator(%struct.bin_str* noundef getelementptr inbounds\l... ([24 x %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64\l... 2)), !dbg !1879\l  br label %5, !dbg !1879\l}"];
+	Node0x7b4170 -> Node0x7b4210;
+	Node0x7b41c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%4:\l4:                                                \l  call void @put_indicator(%struct.bin_str* noundef getelementptr inbounds\l... ([24 x %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64\l... 0)), !dbg !1880\l  call void @put_indicator(%struct.bin_str* noundef getelementptr inbounds\l... ([24 x %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64\l... 3)), !dbg !1882\l  call void @put_indicator(%struct.bin_str* noundef getelementptr inbounds\l... ([24 x %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64\l... 1)), !dbg !1883\l  br label %5\l}"];
+	Node0x7b41c0 -> Node0x7b4210;
+	Node0x7b4210 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  ret void, !dbg !1884\l}"];
+}

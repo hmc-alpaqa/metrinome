@@ -39,26 +39,32 @@ class DataCollector:
             files = [line.rstrip() for line in funcs]
 
         # Grab all graphs before doing any analysis
-        graphs = {}
-        for i in files:
-            file = i.split()[0]
-            funcs = i.split()[1:]
-            curr_file_graphs = self.converter.to_graph(
-                os.path.splitext(file)[0], ".c")
-            graphs.update(curr_file_graphs)
+        # graphs = {}
+        # for i in files:
+        #     file = i.split()[0]
+        #     funcs = i.split()[1:]
+        #     curr_file_graphs = self.converter.to_graph(
+        #         os.path.splitext(file)[0], ".c")
+        #     graphs.update(curr_file_graphs)
+
+        # grab from dotfile dir
+        dotfile_dir = "/app/code/experiments/coreutils"
+        graphs = self.converter.to_graph_from_dotfiles(dotfile_dir)
 
         # for i in files:
         #     file = i.split()[0]
         #     funcs = i.split()[1:]
         #     print(f"Now analyzing {file}")
-            # graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            # print(graphs)
-            # if graphs is None:
-            #     graphs = self.converter.to_graph(
-            #         os.path.splitext(file)[0], ".cpp")
-            # if graphs is None:
-            #     print("No Graphs")
-            #     continue
+        # graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
+        # print(graphs)
+        # if graphs is None:
+        #     graphs = self.converter.to_graph(
+        #         os.path.splitext(file)[0], ".cpp")
+        # if graphs is None:
+        #     print("No Graphs")
+        #     continue
+
+        file = 'hi'  # needed for table
 
         for graph_name, graph in graphs.items():
             print('Graph Name: ', graph_name)
@@ -67,8 +73,8 @@ class DataCollector:
             exception_type = "na"
             getrgfruntime = 0.0
 
-            if notin(graph_name, funcs):
-                continue
+            # if notin(graph_name, funcs):
+            #     continue
 
             print(
                 "======================running getrgf fcn_call_path_complexity for 4000 seconds=======================")

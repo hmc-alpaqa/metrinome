@@ -1,0 +1,10 @@
+digraph "CFG for 'is_directory' function" {
+	label="CFG for 'is_directory' function";
+
+	Node0x90cae0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.fileinfo*, align 8\l  store %struct.fileinfo* %0, %struct.fileinfo** %2, align 8, !tbaa !1873\l  call void @llvm.dbg.declare(metadata %struct.fileinfo** %2, metadata !1872,\l... metadata !DIExpression()), !dbg !1877\l  %3 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1878,\l... !tbaa !1873\l  %4 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %3, i32 0,\l... i32 4, !dbg !1879\l  %5 = load i32, i32* %4, align 8, !dbg !1879, !tbaa !1880\l  %6 = icmp eq i32 %5, 3, !dbg !1887\l  br i1 %6, label %12, label %7, !dbg !1888\l|{<s0>T|<s1>F}}"];
+	Node0x90cae0:s0 -> Node0x90cb80;
+	Node0x90cae0:s1 -> Node0x90cb30;
+	Node0x90cb30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%7:\l7:                                                \l  %8 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1889,\l... !tbaa !1873\l  %9 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %8, i32 0,\l... i32 4, !dbg !1890\l  %10 = load i32, i32* %9, align 8, !dbg !1890, !tbaa !1880\l  %11 = icmp eq i32 %10, 9, !dbg !1891\l  br label %12, !dbg !1888\l}"];
+	Node0x90cb30 -> Node0x90cb80;
+	Node0x90cb80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = phi i1 [ true, %1 ], [ %11, %7 ]\l  ret i1 %13, !dbg !1892\l}"];
+}

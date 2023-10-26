@@ -1,0 +1,19 @@
+digraph "CFG for 'change_env' function" {
+	label="CFG for 'change_env' function";
+
+	Node0xd8ce40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca %struct.tm_zone*, align 8\l  store %struct.tm_zone* %0, %struct.tm_zone** %3, align 8, !tbaa !1873\l  call void @llvm.dbg.declare(metadata %struct.tm_zone** %3, metadata !1872,\l... metadata !DIExpression()), !dbg !1877\l  %4 = load %struct.tm_zone*, %struct.tm_zone** %3, align 8, !dbg !1878, !tbaa\l... !1873\l  %5 = getelementptr inbounds %struct.tm_zone, %struct.tm_zone* %4, i32 0, i32\l... 1, !dbg !1880\l  %6 = load i8, i8* %5, align 8, !dbg !1880, !tbaa !1881\l  %7 = sext i8 %6 to i32, !dbg !1878\l  %8 = icmp ne i32 %7, 0, !dbg !1878\l  br i1 %8, label %9, label %13, !dbg !1878\l|{<s0>T|<s1>F}}"];
+	Node0xd8ce40:s0 -> Node0xd8f140;
+	Node0xd8ce40:s1 -> Node0xd8f190;
+	Node0xd8f140 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%9:\l9:                                                \l  %10 = load %struct.tm_zone*, %struct.tm_zone** %3, align 8, !dbg !1882,\l... !tbaa !1873\l  %11 = getelementptr inbounds %struct.tm_zone, %struct.tm_zone* %10, i32 0,\l... i32 2, !dbg !1883\l  %12 = getelementptr inbounds [0 x i8], [0 x i8]* %11, i64 0, i64 0, !dbg\l... !1882\l  br label %14, !dbg !1878\l}"];
+	Node0xd8f140 -> Node0xd8f1e0;
+	Node0xd8f190 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%13:\l13:                                               \l  br label %14, !dbg !1878\l}"];
+	Node0xd8f190 -> Node0xd8f1e0;
+	Node0xd8f1e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%14:\l14:                                               \l  %15 = phi i8* [ %12, %9 ], [ null, %13 ], !dbg !1878\l  %16 = call i32 @setenv_TZ(i8* noundef %15), !dbg !1884\l  %17 = icmp ne i32 %16, 0, !dbg !1885\l  br i1 %17, label %18, label %19, !dbg !1886\l|{<s0>T|<s1>F}}"];
+	Node0xd8f1e0:s0 -> Node0xd8f230;
+	Node0xd8f1e0:s1 -> Node0xd8f280;
+	Node0xd8f230 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%18:\l18:                                               \l  store i1 false, i1* %2, align 1, !dbg !1887\l  br label %20, !dbg !1887\l}"];
+	Node0xd8f230 -> Node0xd8f2d0;
+	Node0xd8f280 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%19:\l19:                                               \l  call void @tzset() #27, !dbg !1888\l  store i1 true, i1* %2, align 1, !dbg !1889\l  br label %20, !dbg !1889\l}"];
+	Node0xd8f280 -> Node0xd8f2d0;
+	Node0xd8f2d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%20:\l20:                                               \l  %21 = load i1, i1* %2, align 1, !dbg !1890\l  ret i1 %21, !dbg !1890\l}"];
+}

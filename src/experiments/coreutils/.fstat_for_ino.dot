@@ -1,0 +1,5 @@
+digraph "CFG for 'fstat_for_ino' function" {
+	label="CFG for 'fstat_for_ino' function";
+
+	Node0x7b5e40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca %struct.stat*, align 8\l  store i32 %0, i32* %3, align 4, !tbaa !1875\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1873, metadata\l... !DIExpression()), !dbg !1879\l  store %struct.stat* %1, %struct.stat** %4, align 8, !tbaa !1880\l  call void @llvm.dbg.declare(metadata %struct.stat** %4, metadata !1874,\l... metadata !DIExpression()), !dbg !1882\l  %5 = load i32, i32* %3, align 4, !dbg !1883, !tbaa !1875\l  %6 = load %struct.stat*, %struct.stat** %4, align 8, !dbg !1884, !tbaa !1880\l  %7 = call i32 @do_statx(i32 noundef %5, i8* noundef getelementptr inbounds\l... ([1 x i8], [1 x i8]* @.str, i64 0, i64 0), %struct.stat* noundef %6, i32\l... noundef 4096, i32 noundef 256), !dbg !1885\l  ret i32 %7, !dbg !1886\l}"];
+}

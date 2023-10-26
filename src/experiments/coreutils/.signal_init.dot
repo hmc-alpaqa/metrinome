@@ -1,0 +1,5 @@
+digraph "CFG for 'signal_init' function" {
+	label="CFG for 'signal_init' function";
+
+	Node0x7b3ec0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void @signal_setup(i1 noundef zeroext true), !dbg !1869\l  ret void, !dbg !1870\l}"];
+}

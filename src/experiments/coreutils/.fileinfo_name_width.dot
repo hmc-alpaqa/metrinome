@@ -1,0 +1,12 @@
+digraph "CFG for 'fileinfo_name_width' function" {
+	label="CFG for 'fileinfo_name_width' function";
+
+	Node0x8fd840 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.fileinfo*, align 8\l  store %struct.fileinfo* %0, %struct.fileinfo** %2, align 8, !tbaa !1873\l  call void @llvm.dbg.declare(metadata %struct.fileinfo** %2, metadata !1872,\l... metadata !DIExpression()), !dbg !1877\l  %3 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1878,\l... !tbaa !1873\l  %4 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %3, i32 0,\l... i32 12, !dbg !1879\l  %5 = load i64, i64* %4, align 8, !dbg !1879, !tbaa !1880\l  %6 = icmp ne i64 %5, 0, !dbg !1878\l  br i1 %6, label %7, label %11, !dbg !1878\l|{<s0>T|<s1>F}}"];
+	Node0x8fd840:s0 -> Node0x8ffba0;
+	Node0x8fd840:s1 -> Node0x8ffc20;
+	Node0x8ffba0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%7:\l7:                                                \l  %8 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1887,\l... !tbaa !1873\l  %9 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %8, i32 0,\l... i32 12, !dbg !1888\l  %10 = load i64, i64* %9, align 8, !dbg !1888, !tbaa !1880\l  br label %20, !dbg !1878\l}"];
+	Node0x8ffba0 -> Node0x8ffc70;
+	Node0x8ffc20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%11:\l11:                                               \l  %12 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1889,\l... !tbaa !1873\l  %13 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %12, i32 0,\l... i32 0, !dbg !1890\l  %14 = load i8*, i8** %13, align 8, !dbg !1890, !tbaa !1891\l  %15 = load %struct.quoting_options*, %struct.quoting_options**\l... @filename_quoting_options, align 8, !dbg !1892, !tbaa !1873\l  %16 = load %struct.fileinfo*, %struct.fileinfo** %2, align 8, !dbg !1893,\l... !tbaa !1873\l  %17 = getelementptr inbounds %struct.fileinfo, %struct.fileinfo* %16, i32 0,\l... i32 11, !dbg !1894\l  %18 = load i32, i32* %17, align 4, !dbg !1894, !tbaa !1895\l  %19 = call i64 @quote_name_width(i8* noundef %14, %struct.quoting_options*\l... noundef %15, i32 noundef %18), !dbg !1896\l  br label %20, !dbg !1878\l}"];
+	Node0x8ffc20 -> Node0x8ffc70;
+	Node0x8ffc70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%20:\l20:                                               \l  %21 = phi i64 [ %10, %7 ], [ %19, %11 ], !dbg !1878\l  ret i64 %21, !dbg !1897\l}"];
+}
