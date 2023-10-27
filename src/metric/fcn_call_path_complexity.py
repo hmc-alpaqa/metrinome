@@ -228,7 +228,7 @@ class FunctionCallPathComplexity(ABC):
         """Given a graph in CFG form, processes it along with dependent graphs into dictionary form with call metadata as well"""
         # TODO: use full name of cfg (file name is deleted here)
         dictgraphs = []
-        used_graphs = [graph.name.split(".")[-1]]
+        used_graphs = [graph.name[1:]]
         graphs_to_process = deque([graph]) # list of graphs left to process for current function (graphs of functions that are called + graph of original function)
         calldict = defaultdict(list)
 
@@ -238,7 +238,9 @@ class FunctionCallPathComplexity(ABC):
             curr_graph_name = curr_graph.name
             curr_graph_edges = curr_graph.graph.edge_rules()
             curr_graph_calls = curr_graph.metadata.calls
-            fcn_idx = used_graphs.index(curr_graph_name.split(".")[-1]) # index graphs for use in systems later
+            print('2')
+            print(curr_graph_name, used_graphs)
+            fcn_idx = used_graphs.index(curr_graph_name[1:]) # index graphs for use in systems later
             curr_graph_edges = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in curr_graph_edges] # rename vertices for use in systems later
             edgedict = defaultdict(list)
             nodes = set()
@@ -255,12 +257,12 @@ class FunctionCallPathComplexity(ABC):
                         used_graphs.append(called_fcn) # add new functions being called to used_graphs
                         # find graph from all_cfgs, add to graphs_to_process
                         for graph in all_graphs:
-                            if graph.split(".")[-2] == called_fcn:
+                            if graph[:-4][1:] == called_fcn:
                                 graphs_to_process.append(all_graphs[graph]) # add new functions to list of graphs to process
                                 break
                     # add all calls (not just ones to new functions) to calldict: Call (i, j) from function i node j to called_fcn
                     calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
-
+        
         return calldict, dictgraphs
 
     def graphsToSystems(self, dictgraphs, calldict):
