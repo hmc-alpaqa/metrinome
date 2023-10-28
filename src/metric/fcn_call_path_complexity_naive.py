@@ -71,7 +71,8 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(f"Call List: {call_list}")
         self.apc_times["graphProcessTime"] = time.time() - start_time
         apc = self.fcn_call_apc(all_edges, call_list)
-        return apc
+        self.apc_times["firstHalfTime"] = self.apc_times["graphProcessTime"] + self.apc_times["graphSystemsTime"] + self.apc_times["gammaTime"]
+        return self.apc_times
         
     def fcn_call_apc(self, edgelist, call_list):
         """Calculates the apc of a function that can call other functions """
@@ -278,6 +279,8 @@ class FunctionCallPathComplexity(ABC):
             # apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
         self.apc_times["cleanTime"] = time.time() - start_time
+        self.apc_times["pc"] = pc
+        self.apc_times["apc"] = apc
         return (apc, pc)
   
     def gammaFunction(self, edgelist, call_list):
