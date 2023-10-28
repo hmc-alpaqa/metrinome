@@ -13,6 +13,8 @@ from graph.control_flow_graph import ControlFlowGraph
 from graph.graph import Graph
 from metric import metric
 from utils import Timeout, big_o, get_solution_from_roots, get_taylor_coeffs, calls_function
+import time
+
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 PRECISION = 11
 class FunctionCallPathComplexity(ABC):
@@ -20,6 +22,7 @@ class FunctionCallPathComplexity(ABC):
     def __init__(self, logger: Log) -> None:
         """Initialize a new object capable of computing a metric."""
         self.logger = logger
+        self.apc_times = {}
     def name(self) -> str:
         """Return the name of the metric computed by this class."""
         return "Function Call Path Complexity Naive"
@@ -28,6 +31,7 @@ class FunctionCallPathComplexity(ABC):
         # adjMatrix = cfg.graph.adjacency_matrix()
         # print(cfg.graph.edge_rules())
         # edgelist = []
+        start_time = time.time()
         call_list = []
         all_edges = []
         # TODO: use full name of cfg (file name is deleted here)
@@ -65,6 +69,7 @@ class FunctionCallPathComplexity(ABC):
        
         self.logger.d_msg(f"Edge List: {all_edges}")
         self.logger.d_msg(f"Call List: {call_list}")
+        self.apc_times["graphProcessTime"] = time.time() - start_time
         apc = self.fcn_call_apc(all_edges, call_list)
         return apc
         
@@ -74,17 +79,24 @@ class FunctionCallPathComplexity(ABC):
             return (0, 0)
         gamma = self.gammaFunction(edgelist, call_list)
         self.logger.d_msg(f"Gamma Function: {gamma}")
+        start_time = time.time()
         discrim = self.calculateDiscrim(gamma)
         self.logger.d_msg(f"Discriminant: {discrim}")
+        self.apc_times["discrimTime"] = time.time() - start_time
+        start_time = time.time()
         try:
             numroots = len(self.realnroots(discrim))
         except Exception as e:
             self.logger.e_msg(f"Error: {e}")
             numroots = 0
+        self.apc_times["realnrootsTime"] = time.time() - start_time
+
         if numroots == 0:
+            self.apc_times['case'] = 1
             self.logger.d_msg(f"case1")
             T = symbols("T0")
             x = symbols("x")
+            start_time = time.time()
             gens = sympy.solve(gamma,T)
             possibleGenFunc = []
             for gen in gens:
@@ -97,6 +109,8 @@ class FunctionCallPathComplexity(ABC):
             else:
                 # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
+            self.apc_times["genFuncTime"] = time.time() - start_time
+            start_time = time.time()
             denominator = 1
             for factor in genFunc.args:
                 if type(factor) == sympy.Pow and factor.args[1] < 0:
@@ -131,6 +145,7 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"Found all Roots")
             self.logger.d_msg(f"numRoots: {numRoots}")
             self.logger.d_msg(f"rootsDict: {rootsDict}")
+            self.apc_times["rootsDictTime"] = time.time() - start_time
             # Replacing old nonZeroIndex for numNodes: July 7, 2023
             # while True:
             #     zseries = sympy.series(genFunc, x, 0, nonZeroIndex)
@@ -143,6 +158,7 @@ class FunctionCallPathComplexity(ABC):
             
             #Creates number of nodes per graph
             #1st step) Identify how many graphs
+            start_time = time.time()
             sumAllNodes = 0
             graphsNumbers = []
             for i in range(len(edgelist)):
@@ -231,6 +247,7 @@ class FunctionCallPathComplexity(ABC):
             if not type(patheq) == int:
                 patheq = patheq.subs(solutions)
             pc = patheq
+            self.apc_times["naiveMathTime"] = time.time() - start_time
             # Debugging cases in which we drop the coefficient of the APC, Summer 2023
             # self.logger.d_msg(f"pc: {pc}")
             # if type(pc) == sympy.Add:
@@ -243,11 +260,14 @@ class FunctionCallPathComplexity(ABC):
             #self.logger.d_msg(f"apc: {apc}")
         else:
             self.logger.d_msg(f"case2")
+            start_time = time.time()
             rStar = min(map(lambda x: x if x >10**(-PRECISION) else sympy.oo,self.realnroots(discrim)))
             if type(rStar) == sympy.polys.rootoftools.ComplexRootOf:
                 rStar = sympy.N(rStar)
             self.logger.d_msg(f"rStar: {rStar}")
             pc = sympy.N(1/rStar)**symbols("n")
+            self.apc_times["apcTime2"] = time.time() - start_time
+        start_time = time.time()
         self.logger.d_msg(f"pc: {pc}")
         apc = pc
         if type(pc) == sympy.Add:
@@ -257,12 +277,14 @@ class FunctionCallPathComplexity(ABC):
             apc = sympy.simplify(self.clean(apc, symbols("n")))
             # apc = big_o(list(apc.args))
         self.logger.d_msg(f"apc: {apc}")
+        self.apc_times["cleanTime"] = time.time() - start_time
         return (apc, pc)
   
     def gammaFunction(self, edgelist, call_list):
         """Takes in a list of all edges in a graph, and a list of where function calls are
         located, and calculates a gamma function in terms of x and the start node"""
         # calls: [('0_0', 1), ('0_0', 1), ('1_2', 1)] -> {'(0_0, 1)': 2, '(1_2, 1)': 1}
+        start_time = time.time()
         edgedict = defaultdict(list)
         for edge in edgelist: #reformatting our list of edges into a dictionary where keys are edge starts, and values are lists of edge ends
             edgedict[edge[0]].append(edge[1])
@@ -296,7 +318,10 @@ class FunctionCallPathComplexity(ABC):
         init_eqns = [symbols(f'V{i}_0')*x - init_nodes[i] for i in range(num_cfgs)]
         symbs = init_nodes + symbs
         full_sys = init_eqns + system
+        self.apc_times["graphSystemsTime"] = time.time() - start_time
+        start_time = time.time()
         gamma = sympy.expand(self.eliminate(full_sys, symbs))
+        self.apc_times["gammaTime"] = time.time() - start_time
         return gamma
 
     def calculateDiscrim(self, polynomial):
