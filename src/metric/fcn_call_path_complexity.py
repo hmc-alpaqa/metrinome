@@ -89,6 +89,7 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["graphProcessTime"] = graphProcessTime
         self.apc_times["graphSystemsTime"] = graphSystemsTime
         self.apc_times["gammaTime"] = gammaTime
+        self.apc_times['firstHalfTime'] = gammaTime + graphProcessTime+ graphSystemsTime
         self.apc_times["rfcapc"] = apc
 
         return self.apc_times
