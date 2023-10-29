@@ -72,12 +72,12 @@ class DataCollector:
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "fcapc", "fcapc_time", "naiveHalfTime", 'firstHalfTime']]
+                data = data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name", "fcapc", "fcapc_time", "naiveHalfTime", 'firstHalfTime']])
+                print(data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']])
 
 
                 # create directory if it doesn't exist
