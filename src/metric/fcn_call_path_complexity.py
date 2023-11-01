@@ -228,8 +228,8 @@ class FunctionCallPathComplexity(ABC):
     def processGraphs(self, graph, all_graphs):
         """Given a graph in CFG form, processes it along with dependent graphs into dictionary form with call metadata as well"""
         # TODO: use full name of cfg (file name is deleted here)
-        print('***', len(all_graphs))
-        print(all_graphs.keys())
+        # print('***', len(all_graphs))
+        # print(all_graphs.keys())
         dictgraphs = []
         used_graphs = [graph.name[1:]]
         graphs_to_process = deque([graph]) # list of graphs left to process for current function (graphs of functions that are called + graph of original function)
@@ -241,7 +241,10 @@ class FunctionCallPathComplexity(ABC):
             curr_graph_name = curr_graph.name
             curr_graph_edges = curr_graph.graph.edge_rules()
             curr_graph_calls = curr_graph.metadata.calls
+            print(1)
+            print(curr_graph_name, used_graphs)
             fcn_idx = used_graphs.index(curr_graph_name[1:]) # index graphs for use in systems later
+            print(2)
             curr_graph_edges = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in curr_graph_edges] # rename vertices for use in systems later
             edgedict = defaultdict(list)
             nodes = set()
@@ -255,20 +258,20 @@ class FunctionCallPathComplexity(ABC):
                     if called_fcn in ['START', 'CALLS']: # label is not an actual call
                         continue
                     if called_fcn not in used_graphs: # if function hasn't been called and processed earlier
-                        used_graphs.append(called_fcn) # add new functions being called to used_graphs
                         # find graph from all_cfgs, add to graphs_to_process
-                        if not any(called_fcn in graph for graph in all_graphs):
-                            print(called_fcn)
+                        if not any(called_fcn == graph[1:-4] for graph in all_graphs):
+                            # print(called_fcn, curr_graph_name)
+                            continue
+                        used_graphs.append(called_fcn) # add new functions being called to used_graphs
                         for graph in all_graphs:
-                            # if graph[1:-4] == called_fcn:
-                            if called_fcn in graph:
+                            if graph[1:-4] == called_fcn:
+                            # if called_fcn in graph:
                                 graphs_to_process.append(all_graphs[graph]) # add new functions to list of graphs to process
                                 break
                     # add all calls (not just ones to new functions) to calldict: Call (i, j) from function i node j to called_fcn
                     calldict[f'{fcn_idx}_{int(node)}'].append(used_graphs.index(called_fcn))
         
         x = sorted(sum(calldict.values(), []))
-        print('***', max(x))
         print(len(used_graphs))
         return calldict, dictgraphs
 
@@ -283,7 +286,6 @@ class FunctionCallPathComplexity(ABC):
         splitsymbols = [] # (list of lists) list of graphs' symbols
         init_eqns = [] # list of initial equations
 
-        print(init_nodes)
         for fcn_idx in range(len(dictgraphs)): # loop through all function graphs in order
             curr_graph = dictgraphs[fcn_idx]
             init_node = init_nodes[fcn_idx]
