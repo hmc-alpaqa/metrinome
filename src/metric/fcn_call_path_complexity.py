@@ -19,6 +19,7 @@ from sympy.utilities import lambdify
 import math
 import cmath
 from experiments.branch_apc.graph_simplification import simplify_graphs
+import networkx as nx
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 PRECISION = 11
@@ -33,6 +34,58 @@ class FunctionCallPathComplexity(ABC):
         """Return the name of the metric computed by this class."""
         return "Function Call Path Complexity"
 
+    def simplify_graphs(self, dictgraphs, calldict):
+        '''
+        Convert edge APC to branch APC
+
+        Basic Rules:
+        1. A -> B -> C gets simplified to A -> C
+        '''
+        simplified_graphs = []
+
+        for graph in dictgraphs:
+            G = nx.MultiDiGraph(graph)
+
+            change_made = True
+            while change_made:
+                change_made = False
+                # if in degree == 1 or out degree == 1: remove node, reconnect other edges
+                for node in list(G.nodes):
+                    # keep first node
+                    if node.split('_')[1] == '0' or node in calldict:
+                        continue
+
+                    if G.in_degree(node) == 1 and G.out_degree(node) > 0:
+                        prev_node = list(G.predecessors(node))[0]
+                        next_nodes = list(G.successors(node))
+                        # add edges
+                        for next_node in next_nodes:
+                            for _ in range(G.number_of_edges(node, next_node)):
+                                G.add_edge(prev_node, next_node)
+                        G.remove_node(node)
+                        change_made = True
+                        continue
+
+                    if G.out_degree(node) == 1:
+                        prev_nodes = list(G.predecessors(node))
+                        next_node = list(G.successors(node))[0]
+                        # add edges
+                        for prev_node in prev_nodes:
+                            for _ in range(G.number_of_edges(prev_node, node)):
+                                G.add_edge(prev_node, next_node)
+                        G.remove_node(node)
+                        change_made = True
+                        continue
+
+            # convert to adjacency list
+            adj_list = defaultdict(list)
+            for edge in G.edges:
+                adj_list[edge[0]].append(edge[1])
+
+            simplified_graphs.append(adj_list)
+
+        return (calldict, simplified_graphs)
+
     def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
@@ -44,8 +97,14 @@ class FunctionCallPathComplexity(ABC):
         graphProcessTime = 0.0
         start_time = time.time()
         calldict, dictgraphs = self.processGraphs(cfg, all_cfgs)
-        # self.logger.d_msg(f"calldict: {calldict}")
-        # self.logger.d_msg(f"dictgraphs: {dictgraphs}")
+        calldict, dictgraphs = self.simplify_graphs(dictgraphs, calldict)
+
+        # is even is odd
+        # calldict = defaultdict(list, {'0_2': [1], '1_2': [0]})
+        # dictgraphs = [defaultdict(list, {'0_0': ['0_1', '0_2'], '0_1': ['0_3'], '0_2': [
+        #     '0_3']}), defaultdict(list, {'1_0': ['1_1', '1_2'], '1_1': ['1_3'], '1_2': ['1_3']})]
+        self.logger.d_msg(f"calldict: {calldict}")
+        self.logger.d_msg(f"dictgraphs: {dictgraphs}")
 
         # for testing branch apc code, all other teams comment these 3 lines out
         # dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
@@ -241,10 +300,7 @@ class FunctionCallPathComplexity(ABC):
             curr_graph_name = curr_graph.name
             curr_graph_edges = curr_graph.graph.edge_rules()
             curr_graph_calls = curr_graph.metadata.calls
-            print(1)
-            print(curr_graph_name, used_graphs)
             fcn_idx = used_graphs.index(curr_graph_name[1:]) # index graphs for use in systems later
-            print(2)
             curr_graph_edges = [(f'{fcn_idx}_{edge[0]}', f'{fcn_idx}_{edge[1]}') for edge in curr_graph_edges] # rename vertices for use in systems later
             edgedict = defaultdict(list)
             nodes = set()
@@ -277,6 +333,7 @@ class FunctionCallPathComplexity(ABC):
 
     def graphsToSystems(self, dictgraphs, calldict):
         """Takes in the processed Graphs in dictionary / list forms and returns a split system of equations"""
+        print(dictgraphs)
         lookupDict = defaultdict(set) # lookupDict is of format {symb: [every symbol whose equation contains symb]}, used for substitution in eliminate
         idxDict = {} # contains the index of each symbol's equation in its respective system (T symbols have 2, depending on vertex or T elimination)
         x = symbols("x")
@@ -293,6 +350,7 @@ class FunctionCallPathComplexity(ABC):
             system = [] # system of eqns for this specific graph
             symbs = [] # list of symbols in this graph's system
             idx_counter = 1 # tracks the index of each symbol's equation in the system
+            print(curr_graph)
             for startnode in curr_graph: # each non-terminal node/symbol has its own equation, loop builds the expression equal to each non-terminal node
                 endnodes = curr_graph[startnode]
                 expr = 0
@@ -460,12 +518,13 @@ class FunctionCallPathComplexity(ABC):
 
     """ Identifies other roots with same magnitude as the root with
     maximum APC.
-    Input: rootsDict, rootsAPCDict
+    # Input: rootsDict, rootsAPCDict
     Return: APC
     """
     def getAPC(self,genFunc, denominator, rootsDict):
         numerator = sympy.simplify(sympy.factor(genFunc*denominator))
 
+        print(numerator)
         if sympy.polys.polytools.degree(numerator) >= sympy.polys.polytools.degree(denominator):
             quotient, remainder = sympy.div(numerator, denominator)
             numerator = remainder

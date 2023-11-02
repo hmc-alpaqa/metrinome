@@ -1,5 +1,0 @@
-digraph "CFG for '__argmatch_die' function" {
-	label="CFG for '__argmatch_die' function";
-
-	Node0x9d54e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void @usage(i32 noundef 1), !dbg !1869\l  ret void, !dbg !1870\l}"];
-}

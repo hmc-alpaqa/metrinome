@@ -1,5 +1,0 @@
-digraph "CFG for 'stat_time_normalize' function" {
-	label="CFG for 'stat_time_normalize' function";
-
-	Node0xa3dd60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca %struct.stat*, align 8\l  store i32 %0, i32* %3, align 4, !tbaa !1897\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1895, metadata\l... !DIExpression()), !dbg !1901\l  store %struct.stat* %1, %struct.stat** %4, align 8, !tbaa !1902\l  call void @llvm.dbg.declare(metadata %struct.stat** %4, metadata !1896,\l... metadata !DIExpression()), !dbg !1904\l  %5 = load i32, i32* %3, align 4, !dbg !1905, !tbaa !1897\l  ret i32 %5, !dbg !1906\l}"];
-}

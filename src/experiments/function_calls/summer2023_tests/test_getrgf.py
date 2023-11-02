@@ -99,6 +99,7 @@ class DataCollector:
             except Exception as exc:
                 exception_type = "Timeout" if isinstance(
                     exc, TimeoutError) else "Other"
+                print('Exception:', exc)   
 
             new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"],
                        "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time": get_max_time(getrgfapc)[1],

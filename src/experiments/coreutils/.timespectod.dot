@@ -1,5 +1,0 @@
-digraph "CFG for 'timespectod' function" {
-	label="CFG for 'timespectod' function";
-
-	Node0xd9ac40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.dev_ino, align 8\l  %4 = bitcast %struct.dev_ino* %3 to \{ i64, i64 \}*\l  %5 = getelementptr inbounds \{ i64, i64 \}, \{ i64, i64 \}* %4, i32 0, i32 0\l  store i64 %0, i64* %5, align 8\l  %6 = getelementptr inbounds \{ i64, i64 \}, \{ i64, i64 \}* %4, i32 0, i32 1\l  store i64 %1, i64* %6, align 8\l  call void @llvm.dbg.declare(metadata %struct.dev_ino* %3, metadata !1878,\l... metadata !DIExpression()), !dbg !1879\l  %7 = getelementptr inbounds %struct.dev_ino, %struct.dev_ino* %3, i32 0, i32\l... 0, !dbg !1880\l  %8 = load i64, i64* %7, align 8, !dbg !1880, !tbaa !1881\l  %9 = sitofp i64 %8 to double, !dbg !1886\l  %10 = getelementptr inbounds %struct.dev_ino, %struct.dev_ino* %3, i32 0,\l... i32 1, !dbg !1887\l  %11 = load i64, i64* %10, align 8, !dbg !1887, !tbaa !1888\l  %12 = sitofp i64 %11 to double, !dbg !1889\l  %13 = fdiv double %12, 1.000000e+09, !dbg !1890\l  %14 = fadd double %9, %13, !dbg !1891\l  ret double %14, !dbg !1892\l}"];
-}
