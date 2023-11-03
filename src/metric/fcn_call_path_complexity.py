@@ -46,10 +46,13 @@ class FunctionCallPathComplexity(ABC):
         calldict, dictgraphs = self.processGraphs(cfg, all_cfgs)
         self.logger.d_msg(f"calldict: {calldict}")
         self.logger.d_msg(f"dictgraphs: {dictgraphs}")
+
+        # GRAPH SIMPLIFICATION  ================================================
         # for testing branch apc code, all other teams comment these 3 lines out
         # dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
         # self.logger.d_msg(f"simplified calldict: {calldict}")
         # self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
+        # GRAPH SIMPLIFICATION  ================================================
 
         graphProcessTime = time.time() - start_time
 
