@@ -117,7 +117,7 @@ def get_max_time(apc):
     maxTime  = apc[l[0]]
     maxName = 'graphProcessTime'
     for name in l:
-        if apc[name] > maxTime:
+        if type(apc[name]) == float and apc[name] > maxTime:
             maxTime = apc[name]
             maxName = name
     maxTime = round(maxTime,3)

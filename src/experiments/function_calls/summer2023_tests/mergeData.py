@@ -41,7 +41,7 @@ if os.path.exists(fcapc_csv_file_path):
 merge1 = pd.merge(rapc_df,fcapc_df)
 mergefinal = pd.merge(merge1, getrgfapc_df)
 
-new_order = ['graph_name','rapc','fcapc','getrgfapc','rapc_time','fcapc_time','getrgfapc_time','firstHalfTime','naiveFirstHalfTime','naiveMathTime','getrgfTime','longest for getrgf','longest time','case','gamma']
+new_order = ['graph_name','rapc','fcapc','getrgfapc','rapc_time','fcapc_time','getrgfapc_time','firstHalfTime','naiveFirstHalfTime','getrgfTime', 'naiveMathTime','longest for getrgf','longest time','case','gamma']
 mergefinal = mergefinal[new_order]
 
 print('=========================printing final data table=================================')

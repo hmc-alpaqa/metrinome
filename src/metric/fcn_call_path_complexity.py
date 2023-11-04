@@ -208,6 +208,7 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"pc: {pc}")
             apc = pc
             apcTime2 = time.time()-start_time
+            getrgfTime = "case 2"
 
         # clean apc and report apc
         start_time = time.time()
