@@ -1,7 +1,7 @@
 # %%
 from collections import defaultdict
-
-calldict = defaultdict(list)
+import networkx as nx
+# import graphviz
 
 
 def convert_dict_to_string_keys(graph):
@@ -33,59 +33,71 @@ def simplify_graphs(dictgraphs, calldict):
     Basic Rules:
     1. A -> B -> C gets simplified to A -> C
     '''
-    print("inside")
     simplified_graphs = []
 
     for graph in dictgraphs:
-        incoming = defaultdict(list)  # graph but all the arrows are flipped
+        G = nx.MultiDiGraph(graph)
 
-        for node, neighbors in graph.items():
-            for neighbor in neighbors:
-                incoming[neighbor].append(node)
+        change_made = True
+        while change_made:
+            change_made = False
+            # if in degree == 1 or out degree == 1: remove node, reconnect other edges
+            for node in list(G.nodes):
+                # keep first node
+                if node.split('_')[1] == '0' or node in calldict:
+                    continue
 
-        for node in list(graph.keys()):
-            if node.split('_')[1] == '0':  # keep first node
-                continue
-            # remove this node, fix connection
-            if node not in calldict and len(incoming[node]) == 1 and len(graph[node]) == 1:
-                prev_node = incoming[node][0]
-                next_node = graph[node][0]
+                if G.in_degree(node) == 1 and G.out_degree(node) > 0:
+                    prev_node = list(G.predecessors(node))[0]
+                    next_nodes = list(G.successors(node))
+                    # add edges
+                    for next_node in next_nodes:
+                        for _ in range(G.number_of_edges(node, next_node)):
+                            G.add_edge(prev_node, next_node)
+                    G.remove_node(node)
+                    change_made = True
+                    continue
 
-                # remove prev node's connection to node
-                graph[prev_node].remove(node)
-                graph[prev_node].append(next_node)  # connect prev to next node
+                if G.out_degree(node) == 1:
+                    prev_nodes = list(G.predecessors(node))
+                    next_node = list(G.successors(node))[0]
+                    # add edges
+                    for prev_node in prev_nodes:
+                        for _ in range(G.number_of_edges(prev_node, node)):
+                            G.add_edge(prev_node, next_node)
+                    G.remove_node(node)
+                    change_made = True
+                    continue
 
-                # update incoming graph (same thing as above)
-                incoming[next_node].remove(node)
-                incoming[next_node].append(prev_node)
+        # convert to adjacency list
+        adj_list = defaultdict(list)
+        for edge in G.edges:
+            adj_list[edge[0]].append(edge[1])
 
-                del graph[node]
-                del incoming[node]
+        simplified_graphs.append(adj_list)
 
-        simplified_graphs.append(graph)
-
-    return (simplified_graphs, calldict)
+    return (calldict, simplified_graphs)
 
 
-def viz_graph(graph, calldict):
-    dot = graphviz.Digraph(format='png')
+# def viz_graph(graph, calldict):
+#     dot = graphviz.Digraph(format='png')
 
-    # Add nodes to the graph
-    for node in graph:
-        dot.node(node)
+#     # Add nodes to the graph
+#     for node in graph:
+#         dot.node(node)
 
-    # Add edges to the graph
-    for node, neighbors in graph.items():
-        for neighbor in neighbors:
-            dot.edge(node, neighbor)
+#     # Add edges to the graph
+#     for node, neighbors in graph.items():
+#         for neighbor in neighbors:
+#             dot.edge(node, neighbor)
 
-    # Add call edges to the graph
-    for node, neighbors in calldict.items():
-        for neighbor in neighbors:
-            dot.edge(node, f'{neighbor}_0', style='dashed')
+#     # Add call edges to the graph
+#     for node, neighbors in calldict.items():
+#         for neighbor in neighbors:
+#             dot.edge(node, f'{neighbor}_0', style='dashed')
 
-    # render file
-    dot.render('b')
+#     # render file
+#     dot.render('b')
 
 
 if __name__ == '__main__':
@@ -104,7 +116,7 @@ if __name__ == '__main__':
     dictgraphs = [defaultdict(list, {'0_0': ['0_1'], '0_1': ['0_2', '0_4'], '0_2': ['0_3'], '0_3': ['0_1']}), defaultdict(list, {'1_0': ['1_1'], '1_1': ['1_2', '1_5'], '1_2': ['1_3', '1_4'], '1_3': ['1_4'], '1_4': ['1_1']}), defaultdict(list, {'2_0': ['2_1'], '2_1': ['2_2', '2_4'], '2_2': ['2_3'], '2_3': ['2_1'], '2_4': ['2_5'], '2_5': [
         '2_6', '2_8'], '2_6': ['2_7'], '2_7': ['2_5']}), defaultdict(list, {'3_0': ['3_1'], '3_1': ['3_2', '3_3'], '3_2': ['3_3'], '3_3': ['3_4', '3_8'], '3_4': ['3_5', '3_6'], '3_5': ['3_7'], '3_6': ['3_7'], '3_7': ['3_1'], '3_8': ['3_9'], '3_9': ['3_10', '3_11'], '3_10': ['3_9'], '3_11': ['3_12'], '3_12': ['3_13', '3_14'], '3_13': ['3_12']})]
     print(dictgraphs)
-    simplified_graphs, call_dict = simplify_graphs(dictgraphs, calldict)
+    call_dict, simplified_graphs = simplify_graphs(dictgraphs, calldict)
 
     # connect graphs:
     combined_graph = defaultdict(list)
