@@ -29,7 +29,8 @@ class DataCollector:
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
         data = pd.DataFrame({"file_name": [], "graph_name": [], "getrgfapc": [],
-                             "getrgfapc_time": [], "exception": [],"exception_type": [],"case":[],'gamma':[]})
+                             "getrgfapc_time": [], "firstHalfTime": [], "getrgfTime":[],
+                             "exception": [],"exception_type": [],"case":[],'gamma':[]})
                              
         with open("/app/code/chooseFile.txt") as filess:
             filePath = [line.rstrip() for line in filess]
@@ -54,7 +55,7 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
                
-                getrgfapc: Union[str, PathComplexityRes] = {'rfcapc': 'na'}
+                getrgfapc: Union[str, PathComplexityRes] = {'rfcapc': 'na', "getrgfTime": 'na', "firstHalfTime": 'na'}
                 exception_type = "na"
                 getrgfruntime = 0.0
 
@@ -83,16 +84,17 @@ class DataCollector:
                 
                 new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"], 
                         "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time":get_max_time(getrgfapc)[1], 
+                        "getrgfTime":getrgfapc["getrgfTime"], "firstHalfTime": getrgfapc['firstHalfTime'],
                         "exception_type": exception_type,'case':getrgfapc['case'],'gamma':getrgfapc['gamma']}
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "getrgfapc", "getrgfapc_time", "longest for getrgf", "longest time",'case','gamma']]
+                data = data[["graph_name", "getrgfapc", "getrgfapc_time", 'getrgfTime', 'firstHalfTime', "longest for getrgf", "longest time",'case','gamma']]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name", "getrgfapc", "getrgfapc_time", "longest for getrgf", "longest time",'case','gamma']])
+                print(data[["graph_name", "getrgfapc", "getrgfapc_time", 'getrgfTime', 'firstHalfTime']])
 
 
                 # create directory if it doesn't exist
@@ -115,7 +117,7 @@ def get_max_time(apc):
     maxTime  = apc[l[0]]
     maxName = 'graphProcessTime'
     for name in l:
-        if apc[name] > maxTime:
+        if type(apc[name]) == float and apc[name] > maxTime:
             maxTime = apc[name]
             maxName = name
     maxTime = round(maxTime,3)

@@ -24,7 +24,7 @@ class DataCollector:
     # pylint: disable=broad-except
     def collect(self) -> None:
         """Compute the metrics for all files and store the data."""
-        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [], "fcapc_time": [],"exception": [],"exception_type": []})
+        data = pd.DataFrame({"file_name": [], "graph_name": [], "fcapc": [], "fcapc_time": [], 'naiveMathTime':[], 'firstHalfTime':[], "exception": [],"exception_type": []})
         with open("/app/code/chooseFile.txt") as filess:
             filePath = [line.rstrip() for line in filess]
             print(filePath)
@@ -48,7 +48,7 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
                 
-                fcapc: Union[str, PathComplexityRes] = "na"
+                fcapc: Union[str, PathComplexityRes] = {"apc":"na", "firstHalfTime": "na", "naiveMathTime": "na"}
                 exception_type = "na"
                 fcruntime = 0.0
             
@@ -67,17 +67,17 @@ class DataCollector:
                     print(exception_type)
 
 
-                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc,
-                           "fcapc_time": fcruntime, "exception_type": exception_type}
+                new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc['apc'],
+                           "fcapc_time": fcruntime,'naiveMathTime': fcapc['naiveMathTime'],'firstHalfTime':fcapc['firstHalfTime'], "exception_type": exception_type}
 
                 data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
-                data = data[["graph_name", "fcapc", "fcapc_time"]]
+                data = data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']]
 
                 # format rapc column decimals to have at most 3 decimal places, e.g. 0.33333333n -> 0.333n
                 # data['rapc'] = data['rapc'].apply(lambda x: round_tuple_of_exprs(x, 3))
                 # print(data[['graph_name', "apc",'rapc',"rapc_time","fcapc","fcapc_time"]])
-                print(data[["graph_name", "fcapc", "fcapc_time"]])
+                print(data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']])
 
 
                 # create directory if it doesn't exist
