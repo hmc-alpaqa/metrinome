@@ -42,20 +42,24 @@ class FunctionCallPathComplexity(ABC):
         self.logger.d_msg(
             f"RGF FCAPC =========================================================")
         # self.logger.d_msg(f"graph name:{cfg.name.split('.')[1]}")
-        self.logger.d_msg(f"cfg repr:{cfg.rich_repr()}")
+        # self.logger.d_msg(f"cfg repr:{cfg.rich_repr()}")
 
         # process cfgs into dictionary graphs and call dictionary (graphProcessTime)
         graphProcessTime = 0.0
         start_time = time.time()
         calldict, dictgraphs = self.processGraphs(cfg, all_cfgs)
+        total_nodes = sum([len(graph) for graph in dictgraphs])
+        self.logger.d_msg(f"total nodes: {total_nodes}")
         calldict, dictgraphs = simplify_graphs(dictgraphs, calldict)
+        total_nodes = sum([len(graph) for graph in dictgraphs])
+        self.logger.d_msg(f"simplified total nodes: {total_nodes}")
 
         # is even is odd
         # calldict = defaultdict(list, {'0_2': [1], '1_2': [0]})
         # dictgraphs = [defaultdict(list, {'0_0': ['0_1', '0_2'], '0_1': ['0_3'], '0_2': [
         #     '0_3']}), defaultdict(list, {'1_0': ['1_1', '1_2'], '1_1': ['1_3'], '1_2': ['1_3']})]
-        self.logger.d_msg(f"calldict: {calldict}")
-        self.logger.d_msg(f"dictgraphs: {dictgraphs}")
+        # self.logger.d_msg(f"calldict: {calldict}")
+        # self.logger.d_msg(f"dictgraphs: {dictgraphs}")
 
         # for testing branch apc code, all other teams comment these 3 lines out
         # dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
@@ -81,10 +85,10 @@ class FunctionCallPathComplexity(ABC):
         start_time = time.time()
         splitsystems, splitsymbols, lookupDict, idxDict = self.graphsToSystems(
             dictgraphs, calldict)
-        self.logger.d_msg(f"split systems: {splitsystems}")
-        self.logger.d_msg(f"split symbols: {splitsymbols}")
-        self.logger.d_msg(f"lookup dict: {lookupDict}")
-        self.logger.d_msg(f"idx dict: {idxDict}")
+        # self.logger.d_msg(f"split systems: {splitsystems}")
+        # self.logger.d_msg(f"split symbols: {splitsymbols}")
+        # self.logger.d_msg(f"lookup dict: {lookupDict}")
+        # self.logger.d_msg(f"idx dict: {idxDict}")
         graphSystemsTime = time.time() - start_time
 
         # eliminate equations into a single gamma function with variables T0 and x (gammaTime)
@@ -296,12 +300,10 @@ class FunctionCallPathComplexity(ABC):
                         used_graphs.index(called_fcn))
 
         x = sorted(sum(calldict.values(), []))
-        print(len(used_graphs))
         return calldict, dictgraphs
 
     def graphsToSystems(self, dictgraphs, calldict):
         """Takes in the processed Graphs in dictionary / list forms and returns a split system of equations"""
-        print(dictgraphs)
         # lookupDict is of format {symb: [every symbol whose equation contains symb]}, used for substitution in eliminate
         lookupDict = defaultdict(set)
         # contains the index of each symbol's equation in its respective system (T symbols have 2, depending on vertex or T elimination)
@@ -322,7 +324,6 @@ class FunctionCallPathComplexity(ABC):
             system = []  # system of eqns for this specific graph
             symbs = []  # list of symbols in this graph's system
             idx_counter = 1  # tracks the index of each symbol's equation in the system
-            print(curr_graph)
             for startnode in curr_graph:  # each non-terminal node/symbol has its own equation, loop builds the expression equal to each non-terminal node
                 endnodes = curr_graph[startnode]
                 expr = 0
