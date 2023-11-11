@@ -48,7 +48,7 @@ class DataCollector:
         #     graphs.update(curr_file_graphs)
 
         # grab from dotfile dir
-        dotfile_dir = "/app/code/experiments/coreutils/true_bc"
+        dotfile_dir = "/app/code/experiments/coreutils/pwd_bc"
         graphs = self.converter.to_graph_from_dotfiles(dotfile_dir)
 
         # for i in files:
