@@ -1,0 +1,5 @@
+digraph "CFG for 'strcmp_name' function" {
+	label="CFG for 'strcmp_name' function";
+
+	Node0x822960 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1872\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1870, metadata\l... !DIExpression()), !dbg !1876\l  store i8* %1, i8** %4, align 8, !tbaa !1872\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1871, metadata\l... !DIExpression()), !dbg !1876\l  %5 = load i8*, i8** %3, align 8, !dbg !1876, !tbaa !1872\l  %6 = bitcast i8* %5 to %struct.fileinfo*, !dbg !1876\l  %7 = load i8*, i8** %4, align 8, !dbg !1876, !tbaa !1872\l  %8 = bitcast i8* %7 to %struct.fileinfo*, !dbg !1876\l  %9 = call i32 @cmp_name(%struct.fileinfo* noundef %6, %struct.fileinfo*\l... noundef %8, i32 (i8*, i8*)* noundef @strcmp), !dbg !1876\l  ret i32 %9, !dbg !1876\l}"];
+}

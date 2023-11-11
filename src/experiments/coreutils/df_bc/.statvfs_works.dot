@@ -1,0 +1,15 @@
+digraph "CFG for 'statvfs_works' function" {
+	label="CFG for 'statvfs_works' function";
+
+	Node0x11b9120 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca %struct.utsname, align 1\l  %2 = bitcast %struct.utsname* %1 to i8*, !dbg !1242\l  call void @llvm.lifetime.start.p0i8(i64 390, i8* %2) #26, !dbg !1242\l  call void @llvm.dbg.declare(metadata %struct.utsname* %1, metadata !254,\l... metadata !DIExpression()), !dbg !1243\l  %3 = load i32, i32* @statvfs_works.statvfs_works_cache, align 4, !dbg !1244,\l... !tbaa !1246\l  %4 = icmp slt i32 %3, 0, !dbg !1250\l  br i1 %4, label %5, label %16, !dbg !1251\l|{<s0>T|<s1>F}}"];
+	Node0x11b9120:s0 -> Node0x11b91a0;
+	Node0x11b9120:s1 -> Node0x11b9290;
+	Node0x11b91a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%5:\l5:                                                \l  %6 = call i32 @uname(%struct.utsname* noundef %1) #26, !dbg !1252\l  %7 = icmp eq i32 %6, 0, !dbg !1253\l  br i1 %7, label %8, label %13, !dbg !1254\l|{<s0>T|<s1>F}}"];
+	Node0x11b91a0:s0 -> Node0x11b91f0;
+	Node0x11b91a0:s1 -> Node0x11b9240;
+	Node0x11b91f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e0dbd870",label="{%8:\l8:                                                \l  %9 = getelementptr inbounds %struct.utsname, %struct.utsname* %1, i32 0, i32\l... 2, !dbg !1255\l  %10 = getelementptr inbounds [65 x i8], [65 x i8]* %9, i64 0, i64 0, !dbg\l... !1256\l  %11 = call i32 @strverscmp(i8* noundef %10, i8* noundef getelementptr\l... inbounds ([7 x i8], [7 x i8]* @.str.144, i64 0, i64 0)) #27, !dbg !1257\l  %12 = icmp sle i32 0, %11, !dbg !1258\l  br label %13\l}"];
+	Node0x11b91f0 -> Node0x11b9240;
+	Node0x11b9240 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%13:\l13:                                               \l  %14 = phi i1 [ false, %5 ], [ %12, %8 ], !dbg !1259\l  %15 = zext i1 %14 to i32, !dbg !1254\l  store i32 %15, i32* @statvfs_works.statvfs_works_cache, align 4, !dbg !1260,\l... !tbaa !1246\l  br label %16, !dbg !1261\l}"];
+	Node0x11b9240 -> Node0x11b9290;
+	Node0x11b9290 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = load i32, i32* @statvfs_works.statvfs_works_cache, align 4, !dbg\l... !1262, !tbaa !1246\l  %18 = bitcast %struct.utsname* %1 to i8*, !dbg !1263\l  call void @llvm.lifetime.end.p0i8(i64 390, i8* %18) #26, !dbg !1263\l  ret i32 %17, !dbg !1264\l}"];
+}

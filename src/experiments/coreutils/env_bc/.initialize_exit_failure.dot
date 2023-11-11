@@ -1,0 +1,10 @@
+digraph "CFG for 'initialize_exit_failure' function" {
+	label="CFG for 'initialize_exit_failure' function";
+
+	Node0x8e9c40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !745\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !744, metadata\l... !DIExpression()), !dbg !749\l  %3 = load i32, i32* %2, align 4, !dbg !750, !tbaa !745\l  %4 = icmp ne i32 %3, 1, !dbg !752\l  br i1 %4, label %5, label %7, !dbg !753\l|{<s0>T|<s1>F}}"];
+	Node0x8e9c40:s0 -> Node0x8d1e20;
+	Node0x8e9c40:s1 -> Node0x8d1e70;
+	Node0x8d1e20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%5:\l5:                                                \l  %6 = load i32, i32* %2, align 4, !dbg !754, !tbaa !745\l  store volatile i32 %6, i32* @exit_failure, align 4, !dbg !755, !tbaa !745\l  br label %7, !dbg !756\l}"];
+	Node0x8d1e20 -> Node0x8d1e70;
+	Node0x8d1e70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  ret void, !dbg !757\l}"];
+}

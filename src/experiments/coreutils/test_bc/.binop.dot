@@ -1,0 +1,40 @@
+digraph "CFG for 'binop' function" {
+	label="CFG for 'binop' function";
+
+	Node0x1432510 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !906\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !905, metadata\l... !DIExpression()), !dbg !910\l  %3 = load i8*, i8** %2, align 8, !dbg !911, !tbaa !906\l  %4 = call i32 @strcmp(i8* noundef %3, i8* noundef getelementptr inbounds ([2\l... x i8], [2 x i8]* @.str.50, i64 0, i64 0)) #23, !dbg !911\l  %5 = icmp eq i32 %4, 0, !dbg !911\l  br i1 %5, label %50, label %6, !dbg !912\l|{<s0>T|<s1>F}}"];
+	Node0x1432510:s0 -> Node0x1432a00;
+	Node0x1432510:s1 -> Node0x1432690;
+	Node0x1432690 [shape=record,color="#b70d28ff", style=filled, fillcolor="#cc403a70",label="{%6:\l6:                                                \l  %7 = load i8*, i8** %2, align 8, !dbg !913, !tbaa !906\l  %8 = call i32 @strcmp(i8* noundef %7, i8* noundef getelementptr inbounds ([3\l... x i8], [3 x i8]* @.str.51, i64 0, i64 0)) #23, !dbg !913\l  %9 = icmp eq i32 %8, 0, !dbg !913\l  br i1 %9, label %50, label %10, !dbg !914\l|{<s0>T|<s1>F}}"];
+	Node0x1432690:s0 -> Node0x1432a00;
+	Node0x1432690:s1 -> Node0x14326e0;
+	Node0x14326e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %2, align 8, !dbg !915, !tbaa !906\l  %12 = call i32 @strcmp(i8* noundef %11, i8* noundef getelementptr inbounds\l... ([3 x i8], [3 x i8]* @.str.52, i64 0, i64 0)) #23, !dbg !915\l  %13 = icmp eq i32 %12, 0, !dbg !915\l  br i1 %13, label %50, label %14, !dbg !916\l|{<s0>T|<s1>F}}"];
+	Node0x14326e0:s0 -> Node0x1432a00;
+	Node0x14326e0:s1 -> Node0x1432730;
+	Node0x1432730 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ed836670",label="{%14:\l14:                                               \l  %15 = load i8*, i8** %2, align 8, !dbg !917, !tbaa !906\l  %16 = call i32 @strcmp(i8* noundef %15, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.53, i64 0, i64 0)) #23, !dbg !917\l  %17 = icmp eq i32 %16, 0, !dbg !917\l  br i1 %17, label %50, label %18, !dbg !918\l|{<s0>T|<s1>F}}"];
+	Node0x1432730:s0 -> Node0x1432a00;
+	Node0x1432730:s1 -> Node0x1432780;
+	Node0x1432780 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5a08170",label="{%18:\l18:                                               \l  %19 = load i8*, i8** %2, align 8, !dbg !919, !tbaa !906\l  %20 = call i32 @strcmp(i8* noundef %19, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.54, i64 0, i64 0)) #23, !dbg !919\l  %21 = icmp eq i32 %20, 0, !dbg !919\l  br i1 %21, label %50, label %22, !dbg !920\l|{<s0>T|<s1>F}}"];
+	Node0x1432780:s0 -> Node0x1432a00;
+	Node0x1432780:s1 -> Node0x14327d0;
+	Node0x14327d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b59970",label="{%22:\l22:                                               \l  %23 = load i8*, i8** %2, align 8, !dbg !921, !tbaa !906\l  %24 = call i32 @strcmp(i8* noundef %23, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.55, i64 0, i64 0)) #23, !dbg !921\l  %25 = icmp eq i32 %24, 0, !dbg !921\l  br i1 %25, label %50, label %26, !dbg !922\l|{<s0>T|<s1>F}}"];
+	Node0x14327d0:s0 -> Node0x1432a00;
+	Node0x14327d0:s1 -> Node0x1432820;
+	Node0x1432820 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2cab570",label="{%26:\l26:                                               \l  %27 = load i8*, i8** %2, align 8, !dbg !923, !tbaa !906\l  %28 = call i32 @strcmp(i8* noundef %27, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.56, i64 0, i64 0)) #23, !dbg !923\l  %29 = icmp eq i32 %28, 0, !dbg !923\l  br i1 %29, label %50, label %30, !dbg !924\l|{<s0>T|<s1>F}}"];
+	Node0x1432820:s0 -> Node0x1432a00;
+	Node0x1432820:s1 -> Node0x1432870;
+	Node0x1432870 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8d6cc70",label="{%30:\l30:                                               \l  %31 = load i8*, i8** %2, align 8, !dbg !925, !tbaa !906\l  %32 = call i32 @strcmp(i8* noundef %31, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.57, i64 0, i64 0)) #23, !dbg !925\l  %33 = icmp eq i32 %32, 0, !dbg !925\l  br i1 %33, label %50, label %34, !dbg !926\l|{<s0>T|<s1>F}}"];
+	Node0x1432870:s0 -> Node0x1432a00;
+	Node0x1432870:s1 -> Node0x14328c0;
+	Node0x14328c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6dce470",label="{%34:\l34:                                               \l  %35 = load i8*, i8** %2, align 8, !dbg !927, !tbaa !906\l  %36 = call i32 @strcmp(i8* noundef %35, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.58, i64 0, i64 0)) #23, !dbg !927\l  %37 = icmp eq i32 %36, 0, !dbg !927\l  br i1 %37, label %50, label %38, !dbg !928\l|{<s0>T|<s1>F}}"];
+	Node0x14328c0:s0 -> Node0x1432a00;
+	Node0x14328c0:s1 -> Node0x1432910;
+	Node0x1432910 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5d6f270",label="{%38:\l38:                                               \l  %39 = load i8*, i8** %2, align 8, !dbg !929, !tbaa !906\l  %40 = call i32 @strcmp(i8* noundef %39, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.59, i64 0, i64 0)) #23, !dbg !929\l  %41 = icmp eq i32 %40, 0, !dbg !929\l  br i1 %41, label %50, label %42, !dbg !930\l|{<s0>T|<s1>F}}"];
+	Node0x1432910:s0 -> Node0x1432a00;
+	Node0x1432910:s1 -> Node0x1432960;
+	Node0x1432960 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#aec9fc70",label="{%42:\l42:                                               \l  %43 = load i8*, i8** %2, align 8, !dbg !931, !tbaa !906\l  %44 = call i32 @strcmp(i8* noundef %43, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.60, i64 0, i64 0)) #23, !dbg !931\l  %45 = icmp eq i32 %44, 0, !dbg !931\l  br i1 %45, label %50, label %46, !dbg !932\l|{<s0>T|<s1>F}}"];
+	Node0x1432960:s0 -> Node0x1432a00;
+	Node0x1432960:s1 -> Node0x14329b0;
+	Node0x14329b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#9abbff70",label="{%46:\l46:                                               \l  %47 = load i8*, i8** %2, align 8, !dbg !933, !tbaa !906\l  %48 = call i32 @strcmp(i8* noundef %47, i8* noundef getelementptr inbounds\l... ([4 x i8], [4 x i8]* @.str.61, i64 0, i64 0)) #23, !dbg !933\l  %49 = icmp eq i32 %48, 0, !dbg !933\l  br label %50, !dbg !932\l}"];
+	Node0x14329b0 -> Node0x1432a00;
+	Node0x1432a00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%50:\l50:                                               \l  %51 = phi i1 [ true, %42 ], [ true, %38 ], [ true, %34 ], [ true, %30 ], [\l... true, %26 ], [ true, %22 ], [ true, %18 ], [ true, %14 ], [ true, %10 ], [\l... true, %6 ], [ true, %1 ], [ %49, %46 ]\l  ret i1 %51, !dbg !934\l}"];
+}

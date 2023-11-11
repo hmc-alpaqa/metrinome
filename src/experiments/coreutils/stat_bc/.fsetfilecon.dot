@@ -1,0 +1,5 @@
+digraph "CFG for 'fsetfilecon' function" {
+	label="CFG for 'fsetfilecon' function";
+
+	Node0x1875ef0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i8*, align 8\l  store i32 %0, i32* %3, align 4, !tbaa !1387\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1385, metadata\l... !DIExpression()), !dbg !1391\l  store i8* %1, i8** %4, align 8, !tbaa !1392\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1386, metadata\l... !DIExpression()), !dbg !1394\l  %5 = call i32* @__errno_location() #22, !dbg !1395\l  store i32 95, i32* %5, align 4, !dbg !1396, !tbaa !1387\l  ret i32 -1, !dbg !1397\l}"];
+}

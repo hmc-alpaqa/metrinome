@@ -1,0 +1,26 @@
+digraph "CFG for 'umaxtostr' function" {
+	label="CFG for 'umaxtostr' function";
+
+	Node0x1ef7980 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !1299\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1296, metadata\l... !DIExpression()), !dbg !1303\l  store i8* %1, i8** %4, align 8, !tbaa !1304\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1297, metadata\l... !DIExpression()), !dbg !1306\l  %6 = bitcast i8** %5 to i8*, !dbg !1307\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #24, !dbg !1307\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1298, metadata\l... !DIExpression()), !dbg !1308\l  %7 = load i8*, i8** %4, align 8, !dbg !1309, !tbaa !1304\l  %8 = getelementptr inbounds i8, i8* %7, i64 20, !dbg !1310\l  store i8* %8, i8** %5, align 8, !dbg !1308, !tbaa !1304\l  %9 = load i8*, i8** %5, align 8, !dbg !1311, !tbaa !1304\l  store i8 0, i8* %9, align 1, !dbg !1312, !tbaa !1313\l  %10 = load i64, i64* %3, align 8, !dbg !1314, !tbaa !1299\l  %11 = icmp ult i64 %10, 0, !dbg !1316\l  br i1 %11, label %12, label %27, !dbg !1317\l|{<s0>T|<s1>F}}"];
+	Node0x1ef7980:s0 -> Node0x1ef7ca0;
+	Node0x1ef7980:s1 -> Node0x1efbdf0;
+	Node0x1ef7ca0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%12:\l12:                                               \l  br label %13, !dbg !1318\l}"];
+	Node0x1ef7ca0 -> Node0x1efbd00;
+	Node0x1efbd00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = load i64, i64* %3, align 8, !dbg !1320, !tbaa !1299\l  %15 = urem i64 %14, 10, !dbg !1321\l  %16 = sub i64 48, %15, !dbg !1322\l  %17 = trunc i64 %16 to i8, !dbg !1323\l  %18 = load i8*, i8** %5, align 8, !dbg !1324, !tbaa !1304\l  %19 = getelementptr inbounds i8, i8* %18, i32 -1, !dbg !1324\l  store i8* %19, i8** %5, align 8, !dbg !1324, !tbaa !1304\l  store i8 %17, i8* %19, align 1, !dbg !1325, !tbaa !1313\l  br label %20, !dbg !1326\l}"];
+	Node0x1efbd00 -> Node0x1efbd50;
+	Node0x1efbd50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%20:\l20:                                               \l  %21 = load i64, i64* %3, align 8, !dbg !1327, !tbaa !1299\l  %22 = udiv i64 %21, 10, !dbg !1327\l  store i64 %22, i64* %3, align 8, !dbg !1327, !tbaa !1299\l  %23 = icmp ne i64 %22, 0, !dbg !1328\l  br i1 %23, label %13, label %24, !dbg !1326, !llvm.loop !1329\l|{<s0>T|<s1>F}}"];
+	Node0x1efbd50:s0 -> Node0x1efbd00;
+	Node0x1efbd50:s1 -> Node0x1efbda0;
+	Node0x1efbda0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%24:\l24:                                               \l  %25 = load i8*, i8** %5, align 8, !dbg !1333, !tbaa !1304\l  %26 = getelementptr inbounds i8, i8* %25, i32 -1, !dbg !1333\l  store i8* %26, i8** %5, align 8, !dbg !1333, !tbaa !1304\l  store i8 45, i8* %26, align 1, !dbg !1334, !tbaa !1313\l  br label %40, !dbg !1335\l}"];
+	Node0x1efbda0 -> Node0x1efbf30;
+	Node0x1efbdf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%27:\l27:                                               \l  br label %28, !dbg !1336\l}"];
+	Node0x1efbdf0 -> Node0x1efbe40;
+	Node0x1efbe40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%28:\l28:                                               \l  %29 = load i64, i64* %3, align 8, !dbg !1338, !tbaa !1299\l  %30 = urem i64 %29, 10, !dbg !1339\l  %31 = add i64 48, %30, !dbg !1340\l  %32 = trunc i64 %31 to i8, !dbg !1341\l  %33 = load i8*, i8** %5, align 8, !dbg !1342, !tbaa !1304\l  %34 = getelementptr inbounds i8, i8* %33, i32 -1, !dbg !1342\l  store i8* %34, i8** %5, align 8, !dbg !1342, !tbaa !1304\l  store i8 %32, i8* %34, align 1, !dbg !1343, !tbaa !1313\l  br label %35, !dbg !1344\l}"];
+	Node0x1efbe40 -> Node0x1efbe90;
+	Node0x1efbe90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%35:\l35:                                               \l  %36 = load i64, i64* %3, align 8, !dbg !1345, !tbaa !1299\l  %37 = udiv i64 %36, 10, !dbg !1345\l  store i64 %37, i64* %3, align 8, !dbg !1345, !tbaa !1299\l  %38 = icmp ne i64 %37, 0, !dbg !1346\l  br i1 %38, label %28, label %39, !dbg !1344, !llvm.loop !1347\l|{<s0>T|<s1>F}}"];
+	Node0x1efbe90:s0 -> Node0x1efbe40;
+	Node0x1efbe90:s1 -> Node0x1efbee0;
+	Node0x1efbee0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%39:\l39:                                               \l  br label %40\l}"];
+	Node0x1efbee0 -> Node0x1efbf30;
+	Node0x1efbf30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%40:\l40:                                               \l  %41 = load i8*, i8** %5, align 8, !dbg !1349, !tbaa !1304\l  %42 = bitcast i8** %5 to i8*, !dbg !1350\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %42) #24, !dbg !1350\l  ret i8* %41, !dbg !1351\l}"];
+}

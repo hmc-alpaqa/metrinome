@@ -1,0 +1,12 @@
+digraph "CFG for 'realloc_groupbuf' function" {
+	label="CFG for 'realloc_groupbuf' function";
+
+	Node0x25c6d60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32*, align 8\l  %4 = alloca i32*, align 8\l  %5 = alloca i64, align 8\l  store i32* %0, i32** %4, align 8, !tbaa !700\l  call void @llvm.dbg.declare(metadata i32** %4, metadata !698, metadata\l... !DIExpression()), !dbg !704\l  store i64 %1, i64* %5, align 8, !tbaa !705\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !699, metadata\l... !DIExpression()), !dbg !707\l  %6 = load i64, i64* %5, align 8, !dbg !708, !tbaa !705\l  %7 = icmp ult i64 2305843009213693951, %6, !dbg !708\l  br i1 %7, label %8, label %10, !dbg !710\l|{<s0>T|<s1>F}}"];
+	Node0x25c6d60:s0 -> Node0x25c6de0;
+	Node0x25c6d60:s1 -> Node0x25c6e30;
+	Node0x25c6de0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%8:\l8:                                                \l  %9 = call i32* @__errno_location() #21, !dbg !711\l  store i32 12, i32* %9, align 4, !dbg !713, !tbaa !714\l  store i32* null, i32** %3, align 8, !dbg !716\l  br label %17, !dbg !716\l}"];
+	Node0x25c6de0 -> Node0x25c6e80;
+	Node0x25c6e30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%10:\l10:                                               \l  %11 = load i32*, i32** %4, align 8, !dbg !717, !tbaa !700\l  %12 = bitcast i32* %11 to i8*, !dbg !717\l  %13 = load i64, i64* %5, align 8, !dbg !718, !tbaa !705\l  %14 = mul i64 %13, 4, !dbg !719\l  %15 = call i8* @realloc(i8* noundef %12, i64 noundef %14) #22, !dbg !720\l  %16 = bitcast i8* %15 to i32*, !dbg !720\l  store i32* %16, i32** %3, align 8, !dbg !721\l  br label %17, !dbg !721\l}"];
+	Node0x25c6e30 -> Node0x25c6e80;
+	Node0x25c6e80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%17:\l17:                                               \l  %18 = load i32*, i32** %3, align 8, !dbg !722\l  ret i32* %18, !dbg !722\l}"];
+}

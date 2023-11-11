@@ -1,0 +1,5 @@
+digraph "CFG for 'print_element_env' function" {
+	label="CFG for 'print_element_env' function";
+
+	Node0x1390770 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !689\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !687, metadata\l... !DIExpression()), !dbg !693\l  store i8* %1, i8** %4, align 8, !tbaa !689\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !688, metadata\l... !DIExpression()), !dbg !694\l  %5 = load i8*, i8** %3, align 8, !dbg !695, !tbaa !689\l  call void @print_element(i8* noundef %5), !dbg !696\l  ret void, !dbg !697\l}"];
+}

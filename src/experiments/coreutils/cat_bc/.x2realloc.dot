@@ -1,0 +1,5 @@
+digraph "CFG for 'x2realloc' function" {
+	label="CFG for 'x2realloc' function";
+
+	Node0x8d0ee0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !812\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !810, metadata\l... !DIExpression()), !dbg !816\l  store i64* %1, i64** %4, align 8, !tbaa !812\l  call void @llvm.dbg.declare(metadata i64** %4, metadata !811, metadata\l... !DIExpression()), !dbg !817\l  %5 = load i8*, i8** %3, align 8, !dbg !818, !tbaa !812\l  %6 = load i64*, i64** %4, align 8, !dbg !819, !tbaa !812\l  %7 = call nonnull i8* @x2nrealloc(i8* noundef %5, i64* noundef %6, i64\l... noundef 1), !dbg !820\l  ret i8* %7, !dbg !821\l}"];
+}

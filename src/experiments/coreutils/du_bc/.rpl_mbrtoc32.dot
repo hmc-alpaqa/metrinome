@@ -1,0 +1,33 @@
+digraph "CFG for 'rpl_mbrtoc32' function" {
+	label="CFG for 'rpl_mbrtoc32' function";
+
+	Node0x26e5150 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l  %5 = alloca i64, align 8\l  %6 = alloca i32*, align 8\l  %7 = alloca i8*, align 8\l  %8 = alloca i64, align 8\l  %9 = alloca %struct.__mbstate_t*, align 8\l  %10 = alloca i64, align 8\l  %11 = alloca i32, align 4\l  store i32* %0, i32** %6, align 8, !tbaa !1527\l  call void @llvm.dbg.declare(metadata i32** %6, metadata !1522, metadata\l... !DIExpression()), !dbg !1531\l  store i8* %1, i8** %7, align 8, !tbaa !1527\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !1523, metadata\l... !DIExpression()), !dbg !1532\l  store i64 %2, i64* %8, align 8, !tbaa !1533\l  call void @llvm.dbg.declare(metadata i64* %8, metadata !1524, metadata\l... !DIExpression()), !dbg !1535\l  store %struct.__mbstate_t* %3, %struct.__mbstate_t** %9, align 8, !tbaa !1527\l  call void @llvm.dbg.declare(metadata %struct.__mbstate_t** %9, metadata\l... !1525, metadata !DIExpression()), !dbg !1536\l  %12 = load i8*, i8** %7, align 8, !dbg !1537, !tbaa !1527\l  %13 = icmp eq i8* %12, null, !dbg !1539\l  br i1 %13, label %14, label %15, !dbg !1540\l|{<s0>T|<s1>F}}"];
+	Node0x26e5150:s0 -> Node0x26e7fa0;
+	Node0x26e5150:s1 -> Node0x26e7ff0;
+	Node0x26e7fa0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2907270",label="{%14:\l14:                                               \l  store i32* null, i32** %6, align 8, !dbg !1541, !tbaa !1527\l  store i8* getelementptr inbounds ([1 x i8], [1 x i8]* @.str.240, i64 0, i64\l... 0), i8** %7, align 8, !dbg !1543, !tbaa !1527\l  store i64 1, i64* %8, align 8, !dbg !1544, !tbaa !1533\l  br label %15, !dbg !1545\l}"];
+	Node0x26e7fa0 -> Node0x26e7ff0;
+	Node0x26e7ff0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  %16 = load %struct.__mbstate_t*, %struct.__mbstate_t** %9, align 8, !dbg\l... !1546, !tbaa !1527\l  %17 = icmp eq %struct.__mbstate_t* %16, null, !dbg !1548\l  br i1 %17, label %18, label %19, !dbg !1549\l|{<s0>T|<s1>F}}"];
+	Node0x26e7ff0:s0 -> Node0x26e8040;
+	Node0x26e7ff0:s1 -> Node0x26e8090;
+	Node0x26e8040 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2907270",label="{%18:\l18:                                               \l  store %struct.__mbstate_t* @internal_state, %struct.__mbstate_t** %9, align\l... 8, !dbg !1550, !tbaa !1527\l  br label %19, !dbg !1551\l}"];
+	Node0x26e8040 -> Node0x26e8090;
+	Node0x26e8090 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  %20 = bitcast i64* %10 to i8*, !dbg !1552\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %20) #24, !dbg !1552\l  call void @llvm.dbg.declare(metadata i64* %10, metadata !1526, metadata\l... !DIExpression()), !dbg !1553\l  %21 = load i32*, i32** %6, align 8, !dbg !1554, !tbaa !1527\l  %22 = load i8*, i8** %7, align 8, !dbg !1555, !tbaa !1527\l  %23 = load i64, i64* %8, align 8, !dbg !1556, !tbaa !1533\l  %24 = load %struct.__mbstate_t*, %struct.__mbstate_t** %9, align 8, !dbg\l... !1557, !tbaa !1527\l  %25 = call i64 @mbrtoc32(i32* noundef %21, i8* noundef %22, i64 noundef %23,\l... %struct.__mbstate_t* noundef %24) #24, !dbg !1558\l  store i64 %25, i64* %10, align 8, !dbg !1553, !tbaa !1533\l  %26 = load i64, i64* %10, align 8, !dbg !1559, !tbaa !1533\l  %27 = icmp ule i64 -2, %26, !dbg !1561\l  br i1 %27, label %28, label %42, !dbg !1562\l|{<s0>T|<s1>F}}"];
+	Node0x26e8090:s0 -> Node0x26e80e0;
+	Node0x26e8090:s1 -> Node0x26e8270;
+	Node0x26e80e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8765c70",label="{%28:\l28:                                               \l  %29 = load i64, i64* %8, align 8, !dbg !1563, !tbaa !1533\l  %30 = icmp ne i64 %29, 0, !dbg !1564\l  br i1 %30, label %31, label %42, !dbg !1565\l|{<s0>T|<s1>F}}"];
+	Node0x26e80e0:s0 -> Node0x26e8130;
+	Node0x26e80e0:s1 -> Node0x26e8270;
+	Node0x26e8130 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5a08170",label="{%31:\l31:                                               \l  %32 = call zeroext i1 @hard_locale(i32 noundef 0), !dbg !1566\l  br i1 %32, label %42, label %33, !dbg !1567\l|{<s0>T|<s1>F}}"];
+	Node0x26e8130:s0 -> Node0x26e8270;
+	Node0x26e8130:s1 -> Node0x26e8180;
+	Node0x26e8180 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%33:\l33:                                               \l  %34 = load i32*, i32** %6, align 8, !dbg !1568, !tbaa !1527\l  %35 = icmp ne i32* %34, null, !dbg !1571\l  br i1 %35, label %36, label %41, !dbg !1572\l|{<s0>T|<s1>F}}"];
+	Node0x26e8180:s0 -> Node0x26e81d0;
+	Node0x26e8180:s1 -> Node0x26e8220;
+	Node0x26e81d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6dce470",label="{%36:\l36:                                               \l  %37 = load i8*, i8** %7, align 8, !dbg !1573, !tbaa !1527\l  %38 = load i8, i8* %37, align 1, !dbg !1574, !tbaa !1575\l  %39 = zext i8 %38 to i32, !dbg !1576\l  %40 = load i32*, i32** %6, align 8, !dbg !1577, !tbaa !1527\l  store i32 %39, i32* %40, align 4, !dbg !1578, !tbaa !1579\l  br label %41, !dbg !1581\l}"];
+	Node0x26e81d0 -> Node0x26e8220;
+	Node0x26e8220 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%41:\l41:                                               \l  store i64 1, i64* %5, align 8, !dbg !1582\l  store i32 1, i32* %11, align 4\l  br label %44, !dbg !1582\l}"];
+	Node0x26e8220 -> Node0x26e82c0;
+	Node0x26e8270 [shape=record,color="#b70d28ff", style=filled, fillcolor="#c5333470",label="{%42:\l42:                                               \l  %43 = load i64, i64* %10, align 8, !dbg !1583, !tbaa !1533\l  store i64 %43, i64* %5, align 8, !dbg !1584\l  store i32 1, i32* %11, align 4\l  br label %44, !dbg !1584\l}"];
+	Node0x26e8270 -> Node0x26e82c0;
+	Node0x26e82c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%44:\l44:                                               \l  %45 = bitcast i64* %10 to i8*, !dbg !1585\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %45) #24, !dbg !1585\l  %46 = load i64, i64* %5, align 8, !dbg !1585\l  ret i64 %46, !dbg !1585\l}"];
+}

@@ -48,7 +48,7 @@ class DataCollector:
         #     graphs.update(curr_file_graphs)
 
         # grab from dotfile dir
-        dotfile_dir = "/app/code/experiments/coreutils"
+        dotfile_dir = "/app/code/experiments/coreutils/true_bc"
         graphs = self.converter.to_graph_from_dotfiles(dotfile_dir)
 
         # for i in files:
@@ -64,7 +64,7 @@ class DataCollector:
         #     print("No Graphs")
         #     continue
 
-        file = 'hi'  # needed for table
+        file = dotfile_dir.split('/')[-1]  # needed for table
 
         for graph_name, graph in graphs.items():
             print('Graph Name: ', graph_name)
@@ -99,7 +99,7 @@ class DataCollector:
             except Exception as exc:
                 exception_type = "Timeout" if isinstance(
                     exc, TimeoutError) else "Other"
-                print('Exception:', exc)   
+                print('Exception:', exc)
 
             new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"],
                        "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time": get_max_time(getrgfapc)[1],

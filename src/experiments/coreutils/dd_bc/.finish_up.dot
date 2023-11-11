@@ -1,0 +1,5 @@
+digraph "CFG for 'finish_up' function" {
+	label="CFG for 'finish_up' function";
+
+	Node0xf402b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void @process_signals(), !dbg !1315\l  call void @cleanup(), !dbg !1316\l  call void @print_stats(), !dbg !1317\l  ret void, !dbg !1318\l}"];
+}

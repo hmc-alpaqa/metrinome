@@ -1,0 +1,12 @@
+digraph "CFG for 'imalloc' function" {
+	label="CFG for 'imalloc' function";
+
+	Node0x10712a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !1472\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !1471, metadata\l... !DIExpression()), !dbg !1476\l  %3 = load i64, i64* %2, align 8, !dbg !1477, !tbaa !1472\l  %4 = icmp ule i64 %3, -1, !dbg !1478\l  br i1 %4, label %5, label %8, !dbg !1477\l|{<s0>T|<s1>F}}"];
+	Node0x10712a0:s0 -> Node0x1071610;
+	Node0x10712a0:s1 -> Node0x1071660;
+	Node0x1071610 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%5:\l5:                                                \l  %6 = load i64, i64* %2, align 8, !dbg !1479, !tbaa !1472\l  %7 = call noalias i8* @malloc(i64 noundef %6) #26, !dbg !1480\l  br label %10, !dbg !1477\l}"];
+	Node0x1071610 -> Node0x10716b0;
+	Node0x1071660 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c7d7f070",label="{%8:\l8:                                                \l  %9 = call i8* @_gl_alloc_nomem() #27, !dbg !1481\l  br label %10, !dbg !1477\l}"];
+	Node0x1071660 -> Node0x10716b0;
+	Node0x10716b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = phi i8* [ %7, %5 ], [ %9, %8 ], !dbg !1477\l  ret i8* %11, !dbg !1482\l}"];
+}

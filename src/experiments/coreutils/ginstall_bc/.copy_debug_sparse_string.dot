@@ -1,0 +1,21 @@
+digraph "CFG for 'copy_debug_sparse_string' function" {
+	label="CFG for 'copy_debug_sparse_string' function";
+
+	Node0x188bf90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !1740\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1739, metadata\l... !DIExpression()), !dbg !1743\l  %4 = load i32, i32* %3, align 4, !dbg !1744, !tbaa !1740\l  switch i32 %4, label %9 [\l    i32 1, label %5\l    i32 2, label %6\l    i32 3, label %7\l    i32 4, label %8\l  ], !dbg !1745\l|{<s0>def|<s1>1|<s2>2|<s3>3|<s4>4}}"];
+	Node0x188bf90:s0 -> Node0x188c120;
+	Node0x188bf90:s1 -> Node0x188bfe0;
+	Node0x188bf90:s2 -> Node0x188c030;
+	Node0x188bf90:s3 -> Node0x188c080;
+	Node0x188bf90:s4 -> Node0x188c0d0;
+	Node0x188bfe0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%5:\l5:                                                \l  store i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.77.170, i64 0,\l... i64 0), i8** %2, align 8, !dbg !1746\l  br label %10, !dbg !1746\l}"];
+	Node0x188bfe0 -> Node0x188c170;
+	Node0x188c030 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%6:\l6:                                                \l  store i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str.82.171, i64 0,\l... i64 0), i8** %2, align 8, !dbg !1748\l  br label %10, !dbg !1748\l}"];
+	Node0x188c030 -> Node0x188c170;
+	Node0x188c080 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%7:\l7:                                                \l  store i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.83.172, i64 0,\l... i64 0), i8** %2, align 8, !dbg !1749\l  br label %10, !dbg !1749\l}"];
+	Node0x188c080 -> Node0x188c170;
+	Node0x188c0d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%8:\l8:                                                \l  store i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.84.173, i64 0,\l... i64 0), i8** %2, align 8, !dbg !1750\l  br label %10, !dbg !1750\l}"];
+	Node0x188c0d0 -> Node0x188c170;
+	Node0x188c120 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%9:\l9:                                                \l  store i8* getelementptr inbounds ([8 x i8], [8 x i8]* @.str.81.174, i64 0,\l... i64 0), i8** %2, align 8, !dbg !1751\l  br label %10, !dbg !1751\l}"];
+	Node0x188c120 -> Node0x188c170;
+	Node0x188c170 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %2, align 8, !dbg !1752\l  ret i8* %11, !dbg !1752\l}"];
+}

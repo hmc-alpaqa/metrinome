@@ -1,0 +1,25 @@
+digraph "CFG for 'map_inode_number' function" {
+	label="CFG for 'map_inode_number' function";
+
+	Node0x238e2f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca %struct.di_set*, align 8\l  %5 = alloca i64, align 8\l  store %struct.di_set* %0, %struct.di_set** %4, align 8, !tbaa !1518\l  call void @llvm.dbg.declare(metadata %struct.di_set** %4, metadata !1516,\l... metadata !DIExpression()), !dbg !1522\l  store i64 %1, i64* %5, align 8, !tbaa !1523\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !1517, metadata\l... !DIExpression()), !dbg !1525\l  %6 = load i64, i64* %5, align 8, !dbg !1526, !tbaa !1523\l  %7 = icmp ult i64 0, %6, !dbg !1528\l  br i1 %7, label %8, label %13, !dbg !1529\l|{<s0>T|<s1>F}}"];
+	Node0x238e2f0:s0 -> Node0x238e340;
+	Node0x238e2f0:s1 -> Node0x238e3e0;
+	Node0x238e340 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8765c70",label="{%8:\l8:                                                \l  %9 = load i64, i64* %5, align 8, !dbg !1530, !tbaa !1523\l  %10 = icmp ult i64 %9, 9223372036854775807, !dbg !1531\l  br i1 %10, label %11, label %13, !dbg !1532\l|{<s0>T|<s1>F}}"];
+	Node0x238e340:s0 -> Node0x238e390;
+	Node0x238e340:s1 -> Node0x238e3e0;
+	Node0x238e390 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b99e70",label="{%11:\l11:                                               \l  %12 = load i64, i64* %5, align 8, !dbg !1533, !tbaa !1523\l  store i64 %12, i64* %3, align 8, !dbg !1534\l  br label %34, !dbg !1534\l}"];
+	Node0x238e390 -> Node0x238e570;
+	Node0x238e3e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d0473d70",label="{%13:\l13:                                               \l  %14 = load %struct.di_set*, %struct.di_set** %4, align 8, !dbg !1535, !tbaa\l... !1518\l  %15 = getelementptr inbounds %struct.di_set, %struct.di_set* %14, i32 0, i32\l... 1, !dbg !1537\l  %16 = load %struct.ino_map*, %struct.ino_map** %15, align 8, !dbg !1537,\l... !tbaa !1538\l  %17 = icmp ne %struct.ino_map* %16, null, !dbg !1535\l  br i1 %17, label %28, label %18, !dbg !1540\l|{<s0>T|<s1>F}}"];
+	Node0x238e3e0:s0 -> Node0x238e520;
+	Node0x238e3e0:s1 -> Node0x238e430;
+	Node0x238e430 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%18:\l18:                                               \l  %19 = call noalias %struct.ino_map* @ino_map_alloc(i64 noundef\l... 9223372036854775807), !dbg !1541\l  %20 = load %struct.di_set*, %struct.di_set** %4, align 8, !dbg !1543, !tbaa\l... !1518\l  %21 = getelementptr inbounds %struct.di_set, %struct.di_set* %20, i32 0, i32\l... 1, !dbg !1544\l  store %struct.ino_map* %19, %struct.ino_map** %21, align 8, !dbg !1545,\l... !tbaa !1538\l  %22 = load %struct.di_set*, %struct.di_set** %4, align 8, !dbg !1546, !tbaa\l... !1518\l  %23 = getelementptr inbounds %struct.di_set, %struct.di_set* %22, i32 0, i32\l... 1, !dbg !1548\l  %24 = load %struct.ino_map*, %struct.ino_map** %23, align 8, !dbg !1548,\l... !tbaa !1538\l  %25 = icmp ne %struct.ino_map* %24, null, !dbg !1546\l  br i1 %25, label %27, label %26, !dbg !1549\l|{<s0>T|<s1>F}}"];
+	Node0x238e430:s0 -> Node0x238e4d0;
+	Node0x238e430:s1 -> Node0x238e480;
+	Node0x238e480 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d9dce170",label="{%26:\l26:                                               \l  store i64 -1, i64* %3, align 8, !dbg !1550\l  br label %34, !dbg !1550\l}"];
+	Node0x238e480 -> Node0x238e570;
+	Node0x238e4d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%27:\l27:                                               \l  br label %28, !dbg !1551\l}"];
+	Node0x238e4d0 -> Node0x238e520;
+	Node0x238e520 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d8564670",label="{%28:\l28:                                               \l  %29 = load %struct.di_set*, %struct.di_set** %4, align 8, !dbg !1552, !tbaa\l... !1518\l  %30 = getelementptr inbounds %struct.di_set, %struct.di_set* %29, i32 0, i32\l... 1, !dbg !1553\l  %31 = load %struct.ino_map*, %struct.ino_map** %30, align 8, !dbg !1553,\l... !tbaa !1538\l  %32 = load i64, i64* %5, align 8, !dbg !1554, !tbaa !1523\l  %33 = call i64 @ino_map_insert(%struct.ino_map* noundef %31, i64 noundef\l... %32), !dbg !1555\l  store i64 %33, i64* %3, align 8, !dbg !1556\l  br label %34, !dbg !1556\l}"];
+	Node0x238e520 -> Node0x238e570;
+	Node0x238e570 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%34:\l34:                                               \l  %35 = load i64, i64* %3, align 8, !dbg !1557\l  ret i64 %35, !dbg !1557\l}"];
+}

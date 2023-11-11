@@ -1,0 +1,5 @@
+digraph "CFG for 'integer_overflow' function" {
+	label="CFG for 'integer_overflow' function";
+
+	Node0x16a2310 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([17 x i8], [17 x i8]* @.str.64, i64 0, i64\l... 0)), !dbg !1123\l  unreachable, !dbg !1123\l}"];
+}

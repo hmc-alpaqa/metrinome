@@ -1,0 +1,21 @@
+digraph "CFG for 'get_next_out' function" {
+	label="CFG for 'get_next_out' function";
+
+	Node0x2415260 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca %struct._IO_FILE**, align 8\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  store %struct._IO_FILE** %0, %struct._IO_FILE*** %5, align 8, !tbaa !782\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE*** %5, metadata !779,\l... metadata !DIExpression()), !dbg !786\l  store i32 %1, i32* %6, align 4, !tbaa !787\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !780, metadata\l... !DIExpression()), !dbg !789\l  store i32 %2, i32* %7, align 4, !tbaa !787\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !781, metadata\l... !DIExpression()), !dbg !790\l  %8 = load i32, i32* %7, align 4, !dbg !791, !tbaa !787\l  %9 = add nsw i32 %8, 1, !dbg !791\l  store i32 %9, i32* %7, align 4, !dbg !791, !tbaa !787\l  br label %10, !dbg !793\l}"];
+	Node0x2415260 -> Node0x24152b0;
+	Node0x24152b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = load i32, i32* %7, align 4, !dbg !794, !tbaa !787\l  %12 = load i32, i32* %6, align 4, !dbg !796, !tbaa !787\l  %13 = icmp sle i32 %11, %12, !dbg !797\l  br i1 %13, label %14, label %27, !dbg !798\l|{<s0>T|<s1>F}}"];
+	Node0x24152b0:s0 -> Node0x2415300;
+	Node0x24152b0:s1 -> Node0x2415440;
+	Node0x2415300 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%14:\l14:                                               \l  %15 = load %struct._IO_FILE**, %struct._IO_FILE*** %5, align 8, !dbg !799,\l... !tbaa !782\l  %16 = load i32, i32* %7, align 4, !dbg !801, !tbaa !787\l  %17 = sext i32 %16 to i64, !dbg !799\l  %18 = getelementptr inbounds %struct._IO_FILE*, %struct._IO_FILE** %15, i64\l... %17, !dbg !799\l  %19 = load %struct._IO_FILE*, %struct._IO_FILE** %18, align 8, !dbg !799,\l... !tbaa !782\l  %20 = icmp ne %struct._IO_FILE* %19, null, !dbg !799\l  br i1 %20, label %21, label %23, !dbg !802\l|{<s0>T|<s1>F}}"];
+	Node0x2415300:s0 -> Node0x2415350;
+	Node0x2415300:s1 -> Node0x24153a0;
+	Node0x2415350 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%21:\l21:                                               \l  %22 = load i32, i32* %7, align 4, !dbg !803, !tbaa !787\l  store i32 %22, i32* %4, align 4, !dbg !804\l  br label %28, !dbg !804\l}"];
+	Node0x2415350 -> Node0x2415490;
+	Node0x24153a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%23:\l23:                                               \l  br label %24, !dbg !805\l}"];
+	Node0x24153a0 -> Node0x24153f0;
+	Node0x24153f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%24:\l24:                                               \l  %25 = load i32, i32* %7, align 4, !dbg !806, !tbaa !787\l  %26 = add nsw i32 %25, 1, !dbg !806\l  store i32 %26, i32* %7, align 4, !dbg !806, !tbaa !787\l  br label %10, !dbg !807, !llvm.loop !808\l}"];
+	Node0x24153f0 -> Node0x24152b0;
+	Node0x2415440 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%27:\l27:                                               \l  store i32 -1, i32* %4, align 4, !dbg !812\l  br label %28, !dbg !812\l}"];
+	Node0x2415440 -> Node0x2415490;
+	Node0x2415490 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%28:\l28:                                               \l  %29 = load i32, i32* %4, align 4, !dbg !813\l  ret i32 %29, !dbg !813\l}"];
+}

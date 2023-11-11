@@ -1,0 +1,10 @@
+digraph "CFG for 'gmp_default_realloc' function" {
+	label="CFG for 'gmp_default_realloc' function";
+
+	Node0x1aac460 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i8*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !785\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !781, metadata\l... !DIExpression()), !dbg !789\l  store i64 %1, i64* %5, align 8, !tbaa !790\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !782, metadata\l... !DIExpression()), !dbg !792\l  store i64 %2, i64* %6, align 8, !tbaa !790\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !783, metadata\l... !DIExpression()), !dbg !793\l  %8 = bitcast i8** %7 to i8*, !dbg !794\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #23, !dbg !794\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !784, metadata\l... !DIExpression()), !dbg !795\l  %9 = load i8*, i8** %4, align 8, !dbg !796, !tbaa !785\l  %10 = load i64, i64* %6, align 8, !dbg !797, !tbaa !790\l  %11 = call i8* @realloc(i8* noundef %9, i64 noundef %10) #23, !dbg !798\l  store i8* %11, i8** %7, align 8, !dbg !799, !tbaa !785\l  %12 = load i8*, i8** %7, align 8, !dbg !800, !tbaa !785\l  %13 = icmp ne i8* %12, null, !dbg !800\l  br i1 %13, label %15, label %14, !dbg !802\l|{<s0>T|<s1>F}}"];
+	Node0x1aac460:s0 -> Node0x1aac500;
+	Node0x1aac460:s1 -> Node0x1aac4b0;
+	Node0x1aac4b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%14:\l14:                                               \l  call void @gmp_die(i8* noundef getelementptr inbounds ([47 x i8], [47 x i8]*\l... @.str.43.71, i64 0, i64 0)), !dbg !803\l  br label %15, !dbg !803\l}"];
+	Node0x1aac4b0 -> Node0x1aac500;
+	Node0x1aac500 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  %16 = load i8*, i8** %7, align 8, !dbg !804, !tbaa !785\l  %17 = bitcast i8** %7 to i8*, !dbg !805\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %17) #23, !dbg !805\l  ret i8* %16, !dbg !806\l}"];
+}

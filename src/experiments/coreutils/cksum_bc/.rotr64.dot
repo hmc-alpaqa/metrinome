@@ -1,0 +1,5 @@
+digraph "CFG for 'rotr64' function" {
+	label="CFG for 'rotr64' function";
+
+	Node0x1fa9340 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i32, align 4\l  store i64 %0, i64* %3, align 8, !tbaa !1286\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1284, metadata\l... !DIExpression()), !dbg !1290\l  store i32 %1, i32* %4, align 4, !tbaa !1291\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1285, metadata\l... !DIExpression()), !dbg !1293\l  %5 = load i64, i64* %3, align 8, !dbg !1294, !tbaa !1286\l  %6 = load i32, i32* %4, align 4, !dbg !1295, !tbaa !1291\l  %7 = zext i32 %6 to i64, !dbg !1296\l  %8 = lshr i64 %5, %7, !dbg !1296\l  %9 = load i64, i64* %3, align 8, !dbg !1297, !tbaa !1286\l  %10 = load i32, i32* %4, align 4, !dbg !1298, !tbaa !1291\l  %11 = sub i32 64, %10, !dbg !1299\l  %12 = zext i32 %11 to i64, !dbg !1300\l  %13 = shl i64 %9, %12, !dbg !1300\l  %14 = or i64 %8, %13, !dbg !1301\l  ret i64 %14, !dbg !1302\l}"];
+}

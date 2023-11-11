@@ -1,0 +1,26 @@
+digraph "CFG for 'close_stdout' function" {
+	label="CFG for 'close_stdout' function";
+
+	Node0x1e99280 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca i8*, align 8\l  %2 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !699,\l... !tbaa !700\l  %3 = call i32 @close_stream(%struct._IO_FILE* noundef %2), !dbg !704\l  %4 = icmp ne i32 %3, 0, !dbg !705\l  br i1 %4, label %5, label %28, !dbg !706\l|{<s0>T|<s1>F}}"];
+	Node0x1e99280:s0 -> Node0x1e99370;
+	Node0x1e99280:s1 -> Node0x1e99550;
+	Node0x1e99370 [shape=record,color="#b70d28ff", style=filled, fillcolor="#c32e3170",label="{%5:\l5:                                                \l  %6 = load i8, i8* @ignore_EPIPE, align 1, !dbg !707, !tbaa !708, !range !710\l  %7 = trunc i8 %6 to i1, !dbg !707\l  br i1 %7, label %8, label %12, !dbg !711\l|{<s0>T|<s1>F}}"];
+	Node0x1e99370:s0 -> Node0x1e993c0;
+	Node0x1e99370:s1 -> Node0x1e99410;
+	Node0x1e993c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#c32e3170",label="{%8:\l8:                                                \l  %9 = call i32* @__errno_location() #21, !dbg !712\l  %10 = load i32, i32* %9, align 4, !dbg !712, !tbaa !713\l  %11 = icmp eq i32 %10, 32, !dbg !715\l  br i1 %11, label %28, label %12, !dbg !716\l|{<s0>T|<s1>F}}"];
+	Node0x1e993c0:s0 -> Node0x1e99550;
+	Node0x1e993c0:s1 -> Node0x1e99410;
+	Node0x1e99410 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#7396f570",label="{%12:\l12:                                               \l  %13 = bitcast i8** %1 to i8*, !dbg !717\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %13) #22, !dbg !717\l  call void @llvm.dbg.declare(metadata i8** %1, metadata !696, metadata\l... !DIExpression()), !dbg !718\l  store i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.43, i64 0, i64\l... 0), i8** %1, align 8, !dbg !718, !tbaa !700\l  %14 = load i8*, i8** @file_name, align 8, !dbg !719, !tbaa !700\l  %15 = icmp ne i8* %14, null, !dbg !719\l  br i1 %15, label %16, label %22, !dbg !721\l|{<s0>T|<s1>F}}"];
+	Node0x1e99410:s0 -> Node0x1e99460;
+	Node0x1e99410:s1 -> Node0x1e994b0;
+	Node0x1e99460 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%16:\l16:                                               \l  %17 = call i32* @__errno_location() #21, !dbg !722\l  %18 = load i32, i32* %17, align 4, !dbg !722, !tbaa !713\l  %19 = load i8*, i8** @file_name, align 8, !dbg !722, !tbaa !700\l  %20 = call i8* @quotearg_colon(i8* noundef %19), !dbg !722\l  %21 = load i8*, i8** %1, align 8, !dbg !722, !tbaa !700\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef %18, i8*\l... noundef getelementptr inbounds ([7 x i8], [7 x i8]* @.str.1.44, i64 0, i64\l... 0), i8* noundef %20, i8* noundef %21), !dbg !722\l  br label %26, !dbg !722\l}"];
+	Node0x1e99460 -> Node0x1e99500;
+	Node0x1e994b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%22:\l22:                                               \l  %23 = call i32* @__errno_location() #21, !dbg !723\l  %24 = load i32, i32* %23, align 4, !dbg !723, !tbaa !713\l  %25 = load i8*, i8** %1, align 8, !dbg !723, !tbaa !700\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef %24, i8*\l... noundef getelementptr inbounds ([3 x i8], [3 x i8]* @.str.2.45, i64 0, i64\l... 0), i8* noundef %25), !dbg !723\l  br label %26\l}"];
+	Node0x1e994b0 -> Node0x1e99500;
+	Node0x1e99500 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#7396f570",label="{%26:\l26:                                               \l  %27 = load volatile i32, i32* @exit_failure, align 4, !dbg !724, !tbaa !713\l  call void @_exit(i32 noundef %27) #23, !dbg !725\l  unreachable, !dbg !725\l}"];
+	Node0x1e99550 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%28:\l28:                                               \l  %29 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg\l... !726, !tbaa !700\l  %30 = call i32 @close_stream(%struct._IO_FILE* noundef %29), !dbg !728\l  %31 = icmp ne i32 %30, 0, !dbg !729\l  br i1 %31, label %32, label %34, !dbg !730\l|{<s0>T|<s1>F}}"];
+	Node0x1e99550:s0 -> Node0x1e995a0;
+	Node0x1e99550:s1 -> Node0x1e995f0;
+	Node0x1e995a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6c8ff170",label="{%32:\l32:                                               \l  %33 = load volatile i32, i32* @exit_failure, align 4, !dbg !731, !tbaa !713\l  call void @_exit(i32 noundef %33) #23, !dbg !732\l  unreachable, !dbg !732\l}"];
+	Node0x1e995f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%34:\l34:                                               \l  ret void, !dbg !733\l}"];
+}

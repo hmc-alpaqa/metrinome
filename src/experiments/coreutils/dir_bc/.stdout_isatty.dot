@@ -1,0 +1,21 @@
+digraph "CFG for 'stdout_isatty' function" {
+	label="CFG for 'stdout_isatty' function";
+
+	Node0x2152ea0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8, i8* @stdout_isatty.out_tty, align 1, !dbg !1868, !tbaa !1870\l  %2 = sext i8 %1 to i32, !dbg !1868\l  %3 = icmp slt i32 %2, 0, !dbg !1873\l  br i1 %3, label %4, label %7, !dbg !1874\l|{<s0>T|<s1>F}}"];
+	Node0x2152ea0:s0 -> Node0x2152ef0;
+	Node0x2152ea0:s1 -> Node0x2152f40;
+	Node0x2152ef0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%4:\l4:                                                \l  %5 = call i32 @isatty(i32 noundef 1) #27, !dbg !1875\l  %6 = trunc i32 %5 to i8, !dbg !1875\l  store i8 %6, i8* @stdout_isatty.out_tty, align 1, !dbg !1876, !tbaa !1870\l  br label %7, !dbg !1877\l}"];
+	Node0x2152ef0 -> Node0x2152f40;
+	Node0x2152f40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i8, i8* @stdout_isatty.out_tty, align 1, !dbg !1878, !tbaa !1870\l  %9 = sext i8 %8 to i32, !dbg !1878\l  %10 = icmp eq i32 %9, 0, !dbg !1878\l  br i1 %10, label %15, label %11, !dbg !1878\l|{<s0>T|<s1>F}}"];
+	Node0x2152f40:s0 -> Node0x2152fe0;
+	Node0x2152f40:s1 -> Node0x2152f90;
+	Node0x2152f90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%11:\l11:                                               \l  %12 = load i8, i8* @stdout_isatty.out_tty, align 1, !dbg !1878, !tbaa !1870\l  %13 = sext i8 %12 to i32, !dbg !1878\l  %14 = icmp eq i32 %13, 1, !dbg !1878\l  br i1 %14, label %15, label %16, !dbg !1878\l|{<s0>T|<s1>F}}"];
+	Node0x2152f90:s0 -> Node0x2152fe0;
+	Node0x2152f90:s1 -> Node0x2153030;
+	Node0x2152fe0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  br label %18, !dbg !1878\l}"];
+	Node0x2152fe0 -> Node0x21530d0;
+	Node0x2153030 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%16:\l16:                                               \l  unreachable, !dbg !1878\l}"];
+	Node0x2153080 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#3d50c370",label="{%17:\l17:                                               \l  br label %18, !dbg !1878\l}"];
+	Node0x2153080 -> Node0x21530d0;
+	Node0x21530d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%18:\l18:                                               \l  %19 = load i8, i8* @stdout_isatty.out_tty, align 1, !dbg !1879, !tbaa !1870\l  %20 = icmp ne i8 %19, 0, !dbg !1879\l  ret i1 %20, !dbg !1880\l}"];
+}

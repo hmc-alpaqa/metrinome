@@ -1,0 +1,21 @@
+digraph "CFG for 'c_isdigit' function" {
+	label="CFG for 'c_isdigit' function";
+
+	Node0x28b8160 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !1785\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1784, metadata\l... !DIExpression()), !dbg !1789\l  %4 = load i32, i32* %3, align 4, !dbg !1790, !tbaa !1785\l  switch i32 %4, label %6 [\l    i32 48, label %5\l    i32 49, label %5\l    i32 50, label %5\l    i32 51, label %5\l    i32 52, label %5\l    i32 53, label %5\l    i32 54, label %5\l    i32 55, label %5\l    i32 56, label %5\l    i32 57, label %5\l  ], !dbg !1791\l|{<s0>def|<s1>48|<s2>49|<s3>50|<s4>51|<s5>52|<s6>53|<s7>54|<s8>55|<s9>56|<s10>57}}"];
+	Node0x28b8160:s0 -> Node0x28b8200;
+	Node0x28b8160:s1 -> Node0x28b81b0;
+	Node0x28b8160:s2 -> Node0x28b81b0;
+	Node0x28b8160:s3 -> Node0x28b81b0;
+	Node0x28b8160:s4 -> Node0x28b81b0;
+	Node0x28b8160:s5 -> Node0x28b81b0;
+	Node0x28b8160:s6 -> Node0x28b81b0;
+	Node0x28b8160:s7 -> Node0x28b81b0;
+	Node0x28b8160:s8 -> Node0x28b81b0;
+	Node0x28b8160:s9 -> Node0x28b81b0;
+	Node0x28b8160:s10 -> Node0x28b81b0;
+	Node0x28b81b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%5:\l5:                                                \l  store i1 true, i1* %2, align 1, !dbg !1792\l  br label %7, !dbg !1792\l}"];
+	Node0x28b81b0 -> Node0x28b8250;
+	Node0x28b8200 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cbd8ee70",label="{%6:\l6:                                                \l  store i1 false, i1* %2, align 1, !dbg !1794\l  br label %7, !dbg !1794\l}"];
+	Node0x28b8200 -> Node0x28b8250;
+	Node0x28b8250 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i1, i1* %2, align 1, !dbg !1795\l  ret i1 %8, !dbg !1795\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'chopt_free' function" {
+	label="CFG for 'chopt_free' function";
+
+	Node0x231ed90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.Chown_option*, align 8\l  store %struct.Chown_option* %0, %struct.Chown_option** %2, align 8, !tbaa\l... !996\l  call void @llvm.dbg.declare(metadata %struct.Chown_option** %2, metadata\l... !995, metadata !DIExpression()), !dbg !1000\l  %3 = load %struct.Chown_option*, %struct.Chown_option** %2, align 8, !dbg\l... !1001, !tbaa !996\l  %4 = getelementptr inbounds %struct.Chown_option, %struct.Chown_option* %3,\l... i32 0, i32 5, !dbg !1002\l  %5 = load i8*, i8** %4, align 8, !dbg !1002, !tbaa !1003\l  call void @free(i8* noundef %5) #22, !dbg !1006\l  %6 = load %struct.Chown_option*, %struct.Chown_option** %2, align 8, !dbg\l... !1007, !tbaa !996\l  %7 = getelementptr inbounds %struct.Chown_option, %struct.Chown_option* %6,\l... i32 0, i32 6, !dbg !1008\l  %8 = load i8*, i8** %7, align 8, !dbg !1008, !tbaa !1009\l  call void @free(i8* noundef %8) #22, !dbg !1010\l  ret void, !dbg !1011\l}"];
+}

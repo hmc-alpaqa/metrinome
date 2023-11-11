@@ -1,0 +1,15 @@
+digraph "CFG for 'locale_charset' function" {
+	label="CFG for 'locale_charset' function";
+
+	Node0x1974230 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca i8*, align 8\l  %2 = bitcast i8** %1 to i8*, !dbg !1384\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %2) #22, !dbg !1384\l  call void @llvm.dbg.declare(metadata i8** %1, metadata !1383, metadata\l... !DIExpression()), !dbg !1385\l  %3 = call i8* @nl_langinfo(i32 noundef 14) #22, !dbg !1386\l  store i8* %3, i8** %1, align 8, !dbg !1387, !tbaa !1388\l  %4 = load i8*, i8** %1, align 8, !dbg !1392, !tbaa !1388\l  %5 = icmp eq i8* %4, null, !dbg !1394\l  br i1 %5, label %6, label %7, !dbg !1395\l|{<s0>T|<s1>F}}"];
+	Node0x1974230:s0 -> Node0x1977da0;
+	Node0x1974230:s1 -> Node0x1977e20;
+	Node0x1977da0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%6:\l6:                                                \l  store i8* getelementptr inbounds ([1 x i8], [1 x i8]* @.str.488, i64 0, i64\l... 0), i8** %1, align 8, !dbg !1396, !tbaa !1388\l  br label %7, !dbg !1397\l}"];
+	Node0x1977da0 -> Node0x1977e20;
+	Node0x1977e20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i8*, i8** %1, align 8, !dbg !1398, !tbaa !1388\l  %9 = getelementptr inbounds i8, i8* %8, i64 0, !dbg !1398\l  %10 = load i8, i8* %9, align 1, !dbg !1398, !tbaa !1402\l  %11 = sext i8 %10 to i32, !dbg !1398\l  %12 = icmp eq i32 %11, 0, !dbg !1403\l  br i1 %12, label %13, label %14, !dbg !1404\l|{<s0>T|<s1>F}}"];
+	Node0x1977e20:s0 -> Node0x1977e70;
+	Node0x1977e20:s1 -> Node0x1977ec0;
+	Node0x1977e70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%13:\l13:                                               \l  store i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str.1.489, i64 0,\l... i64 0), i8** %1, align 8, !dbg !1405, !tbaa !1388\l  br label %14, !dbg !1406\l}"];
+	Node0x1977e70 -> Node0x1977ec0;
+	Node0x1977ec0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%14:\l14:                                               \l  %15 = load i8*, i8** %1, align 8, !dbg !1407, !tbaa !1388\l  %16 = bitcast i8** %1 to i8*, !dbg !1408\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %16) #22, !dbg !1408\l  ret i8* %15, !dbg !1409\l}"];
+}

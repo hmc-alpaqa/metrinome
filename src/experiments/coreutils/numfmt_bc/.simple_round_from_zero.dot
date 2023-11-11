@@ -1,0 +1,12 @@
+digraph "CFG for 'simple_round_from_zero' function" {
+	label="CFG for 'simple_round_from_zero' function";
+
+	Node0xcb0510 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca x86_fp80, align 16\l  store x86_fp80 %0, x86_fp80* %2, align 16, !tbaa !877\l  call void @llvm.dbg.declare(metadata x86_fp80* %2, metadata !876, metadata\l... !DIExpression()), !dbg !881\l  %3 = load x86_fp80, x86_fp80* %2, align 16, !dbg !882, !tbaa !877\l  %4 = fcmp olt x86_fp80 %3, 0xK00000000000000000000, !dbg !883\l  br i1 %4, label %5, label %8, !dbg !882\l|{<s0>T|<s1>F}}"];
+	Node0xcb0510:s0 -> Node0xcb0d10;
+	Node0xcb0510:s1 -> Node0xcb0d60;
+	Node0xcb0d10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%5:\l5:                                                \l  %6 = load x86_fp80, x86_fp80* %2, align 16, !dbg !884, !tbaa !877\l  %7 = call i64 @simple_round_floor(x86_fp80 noundef %6), !dbg !885\l  br label %11, !dbg !882\l}"];
+	Node0xcb0d10 -> Node0xcb0db0;
+	Node0xcb0d60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%8:\l8:                                                \l  %9 = load x86_fp80, x86_fp80* %2, align 16, !dbg !886, !tbaa !877\l  %10 = call i64 @simple_round_ceiling(x86_fp80 noundef %9), !dbg !887\l  br label %11, !dbg !882\l}"];
+	Node0xcb0d60 -> Node0xcb0db0;
+	Node0xcb0db0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  %12 = phi i64 [ %7, %5 ], [ %10, %8 ], !dbg !882\l  ret i64 %12, !dbg !888\l}"];
+}

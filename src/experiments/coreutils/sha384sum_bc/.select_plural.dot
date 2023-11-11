@@ -1,0 +1,12 @@
+digraph "CFG for 'select_plural' function" {
+	label="CFG for 'select_plural' function";
+
+	Node0xbb71b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !751\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !46, metadata\l... !DIExpression()), !dbg !755\l  %3 = load i64, i64* %2, align 8, !dbg !756, !tbaa !751\l  %4 = icmp ule i64 %3, -1, !dbg !757\l  br i1 %4, label %5, label %7, !dbg !756\l|{<s0>T|<s1>F}}"];
+	Node0xbb71b0:s0 -> Node0xbb7500;
+	Node0xbb71b0:s1 -> Node0xbbac20;
+	Node0xbb7500 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%5:\l5:                                                \l  %6 = load i64, i64* %2, align 8, !dbg !758, !tbaa !751\l  br label %11, !dbg !756\l}"];
+	Node0xbb7500 -> Node0xbbac70;
+	Node0xbbac20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%7:\l7:                                                \l  %8 = load i64, i64* %2, align 8, !dbg !759, !tbaa !751\l  %9 = urem i64 %8, 1000000, !dbg !760\l  %10 = add i64 %9, 1000000, !dbg !761\l  br label %11, !dbg !756\l}"];
+	Node0xbbac20 -> Node0xbbac70;
+	Node0xbbac70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  %12 = phi i64 [ %6, %5 ], [ %10, %7 ], !dbg !756\l  ret i64 %12, !dbg !762\l}"];
+}

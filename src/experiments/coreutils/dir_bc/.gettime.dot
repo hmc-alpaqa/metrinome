@@ -1,0 +1,5 @@
+digraph "CFG for 'gettime' function" {
+	label="CFG for 'gettime' function";
+
+	Node0x224b5f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.dev_ino*, align 8\l  store %struct.dev_ino* %0, %struct.dev_ino** %2, align 8, !tbaa !1878\l  call void @llvm.dbg.declare(metadata %struct.dev_ino** %2, metadata !1877,\l... metadata !DIExpression()), !dbg !1882\l  %3 = load %struct.dev_ino*, %struct.dev_ino** %2, align 8, !dbg !1883, !tbaa\l... !1878\l  %4 = call i32 @clock_gettime(i32 noundef 0, %struct.dev_ino* noundef %3)\l... #27, !dbg !1884\l  ret void, !dbg !1885\l}"];
+}

@@ -1,0 +1,10 @@
+digraph "CFG for 'xputchar' function" {
+	label="CFG for 'xputchar' function";
+
+	Node0x21fbd10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !666\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !665, metadata\l... !DIExpression()), !dbg !669\l  %3 = load i8, i8* %2, align 1, !dbg !670, !tbaa !666\l  %4 = sext i8 %3 to i32, !dbg !670\l  %5 = call i32 @putchar_unlocked(i32 noundef %4), !dbg !670\l  %6 = icmp slt i32 %5, 0, !dbg !672\l  br i1 %6, label %7, label %8, !dbg !673\l|{<s0>T|<s1>F}}"];
+	Node0x21fbd10:s0 -> Node0x2275c60;
+	Node0x21fbd10:s1 -> Node0x2275cb0;
+	Node0x2275c60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%7:\l7:                                                \l  call void @write_error(), !dbg !674\l  br label %8, !dbg !674\l}"];
+	Node0x2275c60 -> Node0x2275cb0;
+	Node0x2275cb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  ret void, !dbg !675\l}"];
+}

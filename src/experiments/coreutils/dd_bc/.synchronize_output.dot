@@ -1,0 +1,31 @@
+digraph "CFG for 'synchronize_output' function" {
+	label="CFG for 'synchronize_output' function";
+
+	Node0xe78ee0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca i32, align 4\l  %2 = alloca i32, align 4\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  %5 = bitcast i32* %2 to i8*, !dbg !1319\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %5) #26, !dbg !1319\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1317, metadata\l... !DIExpression()), !dbg !1320\l  store i32 0, i32* %2, align 4, !dbg !1320, !tbaa !1321\l  %6 = bitcast i32* %3 to i8*, !dbg !1325\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %6) #26, !dbg !1325\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1318, metadata\l... !DIExpression()), !dbg !1326\l  %7 = load i32, i32* @conversions_mask, align 4, !dbg !1327, !tbaa !1321\l  store i32 %7, i32* %3, align 4, !dbg !1326, !tbaa !1321\l  %8 = load i32, i32* @conversions_mask, align 4, !dbg !1328, !tbaa !1321\l  %9 = and i32 %8, -49153, !dbg !1328\l  store i32 %9, i32* @conversions_mask, align 4, !dbg !1328, !tbaa !1321\l  %10 = load i32, i32* %3, align 4, !dbg !1329, !tbaa !1321\l  %11 = and i32 %10, 16384, !dbg !1331\l  %12 = icmp ne i32 %11, 0, !dbg !1331\l  br i1 %12, label %13, label %32, !dbg !1332\l|{<s0>T|<s1>F}}"];
+	Node0xe78ee0:s0 -> Node0xf52ba0;
+	Node0xe78ee0:s1 -> Node0xf52d30;
+	Node0xf52ba0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%13:\l13:                                               \l  %14 = call i32 @ifdatasync(i32 noundef 1), !dbg !1333\l  %15 = icmp ne i32 %14, 0, !dbg !1334\l  br i1 %15, label %16, label %32, !dbg !1335\l|{<s0>T|<s1>F}}"];
+	Node0xf52ba0:s0 -> Node0xf52bf0;
+	Node0xf52ba0:s1 -> Node0xf52d30;
+	Node0xf52bf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%16:\l16:                                               \l  %17 = call i32* @__errno_location() #27, !dbg !1336\l  %18 = load i32, i32* %17, align 4, !dbg !1336, !tbaa !1321\l  %19 = icmp ne i32 %18, 38, !dbg !1339\l  br i1 %19, label %20, label %29, !dbg !1340\l|{<s0>T|<s1>F}}"];
+	Node0xf52bf0:s0 -> Node0xf52c40;
+	Node0xf52bf0:s1 -> Node0xf52ce0;
+	Node0xf52c40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%20:\l20:                                               \l  %21 = call i32* @__errno_location() #27, !dbg !1341\l  %22 = load i32, i32* %21, align 4, !dbg !1341, !tbaa !1321\l  %23 = icmp ne i32 %22, 22, !dbg !1342\l  br i1 %23, label %24, label %29, !dbg !1343\l|{<s0>T|<s1>F}}"];
+	Node0xf52c40:s0 -> Node0xf52c90;
+	Node0xf52c40:s1 -> Node0xf52ce0;
+	Node0xf52c90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d1dae970",label="{%24:\l24:                                               \l  %25 = call i32* @__errno_location() #27, !dbg !1344\l  %26 = load i32, i32* %25, align 4, !dbg !1344, !tbaa !1321\l  %27 = load i8*, i8** @output_file, align 8, !dbg !1346, !tbaa !1347\l  %28 = call i8* @quotearg_style(i32 noundef 4, i8* noundef %27), !dbg !1346\l  call void (i32, i8*, ...) @diagnose(i32 noundef %26, i8* noundef\l... getelementptr inbounds ([24 x i8], [24 x i8]* @.str.112, i64 0, i64 0), i8*\l... noundef %28), !dbg !1349\l  store i32 1, i32* %2, align 4, !dbg !1350, !tbaa !1321\l  br label %29, !dbg !1351\l}"];
+	Node0xf52c90 -> Node0xf52ce0;
+	Node0xf52ce0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%29:\l29:                                               \l  %30 = load i32, i32* %3, align 4, !dbg !1352, !tbaa !1321\l  %31 = or i32 %30, 32768, !dbg !1352\l  store i32 %31, i32* %3, align 4, !dbg !1352, !tbaa !1321\l  br label %32, !dbg !1353\l}"];
+	Node0xf52ce0 -> Node0xf52d30;
+	Node0xf52d30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%32:\l32:                                               \l  %33 = load i32, i32* %3, align 4, !dbg !1354, !tbaa !1321\l  %34 = and i32 %33, 32768, !dbg !1356\l  %35 = icmp ne i32 %34, 0, !dbg !1356\l  br i1 %35, label %36, label %44, !dbg !1357\l|{<s0>T|<s1>F}}"];
+	Node0xf52d30:s0 -> Node0xf52d80;
+	Node0xf52d30:s1 -> Node0xf52e20;
+	Node0xf52d80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%36:\l36:                                               \l  %37 = call i32 @ifsync(i32 noundef 1), !dbg !1358\l  %38 = icmp ne i32 %37, 0, !dbg !1359\l  br i1 %38, label %39, label %44, !dbg !1360\l|{<s0>T|<s1>F}}"];
+	Node0xf52d80:s0 -> Node0xf52dd0;
+	Node0xf52d80:s1 -> Node0xf52e20;
+	Node0xf52dd0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%39:\l39:                                               \l  %40 = call i32* @__errno_location() #27, !dbg !1361\l  %41 = load i32, i32* %40, align 4, !dbg !1361, !tbaa !1321\l  %42 = load i8*, i8** @output_file, align 8, !dbg !1363, !tbaa !1347\l  %43 = call i8* @quotearg_style(i32 noundef 4, i8* noundef %42), !dbg !1363\l  call void (i32, i8*, ...) @diagnose(i32 noundef %41, i8* noundef\l... getelementptr inbounds ([20 x i8], [20 x i8]* @.str.113, i64 0, i64 0), i8*\l... noundef %43), !dbg !1364\l  store i32 1, i32* %1, align 4, !dbg !1365\l  store i32 1, i32* %4, align 4\l  br label %46, !dbg !1365\l}"];
+	Node0xf52dd0 -> Node0xf52e70;
+	Node0xf52e20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d24b4070",label="{%44:\l44:                                               \l  %45 = load i32, i32* %2, align 4, !dbg !1366, !tbaa !1321\l  store i32 %45, i32* %1, align 4, !dbg !1367\l  store i32 1, i32* %4, align 4\l  br label %46, !dbg !1367\l}"];
+	Node0xf52e20 -> Node0xf52e70;
+	Node0xf52e70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%46:\l46:                                               \l  %47 = bitcast i32* %3 to i8*, !dbg !1368\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %47) #26, !dbg !1368\l  %48 = bitcast i32* %2 to i8*, !dbg !1368\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %48) #26, !dbg !1368\l  %49 = load i32, i32* %1, align 4, !dbg !1368\l  ret i32 %49, !dbg !1368\l}"];
+}

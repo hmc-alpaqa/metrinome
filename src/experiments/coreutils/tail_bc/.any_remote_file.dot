@@ -1,0 +1,31 @@
+digraph "CFG for 'any_remote_file' function" {
+	label="CFG for 'any_remote_file' function";
+
+	Node0xff7d30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca %struct.File_spec*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i32, align 4\l  store %struct.File_spec* %0, %struct.File_spec** %4, align 8, !tbaa !957\l  call void @llvm.dbg.declare(metadata %struct.File_spec** %4, metadata !953,\l... metadata !DIExpression()), !dbg !961\l  store i64 %1, i64* %5, align 8, !tbaa !962\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !954, metadata\l... !DIExpression()), !dbg !964\l  %8 = bitcast i64* %6 to i8*, !dbg !965\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #24, !dbg !965\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !955, metadata\l... !DIExpression()), !dbg !966\l  store i64 0, i64* %6, align 8, !dbg !966, !tbaa !962\l  br label %9, !dbg !965\l}"];
+	Node0xff7d30 -> Node0xff7dc0;
+	Node0xff7dc0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load i64, i64* %6, align 8, !dbg !967, !tbaa !962\l  %11 = load i64, i64* %5, align 8, !dbg !969, !tbaa !962\l  %12 = icmp ult i64 %10, %11, !dbg !970\l  br i1 %12, label %14, label %13, !dbg !971\l|{<s0>T|<s1>F}}"];
+	Node0xff7dc0:s0 -> Node0xff7e60;
+	Node0xff7dc0:s1 -> Node0xff7e10;
+	Node0xff7e10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%13:\l13:                                               \l  store i32 2, i32* %7, align 4\l  br label %33, !dbg !971\l}"];
+	Node0xff7e10 -> Node0xff7ff0;
+	Node0xff7e60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%14:\l14:                                               \l  %15 = load %struct.File_spec*, %struct.File_spec** %4, align 8, !dbg !972,\l... !tbaa !957\l  %16 = load i64, i64* %6, align 8, !dbg !974, !tbaa !962\l  %17 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %15, i64\l... %16, !dbg !972\l  %18 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %17, i32\l... 0, i32 9, !dbg !975\l  %19 = load i32, i32* %18, align 8, !dbg !975, !tbaa !976\l  %20 = icmp sle i32 0, %19, !dbg !981\l  br i1 %20, label %21, label %29, !dbg !982\l|{<s0>T|<s1>F}}"];
+	Node0xff7e60:s0 -> Node0xff7eb0;
+	Node0xff7e60:s1 -> Node0xff7f50;
+	Node0xff7eb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%21:\l21:                                               \l  %22 = load %struct.File_spec*, %struct.File_spec** %4, align 8, !dbg !983,\l... !tbaa !957\l  %23 = load i64, i64* %6, align 8, !dbg !984, !tbaa !962\l  %24 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %22, i64\l... %23, !dbg !983\l  %25 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %24, i32\l... 0, i32 7, !dbg !985\l  %26 = load i8, i8* %25, align 1, !dbg !985, !tbaa !986, !range !987\l  %27 = trunc i8 %26 to i1, !dbg !985\l  br i1 %27, label %28, label %29, !dbg !988\l|{<s0>T|<s1>F}}"];
+	Node0xff7eb0:s0 -> Node0xff7f00;
+	Node0xff7eb0:s1 -> Node0xff7f50;
+	Node0xff7f00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8765c70",label="{%28:\l28:                                               \l  store i1 true, i1* %3, align 1, !dbg !989\l  store i32 1, i32* %7, align 4\l  br label %33, !dbg !989\l}"];
+	Node0xff7f00 -> Node0xff7ff0;
+	Node0xff7f50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%29:\l29:                                               \l  br label %30, !dbg !985\l}"];
+	Node0xff7f50 -> Node0xff7fa0;
+	Node0xff7fa0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%30:\l30:                                               \l  %31 = load i64, i64* %6, align 8, !dbg !990, !tbaa !962\l  %32 = add i64 %31, 1, !dbg !990\l  store i64 %32, i64* %6, align 8, !dbg !990, !tbaa !962\l  br label %9, !dbg !991, !llvm.loop !992\l}"];
+	Node0xff7fa0 -> Node0xff7dc0;
+	Node0xff7ff0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%33:\l33:                                               \l  %34 = bitcast i64* %6 to i8*, !dbg !991\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %34) #24, !dbg !991\l  %35 = load i32, i32* %7, align 4\l  switch i32 %35, label %39 [\l    i32 2, label %36\l    i32 1, label %37\l  ]\l|{<s0>def|<s1>2|<s2>1}}"];
+	Node0xff7ff0:s0 -> Node0xff80e0;
+	Node0xff7ff0:s1 -> Node0xff8040;
+	Node0xff7ff0:s2 -> Node0xff8090;
+	Node0xff8040 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e36c5570",label="{%36:\l36:                                               \l  store i1 false, i1* %3, align 1, !dbg !996\l  br label %37, !dbg !996\l}"];
+	Node0xff8040 -> Node0xff8090;
+	Node0xff8090 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%37:\l37:                                               \l  %38 = load i1, i1* %3, align 1, !dbg !997\l  ret i1 %38, !dbg !997\l}"];
+	Node0xff80e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%39:\l39:                                               \l  unreachable\l}"];
+}

@@ -1,0 +1,10 @@
+digraph "CFG for 'exit_cleanup' function" {
+	label="CFG for 'exit_cleanup' function";
+
+	Node0x2347a60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca %struct.cs_status, align 8\l  %2 = load volatile %struct.tempnode*, %struct.tempnode** @temphead, align 8,\l... !dbg !1784, !tbaa !1785\l  %3 = icmp ne %struct.tempnode* %2, null, !dbg !1784\l  br i1 %3, label %4, label %7, !dbg !1789\l|{<s0>T|<s1>F}}"];
+	Node0x2347a60:s0 -> Node0x2347ab0;
+	Node0x2347a60:s1 -> Node0x2347b00;
+	Node0x2347ab0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%4:\l4:                                                \l  %5 = bitcast %struct.cs_status* %1 to i8*, !dbg !1790\l  call void @llvm.lifetime.start.p0i8(i64 136, i8* %5) #24, !dbg !1790\l  call void @llvm.dbg.declare(metadata %struct.cs_status* %1, metadata !1781,\l... metadata !DIExpression()), !dbg !1791\l  call void @cs_enter(%struct.cs_status* noundef %1), !dbg !1792\l  call void @cleanup(), !dbg !1793\l  call void @cs_leave(%struct.cs_status* noundef %1), !dbg !1794\l  %6 = bitcast %struct.cs_status* %1 to i8*, !dbg !1795\l  call void @llvm.lifetime.end.p0i8(i64 136, i8* %6) #24, !dbg !1795\l  br label %7, !dbg !1796\l}"];
+	Node0x2347ab0 -> Node0x2347b00;
+	Node0x2347b00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  call void @close_stdout(), !dbg !1797\l  ret void, !dbg !1798\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'nomoreargs' function" {
+	label="CFG for 'nomoreargs' function";
+
+	Node0x24e5d90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8**, i8*** @args, align 8, !dbg !791, !tbaa !792\l  %2 = load i8*, i8** %1, align 8, !dbg !796, !tbaa !792\l  %3 = icmp eq i8* %2, null, !dbg !797\l  ret i1 %3, !dbg !798\l}"];
+}

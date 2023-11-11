@@ -1,0 +1,5 @@
+digraph "CFG for 'afalg_stream.195' function" {
+	label="CFG for 'afalg_stream.195' function";
+
+	Node0x21508b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l  %5 = alloca %struct._IO_FILE*, align 8\l  %6 = alloca i8*, align 8\l  %7 = alloca i8*, align 8\l  %8 = alloca i64, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %5, align 8, !tbaa !1325\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %5, metadata !1321,\l... metadata !DIExpression()), !dbg !1329\l  store i8* %1, i8** %6, align 8, !tbaa !1325\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !1322, metadata\l... !DIExpression()), !dbg !1330\l  store i8* %2, i8** %7, align 8, !tbaa !1325\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !1323, metadata\l... !DIExpression()), !dbg !1331\l  store i64 %3, i64* %8, align 8, !tbaa !1332\l  call void @llvm.dbg.declare(metadata i64* %8, metadata !1324, metadata\l... !DIExpression()), !dbg !1334\l  ret i32 -97, !dbg !1335\l}"];
+}

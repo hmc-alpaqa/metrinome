@@ -1,0 +1,12 @@
+digraph "CFG for 'parse_n_units' function" {
+	label="CFG for 'parse_n_units' function";
+
+	Node0xb35750 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i8*, align 8\l  %7 = alloca i64, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !1039\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1035, metadata\l... !DIExpression()), !dbg !1043\l  store i8* %1, i8** %5, align 8, !tbaa !1039\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1036, metadata\l... !DIExpression()), !dbg !1044\l  store i8* %2, i8** %6, align 8, !tbaa !1039\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !1037, metadata\l... !DIExpression()), !dbg !1045\l  %8 = bitcast i64* %7 to i8*, !dbg !1046\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #24, !dbg !1046\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !1038, metadata\l... !DIExpression()), !dbg !1047\l  %9 = load i8*, i8** %4, align 8, !dbg !1048, !tbaa !1039\l  %10 = load i8*, i8** %5, align 8, !dbg !1050, !tbaa !1039\l  %11 = call i32 @xstrtoimax(i8* noundef %9, i8** noundef null, i32 noundef\l... 10, i64* noundef %7, i8* noundef %10), !dbg !1051\l  %12 = icmp ult i32 1, %11, !dbg !1052\l  br i1 %12, label %16, label %13, !dbg !1053\l|{<s0>T|<s1>F}}"];
+	Node0xb35750:s0 -> Node0xba63a0;
+	Node0xb35750:s1 -> Node0xba6350;
+	Node0xba6350 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = load i64, i64* %7, align 8, !dbg !1054, !tbaa !1055\l  %15 = icmp slt i64 %14, 1, !dbg !1057\l  br i1 %15, label %16, label %19, !dbg !1058\l|{<s0>T|<s1>F}}"];
+	Node0xba6350:s0 -> Node0xba63a0;
+	Node0xba6350:s1 -> Node0xba63f0;
+	Node0xba63a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%16:\l16:                                               \l  %17 = load i8*, i8** %6, align 8, !dbg !1059, !tbaa !1039\l  %18 = load i8*, i8** %4, align 8, !dbg !1060, !tbaa !1039\l  call void @strtoint_die(i8* noundef %17, i8* noundef %18) #25, !dbg !1061\l  unreachable, !dbg !1061\l}"];
+	Node0xba63f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  %20 = load i64, i64* %7, align 8, !dbg !1062, !tbaa !1055\l  %21 = bitcast i64* %7 to i8*, !dbg !1063\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %21) #24, !dbg !1063\l  ret i64 %20, !dbg !1064\l}"];
+}

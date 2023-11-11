@@ -1,0 +1,12 @@
+digraph "CFG for 'get_first_line_in_buffer' function" {
+	label="CFG for 'get_first_line_in_buffer' function";
+
+	Node0x2363d10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load %struct.buffer_record*, %struct.buffer_record** @head, align 8,\l... !dbg !1027, !tbaa !1029\l  %2 = icmp eq %struct.buffer_record* %1, null, !dbg !1033\l  br i1 %2, label %3, label %8, !dbg !1034\l|{<s0>T|<s1>F}}"];
+	Node0x2363d10:s0 -> Node0x2363d60;
+	Node0x2363d10:s1 -> Node0x2363e00;
+	Node0x2363d60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%3:\l3:                                                \l  %4 = call zeroext i1 @load_buffer(), !dbg !1035\l  br i1 %4, label %8, label %5, !dbg !1036\l|{<s0>T|<s1>F}}"];
+	Node0x2363d60:s0 -> Node0x2363e00;
+	Node0x2363d60:s1 -> Node0x2363db0;
+	Node0x2363db0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%5:\l5:                                                \l  %6 = call i32* @__errno_location() #22, !dbg !1037\l  %7 = load i32, i32* %6, align 4, !dbg !1037, !tbaa !1038\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef %7, i8*\l... noundef getelementptr inbounds ([18 x i8], [18 x i8]* @.str.58, i64 0, i64\l... 0)), !dbg !1037\l  unreachable, !dbg !1037\l}"];
+	Node0x2363e00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = load %struct.buffer_record*, %struct.buffer_record** @head, align 8,\l... !dbg !1040, !tbaa !1029\l  %10 = getelementptr inbounds %struct.buffer_record, %struct.buffer_record*\l... %9, i32 0, i32 3, !dbg !1041\l  %11 = load i64, i64* %10, align 8, !dbg !1041, !tbaa !1042\l  ret i64 %11, !dbg !1045\l}"];
+}

@@ -1,0 +1,27 @@
+digraph "CFG for 'write_protected_non_symlink' function" {
+	label="CFG for 'write_protected_non_symlink' function";
+
+	Node0x1cbdc30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  %6 = alloca i8*, align 8\l  %7 = alloca %struct.stat*, align 8\l  store i32 %0, i32* %5, align 4, !tbaa !1040\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !1037, metadata\l... !DIExpression()), !dbg !1044\l  store i8* %1, i8** %6, align 8, !tbaa !1045\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !1038, metadata\l... !DIExpression()), !dbg !1047\l  store %struct.stat* %2, %struct.stat** %7, align 8, !tbaa !1045\l  call void @llvm.dbg.declare(metadata %struct.stat** %7, metadata !1039,\l... metadata !DIExpression()), !dbg !1048\l  %8 = call zeroext i1 @can_write_any_file(), !dbg !1049\l  br i1 %8, label %9, label %10, !dbg !1051\l|{<s0>T|<s1>F}}"];
+	Node0x1cbdc30:s0 -> Node0x1cbede0;
+	Node0x1cbdc30:s1 -> Node0x1cbee30;
+	Node0x1cbede0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%9:\l9:                                                \l  store i32 0, i32* %4, align 4, !dbg !1052\l  br label %36, !dbg !1052\l}"];
+	Node0x1cbede0 -> Node0x1cbf060;
+	Node0x1cbee30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%10:\l10:                                               \l  %11 = load i32, i32* %5, align 4, !dbg !1053, !tbaa !1040\l  %12 = load i8*, i8** %6, align 8, !dbg !1055, !tbaa !1045\l  %13 = load %struct.stat*, %struct.stat** %7, align 8, !dbg !1056, !tbaa !1045\l  %14 = call i32 @cache_fstatat(i32 noundef %11, i8* noundef %12,\l... %struct.stat* noundef %13, i32 noundef 256), !dbg !1057\l  %15 = icmp ne i32 %14, 0, !dbg !1058\l  br i1 %15, label %16, label %17, !dbg !1059\l|{<s0>T|<s1>F}}"];
+	Node0x1cbee30:s0 -> Node0x1cbee80;
+	Node0x1cbee30:s1 -> Node0x1cbeed0;
+	Node0x1cbee80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f08b6e70",label="{%16:\l16:                                               \l  store i32 -1, i32* %4, align 4, !dbg !1060\l  br label %36, !dbg !1060\l}"];
+	Node0x1cbee80 -> Node0x1cbf060;
+	Node0x1cbeed0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%17:\l17:                                               \l  %18 = load %struct.stat*, %struct.stat** %7, align 8, !dbg !1061, !tbaa !1045\l  %19 = getelementptr inbounds %struct.stat, %struct.stat* %18, i32 0, i32 3,\l... !dbg !1061\l  %20 = load i32, i32* %19, align 8, !dbg !1061, !tbaa !1063\l  %21 = and i32 %20, 61440, !dbg !1061\l  %22 = icmp eq i32 %21, 40960, !dbg !1061\l  br i1 %22, label %23, label %24, !dbg !1067\l|{<s0>T|<s1>F}}"];
+	Node0x1cbeed0:s0 -> Node0x1cbef20;
+	Node0x1cbeed0:s1 -> Node0x1cbef70;
+	Node0x1cbef20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%23:\l23:                                               \l  store i32 0, i32* %4, align 4, !dbg !1068\l  br label %36, !dbg !1068\l}"];
+	Node0x1cbef20 -> Node0x1cbf060;
+	Node0x1cbef70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%24:\l24:                                               \l  %25 = load i32, i32* %5, align 4, !dbg !1069, !tbaa !1040\l  %26 = load i8*, i8** %6, align 8, !dbg !1072, !tbaa !1045\l  %27 = call i32 @faccessat(i32 noundef %25, i8* noundef %26, i32 noundef 2,\l... i32 noundef 512) #22, !dbg !1073\l  %28 = icmp eq i32 %27, 0, !dbg !1074\l  br i1 %28, label %29, label %30, !dbg !1075\l|{<s0>T|<s1>F}}"];
+	Node0x1cbef70:s0 -> Node0x1cbefc0;
+	Node0x1cbef70:s1 -> Node0x1cbf010;
+	Node0x1cbefc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#bbd1f870",label="{%29:\l29:                                               \l  store i32 0, i32* %4, align 4, !dbg !1076\l  br label %36, !dbg !1076\l}"];
+	Node0x1cbefc0 -> Node0x1cbf060;
+	Node0x1cbf010 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6dce470",label="{%30:\l30:                                               \l  %31 = call i32* @__errno_location() #23, !dbg !1077\l  %32 = load i32, i32* %31, align 4, !dbg !1077, !tbaa !1040\l  %33 = icmp eq i32 %32, 13, !dbg !1078\l  %34 = zext i1 %33 to i64, !dbg !1077\l  %35 = select i1 %33, i32 1, i32 -1, !dbg !1077\l  store i32 %35, i32* %4, align 4, !dbg !1079\l  br label %36, !dbg !1079\l}"];
+	Node0x1cbf010 -> Node0x1cbf060;
+	Node0x1cbf060 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%36:\l36:                                               \l  %37 = load i32, i32* %4, align 4, !dbg !1080\l  ret i32 %37, !dbg !1080\l}"];
+}

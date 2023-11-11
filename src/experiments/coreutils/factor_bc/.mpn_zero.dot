@@ -1,0 +1,12 @@
+digraph "CFG for 'mpn_zero' function" {
+	label="CFG for 'mpn_zero' function";
+
+	Node0x1ac5870 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%2:\l  %3 = alloca i64*, align 8\l  %4 = alloca i64, align 8\l  store i64* %0, i64** %3, align 8, !tbaa !785\l  call void @llvm.dbg.declare(metadata i64** %3, metadata !783, metadata\l... !DIExpression()), !dbg !789\l  store i64 %1, i64* %4, align 8, !tbaa !790\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !784, metadata\l... !DIExpression()), !dbg !792\l  br label %5, !dbg !793\l}"];
+	Node0x1ac5870 -> Node0x1ac58f0;
+	Node0x1ac58f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  %6 = load i64, i64* %4, align 8, !dbg !794, !tbaa !790\l  %7 = add nsw i64 %6, -1, !dbg !794\l  store i64 %7, i64* %4, align 8, !dbg !794, !tbaa !790\l  %8 = icmp sge i64 %7, 0, !dbg !795\l  br i1 %8, label %9, label %13, !dbg !793\l|{<s0>T|<s1>F}}"];
+	Node0x1ac58f0:s0 -> Node0x1ac5940;
+	Node0x1ac58f0:s1 -> Node0x1ac5990;
+	Node0x1ac5940 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%9:\l9:                                                \l  %10 = load i64*, i64** %3, align 8, !dbg !796, !tbaa !785\l  %11 = load i64, i64* %4, align 8, !dbg !797, !tbaa !790\l  %12 = getelementptr inbounds i64, i64* %10, i64 %11, !dbg !796\l  store i64 0, i64* %12, align 8, !dbg !798, !tbaa !790\l  br label %5, !dbg !793, !llvm.loop !799\l}"];
+	Node0x1ac5940 -> Node0x1ac58f0;
+	Node0x1ac5990 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%13:\l13:                                               \l  ret void, !dbg !803\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'set_author' function" {
+	label="CFG for 'set_author' function";
+
+	Node0xe93240 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca %struct.stat*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !1496\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1493, metadata\l... !DIExpression()), !dbg !1500\l  store i32 %1, i32* %5, align 4, !tbaa !1501\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !1494, metadata\l... !DIExpression()), !dbg !1503\l  store %struct.stat* %2, %struct.stat** %6, align 8, !tbaa !1496\l  call void @llvm.dbg.declare(metadata %struct.stat** %6, metadata !1495,\l... metadata !DIExpression()), !dbg !1504\l  %7 = load i8*, i8** %4, align 8, !dbg !1505, !tbaa !1496\l  %8 = load i32, i32* %5, align 4, !dbg !1506, !tbaa !1501\l  %9 = load %struct.stat*, %struct.stat** %6, align 8, !dbg !1507, !tbaa !1496\l  ret void, !dbg !1508\l}"];
+}

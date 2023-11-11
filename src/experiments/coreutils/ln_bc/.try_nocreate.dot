@@ -1,0 +1,13 @@
+digraph "CFG for 'try_nocreate' function" {
+	label="CFG for 'try_nocreate' function";
+
+	Node0xe05e90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca %struct.stat, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !952\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !913, metadata\l... !DIExpression()), !dbg !956\l  store i8* %1, i8** %4, align 8, !tbaa !952\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !914, metadata\l... !DIExpression()), !dbg !957\l  %6 = bitcast %struct.stat* %5 to i8*, !dbg !958\l  call void @llvm.lifetime.start.p0i8(i64 144, i8* %6) #24, !dbg !958\l  call void @llvm.dbg.declare(metadata %struct.stat* %5, metadata !915,\l... metadata !DIExpression()), !dbg !959\l  %7 = load i8*, i8** %3, align 8, !dbg !960, !tbaa !952\l  %8 = call i32 @lstat(i8* noundef %7, %struct.stat* noundef %5) #24, !dbg !960\l  %9 = icmp eq i32 %8, 0, !dbg !962\l  br i1 %9, label %14, label %10, !dbg !963\l|{<s0>T|<s1>F}}"];
+	Node0xe05e90:s0 -> Node0xe06930;
+	Node0xe05e90:s1 -> Node0xe068e0;
+	Node0xe068e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%10:\l10:                                               \l  %11 = call i32* @__errno_location() #25, !dbg !964\l  %12 = load i32, i32* %11, align 4, !dbg !964, !tbaa !965\l  %13 = icmp eq i32 %12, 75, !dbg !967\l  br i1 %13, label %14, label %16, !dbg !968\l|{<s0>T|<s1>F}}"];
+	Node0xe068e0:s0 -> Node0xe06930;
+	Node0xe068e0:s1 -> Node0xe06980;
+	Node0xe06930 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%14:\l14:                                               \l  %15 = call i32* @__errno_location() #25, !dbg !969\l  store i32 17, i32* %15, align 4, !dbg !969, !tbaa !965\l  br label %16, !dbg !969\l}"];
+	Node0xe06930 -> Node0xe06980;
+	Node0xe06980 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = call i32* @__errno_location() #25, !dbg !970\l  %18 = load i32, i32* %17, align 4, !dbg !970, !tbaa !965\l  %19 = icmp eq i32 %18, 2, !dbg !971\l  %20 = zext i1 %19 to i64, !dbg !970\l  %21 = select i1 %19, i32 0, i32 -1, !dbg !970\l  %22 = bitcast %struct.stat* %5 to i8*, !dbg !972\l  call void @llvm.lifetime.end.p0i8(i64 144, i8* %22) #24, !dbg !972\l  ret i32 %21, !dbg !973\l}"];
+}

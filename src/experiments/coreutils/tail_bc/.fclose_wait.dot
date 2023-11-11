@@ -1,0 +1,19 @@
+digraph "CFG for 'fclose_wait' function" {
+	label="CFG for 'fclose_wait' function";
+
+	Node0x1137430 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%1:\l  %2 = alloca %struct._IO_FILE*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %2, align 8, !tbaa !1004\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %2, metadata !1003,\l... metadata !DIExpression()), !dbg !1008\l  br label %3, !dbg !1009\l}"];
+	Node0x1137430 -> Node0x1137b70;
+	Node0x1137b70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l3:                                                \l  %4 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !1010,\l... !tbaa !1004\l  %5 = call i32 @fflush_unlocked(%struct._IO_FILE* noundef %4), !dbg !1010\l  %6 = icmp eq i32 %5, 0, !dbg !1015\l  br i1 %6, label %7, label %8, !dbg !1016\l|{<s0>T|<s1>F}}"];
+	Node0x1137b70:s0 -> Node0x1137bc0;
+	Node0x1137b70:s1 -> Node0x1137c10;
+	Node0x1137bc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%7:\l7:                                                \l  br label %13, !dbg !1017\l}"];
+	Node0x1137bc0 -> Node0x1137d00;
+	Node0x1137c10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%8:\l8:                                                \l  %9 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !1018,\l... !tbaa !1004\l  %10 = call zeroext i1 @fwait_for_nonblocking_write(%struct._IO_FILE* noundef\l... %9), !dbg !1020\l  br i1 %10, label %12, label %11, !dbg !1021\l|{<s0>T|<s1>F}}"];
+	Node0x1137c10:s0 -> Node0x1137cb0;
+	Node0x1137c10:s1 -> Node0x1137c60;
+	Node0x1137c60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%11:\l11:                                               \l  br label %13, !dbg !1022\l}"];
+	Node0x1137c60 -> Node0x1137d00;
+	Node0x1137cb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%12:\l12:                                               \l  br label %3, !dbg !1023, !llvm.loop !1024\l}"];
+	Node0x1137cb0 -> Node0x1137b70;
+	Node0x1137d00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%13:\l13:                                               \l  %14 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !1028,\l... !tbaa !1004\l  %15 = call i32 @rpl_fclose(%struct._IO_FILE* noundef %14), !dbg !1029\l  %16 = icmp eq i32 %15, 0, !dbg !1030\l  ret i1 %16, !dbg !1031\l}"];
+}

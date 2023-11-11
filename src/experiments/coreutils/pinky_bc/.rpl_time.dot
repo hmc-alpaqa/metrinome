@@ -1,0 +1,14 @@
+digraph "CFG for 'rpl_time' function" {
+	label="CFG for 'rpl_time' function";
+
+	Node0x1dbe1d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64*, align 8\l  %3 = alloca %struct.timespec, align 8\l  %4 = alloca i64, align 8\l  store i64* %0, i64** %2, align 8, !tbaa !912\l  call void @llvm.dbg.declare(metadata i64** %2, metadata !903, metadata\l... !DIExpression()), !dbg !916\l  %5 = bitcast %struct.timespec* %3 to i8*, !dbg !917\l  call void @llvm.lifetime.start.p0i8(i64 16, i8* %5) #22, !dbg !917\l  call void @llvm.dbg.declare(metadata %struct.timespec* %3, metadata !904,\l... metadata !DIExpression()), !dbg !918\l  %6 = bitcast i64* %4 to i8*, !dbg !919\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #22, !dbg !919\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !911, metadata\l... !DIExpression()), !dbg !920\l  %7 = call i32 @gettimeofday(%struct.timespec* noundef %3, i8* noundef null)\l... #22, !dbg !921\l  %8 = icmp slt i32 %7, 0, !dbg !923\l  br i1 %8, label %9, label %10, !dbg !924\l|{<s0>T|<s1>F}}"];
+	Node0x1dbe1d0:s0 -> Node0x1e65d30;
+	Node0x1dbe1d0:s1 -> Node0x1e65d80;
+	Node0x1e65d30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%9:\l9:                                                \l  call void @abort() #23, !dbg !925\l  unreachable, !dbg !925\l}"];
+	Node0x1e65d80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = getelementptr inbounds %struct.timespec, %struct.timespec* %3, i32 0,\l... i32 0, !dbg !926\l  %12 = load i64, i64* %11, align 8, !dbg !926, !tbaa !927\l  store i64 %12, i64* %4, align 8, !dbg !930, !tbaa !931\l  %13 = load i64*, i64** %2, align 8, !dbg !932, !tbaa !912\l  %14 = icmp ne i64* %13, null, !dbg !932\l  br i1 %14, label %15, label %18, !dbg !934\l|{<s0>T|<s1>F}}"];
+	Node0x1e65d80:s0 -> Node0x1e65dd0;
+	Node0x1e65d80:s1 -> Node0x1e65e20;
+	Node0x1e65dd0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#c32e3170",label="{%15:\l15:                                               \l  %16 = load i64, i64* %4, align 8, !dbg !935, !tbaa !931\l  %17 = load i64*, i64** %2, align 8, !dbg !936, !tbaa !912\l  store i64 %16, i64* %17, align 8, !dbg !937, !tbaa !931\l  br label %18, !dbg !938\l}"];
+	Node0x1e65dd0 -> Node0x1e65e20;
+	Node0x1e65e20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%18:\l18:                                               \l  %19 = load i64, i64* %4, align 8, !dbg !939, !tbaa !931\l  %20 = bitcast i64* %4 to i8*, !dbg !940\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %20) #22, !dbg !940\l  %21 = bitcast %struct.timespec* %3 to i8*, !dbg !940\l  call void @llvm.lifetime.end.p0i8(i64 16, i8* %21) #22, !dbg !940\l  ret i64 %19, !dbg !941\l}"];
+}

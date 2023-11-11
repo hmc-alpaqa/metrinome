@@ -1,0 +1,27 @@
+digraph "CFG for 'icalloc' function" {
+	label="CFG for 'icalloc' function";
+
+	Node0x10734d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i64, align 8\l  store i64 %0, i64* %4, align 8, !tbaa !1473\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1471, metadata\l... !DIExpression()), !dbg !1477\l  store i64 %1, i64* %5, align 8, !tbaa !1473\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !1472, metadata\l... !DIExpression()), !dbg !1478\l  %6 = load i64, i64* %4, align 8, !dbg !1479, !tbaa !1473\l  %7 = icmp ult i64 -1, %6, !dbg !1481\l  br i1 %7, label %8, label %14, !dbg !1482\l|{<s0>T|<s1>F}}"];
+	Node0x10734d0:s0 -> Node0x1073580;
+	Node0x10734d0:s1 -> Node0x1073670;
+	Node0x1073580 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%8:\l8:                                                \l  %9 = load i64, i64* %5, align 8, !dbg !1483, !tbaa !1473\l  %10 = icmp ne i64 %9, 0, !dbg !1486\l  br i1 %10, label %11, label %13, !dbg !1487\l|{<s0>T|<s1>F}}"];
+	Node0x1073580:s0 -> Node0x10735d0;
+	Node0x1073580:s1 -> Node0x1073620;
+	Node0x10735d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%11:\l11:                                               \l  %12 = call i8* @_gl_alloc_nomem() #26, !dbg !1488\l  store i8* %12, i8** %3, align 8, !dbg !1489\l  br label %27, !dbg !1489\l}"];
+	Node0x10735d0 -> Node0x1073800;
+	Node0x1073620 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%13:\l13:                                               \l  store i64 0, i64* %4, align 8, !dbg !1490, !tbaa !1473\l  br label %14, !dbg !1491\l}"];
+	Node0x1073620 -> Node0x1073670;
+	Node0x1073670 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%14:\l14:                                               \l  %15 = load i64, i64* %5, align 8, !dbg !1492, !tbaa !1473\l  %16 = icmp ult i64 -1, %15, !dbg !1494\l  br i1 %16, label %17, label %23, !dbg !1495\l|{<s0>T|<s1>F}}"];
+	Node0x1073670:s0 -> Node0x10736c0;
+	Node0x1073670:s1 -> Node0x10737b0;
+	Node0x10736c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%17:\l17:                                               \l  %18 = load i64, i64* %4, align 8, !dbg !1496, !tbaa !1473\l  %19 = icmp ne i64 %18, 0, !dbg !1499\l  br i1 %19, label %20, label %22, !dbg !1500\l|{<s0>T|<s1>F}}"];
+	Node0x10736c0:s0 -> Node0x1073710;
+	Node0x10736c0:s1 -> Node0x1073760;
+	Node0x1073710 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%20:\l20:                                               \l  %21 = call i8* @_gl_alloc_nomem() #26, !dbg !1501\l  store i8* %21, i8** %3, align 8, !dbg !1502\l  br label %27, !dbg !1502\l}"];
+	Node0x1073710 -> Node0x1073800;
+	Node0x1073760 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e36c5570",label="{%22:\l22:                                               \l  store i64 0, i64* %5, align 8, !dbg !1503, !tbaa !1473\l  br label %23, !dbg !1504\l}"];
+	Node0x1073760 -> Node0x10737b0;
+	Node0x10737b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%23:\l23:                                               \l  %24 = load i64, i64* %4, align 8, !dbg !1505, !tbaa !1473\l  %25 = load i64, i64* %5, align 8, !dbg !1506, !tbaa !1473\l  %26 = call noalias i8* @calloc(i64 noundef %24, i64 noundef %25) #27, !dbg\l... !1507\l  store i8* %26, i8** %3, align 8, !dbg !1508\l  br label %27, !dbg !1508\l}"];
+	Node0x10737b0 -> Node0x1073800;
+	Node0x1073800 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%27:\l27:                                               \l  %28 = load i8*, i8** %3, align 8, !dbg !1509\l  ret i8* %28, !dbg !1509\l}"];
+}

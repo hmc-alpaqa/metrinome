@@ -1,0 +1,5 @@
+digraph "CFG for 'lock_node' function" {
+	label="CFG for 'lock_node' function";
+
+	Node0x24da450 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.merge_node*, align 8\l  store %struct.merge_node* %0, %struct.merge_node** %2, align 8, !tbaa !1830\l  call void @llvm.dbg.declare(metadata %struct.merge_node** %2, metadata\l... !1829, metadata !DIExpression()), !dbg !1834\l  %3 = load %struct.merge_node*, %struct.merge_node** %2, align 8, !dbg !1835,\l... !tbaa !1830\l  %4 = getelementptr inbounds %struct.merge_node, %struct.merge_node* %3, i32\l... 0, i32 12, !dbg !1836\l  %5 = call i32 @pthread_mutex_lock(%union.pthread_mutex_t* noundef %4) #24,\l... !dbg !1837\l  ret void, !dbg !1838\l}"];
+}

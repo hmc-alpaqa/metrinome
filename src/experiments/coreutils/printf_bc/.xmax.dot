@@ -1,0 +1,12 @@
+digraph "CFG for 'xmax' function" {
+	label="CFG for 'xmax' function";
+
+	Node0x1c42750 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !1049\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1047, metadata\l... !DIExpression()), !dbg !1053\l  store i64 %1, i64* %4, align 8, !tbaa !1049\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1048, metadata\l... !DIExpression()), !dbg !1054\l  %5 = load i64, i64* %3, align 8, !dbg !1055, !tbaa !1049\l  %6 = load i64, i64* %4, align 8, !dbg !1056, !tbaa !1049\l  %7 = icmp uge i64 %5, %6, !dbg !1057\l  br i1 %7, label %8, label %10, !dbg !1055\l|{<s0>T|<s1>F}}"];
+	Node0x1c42750:s0 -> Node0x1c43cb0;
+	Node0x1c42750:s1 -> Node0x1c43d00;
+	Node0x1c43cb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%8:\l8:                                                \l  %9 = load i64, i64* %3, align 8, !dbg !1058, !tbaa !1049\l  br label %12, !dbg !1055\l}"];
+	Node0x1c43cb0 -> Node0x1c43d50;
+	Node0x1c43d00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%10:\l10:                                               \l  %11 = load i64, i64* %4, align 8, !dbg !1059, !tbaa !1049\l  br label %12, !dbg !1055\l}"];
+	Node0x1c43d00 -> Node0x1c43d50;
+	Node0x1c43d50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = phi i64 [ %9, %8 ], [ %11, %10 ], !dbg !1055\l  ret i64 %13, !dbg !1060\l}"];
+}

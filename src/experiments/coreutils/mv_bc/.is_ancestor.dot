@@ -1,0 +1,22 @@
+digraph "CFG for 'is_ancestor' function" {
+	label="CFG for 'is_ancestor' function";
+
+	Node0x11e6b70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca %struct.stat*, align 8\l  %5 = alloca %struct.dir_list*, align 8\l  store %struct.stat* %0, %struct.stat** %4, align 8, !tbaa !1537\l  call void @llvm.dbg.declare(metadata %struct.stat** %4, metadata !1535,\l... metadata !DIExpression()), !dbg !1541\l  store %struct.dir_list* %1, %struct.dir_list** %5, align 8, !tbaa !1537\l  call void @llvm.dbg.declare(metadata %struct.dir_list** %5, metadata !1536,\l... metadata !DIExpression()), !dbg !1542\l  br label %6, !dbg !1543\l}"];
+	Node0x11e6b70 -> Node0x11e6bc0;
+	Node0x11e6bc0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%6:\l6:                                                \l  %7 = load %struct.dir_list*, %struct.dir_list** %5, align 8, !dbg !1544,\l... !tbaa !1537\l  %8 = icmp ne %struct.dir_list* %7, null, !dbg !1545\l  br i1 %8, label %9, label %30, !dbg !1543\l|{<s0>T|<s1>F}}"];
+	Node0x11e6bc0:s0 -> Node0x11e6c10;
+	Node0x11e6bc0:s1 -> Node0x11e6d50;
+	Node0x11e6c10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%9:\l9:                                                \l  %10 = load %struct.dir_list*, %struct.dir_list** %5, align 8, !dbg !1546,\l... !tbaa !1537\l  %11 = getelementptr inbounds %struct.dir_list, %struct.dir_list* %10, i32 0,\l... i32 1, !dbg !1549\l  %12 = load i64, i64* %11, align 8, !dbg !1549, !tbaa !1550\l  %13 = load %struct.stat*, %struct.stat** %4, align 8, !dbg !1553, !tbaa !1537\l  %14 = getelementptr inbounds %struct.stat, %struct.stat* %13, i32 0, i32 1,\l... !dbg !1554\l  %15 = load i64, i64* %14, align 8, !dbg !1554, !tbaa !1555\l  %16 = icmp eq i64 %12, %15, !dbg !1559\l  br i1 %16, label %17, label %26, !dbg !1560\l|{<s0>T|<s1>F}}"];
+	Node0x11e6c10:s0 -> Node0x11e6c60;
+	Node0x11e6c10:s1 -> Node0x11e6d00;
+	Node0x11e6c60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%17:\l17:                                               \l  %18 = load %struct.dir_list*, %struct.dir_list** %5, align 8, !dbg !1561,\l... !tbaa !1537\l  %19 = getelementptr inbounds %struct.dir_list, %struct.dir_list* %18, i32 0,\l... i32 2, !dbg !1562\l  %20 = load i64, i64* %19, align 8, !dbg !1562, !tbaa !1563\l  %21 = load %struct.stat*, %struct.stat** %4, align 8, !dbg !1564, !tbaa !1537\l  %22 = getelementptr inbounds %struct.stat, %struct.stat* %21, i32 0, i32 0,\l... !dbg !1565\l  %23 = load i64, i64* %22, align 8, !dbg !1565, !tbaa !1566\l  %24 = icmp eq i64 %20, %23, !dbg !1567\l  br i1 %24, label %25, label %26, !dbg !1568\l|{<s0>T|<s1>F}}"];
+	Node0x11e6c60:s0 -> Node0x11e6cb0;
+	Node0x11e6c60:s1 -> Node0x11e6d00;
+	Node0x11e6cb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#abc8fd70",label="{%25:\l25:                                               \l  store i1 true, i1* %3, align 1, !dbg !1569\l  br label %31, !dbg !1569\l}"];
+	Node0x11e6cb0 -> Node0x11e6da0;
+	Node0x11e6d00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%26:\l26:                                               \l  %27 = load %struct.dir_list*, %struct.dir_list** %5, align 8, !dbg !1570,\l... !tbaa !1537\l  %28 = getelementptr inbounds %struct.dir_list, %struct.dir_list* %27, i32 0,\l... i32 0, !dbg !1571\l  %29 = load %struct.dir_list*, %struct.dir_list** %28, align 8, !dbg !1571,\l... !tbaa !1572\l  store %struct.dir_list* %29, %struct.dir_list** %5, align 8, !dbg !1573,\l... !tbaa !1537\l  br label %6, !dbg !1543, !llvm.loop !1574\l}"];
+	Node0x11e6d00 -> Node0x11e6bc0;
+	Node0x11e6d50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%30:\l30:                                               \l  store i1 false, i1* %3, align 1, !dbg !1578\l  br label %31, !dbg !1578\l}"];
+	Node0x11e6d50 -> Node0x11e6da0;
+	Node0x11e6da0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%31:\l31:                                               \l  %32 = load i1, i1* %3, align 1, !dbg !1579\l  ret i1 %32, !dbg !1579\l}"];
+}

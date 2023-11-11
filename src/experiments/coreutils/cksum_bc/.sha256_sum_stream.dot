@@ -1,0 +1,5 @@
+digraph "CFG for 'sha256_sum_stream' function" {
+	label="CFG for 'sha256_sum_stream' function";
+
+	Node0x1e27570 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca %struct._IO_FILE*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i64*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %4, align 8, !tbaa !1284\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %4, metadata !1281,\l... metadata !DIExpression()), !dbg !1288\l  store i8* %1, i8** %5, align 8, !tbaa !1284\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1282, metadata\l... !DIExpression()), !dbg !1289\l  store i64* %2, i64** %6, align 8, !tbaa !1284\l  call void @llvm.dbg.declare(metadata i64** %6, metadata !1283, metadata\l... !DIExpression()), !dbg !1290\l  %7 = load %struct._IO_FILE*, %struct._IO_FILE** %4, align 8, !dbg !1291,\l... !tbaa !1284\l  %8 = load i8*, i8** %5, align 8, !dbg !1292, !tbaa !1284\l  %9 = call i32 @sha256_stream(%struct._IO_FILE* noundef %7, i8* noundef %8),\l... !dbg !1293\l  ret i32 %9, !dbg !1294\l}"];
+}

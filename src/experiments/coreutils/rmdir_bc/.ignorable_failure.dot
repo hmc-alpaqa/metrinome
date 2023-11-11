@@ -1,0 +1,20 @@
+digraph "CFG for 'ignorable_failure' function" {
+	label="CFG for 'ignorable_failure' function";
+
+	Node0x21499e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i8*, align 8\l  store i32 %0, i32* %3, align 4, !tbaa !932\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !930, metadata\l... !DIExpression()), !dbg !936\l  store i8* %1, i8** %4, align 8, !tbaa !937\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !931, metadata\l... !DIExpression()), !dbg !939\l  %5 = load i8, i8* @ignore_fail_on_non_empty, align 1, !dbg !940, !tbaa !941,\l... !range !943\l  %6 = trunc i8 %5 to i1, !dbg !940\l  br i1 %6, label %7, label %21, !dbg !944\l|{<s0>T|<s1>F}}"];
+	Node0x21499e0:s0 -> Node0x2132e70;
+	Node0x21499e0:s1 -> Node0x2133000;
+	Node0x2132e70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8765c70",label="{%7:\l7:                                                \l  %8 = load i32, i32* %3, align 4, !dbg !945, !tbaa !932\l  %9 = call zeroext i1 @errno_rmdir_non_empty(i32 noundef %8), !dbg !946\l  br i1 %9, label %19, label %10, !dbg !947\l|{<s0>T|<s1>F}}"];
+	Node0x2132e70:s0 -> Node0x2132fb0;
+	Node0x2132e70:s1 -> Node0x2132ec0;
+	Node0x2132ec0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b99e70",label="{%10:\l10:                                               \l  %11 = load i32, i32* %3, align 4, !dbg !948, !tbaa !932\l  %12 = call zeroext i1 @errno_may_be_non_empty(i32 noundef %11), !dbg !949\l  br i1 %12, label %13, label %17, !dbg !950\l|{<s0>T|<s1>F}}"];
+	Node0x2132ec0:s0 -> Node0x2132f10;
+	Node0x2132ec0:s1 -> Node0x2132f60;
+	Node0x2132f10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %4, align 8, !dbg !951, !tbaa !937\l  %15 = call i32 @directory_status(i32 noundef -100, i8* noundef %14), !dbg\l... !952\l  %16 = icmp eq i32 %15, 0, !dbg !953\l  br label %17\l}"];
+	Node0x2132f10 -> Node0x2132f60;
+	Node0x2132f60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b99e70",label="{%17:\l17:                                               \l  %18 = phi i1 [ false, %10 ], [ %16, %13 ], !dbg !954\l  br label %19, !dbg !947\l}"];
+	Node0x2132f60 -> Node0x2132fb0;
+	Node0x2132fb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8765c70",label="{%19:\l19:                                               \l  %20 = phi i1 [ true, %7 ], [ %18, %17 ]\l  br label %21\l}"];
+	Node0x2132fb0 -> Node0x2133000;
+	Node0x2133000 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%21:\l21:                                               \l  %22 = phi i1 [ false, %2 ], [ %20, %19 ], !dbg !954\l  ret i1 %22, !dbg !955\l}"];
+}

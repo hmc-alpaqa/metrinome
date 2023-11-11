@@ -1,0 +1,30 @@
+digraph "CFG for 'set_stat_type' function" {
+	label="CFG for 'set_stat_type' function";
+
+	Node0x2074740 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.stat*, align 8\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  store %struct.stat* %0, %struct.stat** %3, align 8, !tbaa !958\l  call void @llvm.dbg.declare(metadata %struct.stat** %3, metadata !955,\l... metadata !DIExpression()), !dbg !962\l  store i32 %1, i32* %4, align 4, !tbaa !963\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !956, metadata\l... !DIExpression()), !dbg !965\l  %6 = bitcast i32* %5 to i8*, !dbg !966\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %6) #22, !dbg !966\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !957, metadata\l... !DIExpression()), !dbg !967\l  %7 = load i32, i32* %4, align 4, !dbg !968, !tbaa !963\l  switch i32 %7, label %15 [\l    i32 6, label %8\l    i32 2, label %9\l    i32 4, label %10\l    i32 1, label %11\l    i32 10, label %12\l    i32 8, label %13\l    i32 12, label %14\l  ], !dbg !969\l|{<s0>def|<s1>6|<s2>2|<s3>4|<s4>1|<s5>10|<s6>8|<s7>12}}"];
+	Node0x2074740:s0 -> Node0x2075de0;
+	Node0x2074740:s1 -> Node0x2075b50;
+	Node0x2074740:s2 -> Node0x2075c00;
+	Node0x2074740:s3 -> Node0x2075c50;
+	Node0x2074740:s4 -> Node0x2075ca0;
+	Node0x2074740:s5 -> Node0x2075cf0;
+	Node0x2074740:s6 -> Node0x2075d40;
+	Node0x2074740:s7 -> Node0x2075d90;
+	Node0x2075b50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%8:\l8:                                                \l  store i32 24576, i32* %5, align 4, !dbg !970, !tbaa !963\l  br label %16, !dbg !972\l}"];
+	Node0x2075b50 -> Node0x2075e30;
+	Node0x2075c00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%9:\l9:                                                \l  store i32 8192, i32* %5, align 4, !dbg !973, !tbaa !963\l  br label %16, !dbg !974\l}"];
+	Node0x2075c00 -> Node0x2075e30;
+	Node0x2075c50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%10:\l10:                                               \l  store i32 16384, i32* %5, align 4, !dbg !975, !tbaa !963\l  br label %16, !dbg !976\l}"];
+	Node0x2075c50 -> Node0x2075e30;
+	Node0x2075ca0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%11:\l11:                                               \l  store i32 4096, i32* %5, align 4, !dbg !977, !tbaa !963\l  br label %16, !dbg !978\l}"];
+	Node0x2075ca0 -> Node0x2075e30;
+	Node0x2075cf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%12:\l12:                                               \l  store i32 40960, i32* %5, align 4, !dbg !979, !tbaa !963\l  br label %16, !dbg !980\l}"];
+	Node0x2075cf0 -> Node0x2075e30;
+	Node0x2075d40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%13:\l13:                                               \l  store i32 32768, i32* %5, align 4, !dbg !981, !tbaa !963\l  br label %16, !dbg !982\l}"];
+	Node0x2075d40 -> Node0x2075e30;
+	Node0x2075d90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%14:\l14:                                               \l  store i32 49152, i32* %5, align 4, !dbg !983, !tbaa !963\l  br label %16, !dbg !984\l}"];
+	Node0x2075d90 -> Node0x2075e30;
+	Node0x2075de0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%15:\l15:                                               \l  store i32 0, i32* %5, align 4, !dbg !985, !tbaa !963\l  br label %16, !dbg !986\l}"];
+	Node0x2075de0 -> Node0x2075e30;
+	Node0x2075e30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = load i32, i32* %5, align 4, !dbg !987, !tbaa !963\l  %18 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !988, !tbaa !958\l  %19 = getelementptr inbounds %struct.stat, %struct.stat* %18, i32 0, i32 3,\l... !dbg !989\l  store i32 %17, i32* %19, align 8, !dbg !990, !tbaa !991\l  %20 = bitcast i32* %5 to i8*, !dbg !995\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %20) #22, !dbg !995\l  ret void, !dbg !995\l}"];
+}

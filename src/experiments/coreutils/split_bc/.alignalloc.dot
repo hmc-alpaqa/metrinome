@@ -1,0 +1,15 @@
+digraph "CFG for 'alignalloc' function" {
+	label="CFG for 'alignalloc' function";
+
+	Node0xc34380 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !1038\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1036, metadata\l... !DIExpression()), !dbg !1042\l  store i64 %1, i64* %4, align 8, !tbaa !1038\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1037, metadata\l... !DIExpression()), !dbg !1043\l  %5 = load i64, i64* %3, align 8, !dbg !1044, !tbaa !1038\l  %6 = icmp ult i64 -1, %5, !dbg !1046\l  br i1 %6, label %7, label %8, !dbg !1047\l|{<s0>T|<s1>F}}"];
+	Node0xc34380:s0 -> Node0xc34400;
+	Node0xc34380:s1 -> Node0xc34450;
+	Node0xc34400 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%7:\l7:                                                \l  store i64 -1, i64* %3, align 8, !dbg !1048, !tbaa !1038\l  br label %8, !dbg !1049\l}"];
+	Node0xc34400 -> Node0xc34450;
+	Node0xc34450 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = load i64, i64* %4, align 8, !dbg !1050, !tbaa !1038\l  %10 = icmp ult i64 -1, %9, !dbg !1052\l  br i1 %10, label %11, label %12, !dbg !1053\l|{<s0>T|<s1>F}}"];
+	Node0xc34450:s0 -> Node0xc344a0;
+	Node0xc34450:s1 -> Node0xc344f0;
+	Node0xc344a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%11:\l11:                                               \l  store i64 -1, i64* %4, align 8, !dbg !1054, !tbaa !1038\l  br label %12, !dbg !1055\l}"];
+	Node0xc344a0 -> Node0xc344f0;
+	Node0xc344f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = load i64, i64* %3, align 8, !dbg !1056, !tbaa !1038\l  %14 = load i64, i64* %4, align 8, !dbg !1057, !tbaa !1038\l  %15 = call noalias i8* @aligned_alloc(i64 noundef %13, i64 noundef %14) #24,\l... !dbg !1058\l  call void @llvm.assume(i1 true) [ \"align\"(i8* %15, i64 %13) ], !dbg !1058\l  ret i8* %15, !dbg !1059\l}"];
+}

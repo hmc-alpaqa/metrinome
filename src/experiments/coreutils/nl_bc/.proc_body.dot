@@ -1,0 +1,5 @@
+digraph "CFG for 'proc_body' function" {
+	label="CFG for 'proc_body' function";
+
+	Node0x176aef0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8*, i8** @body_type, align 8, !dbg !786, !tbaa !787\l  store i8* %1, i8** @current_type, align 8, !dbg !791, !tbaa !787\l  store %struct.re_pattern_buffer* @body_regex, %struct.re_pattern_buffer**\l... @current_regex, align 8, !dbg !792, !tbaa !787\l  call void @reset_lineno(), !dbg !793\l  %2 = call i32 @putchar_unlocked(i32 noundef 10), !dbg !794\l  ret void, !dbg !795\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'restore_cwd' function" {
+	label="CFG for 'restore_cwd' function";
+
+	Node0x1397650 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca %struct.saved_cwd*, align 8\l  store %struct.saved_cwd* %0, %struct.saved_cwd** %3, align 8, !tbaa !1254\l  call void @llvm.dbg.declare(metadata %struct.saved_cwd** %3, metadata !1253,\l... metadata !DIExpression()), !dbg !1258\l  %4 = load %struct.saved_cwd*, %struct.saved_cwd** %3, align 8, !dbg !1259,\l... !tbaa !1254\l  %5 = getelementptr inbounds %struct.saved_cwd, %struct.saved_cwd* %4, i32 0,\l... i32 0, !dbg !1261\l  %6 = load i32, i32* %5, align 8, !dbg !1261, !tbaa !1262\l  %7 = icmp sle i32 0, %6, !dbg !1265\l  br i1 %7, label %8, label %13, !dbg !1266\l|{<s0>T|<s1>F}}"];
+	Node0x1397650:s0 -> Node0x1399080;
+	Node0x1397650:s1 -> Node0x13990d0;
+	Node0x1399080 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%8:\l8:                                                \l  %9 = load %struct.saved_cwd*, %struct.saved_cwd** %3, align 8, !dbg !1267,\l... !tbaa !1254\l  %10 = getelementptr inbounds %struct.saved_cwd, %struct.saved_cwd* %9, i32\l... 0, i32 0, !dbg !1268\l  %11 = load i32, i32* %10, align 8, !dbg !1268, !tbaa !1262\l  %12 = call i32 @fchdir(i32 noundef %11) #26, !dbg !1269\l  store i32 %12, i32* %2, align 4, !dbg !1270\l  br label %18, !dbg !1270\l}"];
+	Node0x1399080 -> Node0x1399120;
+	Node0x13990d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%13:\l13:                                               \l  %14 = load %struct.saved_cwd*, %struct.saved_cwd** %3, align 8, !dbg !1271,\l... !tbaa !1254\l  %15 = getelementptr inbounds %struct.saved_cwd, %struct.saved_cwd* %14, i32\l... 0, i32 1, !dbg !1272\l  %16 = load i8*, i8** %15, align 8, !dbg !1272, !tbaa !1273\l  %17 = call i32 @chdir_long(i8* noundef %16), !dbg !1274\l  store i32 %17, i32* %2, align 4, !dbg !1275\l  br label %18, !dbg !1275\l}"];
+	Node0x13990d0 -> Node0x1399120;
+	Node0x1399120 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%18:\l18:                                               \l  %19 = load i32, i32* %2, align 4, !dbg !1276\l  ret i32 %19, !dbg !1276\l}"];
+}

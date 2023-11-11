@@ -1,0 +1,41 @@
+digraph "CFG for 'safe_read' function" {
+	label="CFG for 'safe_read' function";
+
+	Node0x23992c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e97a5f70",label="{%3:\l  %4 = alloca i64, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i8*, align 8\l  %7 = alloca i64, align 8\l  %8 = alloca i64, align 8\l  %9 = alloca i32, align 4\l  store i32 %0, i32* %5, align 4, !tbaa !859\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !849, metadata\l... !DIExpression()), !dbg !863\l  store i8* %1, i8** %6, align 8, !tbaa !864\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !850, metadata\l... !DIExpression()), !dbg !866\l  store i64 %2, i64* %7, align 8, !tbaa !867\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !851, metadata\l... !DIExpression()), !dbg !869\l  br label %10, !dbg !870\l}"];
+	Node0x23992c0 -> Node0x2399a70;
+	Node0x2399a70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = bitcast i64* %8 to i8*, !dbg !871\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %11) #21, !dbg !871\l  call void @llvm.dbg.declare(metadata i64* %8, metadata !852, metadata\l... !DIExpression()), !dbg !872\l  %12 = load i32, i32* %5, align 4, !dbg !873, !tbaa !859\l  %13 = load i8*, i8** %6, align 8, !dbg !874, !tbaa !864\l  %14 = load i64, i64* %7, align 8, !dbg !875, !tbaa !867\l  %15 = call i64 @read(i32 noundef %12, i8* noundef %13, i64 noundef %14),\l... !dbg !876\l  store i64 %15, i64* %8, align 8, !dbg !872, !tbaa !867\l  %16 = load i64, i64* %8, align 8, !dbg !877, !tbaa !867\l  %17 = icmp sle i64 0, %16, !dbg !879\l  br i1 %17, label %18, label %20, !dbg !880\l|{<s0>T|<s1>F}}"];
+	Node0x2399a70:s0 -> Node0x2399ac0;
+	Node0x2399a70:s1 -> Node0x2399b10;
+	Node0x2399ac0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%18:\l18:                                               \l  %19 = load i64, i64* %8, align 8, !dbg !881, !tbaa !867\l  store i64 %19, i64* %4, align 8, !dbg !882\l  store i32 1, i32* %9, align 4\l  br label %38, !dbg !882\l}"];
+	Node0x2399ac0 -> Node0x2399de0;
+	Node0x2399b10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%20:\l20:                                               \l  %21 = call i32* @__errno_location() #22, !dbg !883\l  %22 = load i32, i32* %21, align 4, !dbg !883, !tbaa !859\l  %23 = icmp eq i32 %22, 4, !dbg !883\l  br i1 %23, label %24, label %25, !dbg !885\l|{<s0>T|<s1>F}}"];
+	Node0x2399b10:s0 -> Node0x2399b60;
+	Node0x2399b10:s1 -> Node0x2399bb0;
+	Node0x2399b60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%24:\l24:                                               \l  store i32 3, i32* %9, align 4\l  br label %38, !dbg !886, !llvm.loop !887\l}"];
+	Node0x2399b60 -> Node0x2399de0;
+	Node0x2399bb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%25:\l25:                                               \l  %26 = call i32* @__errno_location() #22, !dbg !891\l  %27 = load i32, i32* %26, align 4, !dbg !891, !tbaa !859\l  %28 = icmp eq i32 %27, 22, !dbg !893\l  br i1 %28, label %29, label %33, !dbg !894\l|{<s0>T|<s1>F}}"];
+	Node0x2399bb0:s0 -> Node0x2399c00;
+	Node0x2399bb0:s1 -> Node0x2399ca0;
+	Node0x2399c00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6524470",label="{%29:\l29:                                               \l  %30 = load i64, i64* %7, align 8, !dbg !895, !tbaa !867\l  %31 = icmp ult i64 2146435072, %30, !dbg !896\l  br i1 %31, label %32, label %33, !dbg !897\l|{<s0>T|<s1>F}}"];
+	Node0x2399c00:s0 -> Node0x2399c50;
+	Node0x2399c00:s1 -> Node0x2399ca0;
+	Node0x2399c50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%32:\l32:                                               \l  store i64 2146435072, i64* %7, align 8, !dbg !898, !tbaa !867\l  br label %35, !dbg !899\l}"];
+	Node0x2399c50 -> Node0x2399cf0;
+	Node0x2399ca0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%33:\l33:                                               \l  %34 = load i64, i64* %8, align 8, !dbg !900, !tbaa !867\l  store i64 %34, i64* %4, align 8, !dbg !901\l  store i32 1, i32* %9, align 4\l  br label %38, !dbg !901\l}"];
+	Node0x2399ca0 -> Node0x2399de0;
+	Node0x2399cf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%35:\l35:                                               \l  br label %36\l}"];
+	Node0x2399cf0 -> Node0x2399d40;
+	Node0x2399d40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%36:\l36:                                               \l  br label %37\l}"];
+	Node0x2399d40 -> Node0x2399d90;
+	Node0x2399d90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%37:\l37:                                               \l  store i32 0, i32* %9, align 4, !dbg !902\l  br label %38, !dbg !902\l}"];
+	Node0x2399d90 -> Node0x2399de0;
+	Node0x2399de0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%38:\l38:                                               \l  %39 = bitcast i64* %8 to i8*, !dbg !902\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %39) #21, !dbg !902\l  %40 = load i32, i32* %9, align 4\l  switch i32 %40, label %44 [\l    i32 0, label %41\l    i32 1, label %42\l    i32 3, label %10\l  ]\l|{<s0>def|<s1>0|<s2>1|<s3>3}}"];
+	Node0x2399de0:s0 -> Node0x2399ed0;
+	Node0x2399de0:s1 -> Node0x2399e30;
+	Node0x2399de0:s2 -> Node0x2399e80;
+	Node0x2399de0:s3 -> Node0x2399a70;
+	Node0x2399e30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%41:\l41:                                               \l  br label %10, !dbg !903, !llvm.loop !887\l}"];
+	Node0x2399e30 -> Node0x2399a70;
+	Node0x2399e80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e97a5f70",label="{%42:\l42:                                               \l  %43 = load i64, i64* %4, align 8, !dbg !904\l  ret i64 %43, !dbg !904\l}"];
+	Node0x2399ed0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%44:\l44:                                               \l  unreachable\l}"];
+}

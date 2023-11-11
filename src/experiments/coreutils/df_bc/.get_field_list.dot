@@ -1,0 +1,48 @@
+digraph "CFG for 'get_field_list' function" {
+	label="CFG for 'get_field_list' function";
+
+	Node0x107c650 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i32, i32* @header_mode, align 4, !dbg !1244, !tbaa !1245\l  switch i32 %1, label %28 [\l    i32 0, label %2\l    i32 2, label %7\l    i32 1, label %12\l    i32 3, label %17\l    i32 4, label %22\l  ], !dbg !1248\l|{<s0>def|<s1>0|<s2>2|<s3>1|<s4>3|<s5>4}}"];
+	Node0x107c650:s0 -> Node0x107cbf0;
+	Node0x107c650:s1 -> Node0x107c740;
+	Node0x107c650:s2 -> Node0x107c830;
+	Node0x107c650:s3 -> Node0x107c920;
+	Node0x107c650:s4 -> Node0x107ca10;
+	Node0x107c650:s5 -> Node0x107cb00;
+	Node0x107c740 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%2:\l2:                                                \l  call void @alloc_field(i32 noundef 0, i8* noundef null), !dbg !1249\l  %3 = load i8, i8* @print_type, align 1, !dbg !1251, !tbaa !1253, !range !1255\l  %4 = trunc i8 %3 to i1, !dbg !1251\l  br i1 %4, label %5, label %6, !dbg !1256\l|{<s0>T|<s1>F}}"];
+	Node0x107c740:s0 -> Node0x107c790;
+	Node0x107c740:s1 -> Node0x107c7e0;
+	Node0x107c790 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%5:\l5:                                                \l  call void @alloc_field(i32 noundef 1, i8* noundef null), !dbg !1257\l  br label %6, !dbg !1257\l}"];
+	Node0x107c790 -> Node0x107c7e0;
+	Node0x107c7e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%6:\l6:                                                \l  call void @alloc_field(i32 noundef 2, i8* noundef null), !dbg !1258\l  call void @alloc_field(i32 noundef 3, i8* noundef null), !dbg !1259\l  call void @alloc_field(i32 noundef 4, i8* noundef null), !dbg !1260\l  call void @alloc_field(i32 noundef 5, i8* noundef null), !dbg !1261\l  call void @alloc_field(i32 noundef 10, i8* noundef null), !dbg !1262\l  br label %29, !dbg !1263\l}"];
+	Node0x107c7e0 -> Node0x107cc40;
+	Node0x107c830 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%7:\l7:                                                \l  call void @alloc_field(i32 noundef 0, i8* noundef null), !dbg !1264\l  %8 = load i8, i8* @print_type, align 1, !dbg !1265, !tbaa !1253, !range !1255\l  %9 = trunc i8 %8 to i1, !dbg !1265\l  br i1 %9, label %10, label %11, !dbg !1267\l|{<s0>T|<s1>F}}"];
+	Node0x107c830:s0 -> Node0x107c880;
+	Node0x107c830:s1 -> Node0x107c8d0;
+	Node0x107c880 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%10:\l10:                                               \l  call void @alloc_field(i32 noundef 1, i8* noundef null), !dbg !1268\l  br label %11, !dbg !1268\l}"];
+	Node0x107c880 -> Node0x107c8d0;
+	Node0x107c8d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%11:\l11:                                               \l  call void @alloc_field(i32 noundef 2, i8* noundef getelementptr inbounds ([5\l... x i8], [5 x i8]* @.str.72, i64 0, i64 0)), !dbg !1269\l  call void @alloc_field(i32 noundef 3, i8* noundef null), !dbg !1270\l  call void @alloc_field(i32 noundef 4, i8* noundef getelementptr inbounds ([6\l... x i8], [6 x i8]* @.str.73, i64 0, i64 0)), !dbg !1271\l  call void @alloc_field(i32 noundef 5, i8* noundef null), !dbg !1272\l  call void @alloc_field(i32 noundef 10, i8* noundef null), !dbg !1273\l  br label %29, !dbg !1274\l}"];
+	Node0x107c8d0 -> Node0x107cc40;
+	Node0x107c920 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%12:\l12:                                               \l  call void @alloc_field(i32 noundef 0, i8* noundef null), !dbg !1275\l  %13 = load i8, i8* @print_type, align 1, !dbg !1276, !tbaa !1253, !range\l... !1255\l  %14 = trunc i8 %13 to i1, !dbg !1276\l  br i1 %14, label %15, label %16, !dbg !1278\l|{<s0>T|<s1>F}}"];
+	Node0x107c920:s0 -> Node0x107c970;
+	Node0x107c920:s1 -> Node0x107c9c0;
+	Node0x107c970 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%15:\l15:                                               \l  call void @alloc_field(i32 noundef 1, i8* noundef null), !dbg !1279\l  br label %16, !dbg !1279\l}"];
+	Node0x107c970 -> Node0x107c9c0;
+	Node0x107c9c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%16:\l16:                                               \l  call void @alloc_field(i32 noundef 6, i8* noundef null), !dbg !1280\l  call void @alloc_field(i32 noundef 7, i8* noundef null), !dbg !1281\l  call void @alloc_field(i32 noundef 8, i8* noundef null), !dbg !1282\l  call void @alloc_field(i32 noundef 9, i8* noundef null), !dbg !1283\l  call void @alloc_field(i32 noundef 10, i8* noundef null), !dbg !1284\l  br label %29, !dbg !1285\l}"];
+	Node0x107c9c0 -> Node0x107cc40;
+	Node0x107ca10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%17:\l17:                                               \l  call void @alloc_field(i32 noundef 0, i8* noundef null), !dbg !1286\l  %18 = load i8, i8* @print_type, align 1, !dbg !1287, !tbaa !1253, !range\l... !1255\l  %19 = trunc i8 %18 to i1, !dbg !1287\l  br i1 %19, label %20, label %21, !dbg !1289\l|{<s0>T|<s1>F}}"];
+	Node0x107ca10:s0 -> Node0x107ca60;
+	Node0x107ca10:s1 -> Node0x107cab0;
+	Node0x107ca60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%20:\l20:                                               \l  call void @alloc_field(i32 noundef 1, i8* noundef null), !dbg !1290\l  br label %21, !dbg !1290\l}"];
+	Node0x107ca60 -> Node0x107cab0;
+	Node0x107cab0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%21:\l21:                                               \l  call void @alloc_field(i32 noundef 2, i8* noundef null), !dbg !1291\l  call void @alloc_field(i32 noundef 3, i8* noundef null), !dbg !1292\l  call void @alloc_field(i32 noundef 4, i8* noundef null), !dbg !1293\l  call void @alloc_field(i32 noundef 5, i8* noundef getelementptr inbounds ([9\l... x i8], [9 x i8]* @.str.101, i64 0, i64 0)), !dbg !1294\l  call void @alloc_field(i32 noundef 10, i8* noundef null), !dbg !1295\l  br label %29, !dbg !1296\l}"];
+	Node0x107cab0 -> Node0x107cc40;
+	Node0x107cb00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%22:\l22:                                               \l  %23 = load i64, i64* @ncolumns, align 8, !dbg !1297, !tbaa !1299\l  %24 = icmp ne i64 %23, 0, !dbg !1297\l  br i1 %24, label %27, label %25, !dbg !1301\l|{<s0>T|<s1>F}}"];
+	Node0x107cb00:s0 -> Node0x107cba0;
+	Node0x107cb00:s1 -> Node0x107cb50;
+	Node0x107cb50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%25:\l25:                                               \l  %26 = load i8*, i8** @all_args_string, align 8, !dbg !1302, !tbaa !1304\l  call void @decode_output_arg(i8* noundef %26), !dbg !1306\l  br label %27, !dbg !1307\l}"];
+	Node0x107cb50 -> Node0x107cba0;
+	Node0x107cba0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%27:\l27:                                               \l  br label %29, !dbg !1308\l}"];
+	Node0x107cba0 -> Node0x107cc40;
+	Node0x107cbf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%28:\l28:                                               \l  unreachable, !dbg !1309\l}"];
+	Node0x107cc40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%29:\l29:                                               \l  ret void, !dbg !1310\l}"];
+}

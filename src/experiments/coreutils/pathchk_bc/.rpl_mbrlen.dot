@@ -1,0 +1,10 @@
+digraph "CFG for 'rpl_mbrlen' function" {
+	label="CFG for 'rpl_mbrlen' function";
+
+	Node0x21d8430 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca %struct.__mbstate_t*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !683\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !680, metadata\l... !DIExpression()), !dbg !687\l  store i64 %1, i64* %5, align 8, !tbaa !688\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !681, metadata\l... !DIExpression()), !dbg !690\l  store %struct.__mbstate_t* %2, %struct.__mbstate_t** %6, align 8, !tbaa !683\l  call void @llvm.dbg.declare(metadata %struct.__mbstate_t** %6, metadata\l... !682, metadata !DIExpression()), !dbg !691\l  %7 = load %struct.__mbstate_t*, %struct.__mbstate_t** %6, align 8, !dbg\l... !692, !tbaa !683\l  %8 = icmp eq %struct.__mbstate_t* %7, null, !dbg !694\l  br i1 %8, label %9, label %10, !dbg !695\l|{<s0>T|<s1>F}}"];
+	Node0x21d8430:s0 -> Node0x21d84c0;
+	Node0x21d8430:s1 -> Node0x21d8510;
+	Node0x21d84c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%9:\l9:                                                \l  store %struct.__mbstate_t* @internal_state, %struct.__mbstate_t** %6, align\l... 8, !dbg !696, !tbaa !683\l  br label %10, !dbg !697\l}"];
+	Node0x21d84c0 -> Node0x21d8510;
+	Node0x21d8510 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %4, align 8, !dbg !698, !tbaa !683\l  %12 = load i64, i64* %5, align 8, !dbg !699, !tbaa !688\l  %13 = load %struct.__mbstate_t*, %struct.__mbstate_t** %6, align 8, !dbg\l... !700, !tbaa !683\l  %14 = call i64 @rpl_mbrtowc(i32* noundef null, i8* noundef %11, i64 noundef\l... %12, %struct.__mbstate_t* noundef %13), !dbg !701\l  ret i64 %14, !dbg !702\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'floor_lg' function" {
+	label="CFG for 'floor_lg' function";
+
+	Node0x199b540 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !795\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !794, metadata\l... !DIExpression()), !dbg !799\l  %3 = load i64, i64* %2, align 8, !dbg !800, !tbaa !795\l  %4 = icmp eq i64 %3, 0, !dbg !801\l  br i1 %4, label %5, label %6, !dbg !800\l|{<s0>T|<s1>F}}"];
+	Node0x199b540:s0 -> Node0x1990d80;
+	Node0x199b540:s1 -> Node0x1990dd0;
+	Node0x1990d80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%5:\l5:                                                \l  br label %10, !dbg !800\l}"];
+	Node0x1990d80 -> Node0x1990e20;
+	Node0x1990dd0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%6:\l6:                                                \l  %7 = load i64, i64* %2, align 8, !dbg !802, !tbaa !795\l  %8 = call i32 @count_leading_zeros_l(i64 noundef %7), !dbg !803\l  %9 = sub nsw i32 63, %8, !dbg !804\l  br label %10, !dbg !800\l}"];
+	Node0x1990dd0 -> Node0x1990e20;
+	Node0x1990e20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = phi i32 [ -1, %5 ], [ %9, %6 ], !dbg !800\l  ret i32 %11, !dbg !805\l}"];
+}

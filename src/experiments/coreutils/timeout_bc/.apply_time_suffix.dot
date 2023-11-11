@@ -1,0 +1,24 @@
+digraph "CFG for 'apply_time_suffix' function" {
+	label="CFG for 'apply_time_suffix' function";
+
+	Node0x9790d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca double*, align 8\l  %5 = alloca i8, align 1\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  store double* %0, double** %4, align 8, !tbaa !738\l  call void @llvm.dbg.declare(metadata double** %4, metadata !735, metadata\l... !DIExpression()), !dbg !742\l  store i8 %1, i8* %5, align 1, !tbaa !743\l  call void @llvm.dbg.declare(metadata i8* %5, metadata !736, metadata\l... !DIExpression()), !dbg !744\l  %8 = bitcast i32* %6 to i8*, !dbg !745\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #23, !dbg !745\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !737, metadata\l... !DIExpression()), !dbg !746\l  %9 = load i8, i8* %5, align 1, !dbg !747, !tbaa !743\l  %10 = sext i8 %9 to i32, !dbg !747\l  switch i32 %10, label %15 [\l    i32 0, label %11\l    i32 115, label %11\l    i32 109, label %12\l    i32 104, label %13\l    i32 100, label %14\l  ], !dbg !748\l|{<s0>def|<s1>0|<s2>115|<s3>109|<s4>104|<s5>100}}"];
+	Node0x9790d0:s0 -> Node0x979260;
+	Node0x9790d0:s1 -> Node0x979120;
+	Node0x9790d0:s2 -> Node0x979120;
+	Node0x9790d0:s3 -> Node0x979170;
+	Node0x9790d0:s4 -> Node0x9791c0;
+	Node0x9790d0:s5 -> Node0x979210;
+	Node0x979120 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7a88970",label="{%11:\l11:                                               \l  store i32 1, i32* %6, align 4, !dbg !749, !tbaa !751\l  br label %16, !dbg !753\l}"];
+	Node0x979120 -> Node0x9792b0;
+	Node0x979170 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%12:\l12:                                               \l  store i32 60, i32* %6, align 4, !dbg !754, !tbaa !751\l  br label %16, !dbg !755\l}"];
+	Node0x979170 -> Node0x9792b0;
+	Node0x9791c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%13:\l13:                                               \l  store i32 3600, i32* %6, align 4, !dbg !756, !tbaa !751\l  br label %16, !dbg !757\l}"];
+	Node0x9791c0 -> Node0x9792b0;
+	Node0x979210 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%14:\l14:                                               \l  store i32 86400, i32* %6, align 4, !dbg !758, !tbaa !751\l  br label %16, !dbg !759\l}"];
+	Node0x979210 -> Node0x9792b0;
+	Node0x979260 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%15:\l15:                                               \l  store i1 false, i1* %3, align 1, !dbg !760\l  store i32 1, i32* %7, align 4\l  br label %22, !dbg !760\l}"];
+	Node0x979260 -> Node0x979300;
+	Node0x9792b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#ca3b3770",label="{%16:\l16:                                               \l  %17 = load i32, i32* %6, align 4, !dbg !761, !tbaa !751\l  %18 = sitofp i32 %17 to double, !dbg !761\l  %19 = load double*, double** %4, align 8, !dbg !762, !tbaa !738\l  %20 = load double, double* %19, align 8, !dbg !763, !tbaa !764\l  %21 = fmul double %20, %18, !dbg !763\l  store double %21, double* %19, align 8, !dbg !763, !tbaa !764\l  store i1 true, i1* %3, align 1, !dbg !766\l  store i32 1, i32* %7, align 4\l  br label %22, !dbg !766\l}"];
+	Node0x9792b0 -> Node0x979300;
+	Node0x979300 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%22:\l22:                                               \l  %23 = bitcast i32* %6 to i8*, !dbg !767\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %23) #23, !dbg !767\l  %24 = load i1, i1* %3, align 1, !dbg !767\l  ret i1 %24, !dbg !767\l}"];
+}

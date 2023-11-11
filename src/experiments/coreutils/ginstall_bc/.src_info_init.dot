@@ -1,0 +1,9 @@
+digraph "CFG for 'src_info_init' function" {
+	label="CFG for 'src_info_init' function";
+
+	Node0x172ed30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.cp_options*, align 8\l  store %struct.cp_options* %0, %struct.cp_options** %2, align 8, !tbaa !1786\l  call void @llvm.dbg.declare(metadata %struct.cp_options** %2, metadata\l... !1785, metadata !DIExpression()), !dbg !1790\l  %3 = call noalias %struct.hash_table* @hash_initialize(i64 noundef 61,\l... %struct.hash_tuning* noundef null, i64 (i8*, i64)* noundef\l... @triple_hash_no_name, i1 (i8*, i8*)* noundef @triple_compare, void (i8*)*\l... noundef @triple_free), !dbg !1791\l  %4 = load %struct.cp_options*, %struct.cp_options** %2, align 8, !dbg !1792,\l... !tbaa !1786\l  %5 = getelementptr inbounds %struct.cp_options, %struct.cp_options* %4, i32\l... 0, i32 40, !dbg !1793\l  store %struct.hash_table* %3, %struct.hash_table** %5, align 8, !dbg !1794,\l... !tbaa !1795\l  %6 = load %struct.cp_options*, %struct.cp_options** %2, align 8, !dbg !1799,\l... !tbaa !1786\l  %7 = getelementptr inbounds %struct.cp_options, %struct.cp_options* %6, i32\l... 0, i32 40, !dbg !1801\l  %8 = load %struct.hash_table*, %struct.hash_table** %7, align 8, !dbg !1801,\l... !tbaa !1795\l  %9 = icmp ne %struct.hash_table* %8, null, !dbg !1799\l  br i1 %9, label %11, label %10, !dbg !1802\l|{<s0>T|<s1>F}}"];
+	Node0x172ed30:s0 -> Node0x172edd0;
+	Node0x172ed30:s1 -> Node0x172ed80;
+	Node0x172ed80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%10:\l10:                                               \l  call void @xalloc_die() #26, !dbg !1803\l  unreachable, !dbg !1803\l}"];
+	Node0x172edd0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  ret void, !dbg !1804\l}"];
+}

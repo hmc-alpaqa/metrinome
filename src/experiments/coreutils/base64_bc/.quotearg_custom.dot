@@ -1,0 +1,5 @@
+digraph "CFG for 'quotearg_custom' function" {
+	label="CFG for 'quotearg_custom' function";
+
+	Node0x6f9820 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i8*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !692\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !689, metadata\l... !DIExpression()), !dbg !696\l  store i8* %1, i8** %5, align 8, !tbaa !692\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !690, metadata\l... !DIExpression()), !dbg !697\l  store i8* %2, i8** %6, align 8, !tbaa !692\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !691, metadata\l... !DIExpression()), !dbg !698\l  %7 = load i8*, i8** %4, align 8, !dbg !699, !tbaa !692\l  %8 = load i8*, i8** %5, align 8, !dbg !700, !tbaa !692\l  %9 = load i8*, i8** %6, align 8, !dbg !701, !tbaa !692\l  %10 = call i8* @quotearg_n_custom(i32 noundef 0, i8* noundef %7, i8* noundef\l... %8, i8* noundef %9), !dbg !702\l  ret i8* %10, !dbg !703\l}"];
+}

@@ -1,0 +1,43 @@
+digraph "CFG for 'suffix_requires_dir_check' function" {
+	label="CFG for 'suffix_requires_dir_check' function";
+
+	Node0x99a130 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c1d4f470",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !698\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !697, metadata\l... !DIExpression()), !dbg !702\l  br label %4, !dbg !703\l}"];
+	Node0x99a130 -> Node0x99d660;
+	Node0x99d660 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%4:\l4:                                                \l  %5 = load i8*, i8** %3, align 8, !dbg !704, !tbaa !698\l  %6 = load i8, i8* %5, align 1, !dbg !704, !tbaa !705\l  %7 = sext i8 %6 to i32, !dbg !704\l  %8 = icmp eq i32 %7, 47, !dbg !704\l  br i1 %8, label %9, label %47, !dbg !703\l|{<s0>T|<s1>F}}"];
+	Node0x99d660:s0 -> Node0x99d740;
+	Node0x99d660:s1 -> Node0x99db00;
+	Node0x99d740 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%9:\l9:                                                \l  br label %10, !dbg !706\l}"];
+	Node0x99d740 -> Node0x99d790;
+	Node0x99d790 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %3, align 8, !dbg !708, !tbaa !698\l  %12 = getelementptr inbounds i8, i8* %11, i32 1, !dbg !708\l  store i8* %12, i8** %3, align 8, !dbg !708, !tbaa !698\l  br label %13, !dbg !709\l}"];
+	Node0x99d790 -> Node0x99d7e0;
+	Node0x99d7e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %3, align 8, !dbg !710, !tbaa !698\l  %15 = load i8, i8* %14, align 1, !dbg !710, !tbaa !705\l  %16 = sext i8 %15 to i32, !dbg !710\l  %17 = icmp eq i32 %16, 47, !dbg !710\l  br i1 %17, label %10, label %18, !dbg !709, !llvm.loop !711\l|{<s0>T|<s1>F}}"];
+	Node0x99d7e0:s0 -> Node0x99d790;
+	Node0x99d7e0:s1 -> Node0x99d830;
+	Node0x99d830 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%18:\l18:                                               \l  %19 = load i8*, i8** %3, align 8, !dbg !715, !tbaa !698\l  %20 = getelementptr inbounds i8, i8* %19, i32 1, !dbg !715\l  store i8* %20, i8** %3, align 8, !dbg !715, !tbaa !698\l  %21 = load i8, i8* %19, align 1, !dbg !716, !tbaa !705\l  %22 = sext i8 %21 to i32, !dbg !716\l  switch i32 %22, label %23 [\l    i32 0, label %24\l    i32 46, label %25\l  ], !dbg !717\l|{<s0>def|<s1>0|<s2>46}}"];
+	Node0x99d830:s0 -> Node0x99d880;
+	Node0x99d830:s1 -> Node0x99d8d0;
+	Node0x99d830:s2 -> Node0x99d920;
+	Node0x99d880 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#81a4fb70",label="{%23:\l23:                                               \l  store i1 false, i1* %2, align 1, !dbg !718\l  br label %48, !dbg !718\l}"];
+	Node0x99d880 -> Node0x99db50;
+	Node0x99d8d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#81a4fb70",label="{%24:\l24:                                               \l  store i1 true, i1* %2, align 1, !dbg !720\l  br label %48, !dbg !720\l}"];
+	Node0x99d8d0 -> Node0x99db50;
+	Node0x99d920 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2cab570",label="{%25:\l25:                                               \l  %26 = load i8*, i8** %3, align 8, !dbg !721, !tbaa !698\l  %27 = load i8, i8* %26, align 1, !dbg !723, !tbaa !705\l  %28 = icmp ne i8 %27, 0, !dbg !723\l  br i1 %28, label %29, label %45, !dbg !724\l|{<s0>T|<s1>F}}"];
+	Node0x99d920:s0 -> Node0x99d970;
+	Node0x99d920:s1 -> Node0x99da60;
+	Node0x99d970 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2cab570",label="{%29:\l29:                                               \l  %30 = load i8*, i8** %3, align 8, !dbg !725, !tbaa !698\l  %31 = load i8, i8* %30, align 1, !dbg !726, !tbaa !705\l  %32 = sext i8 %31 to i32, !dbg !726\l  %33 = icmp eq i32 %32, 46, !dbg !727\l  br i1 %33, label %34, label %46, !dbg !728\l|{<s0>T|<s1>F}}"];
+	Node0x99d970:s0 -> Node0x99d9c0;
+	Node0x99d970:s1 -> Node0x99dab0;
+	Node0x99d9c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%34:\l34:                                               \l  %35 = load i8*, i8** %3, align 8, !dbg !729, !tbaa !698\l  %36 = getelementptr inbounds i8, i8* %35, i64 1, !dbg !729\l  %37 = load i8, i8* %36, align 1, !dbg !729, !tbaa !705\l  %38 = icmp ne i8 %37, 0, !dbg !729\l  br i1 %38, label %39, label %45, !dbg !730\l|{<s0>T|<s1>F}}"];
+	Node0x99d9c0:s0 -> Node0x99da10;
+	Node0x99d9c0:s1 -> Node0x99da60;
+	Node0x99da10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%39:\l39:                                               \l  %40 = load i8*, i8** %3, align 8, !dbg !731, !tbaa !698\l  %41 = getelementptr inbounds i8, i8* %40, i64 1, !dbg !731\l  %42 = load i8, i8* %41, align 1, !dbg !731, !tbaa !705\l  %43 = sext i8 %42 to i32, !dbg !731\l  %44 = icmp eq i32 %43, 47, !dbg !731\l  br i1 %44, label %45, label %46, !dbg !732\l|{<s0>T|<s1>F}}"];
+	Node0x99da10:s0 -> Node0x99da60;
+	Node0x99da10:s1 -> Node0x99dab0;
+	Node0x99da60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#a1c0ff70",label="{%45:\l45:                                               \l  store i1 true, i1* %2, align 1, !dbg !733\l  br label %48, !dbg !733\l}"];
+	Node0x99da60 -> Node0x99db50;
+	Node0x99dab0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2cab570",label="{%46:\l46:                                               \l  br label %4, !dbg !703, !llvm.loop !734\l}"];
+	Node0x99dab0 -> Node0x99d660;
+	Node0x99db00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#88abfd70",label="{%47:\l47:                                               \l  store i1 false, i1* %2, align 1, !dbg !736\l  br label %48, !dbg !736\l}"];
+	Node0x99db00 -> Node0x99db50;
+	Node0x99db50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c1d4f470",label="{%48:\l48:                                               \l  %49 = load i1, i1* %2, align 1, !dbg !737\l  ret i1 %49, !dbg !737\l}"];
+}

@@ -1,0 +1,42 @@
+digraph "CFG for 'recurse_tree' function" {
+	label="CFG for 'recurse_tree' function";
+
+	Node0x18c07d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca %struct.item*, align 8\l  %5 = alloca i1 (%struct.item*)*, align 8\l  store %struct.item* %0, %struct.item** %4, align 8, !tbaa !693\l  call void @llvm.dbg.declare(metadata %struct.item** %4, metadata !691,\l... metadata !DIExpression()), !dbg !697\l  store i1 (%struct.item*)* %1, i1 (%struct.item*)** %5, align 8, !tbaa !693\l  call void @llvm.dbg.declare(metadata i1 (%struct.item*)** %5, metadata !692,\l... metadata !DIExpression()), !dbg !698\l  %6 = load %struct.item*, %struct.item** %4, align 8, !dbg !699, !tbaa !693\l  %7 = getelementptr inbounds %struct.item, %struct.item* %6, i32 0, i32 1,\l... !dbg !701\l  %8 = load %struct.item*, %struct.item** %7, align 8, !dbg !701, !tbaa !702\l  %9 = icmp eq %struct.item* %8, null, !dbg !706\l  br i1 %9, label %10, label %19, !dbg !707\l|{<s0>T|<s1>F}}"];
+	Node0x18c07d0:s0 -> Node0x18c08b0;
+	Node0x18c07d0:s1 -> Node0x18c0950;
+	Node0x18c08b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2907270",label="{%10:\l10:                                               \l  %11 = load %struct.item*, %struct.item** %4, align 8, !dbg !708, !tbaa !693\l  %12 = getelementptr inbounds %struct.item, %struct.item* %11, i32 0, i32 2,\l... !dbg !709\l  %13 = load %struct.item*, %struct.item** %12, align 8, !dbg !709, !tbaa !710\l  %14 = icmp eq %struct.item* %13, null, !dbg !711\l  br i1 %14, label %15, label %19, !dbg !712\l|{<s0>T|<s1>F}}"];
+	Node0x18c08b0:s0 -> Node0x18c0900;
+	Node0x18c08b0:s1 -> Node0x18c0950;
+	Node0x18c0900 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ead5c970",label="{%15:\l15:                                               \l  %16 = load i1 (%struct.item*)*, i1 (%struct.item*)** %5, align 8, !dbg !713,\l... !tbaa !693\l  %17 = load %struct.item*, %struct.item** %4, align 8, !dbg !714, !tbaa !693\l  %18 = call zeroext i1 %16(%struct.item* noundef %17), !dbg !715\l  store i1 %18, i1* %3, align 1, !dbg !716\l  br label %52, !dbg !716\l}"];
+	Node0x18c0900 -> Node0x18c0d10;
+	Node0x18c0950 [shape=record,color="#b70d28ff", style=filled, fillcolor="#c32e3170",label="{%19:\l19:                                               \l  %20 = load %struct.item*, %struct.item** %4, align 8, !dbg !717, !tbaa !693\l  %21 = getelementptr inbounds %struct.item, %struct.item* %20, i32 0, i32 1,\l... !dbg !720\l  %22 = load %struct.item*, %struct.item** %21, align 8, !dbg !720, !tbaa !702\l  %23 = icmp ne %struct.item* %22, null, !dbg !721\l  br i1 %23, label %24, label %32, !dbg !722\l|{<s0>T|<s1>F}}"];
+	Node0x18c0950:s0 -> Node0x18c09a0;
+	Node0x18c0950:s1 -> Node0x18c0a90;
+	Node0x18c09a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e36c5570",label="{%24:\l24:                                               \l  %25 = load %struct.item*, %struct.item** %4, align 8, !dbg !723, !tbaa !693\l  %26 = getelementptr inbounds %struct.item, %struct.item* %25, i32 0, i32 1,\l... !dbg !725\l  %27 = load %struct.item*, %struct.item** %26, align 8, !dbg !725, !tbaa !702\l  %28 = load i1 (%struct.item*)*, i1 (%struct.item*)** %5, align 8, !dbg !726,\l... !tbaa !693\l  %29 = call zeroext i1 @recurse_tree(%struct.item* noundef %27, i1\l... (%struct.item*)* noundef %28), !dbg !727\l  br i1 %29, label %30, label %31, !dbg !728\l|{<s0>T|<s1>F}}"];
+	Node0x18c09a0:s0 -> Node0x18c09f0;
+	Node0x18c09a0:s1 -> Node0x18c0a40;
+	Node0x18c09f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%30:\l30:                                               \l  store i1 true, i1* %3, align 1, !dbg !729\l  br label %52, !dbg !729\l}"];
+	Node0x18c09f0 -> Node0x18c0d10;
+	Node0x18c0a40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%31:\l31:                                               \l  br label %32, !dbg !730\l}"];
+	Node0x18c0a40 -> Node0x18c0a90;
+	Node0x18c0a90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#de614d70",label="{%32:\l32:                                               \l  %33 = load i1 (%struct.item*)*, i1 (%struct.item*)** %5, align 8, !dbg !731,\l... !tbaa !693\l  %34 = load %struct.item*, %struct.item** %4, align 8, !dbg !733, !tbaa !693\l  %35 = call zeroext i1 %33(%struct.item* noundef %34), !dbg !734\l  br i1 %35, label %36, label %37, !dbg !735\l|{<s0>T|<s1>F}}"];
+	Node0x18c0a90:s0 -> Node0x18c0ae0;
+	Node0x18c0a90:s1 -> Node0x18c0b30;
+	Node0x18c0ae0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6a38570",label="{%36:\l36:                                               \l  store i1 true, i1* %3, align 1, !dbg !736\l  br label %52, !dbg !736\l}"];
+	Node0x18c0ae0 -> Node0x18c0d10;
+	Node0x18c0b30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6a38570",label="{%37:\l37:                                               \l  %38 = load %struct.item*, %struct.item** %4, align 8, !dbg !737, !tbaa !693\l  %39 = getelementptr inbounds %struct.item, %struct.item* %38, i32 0, i32 2,\l... !dbg !739\l  %40 = load %struct.item*, %struct.item** %39, align 8, !dbg !739, !tbaa !710\l  %41 = icmp ne %struct.item* %40, null, !dbg !740\l  br i1 %41, label %42, label %50, !dbg !741\l|{<s0>T|<s1>F}}"];
+	Node0x18c0b30:s0 -> Node0x18c0b80;
+	Node0x18c0b30:s1 -> Node0x18c0c70;
+	Node0x18c0b80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4c5ad70",label="{%42:\l42:                                               \l  %43 = load %struct.item*, %struct.item** %4, align 8, !dbg !742, !tbaa !693\l  %44 = getelementptr inbounds %struct.item, %struct.item* %43, i32 0, i32 2,\l... !dbg !744\l  %45 = load %struct.item*, %struct.item** %44, align 8, !dbg !744, !tbaa !710\l  %46 = load i1 (%struct.item*)*, i1 (%struct.item*)** %5, align 8, !dbg !745,\l... !tbaa !693\l  %47 = call zeroext i1 @recurse_tree(%struct.item* noundef %45, i1\l... (%struct.item*)* noundef %46), !dbg !746\l  br i1 %47, label %48, label %49, !dbg !747\l|{<s0>T|<s1>F}}"];
+	Node0x18c0b80:s0 -> Node0x18c0bd0;
+	Node0x18c0b80:s1 -> Node0x18c0c20;
+	Node0x18c0bd0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%48:\l48:                                               \l  store i1 true, i1* %3, align 1, !dbg !748\l  br label %52, !dbg !748\l}"];
+	Node0x18c0bd0 -> Node0x18c0d10;
+	Node0x18c0c20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%49:\l49:                                               \l  br label %50, !dbg !749\l}"];
+	Node0x18c0c20 -> Node0x18c0c70;
+	Node0x18c0c70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5c1a970",label="{%50:\l50:                                               \l  br label %51\l}"];
+	Node0x18c0c70 -> Node0x18c0cc0;
+	Node0x18c0cc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5c1a970",label="{%51:\l51:                                               \l  store i1 false, i1* %3, align 1, !dbg !750\l  br label %52, !dbg !750\l}"];
+	Node0x18c0cc0 -> Node0x18c0d10;
+	Node0x18c0d10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%52:\l52:                                               \l  %53 = load i1, i1* %3, align 1, !dbg !751\l  ret i1 %53, !dbg !751\l}"];
+}

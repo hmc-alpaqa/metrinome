@@ -1,0 +1,17 @@
+digraph "CFG for 'fd_ring_clear' function" {
+	label="CFG for 'fd_ring_clear' function";
+
+	Node0x1d5e2e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%1:\l  %2 = alloca %struct.I_ring*, align 8\l  %3 = alloca i32, align 4\l  store %struct.I_ring* %0, %struct.I_ring** %2, align 8, !tbaa !1019\l  call void @llvm.dbg.declare(metadata %struct.I_ring** %2, metadata !1016,\l... metadata !DIExpression()), !dbg !1023\l  br label %4, !dbg !1024\l}"];
+	Node0x1d5e2e0 -> Node0x1cda940;
+	Node0x1cda940 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l4:                                                \l  %5 = load %struct.I_ring*, %struct.I_ring** %2, align 8, !dbg !1025, !tbaa\l... !1019\l  %6 = call zeroext i1 @i_ring_empty(%struct.I_ring* noundef %5) #22, !dbg\l... !1026\l  %7 = xor i1 %6, true, !dbg !1027\l  br i1 %7, label %8, label %19, !dbg !1024\l|{<s0>T|<s1>F}}"];
+	Node0x1cda940:s0 -> Node0x1cda990;
+	Node0x1cda940:s1 -> Node0x1cdaa80;
+	Node0x1cda990 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%8:\l8:                                                \l  %9 = bitcast i32* %3 to i8*, !dbg !1028\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %9) #23, !dbg !1028\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1017, metadata\l... !DIExpression()), !dbg !1029\l  %10 = load %struct.I_ring*, %struct.I_ring** %2, align 8, !dbg !1030, !tbaa\l... !1019\l  %11 = call i32 @i_ring_pop(%struct.I_ring* noundef %10), !dbg !1031\l  store i32 %11, i32* %3, align 4, !dbg !1029, !tbaa !1032\l  %12 = load i32, i32* %3, align 4, !dbg !1034, !tbaa !1032\l  %13 = icmp sle i32 0, %12, !dbg !1036\l  br i1 %13, label %14, label %17, !dbg !1037\l|{<s0>T|<s1>F}}"];
+	Node0x1cda990:s0 -> Node0x1cda9e0;
+	Node0x1cda990:s1 -> Node0x1cdaa30;
+	Node0x1cda9e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%14:\l14:                                               \l  %15 = load i32, i32* %3, align 4, !dbg !1038, !tbaa !1032\l  %16 = call i32 @close(i32 noundef %15), !dbg !1039\l  br label %17, !dbg !1039\l}"];
+	Node0x1cda9e0 -> Node0x1cdaa30;
+	Node0x1cdaa30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%17:\l17:                                               \l  %18 = bitcast i32* %3 to i8*, !dbg !1040\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %18) #23, !dbg !1040\l  br label %4, !dbg !1024, !llvm.loop !1041\l}"];
+	Node0x1cdaa30 -> Node0x1cda940;
+	Node0x1cdaa80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%19:\l19:                                               \l  ret void, !dbg !1044\l}"];
+}

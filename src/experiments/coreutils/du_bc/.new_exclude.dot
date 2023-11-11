@@ -1,0 +1,5 @@
+digraph "CFG for 'new_exclude' function" {
+	label="CFG for 'new_exclude' function";
+
+	Node0x23f3520 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = call noalias nonnull i8* @xzalloc(i64 noundef 16) #24, !dbg !1516\l  %2 = bitcast i8* %1 to %struct.exclude*, !dbg !1516\l  ret %struct.exclude* %2, !dbg !1517\l}"];
+}

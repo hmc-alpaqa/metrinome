@@ -1,0 +1,9 @@
+digraph "CFG for 'require_more_args' function" {
+	label="CFG for 'require_more_args' function";
+
+	Node0x2537e20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = call zeroext i1 @nomoreargs(), !dbg !791\l  br i1 %1, label %2, label %7, !dbg !793\l|{<s0>T|<s1>F}}"];
+	Node0x2537e20:s0 -> Node0x2537eb0;
+	Node0x2537e20:s1 -> Node0x2537f00;
+	Node0x2537eb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%2:\l2:                                                \l  %3 = load i8**, i8*** @args, align 8, !dbg !794, !tbaa !795\l  %4 = getelementptr inbounds i8*, i8** %3, i64 -1, !dbg !794\l  %5 = load i8*, i8** %4, align 8, !dbg !794, !tbaa !795\l  %6 = call i8* @quotearg_n_style(i32 noundef 0, i32 noundef 8, i8* noundef\l... %5), !dbg !794\l  call void (i32, i32, i8*, ...) @error(i32 noundef 2, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([40 x i8], [40 x i8]* @.str.63, i64 0, i64\l... 0), i8* noundef %6), !dbg !794\l  unreachable, !dbg !794\l}"];
+	Node0x2537f00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  ret void, !dbg !799\l}"];
+}

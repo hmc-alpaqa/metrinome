@@ -1,0 +1,35 @@
+digraph "CFG for 'set_speed' function" {
+	label="CFG for 'set_speed' function";
+
+	Node0x16e46d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.termios*, align 8\l  %7 = alloca i32, align 4\l  store i32 %0, i32* %4, align 4, !tbaa !1084\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1080, metadata\l... !DIExpression()), !dbg !1087\l  store i8* %1, i8** %5, align 8, !tbaa !1088\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1081, metadata\l... !DIExpression()), !dbg !1090\l  store %struct.termios* %2, %struct.termios** %6, align 8, !tbaa !1088\l  call void @llvm.dbg.declare(metadata %struct.termios** %6, metadata !1082,\l... metadata !DIExpression()), !dbg !1091\l  %8 = bitcast i32* %7 to i8*, !dbg !1092\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #23, !dbg !1092\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !1083, metadata\l... !DIExpression()), !dbg !1093\l  %9 = load i8*, i8** %5, align 8, !dbg !1094, !tbaa !1088\l  %10 = call i32 @string_to_baud(i8* noundef %9), !dbg !1095\l  store i32 %10, i32* %7, align 4, !dbg !1093, !tbaa !1096\l  %11 = load i32, i32* %7, align 4, !dbg !1098, !tbaa !1096\l  %12 = icmp ne i32 %11, -1, !dbg !1098\l  br i1 %12, label %13, label %14, !dbg !1101\l|{<s0>T|<s1>F}}"];
+	Node0x16e46d0:s0 -> Node0x16e47a0;
+	Node0x16e46d0:s1 -> Node0x16e47f0;
+	Node0x16e47a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  br label %15, !dbg !1101\l}"];
+	Node0x16e47a0 -> Node0x16e4840;
+	Node0x16e47f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c7d7f070",label="{%14:\l14:                                               \l  call void @__assert_fail(i8* noundef getelementptr inbounds ([21 x i8], [21\l... x i8]* @.str.292, i64 0, i64 0), i8* noundef getelementptr inbounds ([14 x\l... i8], [14 x i8]* @.str.293, i64 0, i64 0), i32 noundef 1725, i8* noundef\l... getelementptr inbounds ([67 x i8], [67 x i8]* @__PRETTY_FUNCTION__.set_speed,\l... i64 0, i64 0)) #24, !dbg !1098\l  unreachable, !dbg !1098\l}"];
+	Node0x16e4840 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  %16 = load i32, i32* %4, align 4, !dbg !1102, !tbaa !1084\l  %17 = icmp eq i32 %16, 0, !dbg !1104\l  br i1 %17, label %21, label %18, !dbg !1105\l|{<s0>T|<s1>F}}"];
+	Node0x16e4840:s0 -> Node0x16e48e0;
+	Node0x16e4840:s1 -> Node0x16e4890;
+	Node0x16e4890 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%18:\l18:                                               \l  %19 = load i32, i32* %4, align 4, !dbg !1106, !tbaa !1084\l  %20 = icmp eq i32 %19, 2, !dbg !1107\l  br i1 %20, label %21, label %31, !dbg !1108\l|{<s0>T|<s1>F}}"];
+	Node0x16e4890:s0 -> Node0x16e48e0;
+	Node0x16e4890:s1 -> Node0x16e49d0;
+	Node0x16e48e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%21:\l21:                                               \l  %22 = load i32, i32* %7, align 4, !dbg !1109, !tbaa !1096\l  store i32 %22, i32* @last_ibaud, align 4, !dbg !1111, !tbaa !1096\l  %23 = load %struct.termios*, %struct.termios** %6, align 8, !dbg !1112,\l... !tbaa !1088\l  %24 = load i32, i32* %7, align 4, !dbg !1114, !tbaa !1096\l  %25 = call i32 @cfsetispeed(%struct.termios* noundef %23, i32 noundef %24)\l... #23, !dbg !1115\l  %26 = icmp ne i32 %25, 0, !dbg !1115\l  br i1 %26, label %27, label %30, !dbg !1116\l|{<s0>T|<s1>F}}"];
+	Node0x16e48e0:s0 -> Node0x16e4930;
+	Node0x16e48e0:s1 -> Node0x16e4980;
+	Node0x16e4930 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%27:\l27:                                               \l  %28 = load i8*, i8** %5, align 8, !dbg !1117, !tbaa !1088\l  %29 = call i8* @quotearg_style(i32 noundef 4, i8* noundef %28), !dbg !1117\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([22 x i8], [22 x i8]* @.str.294, i64 0, i64\l... 0), i8* noundef %29), !dbg !1117\l  unreachable, !dbg !1117\l}"];
+	Node0x16e4980 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%30:\l30:                                               \l  br label %31, !dbg !1118\l}"];
+	Node0x16e4980 -> Node0x16e49d0;
+	Node0x16e49d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%31:\l31:                                               \l  %32 = load i32, i32* %4, align 4, !dbg !1119, !tbaa !1084\l  %33 = icmp eq i32 %32, 1, !dbg !1121\l  br i1 %33, label %37, label %34, !dbg !1122\l|{<s0>T|<s1>F}}"];
+	Node0x16e49d0:s0 -> Node0x16e4a70;
+	Node0x16e49d0:s1 -> Node0x16e4a20;
+	Node0x16e4a20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%34:\l34:                                               \l  %35 = load i32, i32* %4, align 4, !dbg !1123, !tbaa !1084\l  %36 = icmp eq i32 %35, 2, !dbg !1124\l  br i1 %36, label %37, label %47, !dbg !1125\l|{<s0>T|<s1>F}}"];
+	Node0x16e4a20:s0 -> Node0x16e4a70;
+	Node0x16e4a20:s1 -> Node0x16e4b60;
+	Node0x16e4a70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%37:\l37:                                               \l  %38 = load i32, i32* %7, align 4, !dbg !1126, !tbaa !1096\l  store i32 %38, i32* @last_obaud, align 4, !dbg !1128, !tbaa !1096\l  %39 = load %struct.termios*, %struct.termios** %6, align 8, !dbg !1129,\l... !tbaa !1088\l  %40 = load i32, i32* %7, align 4, !dbg !1131, !tbaa !1096\l  %41 = call i32 @cfsetospeed(%struct.termios* noundef %39, i32 noundef %40)\l... #23, !dbg !1132\l  %42 = icmp ne i32 %41, 0, !dbg !1132\l  br i1 %42, label %43, label %46, !dbg !1133\l|{<s0>T|<s1>F}}"];
+	Node0x16e4a70:s0 -> Node0x16e4ac0;
+	Node0x16e4a70:s1 -> Node0x16e4b10;
+	Node0x16e4ac0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%43:\l43:                                               \l  %44 = load i8*, i8** %5, align 8, !dbg !1134, !tbaa !1088\l  %45 = call i8* @quotearg_style(i32 noundef 4, i8* noundef %44), !dbg !1134\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([22 x i8], [22 x i8]* @.str.295, i64 0, i64\l... 0), i8* noundef %45), !dbg !1134\l  unreachable, !dbg !1134\l}"];
+	Node0x16e4b10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%46:\l46:                                               \l  br label %47, !dbg !1135\l}"];
+	Node0x16e4b10 -> Node0x16e4b60;
+	Node0x16e4b60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%47:\l47:                                               \l  %48 = bitcast i32* %7 to i8*, !dbg !1136\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %48) #23, !dbg !1136\l  ret void, !dbg !1136\l}"];
+}

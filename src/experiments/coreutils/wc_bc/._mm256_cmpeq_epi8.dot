@@ -1,0 +1,5 @@
+digraph "CFG for '_mm256_cmpeq_epi8' function" {
+	label="CFG for '_mm256_cmpeq_epi8' function";
+
+	Node0x2066300 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca \<4 x i64\>, align 32\l  %4 = alloca \<4 x i64\>, align 32\l  store \<4 x i64\> %0, \<4 x i64\>* %3, align 32, !tbaa !1291\l  store \<4 x i64\> %1, \<4 x i64\>* %4, align 32, !tbaa !1291\l  %5 = load \<4 x i64\>, \<4 x i64\>* %3, align 32, !tbaa !1291\l  %6 = bitcast \<4 x i64\> %5 to \<32 x i8\>\l  %7 = load \<4 x i64\>, \<4 x i64\>* %4, align 32, !tbaa !1291\l  %8 = bitcast \<4 x i64\> %7 to \<32 x i8\>\l  %9 = icmp eq \<32 x i8\> %6, %8\l  %10 = sext \<32 x i1\> %9 to \<32 x i8\>\l  %11 = bitcast \<32 x i8\> %10 to \<4 x i64\>\l  ret \<4 x i64\> %11\l}"];
+}

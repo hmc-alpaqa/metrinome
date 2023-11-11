@@ -1,0 +1,5 @@
+digraph "CFG for 'get_stat_atime' function" {
+	label="CFG for 'get_stat_atime' function";
+
+	Node0x251ae50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.dev_ino, align 8\l  %3 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %3, align 8, !tbaa !1897\l  call void @llvm.dbg.declare(metadata %struct.stat** %3, metadata !1896,\l... metadata !DIExpression()), !dbg !1901\l  %4 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1902, !tbaa !1897\l  %5 = getelementptr inbounds %struct.stat, %struct.stat* %4, i32 0, i32 11,\l... !dbg !1902\l  %6 = bitcast %struct.dev_ino* %2 to i8*, !dbg !1902\l  %7 = bitcast %struct.dev_ino* %5 to i8*, !dbg !1902\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 8 %6, i8* align 8 %7, i64 16,\l... i1 false), !dbg !1902, !tbaa.struct !1903\l  %8 = bitcast %struct.dev_ino* %2 to \{ i64, i64 \}*, !dbg !1906\l  %9 = load \{ i64, i64 \}, \{ i64, i64 \}* %8, align 8, !dbg !1906\l  ret \{ i64, i64 \} %9, !dbg !1906\l}"];
+}

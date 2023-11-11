@@ -1,0 +1,5 @@
+digraph "CFG for 'gmp_detect_endian' function" {
+	label="CFG for 'gmp_detect_endian' function";
+
+	Node0x28ecc10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca i8*, align 8\l  %2 = bitcast i8** %1 to i8*, !dbg !787\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %2) #22, !dbg !787\l  call void @llvm.dbg.declare(metadata i8** %1, metadata !190, metadata\l... !DIExpression()), !dbg !788\l  store i8* bitcast (i32* @gmp_detect_endian.i to i8*), i8** %1, align 8, !dbg\l... !788, !tbaa !789\l  %3 = load i8*, i8** %1, align 8, !dbg !793, !tbaa !789\l  %4 = load i8, i8* %3, align 1, !dbg !794, !tbaa !795\l  %5 = zext i8 %4 to i32, !dbg !794\l  %6 = sub nsw i32 1, %5, !dbg !796\l  %7 = bitcast i8** %1 to i8*, !dbg !797\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %7) #22, !dbg !797\l  ret i32 %6, !dbg !798\l}"];
+}

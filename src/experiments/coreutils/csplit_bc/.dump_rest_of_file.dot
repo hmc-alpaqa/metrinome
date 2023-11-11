@@ -1,0 +1,12 @@
+digraph "CFG for 'dump_rest_of_file' function" {
+	label="CFG for 'dump_rest_of_file' function";
+
+	Node0x2379300 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%0:\l  %1 = alloca %struct.cstring*, align 8\l  %2 = bitcast %struct.cstring** %1 to i8*, !dbg !1027\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %2) #22, !dbg !1027\l  call void @llvm.dbg.declare(metadata %struct.cstring** %1, metadata !1026,\l... metadata !DIExpression()), !dbg !1028\l  br label %3, !dbg !1029\l}"];
+	Node0x2379300 -> Node0x2379400;
+	Node0x2379400 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l3:                                                \l  %4 = call %struct.cstring* @remove_line(), !dbg !1030\l  store %struct.cstring* %4, %struct.cstring** %1, align 8, !dbg !1031, !tbaa\l... !1032\l  %5 = icmp ne %struct.cstring* %4, null, !dbg !1036\l  br i1 %5, label %6, label %8, !dbg !1029\l|{<s0>T|<s1>F}}"];
+	Node0x2379400:s0 -> Node0x2379450;
+	Node0x2379400:s1 -> Node0x23794a0;
+	Node0x2379450 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%6:\l6:                                                \l  %7 = load %struct.cstring*, %struct.cstring** %1, align 8, !dbg !1037, !tbaa\l... !1032\l  call void @save_line_to_file(%struct.cstring* noundef %7), !dbg !1038\l  br label %3, !dbg !1029, !llvm.loop !1039\l}"];
+	Node0x2379450 -> Node0x2379400;
+	Node0x23794a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%8:\l8:                                                \l  %9 = bitcast %struct.cstring** %1 to i8*, !dbg !1043\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %9) #22, !dbg !1043\l  ret void, !dbg !1043\l}"];
+}

@@ -1,0 +1,13 @@
+digraph "CFG for 'chown_failure_ok' function" {
+	label="CFG for 'chown_failure_ok' function";
+
+	Node0x122c1c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.cp_options*, align 8\l  store %struct.cp_options* %0, %struct.cp_options** %2, align 8, !tbaa !1552\l  call void @llvm.dbg.declare(metadata %struct.cp_options** %2, metadata\l... !1551, metadata !DIExpression()), !dbg !1556\l  %3 = call i32* @__errno_location() #26, !dbg !1557\l  %4 = load i32, i32* %3, align 4, !dbg !1557, !tbaa !1558\l  %5 = icmp eq i32 %4, 1, !dbg !1560\l  br i1 %5, label %10, label %6, !dbg !1561\l|{<s0>T|<s1>F}}"];
+	Node0x122c1c0:s0 -> Node0x122c290;
+	Node0x122c1c0:s1 -> Node0x122c240;
+	Node0x122c240 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%6:\l6:                                                \l  %7 = call i32* @__errno_location() #26, !dbg !1562\l  %8 = load i32, i32* %7, align 4, !dbg !1562, !tbaa !1558\l  %9 = icmp eq i32 %8, 22, !dbg !1563\l  br i1 %9, label %10, label %16, !dbg !1564\l|{<s0>T|<s1>F}}"];
+	Node0x122c240:s0 -> Node0x122c290;
+	Node0x122c240:s1 -> Node0x122c2e0;
+	Node0x122c290 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d8564670",label="{%10:\l10:                                               \l  %11 = load %struct.cp_options*, %struct.cp_options** %2, align 8, !dbg\l... !1565, !tbaa !1552\l  %12 = getelementptr inbounds %struct.cp_options, %struct.cp_options* %11,\l... i32 0, i32 12, !dbg !1566\l  %13 = load i8, i8* %12, align 1, !dbg !1566, !tbaa !1567, !range !1570\l  %14 = trunc i8 %13 to i1, !dbg !1566\l  %15 = xor i1 %14, true, !dbg !1571\l  br label %16\l}"];
+	Node0x122c290 -> Node0x122c2e0;
+	Node0x122c2e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = phi i1 [ false, %6 ], [ %15, %10 ], !dbg !1572\l  ret i1 %17, !dbg !1573\l}"];
+}

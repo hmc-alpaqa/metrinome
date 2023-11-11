@@ -1,0 +1,12 @@
+digraph "CFG for 'xsum' function" {
+	label="CFG for 'xsum' function";
+
+	Node0x13f37a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !1229\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1226, metadata\l... !DIExpression()), !dbg !1233\l  store i64 %1, i64* %4, align 8, !tbaa !1229\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1227, metadata\l... !DIExpression()), !dbg !1234\l  %6 = bitcast i64* %5 to i8*, !dbg !1235\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #22, !dbg !1235\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !1228, metadata\l... !DIExpression()), !dbg !1236\l  %7 = load i64, i64* %3, align 8, !dbg !1237, !tbaa !1229\l  %8 = load i64, i64* %4, align 8, !dbg !1238, !tbaa !1229\l  %9 = add i64 %7, %8, !dbg !1239\l  store i64 %9, i64* %5, align 8, !dbg !1236, !tbaa !1229\l  %10 = load i64, i64* %5, align 8, !dbg !1240, !tbaa !1229\l  %11 = load i64, i64* %3, align 8, !dbg !1241, !tbaa !1229\l  %12 = icmp uge i64 %10, %11, !dbg !1242\l  br i1 %12, label %13, label %15, !dbg !1240\l|{<s0>T|<s1>F}}"];
+	Node0x13f37a0:s0 -> Node0x13326b0;
+	Node0x13f37a0:s1 -> Node0x1332700;
+	Node0x13326b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%13:\l13:                                               \l  %14 = load i64, i64* %5, align 8, !dbg !1243, !tbaa !1229\l  br label %16, !dbg !1240\l}"];
+	Node0x13326b0 -> Node0x1332750;
+	Node0x1332700 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%15:\l15:                                               \l  br label %16, !dbg !1240\l}"];
+	Node0x1332700 -> Node0x1332750;
+	Node0x1332750 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = phi i64 [ %14, %13 ], [ -1, %15 ], !dbg !1240\l  %18 = bitcast i64* %5 to i8*, !dbg !1244\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %18) #22, !dbg !1244\l  ret i64 %17, !dbg !1245\l}"];
+}

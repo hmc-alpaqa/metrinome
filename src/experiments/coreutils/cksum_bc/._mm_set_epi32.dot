@@ -1,0 +1,5 @@
+digraph "CFG for '_mm_set_epi32' function" {
+	label="CFG for '_mm_set_epi32' function";
+
+	Node0x27c35a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  %8 = alloca i32, align 4\l  %9 = alloca \<4 x i32\>, align 16\l  store i32 %0, i32* %5, align 4, !tbaa !1279\l  store i32 %1, i32* %6, align 4, !tbaa !1279\l  store i32 %2, i32* %7, align 4, !tbaa !1279\l  store i32 %3, i32* %8, align 4, !tbaa !1279\l  %10 = load i32, i32* %8, align 4, !tbaa !1279\l  %11 = insertelement \<4 x i32\> undef, i32 %10, i32 0\l  %12 = load i32, i32* %7, align 4, !tbaa !1279\l  %13 = insertelement \<4 x i32\> %11, i32 %12, i32 1\l  %14 = load i32, i32* %6, align 4, !tbaa !1279\l  %15 = insertelement \<4 x i32\> %13, i32 %14, i32 2\l  %16 = load i32, i32* %5, align 4, !tbaa !1279\l  %17 = insertelement \<4 x i32\> %15, i32 %16, i32 3\l  store \<4 x i32\> %17, \<4 x i32\>* %9, align 16, !tbaa !1283\l  %18 = load \<4 x i32\>, \<4 x i32\>* %9, align 16, !tbaa !1283\l  %19 = bitcast \<4 x i32\> %18 to \<2 x i64\>\l  ret \<2 x i64\> %19\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for '_mm_shuffle_epi8' function" {
+	label="CFG for '_mm_shuffle_epi8' function";
+
+	Node0x27c2ff0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca \<2 x i64\>, align 16\l  %4 = alloca \<2 x i64\>, align 16\l  store \<2 x i64\> %0, \<2 x i64\>* %3, align 16, !tbaa !1279\l  store \<2 x i64\> %1, \<2 x i64\>* %4, align 16, !tbaa !1279\l  %5 = load \<2 x i64\>, \<2 x i64\>* %3, align 16, !tbaa !1279\l  %6 = bitcast \<2 x i64\> %5 to \<16 x i8\>\l  %7 = load \<2 x i64\>, \<2 x i64\>* %4, align 16, !tbaa !1279\l  %8 = bitcast \<2 x i64\> %7 to \<16 x i8\>\l  %9 = call \<16 x i8\> @llvm.x86.ssse3.pshuf.b.128(\<16 x i8\> %6, \<16 x i8\> %8)\l  %10 = bitcast \<16 x i8\> %9 to \<2 x i64\>\l  ret \<2 x i64\> %10\l}"];
+}

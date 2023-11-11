@@ -1,0 +1,30 @@
+digraph "CFG for 'print_filename' function" {
+	label="CFG for 'print_filename' function";
+
+	Node0x7d3960 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8, align 1\l  store i8* %0, i8** %3, align 8, !tbaa !738\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !736, metadata\l... !DIExpression()), !dbg !742\l  %5 = zext i1 %1 to i8\l  store i8 %5, i8* %4, align 1, !tbaa !743\l  call void @llvm.dbg.declare(metadata i8* %4, metadata !737, metadata\l... !DIExpression()), !dbg !745\l  %6 = load i8, i8* %4, align 1, !dbg !746, !tbaa !743, !range !748\l  %7 = trunc i8 %6 to i1, !dbg !746\l  br i1 %7, label %12, label %8, !dbg !749\l|{<s0>T|<s1>F}}"];
+	Node0x7d3960:s0 -> Node0x7d5260;
+	Node0x7d3960:s1 -> Node0x7d5210;
+	Node0x7d5210 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%8:\l8:                                                \l  %9 = load i8*, i8** %3, align 8, !dbg !750, !tbaa !738\l  %10 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !750, !tbaa !738\l  %11 = call i32 @fputs_unlocked(i8* noundef %9, %struct._IO_FILE* noundef\l... %10), !dbg !750\l  br label %38, !dbg !752\l}"];
+	Node0x7d5210 -> Node0x7d54e0;
+	Node0x7d5260 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%12:\l12:                                               \l  br label %13, !dbg !753\l}"];
+	Node0x7d5260 -> Node0x7d52b0;
+	Node0x7d52b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %3, align 8, !dbg !754, !tbaa !738\l  %15 = load i8, i8* %14, align 1, !dbg !755, !tbaa !756\l  %16 = icmp ne i8 %15, 0, !dbg !753\l  br i1 %16, label %17, label %38, !dbg !753\l|{<s0>T|<s1>F}}"];
+	Node0x7d52b0:s0 -> Node0x7d5300;
+	Node0x7d52b0:s1 -> Node0x7d54e0;
+	Node0x7d5300 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%17:\l17:                                               \l  %18 = load i8*, i8** %3, align 8, !dbg !757, !tbaa !738\l  %19 = load i8, i8* %18, align 1, !dbg !759, !tbaa !756\l  %20 = sext i8 %19 to i32, !dbg !759\l  switch i32 %20, label %30 [\l    i32 10, label %21\l    i32 13, label %24\l    i32 92, label %27\l  ], !dbg !760\l|{<s0>def|<s1>10|<s2>13|<s3>92}}"];
+	Node0x7d5300:s0 -> Node0x7d5440;
+	Node0x7d5300:s1 -> Node0x7d5350;
+	Node0x7d5300:s2 -> Node0x7d53a0;
+	Node0x7d5300:s3 -> Node0x7d53f0;
+	Node0x7d5350 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5a08170",label="{%21:\l21:                                               \l  %22 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !761, !tbaa !738\l  %23 = call i32 @fputs_unlocked(i8* noundef getelementptr inbounds ([3 x i8],\l... [3 x i8]* @.str.82, i64 0, i64 0), %struct._IO_FILE* noundef %22), !dbg !761\l  br label %35, !dbg !763\l}"];
+	Node0x7d5350 -> Node0x7d5490;
+	Node0x7d53a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%24:\l24:                                               \l  %25 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !764, !tbaa !738\l  %26 = call i32 @fputs_unlocked(i8* noundef getelementptr inbounds ([3 x i8],\l... [3 x i8]* @.str.83, i64 0, i64 0), %struct._IO_FILE* noundef %25), !dbg !764\l  br label %35, !dbg !765\l}"];
+	Node0x7d53a0 -> Node0x7d5490;
+	Node0x7d53f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%27:\l27:                                               \l  %28 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !766, !tbaa !738\l  %29 = call i32 @fputs_unlocked(i8* noundef getelementptr inbounds ([3 x i8],\l... [3 x i8]* @.str.84, i64 0, i64 0), %struct._IO_FILE* noundef %28), !dbg !766\l  br label %35, !dbg !767\l}"];
+	Node0x7d53f0 -> Node0x7d5490;
+	Node0x7d5440 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5a08170",label="{%30:\l30:                                               \l  %31 = load i8*, i8** %3, align 8, !dbg !768, !tbaa !738\l  %32 = load i8, i8* %31, align 1, !dbg !768, !tbaa !756\l  %33 = sext i8 %32 to i32, !dbg !768\l  %34 = call i32 @putchar_unlocked(i32 noundef %33), !dbg !768\l  br label %35, !dbg !769\l}"];
+	Node0x7d5440 -> Node0x7d5490;
+	Node0x7d5490 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%35:\l35:                                               \l  %36 = load i8*, i8** %3, align 8, !dbg !770, !tbaa !738\l  %37 = getelementptr inbounds i8, i8* %36, i32 1, !dbg !770\l  store i8* %37, i8** %3, align 8, !dbg !770, !tbaa !738\l  br label %13, !dbg !753, !llvm.loop !771\l}"];
+	Node0x7d5490 -> Node0x7d52b0;
+	Node0x7d54e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%38:\l38:                                               \l  ret void, !dbg !775\l}"];
+}

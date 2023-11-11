@@ -1,0 +1,5 @@
+digraph "CFG for 'mpz_init_set_d' function" {
+	label="CFG for 'mpz_init_set_d' function";
+
+	Node0x1bcbeb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.__mpz_struct*, align 8\l  %4 = alloca double, align 8\l  store %struct.__mpz_struct* %0, %struct.__mpz_struct** %3, align 8, !tbaa\l... !785\l  call void @llvm.dbg.declare(metadata %struct.__mpz_struct** %3, metadata\l... !783, metadata !DIExpression()), !dbg !789\l  store double %1, double* %4, align 8, !tbaa !790\l  call void @llvm.dbg.declare(metadata double* %4, metadata !784, metadata\l... !DIExpression()), !dbg !792\l  %5 = load %struct.__mpz_struct*, %struct.__mpz_struct** %3, align 8, !dbg\l... !793, !tbaa !785\l  call void @mpz_init(%struct.__mpz_struct* noundef %5), !dbg !794\l  %6 = load %struct.__mpz_struct*, %struct.__mpz_struct** %3, align 8, !dbg\l... !795, !tbaa !785\l  %7 = load double, double* %4, align 8, !dbg !796, !tbaa !790\l  call void @mpz_set_d(%struct.__mpz_struct* noundef %6, double noundef %7),\l... !dbg !797\l  ret void, !dbg !798\l}"];
+}

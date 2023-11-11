@@ -1,0 +1,12 @@
+digraph "CFG for 'irealloc' function" {
+	label="CFG for 'irealloc' function";
+
+	Node0xbd0f50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1233\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1231, metadata\l... !DIExpression()), !dbg !1237\l  store i64 %1, i64* %4, align 8, !tbaa !1238\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1232, metadata\l... !DIExpression()), !dbg !1240\l  %5 = load i64, i64* %4, align 8, !dbg !1241, !tbaa !1238\l  %6 = icmp ule i64 %5, -1, !dbg !1242\l  br i1 %6, label %7, label %17, !dbg !1241\l|{<s0>T|<s1>F}}"];
+	Node0xbd0f50:s0 -> Node0xbd0fa0;
+	Node0xbd0f50:s1 -> Node0xbd0ff0;
+	Node0xbd0fa0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%7:\l7:                                                \l  %8 = load i8*, i8** %3, align 8, !dbg !1243, !tbaa !1233\l  %9 = load i64, i64* %4, align 8, !dbg !1244, !tbaa !1238\l  %10 = load i64, i64* %4, align 8, !dbg !1245, !tbaa !1238\l  %11 = icmp ne i64 %10, 0, !dbg !1246\l  %12 = xor i1 %11, true, !dbg !1246\l  %13 = zext i1 %12 to i32, !dbg !1246\l  %14 = sext i32 %13 to i64, !dbg !1246\l  %15 = or i64 %9, %14, !dbg !1247\l  %16 = call i8* @realloc(i8* noundef %8, i64 noundef %15) #24, !dbg !1248\l  br label %19, !dbg !1241\l}"];
+	Node0xbd0fa0 -> Node0xbd1040;
+	Node0xbd0ff0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c7d7f070",label="{%17:\l17:                                               \l  %18 = call i8* @_gl_alloc_nomem() #25, !dbg !1249\l  br label %19, !dbg !1241\l}"];
+	Node0xbd0ff0 -> Node0xbd1040;
+	Node0xbd1040 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  %20 = phi i8* [ %16, %7 ], [ %18, %17 ], !dbg !1241\l  ret i8* %20, !dbg !1250\l}"];
+}

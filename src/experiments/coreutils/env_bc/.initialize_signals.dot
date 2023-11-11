@@ -1,0 +1,16 @@
+digraph "CFG for 'initialize_signals' function" {
+	label="CFG for 'initialize_signals' function";
+
+	Node0x8d27d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%0:\l  %1 = alloca i32, align 4\l  %2 = call noalias nonnull i8* @xmalloc(i64 noundef 260) #21, !dbg !748\l  %3 = bitcast i8* %2 to i32*, !dbg !748\l  store i32* %3, i32** @signals, align 8, !dbg !749, !tbaa !750\l  %4 = bitcast i32* %1 to i8*, !dbg !754\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %4) #22, !dbg !754\l  call void @llvm.dbg.declare(metadata i32* %1, metadata !746, metadata\l... !DIExpression()), !dbg !755\l  store i32 0, i32* %1, align 4, !dbg !755, !tbaa !756\l  br label %5, !dbg !754\l}"];
+	Node0x8d27d0 -> Node0x8d2860;
+	Node0x8d2860 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  %6 = load i32, i32* %1, align 4, !dbg !758, !tbaa !756\l  %7 = icmp sle i32 %6, 64, !dbg !760\l  br i1 %7, label %10, label %8, !dbg !761\l|{<s0>T|<s1>F}}"];
+	Node0x8d2860:s0 -> Node0x8d2900;
+	Node0x8d2860:s1 -> Node0x8d28b0;
+	Node0x8d28b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%8:\l8:                                                \l  %9 = bitcast i32* %1 to i8*, !dbg !762\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %9) #22, !dbg !762\l  br label %18\l}"];
+	Node0x8d28b0 -> Node0x8d29a0;
+	Node0x8d2900 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%10:\l10:                                               \l  %11 = load i32*, i32** @signals, align 8, !dbg !763, !tbaa !750\l  %12 = load i32, i32* %1, align 4, !dbg !764, !tbaa !756\l  %13 = sext i32 %12 to i64, !dbg !763\l  %14 = getelementptr inbounds i32, i32* %11, i64 %13, !dbg !763\l  store i32 0, i32* %14, align 4, !dbg !765, !tbaa !766\l  br label %15, !dbg !763\l}"];
+	Node0x8d2900 -> Node0x8d2950;
+	Node0x8d2950 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%15:\l15:                                               \l  %16 = load i32, i32* %1, align 4, !dbg !767, !tbaa !756\l  %17 = add nsw i32 %16, 1, !dbg !767\l  store i32 %17, i32* %1, align 4, !dbg !767, !tbaa !756\l  br label %5, !dbg !762, !llvm.loop !768\l}"];
+	Node0x8d2950 -> Node0x8d2860;
+	Node0x8d29a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%18:\l18:                                               \l  ret void, !dbg !772\l}"];
+}

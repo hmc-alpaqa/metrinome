@@ -1,0 +1,5 @@
+digraph "CFG for 'quotearg_colon' function" {
+	label="CFG for 'quotearg_colon' function";
+
+	Node0x24f6230 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !1873\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !1872, metadata\l... !DIExpression()), !dbg !1877\l  %3 = load i8*, i8** %2, align 8, !dbg !1878, !tbaa !1873\l  %4 = call i8* @quotearg_char(i8* noundef %3, i8 noundef signext 58), !dbg\l... !1879\l  ret i8* %4, !dbg !1880\l}"];
+}

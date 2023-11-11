@@ -1,0 +1,13 @@
+digraph "CFG for 'openat_save_fail' function" {
+	label="CFG for 'openat_save_fail' function";
+
+	Node0x2433500 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !969\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !965, metadata\l... !DIExpression()), !dbg !973\l  %4 = bitcast i32* %3 to i8*, !dbg !974\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %4) #22, !dbg !974\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !966, metadata\l... !DIExpression()), !dbg !974\l  %5 = load volatile i32, i32* @exit_failure, align 4, !dbg !974, !tbaa !969\l  store i32 %5, i32* %3, align 4, !dbg !974, !tbaa !969\l  %6 = load i32, i32* %3, align 4, !dbg !974, !tbaa !969\l  %7 = load i32, i32* %2, align 4, !dbg !974, !tbaa !969\l  call void (i32, i32, i8*, ...) @error(i32 noundef %6, i32 noundef %7, i8*\l... noundef getelementptr inbounds ([43 x i8], [43 x i8]* @.str.287, i64 0, i64\l... 0)), !dbg !974\l  %8 = load i32, i32* %3, align 4, !dbg !974, !tbaa !969\l  %9 = icmp ne i32 %8, 0, !dbg !974\l  br i1 %9, label %10, label %12, !dbg !974\l|{<s0>T|<s1>F}}"];
+	Node0x2433500:s0 -> Node0x2433580;
+	Node0x2433500:s1 -> Node0x2433620;
+	Node0x2433580 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%10:\l10:                                               \l  unreachable, !dbg !974\l}"];
+	Node0x24335d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#3d50c370",label="{%11:\l11:                                               \l  br label %13, !dbg !974\l}"];
+	Node0x24335d0 -> Node0x2433670;
+	Node0x2433620 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  br label %13, !dbg !974\l}"];
+	Node0x2433620 -> Node0x2433670;
+	Node0x2433670 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = bitcast i32* %3 to i8*, !dbg !975\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %14) #22, !dbg !975\l  call void @abort() #23, !dbg !976\l  unreachable, !dbg !976\l}"];
+}

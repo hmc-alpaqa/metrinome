@@ -1,0 +1,5 @@
+digraph "CFG for 'file_name_free' function" {
+	label="CFG for 'file_name_free' function";
+
+	Node0x19604c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.file_name*, align 8\l  store %struct.file_name* %0, %struct.file_name** %2, align 8, !tbaa !654\l  call void @llvm.dbg.declare(metadata %struct.file_name** %2, metadata !653,\l... metadata !DIExpression()), !dbg !658\l  %3 = load %struct.file_name*, %struct.file_name** %2, align 8, !dbg !659,\l... !tbaa !654\l  %4 = getelementptr inbounds %struct.file_name, %struct.file_name* %3, i32 0,\l... i32 0, !dbg !660\l  %5 = load i8*, i8** %4, align 8, !dbg !660, !tbaa !661\l  call void @free(i8* noundef %5) #21, !dbg !664\l  %6 = load %struct.file_name*, %struct.file_name** %2, align 8, !dbg !665,\l... !tbaa !654\l  %7 = bitcast %struct.file_name* %6 to i8*, !dbg !665\l  call void @free(i8* noundef %7) #21, !dbg !666\l  ret void, !dbg !667\l}"];
+}

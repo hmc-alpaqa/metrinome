@@ -1,0 +1,10 @@
+digraph "CFG for 'isbase2' function" {
+	label="CFG for 'isbase2' function";
+
+	Node0xddb9e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !793\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !792, metadata\l... !DIExpression()), !dbg !796\l  %3 = load i8, i8* %2, align 1, !dbg !797, !tbaa !793\l  %4 = sext i8 %3 to i32, !dbg !797\l  %5 = icmp eq i32 %4, 48, !dbg !798\l  br i1 %5, label %10, label %6, !dbg !799\l|{<s0>T|<s1>F}}"];
+	Node0xddb9e0:s0 -> Node0xddc090;
+	Node0xddb9e0:s1 -> Node0xddc040;
+	Node0xddc040 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%6:\l6:                                                \l  %7 = load i8, i8* %2, align 1, !dbg !800, !tbaa !793\l  %8 = sext i8 %7 to i32, !dbg !800\l  %9 = icmp eq i32 %8, 49, !dbg !801\l  br label %10, !dbg !799\l}"];
+	Node0xddc040 -> Node0xddc090;
+	Node0xddc090 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = phi i1 [ true, %1 ], [ %9, %6 ]\l  ret i1 %11, !dbg !802\l}"];
+}

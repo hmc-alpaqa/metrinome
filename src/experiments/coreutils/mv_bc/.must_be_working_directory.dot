@@ -1,0 +1,31 @@
+digraph "CFG for 'must_be_working_directory' function" {
+	label="CFG for 'must_be_working_directory' function";
+
+	Node0x163b360 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b2ccfb70",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1505\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1504, metadata\l... !DIExpression()), !dbg !1509\l  br label %4, !dbg !1510\l}"];
+	Node0x163b360 -> Node0x163e640;
+	Node0x163e640 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4c5ad70",label="{%4:\l4:                                                \l  %5 = load i8*, i8** %3, align 8, !dbg !1511, !tbaa !1505\l  %6 = getelementptr inbounds i8, i8* %5, i32 1, !dbg !1511\l  store i8* %6, i8** %3, align 8, !dbg !1511, !tbaa !1505\l  %7 = load i8, i8* %5, align 1, !dbg !1512, !tbaa !1513\l  %8 = sext i8 %7 to i32, !dbg !1512\l  %9 = icmp eq i32 %8, 46, !dbg !1514\l  br i1 %9, label %10, label %34, !dbg !1510\l|{<s0>T|<s1>F}}"];
+	Node0x163e640:s0 -> Node0x163e690;
+	Node0x163e640:s1 -> Node0x163e910;
+	Node0x163e690 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %3, align 8, !dbg !1515, !tbaa !1505\l  %12 = load i8, i8* %11, align 1, !dbg !1518, !tbaa !1513\l  %13 = sext i8 %12 to i32, !dbg !1518\l  %14 = icmp ne i32 %13, 47, !dbg !1519\l  br i1 %14, label %15, label %20, !dbg !1520\l|{<s0>T|<s1>F}}"];
+	Node0x163e690:s0 -> Node0x163e6e0;
+	Node0x163e690:s1 -> Node0x163e730;
+	Node0x163e6e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#88abfd70",label="{%15:\l15:                                               \l  %16 = load i8*, i8** %3, align 8, !dbg !1521, !tbaa !1505\l  %17 = load i8, i8* %16, align 1, !dbg !1522, !tbaa !1513\l  %18 = icmp ne i8 %17, 0, !dbg !1523\l  %19 = xor i1 %18, true, !dbg !1523\l  store i1 %19, i1* %2, align 1, !dbg !1524\l  br label %35, !dbg !1524\l}"];
+	Node0x163e6e0 -> Node0x163e960;
+	Node0x163e730 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%20:\l20:                                               \l  br label %21, !dbg !1525\l}"];
+	Node0x163e730 -> Node0x163e780;
+	Node0x163e780 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%21:\l21:                                               \l  %22 = load i8*, i8** %3, align 8, !dbg !1526, !tbaa !1505\l  %23 = getelementptr inbounds i8, i8* %22, i32 1, !dbg !1526\l  store i8* %23, i8** %3, align 8, !dbg !1526, !tbaa !1505\l  %24 = load i8, i8* %23, align 1, !dbg !1527, !tbaa !1513\l  %25 = sext i8 %24 to i32, !dbg !1527\l  %26 = icmp eq i32 %25, 47, !dbg !1528\l  br i1 %26, label %27, label %28, !dbg !1525\l|{<s0>T|<s1>F}}"];
+	Node0x163e780:s0 -> Node0x163e7d0;
+	Node0x163e780:s1 -> Node0x163e820;
+	Node0x163e7d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%27:\l27:                                               \l  br label %21, !dbg !1529, !llvm.loop !1530\l}"];
+	Node0x163e7d0 -> Node0x163e780;
+	Node0x163e820 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%28:\l28:                                               \l  %29 = load i8*, i8** %3, align 8, !dbg !1533, !tbaa !1505\l  %30 = load i8, i8* %29, align 1, !dbg !1535, !tbaa !1513\l  %31 = icmp ne i8 %30, 0, !dbg !1535\l  br i1 %31, label %33, label %32, !dbg !1536\l|{<s0>T|<s1>F}}"];
+	Node0x163e820:s0 -> Node0x163e8c0;
+	Node0x163e820:s1 -> Node0x163e870;
+	Node0x163e870 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#88abfd70",label="{%32:\l32:                                               \l  store i1 true, i1* %2, align 1, !dbg !1537\l  br label %35, !dbg !1537\l}"];
+	Node0x163e870 -> Node0x163e960;
+	Node0x163e8c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%33:\l33:                                               \l  br label %4, !dbg !1510, !llvm.loop !1538\l}"];
+	Node0x163e8c0 -> Node0x163e640;
+	Node0x163e910 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#88abfd70",label="{%34:\l34:                                               \l  store i1 false, i1* %2, align 1, !dbg !1540\l  br label %35, !dbg !1540\l}"];
+	Node0x163e910 -> Node0x163e960;
+	Node0x163e960 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b2ccfb70",label="{%35:\l35:                                               \l  %36 = load i1, i1* %2, align 1, !dbg !1541\l  ret i1 %36, !dbg !1541\l}"];
+}

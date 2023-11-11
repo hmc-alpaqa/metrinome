@@ -1,0 +1,5 @@
+digraph "CFG for 'xsum3' function" {
+	label="CFG for 'xsum3' function";
+
+	Node0xcf55c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i64, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  store i64 %0, i64* %4, align 8, !tbaa !1234\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1231, metadata\l... !DIExpression()), !dbg !1238\l  store i64 %1, i64* %5, align 8, !tbaa !1234\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !1232, metadata\l... !DIExpression()), !dbg !1239\l  store i64 %2, i64* %6, align 8, !tbaa !1234\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !1233, metadata\l... !DIExpression()), !dbg !1240\l  %7 = load i64, i64* %4, align 8, !dbg !1241, !tbaa !1234\l  %8 = load i64, i64* %5, align 8, !dbg !1242, !tbaa !1234\l  %9 = call i64 @xsum(i64 noundef %7, i64 noundef %8) #24, !dbg !1243\l  %10 = load i64, i64* %6, align 8, !dbg !1244, !tbaa !1234\l  %11 = call i64 @xsum(i64 noundef %9, i64 noundef %10) #24, !dbg !1245\l  ret i64 %11, !dbg !1246\l}"];
+}

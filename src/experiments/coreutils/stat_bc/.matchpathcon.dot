@@ -1,0 +1,5 @@
+digraph "CFG for 'matchpathcon' function" {
+	label="CFG for 'matchpathcon' function";
+
+	Node0x1872360 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i8**, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !1390\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1387, metadata\l... !DIExpression()), !dbg !1394\l  store i32 %1, i32* %5, align 4, !tbaa !1395\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !1388, metadata\l... !DIExpression()), !dbg !1397\l  store i8** %2, i8*** %6, align 8, !tbaa !1390\l  call void @llvm.dbg.declare(metadata i8*** %6, metadata !1389, metadata\l... !DIExpression()), !dbg !1398\l  %7 = call i32* @__errno_location() #22, !dbg !1399\l  store i32 95, i32* %7, align 4, !dbg !1400, !tbaa !1395\l  ret i32 -1, !dbg !1401\l}"];
+}

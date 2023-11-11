@@ -1,0 +1,24 @@
+digraph "CFG for 'homogeneous_spec_list' function" {
+	label="CFG for 'homogeneous_spec_list' function";
+
+	Node0x1109ed0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#efcebd70",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca %struct.Spec_list*, align 8\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  store %struct.Spec_list* %0, %struct.Spec_list** %3, align 8, !tbaa !774\l  call void @llvm.dbg.declare(metadata %struct.Spec_list** %3, metadata !771,\l... metadata !DIExpression()), !dbg !778\l  %7 = bitcast i32* %4 to i8*, !dbg !779\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %7) #21, !dbg !779\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !772, metadata\l... !DIExpression()), !dbg !780\l  %8 = bitcast i32* %5 to i8*, !dbg !779\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #21, !dbg !779\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !773, metadata\l... !DIExpression()), !dbg !781\l  %9 = load %struct.Spec_list*, %struct.Spec_list** %3, align 8, !dbg !782,\l... !tbaa !774\l  %10 = getelementptr inbounds %struct.Spec_list, %struct.Spec_list* %9, i32\l... 0, i32 2, !dbg !783\l  store i64 -2, i64* %10, align 8, !dbg !784, !tbaa !785\l  %11 = load %struct.Spec_list*, %struct.Spec_list** %3, align 8, !dbg !789,\l... !tbaa !774\l  %12 = call i32 @get_next(%struct.Spec_list* noundef %11, i32* noundef null),\l... !dbg !791\l  store i32 %12, i32* %4, align 4, !dbg !792, !tbaa !793\l  %13 = icmp eq i32 %12, -1, !dbg !795\l  br i1 %13, label %14, label %15, !dbg !796\l|{<s0>T|<s1>F}}"];
+	Node0x1109ed0:s0 -> Node0x1109f20;
+	Node0x1109ed0:s1 -> Node0x1109f70;
+	Node0x1109f20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#bfd3f670",label="{%14:\l14:                                               \l  store i1 false, i1* %2, align 1, !dbg !797\l  store i32 1, i32* %6, align 4\l  br label %27, !dbg !797\l}"];
+	Node0x1109f20 -> Node0x110a150;
+	Node0x1109f70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%15:\l15:                                               \l  br label %16, !dbg !798\l}"];
+	Node0x1109f70 -> Node0x1109fc0;
+	Node0x1109fc0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = load %struct.Spec_list*, %struct.Spec_list** %3, align 8, !dbg !799,\l... !tbaa !774\l  %18 = call i32 @get_next(%struct.Spec_list* noundef %17, i32* noundef null),\l... !dbg !800\l  store i32 %18, i32* %5, align 4, !dbg !801, !tbaa !793\l  %19 = icmp ne i32 %18, -1, !dbg !802\l  br i1 %19, label %20, label %26, !dbg !798\l|{<s0>T|<s1>F}}"];
+	Node0x1109fc0:s0 -> Node0x110a010;
+	Node0x1109fc0:s1 -> Node0x110a100;
+	Node0x110a010 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%20:\l20:                                               \l  %21 = load i32, i32* %5, align 4, !dbg !803, !tbaa !793\l  %22 = load i32, i32* %4, align 4, !dbg !805, !tbaa !793\l  %23 = icmp ne i32 %21, %22, !dbg !806\l  br i1 %23, label %24, label %25, !dbg !807\l|{<s0>T|<s1>F}}"];
+	Node0x110a010:s0 -> Node0x110a060;
+	Node0x110a010:s1 -> Node0x110a0b0;
+	Node0x110a060 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%24:\l24:                                               \l  store i1 false, i1* %2, align 1, !dbg !808\l  store i32 1, i32* %6, align 4\l  br label %27, !dbg !808\l}"];
+	Node0x110a060 -> Node0x110a150;
+	Node0x110a0b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%25:\l25:                                               \l  br label %16, !dbg !798, !llvm.loop !809\l}"];
+	Node0x110a0b0 -> Node0x1109fc0;
+	Node0x110a100 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%26:\l26:                                               \l  store i1 true, i1* %2, align 1, !dbg !813\l  store i32 1, i32* %6, align 4\l  br label %27, !dbg !813\l}"];
+	Node0x110a100 -> Node0x110a150;
+	Node0x110a150 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#efcebd70",label="{%27:\l27:                                               \l  %28 = bitcast i32* %5 to i8*, !dbg !814\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %28) #21, !dbg !814\l  %29 = bitcast i32* %4 to i8*, !dbg !814\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %29) #21, !dbg !814\l  %30 = load i1, i1* %2, align 1, !dbg !814\l  ret i1 %30, !dbg !814\l}"];
+}

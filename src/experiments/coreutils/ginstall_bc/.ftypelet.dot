@@ -1,0 +1,42 @@
+digraph "CFG for 'ftypelet' function" {
+	label="CFG for 'ftypelet' function";
+
+	Node0x195ea00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8, align 1\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !1740\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1739, metadata\l... !DIExpression()), !dbg !1744\l  %4 = load i32, i32* %3, align 4, !dbg !1745, !tbaa !1740\l  %5 = and i32 %4, 61440, !dbg !1745\l  %6 = icmp eq i32 %5, 32768, !dbg !1745\l  br i1 %6, label %7, label %8, !dbg !1747\l|{<s0>T|<s1>F}}"];
+	Node0x195ea00:s0 -> Node0x195eae0;
+	Node0x195ea00:s1 -> Node0x195eb30;
+	Node0x195eae0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%7:\l7:                                                \l  store i8 45, i8* %2, align 1, !dbg !1748\l  br label %39, !dbg !1748\l}"];
+	Node0x195eae0 -> Node0x195ef40;
+	Node0x195eb30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%8:\l8:                                                \l  %9 = load i32, i32* %3, align 4, !dbg !1749, !tbaa !1740\l  %10 = and i32 %9, 61440, !dbg !1749\l  %11 = icmp eq i32 %10, 16384, !dbg !1749\l  br i1 %11, label %12, label %13, !dbg !1751\l|{<s0>T|<s1>F}}"];
+	Node0x195eb30:s0 -> Node0x195eb80;
+	Node0x195eb30:s1 -> Node0x195ebd0;
+	Node0x195eb80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%12:\l12:                                               \l  store i8 100, i8* %2, align 1, !dbg !1752\l  br label %39, !dbg !1752\l}"];
+	Node0x195eb80 -> Node0x195ef40;
+	Node0x195ebd0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%13:\l13:                                               \l  %14 = load i32, i32* %3, align 4, !dbg !1753, !tbaa !1740\l  %15 = and i32 %14, 61440, !dbg !1753\l  %16 = icmp eq i32 %15, 24576, !dbg !1753\l  br i1 %16, label %17, label %18, !dbg !1755\l|{<s0>T|<s1>F}}"];
+	Node0x195ebd0:s0 -> Node0x195ec20;
+	Node0x195ebd0:s1 -> Node0x195ec70;
+	Node0x195ec20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%17:\l17:                                               \l  store i8 98, i8* %2, align 1, !dbg !1756\l  br label %39, !dbg !1756\l}"];
+	Node0x195ec20 -> Node0x195ef40;
+	Node0x195ec70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%18:\l18:                                               \l  %19 = load i32, i32* %3, align 4, !dbg !1757, !tbaa !1740\l  %20 = and i32 %19, 61440, !dbg !1757\l  %21 = icmp eq i32 %20, 8192, !dbg !1757\l  br i1 %21, label %22, label %23, !dbg !1759\l|{<s0>T|<s1>F}}"];
+	Node0x195ec70:s0 -> Node0x195ecc0;
+	Node0x195ec70:s1 -> Node0x195ed10;
+	Node0x195ecc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%22:\l22:                                               \l  store i8 99, i8* %2, align 1, !dbg !1760\l  br label %39, !dbg !1760\l}"];
+	Node0x195ecc0 -> Node0x195ef40;
+	Node0x195ed10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%23:\l23:                                               \l  %24 = load i32, i32* %3, align 4, !dbg !1761, !tbaa !1740\l  %25 = and i32 %24, 61440, !dbg !1761\l  %26 = icmp eq i32 %25, 40960, !dbg !1761\l  br i1 %26, label %27, label %28, !dbg !1763\l|{<s0>T|<s1>F}}"];
+	Node0x195ed10:s0 -> Node0x195ed60;
+	Node0x195ed10:s1 -> Node0x195edb0;
+	Node0x195ed60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%27:\l27:                                               \l  store i8 108, i8* %2, align 1, !dbg !1764\l  br label %39, !dbg !1764\l}"];
+	Node0x195ed60 -> Node0x195ef40;
+	Node0x195edb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%28:\l28:                                               \l  %29 = load i32, i32* %3, align 4, !dbg !1765, !tbaa !1740\l  %30 = and i32 %29, 61440, !dbg !1765\l  %31 = icmp eq i32 %30, 4096, !dbg !1765\l  br i1 %31, label %32, label %33, !dbg !1767\l|{<s0>T|<s1>F}}"];
+	Node0x195edb0:s0 -> Node0x195ee00;
+	Node0x195edb0:s1 -> Node0x195ee50;
+	Node0x195ee00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c1d4f470",label="{%32:\l32:                                               \l  store i8 112, i8* %2, align 1, !dbg !1768\l  br label %39, !dbg !1768\l}"];
+	Node0x195ee00 -> Node0x195ef40;
+	Node0x195ee50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c1d4f470",label="{%33:\l33:                                               \l  %34 = load i32, i32* %3, align 4, !dbg !1769, !tbaa !1740\l  %35 = and i32 %34, 61440, !dbg !1769\l  %36 = icmp eq i32 %35, 49152, !dbg !1769\l  br i1 %36, label %37, label %38, !dbg !1771\l|{<s0>T|<s1>F}}"];
+	Node0x195ee50:s0 -> Node0x195eea0;
+	Node0x195ee50:s1 -> Node0x195eef0;
+	Node0x195eea0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#a1c0ff70",label="{%37:\l37:                                               \l  store i8 115, i8* %2, align 1, !dbg !1772\l  br label %39, !dbg !1772\l}"];
+	Node0x195eea0 -> Node0x195ef40;
+	Node0x195eef0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#a1c0ff70",label="{%38:\l38:                                               \l  store i8 63, i8* %2, align 1, !dbg !1773\l  br label %39, !dbg !1773\l}"];
+	Node0x195eef0 -> Node0x195ef40;
+	Node0x195ef40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%39:\l39:                                               \l  %40 = load i8, i8* %2, align 1, !dbg !1774\l  ret i8 %40, !dbg !1774\l}"];
+}

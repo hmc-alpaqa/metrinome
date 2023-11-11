@@ -1,0 +1,24 @@
+digraph "CFG for 'verify_numeric' function" {
+	label="CFG for 'verify_numeric' function";
+
+	Node0x1a2efd0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1048\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1046, metadata\l... !DIExpression()), !dbg !1052\l  store i8* %1, i8** %4, align 8, !tbaa !1048\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1047, metadata\l... !DIExpression()), !dbg !1053\l  %5 = call i32* @__errno_location() #22, !dbg !1054\l  %6 = load i32, i32* %5, align 4, !dbg !1054, !tbaa !1056\l  %7 = icmp ne i32 %6, 0, !dbg !1054\l  br i1 %7, label %8, label %13, !dbg !1058\l|{<s0>T|<s1>F}}"];
+	Node0x1a2efd0:s0 -> Node0x1a2f020;
+	Node0x1a2efd0:s1 -> Node0x1a2f070;
+	Node0x1a2f020 [shape=record,color="#b70d28ff", style=filled, fillcolor="#dc5d4a70",label="{%8:\l8:                                                \l  %9 = call i32* @__errno_location() #22, !dbg !1059\l  %10 = load i32, i32* %9, align 4, !dbg !1059, !tbaa !1056\l  %11 = load i8*, i8** %3, align 8, !dbg !1059, !tbaa !1048\l  %12 = call i8* @quote(i8* noundef %11), !dbg !1059\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef %10, i8*\l... noundef getelementptr inbounds ([3 x i8], [3 x i8]* @.str.41, i64 0, i64 0),\l... i8* noundef %12), !dbg !1059\l  store i32 1, i32* @exit_status, align 4, !dbg !1061, !tbaa !1056\l  br label %29, !dbg !1062\l}"];
+	Node0x1a2f020 -> Node0x1a2f250;
+	Node0x1a2f070 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2907270",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %4, align 8, !dbg !1063, !tbaa !1048\l  %15 = load i8, i8* %14, align 1, !dbg !1065, !tbaa !1066\l  %16 = icmp ne i8 %15, 0, !dbg !1065\l  br i1 %16, label %17, label %28, !dbg !1067\l|{<s0>T|<s1>F}}"];
+	Node0x1a2f070:s0 -> Node0x1a2f0c0;
+	Node0x1a2f070:s1 -> Node0x1a2f200;
+	Node0x1a2f0c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b59970",label="{%17:\l17:                                               \l  %18 = load i8*, i8** %3, align 8, !dbg !1068, !tbaa !1048\l  %19 = load i8*, i8** %4, align 8, !dbg !1071, !tbaa !1048\l  %20 = icmp eq i8* %18, %19, !dbg !1072\l  br i1 %20, label %21, label %24, !dbg !1073\l|{<s0>T|<s1>F}}"];
+	Node0x1a2f0c0:s0 -> Node0x1a2f110;
+	Node0x1a2f0c0:s1 -> Node0x1a2f160;
+	Node0x1a2f110 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%21:\l21:                                               \l  %22 = load i8*, i8** %3, align 8, !dbg !1074, !tbaa !1048\l  %23 = call i8* @quote(i8* noundef %22), !dbg !1074\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([29 x i8], [29 x i8]* @.str.42, i64 0, i64\l... 0), i8* noundef %23), !dbg !1074\l  br label %27, !dbg !1074\l}"];
+	Node0x1a2f110 -> Node0x1a2f1b0;
+	Node0x1a2f160 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%24:\l24:                                               \l  %25 = load i8*, i8** %3, align 8, !dbg !1075, !tbaa !1048\l  %26 = call i8* @quote(i8* noundef %25), !dbg !1075\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([35 x i8], [35 x i8]* @.str.43, i64 0, i64\l... 0), i8* noundef %26), !dbg !1075\l  br label %27\l}"];
+	Node0x1a2f160 -> Node0x1a2f1b0;
+	Node0x1a2f1b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b59970",label="{%27:\l27:                                               \l  store i32 1, i32* @exit_status, align 4, !dbg !1076, !tbaa !1056\l  br label %28, !dbg !1077\l}"];
+	Node0x1a2f1b0 -> Node0x1a2f200;
+	Node0x1a2f200 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2907270",label="{%28:\l28:                                               \l  br label %29\l}"];
+	Node0x1a2f200 -> Node0x1a2f250;
+	Node0x1a2f250 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%29:\l29:                                               \l  ret void, !dbg !1078\l}"];
+}

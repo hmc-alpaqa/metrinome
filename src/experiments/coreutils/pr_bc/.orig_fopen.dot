@@ -1,0 +1,5 @@
+digraph "CFG for 'orig_fopen' function" {
+	label="CFG for 'orig_fopen' function";
+
+	Node0x1906470 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1159\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1157, metadata\l... !DIExpression()), !dbg !1163\l  store i8* %1, i8** %4, align 8, !tbaa !1159\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1158, metadata\l... !DIExpression()), !dbg !1164\l  %5 = load i8*, i8** %3, align 8, !dbg !1165, !tbaa !1159\l  %6 = load i8*, i8** %4, align 8, !dbg !1166, !tbaa !1159\l  %7 = call noalias %struct._IO_FILE* @fopen(i8* noundef %5, i8* noundef %6),\l... !dbg !1167\l  ret %struct._IO_FILE* %7, !dbg !1168\l}"];
+}

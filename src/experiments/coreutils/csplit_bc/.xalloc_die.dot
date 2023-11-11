@@ -1,0 +1,5 @@
+digraph "CFG for 'xalloc_die' function" {
+	label="CFG for 'xalloc_die' function";
+
+	Node0x22da270 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([3 x i8], [3 x i8]* @.str, i64 0, i64 0), i8*\l... noundef getelementptr inbounds ([17 x i8], [17 x i8]* @.str.1, i64 0, i64\l... 0)), !dbg !1026\l  call void @cleanup_fatal() #22, !dbg !1027\l  unreachable, !dbg !1027\l}"];
+}

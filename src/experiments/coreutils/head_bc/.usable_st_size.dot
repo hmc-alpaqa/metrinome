@@ -1,0 +1,16 @@
+digraph "CFG for 'usable_st_size' function" {
+	label="CFG for 'usable_st_size' function";
+
+	Node0x8a05f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !781\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !780,\l... metadata !DIExpression()), !dbg !785\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !786, !tbaa !781\l  %4 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 3,\l... !dbg !786\l  %5 = load i32, i32* %4, align 8, !dbg !786, !tbaa !787\l  %6 = and i32 %5, 61440, !dbg !786\l  %7 = icmp eq i32 %6, 32768, !dbg !786\l  br i1 %7, label %24, label %8, !dbg !792\l|{<s0>T|<s1>F}}"];
+	Node0x8a05f0:s0 -> Node0x8a07a0;
+	Node0x8a05f0:s1 -> Node0x8a06b0;
+	Node0x8a06b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8765c70",label="{%8:\l8:                                                \l  %9 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !793, !tbaa !781\l  %10 = getelementptr inbounds %struct.stat, %struct.stat* %9, i32 0, i32 3,\l... !dbg !793\l  %11 = load i32, i32* %10, align 8, !dbg !793, !tbaa !787\l  %12 = and i32 %11, 61440, !dbg !793\l  %13 = icmp eq i32 %12, 40960, !dbg !793\l  br i1 %13, label %24, label %14, !dbg !794\l|{<s0>T|<s1>F}}"];
+	Node0x8a06b0:s0 -> Node0x8a07a0;
+	Node0x8a06b0:s1 -> Node0x8a0700;
+	Node0x8a0700 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%14:\l14:                                               \l  %15 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !795, !tbaa !781\l  %16 = getelementptr inbounds %struct.stat, %struct.stat* %15, i32 0, i32 3,\l... !dbg !795\l  %17 = load i32, i32* %16, align 8, !dbg !795, !tbaa !787\l  %18 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !795, !tbaa !781\l  %19 = getelementptr inbounds %struct.stat, %struct.stat* %18, i32 0, i32 3,\l... !dbg !795\l  %20 = load i32, i32* %19, align 8, !dbg !795, !tbaa !787\l  %21 = sub i32 %17, %20, !dbg !795\l  %22 = icmp ne i32 %21, 0, !dbg !795\l  br i1 %22, label %24, label %23, !dbg !796\l|{<s0>T|<s1>F}}"];
+	Node0x8a0700:s0 -> Node0x8a07a0;
+	Node0x8a0700:s1 -> Node0x8a0750;
+	Node0x8a0750 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%23:\l23:                                               \l  br label %24, !dbg !796\l}"];
+	Node0x8a0750 -> Node0x8a07a0;
+	Node0x8a07a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%24:\l24:                                               \l  %25 = phi i1 [ true, %14 ], [ true, %8 ], [ true, %1 ], [ false, %23 ]\l  ret i1 %25, !dbg !797\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'mpz_init_set_ui' function" {
+	label="CFG for 'mpz_init_set_ui' function";
+
+	Node0x263bbe0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.__mpz_struct*, align 8\l  %4 = alloca i64, align 8\l  store %struct.__mpz_struct* %0, %struct.__mpz_struct** %3, align 8, !tbaa\l... !793\l  call void @llvm.dbg.declare(metadata %struct.__mpz_struct** %3, metadata\l... !791, metadata !DIExpression()), !dbg !797\l  store i64 %1, i64* %4, align 8, !tbaa !798\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !792, metadata\l... !DIExpression()), !dbg !800\l  %5 = load %struct.__mpz_struct*, %struct.__mpz_struct** %3, align 8, !dbg\l... !801, !tbaa !793\l  call void @mpz_init(%struct.__mpz_struct* noundef %5), !dbg !802\l  %6 = load %struct.__mpz_struct*, %struct.__mpz_struct** %3, align 8, !dbg\l... !803, !tbaa !793\l  %7 = load i64, i64* %4, align 8, !dbg !804, !tbaa !798\l  call void @mpz_set_ui(%struct.__mpz_struct* noundef %6, i64 noundef %7),\l... !dbg !805\l  ret void, !dbg !806\l}"];
+}

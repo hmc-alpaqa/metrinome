@@ -1,0 +1,5 @@
+digraph "CFG for 'xireallocarray' function" {
+	label="CFG for 'xireallocarray' function";
+
+	Node0x9f6a70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !754\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !751, metadata\l... !DIExpression()), !dbg !758\l  store i64 %1, i64* %5, align 8, !tbaa !759\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !752, metadata\l... !DIExpression()), !dbg !761\l  store i64 %2, i64* %6, align 8, !tbaa !759\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !753, metadata\l... !DIExpression()), !dbg !762\l  %7 = load i8*, i8** %4, align 8, !dbg !763, !tbaa !754\l  %8 = load i64, i64* %5, align 8, !dbg !764, !tbaa !759\l  %9 = load i64, i64* %6, align 8, !dbg !765, !tbaa !759\l  %10 = call i8* @ireallocarray(i8* noundef %7, i64 noundef %8, i64 noundef\l... %9), !dbg !766\l  %11 = call i8* @nonnull(i8* noundef %10) #21, !dbg !767\l  ret i8* %11, !dbg !768\l}"];
+}

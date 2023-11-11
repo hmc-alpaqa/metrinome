@@ -1,0 +1,5 @@
+digraph "CFG for 'quotearg_char' function" {
+	label="CFG for 'quotearg_char' function";
+
+	Node0x248ef80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8, align 1\l  store i8* %0, i8** %3, align 8, !tbaa !726\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !724, metadata\l... !DIExpression()), !dbg !730\l  store i8 %1, i8* %4, align 1, !tbaa !731\l  call void @llvm.dbg.declare(metadata i8* %4, metadata !725, metadata\l... !DIExpression()), !dbg !732\l  %5 = load i8*, i8** %3, align 8, !dbg !733, !tbaa !726\l  %6 = load i8, i8* %4, align 1, !dbg !734, !tbaa !731\l  %7 = call i8* @quotearg_char_mem(i8* noundef %5, i64 noundef -1, i8 noundef\l... signext %6), !dbg !735\l  ret i8* %7, !dbg !736\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'uid_to_name' function" {
+	label="CFG for 'uid_to_name' function";
+
+	Node0x1fe4b40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca %struct.passwd*, align 8\l  store i32 %0, i32* %2, align 4, !tbaa !1013\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1000, metadata\l... !DIExpression()), !dbg !1017\l  %4 = bitcast %struct.passwd** %3 to i8*, !dbg !1018\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #23, !dbg !1018\l  call void @llvm.dbg.declare(metadata %struct.passwd** %3, metadata !1001,\l... metadata !DIExpression()), !dbg !1019\l  %5 = load i32, i32* %2, align 4, !dbg !1020, !tbaa !1013\l  %6 = call %struct.passwd* @getpwuid(i32 noundef %5), !dbg !1021\l  store %struct.passwd* %6, %struct.passwd** %3, align 8, !dbg !1019, !tbaa\l... !1022\l  %7 = load %struct.passwd*, %struct.passwd** %3, align 8, !dbg !1024, !tbaa\l... !1022\l  %8 = icmp ne %struct.passwd* %7, null, !dbg !1024\l  br i1 %8, label %9, label %14, !dbg !1024\l|{<s0>T|<s1>F}}"];
+	Node0x1fe4b40:s0 -> Node0x1fe5990;
+	Node0x1fe4b40:s1 -> Node0x1fe59e0;
+	Node0x1fe5990 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%9:\l9:                                                \l  %10 = load %struct.passwd*, %struct.passwd** %3, align 8, !dbg !1025, !tbaa\l... !1022\l  %11 = getelementptr inbounds %struct.passwd, %struct.passwd* %10, i32 0, i32\l... 0, !dbg !1026\l  %12 = load i8*, i8** %11, align 8, !dbg !1026, !tbaa !1027\l  %13 = call noalias nonnull i8* @xstrdup(i8* noundef %12), !dbg !1029\l  br label %17, !dbg !1024\l}"];
+	Node0x1fe5990 -> Node0x1fe5a30;
+	Node0x1fe59e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%14:\l14:                                               \l  %15 = load i32, i32* %2, align 4, !dbg !1030, !tbaa !1013\l  %16 = call i8* @uid_to_str(i32 noundef %15), !dbg !1031\l  br label %17, !dbg !1024\l}"];
+	Node0x1fe59e0 -> Node0x1fe5a30;
+	Node0x1fe5a30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%17:\l17:                                               \l  %18 = phi i8* [ %13, %9 ], [ %16, %14 ], !dbg !1024\l  %19 = bitcast %struct.passwd** %3 to i8*, !dbg !1032\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %19) #23, !dbg !1032\l  ret i8* %18, !dbg !1033\l}"];
+}

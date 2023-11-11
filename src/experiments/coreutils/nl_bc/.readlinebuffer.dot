@@ -1,0 +1,5 @@
+digraph "CFG for 'readlinebuffer' function" {
+	label="CFG for 'readlinebuffer' function";
+
+	Node0x1720ed0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.linebuffer*, align 8\l  %4 = alloca %struct._IO_FILE*, align 8\l  store %struct.linebuffer* %0, %struct.linebuffer** %3, align 8, !tbaa !850\l  call void @llvm.dbg.declare(metadata %struct.linebuffer** %3, metadata !848,\l... metadata !DIExpression()), !dbg !854\l  store %struct._IO_FILE* %1, %struct._IO_FILE** %4, align 8, !tbaa !850\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %4, metadata !849,\l... metadata !DIExpression()), !dbg !855\l  %5 = load %struct.linebuffer*, %struct.linebuffer** %3, align 8, !dbg !856,\l... !tbaa !850\l  %6 = load %struct._IO_FILE*, %struct._IO_FILE** %4, align 8, !dbg !857,\l... !tbaa !850\l  %7 = call %struct.linebuffer* @readlinebuffer_delim(%struct.linebuffer*\l... noundef %5, %struct._IO_FILE* noundef %6, i8 noundef signext 10), !dbg !858\l  ret %struct.linebuffer* %7, !dbg !859\l}"];
+}

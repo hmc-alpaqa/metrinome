@@ -1,0 +1,40 @@
+digraph "CFG for 'cwd_advance_fd' function" {
+	label="CFG for 'cwd_advance_fd' function";
+
+	Node0x21727b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca %struct.FTS*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i8, align 1\l  %7 = alloca i32, align 4\l  %8 = alloca i32, align 4\l  store %struct.FTS* %0, %struct.FTS** %4, align 8, !tbaa !972\l  call void @llvm.dbg.declare(metadata %struct.FTS** %4, metadata !965,\l... metadata !DIExpression()), !dbg !976\l  store i32 %1, i32* %5, align 4, !tbaa !977\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !966, metadata\l... !DIExpression()), !dbg !979\l  %9 = zext i1 %2 to i8\l  store i8 %9, i8* %6, align 1, !tbaa !980\l  call void @llvm.dbg.declare(metadata i8* %6, metadata !967, metadata\l... !DIExpression()), !dbg !982\l  %10 = bitcast i32* %7 to i8*, !dbg !983\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %10) #22, !dbg !983\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !968, metadata\l... !DIExpression()), !dbg !984\l  %11 = load %struct.FTS*, %struct.FTS** %4, align 8, !dbg !985, !tbaa !972\l  %12 = getelementptr inbounds %struct.FTS, %struct.FTS* %11, i32 0, i32 6,\l... !dbg !986\l  %13 = load i32, i32* %12, align 4, !dbg !986, !tbaa !987\l  store i32 %13, i32* %7, align 4, !dbg !984, !tbaa !977\l  br label %14, !dbg !991\l}"];
+	Node0x21727b0 -> Node0x2172800;
+	Node0x2172800 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%14:\l14:                                               \l  %15 = load i32, i32* %7, align 4, !dbg !992, !tbaa !977\l  %16 = load i32, i32* %5, align 4, !dbg !992, !tbaa !977\l  %17 = icmp ne i32 %15, %16, !dbg !992\l  br i1 %17, label %22, label %18, !dbg !992\l|{<s0>T|<s1>F}}"];
+	Node0x2172800:s0 -> Node0x21728f0;
+	Node0x2172800:s1 -> Node0x2172850;
+	Node0x2172850 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%18:\l18:                                               \l  %19 = load i32, i32* %7, align 4, !dbg !992, !tbaa !977\l  %20 = icmp eq i32 %19, -100, !dbg !992\l  br i1 %20, label %22, label %21, !dbg !995\l|{<s0>T|<s1>F}}"];
+	Node0x2172850:s0 -> Node0x21728f0;
+	Node0x2172850:s1 -> Node0x21728a0;
+	Node0x21728a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6282ea70",label="{%21:\l21:                                               \l  call void @abort() #23, !dbg !992\l  unreachable, !dbg !992\l}"];
+	Node0x21728f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%22:\l22:                                               \l  br label %23, !dbg !995\l}"];
+	Node0x21728f0 -> Node0x2172940;
+	Node0x2172940 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%23:\l23:                                               \l  br label %24, !dbg !995\l}"];
+	Node0x2172940 -> Node0x2172990;
+	Node0x2172990 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%24:\l24:                                               \l  %25 = load i8, i8* %6, align 1, !dbg !996, !tbaa !980, !range !997\l  %26 = trunc i8 %25 to i1, !dbg !996\l  br i1 %26, label %27, label %40, !dbg !998\l|{<s0>T|<s1>F}}"];
+	Node0x2172990:s0 -> Node0x21729e0;
+	Node0x2172990:s1 -> Node0x2172ad0;
+	Node0x21729e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%27:\l27:                                               \l  %28 = bitcast i32* %8 to i8*, !dbg !999\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %28) #22, !dbg !999\l  call void @llvm.dbg.declare(metadata i32* %8, metadata !969, metadata\l... !DIExpression()), !dbg !1000\l  %29 = load %struct.FTS*, %struct.FTS** %4, align 8, !dbg !1001, !tbaa !972\l  %30 = getelementptr inbounds %struct.FTS, %struct.FTS* %29, i32 0, i32 13,\l... !dbg !1002\l  %31 = load i32, i32* %7, align 4, !dbg !1003, !tbaa !977\l  %32 = call i32 @i_ring_push(%struct.I_ring* noundef %30, i32 noundef %31),\l... !dbg !1004\l  store i32 %32, i32* %8, align 4, !dbg !1000, !tbaa !977\l  %33 = load i32, i32* %8, align 4, !dbg !1005, !tbaa !977\l  %34 = icmp sle i32 0, %33, !dbg !1007\l  br i1 %34, label %35, label %38, !dbg !1008\l|{<s0>T|<s1>F}}"];
+	Node0x21729e0:s0 -> Node0x2172a30;
+	Node0x21729e0:s1 -> Node0x2172a80;
+	Node0x2172a30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d24b4070",label="{%35:\l35:                                               \l  %36 = load i32, i32* %8, align 4, !dbg !1009, !tbaa !977\l  %37 = call i32 @close(i32 noundef %36), !dbg !1010\l  br label %38, !dbg !1010\l}"];
+	Node0x2172a30 -> Node0x2172a80;
+	Node0x2172a80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%38:\l38:                                               \l  %39 = bitcast i32* %8 to i8*, !dbg !1011\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %39) #22, !dbg !1011\l  br label %54, !dbg !1012\l}"];
+	Node0x2172a80 -> Node0x2172c60;
+	Node0x2172ad0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%40:\l40:                                               \l  %41 = load %struct.FTS*, %struct.FTS** %4, align 8, !dbg !1013, !tbaa !972\l  %42 = getelementptr inbounds %struct.FTS, %struct.FTS* %41, i32 0, i32 10,\l... !dbg !1013\l  %43 = load i32, i32* %42, align 8, !dbg !1013, !tbaa !1015\l  %44 = and i32 %43, 4, !dbg !1013\l  %45 = icmp ne i32 %44, 0, !dbg !1013\l  br i1 %45, label %53, label %46, !dbg !1016\l|{<s0>T|<s1>F}}"];
+	Node0x2172ad0:s0 -> Node0x2172c10;
+	Node0x2172ad0:s1 -> Node0x2172b20;
+	Node0x2172b20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d24b4070",label="{%46:\l46:                                               \l  %47 = load i32, i32* %7, align 4, !dbg !1017, !tbaa !977\l  %48 = icmp sle i32 0, %47, !dbg !1020\l  br i1 %48, label %49, label %52, !dbg !1021\l|{<s0>T|<s1>F}}"];
+	Node0x2172b20:s0 -> Node0x2172b70;
+	Node0x2172b20:s1 -> Node0x2172bc0;
+	Node0x2172b70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%49:\l49:                                               \l  %50 = load i32, i32* %7, align 4, !dbg !1022, !tbaa !977\l  %51 = call i32 @close(i32 noundef %50), !dbg !1023\l  br label %52, !dbg !1023\l}"];
+	Node0x2172b70 -> Node0x2172bc0;
+	Node0x2172bc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d24b4070",label="{%52:\l52:                                               \l  br label %53, !dbg !1024\l}"];
+	Node0x2172bc0 -> Node0x2172c10;
+	Node0x2172c10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%53:\l53:                                               \l  br label %54\l}"];
+	Node0x2172c10 -> Node0x2172c60;
+	Node0x2172c60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%54:\l54:                                               \l  %55 = load i32, i32* %5, align 4, !dbg !1025, !tbaa !977\l  %56 = load %struct.FTS*, %struct.FTS** %4, align 8, !dbg !1026, !tbaa !972\l  %57 = getelementptr inbounds %struct.FTS, %struct.FTS* %56, i32 0, i32 6,\l... !dbg !1027\l  store i32 %55, i32* %57, align 4, !dbg !1028, !tbaa !987\l  %58 = bitcast i32* %7 to i8*, !dbg !1029\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %58) #22, !dbg !1029\l  ret void, !dbg !1029\l}"];
+}

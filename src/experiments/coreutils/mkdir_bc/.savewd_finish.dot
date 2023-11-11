@@ -1,0 +1,25 @@
+digraph "CFG for 'savewd_finish' function" {
+	label="CFG for 'savewd_finish' function";
+
+	Node0x11001a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.savewd*, align 8\l  store %struct.savewd* %0, %struct.savewd** %2, align 8, !tbaa !1029\l  call void @llvm.dbg.declare(metadata %struct.savewd** %2, metadata !1028,\l... metadata !DIExpression()), !dbg !1033\l  %3 = load %struct.savewd*, %struct.savewd** %2, align 8, !dbg !1034, !tbaa\l... !1029\l  %4 = getelementptr inbounds %struct.savewd, %struct.savewd* %3, i32 0, i32\l... 0, !dbg !1035\l  %5 = load i32, i32* %4, align 4, !dbg !1035, !tbaa !1036\l  switch i32 %5, label %22 [\l    i32 0, label %6\l    i32 4, label %6\l    i32 1, label %7\l    i32 2, label %7\l    i32 3, label %13\l  ], !dbg !1038\l|{<s0>def|<s1>0|<s2>4|<s3>1|<s4>2|<s5>3}}"];
+	Node0x11001a0:s0 -> Node0x11003d0;
+	Node0x11001a0:s1 -> Node0x11001f0;
+	Node0x11001a0:s2 -> Node0x11001f0;
+	Node0x11001a0:s3 -> Node0x1100240;
+	Node0x11001a0:s4 -> Node0x1100240;
+	Node0x11001a0:s5 -> Node0x1100290;
+	Node0x11001f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ca3b3770",label="{%6:\l6:                                                \l  br label %23, !dbg !1039\l}"];
+	Node0x11001f0 -> Node0x1100420;
+	Node0x1100240 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ca3b3770",label="{%7:\l7:                                                \l  %8 = load %struct.savewd*, %struct.savewd** %2, align 8, !dbg !1041, !tbaa\l... !1029\l  %9 = getelementptr inbounds %struct.savewd, %struct.savewd* %8, i32 0, i32\l... 1, !dbg !1042\l  %10 = bitcast %union.anon* %9 to i32*, !dbg !1043\l  %11 = load i32, i32* %10, align 4, !dbg !1043, !tbaa !1044\l  %12 = call i32 @close(i32 noundef %11), !dbg !1045\l  br label %23, !dbg !1046\l}"];
+	Node0x1100240 -> Node0x1100420;
+	Node0x1100290 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6524470",label="{%13:\l13:                                               \l  %14 = load %struct.savewd*, %struct.savewd** %2, align 8, !dbg !1047, !tbaa\l... !1029\l  %15 = getelementptr inbounds %struct.savewd, %struct.savewd* %14, i32 0, i32\l... 1, !dbg !1047\l  %16 = bitcast %union.anon* %15 to i32*, !dbg !1047\l  %17 = load i32, i32* %16, align 4, !dbg !1047, !tbaa !1044\l  %18 = icmp slt i32 %17, 0, !dbg !1047\l  br i1 %18, label %19, label %20, !dbg !1050\l|{<s0>T|<s1>F}}"];
+	Node0x1100290:s0 -> Node0x11002e0;
+	Node0x1100290:s1 -> Node0x1100330;
+	Node0x11002e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6524470",label="{%19:\l19:                                               \l  br label %21, !dbg !1050\l}"];
+	Node0x11002e0 -> Node0x1100380;
+	Node0x1100330 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6282ea70",label="{%20:\l20:                                               \l  call void @__assert_fail(i8* noundef getelementptr inbounds ([18 x i8], [18\l... x i8]* @.str.4.111, i64 0, i64 0), i8* noundef getelementptr inbounds ([16 x\l... i8], [16 x i8]* @.str.1.107, i64 0, i64 0), i32 noundef 239, i8* noundef\l... getelementptr inbounds ([36 x i8], [36 x i8]*\l... @__PRETTY_FUNCTION__.savewd_finish, i64 0, i64 0)) #22, !dbg !1047\l  unreachable, !dbg !1047\l}"];
+	Node0x1100380 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6524470",label="{%21:\l21:                                               \l  br label %23, !dbg !1051\l}"];
+	Node0x1100380 -> Node0x1100420;
+	Node0x11003d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6282ea70",label="{%22:\l22:                                               \l  call void @__assert_fail(i8* noundef getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.2.108, i64 0, i64 0), i8* noundef getelementptr inbounds ([16 x\l... i8], [16 x i8]* @.str.1.107, i64 0, i64 0), i32 noundef 243, i8* noundef\l... getelementptr inbounds ([36 x i8], [36 x i8]*\l... @__PRETTY_FUNCTION__.savewd_finish, i64 0, i64 0)) #22, !dbg !1052\l  unreachable, !dbg !1052\l}"];
+	Node0x1100420 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%23:\l23:                                               \l  %24 = load %struct.savewd*, %struct.savewd** %2, align 8, !dbg !1055, !tbaa\l... !1029\l  %25 = getelementptr inbounds %struct.savewd, %struct.savewd* %24, i32 0, i32\l... 0, !dbg !1056\l  store i32 5, i32* %25, align 4, !dbg !1057, !tbaa !1036\l  ret void, !dbg !1058\l}"];
+}

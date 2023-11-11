@@ -1,0 +1,12 @@
+digraph "CFG for 'gcd' function" {
+	label="CFG for 'gcd' function";
+
+	Node0x9feda0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !1235\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1231, metadata\l... !DIExpression()), !dbg !1239\l  store i64 %1, i64* %4, align 8, !tbaa !1235\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1232, metadata\l... !DIExpression()), !dbg !1240\l  br label %6, !dbg !1241\l}"];
+	Node0x9feda0 -> Node0x9ffb20;
+	Node0x9ffb20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%6:\l6:                                                \l  %7 = bitcast i64* %5 to i8*, !dbg !1242\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %7) #24, !dbg !1242\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !1233, metadata\l... !DIExpression()), !dbg !1243\l  %8 = load i64, i64* %3, align 8, !dbg !1244, !tbaa !1235\l  %9 = load i64, i64* %4, align 8, !dbg !1245, !tbaa !1235\l  %10 = urem i64 %8, %9, !dbg !1246\l  store i64 %10, i64* %5, align 8, !dbg !1243, !tbaa !1235\l  %11 = load i64, i64* %4, align 8, !dbg !1247, !tbaa !1235\l  store i64 %11, i64* %3, align 8, !dbg !1248, !tbaa !1235\l  %12 = load i64, i64* %5, align 8, !dbg !1249, !tbaa !1235\l  store i64 %12, i64* %4, align 8, !dbg !1250, !tbaa !1235\l  %13 = bitcast i64* %5 to i8*, !dbg !1251\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %13) #24, !dbg !1251\l  br label %14, !dbg !1252\l}"];
+	Node0x9ffb20 -> Node0x9ffb70;
+	Node0x9ffb70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%14:\l14:                                               \l  %15 = load i64, i64* %4, align 8, !dbg !1253, !tbaa !1235\l  %16 = icmp ne i64 %15, 0, !dbg !1252\l  br i1 %16, label %6, label %17, !dbg !1252, !llvm.loop !1254\l|{<s0>T|<s1>F}}"];
+	Node0x9ffb70:s0 -> Node0x9ffb20;
+	Node0x9ffb70:s1 -> Node0x9ffbc0;
+	Node0x9ffbc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%17:\l17:                                               \l  %18 = load i64, i64* %3, align 8, !dbg !1258, !tbaa !1235\l  ret i64 %18, !dbg !1259\l}"];
+}

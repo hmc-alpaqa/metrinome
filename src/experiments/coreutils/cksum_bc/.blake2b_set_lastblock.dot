@@ -1,0 +1,10 @@
+digraph "CFG for 'blake2b_set_lastblock' function" {
+	label="CFG for 'blake2b_set_lastblock' function";
+
+	Node0x1e4a9b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.blake2b_state__*, align 8\l  store %struct.blake2b_state__* %0, %struct.blake2b_state__** %2, align 8,\l... !tbaa !1295\l  call void @llvm.dbg.declare(metadata %struct.blake2b_state__** %2, metadata\l... !1294, metadata !DIExpression()), !dbg !1299\l  %3 = load %struct.blake2b_state__*, %struct.blake2b_state__** %2, align 8,\l... !dbg !1300, !tbaa !1295\l  %4 = getelementptr inbounds %struct.blake2b_state__,\l... %struct.blake2b_state__* %3, i32 0, i32 6, !dbg !1302\l  %5 = load i8, i8* %4, align 8, !dbg !1302, !tbaa !1303\l  %6 = icmp ne i8 %5, 0, !dbg !1300\l  br i1 %6, label %7, label %9, !dbg !1306\l|{<s0>T|<s1>F}}"];
+	Node0x1e4a9b0:s0 -> Node0x1e4b3d0;
+	Node0x1e4a9b0:s1 -> Node0x1e4b420;
+	Node0x1e4b3d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%7:\l7:                                                \l  %8 = load %struct.blake2b_state__*, %struct.blake2b_state__** %2, align 8,\l... !dbg !1307, !tbaa !1295\l  call void @blake2b_set_lastnode(%struct.blake2b_state__* noundef %8), !dbg\l... !1308\l  br label %9, !dbg !1308\l}"];
+	Node0x1e4b3d0 -> Node0x1e4b420;
+	Node0x1e4b420 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load %struct.blake2b_state__*, %struct.blake2b_state__** %2, align 8,\l... !dbg !1309, !tbaa !1295\l  %11 = getelementptr inbounds %struct.blake2b_state__,\l... %struct.blake2b_state__* %10, i32 0, i32 2, !dbg !1310\l  %12 = getelementptr inbounds [2 x i64], [2 x i64]* %11, i64 0, i64 0, !dbg\l... !1309\l  store i64 -1, i64* %12, align 8, !dbg !1311, !tbaa !1312\l  ret void, !dbg !1313\l}"];
+}

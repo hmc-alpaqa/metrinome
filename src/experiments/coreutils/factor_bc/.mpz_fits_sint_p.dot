@@ -1,0 +1,10 @@
+digraph "CFG for 'mpz_fits_sint_p' function" {
+	label="CFG for 'mpz_fits_sint_p' function";
+
+	Node0x1ba7540 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.__mpz_struct*, align 8\l  store %struct.__mpz_struct* %0, %struct.__mpz_struct** %2, align 8, !tbaa\l... !786\l  call void @llvm.dbg.declare(metadata %struct.__mpz_struct** %2, metadata\l... !785, metadata !DIExpression()), !dbg !790\l  %3 = load %struct.__mpz_struct*, %struct.__mpz_struct** %2, align 8, !dbg\l... !791, !tbaa !786\l  %4 = call i32 @mpz_cmp_si(%struct.__mpz_struct* noundef %3, i64 noundef\l... 2147483647), !dbg !792\l  %5 = icmp sle i32 %4, 0, !dbg !793\l  br i1 %5, label %6, label %10, !dbg !794\l|{<s0>T|<s1>F}}"];
+	Node0x1ba7540:s0 -> Node0x1ba7590;
+	Node0x1ba7540:s1 -> Node0x1ba75e0;
+	Node0x1ba7590 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%6:\l6:                                                \l  %7 = load %struct.__mpz_struct*, %struct.__mpz_struct** %2, align 8, !dbg\l... !795, !tbaa !786\l  %8 = call i32 @mpz_cmp_si(%struct.__mpz_struct* noundef %7, i64 noundef\l... -2147483648), !dbg !796\l  %9 = icmp sge i32 %8, 0, !dbg !797\l  br label %10\l}"];
+	Node0x1ba7590 -> Node0x1ba75e0;
+	Node0x1ba75e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = phi i1 [ false, %1 ], [ %9, %6 ], !dbg !798\l  %12 = zext i1 %11 to i32, !dbg !794\l  ret i32 %12, !dbg !799\l}"];
+}

@@ -1,0 +1,10 @@
+digraph "CFG for 'free_cwd' function" {
+	label="CFG for 'free_cwd' function";
+
+	Node0x1399170 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.saved_cwd*, align 8\l  store %struct.saved_cwd* %0, %struct.saved_cwd** %2, align 8, !tbaa !1253\l  call void @llvm.dbg.declare(metadata %struct.saved_cwd** %2, metadata !1252,\l... metadata !DIExpression()), !dbg !1257\l  %3 = load %struct.saved_cwd*, %struct.saved_cwd** %2, align 8, !dbg !1258,\l... !tbaa !1253\l  %4 = getelementptr inbounds %struct.saved_cwd, %struct.saved_cwd* %3, i32 0,\l... i32 0, !dbg !1260\l  %5 = load i32, i32* %4, align 8, !dbg !1260, !tbaa !1261\l  %6 = icmp sge i32 %5, 0, !dbg !1264\l  br i1 %6, label %7, label %12, !dbg !1265\l|{<s0>T|<s1>F}}"];
+	Node0x1399170:s0 -> Node0x139a4c0;
+	Node0x1399170:s1 -> Node0x139a510;
+	Node0x139a4c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%7:\l7:                                                \l  %8 = load %struct.saved_cwd*, %struct.saved_cwd** %2, align 8, !dbg !1266,\l... !tbaa !1253\l  %9 = getelementptr inbounds %struct.saved_cwd, %struct.saved_cwd* %8, i32 0,\l... i32 0, !dbg !1267\l  %10 = load i32, i32* %9, align 8, !dbg !1267, !tbaa !1261\l  %11 = call i32 @close(i32 noundef %10), !dbg !1268\l  br label %12, !dbg !1268\l}"];
+	Node0x139a4c0 -> Node0x139a510;
+	Node0x139a510 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = load %struct.saved_cwd*, %struct.saved_cwd** %2, align 8, !dbg !1269,\l... !tbaa !1253\l  %14 = getelementptr inbounds %struct.saved_cwd, %struct.saved_cwd* %13, i32\l... 0, i32 1, !dbg !1270\l  %15 = load i8*, i8** %14, align 8, !dbg !1270, !tbaa !1271\l  call void @free(i8* noundef %15) #26, !dbg !1272\l  ret void, !dbg !1273\l}"];
+}

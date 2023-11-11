@@ -1,0 +1,5 @@
+digraph "CFG for 'rotl32' function" {
+	label="CFG for 'rotl32' function";
+
+	Node0x22ce650 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !960\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !958, metadata\l... !DIExpression()), !dbg !964\l  store i32 %1, i32* %4, align 4, !tbaa !960\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !959, metadata\l... !DIExpression()), !dbg !965\l  %5 = load i32, i32* %3, align 4, !dbg !966, !tbaa !960\l  %6 = load i32, i32* %4, align 4, !dbg !967, !tbaa !960\l  %7 = shl i32 %5, %6, !dbg !968\l  %8 = load i32, i32* %3, align 4, !dbg !969, !tbaa !960\l  %9 = load i32, i32* %4, align 4, !dbg !970, !tbaa !960\l  %10 = sub nsw i32 32, %9, !dbg !971\l  %11 = lshr i32 %8, %10, !dbg !972\l  %12 = or i32 %7, %11, !dbg !973\l  %13 = and i32 %12, -1, !dbg !974\l  ret i32 %13, !dbg !975\l}"];
+}

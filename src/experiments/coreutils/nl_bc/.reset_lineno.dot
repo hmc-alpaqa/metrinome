@@ -1,0 +1,10 @@
+digraph "CFG for 'reset_lineno' function" {
+	label="CFG for 'reset_lineno' function";
+
+	Node0x176ff30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8, i8* @reset_numbers, align 1, !dbg !786, !tbaa !788, !range !792\l  %2 = trunc i8 %1 to i1, !dbg !786\l  br i1 %2, label %3, label %5, !dbg !793\l|{<s0>T|<s1>F}}"];
+	Node0x176ff30:s0 -> Node0x176ffc0;
+	Node0x176ff30:s1 -> Node0x1770010;
+	Node0x176ffc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%3:\l3:                                                \l  %4 = load i64, i64* @starting_line_number, align 8, !dbg !794, !tbaa !796\l  store i64 %4, i64* @line_no, align 8, !dbg !798, !tbaa !796\l  store i8 0, i8* @line_no_overflow, align 1, !dbg !799, !tbaa !788\l  br label %5, !dbg !800\l}"];
+	Node0x176ffc0 -> Node0x1770010;
+	Node0x1770010 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  ret void, !dbg !801\l}"];
+}

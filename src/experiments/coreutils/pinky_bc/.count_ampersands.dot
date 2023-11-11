@@ -1,0 +1,17 @@
+digraph "CFG for 'count_ampersands' function" {
+	label="CFG for 'count_ampersands' function";
+
+	Node0x1d27ff0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca i64, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !904\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !902, metadata\l... !DIExpression()), !dbg !908\l  %4 = bitcast i64* %3 to i8*, !dbg !909\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #22, !dbg !909\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !903, metadata\l... !DIExpression()), !dbg !910\l  store i64 0, i64* %3, align 8, !dbg !910, !tbaa !911\l  br label %5, !dbg !913\l}"];
+	Node0x1d27ff0 -> Node0x1d28080;
+	Node0x1d28080 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  %6 = load i8*, i8** %2, align 8, !dbg !914, !tbaa !904\l  %7 = load i8, i8* %6, align 1, !dbg !917, !tbaa !918\l  %8 = sext i8 %7 to i32, !dbg !917\l  %9 = icmp eq i32 %8, 38, !dbg !919\l  br i1 %9, label %10, label %13, !dbg !920\l|{<s0>T|<s1>F}}"];
+	Node0x1d28080:s0 -> Node0x1d280d0;
+	Node0x1d28080:s1 -> Node0x1d28120;
+	Node0x1d280d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%10:\l10:                                               \l  %11 = load i64, i64* %3, align 8, !dbg !921, !tbaa !911\l  %12 = add i64 %11, 1, !dbg !921\l  store i64 %12, i64* %3, align 8, !dbg !921, !tbaa !911\l  br label %13, !dbg !922\l}"];
+	Node0x1d280d0 -> Node0x1d28120;
+	Node0x1d28120 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  br label %14, !dbg !923\l}"];
+	Node0x1d28120 -> Node0x1d28170;
+	Node0x1d28170 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%14:\l14:                                               \l  %15 = load i8*, i8** %2, align 8, !dbg !924, !tbaa !904\l  %16 = getelementptr inbounds i8, i8* %15, i32 1, !dbg !924\l  store i8* %16, i8** %2, align 8, !dbg !924, !tbaa !904\l  %17 = load i8, i8* %15, align 1, !dbg !925, !tbaa !918\l  %18 = icmp ne i8 %17, 0, !dbg !923\l  br i1 %18, label %5, label %19, !dbg !923, !llvm.loop !926\l|{<s0>T|<s1>F}}"];
+	Node0x1d28170:s0 -> Node0x1d28080;
+	Node0x1d28170:s1 -> Node0x1d281c0;
+	Node0x1d281c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%19:\l19:                                               \l  %20 = load i64, i64* %3, align 8, !dbg !930, !tbaa !911\l  %21 = bitcast i64* %3 to i8*, !dbg !931\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %21) #22, !dbg !931\l  ret i64 %20, !dbg !932\l}"];
+}

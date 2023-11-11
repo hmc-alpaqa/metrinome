@@ -1,0 +1,5 @@
+digraph "CFG for 'file_has_acl' function" {
+	label="CFG for 'file_has_acl' function";
+
+	Node0xbefd20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca %struct.stat*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1897\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1895, metadata\l... !DIExpression()), !dbg !1901\l  store %struct.stat* %1, %struct.stat** %4, align 8, !tbaa !1897\l  call void @llvm.dbg.declare(metadata %struct.stat** %4, metadata !1896,\l... metadata !DIExpression()), !dbg !1902\l  ret i32 0, !dbg !1903\l}"];
+}

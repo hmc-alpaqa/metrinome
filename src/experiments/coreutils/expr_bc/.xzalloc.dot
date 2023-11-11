@@ -1,0 +1,5 @@
+digraph "CFG for 'xzalloc' function" {
+	label="CFG for 'xzalloc' function";
+
+	Node0x2a22600 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !790\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !789, metadata\l... !DIExpression()), !dbg !794\l  %3 = load i64, i64* %2, align 8, !dbg !795, !tbaa !790\l  %4 = call noalias nonnull i8* @xcalloc(i64 noundef %3, i64 noundef 1) #22,\l... !dbg !796\l  ret i8* %4, !dbg !797\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'rpl_vprintf' function" {
+	label="CFG for 'rpl_vprintf' function";
+
+	Node0x1a45a20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca %struct.__va_list_tag*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1056\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1054, metadata\l... !DIExpression()), !dbg !1060\l  store %struct.__va_list_tag* %1, %struct.__va_list_tag** %4, align 8, !tbaa\l... !1056\l  call void @llvm.dbg.declare(metadata %struct.__va_list_tag** %4, metadata\l... !1055, metadata !DIExpression()), !dbg !1061\l  %5 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !1062, !tbaa !1056\l  %6 = load i8*, i8** %3, align 8, !dbg !1063, !tbaa !1056\l  %7 = load %struct.__va_list_tag*, %struct.__va_list_tag** %4, align 8, !dbg\l... !1064, !tbaa !1056\l  %8 = call i32 @rpl_vfprintf(%struct._IO_FILE* noundef %5, i8* noundef %6,\l... %struct.__va_list_tag* noundef %7), !dbg !1065\l  ret i32 %8, !dbg !1066\l}"];
+}

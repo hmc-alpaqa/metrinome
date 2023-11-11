@@ -1,0 +1,15 @@
+digraph "CFG for 'xrealloc' function" {
+	label="CFG for 'xrealloc' function";
+
+	Node0x12e4c90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !954\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !951, metadata\l... !DIExpression()), !dbg !958\l  store i64 %1, i64* %4, align 8, !tbaa !959\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !952, metadata\l... !DIExpression()), !dbg !961\l  %6 = bitcast i8** %5 to i8*, !dbg !962\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #24, !dbg !962\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !953, metadata\l... !DIExpression()), !dbg !963\l  %7 = load i8*, i8** %3, align 8, !dbg !964, !tbaa !954\l  %8 = load i64, i64* %4, align 8, !dbg !965, !tbaa !959\l  %9 = call i8* @realloc(i8* noundef %7, i64 noundef %8) #24, !dbg !966\l  store i8* %9, i8** %5, align 8, !dbg !963, !tbaa !954\l  %10 = load i8*, i8** %5, align 8, !dbg !967, !tbaa !954\l  %11 = icmp ne i8* %10, null, !dbg !967\l  br i1 %11, label %19, label %12, !dbg !969\l|{<s0>T|<s1>F}}"];
+	Node0x12e4c90:s0 -> Node0x12e5480;
+	Node0x12e4c90:s1 -> Node0x12e5390;
+	Node0x12e5390 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%12:\l12:                                               \l  %13 = load i8*, i8** %3, align 8, !dbg !970, !tbaa !954\l  %14 = icmp ne i8* %13, null, !dbg !970\l  br i1 %14, label %15, label %18, !dbg !971\l|{<s0>T|<s1>F}}"];
+	Node0x12e5390:s0 -> Node0x12e53e0;
+	Node0x12e5390:s1 -> Node0x12e5430;
+	Node0x12e53e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%15:\l15:                                               \l  %16 = load i64, i64* %4, align 8, !dbg !972, !tbaa !959\l  %17 = icmp ne i64 %16, 0, !dbg !972\l  br i1 %17, label %18, label %19, !dbg !973\l|{<s0>T|<s1>F}}"];
+	Node0x12e53e0:s0 -> Node0x12e5430;
+	Node0x12e53e0:s1 -> Node0x12e5480;
+	Node0x12e5430 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%18:\l18:                                               \l  call void @xalloc_die() #25, !dbg !974\l  unreachable, !dbg !974\l}"];
+	Node0x12e5480 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  %20 = load i8*, i8** %5, align 8, !dbg !975, !tbaa !954\l  %21 = bitcast i8** %5 to i8*, !dbg !976\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %21) #24, !dbg !976\l  ret i8* %20, !dbg !977\l}"];
+}

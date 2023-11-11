@@ -1,0 +1,5 @@
+digraph "CFG for 'file_type' function" {
+	label="CFG for 'file_type' function";
+
+	Node0x16e0ac0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !1408\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !1407,\l... metadata !DIExpression()), !dbg !1412\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !1413, !tbaa !1408\l  %4 = call i8* @c_file_type(%struct.stat* noundef %3) #22, !dbg !1413\l  ret i8* %4, !dbg !1414\l}"];
+}

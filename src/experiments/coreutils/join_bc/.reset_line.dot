@@ -1,0 +1,5 @@
+digraph "CFG for 'reset_line' function" {
+	label="CFG for 'reset_line' function";
+
+	Node0x96d500 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.line*, align 8\l  store %struct.line* %0, %struct.line** %2, align 8, !tbaa !795\l  call void @llvm.dbg.declare(metadata %struct.line** %2, metadata !794,\l... metadata !DIExpression()), !dbg !799\l  %3 = load %struct.line*, %struct.line** %2, align 8, !dbg !800, !tbaa !795\l  %4 = getelementptr inbounds %struct.line, %struct.line* %3, i32 0, i32 1,\l... !dbg !801\l  store i64 0, i64* %4, align 8, !dbg !802, !tbaa !803\l  ret void, !dbg !807\l}"];
+}

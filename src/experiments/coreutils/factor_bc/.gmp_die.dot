@@ -1,0 +1,5 @@
+digraph "CFG for 'gmp_die' function" {
+	label="CFG for 'gmp_die' function";
+
+	Node0x1aac550 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !784\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !783, metadata\l... !DIExpression()), !dbg !788\l  %3 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg !789,\l... !tbaa !784\l  %4 = load i8*, i8** %2, align 8, !dbg !790, !tbaa !784\l  %5 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE*\l... noundef %3, i8* noundef getelementptr inbounds ([4 x i8], [4 x i8]*\l... @.str.54.72, i64 0, i64 0), i8* noundef %4), !dbg !791\l  call void @abort() #23, !dbg !792\l  unreachable, !dbg !792\l}"];
+}

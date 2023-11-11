@@ -1,0 +1,5 @@
+digraph "CFG for 'xtime_make' function" {
+	label="CFG for 'xtime_make' function";
+
+	Node0x1028d60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !1319\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1317, metadata\l... !DIExpression()), !dbg !1323\l  store i64 %1, i64* %4, align 8, !tbaa !1324\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1318, metadata\l... !DIExpression()), !dbg !1326\l  %5 = load i64, i64* %3, align 8, !dbg !1327, !tbaa !1319\l  %6 = mul nsw i64 1000000000, %5, !dbg !1328\l  %7 = load i64, i64* %4, align 8, !dbg !1329, !tbaa !1324\l  %8 = add nsw i64 %6, %7, !dbg !1330\l  ret i64 %8, !dbg !1331\l}"];
+}

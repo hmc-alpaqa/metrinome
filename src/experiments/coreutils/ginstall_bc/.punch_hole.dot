@@ -1,0 +1,16 @@
+digraph "CFG for 'punch_hole' function" {
+	label="CFG for 'punch_hole' function";
+
+	Node0x1893c80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i32, align 4\l  store i32 %0, i32* %4, align 4, !tbaa !1743\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1739, metadata\l... !DIExpression()), !dbg !1747\l  store i64 %1, i64* %5, align 8, !tbaa !1748\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !1740, metadata\l... !DIExpression()), !dbg !1750\l  store i64 %2, i64* %6, align 8, !tbaa !1748\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !1741, metadata\l... !DIExpression()), !dbg !1751\l  %8 = bitcast i32* %7 to i8*, !dbg !1752\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #26, !dbg !1752\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !1742, metadata\l... !DIExpression()), !dbg !1753\l  store i32 0, i32* %7, align 4, !dbg !1753, !tbaa !1743\l  %9 = load i32, i32* %4, align 4, !dbg !1754, !tbaa !1743\l  %10 = load i64, i64* %5, align 8, !dbg !1755, !tbaa !1748\l  %11 = load i64, i64* %6, align 8, !dbg !1756, !tbaa !1748\l  %12 = call i32 @fallocate(i32 noundef %9, i32 noundef 3, i64 noundef %10,\l... i64 noundef %11), !dbg !1757\l  store i32 %12, i32* %7, align 4, !dbg !1758, !tbaa !1743\l  %13 = load i32, i32* %7, align 4, !dbg !1759, !tbaa !1743\l  %14 = icmp slt i32 %13, 0, !dbg !1761\l  br i1 %14, label %15, label %24, !dbg !1762\l|{<s0>T|<s1>F}}"];
+	Node0x1893c80:s0 -> Node0x1896de0;
+	Node0x1893c80:s1 -> Node0x1896ed0;
+	Node0x1896de0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5a08170",label="{%15:\l15:                                               \l  %16 = call i32* @__errno_location() #27, !dbg !1763\l  %17 = load i32, i32* %16, align 4, !dbg !1763, !tbaa !1743\l  %18 = call zeroext i1 @is_ENOTSUP(i32 noundef %17), !dbg !1764\l  br i1 %18, label %23, label %19, !dbg !1765\l|{<s0>T|<s1>F}}"];
+	Node0x1896de0:s0 -> Node0x1896e80;
+	Node0x1896de0:s1 -> Node0x1896e30;
+	Node0x1896e30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ead5c970",label="{%19:\l19:                                               \l  %20 = call i32* @__errno_location() #27, !dbg !1766\l  %21 = load i32, i32* %20, align 4, !dbg !1766, !tbaa !1743\l  %22 = icmp eq i32 %21, 38, !dbg !1767\l  br i1 %22, label %23, label %24, !dbg !1768\l|{<s0>T|<s1>F}}"];
+	Node0x1896e30:s0 -> Node0x1896e80;
+	Node0x1896e30:s1 -> Node0x1896ed0;
+	Node0x1896e80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b99e70",label="{%23:\l23:                                               \l  store i32 0, i32* %7, align 4, !dbg !1769, !tbaa !1743\l  br label %24, !dbg !1770\l}"];
+	Node0x1896e80 -> Node0x1896ed0;
+	Node0x1896ed0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%24:\l24:                                               \l  %25 = load i32, i32* %7, align 4, !dbg !1771, !tbaa !1743\l  %26 = bitcast i32* %7 to i8*, !dbg !1772\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %26) #26, !dbg !1772\l  ret i32 %25, !dbg !1773\l}"];
+}

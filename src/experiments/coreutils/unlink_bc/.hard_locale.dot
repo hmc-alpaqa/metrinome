@@ -1,0 +1,20 @@
+digraph "CFG for 'hard_locale' function" {
+	label="CFG for 'hard_locale' function";
+
+	Node0x1801600 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i32, align 4\l  %4 = alloca [257 x i8], align 16\l  %5 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !645\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !640, metadata\l... !DIExpression()), !dbg !649\l  %6 = bitcast [257 x i8]* %4 to i8*, !dbg !650\l  call void @llvm.lifetime.start.p0i8(i64 257, i8* %6) #21, !dbg !650\l  call void @llvm.dbg.declare(metadata [257 x i8]* %4, metadata !641, metadata\l... !DIExpression()), !dbg !651\l  %7 = load i32, i32* %3, align 4, !dbg !652, !tbaa !645\l  %8 = getelementptr inbounds [257 x i8], [257 x i8]* %4, i64 0, i64 0, !dbg\l... !654\l  %9 = call i32 @setlocale_null_r(i32 noundef %7, i8* noundef %8, i64 noundef\l... 257), !dbg !655\l  %10 = icmp ne i32 %9, 0, !dbg !655\l  br i1 %10, label %11, label %12, !dbg !656\l|{<s0>T|<s1>F}}"];
+	Node0x1801600:s0 -> Node0x1801690;
+	Node0x1801600:s1 -> Node0x18016e0;
+	Node0x1801690 [shape=record,color="#b70d28ff", style=filled, fillcolor="#dc5d4a70",label="{%11:\l11:                                               \l  store i1 false, i1* %2, align 1, !dbg !657\l  store i32 1, i32* %5, align 4\l  br label %22, !dbg !657\l}"];
+	Node0x1801690 -> Node0x1801820;
+	Node0x18016e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%12:\l12:                                               \l  %13 = getelementptr inbounds [257 x i8], [257 x i8]* %4, i64 0, i64 0, !dbg\l... !658\l  %14 = call i32 @strcmp(i8* noundef %13, i8* noundef getelementptr inbounds\l... ([2 x i8], [2 x i8]* @.str.150, i64 0, i64 0)) #22, !dbg !660\l  %15 = icmp eq i32 %14, 0, !dbg !661\l  br i1 %15, label %21, label %16, !dbg !662\l|{<s0>T|<s1>F}}"];
+	Node0x18016e0:s0 -> Node0x18017d0;
+	Node0x18016e0:s1 -> Node0x1801730;
+	Node0x1801730 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4c5ad70",label="{%16:\l16:                                               \l  %17 = getelementptr inbounds [257 x i8], [257 x i8]* %4, i64 0, i64 0, !dbg\l... !663\l  %18 = call i32 @strcmp(i8* noundef %17, i8* noundef getelementptr inbounds\l... ([6 x i8], [6 x i8]* @.str.1.151, i64 0, i64 0)) #22, !dbg !664\l  %19 = icmp eq i32 %18, 0, !dbg !665\l  br i1 %19, label %21, label %20, !dbg !666\l|{<s0>T|<s1>F}}"];
+	Node0x1801730:s0 -> Node0x18017d0;
+	Node0x1801730:s1 -> Node0x1801780;
+	Node0x1801780 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%20:\l20:                                               \l  store i1 true, i1* %2, align 1, !dbg !667\l  store i32 1, i32* %5, align 4\l  br label %22, !dbg !667\l}"];
+	Node0x1801780 -> Node0x1801820;
+	Node0x18017d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4c5ad70",label="{%21:\l21:                                               \l  store i1 false, i1* %2, align 1, !dbg !668\l  store i32 1, i32* %5, align 4\l  br label %22, !dbg !668\l}"];
+	Node0x18017d0 -> Node0x1801820;
+	Node0x1801820 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%22:\l22:                                               \l  %23 = bitcast [257 x i8]* %4 to i8*, !dbg !669\l  call void @llvm.lifetime.end.p0i8(i64 257, i8* %23) #21, !dbg !669\l  %24 = load i1, i1* %2, align 1, !dbg !669\l  ret i1 %24, !dbg !669\l}"];
+}

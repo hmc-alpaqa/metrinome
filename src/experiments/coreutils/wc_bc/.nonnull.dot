@@ -1,0 +1,9 @@
+digraph "CFG for 'nonnull' function" {
+	label="CFG for 'nonnull' function";
+
+	Node0x1fdee00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !1296\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !1295, metadata\l... !DIExpression()), !dbg !1300\l  %3 = load i8*, i8** %2, align 8, !dbg !1301, !tbaa !1296\l  %4 = icmp ne i8* %3, null, !dbg !1301\l  br i1 %4, label %6, label %5, !dbg !1303\l|{<s0>T|<s1>F}}"];
+	Node0x1fdee00:s0 -> Node0x1fdf590;
+	Node0x1fdee00:s1 -> Node0x1fdf540;
+	Node0x1fdf540 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%5:\l5:                                                \l  call void @xalloc_die() #24, !dbg !1304\l  unreachable, !dbg !1304\l}"];
+	Node0x1fdf590 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%6:\l6:                                                \l  %7 = load i8*, i8** %2, align 8, !dbg !1305, !tbaa !1296\l  ret i8* %7, !dbg !1306\l}"];
+}

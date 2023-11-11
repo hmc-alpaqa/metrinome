@@ -1,0 +1,15 @@
+digraph "CFG for 'leapyear' function" {
+	label="CFG for 'leapyear' function";
+
+	Node0x1931240 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !1124\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !1123, metadata\l... !DIExpression()), !dbg !1128\l  %3 = load i64, i64* %2, align 8, !dbg !1129, !tbaa !1124\l  %4 = and i64 %3, 3, !dbg !1130\l  %5 = icmp eq i64 %4, 0, !dbg !1131\l  br i1 %5, label %6, label %17, !dbg !1132\l|{<s0>T|<s1>F}}"];
+	Node0x1931240:s0 -> Node0x19312c0;
+	Node0x1931240:s1 -> Node0x19313b0;
+	Node0x19312c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%6:\l6:                                                \l  %7 = load i64, i64* %2, align 8, !dbg !1133, !tbaa !1124\l  %8 = srem i64 %7, 100, !dbg !1134\l  %9 = icmp ne i64 %8, 0, !dbg !1135\l  br i1 %9, label %15, label %10, !dbg !1136\l|{<s0>T|<s1>F}}"];
+	Node0x19312c0:s0 -> Node0x1931360;
+	Node0x19312c0:s1 -> Node0x1931310;
+	Node0x1931310 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e0dbd870",label="{%10:\l10:                                               \l  %11 = load i64, i64* %2, align 8, !dbg !1137, !tbaa !1124\l  %12 = sdiv i64 %11, 100, !dbg !1138\l  %13 = and i64 %12, 3, !dbg !1139\l  %14 = icmp eq i64 %13, 1, !dbg !1140\l  br label %15, !dbg !1136\l}"];
+	Node0x1931310 -> Node0x1931360;
+	Node0x1931360 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%15:\l15:                                               \l  %16 = phi i1 [ true, %6 ], [ %14, %10 ]\l  br label %17\l}"];
+	Node0x1931360 -> Node0x19313b0;
+	Node0x19313b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%17:\l17:                                               \l  %18 = phi i1 [ false, %1 ], [ %16, %15 ], !dbg !1141\l  ret i1 %18, !dbg !1142\l}"];
+}

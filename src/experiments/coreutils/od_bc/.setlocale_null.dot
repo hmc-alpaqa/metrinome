@@ -1,0 +1,5 @@
+digraph "CFG for 'setlocale_null' function" {
+	label="CFG for 'setlocale_null' function";
+
+	Node0xcf2c20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !1231\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1230, metadata\l... !DIExpression()), !dbg !1235\l  %3 = load i32, i32* %2, align 4, !dbg !1236, !tbaa !1231\l  %4 = call i8* @setlocale_null_androidfix(i32 noundef %3), !dbg !1237\l  ret i8* %4, !dbg !1238\l}"];
+}

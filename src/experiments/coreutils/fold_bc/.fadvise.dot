@@ -1,0 +1,10 @@
+digraph "CFG for 'fadvise' function" {
+	label="CFG for 'fadvise' function";
+
+	Node0x20d7380 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct._IO_FILE*, align 8\l  %4 = alloca i32, align 4\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %3, align 8, !tbaa !799\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %3, metadata !797,\l... metadata !DIExpression()), !dbg !803\l  store i32 %1, i32* %4, align 4, !tbaa !804\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !798, metadata\l... !DIExpression()), !dbg !805\l  %5 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !806,\l... !tbaa !799\l  %6 = icmp ne %struct._IO_FILE* %5, null, !dbg !806\l  br i1 %6, label %7, label %11, !dbg !808\l|{<s0>T|<s1>F}}"];
+	Node0x20d7380:s0 -> Node0x20d73d0;
+	Node0x20d7380:s1 -> Node0x20d7420;
+	Node0x20d73d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%7:\l7:                                                \l  %8 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !809,\l... !tbaa !799\l  %9 = call i32 @fileno(%struct._IO_FILE* noundef %8) #22, !dbg !810\l  %10 = load i32, i32* %4, align 4, !dbg !811, !tbaa !804\l  call void @fdadvise(i32 noundef %9, i64 noundef 0, i64 noundef 0, i32\l... noundef %10), !dbg !812\l  br label %11, !dbg !812\l}"];
+	Node0x20d73d0 -> Node0x20d7420;
+	Node0x20d7420 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  ret void, !dbg !813\l}"];
+}

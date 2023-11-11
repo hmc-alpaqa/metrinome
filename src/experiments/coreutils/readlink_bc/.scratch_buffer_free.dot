@@ -1,0 +1,10 @@
+digraph "CFG for 'scratch_buffer_free' function" {
+	label="CFG for 'scratch_buffer_free' function";
+
+	Node0x18b7260 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.scratch_buffer*, align 8\l  store %struct.scratch_buffer* %0, %struct.scratch_buffer** %2, align 8,\l... !tbaa !745\l  call void @llvm.dbg.declare(metadata %struct.scratch_buffer** %2, metadata\l... !744, metadata !DIExpression()), !dbg !749\l  %3 = load %struct.scratch_buffer*, %struct.scratch_buffer** %2, align 8,\l... !dbg !750, !tbaa !745\l  %4 = getelementptr inbounds %struct.scratch_buffer, %struct.scratch_buffer*\l... %3, i32 0, i32 0, !dbg !752\l  %5 = load i8*, i8** %4, align 16, !dbg !752, !tbaa !753\l  %6 = load %struct.scratch_buffer*, %struct.scratch_buffer** %2, align 8,\l... !dbg !756, !tbaa !745\l  %7 = getelementptr inbounds %struct.scratch_buffer, %struct.scratch_buffer*\l... %6, i32 0, i32 2, !dbg !757\l  %8 = bitcast %union.anon* %7 to [1024 x i8]*, !dbg !758\l  %9 = getelementptr inbounds [1024 x i8], [1024 x i8]* %8, i64 0, i64 0, !dbg\l... !756\l  %10 = icmp ne i8* %5, %9, !dbg !759\l  br i1 %10, label %11, label %15, !dbg !760\l|{<s0>T|<s1>F}}"];
+	Node0x18b7260:s0 -> Node0x18a9a40;
+	Node0x18b7260:s1 -> Node0x18a9a90;
+	Node0x18a9a40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%11:\l11:                                               \l  %12 = load %struct.scratch_buffer*, %struct.scratch_buffer** %2, align 8,\l... !dbg !761, !tbaa !745\l  %13 = getelementptr inbounds %struct.scratch_buffer, %struct.scratch_buffer*\l... %12, i32 0, i32 0, !dbg !762\l  %14 = load i8*, i8** %13, align 16, !dbg !762, !tbaa !753\l  call void @free(i8* noundef %14) #24, !dbg !763\l  br label %15, !dbg !763\l}"];
+	Node0x18a9a40 -> Node0x18a9a90;
+	Node0x18a9a90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  ret void, !dbg !764\l}"];
+}

@@ -1,0 +1,34 @@
+digraph "CFG for 'any_non_regular_fifo' function" {
+	label="CFG for 'any_non_regular_fifo' function";
+
+	Node0x102ba50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca %struct.File_spec*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i32, align 4\l  store %struct.File_spec* %0, %struct.File_spec** %4, align 8, !tbaa !957\l  call void @llvm.dbg.declare(metadata %struct.File_spec** %4, metadata !953,\l... metadata !DIExpression()), !dbg !961\l  store i64 %1, i64* %5, align 8, !tbaa !962\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !954, metadata\l... !DIExpression()), !dbg !964\l  %8 = bitcast i64* %6 to i8*, !dbg !965\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #24, !dbg !965\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !955, metadata\l... !DIExpression()), !dbg !966\l  store i64 0, i64* %6, align 8, !dbg !966, !tbaa !962\l  br label %9, !dbg !965\l}"];
+	Node0x102ba50 -> Node0x102bb10;
+	Node0x102bb10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load i64, i64* %6, align 8, !dbg !967, !tbaa !962\l  %11 = load i64, i64* %5, align 8, !dbg !969, !tbaa !962\l  %12 = icmp ult i64 %10, %11, !dbg !970\l  br i1 %12, label %14, label %13, !dbg !971\l|{<s0>T|<s1>F}}"];
+	Node0x102bb10:s0 -> Node0x102bbb0;
+	Node0x102bb10:s1 -> Node0x102bb60;
+	Node0x102bb60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%13:\l13:                                               \l  store i32 2, i32* %7, align 4\l  br label %42, !dbg !971\l}"];
+	Node0x102bb60 -> Node0x102bd90;
+	Node0x102bbb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%14:\l14:                                               \l  %15 = load %struct.File_spec*, %struct.File_spec** %4, align 8, !dbg !972,\l... !tbaa !957\l  %16 = load i64, i64* %6, align 8, !dbg !974, !tbaa !962\l  %17 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %15, i64\l... %16, !dbg !972\l  %18 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %17, i32\l... 0, i32 9, !dbg !975\l  %19 = load i32, i32* %18, align 8, !dbg !975, !tbaa !976\l  %20 = icmp sle i32 0, %19, !dbg !981\l  br i1 %20, label %21, label %38, !dbg !982\l|{<s0>T|<s1>F}}"];
+	Node0x102bbb0:s0 -> Node0x102bc00;
+	Node0x102bbb0:s1 -> Node0x102bcf0;
+	Node0x102bc00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%21:\l21:                                               \l  %22 = load %struct.File_spec*, %struct.File_spec** %4, align 8, !dbg !983,\l... !tbaa !957\l  %23 = load i64, i64* %6, align 8, !dbg !983, !tbaa !962\l  %24 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %22, i64\l... %23, !dbg !983\l  %25 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %24, i32\l... 0, i32 5, !dbg !983\l  %26 = load i32, i32* %25, align 8, !dbg !983, !tbaa !984\l  %27 = and i32 %26, 61440, !dbg !983\l  %28 = icmp eq i32 %27, 32768, !dbg !983\l  br i1 %28, label %38, label %29, !dbg !985\l|{<s0>T|<s1>F}}"];
+	Node0x102bc00:s0 -> Node0x102bcf0;
+	Node0x102bc00:s1 -> Node0x102bc50;
+	Node0x102bc50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ca3b3770",label="{%29:\l29:                                               \l  %30 = load %struct.File_spec*, %struct.File_spec** %4, align 8, !dbg !986,\l... !tbaa !957\l  %31 = load i64, i64* %6, align 8, !dbg !986, !tbaa !962\l  %32 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %30, i64\l... %31, !dbg !986\l  %33 = getelementptr inbounds %struct.File_spec, %struct.File_spec* %32, i32\l... 0, i32 5, !dbg !986\l  %34 = load i32, i32* %33, align 8, !dbg !986, !tbaa !984\l  %35 = and i32 %34, 61440, !dbg !986\l  %36 = icmp eq i32 %35, 4096, !dbg !986\l  br i1 %36, label %38, label %37, !dbg !987\l|{<s0>T|<s1>F}}"];
+	Node0x102bc50:s0 -> Node0x102bcf0;
+	Node0x102bc50:s1 -> Node0x102bca0;
+	Node0x102bca0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ec7f6370",label="{%37:\l37:                                               \l  store i1 true, i1* %3, align 1, !dbg !988\l  store i32 1, i32* %7, align 4\l  br label %42, !dbg !988\l}"];
+	Node0x102bca0 -> Node0x102bd90;
+	Node0x102bcf0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%38:\l38:                                               \l  br label %39, !dbg !986\l}"];
+	Node0x102bcf0 -> Node0x102bd40;
+	Node0x102bd40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%39:\l39:                                               \l  %40 = load i64, i64* %6, align 8, !dbg !989, !tbaa !962\l  %41 = add i64 %40, 1, !dbg !989\l  store i64 %41, i64* %6, align 8, !dbg !989, !tbaa !962\l  br label %9, !dbg !990, !llvm.loop !991\l}"];
+	Node0x102bd40 -> Node0x102bb10;
+	Node0x102bd90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%42:\l42:                                               \l  %43 = bitcast i64* %6 to i8*, !dbg !990\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %43) #24, !dbg !990\l  %44 = load i32, i32* %7, align 4\l  switch i32 %44, label %48 [\l    i32 2, label %45\l    i32 1, label %46\l  ]\l|{<s0>def|<s1>2|<s2>1}}"];
+	Node0x102bd90:s0 -> Node0x102be80;
+	Node0x102bd90:s1 -> Node0x102bde0;
+	Node0x102bd90:s2 -> Node0x102be30;
+	Node0x102bde0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%45:\l45:                                               \l  store i1 false, i1* %3, align 1, !dbg !995\l  br label %46, !dbg !995\l}"];
+	Node0x102bde0 -> Node0x102be30;
+	Node0x102be30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%46:\l46:                                               \l  %47 = load i1, i1* %3, align 1, !dbg !996\l  ret i1 %47, !dbg !996\l}"];
+	Node0x102be80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%48:\l48:                                               \l  unreachable\l}"];
+}

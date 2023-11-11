@@ -1,0 +1,12 @@
+digraph "CFG for 'cleanup_file_list_stdin' function" {
+	label="CFG for 'cleanup_file_list_stdin' function";
+
+	Node0x10f6a30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8, i8* @have_read_stdin, align 1, !dbg !762, !tbaa !764, !range\l... !768\l  %2 = trunc i8 %1 to i1, !dbg !762\l  br i1 %2, label %3, label %10, !dbg !769\l|{<s0>T|<s1>F}}"];
+	Node0x10f6a30:s0 -> Node0x118f0e0;
+	Node0x10f6a30:s1 -> Node0x118f180;
+	Node0x118f0e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%3:\l3:                                                \l  %4 = load %struct._IO_FILE*, %struct._IO_FILE** @stdin, align 8, !dbg !770,\l... !tbaa !771\l  %5 = call i32 @rpl_fclose(%struct._IO_FILE* noundef %4), !dbg !773\l  %6 = icmp ne i32 %5, 0, !dbg !774\l  br i1 %6, label %7, label %10, !dbg !775\l|{<s0>T|<s1>F}}"];
+	Node0x118f0e0:s0 -> Node0x118f130;
+	Node0x118f0e0:s1 -> Node0x118f180;
+	Node0x118f130 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%7:\l7:                                                \l  %8 = call i32* @__errno_location() #21, !dbg !776\l  %9 = load i32, i32* %8, align 4, !dbg !776, !tbaa !777\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef %9, i8*\l... noundef getelementptr inbounds ([2 x i8], [2 x i8]* @.str.6.54, i64 0, i64\l... 0)), !dbg !776\l  unreachable, !dbg !776\l}"];
+	Node0x118f180 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  ret void, !dbg !779\l}"];
+}

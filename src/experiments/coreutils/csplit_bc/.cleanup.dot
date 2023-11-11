@@ -1,0 +1,5 @@
+digraph "CFG for 'cleanup' function" {
+	label="CFG for 'cleanup' function";
+
+	Node0x2326060 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca %struct.__sigset_t, align 8\l  %2 = bitcast %struct.__sigset_t* %1 to i8*, !dbg !1027\l  call void @llvm.lifetime.start.p0i8(i64 128, i8* %2) #22, !dbg !1027\l  call void @llvm.dbg.declare(metadata %struct.__sigset_t* %1, metadata !1026,\l... metadata !DIExpression()), !dbg !1028\l  call void @close_output_file(), !dbg !1029\l  %3 = call i32 @sigprocmask(i32 noundef 0, %struct.__sigset_t* noundef\l... @caught_signals, %struct.__sigset_t* noundef %1) #22, !dbg !1030\l  call void @delete_all_files(i1 noundef zeroext false), !dbg !1031\l  %4 = call i32 @sigprocmask(i32 noundef 2, %struct.__sigset_t* noundef %1,\l... %struct.__sigset_t* noundef null) #22, !dbg !1032\l  %5 = bitcast %struct.__sigset_t* %1 to i8*, !dbg !1033\l  call void @llvm.lifetime.end.p0i8(i64 128, i8* %5) #22, !dbg !1033\l  ret void, !dbg !1033\l}"];
+}

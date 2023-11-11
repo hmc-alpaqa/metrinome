@@ -1,0 +1,17 @@
+digraph "CFG for 'mpz_mfac_uiui' function" {
+	label="CFG for 'mpz_mfac_uiui' function";
+
+	Node0x1d8c170 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%3:\l  %4 = alloca %struct.__mpz_struct*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  store %struct.__mpz_struct* %0, %struct.__mpz_struct** %4, align 8, !tbaa\l... !786\l  call void @llvm.dbg.declare(metadata %struct.__mpz_struct** %4, metadata\l... !783, metadata !DIExpression()), !dbg !790\l  store i64 %1, i64* %5, align 8, !tbaa !791\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !784, metadata\l... !DIExpression()), !dbg !793\l  store i64 %2, i64* %6, align 8, !tbaa !791\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !785, metadata\l... !DIExpression()), !dbg !794\l  %7 = load %struct.__mpz_struct*, %struct.__mpz_struct** %4, align 8, !dbg\l... !795, !tbaa !786\l  %8 = load i64, i64* %5, align 8, !dbg !796, !tbaa !791\l  %9 = load i64, i64* %5, align 8, !dbg !797, !tbaa !791\l  %10 = icmp eq i64 %9, 0, !dbg !798\l  %11 = zext i1 %10 to i32, !dbg !798\l  %12 = sext i32 %11 to i64, !dbg !799\l  %13 = add i64 %8, %12, !dbg !800\l  call void @mpz_set_ui(%struct.__mpz_struct* noundef %7, i64 noundef %13),\l... !dbg !801\l  %14 = load i64, i64* %6, align 8, !dbg !802, !tbaa !791\l  %15 = add i64 %14, 1, !dbg !804\l  %16 = icmp ult i64 %15, 2, !dbg !805\l  br i1 %16, label %17, label %18, !dbg !806\l|{<s0>T|<s1>F}}"];
+	Node0x1d8c170:s0 -> Node0x1d8c200;
+	Node0x1d8c170:s1 -> Node0x1d8c250;
+	Node0x1d8c200 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%17:\l17:                                               \l  br label %30, !dbg !807\l}"];
+	Node0x1d8c200 -> Node0x1d8c340;
+	Node0x1d8c250 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%18:\l18:                                               \l  br label %19, !dbg !808\l}"];
+	Node0x1d8c250 -> Node0x1d8c2a0;
+	Node0x1d8c2a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  %20 = load i64, i64* %5, align 8, !dbg !809, !tbaa !791\l  %21 = load i64, i64* %6, align 8, !dbg !810, !tbaa !791\l  %22 = add i64 %21, 1, !dbg !811\l  %23 = icmp ugt i64 %20, %22, !dbg !812\l  br i1 %23, label %24, label %30, !dbg !808\l|{<s0>T|<s1>F}}"];
+	Node0x1d8c2a0:s0 -> Node0x1d8c2f0;
+	Node0x1d8c2a0:s1 -> Node0x1d8c340;
+	Node0x1d8c2f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%24:\l24:                                               \l  %25 = load %struct.__mpz_struct*, %struct.__mpz_struct** %4, align 8, !dbg\l... !813, !tbaa !786\l  %26 = load %struct.__mpz_struct*, %struct.__mpz_struct** %4, align 8, !dbg\l... !814, !tbaa !786\l  %27 = load i64, i64* %6, align 8, !dbg !815, !tbaa !791\l  %28 = load i64, i64* %5, align 8, !dbg !816, !tbaa !791\l  %29 = sub i64 %28, %27, !dbg !816\l  store i64 %29, i64* %5, align 8, !dbg !816, !tbaa !791\l  call void @mpz_mul_ui(%struct.__mpz_struct* noundef %25,\l... %struct.__mpz_struct* noundef %26, i64 noundef %29), !dbg !817\l  br label %19, !dbg !808, !llvm.loop !818\l}"];
+	Node0x1d8c2f0 -> Node0x1d8c2a0;
+	Node0x1d8c340 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%30:\l30:                                               \l  ret void, !dbg !822\l}"];
+}

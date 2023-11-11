@@ -1,0 +1,5 @@
+digraph "CFG for 'yyerror' function" {
+	label="CFG for 'yyerror' function";
+
+	Node0x16d9890 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.parser_control*, align 8\l  %4 = alloca i8*, align 8\l  store %struct.parser_control* %0, %struct.parser_control** %3, align 8,\l... !tbaa !1642\l  call void @llvm.dbg.declare(metadata %struct.parser_control** %3, metadata\l... !1640, metadata !DIExpression()), !dbg !1646\l  store i8* %1, i8** %4, align 8, !tbaa !1642\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1641, metadata\l... !DIExpression()), !dbg !1647\l  ret i32 0, !dbg !1648\l}"];
+}

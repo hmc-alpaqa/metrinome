@@ -1,0 +1,12 @@
+digraph "CFG for 'absld' function" {
+	label="CFG for 'absld' function";
+
+	Node0xc9fd40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca x86_fp80, align 16\l  store x86_fp80 %0, x86_fp80* %2, align 16, !tbaa !875\l  call void @llvm.dbg.declare(metadata x86_fp80* %2, metadata !874, metadata\l... !DIExpression()), !dbg !879\l  %3 = load x86_fp80, x86_fp80* %2, align 16, !dbg !880, !tbaa !875\l  %4 = fcmp olt x86_fp80 %3, 0xK00000000000000000000, !dbg !881\l  br i1 %4, label %5, label %8, !dbg !880\l|{<s0>T|<s1>F}}"];
+	Node0xc9fd40:s0 -> Node0xc9fd90;
+	Node0xc9fd40:s1 -> Node0xc9fde0;
+	Node0xc9fd90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%5:\l5:                                                \l  %6 = load x86_fp80, x86_fp80* %2, align 16, !dbg !882, !tbaa !875\l  %7 = fneg x86_fp80 %6, !dbg !883\l  br label %10, !dbg !880\l}"];
+	Node0xc9fd90 -> Node0xc9fe30;
+	Node0xc9fde0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%8:\l8:                                                \l  %9 = load x86_fp80, x86_fp80* %2, align 16, !dbg !884, !tbaa !875\l  br label %10, !dbg !880\l}"];
+	Node0xc9fde0 -> Node0xc9fe30;
+	Node0xc9fe30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = phi x86_fp80 [ %7, %5 ], [ %9, %8 ], !dbg !880\l  ret x86_fp80 %11, !dbg !885\l}"];
+}

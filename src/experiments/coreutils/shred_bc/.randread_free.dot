@@ -1,0 +1,5 @@
+digraph "CFG for 'randread_free' function" {
+	label="CFG for 'randread_free' function";
+
+	Node0x24f6c90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.randread_source*, align 8\l  store %struct.randread_source* %0, %struct.randread_source** %2, align 8,\l... !tbaa !942\l  call void @llvm.dbg.declare(metadata %struct.randread_source** %2, metadata\l... !941, metadata !DIExpression()), !dbg !946\l  %3 = load %struct.randread_source*, %struct.randread_source** %2, align 8,\l... !dbg !947, !tbaa !942\l  %4 = call i32 @randread_free_body(%struct.randread_source* noundef %3), !dbg\l... !948\l  ret i32 %4, !dbg !949\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'xwrite_stdout' function" {
+	label="CFG for 'xwrite_stdout' function";
+
+	Node0x10be1e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !953\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !951, metadata\l... !DIExpression()), !dbg !957\l  store i64 %1, i64* %4, align 8, !tbaa !958\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !952, metadata\l... !DIExpression()), !dbg !960\l  %5 = load i64, i64* %4, align 8, !dbg !961, !tbaa !958\l  %6 = icmp ugt i64 %5, 0, !dbg !963\l  br i1 %6, label %7, label %19, !dbg !964\l|{<s0>T|<s1>F}}"];
+	Node0x10be1e0:s0 -> Node0x10be260;
+	Node0x10be1e0:s1 -> Node0x10be300;
+	Node0x10be260 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%7:\l7:                                                \l  %8 = load i8*, i8** %3, align 8, !dbg !965, !tbaa !953\l  %9 = load i64, i64* %4, align 8, !dbg !965, !tbaa !958\l  %10 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !965, !tbaa !953\l  %11 = call i64 @fwrite_unlocked(i8* noundef %8, i64 noundef 1, i64 noundef\l... %9, %struct._IO_FILE* noundef %10), !dbg !965\l  %12 = load i64, i64* %4, align 8, !dbg !966, !tbaa !958\l  %13 = icmp ult i64 %11, %12, !dbg !967\l  br i1 %13, label %14, label %19, !dbg !968\l|{<s0>T|<s1>F}}"];
+	Node0x10be260:s0 -> Node0x10be2b0;
+	Node0x10be260:s1 -> Node0x10be300;
+	Node0x10be2b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%14:\l14:                                               \l  %15 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg\l... !969, !tbaa !953\l  call void @clearerr_unlocked(%struct._IO_FILE* noundef %15) #24, !dbg !969\l  %16 = call i32* @__errno_location() #25, !dbg !971\l  %17 = load i32, i32* %16, align 4, !dbg !971, !tbaa !972\l  %18 = call i8* @quotearg_style(i32 noundef 4, i8* noundef getelementptr\l... inbounds ([16 x i8], [16 x i8]* @.str.19, i64 0, i64 0)), !dbg !971\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef %17, i8*\l... noundef getelementptr inbounds ([17 x i8], [17 x i8]* @.str.87, i64 0, i64\l... 0), i8* noundef %18), !dbg !971\l  unreachable, !dbg !971\l}"];
+	Node0x10be300 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  ret void, !dbg !974\l}"];
+}

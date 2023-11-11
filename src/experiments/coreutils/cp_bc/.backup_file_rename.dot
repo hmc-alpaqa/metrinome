@@ -1,0 +1,5 @@
+digraph "CFG for 'backup_file_rename' function" {
+	label="CFG for 'backup_file_rename' function";
+
+	Node0xf7bc60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca i32, align 4\l  store i32 %0, i32* %4, align 4, !tbaa !1473\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1470, metadata\l... !DIExpression()), !dbg !1477\l  store i8* %1, i8** %5, align 8, !tbaa !1478\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1471, metadata\l... !DIExpression()), !dbg !1480\l  store i32 %2, i32* %6, align 4, !tbaa !1481\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !1472, metadata\l... !DIExpression()), !dbg !1482\l  %7 = load i32, i32* %4, align 4, !dbg !1483, !tbaa !1473\l  %8 = load i8*, i8** %5, align 8, !dbg !1484, !tbaa !1478\l  %9 = load i32, i32* %6, align 4, !dbg !1485, !tbaa !1481\l  %10 = call noalias i8* @backupfile_internal(i32 noundef %7, i8* noundef %8,\l... i32 noundef %9, i1 noundef zeroext true), !dbg !1486\l  ret i8* %10, !dbg !1487\l}"];
+}

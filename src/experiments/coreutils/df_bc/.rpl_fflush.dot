@@ -1,0 +1,15 @@
+digraph "CFG for 'rpl_fflush' function" {
+	label="CFG for 'rpl_fflush' function";
+
+	Node0x14507c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca %struct._IO_FILE*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %3, align 8, !tbaa !1299\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %3, metadata !1298,\l... metadata !DIExpression()), !dbg !1303\l  %4 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1304,\l... !tbaa !1299\l  %5 = icmp eq %struct._IO_FILE* %4, null, !dbg !1306\l  br i1 %5, label %10, label %6, !dbg !1307\l|{<s0>T|<s1>F}}"];
+	Node0x14507c0:s0 -> Node0x1450890;
+	Node0x14507c0:s1 -> Node0x1450840;
+	Node0x1450840 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e97a5f70",label="{%6:\l6:                                                \l  %7 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1308,\l... !tbaa !1299\l  %8 = call i32 @__freading(%struct._IO_FILE* noundef %7) #26, !dbg !1308\l  %9 = icmp ne i32 %8, 0, !dbg !1308\l  br i1 %9, label %13, label %10, !dbg !1309\l|{<s0>T|<s1>F}}"];
+	Node0x1450840:s0 -> Node0x14508e0;
+	Node0x1450840:s1 -> Node0x1450890;
+	Node0x1450890 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e97a5f70",label="{%10:\l10:                                               \l  %11 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1310,\l... !tbaa !1299\l  %12 = call i32 @fflush(%struct._IO_FILE* noundef %11), !dbg !1311\l  store i32 %12, i32* %2, align 4, !dbg !1312\l  br label %17, !dbg !1312\l}"];
+	Node0x1450890 -> Node0x1450930;
+	Node0x14508e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%13:\l13:                                               \l  %14 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1313,\l... !tbaa !1299\l  call void @clear_ungetc_buffer_preserving_position(%struct._IO_FILE* noundef\l... %14), !dbg !1314\l  %15 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1315,\l... !tbaa !1299\l  %16 = call i32 @fflush(%struct._IO_FILE* noundef %15), !dbg !1316\l  store i32 %16, i32* %2, align 4, !dbg !1317\l  br label %17, !dbg !1317\l}"];
+	Node0x14508e0 -> Node0x1450930;
+	Node0x1450930 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%17:\l17:                                               \l  %18 = load i32, i32* %2, align 4, !dbg !1318\l  ret i32 %18, !dbg !1318\l}"];
+}

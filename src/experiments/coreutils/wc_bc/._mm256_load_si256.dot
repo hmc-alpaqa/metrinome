@@ -1,0 +1,5 @@
+digraph "CFG for '_mm256_load_si256' function" {
+	label="CFG for '_mm256_load_si256' function";
+
+	Node0x2066060 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca \<4 x i64\>*, align 8\l  store \<4 x i64\>* %0, \<4 x i64\>** %2, align 8, !tbaa !1291\l  %3 = load \<4 x i64\>*, \<4 x i64\>** %2, align 8, !tbaa !1291\l  %4 = load \<4 x i64\>, \<4 x i64\>* %3, align 32, !tbaa !1295\l  ret \<4 x i64\> %4\l}"];
+}

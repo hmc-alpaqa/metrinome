@@ -1,0 +1,5 @@
+digraph "CFG for 'rotl64' function" {
+	label="CFG for 'rotl64' function";
+
+	Node0x2379cb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i32, align 4\l  store i64 %0, i64* %3, align 8, !tbaa !1006\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1004, metadata\l... !DIExpression()), !dbg !1010\l  store i32 %1, i32* %4, align 4, !tbaa !1011\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1005, metadata\l... !DIExpression()), !dbg !1013\l  %5 = load i64, i64* %3, align 8, !dbg !1014, !tbaa !1006\l  %6 = load i32, i32* %4, align 4, !dbg !1015, !tbaa !1011\l  %7 = zext i32 %6 to i64, !dbg !1016\l  %8 = shl i64 %5, %7, !dbg !1016\l  %9 = load i64, i64* %3, align 8, !dbg !1017, !tbaa !1006\l  %10 = load i32, i32* %4, align 4, !dbg !1018, !tbaa !1011\l  %11 = sub nsw i32 64, %10, !dbg !1019\l  %12 = zext i32 %11 to i64, !dbg !1020\l  %13 = lshr i64 %9, %12, !dbg !1020\l  %14 = or i64 %8, %13, !dbg !1021\l  %15 = and i64 %14, -1, !dbg !1022\l  ret i64 %15, !dbg !1023\l}"];
+}

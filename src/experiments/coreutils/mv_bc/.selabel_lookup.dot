@@ -1,0 +1,5 @@
+digraph "CFG for 'selabel_lookup' function" {
+	label="CFG for 'selabel_lookup' function";
+
+	Node0x1626340 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l  %5 = alloca %struct.selabel_handle*, align 8\l  %6 = alloca i8**, align 8\l  %7 = alloca i8*, align 8\l  %8 = alloca i32, align 4\l  store %struct.selabel_handle* %0, %struct.selabel_handle** %5, align 8,\l... !tbaa !1512\l  call void @llvm.dbg.declare(metadata %struct.selabel_handle** %5, metadata\l... !1508, metadata !DIExpression()), !dbg !1516\l  store i8** %1, i8*** %6, align 8, !tbaa !1512\l  call void @llvm.dbg.declare(metadata i8*** %6, metadata !1509, metadata\l... !DIExpression()), !dbg !1517\l  store i8* %2, i8** %7, align 8, !tbaa !1512\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !1510, metadata\l... !DIExpression()), !dbg !1518\l  store i32 %3, i32* %8, align 4, !tbaa !1519\l  call void @llvm.dbg.declare(metadata i32* %8, metadata !1511, metadata\l... !DIExpression()), !dbg !1521\l  %9 = call i32* @__errno_location() #26, !dbg !1522\l  store i32 95, i32* %9, align 4, !dbg !1523, !tbaa !1519\l  ret i32 -1, !dbg !1524\l}"];
+}

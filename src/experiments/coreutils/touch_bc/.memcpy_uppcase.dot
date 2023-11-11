@@ -1,0 +1,12 @@
+digraph "CFG for 'memcpy_uppcase' function" {
+	label="CFG for 'memcpy_uppcase' function";
+
+	Node0xfa2ba0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i64, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !1548\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1545, metadata\l... !DIExpression()), !dbg !1552\l  store i8* %1, i8** %5, align 8, !tbaa !1548\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1546, metadata\l... !DIExpression()), !dbg !1553\l  store i64 %2, i64* %6, align 8, !tbaa !1554\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !1547, metadata\l... !DIExpression()), !dbg !1556\l  br label %7, !dbg !1557\l}"];
+	Node0xfa2ba0 -> Node0x11a30d0;
+	Node0x11a30d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i64, i64* %6, align 8, !dbg !1558, !tbaa !1554\l  %9 = add i64 %8, -1, !dbg !1558\l  store i64 %9, i64* %6, align 8, !dbg !1558, !tbaa !1554\l  %10 = icmp ugt i64 %8, 0, !dbg !1559\l  br i1 %10, label %11, label %22, !dbg !1557\l|{<s0>T|<s1>F}}"];
+	Node0x11a30d0:s0 -> Node0x11a3120;
+	Node0x11a30d0:s1 -> Node0x11a3170;
+	Node0x11a3120 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%11:\l11:                                               \l  %12 = load i8*, i8** %5, align 8, !dbg !1560, !tbaa !1548\l  %13 = load i64, i64* %6, align 8, !dbg !1560, !tbaa !1554\l  %14 = getelementptr inbounds i8, i8* %12, i64 %13, !dbg !1560\l  %15 = load i8, i8* %14, align 1, !dbg !1560, !tbaa !1561\l  %16 = zext i8 %15 to i32, !dbg !1560\l  %17 = call i32 @toupper(i32 noundef %16) #22, !dbg !1560\l  %18 = trunc i32 %17 to i8, !dbg !1560\l  %19 = load i8*, i8** %4, align 8, !dbg !1562, !tbaa !1548\l  %20 = load i64, i64* %6, align 8, !dbg !1563, !tbaa !1554\l  %21 = getelementptr inbounds i8, i8* %19, i64 %20, !dbg !1562\l  store i8 %18, i8* %21, align 1, !dbg !1564, !tbaa !1561\l  br label %7, !dbg !1557, !llvm.loop !1565\l}"];
+	Node0x11a3120 -> Node0x11a30d0;
+	Node0x11a3170 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%22:\l22:                                               \l  %23 = load i8*, i8** %4, align 8, !dbg !1568, !tbaa !1548\l  ret i8* %23, !dbg !1569\l}"];
+}

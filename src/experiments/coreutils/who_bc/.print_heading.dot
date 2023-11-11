@@ -1,0 +1,5 @@
+digraph "CFG for 'print_heading' function" {
+	label="CFG for 'print_heading' function";
+
+	Node0x1173570 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void @print_line(i8* noundef getelementptr inbounds ([5 x i8], [5 x\l... i8]* @.str.62, i64 0, i64 0), i8 noundef signext 32, i8* noundef\l... getelementptr inbounds ([5 x i8], [5 x i8]* @.str.63, i64 0, i64 0), i8*\l... noundef getelementptr inbounds ([5 x i8], [5 x i8]* @.str.64, i64 0, i64 0),\l... i8* noundef getelementptr inbounds ([5 x i8], [5 x i8]* @.str.65, i64 0, i64\l... 0), i8* noundef getelementptr inbounds ([4 x i8], [4 x i8]* @.str.66, i64 0,\l... i64 0), i8* noundef getelementptr inbounds ([8 x i8], [8 x i8]* @.str.67, i64\l... 0, i64 0), i8* noundef getelementptr inbounds ([5 x i8], [5 x i8]* @.str.68,\l... i64 0, i64 0)), !dbg !1225\l  ret void, !dbg !1226\l}"];
+}

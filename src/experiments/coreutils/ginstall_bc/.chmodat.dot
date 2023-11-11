@@ -1,0 +1,5 @@
+digraph "CFG for 'chmodat' function" {
+	label="CFG for 'chmodat' function";
+
+	Node0x192a430 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca i32, align 4\l  store i32 %0, i32* %4, align 4, !tbaa !1743\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1740, metadata\l... !DIExpression()), !dbg !1747\l  store i8* %1, i8** %5, align 8, !tbaa !1748\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1741, metadata\l... !DIExpression()), !dbg !1750\l  store i32 %2, i32* %6, align 4, !tbaa !1743\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !1742, metadata\l... !DIExpression()), !dbg !1751\l  %7 = load i32, i32* %4, align 4, !dbg !1752, !tbaa !1743\l  %8 = load i8*, i8** %5, align 8, !dbg !1753, !tbaa !1748\l  %9 = load i32, i32* %6, align 4, !dbg !1754, !tbaa !1743\l  %10 = call i32 @fchmodat(i32 noundef %7, i8* noundef %8, i32 noundef %9, i32\l... noundef 0) #26, !dbg !1755\l  ret i32 %10, !dbg !1756\l}"];
+}

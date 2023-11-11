@@ -1,0 +1,19 @@
+digraph "CFG for 'mark_ancestor_dirs' function" {
+	label="CFG for 'mark_ancestor_dirs' function";
+
+	Node0x10dc0a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%1:\l  %2 = alloca %struct._ftsent*, align 8\l  %3 = alloca %struct._ftsent*, align 8\l  store %struct._ftsent* %0, %struct._ftsent** %2, align 8, !tbaa !1591\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %2, metadata !1589,\l... metadata !DIExpression()), !dbg !1595\l  %4 = bitcast %struct._ftsent** %3 to i8*, !dbg !1596\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #26, !dbg !1596\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %3, metadata !1590,\l... metadata !DIExpression()), !dbg !1597\l  %5 = load %struct._ftsent*, %struct._ftsent** %2, align 8, !dbg !1598, !tbaa\l... !1591\l  %6 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %5, i32 0, i32\l... 1, !dbg !1600\l  %7 = load %struct._ftsent*, %struct._ftsent** %6, align 8, !dbg !1600, !tbaa\l... !1591\l  store %struct._ftsent* %7, %struct._ftsent** %3, align 8, !dbg !1601, !tbaa\l... !1591\l  br label %8, !dbg !1602\l}"];
+	Node0x10dc0a0 -> Node0x10dd8c0;
+	Node0x10dd8c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !1603, !tbaa\l... !1591\l  %10 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %9, i32 0,\l... i32 12, !dbg !1605\l  %11 = load i64, i64* %10, align 8, !dbg !1605, !tbaa !1606\l  %12 = icmp sle i64 0, %11, !dbg !1608\l  br i1 %12, label %13, label %26, !dbg !1609\l|{<s0>T|<s1>F}}"];
+	Node0x10dd8c0:s0 -> Node0x10dd910;
+	Node0x10dd8c0:s1 -> Node0x10dda50;
+	Node0x10dd910 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%13:\l13:                                               \l  %14 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !1610,\l... !tbaa !1591\l  %15 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %14, i32 0,\l... i32 4, !dbg !1613\l  %16 = load i64, i64* %15, align 8, !dbg !1613, !tbaa !1606\l  %17 = icmp ne i64 %16, 0, !dbg !1610\l  br i1 %17, label %18, label %19, !dbg !1614\l|{<s0>T|<s1>F}}"];
+	Node0x10dd910:s0 -> Node0x10dd960;
+	Node0x10dd910:s1 -> Node0x10dd9b0;
+	Node0x10dd960 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%18:\l18:                                               \l  br label %26, !dbg !1615\l}"];
+	Node0x10dd960 -> Node0x10dda50;
+	Node0x10dd9b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%19:\l19:                                               \l  %20 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !1616,\l... !tbaa !1591\l  %21 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %20, i32 0,\l... i32 4, !dbg !1617\l  store i64 1, i64* %21, align 8, !dbg !1618, !tbaa !1606\l  br label %22, !dbg !1619\l}"];
+	Node0x10dd9b0 -> Node0x10dda00;
+	Node0x10dda00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%22:\l22:                                               \l  %23 = load %struct._ftsent*, %struct._ftsent** %3, align 8, !dbg !1620,\l... !tbaa !1591\l  %24 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %23, i32 0,\l... i32 1, !dbg !1621\l  %25 = load %struct._ftsent*, %struct._ftsent** %24, align 8, !dbg !1621,\l... !tbaa !1591\l  store %struct._ftsent* %25, %struct._ftsent** %3, align 8, !dbg !1622, !tbaa\l... !1591\l  br label %8, !dbg !1623, !llvm.loop !1624\l}"];
+	Node0x10dda00 -> Node0x10dd8c0;
+	Node0x10dda50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%26:\l26:                                               \l  %27 = bitcast %struct._ftsent** %3 to i8*, !dbg !1628\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %27) #26, !dbg !1628\l  ret void, !dbg !1628\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'simple_round_nearest' function" {
+	label="CFG for 'simple_round_nearest' function";
+
+	Node0xcf5490 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca x86_fp80, align 16\l  store x86_fp80 %0, x86_fp80* %2, align 16, !tbaa !877\l  call void @llvm.dbg.declare(metadata x86_fp80* %2, metadata !876, metadata\l... !DIExpression()), !dbg !881\l  %3 = load x86_fp80, x86_fp80* %2, align 16, !dbg !882, !tbaa !877\l  %4 = fcmp olt x86_fp80 %3, 0xK00000000000000000000, !dbg !883\l  br i1 %4, label %5, label %8, !dbg !882\l|{<s0>T|<s1>F}}"];
+	Node0xcf5490:s0 -> Node0xcf5aa0;
+	Node0xcf5490:s1 -> Node0xcf5af0;
+	Node0xcf5aa0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%5:\l5:                                                \l  %6 = load x86_fp80, x86_fp80* %2, align 16, !dbg !884, !tbaa !877\l  %7 = fsub x86_fp80 %6, 0xK3FFE8000000000000000, !dbg !885\l  br label %11, !dbg !882\l}"];
+	Node0xcf5aa0 -> Node0xcf5b40;
+	Node0xcf5af0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%8:\l8:                                                \l  %9 = load x86_fp80, x86_fp80* %2, align 16, !dbg !886, !tbaa !877\l  %10 = fadd x86_fp80 %9, 0xK3FFE8000000000000000, !dbg !887\l  br label %11, !dbg !882\l}"];
+	Node0xcf5af0 -> Node0xcf5b40;
+	Node0xcf5b40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  %12 = phi x86_fp80 [ %7, %5 ], [ %10, %8 ], !dbg !882\l  %13 = fptosi x86_fp80 %12 to i64, !dbg !882\l  ret i64 %13, !dbg !888\l}"];
+}

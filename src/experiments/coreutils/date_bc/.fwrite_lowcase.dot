@@ -1,0 +1,12 @@
+digraph "CFG for 'fwrite_lowcase' function" {
+	label="CFG for 'fwrite_lowcase' function";
+
+	Node0x1620860 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%3:\l  %4 = alloca %struct._IO_FILE*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i64, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %4, align 8, !tbaa !1688\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %4, metadata !1685,\l... metadata !DIExpression()), !dbg !1692\l  store i8* %1, i8** %5, align 8, !tbaa !1688\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1686, metadata\l... !DIExpression()), !dbg !1693\l  store i64 %2, i64* %6, align 8, !tbaa !1694\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !1687, metadata\l... !DIExpression()), !dbg !1696\l  br label %7, !dbg !1697\l}"];
+	Node0x1620860 -> Node0x1571d00;
+	Node0x1571d00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i64, i64* %6, align 8, !dbg !1698, !tbaa !1694\l  %9 = add i64 %8, -1, !dbg !1698\l  store i64 %9, i64* %6, align 8, !dbg !1698, !tbaa !1694\l  %10 = icmp ugt i64 %8, 0, !dbg !1699\l  br i1 %10, label %11, label %20, !dbg !1697\l|{<s0>T|<s1>F}}"];
+	Node0x1571d00:s0 -> Node0x1571d50;
+	Node0x1571d00:s1 -> Node0x1571da0;
+	Node0x1571d50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%11:\l11:                                               \l  %12 = load i8*, i8** %5, align 8, !dbg !1700, !tbaa !1688\l  %13 = load i8, i8* %12, align 1, !dbg !1700, !tbaa !1702\l  %14 = zext i8 %13 to i32, !dbg !1700\l  %15 = call i32 @tolower(i32 noundef %14) #23, !dbg !1700\l  %16 = load %struct._IO_FILE*, %struct._IO_FILE** %4, align 8, !dbg !1703,\l... !tbaa !1688\l  %17 = call i32 @fputc(i32 noundef %15, %struct._IO_FILE* noundef %16), !dbg\l... !1704\l  %18 = load i8*, i8** %5, align 8, !dbg !1705, !tbaa !1688\l  %19 = getelementptr inbounds i8, i8* %18, i32 1, !dbg !1705\l  store i8* %19, i8** %5, align 8, !dbg !1705, !tbaa !1688\l  br label %7, !dbg !1697, !llvm.loop !1706\l}"];
+	Node0x1571d50 -> Node0x1571d00;
+	Node0x1571da0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%20:\l20:                                               \l  ret void, !dbg !1710\l}"];
+}

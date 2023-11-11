@@ -1,0 +1,5 @@
+digraph "CFG for 'gid_to_str' function" {
+	label="CFG for 'gid_to_str' function";
+
+	Node0x2337480 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca [21 x i8], align 16\l  store i32 %0, i32* %2, align 4, !tbaa !985\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !980, metadata\l... !DIExpression()), !dbg !989\l  %4 = bitcast [21 x i8]* %3 to i8*, !dbg !990\l  call void @llvm.lifetime.start.p0i8(i64 21, i8* %4) #22, !dbg !990\l  call void @llvm.dbg.declare(metadata [21 x i8]* %3, metadata !981, metadata\l... !DIExpression()), !dbg !991\l  %5 = load i32, i32* %2, align 4, !dbg !992, !tbaa !985\l  %6 = zext i32 %5 to i64, !dbg !992\l  %7 = getelementptr inbounds [21 x i8], [21 x i8]* %3, i64 0, i64 0, !dbg !993\l  %8 = call i8* @umaxtostr(i64 noundef %6, i8* noundef %7), !dbg !994\l  %9 = call noalias nonnull i8* @xstrdup(i8* noundef %8), !dbg !995\l  %10 = bitcast [21 x i8]* %3 to i8*, !dbg !996\l  call void @llvm.lifetime.end.p0i8(i64 21, i8* %10) #22, !dbg !996\l  ret i8* %9, !dbg !997\l}"];
+}

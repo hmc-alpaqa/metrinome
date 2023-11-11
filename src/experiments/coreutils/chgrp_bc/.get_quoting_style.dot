@@ -1,0 +1,12 @@
+digraph "CFG for 'get_quoting_style' function" {
+	label="CFG for 'get_quoting_style' function";
+
+	Node0x2528480 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.quoting_options*, align 8\l  store %struct.quoting_options* %0, %struct.quoting_options** %2, align 8,\l... !tbaa !983\l  call void @llvm.dbg.declare(metadata %struct.quoting_options** %2, metadata\l... !982, metadata !DIExpression()), !dbg !987\l  %3 = load %struct.quoting_options*, %struct.quoting_options** %2, align 8,\l... !dbg !988, !tbaa !983\l  %4 = icmp ne %struct.quoting_options* %3, null, !dbg !988\l  br i1 %4, label %5, label %7, !dbg !988\l|{<s0>T|<s1>F}}"];
+	Node0x2528480:s0 -> Node0x25284d0;
+	Node0x2528480:s1 -> Node0x2528520;
+	Node0x25284d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%5:\l5:                                                \l  %6 = load %struct.quoting_options*, %struct.quoting_options** %2, align 8,\l... !dbg !989, !tbaa !983\l  br label %8, !dbg !988\l}"];
+	Node0x25284d0 -> Node0x2528570;
+	Node0x2528520 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%7:\l7:                                                \l  br label %8, !dbg !988\l}"];
+	Node0x2528520 -> Node0x2528570;
+	Node0x2528570 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = phi %struct.quoting_options* [ %6, %5 ], [ @default_quoting_options, %7\l... ], !dbg !988\l  %10 = getelementptr inbounds %struct.quoting_options,\l... %struct.quoting_options* %9, i32 0, i32 0, !dbg !990\l  %11 = load i32, i32* %10, align 8, !dbg !990, !tbaa !991\l  ret i32 %11, !dbg !994\l}"];
+}

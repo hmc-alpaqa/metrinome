@@ -1,0 +1,5 @@
+digraph "CFG for 'setlocale_null_androidfix' function" {
+	label="CFG for 'setlocale_null_androidfix' function";
+
+	Node0x13838c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i8*, align 8\l  store i32 %0, i32* %2, align 4, !tbaa !946\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !944, metadata\l... !DIExpression()), !dbg !950\l  %4 = bitcast i8** %3 to i8*, !dbg !951\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #21, !dbg !951\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !945, metadata\l... !DIExpression()), !dbg !952\l  %5 = load i32, i32* %2, align 4, !dbg !953, !tbaa !946\l  %6 = call i8* @setlocale(i32 noundef %5, i8* noundef null) #21, !dbg !954\l  store i8* %6, i8** %3, align 8, !dbg !952, !tbaa !955\l  %7 = load i8*, i8** %3, align 8, !dbg !957, !tbaa !955\l  %8 = bitcast i8** %3 to i8*, !dbg !958\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %8) #21, !dbg !958\l  ret i8* %7, !dbg !959\l}"];
+}

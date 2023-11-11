@@ -1,0 +1,5 @@
+digraph "CFG for 'get_stat_atime_ns' function" {
+	label="CFG for 'get_stat_atime_ns' function";
+
+	Node0xed6280 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !1581\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !1580,\l... metadata !DIExpression()), !dbg !1585\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !1586, !tbaa !1581\l  %4 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 11,\l... !dbg !1586\l  %5 = getelementptr inbounds %struct.timespec, %struct.timespec* %4, i32 0,\l... i32 1, !dbg !1587\l  %6 = load i64, i64* %5, align 8, !dbg !1587, !tbaa !1588\l  ret i64 %6, !dbg !1593\l}"];
+}

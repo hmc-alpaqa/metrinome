@@ -1,0 +1,31 @@
+digraph "CFG for 'is_CLONENOTSUP' function" {
+	label="CFG for 'is_CLONENOTSUP' function";
+
+	Node0x188d1a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !1740\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1739, metadata\l... !DIExpression()), !dbg !1744\l  %3 = load i32, i32* %2, align 4, !dbg !1745, !tbaa !1740\l  %4 = icmp eq i32 %3, 38, !dbg !1746\l  br i1 %4, label %29, label %5, !dbg !1747\l|{<s0>T|<s1>F}}"];
+	Node0x188d1a0:s0 -> Node0x188d4d0;
+	Node0x188d1a0:s1 -> Node0x188d250;
+	Node0x188d250 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6524470",label="{%5:\l5:                                                \l  %6 = load i32, i32* %2, align 4, !dbg !1748, !tbaa !1740\l  %7 = icmp eq i32 %6, 25, !dbg !1749\l  br i1 %7, label %29, label %8, !dbg !1750\l|{<s0>T|<s1>F}}"];
+	Node0x188d250:s0 -> Node0x188d4d0;
+	Node0x188d250:s1 -> Node0x188d2a0;
+	Node0x188d2a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ec7f6370",label="{%8:\l8:                                                \l  %9 = load i32, i32* %2, align 4, !dbg !1751, !tbaa !1740\l  %10 = call zeroext i1 @is_ENOTSUP(i32 noundef %9), !dbg !1752\l  br i1 %10, label %29, label %11, !dbg !1753\l|{<s0>T|<s1>F}}"];
+	Node0x188d2a0:s0 -> Node0x188d4d0;
+	Node0x188d2a0:s1 -> Node0x188d2f0;
+	Node0x188d2f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6a38570",label="{%11:\l11:                                               \l  %12 = load i32, i32* %2, align 4, !dbg !1754, !tbaa !1740\l  %13 = icmp eq i32 %12, 22, !dbg !1755\l  br i1 %13, label %29, label %14, !dbg !1756\l|{<s0>T|<s1>F}}"];
+	Node0x188d2f0:s0 -> Node0x188d4d0;
+	Node0x188d2f0:s1 -> Node0x188d340;
+	Node0x188d340 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5c1a970",label="{%14:\l14:                                               \l  %15 = load i32, i32* %2, align 4, !dbg !1757, !tbaa !1740\l  %16 = icmp eq i32 %15, 9, !dbg !1758\l  br i1 %16, label %29, label %17, !dbg !1759\l|{<s0>T|<s1>F}}"];
+	Node0x188d340:s0 -> Node0x188d4d0;
+	Node0x188d340:s1 -> Node0x188d390;
+	Node0x188d390 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8d6cc70",label="{%17:\l17:                                               \l  %18 = load i32, i32* %2, align 4, !dbg !1760, !tbaa !1740\l  %19 = icmp eq i32 %18, 18, !dbg !1761\l  br i1 %19, label %29, label %20, !dbg !1762\l|{<s0>T|<s1>F}}"];
+	Node0x188d390:s0 -> Node0x188d4d0;
+	Node0x188d390:s1 -> Node0x188d3e0;
+	Node0x188d3e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d1dae970",label="{%20:\l20:                                               \l  %21 = load i32, i32* %2, align 4, !dbg !1763, !tbaa !1740\l  %22 = icmp eq i32 %21, 26, !dbg !1764\l  br i1 %22, label %29, label %23, !dbg !1765\l|{<s0>T|<s1>F}}"];
+	Node0x188d3e0:s0 -> Node0x188d4d0;
+	Node0x188d3e0:s1 -> Node0x188d430;
+	Node0x188d430 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b5cdfa70",label="{%23:\l23:                                               \l  %24 = load i32, i32* %2, align 4, !dbg !1766, !tbaa !1740\l  %25 = icmp eq i32 %24, 1, !dbg !1767\l  br i1 %25, label %29, label %26, !dbg !1768\l|{<s0>T|<s1>F}}"];
+	Node0x188d430:s0 -> Node0x188d4d0;
+	Node0x188d430:s1 -> Node0x188d480;
+	Node0x188d480 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#96b7ff70",label="{%26:\l26:                                               \l  %27 = load i32, i32* %2, align 4, !dbg !1769, !tbaa !1740\l  %28 = icmp eq i32 %27, 13, !dbg !1770\l  br label %29, !dbg !1768\l}"];
+	Node0x188d480 -> Node0x188d4d0;
+	Node0x188d4d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%29:\l29:                                               \l  %30 = phi i1 [ true, %23 ], [ true, %20 ], [ true, %17 ], [ true, %14 ], [\l... true, %11 ], [ true, %8 ], [ true, %5 ], [ true, %1 ], [ %28, %26 ]\l  ret i1 %30, !dbg !1771\l}"];
+}

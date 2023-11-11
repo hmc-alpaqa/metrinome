@@ -1,0 +1,5 @@
+digraph "CFG for '_mm_loadu_si128' function" {
+	label="CFG for '_mm_loadu_si128' function";
+
+	Node0x27c07d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca \<2 x i64\>*, align 8\l  store \<2 x i64\>* %0, \<2 x i64\>** %2, align 8, !tbaa !1279\l  %3 = load \<2 x i64\>*, \<2 x i64\>** %2, align 8, !tbaa !1279\l  %4 = bitcast \<2 x i64\>* %3 to %struct.__storeu_si128*\l  %5 = getelementptr inbounds %struct.__storeu_si128, %struct.__storeu_si128*\l... %4, i32 0, i32 0\l  %6 = load \<2 x i64\>, \<2 x i64\>* %5, align 1, !tbaa !1283\l  ret \<2 x i64\> %6\l}"];
+}

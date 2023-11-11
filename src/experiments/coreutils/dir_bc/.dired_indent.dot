@@ -1,0 +1,10 @@
+digraph "CFG for 'dired_indent' function" {
+	label="CFG for 'dired_indent' function";
+
+	Node0x1f7be60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8, i8* @dired, align 1, !dbg !1869, !tbaa !1871, !range !1875\l  %2 = trunc i8 %1 to i1, !dbg !1869\l  br i1 %2, label %3, label %4, !dbg !1876\l|{<s0>T|<s1>F}}"];
+	Node0x1f7be60:s0 -> Node0x1f7beb0;
+	Node0x1f7be60:s1 -> Node0x1f7bf00;
+	Node0x1f7beb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%3:\l3:                                                \l  call void @dired_outstring(i8* noundef getelementptr inbounds ([3 x i8], [3\l... x i8]* @.str.231, i64 0, i64 0)), !dbg !1877\l  br label %4, !dbg !1877\l}"];
+	Node0x1f7beb0 -> Node0x1f7bf00;
+	Node0x1f7bf00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l4:                                                \l  ret void, !dbg !1878\l}"];
+}

@@ -1,0 +1,37 @@
+digraph "CFG for 'c_toupper' function" {
+	label="CFG for 'c_toupper' function";
+
+	Node0xd915d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !991\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !990, metadata\l... !DIExpression()), !dbg !995\l  %4 = load i32, i32* %3, align 4, !dbg !996, !tbaa !991\l  switch i32 %4, label %9 [\l    i32 97, label %5\l    i32 98, label %5\l    i32 99, label %5\l    i32 100, label %5\l    i32 101, label %5\l    i32 102, label %5\l    i32 103, label %5\l    i32 104, label %5\l    i32 105, label %5\l    i32 106, label %5\l    i32 107, label %5\l    i32 108, label %5\l    i32 109, label %5\l    i32 110, label %5\l    i32 111, label %5\l    i32 112, label %5\l    i32 113, label %5\l    i32 114, label %5\l    i32 115, label %5\l    i32 116, label %5\l    i32 117, label %5\l    i32 118, label %5\l    i32 119, label %5\l    i32 120, label %5\l    i32 121, label %5\l    i32 122, label %5\l  ], !dbg !997\l|{<s0>def|<s1>97|<s2>98|<s3>99|<s4>100|<s5>101|<s6>102|<s7>103|<s8>104|<s9>105|<s10>106|<s11>107|<s12>108|<s13>109|<s14>110|<s15>111|<s16>112|<s17>113|<s18>114|<s19>115|<s20>116|<s21>117|<s22>118|<s23>119|<s24>120|<s25>121|<s26>122}}"];
+	Node0xd915d0:s0 -> Node0xd91670;
+	Node0xd915d0:s1 -> Node0xd91620;
+	Node0xd915d0:s2 -> Node0xd91620;
+	Node0xd915d0:s3 -> Node0xd91620;
+	Node0xd915d0:s4 -> Node0xd91620;
+	Node0xd915d0:s5 -> Node0xd91620;
+	Node0xd915d0:s6 -> Node0xd91620;
+	Node0xd915d0:s7 -> Node0xd91620;
+	Node0xd915d0:s8 -> Node0xd91620;
+	Node0xd915d0:s9 -> Node0xd91620;
+	Node0xd915d0:s10 -> Node0xd91620;
+	Node0xd915d0:s11 -> Node0xd91620;
+	Node0xd915d0:s12 -> Node0xd91620;
+	Node0xd915d0:s13 -> Node0xd91620;
+	Node0xd915d0:s14 -> Node0xd91620;
+	Node0xd915d0:s15 -> Node0xd91620;
+	Node0xd915d0:s16 -> Node0xd91620;
+	Node0xd915d0:s17 -> Node0xd91620;
+	Node0xd915d0:s18 -> Node0xd91620;
+	Node0xd915d0:s19 -> Node0xd91620;
+	Node0xd915d0:s20 -> Node0xd91620;
+	Node0xd915d0:s21 -> Node0xd91620;
+	Node0xd915d0:s22 -> Node0xd91620;
+	Node0xd915d0:s23 -> Node0xd91620;
+	Node0xd915d0:s24 -> Node0xd91620;
+	Node0xd915d0:s25 -> Node0xd91620;
+	Node0xd915d0:s26 -> Node0xd91620;
+	Node0xd91620 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%5:\l5:                                                \l  %6 = load i32, i32* %3, align 4, !dbg !998, !tbaa !991\l  %7 = sub nsw i32 %6, 97, !dbg !1000\l  %8 = add nsw i32 %7, 65, !dbg !1001\l  store i32 %8, i32* %2, align 4, !dbg !1002\l  br label %11, !dbg !1002\l}"];
+	Node0xd91620 -> Node0xd916c0;
+	Node0xd91670 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#bbd1f870",label="{%9:\l9:                                                \l  %10 = load i32, i32* %3, align 4, !dbg !1003, !tbaa !991\l  store i32 %10, i32* %2, align 4, !dbg !1004\l  br label %11, !dbg !1004\l}"];
+	Node0xd91670 -> Node0xd916c0;
+	Node0xd916c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  %12 = load i32, i32* %2, align 4, !dbg !1005\l  ret i32 %12, !dbg !1005\l}"];
+}

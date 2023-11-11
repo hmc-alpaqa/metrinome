@@ -1,0 +1,9 @@
+digraph "CFG for 'xalloc' function" {
+	label="CFG for 'xalloc' function";
+
+	Node0x133cae0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  %3 = alloca i8*, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !19\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !17, metadata\l... !DIExpression()), !dbg !23\l  %4 = bitcast i8** %3 to i8*, !dbg !24\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #10, !dbg !24\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !18, metadata\l... !DIExpression()), !dbg !25\l  %5 = load i64, i64* %2, align 8, !dbg !26, !tbaa !19\l  %6 = call noalias i8* @malloc(i64 noundef %5) #10, !dbg !27\l  store i8* %6, i8** %3, align 8, !dbg !25, !tbaa !28\l  %7 = load i8*, i8** %3, align 8, !dbg !30, !tbaa !28\l  %8 = icmp ne i8* %7, null, !dbg !30\l  br i1 %8, label %9, label %12, !dbg !32\l|{<s0>T|<s1>F}}"];
+	Node0x133cae0:s0 -> Node0x1337d80;
+	Node0x133cae0:s1 -> Node0x1337dd0;
+	Node0x1337d80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load i8*, i8** %3, align 8, !dbg !33, !tbaa !28\l  %11 = bitcast i8** %3 to i8*, !dbg !34\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %11) #10, !dbg !34\l  ret i8* %10, !dbg !35\l}"];
+	Node0x1337dd0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%12:\l12:                                               \l  %13 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg !36,\l... !tbaa !28\l  %14 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE*\l... noundef %13, i8* noundef getelementptr inbounds ([27 x i8], [27 x i8]*\l... @.str.2, i64 0, i64 0)), !dbg !37\l  call void @exit(i32 noundef 1) #11, !dbg !38\l  unreachable, !dbg !38\l}"];
+}

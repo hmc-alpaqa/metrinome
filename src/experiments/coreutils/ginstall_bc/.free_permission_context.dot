@@ -1,0 +1,5 @@
+digraph "CFG for 'free_permission_context' function" {
+	label="CFG for 'free_permission_context' function";
+
+	Node0x1c33b50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %union.anon*, align 8\l  store %union.anon* %0, %union.anon** %2, align 8, !tbaa !1745\l  call void @llvm.dbg.declare(metadata %union.anon** %2, metadata !1744,\l... metadata !DIExpression()), !dbg !1749\l  ret void, !dbg !1750\l}"];
+}

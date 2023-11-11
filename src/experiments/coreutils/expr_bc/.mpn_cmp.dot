@@ -1,0 +1,19 @@
+digraph "CFG for 'mpn_cmp' function" {
+	label="CFG for 'mpn_cmp' function";
+
+	Node0x2562400 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i64*, align 8\l  %6 = alloca i64*, align 8\l  %7 = alloca i64, align 8\l  store i64* %0, i64** %5, align 8, !tbaa !796\l  call void @llvm.dbg.declare(metadata i64** %5, metadata !793, metadata\l... !DIExpression()), !dbg !800\l  store i64* %1, i64** %6, align 8, !tbaa !796\l  call void @llvm.dbg.declare(metadata i64** %6, metadata !794, metadata\l... !DIExpression()), !dbg !801\l  store i64 %2, i64* %7, align 8, !tbaa !802\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !795, metadata\l... !DIExpression()), !dbg !804\l  br label %8, !dbg !805\l}"];
+	Node0x2562400 -> Node0x2562490;
+	Node0x2562490 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = load i64, i64* %7, align 8, !dbg !806, !tbaa !802\l  %10 = add nsw i64 %9, -1, !dbg !806\l  store i64 %10, i64* %7, align 8, !dbg !806, !tbaa !802\l  %11 = icmp sge i64 %10, 0, !dbg !807\l  br i1 %11, label %12, label %35, !dbg !805\l|{<s0>T|<s1>F}}"];
+	Node0x2562490:s0 -> Node0x25624e0;
+	Node0x2562490:s1 -> Node0x25625d0;
+	Node0x25624e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%12:\l12:                                               \l  %13 = load i64*, i64** %5, align 8, !dbg !808, !tbaa !796\l  %14 = load i64, i64* %7, align 8, !dbg !811, !tbaa !802\l  %15 = getelementptr inbounds i64, i64* %13, i64 %14, !dbg !808\l  %16 = load i64, i64* %15, align 8, !dbg !808, !tbaa !802\l  %17 = load i64*, i64** %6, align 8, !dbg !812, !tbaa !796\l  %18 = load i64, i64* %7, align 8, !dbg !813, !tbaa !802\l  %19 = getelementptr inbounds i64, i64* %17, i64 %18, !dbg !812\l  %20 = load i64, i64* %19, align 8, !dbg !812, !tbaa !802\l  %21 = icmp ne i64 %16, %20, !dbg !814\l  br i1 %21, label %22, label %34, !dbg !815\l|{<s0>T|<s1>F}}"];
+	Node0x25624e0:s0 -> Node0x2562530;
+	Node0x25624e0:s1 -> Node0x2562580;
+	Node0x2562530 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%22:\l22:                                               \l  %23 = load i64*, i64** %5, align 8, !dbg !816, !tbaa !796\l  %24 = load i64, i64* %7, align 8, !dbg !817, !tbaa !802\l  %25 = getelementptr inbounds i64, i64* %23, i64 %24, !dbg !816\l  %26 = load i64, i64* %25, align 8, !dbg !816, !tbaa !802\l  %27 = load i64*, i64** %6, align 8, !dbg !818, !tbaa !796\l  %28 = load i64, i64* %7, align 8, !dbg !819, !tbaa !802\l  %29 = getelementptr inbounds i64, i64* %27, i64 %28, !dbg !818\l  %30 = load i64, i64* %29, align 8, !dbg !818, !tbaa !802\l  %31 = icmp ugt i64 %26, %30, !dbg !820\l  %32 = zext i1 %31 to i64, !dbg !816\l  %33 = select i1 %31, i32 1, i32 -1, !dbg !816\l  store i32 %33, i32* %4, align 4, !dbg !821\l  br label %36, !dbg !821\l}"];
+	Node0x2562530 -> Node0x2562620;
+	Node0x2562580 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%34:\l34:                                               \l  br label %8, !dbg !805, !llvm.loop !822\l}"];
+	Node0x2562580 -> Node0x2562490;
+	Node0x25625d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%35:\l35:                                               \l  store i32 0, i32* %4, align 4, !dbg !826\l  br label %36, !dbg !826\l}"];
+	Node0x25625d0 -> Node0x2562620;
+	Node0x2562620 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%36:\l36:                                               \l  %37 = load i32, i32* %4, align 4, !dbg !827\l  ret i32 %37, !dbg !827\l}"];
+}

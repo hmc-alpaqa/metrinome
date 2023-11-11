@@ -1,0 +1,20 @@
+digraph "CFG for 'mp_get_memory_functions' function" {
+	label="CFG for 'mp_get_memory_functions' function";
+
+	Node0x24730b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8* (i64)**, align 8\l  %5 = alloca i8* (i8*, i64, i64)**, align 8\l  %6 = alloca void (i8*, i64)**, align 8\l  store i8* (i64)** %0, i8* (i64)*** %4, align 8, !tbaa !797\l  call void @llvm.dbg.declare(metadata i8* (i64)*** %4, metadata !794,\l... metadata !DIExpression()), !dbg !801\l  store i8* (i8*, i64, i64)** %1, i8* (i8*, i64, i64)*** %5, align 8, !tbaa\l... !797\l  call void @llvm.dbg.declare(metadata i8* (i8*, i64, i64)*** %5, metadata\l... !795, metadata !DIExpression()), !dbg !802\l  store void (i8*, i64)** %2, void (i8*, i64)*** %6, align 8, !tbaa !797\l  call void @llvm.dbg.declare(metadata void (i8*, i64)*** %6, metadata !796,\l... metadata !DIExpression()), !dbg !803\l  %7 = load i8* (i64)**, i8* (i64)*** %4, align 8, !dbg !804, !tbaa !797\l  %8 = icmp ne i8* (i64)** %7, null, !dbg !804\l  br i1 %8, label %9, label %12, !dbg !806\l|{<s0>T|<s1>F}}"];
+	Node0x24730b0:s0 -> Node0x2556e90;
+	Node0x24730b0:s1 -> Node0x2556ee0;
+	Node0x2556e90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%9:\l9:                                                \l  %10 = load i8* (i64)*, i8* (i64)** @gmp_allocate_func, align 8, !dbg !807,\l... !tbaa !797\l  %11 = load i8* (i64)**, i8* (i64)*** %4, align 8, !dbg !808, !tbaa !797\l  store i8* (i64)* %10, i8* (i64)** %11, align 8, !dbg !809, !tbaa !797\l  br label %12, !dbg !810\l}"];
+	Node0x2556e90 -> Node0x2556ee0;
+	Node0x2556ee0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = load i8* (i8*, i64, i64)**, i8* (i8*, i64, i64)*** %5, align 8, !dbg\l... !811, !tbaa !797\l  %14 = icmp ne i8* (i8*, i64, i64)** %13, null, !dbg !811\l  br i1 %14, label %15, label %18, !dbg !813\l|{<s0>T|<s1>F}}"];
+	Node0x2556ee0:s0 -> Node0x2556f30;
+	Node0x2556ee0:s1 -> Node0x2556f80;
+	Node0x2556f30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%15:\l15:                                               \l  %16 = load i8* (i8*, i64, i64)*, i8* (i8*, i64, i64)** @gmp_reallocate_func,\l... align 8, !dbg !814, !tbaa !797\l  %17 = load i8* (i8*, i64, i64)**, i8* (i8*, i64, i64)*** %5, align 8, !dbg\l... !815, !tbaa !797\l  store i8* (i8*, i64, i64)* %16, i8* (i8*, i64, i64)** %17, align 8, !dbg\l... !816, !tbaa !797\l  br label %18, !dbg !817\l}"];
+	Node0x2556f30 -> Node0x2556f80;
+	Node0x2556f80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%18:\l18:                                               \l  %19 = load void (i8*, i64)**, void (i8*, i64)*** %6, align 8, !dbg !818,\l... !tbaa !797\l  %20 = icmp ne void (i8*, i64)** %19, null, !dbg !818\l  br i1 %20, label %21, label %24, !dbg !820\l|{<s0>T|<s1>F}}"];
+	Node0x2556f80:s0 -> Node0x2556fd0;
+	Node0x2556f80:s1 -> Node0x2557020;
+	Node0x2556fd0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%21:\l21:                                               \l  %22 = load void (i8*, i64)*, void (i8*, i64)** @gmp_free_func, align 8, !dbg\l... !821, !tbaa !797\l  %23 = load void (i8*, i64)**, void (i8*, i64)*** %6, align 8, !dbg !822,\l... !tbaa !797\l  store void (i8*, i64)* %22, void (i8*, i64)** %23, align 8, !dbg !823, !tbaa\l... !797\l  br label %24, !dbg !824\l}"];
+	Node0x2556fd0 -> Node0x2557020;
+	Node0x2557020 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%24:\l24:                                               \l  ret void, !dbg !825\l}"];
+}

@@ -1,0 +1,21 @@
+digraph "CFG for 'cycle_warning_required' function" {
+	label="CFG for 'cycle_warning_required' function";
+
+	Node0x1f717d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.FTS*, align 8\l  %4 = alloca %struct._ftsent*, align 8\l  store %struct.FTS* %0, %struct.FTS** %3, align 8, !tbaa !1105\l  call void @llvm.dbg.declare(metadata %struct.FTS** %3, metadata !1103,\l... metadata !DIExpression()), !dbg !1109\l  store %struct._ftsent* %1, %struct._ftsent** %4, align 8, !tbaa !1105\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %4, metadata !1104,\l... metadata !DIExpression()), !dbg !1110\l  %5 = load %struct.FTS*, %struct.FTS** %3, align 8, !dbg !1111, !tbaa !1105\l  %6 = getelementptr inbounds %struct.FTS, %struct.FTS* %5, i32 0, i32 10,\l... !dbg !1111\l  %7 = load i32, i32* %6, align 8, !dbg !1111, !tbaa !1112\l  %8 = and i32 %7, 16, !dbg !1111\l  %9 = icmp ne i32 %8, 0, !dbg !1111\l  br i1 %9, label %10, label %16, !dbg !1118\l|{<s0>T|<s1>F}}"];
+	Node0x1f717d0:s0 -> Node0x1f71820;
+	Node0x1f717d0:s1 -> Node0x1f71870;
+	Node0x1f71820 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ec7f6370",label="{%10:\l10:                                               \l  %11 = load %struct.FTS*, %struct.FTS** %3, align 8, !dbg !1119, !tbaa !1105\l  %12 = getelementptr inbounds %struct.FTS, %struct.FTS* %11, i32 0, i32 10,\l... !dbg !1119\l  %13 = load i32, i32* %12, align 8, !dbg !1119, !tbaa !1112\l  %14 = and i32 %13, 1, !dbg !1119\l  %15 = icmp ne i32 %14, 0, !dbg !1119\l  br i1 %15, label %16, label %35, !dbg !1120\l|{<s0>T|<s1>F}}"];
+	Node0x1f71820:s0 -> Node0x1f71870;
+	Node0x1f71820:s1 -> Node0x1f719b0;
+	Node0x1f71870 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d0473d70",label="{%16:\l16:                                               \l  %17 = load %struct.FTS*, %struct.FTS** %3, align 8, !dbg !1121, !tbaa !1105\l  %18 = getelementptr inbounds %struct.FTS, %struct.FTS* %17, i32 0, i32 10,\l... !dbg !1121\l  %19 = load i32, i32* %18, align 8, !dbg !1121, !tbaa !1112\l  %20 = and i32 %19, 16, !dbg !1121\l  %21 = icmp ne i32 %20, 0, !dbg !1121\l  br i1 %21, label %22, label %33, !dbg !1122\l|{<s0>T|<s1>F}}"];
+	Node0x1f71870:s0 -> Node0x1f718c0;
+	Node0x1f71870:s1 -> Node0x1f71960;
+	Node0x1f718c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5a08170",label="{%22:\l22:                                               \l  %23 = load %struct.FTS*, %struct.FTS** %3, align 8, !dbg !1123, !tbaa !1105\l  %24 = getelementptr inbounds %struct.FTS, %struct.FTS* %23, i32 0, i32 10,\l... !dbg !1123\l  %25 = load i32, i32* %24, align 8, !dbg !1123, !tbaa !1112\l  %26 = and i32 %25, 1, !dbg !1123\l  %27 = icmp ne i32 %26, 0, !dbg !1123\l  br i1 %27, label %28, label %33, !dbg !1124\l|{<s0>T|<s1>F}}"];
+	Node0x1f718c0:s0 -> Node0x1f71910;
+	Node0x1f718c0:s1 -> Node0x1f71960;
+	Node0x1f71910 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ead5c970",label="{%28:\l28:                                               \l  %29 = load %struct._ftsent*, %struct._ftsent** %4, align 8, !dbg !1125,\l... !tbaa !1105\l  %30 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %29, i32 0,\l... i32 12, !dbg !1126\l  %31 = load i64, i64* %30, align 8, !dbg !1126, !tbaa !1127\l  %32 = icmp ne i64 %31, 0, !dbg !1128\l  br label %33\l}"];
+	Node0x1f71910 -> Node0x1f71960;
+	Node0x1f71960 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d0473d70",label="{%33:\l33:                                               \l  %34 = phi i1 [ false, %22 ], [ false, %16 ], [ %32, %28 ], !dbg !1129\l  br label %35, !dbg !1120\l}"];
+	Node0x1f71960 -> Node0x1f719b0;
+	Node0x1f719b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%35:\l35:                                               \l  %36 = phi i1 [ true, %10 ], [ %34, %33 ]\l  ret i1 %36, !dbg !1130\l}"];
+}

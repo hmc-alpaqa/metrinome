@@ -1,0 +1,5 @@
+digraph "CFG for 'xinmalloc' function" {
+	label="CFG for 'xinmalloc' function";
+
+	Node0x1996c60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !724\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !722, metadata\l... !DIExpression()), !dbg !728\l  store i64 %1, i64* %4, align 8, !tbaa !724\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !723, metadata\l... !DIExpression()), !dbg !729\l  %5 = load i64, i64* %3, align 8, !dbg !730, !tbaa !724\l  %6 = load i64, i64* %4, align 8, !dbg !731, !tbaa !724\l  %7 = call nonnull i8* @xireallocarray(i8* noundef null, i64 noundef %5, i64\l... noundef %6) #24, !dbg !732\l  ret i8* %7, !dbg !733\l}"];
+}

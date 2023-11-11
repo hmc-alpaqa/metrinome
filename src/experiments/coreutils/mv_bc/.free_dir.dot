@@ -1,0 +1,17 @@
+digraph "CFG for 'free_dir' function" {
+	label="CFG for 'free_dir' function";
+
+	Node0x13da3d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.FTS*, align 8\l  store %struct.FTS* %0, %struct.FTS** %2, align 8, !tbaa !1505\l  call void @llvm.dbg.declare(metadata %struct.FTS** %2, metadata !1504,\l... metadata !DIExpression()), !dbg !1509\l  %3 = load %struct.FTS*, %struct.FTS** %2, align 8, !dbg !1510, !tbaa !1505\l  %4 = getelementptr inbounds %struct.FTS, %struct.FTS* %3, i32 0, i32 10,\l... !dbg !1512\l  %5 = load i32, i32* %4, align 8, !dbg !1512, !tbaa !1513\l  %6 = and i32 %5, 258, !dbg !1519\l  %7 = icmp ne i32 %6, 0, !dbg !1519\l  br i1 %7, label %8, label %20, !dbg !1520\l|{<s0>T|<s1>F}}"];
+	Node0x13da3d0:s0 -> Node0x13da420;
+	Node0x13da3d0:s1 -> Node0x13da510;
+	Node0x13da420 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%8:\l8:                                                \l  %9 = load %struct.FTS*, %struct.FTS** %2, align 8, !dbg !1521, !tbaa !1505\l  %10 = getelementptr inbounds %struct.FTS, %struct.FTS* %9, i32 0, i32 12,\l... !dbg !1524\l  %11 = bitcast %union.anon* %10 to %struct.hash_table**, !dbg !1525\l  %12 = load %struct.hash_table*, %struct.hash_table** %11, align 8, !dbg\l... !1525, !tbaa !1526\l  %13 = icmp ne %struct.hash_table* %12, null, !dbg !1521\l  br i1 %13, label %14, label %19, !dbg !1527\l|{<s0>T|<s1>F}}"];
+	Node0x13da420:s0 -> Node0x13da470;
+	Node0x13da420:s1 -> Node0x13da4c0;
+	Node0x13da470 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%14:\l14:                                               \l  %15 = load %struct.FTS*, %struct.FTS** %2, align 8, !dbg !1528, !tbaa !1505\l  %16 = getelementptr inbounds %struct.FTS, %struct.FTS* %15, i32 0, i32 12,\l... !dbg !1529\l  %17 = bitcast %union.anon* %16 to %struct.hash_table**, !dbg !1530\l  %18 = load %struct.hash_table*, %struct.hash_table** %17, align 8, !dbg\l... !1530, !tbaa !1526\l  call void @hash_free(%struct.hash_table* noundef %18), !dbg !1531\l  br label %19, !dbg !1531\l}"];
+	Node0x13da470 -> Node0x13da4c0;
+	Node0x13da4c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%19:\l19:                                               \l  br label %26, !dbg !1532\l}"];
+	Node0x13da4c0 -> Node0x13da560;
+	Node0x13da510 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%20:\l20:                                               \l  %21 = load %struct.FTS*, %struct.FTS** %2, align 8, !dbg !1533, !tbaa !1505\l  %22 = getelementptr inbounds %struct.FTS, %struct.FTS* %21, i32 0, i32 12,\l... !dbg !1534\l  %23 = bitcast %union.anon* %22 to %struct.cycle_check_state**, !dbg !1535\l  %24 = load %struct.cycle_check_state*, %struct.cycle_check_state** %23,\l... align 8, !dbg !1535, !tbaa !1526\l  %25 = bitcast %struct.cycle_check_state* %24 to i8*, !dbg !1533\l  call void @free(i8* noundef %25), !dbg !1536\l  br label %26\l}"];
+	Node0x13da510 -> Node0x13da560;
+	Node0x13da560 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%26:\l26:                                               \l  ret void, !dbg !1537\l}"];
+}

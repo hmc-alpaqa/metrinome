@@ -1,0 +1,12 @@
+digraph "CFG for 'setenv_TZ' function" {
+	label="CFG for 'setenv_TZ' function";
+
+	Node0x254c730 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !1873\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !1872, metadata\l... !DIExpression()), !dbg !1877\l  %3 = load i8*, i8** %2, align 8, !dbg !1878, !tbaa !1873\l  %4 = icmp ne i8* %3, null, !dbg !1878\l  br i1 %4, label %5, label %8, !dbg !1878\l|{<s0>T|<s1>F}}"];
+	Node0x254c730:s0 -> Node0x254c7b0;
+	Node0x254c730:s1 -> Node0x254c800;
+	Node0x254c7b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%5:\l5:                                                \l  %6 = load i8*, i8** %2, align 8, !dbg !1879, !tbaa !1873\l  %7 = call i32 @setenv(i8* noundef getelementptr inbounds ([3 x i8], [3 x\l... i8]* @.str.472, i64 0, i64 0), i8* noundef %6, i32 noundef 1) #27, !dbg !1880\l  br label %10, !dbg !1878\l}"];
+	Node0x254c7b0 -> Node0x254c850;
+	Node0x254c800 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%8:\l8:                                                \l  %9 = call i32 @unsetenv(i8* noundef getelementptr inbounds ([3 x i8], [3 x\l... i8]* @.str.472, i64 0, i64 0)) #27, !dbg !1881\l  br label %10, !dbg !1878\l}"];
+	Node0x254c800 -> Node0x254c850;
+	Node0x254c850 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = phi i32 [ %7, %5 ], [ %9, %8 ], !dbg !1878\l  ret i32 %11, !dbg !1882\l}"];
+}

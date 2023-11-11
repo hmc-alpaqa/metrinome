@@ -1,0 +1,24 @@
+digraph "CFG for 'operand_matches' function" {
+	label="CFG for 'operand_matches' function";
+
+	Node0xf91010 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%3:\l  %4 = alloca i1, align 1\l  %5 = alloca i8*, align 8\l  %6 = alloca i8*, align 8\l  %7 = alloca i8, align 1\l  store i8* %0, i8** %5, align 8, !tbaa !1320\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1317, metadata\l... !DIExpression()), !dbg !1324\l  store i8* %1, i8** %6, align 8, !tbaa !1320\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !1318, metadata\l... !DIExpression()), !dbg !1325\l  store i8 %2, i8* %7, align 1, !tbaa !1326\l  call void @llvm.dbg.declare(metadata i8* %7, metadata !1319, metadata\l... !DIExpression()), !dbg !1327\l  br label %8, !dbg !1328\l}"];
+	Node0xf91010 -> Node0xf91060;
+	Node0xf91060 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = load i8*, i8** %6, align 8, !dbg !1329, !tbaa !1320\l  %10 = load i8, i8* %9, align 1, !dbg !1330, !tbaa !1326\l  %11 = icmp ne i8 %10, 0, !dbg !1328\l  br i1 %11, label %12, label %24, !dbg !1328\l|{<s0>T|<s1>F}}"];
+	Node0xf91060:s0 -> Node0xf910b0;
+	Node0xf91060:s1 -> Node0xf911a0;
+	Node0xf910b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%12:\l12:                                               \l  %13 = load i8*, i8** %5, align 8, !dbg !1331, !tbaa !1320\l  %14 = getelementptr inbounds i8, i8* %13, i32 1, !dbg !1331\l  store i8* %14, i8** %5, align 8, !dbg !1331, !tbaa !1320\l  %15 = load i8, i8* %13, align 1, !dbg !1333, !tbaa !1326\l  %16 = sext i8 %15 to i32, !dbg !1333\l  %17 = load i8*, i8** %6, align 8, !dbg !1334, !tbaa !1320\l  %18 = getelementptr inbounds i8, i8* %17, i32 1, !dbg !1334\l  store i8* %18, i8** %6, align 8, !dbg !1334, !tbaa !1320\l  %19 = load i8, i8* %17, align 1, !dbg !1335, !tbaa !1326\l  %20 = sext i8 %19 to i32, !dbg !1335\l  %21 = icmp ne i32 %16, %20, !dbg !1336\l  br i1 %21, label %22, label %23, !dbg !1337\l|{<s0>T|<s1>F}}"];
+	Node0xf910b0:s0 -> Node0xf91100;
+	Node0xf910b0:s1 -> Node0xf91150;
+	Node0xf91100 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5d6f270",label="{%22:\l22:                                               \l  store i1 false, i1* %4, align 1, !dbg !1338\l  br label %37, !dbg !1338\l}"];
+	Node0xf91100 -> Node0xf91290;
+	Node0xf91150 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%23:\l23:                                               \l  br label %8, !dbg !1328, !llvm.loop !1339\l}"];
+	Node0xf91150 -> Node0xf91060;
+	Node0xf911a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5d6f270",label="{%24:\l24:                                               \l  %25 = load i8*, i8** %5, align 8, !dbg !1343, !tbaa !1320\l  %26 = load i8, i8* %25, align 1, !dbg !1344, !tbaa !1326\l  %27 = icmp ne i8 %26, 0, !dbg !1344\l  br i1 %27, label %28, label %35, !dbg !1345\l|{<s0>T|<s1>F}}"];
+	Node0xf911a0:s0 -> Node0xf911f0;
+	Node0xf911a0:s1 -> Node0xf91240;
+	Node0xf911f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#aec9fc70",label="{%28:\l28:                                               \l  %29 = load i8*, i8** %5, align 8, !dbg !1346, !tbaa !1320\l  %30 = load i8, i8* %29, align 1, !dbg !1347, !tbaa !1326\l  %31 = sext i8 %30 to i32, !dbg !1347\l  %32 = load i8, i8* %7, align 1, !dbg !1348, !tbaa !1326\l  %33 = sext i8 %32 to i32, !dbg !1348\l  %34 = icmp eq i32 %31, %33, !dbg !1349\l  br label %35, !dbg !1345\l}"];
+	Node0xf911f0 -> Node0xf91240;
+	Node0xf91240 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5d6f270",label="{%35:\l35:                                               \l  %36 = phi i1 [ true, %24 ], [ %34, %28 ]\l  store i1 %36, i1* %4, align 1, !dbg !1350\l  br label %37, !dbg !1350\l}"];
+	Node0xf91240 -> Node0xf91290;
+	Node0xf91290 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%37:\l37:                                               \l  %38 = load i1, i1* %4, align 1, !dbg !1351\l  ret i1 %38, !dbg !1351\l}"];
+}

@@ -1,0 +1,35 @@
+digraph "CFG for 'factor' function" {
+	label="CFG for 'factor' function";
+
+	Node0x199f810 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i64, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca %struct.factors*, align 8\l  store i64 %0, i64* %4, align 8, !tbaa !800\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !797, metadata\l... !DIExpression()), !dbg !804\l  store i64 %1, i64* %5, align 8, !tbaa !800\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !798, metadata\l... !DIExpression()), !dbg !805\l  store %struct.factors* %2, %struct.factors** %6, align 8, !tbaa !806\l  call void @llvm.dbg.declare(metadata %struct.factors** %6, metadata !799,\l... metadata !DIExpression()), !dbg !808\l  %7 = load %struct.factors*, %struct.factors** %6, align 8, !dbg !809, !tbaa\l... !806\l  %8 = getelementptr inbounds %struct.factors, %struct.factors* %7, i32 0, i32\l... 3, !dbg !810\l  store i8 0, i8* %8, align 2, !dbg !811, !tbaa !812\l  %9 = load %struct.factors*, %struct.factors** %6, align 8, !dbg !814, !tbaa\l... !806\l  %10 = getelementptr inbounds %struct.factors, %struct.factors* %9, i32 0,\l... i32 0, !dbg !815\l  %11 = getelementptr inbounds [2 x i64], [2 x i64]* %10, i64 0, i64 1, !dbg\l... !814\l  store i64 0, i64* %11, align 8, !dbg !816, !tbaa !800\l  %12 = load i64, i64* %4, align 8, !dbg !817, !tbaa !800\l  %13 = icmp eq i64 %12, 0, !dbg !819\l  br i1 %13, label %14, label %18, !dbg !820\l|{<s0>T|<s1>F}}"];
+	Node0x199f810:s0 -> Node0x199f8d0;
+	Node0x199f810:s1 -> Node0x199f970;
+	Node0x199f8d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3947570",label="{%14:\l14:                                               \l  %15 = load i64, i64* %5, align 8, !dbg !821, !tbaa !800\l  %16 = icmp ult i64 %15, 2, !dbg !822\l  br i1 %16, label %17, label %18, !dbg !823\l|{<s0>T|<s1>F}}"];
+	Node0x199f8d0:s0 -> Node0x199f920;
+	Node0x199f8d0:s1 -> Node0x199f970;
+	Node0x199f920 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%17:\l17:                                               \l  br label %48, !dbg !824\l}"];
+	Node0x199f920 -> Node0x199fc40;
+	Node0x199f970 [shape=record,color="#b70d28ff", style=filled, fillcolor="#ca3b3770",label="{%18:\l18:                                               \l  %19 = load i64, i64* %4, align 8, !dbg !825, !tbaa !800\l  %20 = load i64, i64* %5, align 8, !dbg !826, !tbaa !800\l  %21 = load %struct.factors*, %struct.factors** %6, align 8, !dbg !827, !tbaa\l... !806\l  %22 = call i64 @factor_using_division(i64* noundef %4, i64 noundef %19, i64\l... noundef %20, %struct.factors* noundef %21), !dbg !828\l  store i64 %22, i64* %5, align 8, !dbg !829, !tbaa !800\l  %23 = load i64, i64* %4, align 8, !dbg !830, !tbaa !800\l  %24 = icmp eq i64 %23, 0, !dbg !832\l  br i1 %24, label %25, label %29, !dbg !833\l|{<s0>T|<s1>F}}"];
+	Node0x199f970:s0 -> Node0x199f9c0;
+	Node0x199f970:s1 -> Node0x199fa60;
+	Node0x199f9c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%25:\l25:                                               \l  %26 = load i64, i64* %5, align 8, !dbg !834, !tbaa !800\l  %27 = icmp ult i64 %26, 2, !dbg !835\l  br i1 %27, label %28, label %29, !dbg !836\l|{<s0>T|<s1>F}}"];
+	Node0x199f9c0:s0 -> Node0x199fa10;
+	Node0x199f9c0:s1 -> Node0x199fa60;
+	Node0x199fa10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%28:\l28:                                               \l  br label %48, !dbg !837\l}"];
+	Node0x199fa10 -> Node0x199fc40;
+	Node0x199fa60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d8564670",label="{%29:\l29:                                               \l  %30 = load i64, i64* %4, align 8, !dbg !838, !tbaa !800\l  %31 = load i64, i64* %5, align 8, !dbg !840, !tbaa !800\l  %32 = call zeroext i1 @prime2_p(i64 noundef %30, i64 noundef %31) #23, !dbg\l... !841\l  br i1 %32, label %33, label %37, !dbg !842\l|{<s0>T|<s1>F}}"];
+	Node0x199fa60:s0 -> Node0x199fab0;
+	Node0x199fa60:s1 -> Node0x199fb00;
+	Node0x199fab0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6a38570",label="{%33:\l33:                                               \l  %34 = load %struct.factors*, %struct.factors** %6, align 8, !dbg !843, !tbaa\l... !806\l  %35 = load i64, i64* %4, align 8, !dbg !844, !tbaa !800\l  %36 = load i64, i64* %5, align 8, !dbg !845, !tbaa !800\l  call void @factor_insert_large(%struct.factors* noundef %34, i64 noundef\l... %35, i64 noundef %36), !dbg !846\l  br label %48, !dbg !846\l}"];
+	Node0x199fab0 -> Node0x199fc40;
+	Node0x199fb00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6a38570",label="{%37:\l37:                                               \l  %38 = load i64, i64* %4, align 8, !dbg !847, !tbaa !800\l  %39 = icmp eq i64 %38, 0, !dbg !850\l  br i1 %39, label %40, label %43, !dbg !851\l|{<s0>T|<s1>F}}"];
+	Node0x199fb00:s0 -> Node0x199fb50;
+	Node0x199fb00:s1 -> Node0x199fba0;
+	Node0x199fb50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%40:\l40:                                               \l  %41 = load i64, i64* %5, align 8, !dbg !852, !tbaa !800\l  %42 = load %struct.factors*, %struct.factors** %6, align 8, !dbg !853, !tbaa\l... !806\l  call void @factor_using_pollard_rho(i64 noundef %41, i64 noundef 1,\l... %struct.factors* noundef %42), !dbg !854\l  br label %47, !dbg !854\l}"];
+	Node0x199fb50 -> Node0x199fbf0;
+	Node0x199fba0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%43:\l43:                                               \l  %44 = load i64, i64* %4, align 8, !dbg !855, !tbaa !800\l  %45 = load i64, i64* %5, align 8, !dbg !856, !tbaa !800\l  %46 = load %struct.factors*, %struct.factors** %6, align 8, !dbg !857, !tbaa\l... !806\l  call void @factor_using_pollard_rho2(i64 noundef %44, i64 noundef %45, i64\l... noundef 1, %struct.factors* noundef %46), !dbg !858\l  br label %47\l}"];
+	Node0x199fba0 -> Node0x199fbf0;
+	Node0x199fbf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6a38570",label="{%47:\l47:                                               \l  br label %48\l}"];
+	Node0x199fbf0 -> Node0x199fc40;
+	Node0x199fc40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%48:\l48:                                               \l  ret void, !dbg !859\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'unary_advance' function" {
+	label="CFG for 'unary_advance' function";
+
+	Node0x150b6d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void @advance(i1 noundef zeroext true), !dbg !905\l  %1 = load i32, i32* @pos, align 4, !dbg !906, !tbaa !907\l  %2 = add nsw i32 %1, 1, !dbg !906\l  store i32 %2, i32* @pos, align 4, !dbg !906, !tbaa !907\l  ret void, !dbg !911\l}"];
+}

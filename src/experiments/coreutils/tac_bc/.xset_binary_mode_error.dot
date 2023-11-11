@@ -1,0 +1,5 @@
+digraph "CFG for 'xset_binary_mode_error' function" {
+	label="CFG for 'xset_binary_mode_error' function";
+
+	Node0x23f5e30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  ret void, !dbg !850\l}"];
+}

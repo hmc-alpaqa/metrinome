@@ -1,0 +1,5 @@
+digraph "CFG for 'hash_reset_tuning' function" {
+	label="CFG for 'hash_reset_tuning' function";
+
+	Node0x9eb8b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.hash_tuning*, align 8\l  store %struct.hash_tuning* %0, %struct.hash_tuning** %2, align 8, !tbaa !699\l  call void @llvm.dbg.declare(metadata %struct.hash_tuning** %2, metadata\l... !698, metadata !DIExpression()), !dbg !703\l  %3 = load %struct.hash_tuning*, %struct.hash_tuning** %2, align 8, !dbg\l... !704, !tbaa !699\l  %4 = bitcast %struct.hash_tuning* %3 to i8*, !dbg !705\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 4 %4, i8* align 4 bitcast\l... (%struct.hash_tuning* @default_tuning to i8*), i64 20, i1 false), !dbg !705,\l... !tbaa.struct !706\l  ret void, !dbg !711\l}"];
+}

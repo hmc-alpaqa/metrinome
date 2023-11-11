@@ -1,0 +1,12 @@
+digraph "CFG for 'chmod_or_fchmod' function" {
+	label="CFG for 'chmod_or_fchmod' function";
+
+	Node0x1c3a540 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  store i8* %0, i8** %5, align 8, !tbaa !1742\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1739, metadata\l... !DIExpression()), !dbg !1746\l  store i32 %1, i32* %6, align 4, !tbaa !1747\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !1740, metadata\l... !DIExpression()), !dbg !1749\l  store i32 %2, i32* %7, align 4, !tbaa !1747\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !1741, metadata\l... !DIExpression()), !dbg !1750\l  %8 = load i32, i32* %6, align 4, !dbg !1751, !tbaa !1747\l  %9 = icmp ne i32 %8, -1, !dbg !1753\l  br i1 %9, label %10, label %14, !dbg !1754\l|{<s0>T|<s1>F}}"];
+	Node0x1c3a540:s0 -> Node0x1c3bc60;
+	Node0x1c3a540:s1 -> Node0x1c3bcb0;
+	Node0x1c3bc60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%10:\l10:                                               \l  %11 = load i32, i32* %6, align 4, !dbg !1755, !tbaa !1747\l  %12 = load i32, i32* %7, align 4, !dbg !1756, !tbaa !1747\l  %13 = call i32 @fchmod(i32 noundef %11, i32 noundef %12) #26, !dbg !1757\l  store i32 %13, i32* %4, align 4, !dbg !1758\l  br label %18, !dbg !1758\l}"];
+	Node0x1c3bc60 -> Node0x1c3bd00;
+	Node0x1c3bcb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%14:\l14:                                               \l  %15 = load i8*, i8** %5, align 8, !dbg !1759, !tbaa !1742\l  %16 = load i32, i32* %7, align 4, !dbg !1760, !tbaa !1747\l  %17 = call i32 @chmod(i8* noundef %15, i32 noundef %16) #26, !dbg !1761\l  store i32 %17, i32* %4, align 4, !dbg !1762\l  br label %18, !dbg !1762\l}"];
+	Node0x1c3bcb0 -> Node0x1c3bd00;
+	Node0x1c3bd00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%18:\l18:                                               \l  %19 = load i32, i32* %4, align 4, !dbg !1763\l  ret i32 %19, !dbg !1763\l}"];
+}

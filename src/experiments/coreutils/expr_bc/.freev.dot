@@ -1,0 +1,12 @@
+digraph "CFG for 'freev' function" {
+	label="CFG for 'freev' function";
+
+	Node0x24eeb10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.valinfo*, align 8\l  store %struct.valinfo* %0, %struct.valinfo** %2, align 8, !tbaa !792\l  call void @llvm.dbg.declare(metadata %struct.valinfo** %2, metadata !791,\l... metadata !DIExpression()), !dbg !796\l  %3 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !797, !tbaa\l... !792\l  %4 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %3, i32 0, i32\l... 0, !dbg !799\l  %5 = load i32, i32* %4, align 8, !dbg !799, !tbaa !800\l  %6 = icmp eq i32 %5, 1, !dbg !802\l  br i1 %6, label %7, label %12, !dbg !803\l|{<s0>T|<s1>F}}"];
+	Node0x24eeb10:s0 -> Node0x24e0e50;
+	Node0x24eeb10:s1 -> Node0x24e0ea0;
+	Node0x24e0e50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%7:\l7:                                                \l  %8 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !804, !tbaa\l... !792\l  %9 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %8, i32 0, i32\l... 1, !dbg !805\l  %10 = bitcast %union.anon* %9 to i8**, !dbg !806\l  %11 = load i8*, i8** %10, align 8, !dbg !806, !tbaa !807\l  call void @free(i8* noundef %11) #22, !dbg !808\l  br label %17, !dbg !808\l}"];
+	Node0x24e0e50 -> Node0x24e0ef0;
+	Node0x24e0ea0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%12:\l12:                                               \l  %13 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !809, !tbaa\l... !792\l  %14 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %13, i32 0,\l... i32 1, !dbg !810\l  %15 = bitcast %union.anon* %14 to [1 x %struct.__mpz_struct]*, !dbg !811\l  %16 = getelementptr inbounds [1 x %struct.__mpz_struct], [1 x\l... %struct.__mpz_struct]* %15, i64 0, i64 0, !dbg !809\l  call void @mpz_clear(%struct.__mpz_struct* noundef %16), !dbg !812\l  br label %17\l}"];
+	Node0x24e0ea0 -> Node0x24e0ef0;
+	Node0x24e0ef0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%17:\l17:                                               \l  %18 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !813, !tbaa\l... !792\l  %19 = bitcast %struct.valinfo* %18 to i8*, !dbg !813\l  call void @free(i8* noundef %19) #22, !dbg !814\l  ret void, !dbg !815\l}"];
+}

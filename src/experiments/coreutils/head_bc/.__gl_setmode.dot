@@ -1,0 +1,5 @@
+digraph "CFG for '__gl_setmode' function" {
+	label="CFG for '__gl_setmode' function";
+
+	Node0x9329c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !744\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !742, metadata\l... !DIExpression()), !dbg !748\l  store i32 %1, i32* %4, align 4, !tbaa !744\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !743, metadata\l... !DIExpression()), !dbg !749\l  ret i32 0, !dbg !750\l}"];
+}

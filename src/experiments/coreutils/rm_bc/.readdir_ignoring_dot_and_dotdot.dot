@@ -1,0 +1,24 @@
+digraph "CFG for 'readdir_ignoring_dot_and_dotdot' function" {
+	label="CFG for 'readdir_ignoring_dot_and_dotdot' function";
+
+	Node0x1cc8de0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%1:\l  %2 = alloca %struct.dirent*, align 8\l  %3 = alloca %struct.__dirstream*, align 8\l  %4 = alloca %struct.dirent*, align 8\l  %5 = alloca i32, align 4\l  store %struct.__dirstream* %0, %struct.__dirstream** %3, align 8, !tbaa !1028\l  call void @llvm.dbg.declare(metadata %struct.__dirstream** %3, metadata\l... !1025, metadata !DIExpression()), !dbg !1032\l  br label %6, !dbg !1033\l}"];
+	Node0x1cc8de0 -> Node0x1cc8e30;
+	Node0x1cc8e30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%6:\l6:                                                \l  %7 = bitcast %struct.dirent** %4 to i8*, !dbg !1034\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %7) #22, !dbg !1034\l  call void @llvm.dbg.declare(metadata %struct.dirent** %4, metadata !1026,\l... metadata !DIExpression()), !dbg !1035\l  %8 = load %struct.__dirstream*, %struct.__dirstream** %3, align 8, !dbg\l... !1036, !tbaa !1028\l  %9 = call %struct.dirent* @readdir(%struct.__dirstream* noundef %8), !dbg\l... !1037\l  store %struct.dirent* %9, %struct.dirent** %4, align 8, !dbg !1035, !tbaa\l... !1028\l  %10 = load %struct.dirent*, %struct.dirent** %4, align 8, !dbg !1038, !tbaa\l... !1028\l  %11 = icmp eq %struct.dirent* %10, null, !dbg !1040\l  br i1 %11, label %17, label %12, !dbg !1041\l|{<s0>T|<s1>F}}"];
+	Node0x1cc8e30:s0 -> Node0x1cc8ed0;
+	Node0x1cc8e30:s1 -> Node0x1cc8e80;
+	Node0x1cc8e80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%12:\l12:                                               \l  %13 = load %struct.dirent*, %struct.dirent** %4, align 8, !dbg !1042, !tbaa\l... !1028\l  %14 = getelementptr inbounds %struct.dirent, %struct.dirent* %13, i32 0, i32\l... 4, !dbg !1043\l  %15 = getelementptr inbounds [256 x i8], [256 x i8]* %14, i64 0, i64 0, !dbg\l... !1042\l  %16 = call zeroext i1 @dot_or_dotdot(i8* noundef %15), !dbg !1044\l  br i1 %16, label %19, label %17, !dbg !1045\l|{<s0>T|<s1>F}}"];
+	Node0x1cc8e80:s0 -> Node0x1cc8f20;
+	Node0x1cc8e80:s1 -> Node0x1cc8ed0;
+	Node0x1cc8ed0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%17:\l17:                                               \l  %18 = load %struct.dirent*, %struct.dirent** %4, align 8, !dbg !1046, !tbaa\l... !1028\l  store %struct.dirent* %18, %struct.dirent** %2, align 8, !dbg !1047\l  store i32 1, i32* %5, align 4\l  br label %20, !dbg !1047\l}"];
+	Node0x1cc8ed0 -> Node0x1cc8f70;
+	Node0x1cc8f20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ca3b3770",label="{%19:\l19:                                               \l  store i32 0, i32* %5, align 4, !dbg !1048\l  br label %20, !dbg !1048\l}"];
+	Node0x1cc8f20 -> Node0x1cc8f70;
+	Node0x1cc8f70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%20:\l20:                                               \l  %21 = bitcast %struct.dirent** %4 to i8*, !dbg !1048\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %21) #22, !dbg !1048\l  %22 = load i32, i32* %5, align 4\l  switch i32 %22, label %26 [\l    i32 0, label %23\l    i32 1, label %24\l  ]\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x1cc8f70:s0 -> Node0x1cc9060;
+	Node0x1cc8f70:s1 -> Node0x1cc8fc0;
+	Node0x1cc8f70:s2 -> Node0x1cc9010;
+	Node0x1cc8fc0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%23:\l23:                                               \l  br label %6, !dbg !1033, !llvm.loop !1049\l}"];
+	Node0x1cc8fc0 -> Node0x1cc8e30;
+	Node0x1cc9010 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%24:\l24:                                               \l  %25 = load %struct.dirent*, %struct.dirent** %2, align 8, !dbg !1051\l  ret %struct.dirent* %25, !dbg !1051\l}"];
+	Node0x1cc9060 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%26:\l26:                                               \l  unreachable\l}"];
+}

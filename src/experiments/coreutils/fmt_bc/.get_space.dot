@@ -1,0 +1,21 @@
+digraph "CFG for 'get_space' function" {
+	label="CFG for 'get_space' function";
+
+	Node0xc67ec0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#abc8fd70",label="{%2:\l  %3 = alloca %struct._IO_FILE*, align 8\l  %4 = alloca i32, align 4\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %3, align 8, !tbaa !792\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %3, metadata !790,\l... metadata !DIExpression()), !dbg !796\l  store i32 %1, i32* %4, align 4, !tbaa !797\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !791, metadata\l... !DIExpression()), !dbg !799\l  br label %5, !dbg !800\l}"];
+	Node0xc67ec0 -> Node0xc67f10;
+	Node0xc67f10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  %6 = load i32, i32* %4, align 4, !dbg !801, !tbaa !797\l  %7 = icmp eq i32 %6, 32, !dbg !804\l  br i1 %7, label %8, label %11, !dbg !805\l|{<s0>T|<s1>F}}"];
+	Node0xc67f10:s0 -> Node0xc67f60;
+	Node0xc67f10:s1 -> Node0xc67fb0;
+	Node0xc67f60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%8:\l8:                                                \l  %9 = load i32, i32* @in_column, align 4, !dbg !806, !tbaa !797\l  %10 = add nsw i32 %9, 1, !dbg !806\l  store i32 %10, i32* @in_column, align 4, !dbg !806, !tbaa !797\l  br label %22, !dbg !807\l}"];
+	Node0xc67f60 -> Node0xc680f0;
+	Node0xc67fb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%11:\l11:                                               \l  %12 = load i32, i32* %4, align 4, !dbg !808, !tbaa !797\l  %13 = icmp eq i32 %12, 9, !dbg !810\l  br i1 %13, label %14, label %19, !dbg !811\l|{<s0>T|<s1>F}}"];
+	Node0xc67fb0:s0 -> Node0xc68000;
+	Node0xc67fb0:s1 -> Node0xc68050;
+	Node0xc68000 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%14:\l14:                                               \l  store i8 1, i8* @tabs, align 1, !dbg !812, !tbaa !814\l  %15 = load i32, i32* @in_column, align 4, !dbg !816, !tbaa !797\l  %16 = sdiv i32 %15, 8, !dbg !817\l  %17 = add nsw i32 %16, 1, !dbg !818\l  %18 = mul nsw i32 %17, 8, !dbg !819\l  store i32 %18, i32* @in_column, align 4, !dbg !820, !tbaa !797\l  br label %21, !dbg !821\l}"];
+	Node0xc68000 -> Node0xc680a0;
+	Node0xc68050 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#abc8fd70",label="{%19:\l19:                                               \l  %20 = load i32, i32* %4, align 4, !dbg !822, !tbaa !797\l  ret i32 %20, !dbg !823\l}"];
+	Node0xc680a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%21:\l21:                                               \l  br label %22\l}"];
+	Node0xc680a0 -> Node0xc680f0;
+	Node0xc680f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%22:\l22:                                               \l  %23 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !824,\l... !tbaa !792\l  %24 = call i32 @getc_unlocked(%struct._IO_FILE* noundef %23), !dbg !824\l  store i32 %24, i32* %4, align 4, !dbg !825, !tbaa !797\l  br label %5, !dbg !800, !llvm.loop !826\l}"];
+	Node0xc680f0 -> Node0xc67f10;
+}

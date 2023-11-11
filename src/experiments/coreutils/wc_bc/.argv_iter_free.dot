@@ -1,0 +1,10 @@
+digraph "CFG for 'argv_iter_free' function" {
+	label="CFG for 'argv_iter_free' function";
+
+	Node0x1e8e980 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.argv_iterator*, align 8\l  store %struct.argv_iterator* %0, %struct.argv_iterator** %2, align 8, !tbaa\l... !1339\l  call void @llvm.dbg.declare(metadata %struct.argv_iterator** %2, metadata\l... !1338, metadata !DIExpression()), !dbg !1343\l  %3 = load %struct.argv_iterator*, %struct.argv_iterator** %2, align 8, !dbg\l... !1344, !tbaa !1339\l  %4 = getelementptr inbounds %struct.argv_iterator, %struct.argv_iterator*\l... %3, i32 0, i32 0, !dbg !1346\l  %5 = load %struct._IO_FILE*, %struct._IO_FILE** %4, align 8, !dbg !1346,\l... !tbaa !1347\l  %6 = icmp ne %struct._IO_FILE* %5, null, !dbg !1344\l  br i1 %6, label %7, label %11, !dbg !1350\l|{<s0>T|<s1>F}}"];
+	Node0x1e8e980:s0 -> Node0x1e8e9d0;
+	Node0x1e8e980:s1 -> Node0x1e8ea20;
+	Node0x1e8e9d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%7:\l7:                                                \l  %8 = load %struct.argv_iterator*, %struct.argv_iterator** %2, align 8, !dbg\l... !1351, !tbaa !1339\l  %9 = getelementptr inbounds %struct.argv_iterator, %struct.argv_iterator*\l... %8, i32 0, i32 2, !dbg !1352\l  %10 = load i8*, i8** %9, align 8, !dbg !1352, !tbaa !1353\l  call void @free(i8* noundef %10) #24, !dbg !1354\l  br label %11, !dbg !1354\l}"];
+	Node0x1e8e9d0 -> Node0x1e8ea20;
+	Node0x1e8ea20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  %12 = load %struct.argv_iterator*, %struct.argv_iterator** %2, align 8, !dbg\l... !1355, !tbaa !1339\l  %13 = bitcast %struct.argv_iterator* %12 to i8*, !dbg !1355\l  call void @free(i8* noundef %13) #24, !dbg !1356\l  ret void, !dbg !1357\l}"];
+}

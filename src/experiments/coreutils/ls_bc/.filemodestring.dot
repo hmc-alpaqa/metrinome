@@ -1,0 +1,26 @@
+digraph "CFG for 'filemodestring' function" {
+	label="CFG for 'filemodestring' function";
+
+	Node0xc06130 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.stat*, align 8\l  %4 = alloca i8*, align 8\l  store %struct.stat* %0, %struct.stat** %3, align 8, !tbaa !1897\l  call void @llvm.dbg.declare(metadata %struct.stat** %3, metadata !1895,\l... metadata !DIExpression()), !dbg !1901\l  store i8* %1, i8** %4, align 8, !tbaa !1897\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1896, metadata\l... !DIExpression()), !dbg !1902\l  %5 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1903, !tbaa !1897\l  %6 = getelementptr inbounds %struct.stat, %struct.stat* %5, i32 0, i32 3,\l... !dbg !1904\l  %7 = load i32, i32* %6, align 8, !dbg !1904, !tbaa !1905\l  %8 = load i8*, i8** %4, align 8, !dbg !1910, !tbaa !1897\l  call void @strmode(i32 noundef %7, i8* noundef %8), !dbg !1911\l  %9 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1912, !tbaa !1897\l  %10 = getelementptr inbounds %struct.stat, %struct.stat* %9, i32 0, i32 3,\l... !dbg !1912\l  %11 = load i32, i32* %10, align 8, !dbg !1912, !tbaa !1905\l  %12 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1912, !tbaa !1897\l  %13 = getelementptr inbounds %struct.stat, %struct.stat* %12, i32 0, i32 3,\l... !dbg !1912\l  %14 = load i32, i32* %13, align 8, !dbg !1912, !tbaa !1905\l  %15 = sub i32 %11, %14, !dbg !1912\l  %16 = icmp ne i32 %15, 0, !dbg !1912\l  br i1 %16, label %17, label %20, !dbg !1914\l|{<s0>T|<s1>F}}"];
+	Node0xc06130:s0 -> Node0xc08690;
+	Node0xc06130:s1 -> Node0xc086e0;
+	Node0xc08690 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d6524470",label="{%17:\l17:                                               \l  %18 = load i8*, i8** %4, align 8, !dbg !1915, !tbaa !1897\l  %19 = getelementptr inbounds i8, i8* %18, i64 0, !dbg !1915\l  store i8 70, i8* %19, align 1, !dbg !1916, !tbaa !1917\l  br label %47, !dbg !1915\l}"];
+	Node0xc08690 -> Node0xc08910;
+	Node0xc086e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%20:\l20:                                               \l  %21 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1918, !tbaa !1897\l  %22 = getelementptr inbounds %struct.stat, %struct.stat* %21, i32 0, i32 3,\l... !dbg !1918\l  %23 = load i32, i32* %22, align 8, !dbg !1918, !tbaa !1905\l  %24 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1918, !tbaa !1897\l  %25 = getelementptr inbounds %struct.stat, %struct.stat* %24, i32 0, i32 3,\l... !dbg !1918\l  %26 = load i32, i32* %25, align 8, !dbg !1918, !tbaa !1905\l  %27 = sub i32 %23, %26, !dbg !1918\l  %28 = icmp ne i32 %27, 0, !dbg !1918\l  br i1 %28, label %29, label %32, !dbg !1920\l|{<s0>T|<s1>F}}"];
+	Node0xc086e0:s0 -> Node0xc08730;
+	Node0xc086e0:s1 -> Node0xc08780;
+	Node0xc08730 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%29:\l29:                                               \l  %30 = load i8*, i8** %4, align 8, !dbg !1921, !tbaa !1897\l  %31 = getelementptr inbounds i8, i8* %30, i64 0, !dbg !1921\l  store i8 81, i8* %31, align 1, !dbg !1922, !tbaa !1917\l  br label %46, !dbg !1921\l}"];
+	Node0xc08730 -> Node0xc088c0;
+	Node0xc08780 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2cab570",label="{%32:\l32:                                               \l  %33 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1923, !tbaa !1897\l  %34 = getelementptr inbounds %struct.stat, %struct.stat* %33, i32 0, i32 3,\l... !dbg !1923\l  %35 = load i32, i32* %34, align 8, !dbg !1923, !tbaa !1905\l  %36 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !1923, !tbaa !1897\l  %37 = getelementptr inbounds %struct.stat, %struct.stat* %36, i32 0, i32 3,\l... !dbg !1923\l  %38 = load i32, i32* %37, align 8, !dbg !1923, !tbaa !1905\l  %39 = sub i32 %35, %38, !dbg !1923\l  %40 = icmp ne i32 %39, 0, !dbg !1923\l  br i1 %40, label %41, label %44, !dbg !1925\l|{<s0>T|<s1>F}}"];
+	Node0xc08780:s0 -> Node0xc087d0;
+	Node0xc08780:s1 -> Node0xc08820;
+	Node0xc087d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e0dbd870",label="{%41:\l41:                                               \l  %42 = load i8*, i8** %4, align 8, !dbg !1926, !tbaa !1897\l  %43 = getelementptr inbounds i8, i8* %42, i64 0, !dbg !1926\l  store i8 83, i8* %43, align 1, !dbg !1927, !tbaa !1917\l  br label %45, !dbg !1926\l}"];
+	Node0xc087d0 -> Node0xc08870;
+	Node0xc08820 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5d6f270",label="{%44:\l44:                                               \l  br label %45\l}"];
+	Node0xc08820 -> Node0xc08870;
+	Node0xc08870 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2cab570",label="{%45:\l45:                                               \l  br label %46\l}"];
+	Node0xc08870 -> Node0xc088c0;
+	Node0xc088c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%46:\l46:                                               \l  br label %47\l}"];
+	Node0xc088c0 -> Node0xc08910;
+	Node0xc08910 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%47:\l47:                                               \l  ret void, !dbg !1928\l}"];
+}

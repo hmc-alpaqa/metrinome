@@ -1,0 +1,5 @@
+digraph "CFG for 'my_tzset' function" {
+	label="CFG for 'my_tzset' function";
+
+	Node0x194d710 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  call void @tzset() #23, !dbg !1123\l  ret void, !dbg !1124\l}"];
+}

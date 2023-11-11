@@ -1,0 +1,21 @@
+digraph "CFG for 'alloc_obuf' function" {
+	label="CFG for 'alloc_obuf' function";
+
+	Node0xfc8d70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca [652 x i8], align 16\l  %2 = load i8*, i8** @obuf, align 8, !dbg !1323, !tbaa !1325\l  %3 = icmp ne i8* %2, null, !dbg !1323\l  br i1 %3, label %4, label %5, !dbg !1329\l|{<s0>T|<s1>F}}"];
+	Node0xfc8d70:s0 -> Node0xfc8dc0;
+	Node0xfc8d70:s1 -> Node0xfc8e10;
+	Node0xfc8dc0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%4:\l4:                                                \l  br label %24, !dbg !1330\l}"];
+	Node0xfc8dc0 -> Node0xfc8fa0;
+	Node0xfc8e10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%5:\l5:                                                \l  %6 = load i32, i32* @conversions_mask, align 4, !dbg !1331, !tbaa !1332\l  %7 = and i32 %6, 2048, !dbg !1334\l  %8 = icmp ne i32 %7, 0, !dbg !1334\l  br i1 %8, label %9, label %22, !dbg !1335\l|{<s0>T|<s1>F}}"];
+	Node0xfc8e10:s0 -> Node0xfc8e60;
+	Node0xfc8e10:s1 -> Node0xfc8f50;
+	Node0xfc8e60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%9:\l9:                                                \l  %10 = load i64, i64* @page_size, align 8, !dbg !1336, !tbaa !1337\l  %11 = load i64, i64* @output_blocksize, align 8, !dbg !1339, !tbaa !1337\l  %12 = call noalias i8* @alignalloc(i64 noundef %10, i64 noundef %11) #26,\l... !dbg !1340\l  store i8* %12, i8** @obuf, align 8, !dbg !1341, !tbaa !1325\l  %13 = load i8*, i8** @obuf, align 8, !dbg !1342, !tbaa !1325\l  %14 = icmp ne i8* %13, null, !dbg !1342\l  br i1 %14, label %21, label %15, !dbg !1343\l|{<s0>T|<s1>F}}"];
+	Node0xfc8e60:s0 -> Node0xfc8f00;
+	Node0xfc8e60:s1 -> Node0xfc8eb0;
+	Node0xfc8eb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%15:\l15:                                               \l  %16 = bitcast [652 x i8]* %1 to i8*, !dbg !1344\l  call void @llvm.lifetime.start.p0i8(i64 652, i8* %16) #27, !dbg !1344\l  call void @llvm.dbg.declare(metadata [652 x i8]* %1, metadata !1315,\l... metadata !DIExpression()), !dbg !1345\l  %17 = load i64, i64* @output_blocksize, align 8, !dbg !1346, !tbaa !1337\l  %18 = load i64, i64* @output_blocksize, align 8, !dbg !1346, !tbaa !1337\l  %19 = getelementptr inbounds [652 x i8], [652 x i8]* %1, i64 0, i64 0, !dbg\l... !1346\l  %20 = call i8* @human_readable(i64 noundef %18, i8* noundef %19, i32 noundef\l... 497, i64 noundef 1, i64 noundef 1), !dbg !1346\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([57 x i8], [57 x i8]* @.str.108, i64 0, i64\l... 0), i64 noundef %17, i8* noundef %20), !dbg !1346\l  unreachable, !dbg !1346\l}"];
+	Node0xfc8f00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%21:\l21:                                               \l  br label %24, !dbg !1347\l}"];
+	Node0xfc8f00 -> Node0xfc8fa0;
+	Node0xfc8f50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%22:\l22:                                               \l  call void @alloc_ibuf(), !dbg !1348\l  %23 = load i8*, i8** @ibuf, align 8, !dbg !1350, !tbaa !1325\l  store i8* %23, i8** @obuf, align 8, !dbg !1351, !tbaa !1325\l  br label %24\l}"];
+	Node0xfc8f50 -> Node0xfc8fa0;
+	Node0xfc8fa0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%24:\l24:                                               \l  ret void, !dbg !1352\l}"];
+}

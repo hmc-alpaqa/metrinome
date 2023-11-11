@@ -1,0 +1,5 @@
+digraph "CFG for 'rotl8' function" {
+	label="CFG for 'rotl8' function";
+
+	Node0x1b33110 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8, align 1\l  %4 = alloca i32, align 4\l  store i8 %0, i8* %3, align 1, !tbaa !800\l  call void @llvm.dbg.declare(metadata i8* %3, metadata !798, metadata\l... !DIExpression()), !dbg !803\l  store i32 %1, i32* %4, align 4, !tbaa !804\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !799, metadata\l... !DIExpression()), !dbg !806\l  %5 = load i8, i8* %3, align 1, !dbg !807, !tbaa !800\l  %6 = zext i8 %5 to i32, !dbg !808\l  %7 = load i32, i32* %4, align 4, !dbg !809, !tbaa !804\l  %8 = shl i32 %6, %7, !dbg !810\l  %9 = load i8, i8* %3, align 1, !dbg !811, !tbaa !800\l  %10 = zext i8 %9 to i32, !dbg !812\l  %11 = load i32, i32* %4, align 4, !dbg !813, !tbaa !804\l  %12 = sub nsw i32 8, %11, !dbg !814\l  %13 = lshr i32 %10, %12, !dbg !815\l  %14 = or i32 %8, %13, !dbg !816\l  %15 = and i32 %14, 255, !dbg !817\l  %16 = trunc i32 %15 to i8, !dbg !818\l  ret i8 %16, !dbg !819\l}"];
+}

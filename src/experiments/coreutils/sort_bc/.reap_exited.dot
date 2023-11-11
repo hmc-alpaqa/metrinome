@@ -1,0 +1,17 @@
+digraph "CFG for 'reap_exited' function" {
+	label="CFG for 'reap_exited' function";
+
+	Node0x250afd0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%0:\l  br label %1, !dbg !1780\l}"];
+	Node0x250afd0 -> Node0x250b0a0;
+	Node0x250b0a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l1:                                                \l  %2 = load i32, i32* @nprocs, align 4, !dbg !1781, !tbaa !1782\l  %3 = icmp slt i32 0, %2, !dbg !1786\l  br i1 %3, label %4, label %7, !dbg !1787\l|{<s0>T|<s1>F}}"];
+	Node0x250b0a0:s0 -> Node0x250b0f0;
+	Node0x250b0a0:s1 -> Node0x250b140;
+	Node0x250b0f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%4:\l4:                                                \l  %5 = call i32 @reap(i32 noundef 0), !dbg !1788\l  %6 = icmp ne i32 %5, 0, !dbg !1787\l  br label %7\l}"];
+	Node0x250b0f0 -> Node0x250b140;
+	Node0x250b140 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = phi i1 [ false, %1 ], [ %6, %4 ], !dbg !1789\l  br i1 %8, label %9, label %10, !dbg !1780\l|{<s0>T|<s1>F}}"];
+	Node0x250b140:s0 -> Node0x250b190;
+	Node0x250b140:s1 -> Node0x250b1e0;
+	Node0x250b190 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%9:\l9:                                                \l  br label %1, !dbg !1790, !llvm.loop !1791\l}"];
+	Node0x250b190 -> Node0x250b0a0;
+	Node0x250b1e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%10:\l10:                                               \l  ret void, !dbg !1794\l}"];
+}

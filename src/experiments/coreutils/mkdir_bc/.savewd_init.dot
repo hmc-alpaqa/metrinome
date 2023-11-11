@@ -1,0 +1,5 @@
+digraph "CFG for 'savewd_init' function" {
+	label="CFG for 'savewd_init' function";
+
+	Node0x10e91d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.savewd*, align 8\l  store %struct.savewd* %0, %struct.savewd** %2, align 8, !tbaa !1029\l  call void @llvm.dbg.declare(metadata %struct.savewd** %2, metadata !1028,\l... metadata !DIExpression()), !dbg !1033\l  %3 = load %struct.savewd*, %struct.savewd** %2, align 8, !dbg !1034, !tbaa\l... !1029\l  %4 = getelementptr inbounds %struct.savewd, %struct.savewd* %3, i32 0, i32\l... 0, !dbg !1035\l  store i32 0, i32* %4, align 4, !dbg !1036, !tbaa !1037\l  ret void, !dbg !1039\l}"];
+}

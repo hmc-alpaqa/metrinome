@@ -1,0 +1,41 @@
+digraph "CFG for 'safe_write' function" {
+	label="CFG for 'safe_write' function";
+
+	Node0x8ad6d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e97a5f70",label="{%3:\l  %4 = alloca i64, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i8*, align 8\l  %7 = alloca i64, align 8\l  %8 = alloca i64, align 8\l  %9 = alloca i32, align 4\l  store i32 %0, i32* %5, align 4, !tbaa !820\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !812, metadata\l... !DIExpression()), !dbg !824\l  store i8* %1, i8** %6, align 8, !tbaa !825\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !813, metadata\l... !DIExpression()), !dbg !827\l  store i64 %2, i64* %7, align 8, !tbaa !828\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !814, metadata\l... !DIExpression()), !dbg !830\l  br label %10, !dbg !831\l}"];
+	Node0x8ad6d0 -> Node0x8ad720;
+	Node0x8ad720 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = bitcast i64* %8 to i8*, !dbg !832\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %11) #23, !dbg !832\l  call void @llvm.dbg.declare(metadata i64* %8, metadata !815, metadata\l... !DIExpression()), !dbg !833\l  %12 = load i32, i32* %5, align 4, !dbg !834, !tbaa !820\l  %13 = load i8*, i8** %6, align 8, !dbg !835, !tbaa !825\l  %14 = load i64, i64* %7, align 8, !dbg !836, !tbaa !828\l  %15 = call i64 @write(i32 noundef %12, i8* noundef %13, i64 noundef %14),\l... !dbg !837\l  store i64 %15, i64* %8, align 8, !dbg !833, !tbaa !828\l  %16 = load i64, i64* %8, align 8, !dbg !838, !tbaa !828\l  %17 = icmp sle i64 0, %16, !dbg !840\l  br i1 %17, label %18, label %20, !dbg !841\l|{<s0>T|<s1>F}}"];
+	Node0x8ad720:s0 -> Node0x8ad770;
+	Node0x8ad720:s1 -> Node0x8ad7c0;
+	Node0x8ad770 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%18:\l18:                                               \l  %19 = load i64, i64* %8, align 8, !dbg !842, !tbaa !828\l  store i64 %19, i64* %4, align 8, !dbg !843\l  store i32 1, i32* %9, align 4\l  br label %38, !dbg !843\l}"];
+	Node0x8ad770 -> Node0x8ada90;
+	Node0x8ad7c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%20:\l20:                                               \l  %21 = call i32* @__errno_location() #24, !dbg !844\l  %22 = load i32, i32* %21, align 4, !dbg !844, !tbaa !820\l  %23 = icmp eq i32 %22, 4, !dbg !844\l  br i1 %23, label %24, label %25, !dbg !846\l|{<s0>T|<s1>F}}"];
+	Node0x8ad7c0:s0 -> Node0x8ad810;
+	Node0x8ad7c0:s1 -> Node0x8ad860;
+	Node0x8ad810 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%24:\l24:                                               \l  store i32 3, i32* %9, align 4\l  br label %38, !dbg !847, !llvm.loop !848\l}"];
+	Node0x8ad810 -> Node0x8ada90;
+	Node0x8ad860 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%25:\l25:                                               \l  %26 = call i32* @__errno_location() #24, !dbg !852\l  %27 = load i32, i32* %26, align 4, !dbg !852, !tbaa !820\l  %28 = icmp eq i32 %27, 22, !dbg !854\l  br i1 %28, label %29, label %33, !dbg !855\l|{<s0>T|<s1>F}}"];
+	Node0x8ad860:s0 -> Node0x8ad8b0;
+	Node0x8ad860:s1 -> Node0x8ad950;
+	Node0x8ad8b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d6524470",label="{%29:\l29:                                               \l  %30 = load i64, i64* %7, align 8, !dbg !856, !tbaa !828\l  %31 = icmp ult i64 2146435072, %30, !dbg !857\l  br i1 %31, label %32, label %33, !dbg !858\l|{<s0>T|<s1>F}}"];
+	Node0x8ad8b0:s0 -> Node0x8ad900;
+	Node0x8ad8b0:s1 -> Node0x8ad950;
+	Node0x8ad900 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%32:\l32:                                               \l  store i64 2146435072, i64* %7, align 8, !dbg !859, !tbaa !828\l  br label %35, !dbg !860\l}"];
+	Node0x8ad900 -> Node0x8ad9a0;
+	Node0x8ad950 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%33:\l33:                                               \l  %34 = load i64, i64* %8, align 8, !dbg !861, !tbaa !828\l  store i64 %34, i64* %4, align 8, !dbg !862\l  store i32 1, i32* %9, align 4\l  br label %38, !dbg !862\l}"];
+	Node0x8ad950 -> Node0x8ada90;
+	Node0x8ad9a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%35:\l35:                                               \l  br label %36\l}"];
+	Node0x8ad9a0 -> Node0x8ad9f0;
+	Node0x8ad9f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%36:\l36:                                               \l  br label %37\l}"];
+	Node0x8ad9f0 -> Node0x8ada40;
+	Node0x8ada40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%37:\l37:                                               \l  store i32 0, i32* %9, align 4, !dbg !863\l  br label %38, !dbg !863\l}"];
+	Node0x8ada40 -> Node0x8ada90;
+	Node0x8ada90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%38:\l38:                                               \l  %39 = bitcast i64* %8 to i8*, !dbg !863\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %39) #23, !dbg !863\l  %40 = load i32, i32* %9, align 4\l  switch i32 %40, label %44 [\l    i32 0, label %41\l    i32 1, label %42\l    i32 3, label %10\l  ]\l|{<s0>def|<s1>0|<s2>1|<s3>3}}"];
+	Node0x8ada90:s0 -> Node0x8adb80;
+	Node0x8ada90:s1 -> Node0x8adae0;
+	Node0x8ada90:s2 -> Node0x8adb30;
+	Node0x8ada90:s3 -> Node0x8ad720;
+	Node0x8adae0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%41:\l41:                                               \l  br label %10, !dbg !864, !llvm.loop !848\l}"];
+	Node0x8adae0 -> Node0x8ad720;
+	Node0x8adb30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e97a5f70",label="{%42:\l42:                                               \l  %43 = load i64, i64* %4, align 8, !dbg !865\l  ret i64 %43, !dbg !865\l}"];
+	Node0x8adb80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%44:\l44:                                               \l  unreachable\l}"];
+}

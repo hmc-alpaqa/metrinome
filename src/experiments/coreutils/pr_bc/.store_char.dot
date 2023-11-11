@@ -1,0 +1,10 @@
+digraph "CFG for 'store_char' function" {
+	label="CFG for 'store_char' function";
+
+	Node0x1694260 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !1122\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !1121, metadata\l... !DIExpression()), !dbg !1125\l  %3 = load i32, i32* @buff_current, align 4, !dbg !1126, !tbaa !1128\l  %4 = zext i32 %3 to i64, !dbg !1126\l  %5 = load i64, i64* @buff_allocated, align 8, !dbg !1130, !tbaa !1131\l  %6 = icmp uge i64 %4, %5, !dbg !1133\l  br i1 %6, label %7, label %10, !dbg !1134\l|{<s0>T|<s1>F}}"];
+	Node0x1694260:s0 -> Node0x169f9a0;
+	Node0x1694260:s1 -> Node0x169f9f0;
+	Node0x169f9a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%7:\l7:                                                \l  %8 = load i8*, i8** @buff, align 8, !dbg !1135, !tbaa !1137\l  %9 = call nonnull i8* @x2realloc(i8* noundef %8, i64* noundef\l... @buff_allocated), !dbg !1135\l  store i8* %9, i8** @buff, align 8, !dbg !1139, !tbaa !1137\l  br label %10, !dbg !1140\l}"];
+	Node0x169f9a0 -> Node0x169f9f0;
+	Node0x169f9f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = load i8, i8* %2, align 1, !dbg !1141, !tbaa !1122\l  %12 = load i8*, i8** @buff, align 8, !dbg !1142, !tbaa !1137\l  %13 = load i32, i32* @buff_current, align 4, !dbg !1143, !tbaa !1128\l  %14 = add i32 %13, 1, !dbg !1143\l  store i32 %14, i32* @buff_current, align 4, !dbg !1143, !tbaa !1128\l  %15 = zext i32 %13 to i64, !dbg !1142\l  %16 = getelementptr inbounds i8, i8* %12, i64 %15, !dbg !1142\l  store i8 %11, i8* %16, align 1, !dbg !1144, !tbaa !1122\l  ret void, !dbg !1145\l}"];
+}

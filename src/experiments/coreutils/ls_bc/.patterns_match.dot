@@ -1,0 +1,21 @@
+digraph "CFG for 'patterns_match' function" {
+	label="CFG for 'patterns_match' function";
+
+	Node0x9e6410 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%2:\l  %3 = alloca i1, align 1\l  %4 = alloca %struct.ignore_pattern*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.ignore_pattern*, align 8\l  %7 = alloca i32, align 4\l  store %struct.ignore_pattern* %0, %struct.ignore_pattern** %4, align 8,\l... !tbaa !1877\l  call void @llvm.dbg.declare(metadata %struct.ignore_pattern** %4, metadata\l... !1874, metadata !DIExpression()), !dbg !1881\l  store i8* %1, i8** %5, align 8, !tbaa !1877\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1875, metadata\l... !DIExpression()), !dbg !1882\l  %8 = bitcast %struct.ignore_pattern** %6 to i8*, !dbg !1883\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #27, !dbg !1883\l  call void @llvm.dbg.declare(metadata %struct.ignore_pattern** %6, metadata\l... !1876, metadata !DIExpression()), !dbg !1884\l  %9 = load %struct.ignore_pattern*, %struct.ignore_pattern** %4, align 8,\l... !dbg !1885, !tbaa !1877\l  store %struct.ignore_pattern* %9, %struct.ignore_pattern** %6, align 8, !dbg\l... !1887, !tbaa !1877\l  br label %10, !dbg !1888\l}"];
+	Node0x9e6410 -> Node0x9e6460;
+	Node0x9e6460 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = load %struct.ignore_pattern*, %struct.ignore_pattern** %6, align 8,\l... !dbg !1889, !tbaa !1877\l  %12 = icmp ne %struct.ignore_pattern* %11, null, !dbg !1891\l  br i1 %12, label %13, label %26, !dbg !1891\l|{<s0>T|<s1>F}}"];
+	Node0x9e6460:s0 -> Node0x9e64b0;
+	Node0x9e6460:s1 -> Node0x9e65f0;
+	Node0x9e64b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%13:\l13:                                               \l  %14 = load %struct.ignore_pattern*, %struct.ignore_pattern** %6, align 8,\l... !dbg !1892, !tbaa !1877\l  %15 = getelementptr inbounds %struct.ignore_pattern, %struct.ignore_pattern*\l... %14, i32 0, i32 0, !dbg !1894\l  %16 = load i8*, i8** %15, align 8, !dbg !1894, !tbaa !1895\l  %17 = load i8*, i8** %5, align 8, !dbg !1897, !tbaa !1877\l  %18 = call i32 @fnmatch(i8* noundef %16, i8* noundef %17, i32 noundef 4),\l... !dbg !1898\l  %19 = icmp eq i32 %18, 0, !dbg !1899\l  br i1 %19, label %20, label %21, !dbg !1900\l|{<s0>T|<s1>F}}"];
+	Node0x9e64b0:s0 -> Node0x9e6500;
+	Node0x9e64b0:s1 -> Node0x9e6550;
+	Node0x9e6500 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%20:\l20:                                               \l  store i1 true, i1* %3, align 1, !dbg !1901\l  store i32 1, i32* %7, align 4\l  br label %27, !dbg !1901\l}"];
+	Node0x9e6500 -> Node0x9e6640;
+	Node0x9e6550 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%21:\l21:                                               \l  br label %22, !dbg !1902\l}"];
+	Node0x9e6550 -> Node0x9e65a0;
+	Node0x9e65a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%22:\l22:                                               \l  %23 = load %struct.ignore_pattern*, %struct.ignore_pattern** %6, align 8,\l... !dbg !1903, !tbaa !1877\l  %24 = getelementptr inbounds %struct.ignore_pattern, %struct.ignore_pattern*\l... %23, i32 0, i32 1, !dbg !1904\l  %25 = load %struct.ignore_pattern*, %struct.ignore_pattern** %24, align 8,\l... !dbg !1904, !tbaa !1905\l  store %struct.ignore_pattern* %25, %struct.ignore_pattern** %6, align 8,\l... !dbg !1906, !tbaa !1877\l  br label %10, !dbg !1907, !llvm.loop !1908\l}"];
+	Node0x9e65a0 -> Node0x9e6460;
+	Node0x9e65f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%26:\l26:                                               \l  store i1 false, i1* %3, align 1, !dbg !1912\l  store i32 1, i32* %7, align 4\l  br label %27, !dbg !1912\l}"];
+	Node0x9e65f0 -> Node0x9e6640;
+	Node0x9e6640 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dbdcde70",label="{%27:\l27:                                               \l  %28 = bitcast %struct.ignore_pattern** %6 to i8*, !dbg !1913\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %28) #27, !dbg !1913\l  %29 = load i1, i1* %3, align 1, !dbg !1913\l  ret i1 %29, !dbg !1913\l}"];
+}

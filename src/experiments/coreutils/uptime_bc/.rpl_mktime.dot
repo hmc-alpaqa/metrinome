@@ -1,0 +1,5 @@
+digraph "CFG for 'rpl_mktime' function" {
+	label="CFG for 'rpl_mktime' function";
+
+	Node0x27864d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.tm*, align 8\l  store %struct.tm* %0, %struct.tm** %2, align 8, !tbaa !796\l  call void @llvm.dbg.declare(metadata %struct.tm** %2, metadata !207,\l... metadata !DIExpression()), !dbg !800\l  call void @my_tzset(), !dbg !801\l  %3 = load %struct.tm*, %struct.tm** %2, align 8, !dbg !802, !tbaa !796\l  %4 = call i64 @mktime_internal(%struct.tm* noundef %3, %struct.tm* (i64*,\l... %struct.tm*)* noundef @localtime_r, i64* noundef\l... @rpl_mktime.localtime_offset), !dbg !803\l  ret i64 %4, !dbg !804\l}"];
+}

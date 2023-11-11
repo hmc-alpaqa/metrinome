@@ -1,0 +1,16 @@
+digraph "CFG for 'same_para' function" {
+	label="CFG for 'same_para' function";
+
+	Node0xc67040 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !738\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !737, metadata\l... !DIExpression()), !dbg !742\l  %3 = load i32, i32* @next_prefix_indent, align 4, !dbg !743, !tbaa !738\l  %4 = load i32, i32* @prefix_indent, align 4, !dbg !744, !tbaa !738\l  %5 = icmp eq i32 %3, %4, !dbg !745\l  br i1 %5, label %6, label %18, !dbg !746\l|{<s0>T|<s1>F}}"];
+	Node0xc67040:s0 -> Node0xc67100;
+	Node0xc67040:s1 -> Node0xc671f0;
+	Node0xc67100 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8765c70",label="{%6:\l6:                                                \l  %7 = load i32, i32* @in_column, align 4, !dbg !747, !tbaa !738\l  %8 = load i32, i32* @next_prefix_indent, align 4, !dbg !748, !tbaa !738\l  %9 = load i32, i32* @prefix_full_length, align 4, !dbg !749, !tbaa !738\l  %10 = add nsw i32 %8, %9, !dbg !750\l  %11 = icmp sge i32 %7, %10, !dbg !751\l  br i1 %11, label %12, label %18, !dbg !752\l|{<s0>T|<s1>F}}"];
+	Node0xc67100:s0 -> Node0xc67150;
+	Node0xc67100:s1 -> Node0xc671f0;
+	Node0xc67150 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b99e70",label="{%12:\l12:                                               \l  %13 = load i32, i32* %2, align 4, !dbg !753, !tbaa !738\l  %14 = icmp ne i32 %13, 10, !dbg !754\l  br i1 %14, label %15, label %18, !dbg !755\l|{<s0>T|<s1>F}}"];
+	Node0xc67150:s0 -> Node0xc671a0;
+	Node0xc67150:s1 -> Node0xc671f0;
+	Node0xc671a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%15:\l15:                                               \l  %16 = load i32, i32* %2, align 4, !dbg !756, !tbaa !738\l  %17 = icmp ne i32 %16, -1, !dbg !757\l  br label %18\l}"];
+	Node0xc671a0 -> Node0xc671f0;
+	Node0xc671f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%18:\l18:                                               \l  %19 = phi i1 [ false, %12 ], [ false, %6 ], [ false, %1 ], [ %17, %15 ],\l... !dbg !758\l  ret i1 %19, !dbg !759\l}"];
+}

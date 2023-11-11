@@ -1,0 +1,25 @@
+digraph "CFG for 'xfclose' function" {
+	label="CFG for 'xfclose' function";
+
+	Node0x23720a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct._IO_FILE*, align 8\l  %4 = alloca i8*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %3, align 8, !tbaa !1785\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %3, metadata !1783,\l... metadata !DIExpression()), !dbg !1789\l  store i8* %1, i8** %4, align 8, !tbaa !1785\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1784, metadata\l... !DIExpression()), !dbg !1790\l  %5 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1791,\l... !tbaa !1785\l  %6 = call i32 @fileno(%struct._IO_FILE* noundef %5) #24, !dbg !1792\l  switch i32 %6, label %16 [\l    i32 0, label %7\l    i32 1, label %9\l  ], !dbg !1793\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x23720a0:s0 -> Node0x2372230;
+	Node0x23720a0:s1 -> Node0x23720f0;
+	Node0x23720a0:s2 -> Node0x2372140;
+	Node0x23720f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%7:\l7:                                                \l  %8 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1794,\l... !tbaa !1785\l  call void @clearerr_unlocked(%struct._IO_FILE* noundef %8) #24, !dbg !1794\l  br label %23, !dbg !1796\l}"];
+	Node0x23720f0 -> Node0x2372320;
+	Node0x2372140 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%9:\l9:                                                \l  %10 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1797,\l... !tbaa !1785\l  %11 = call i32 @fflush_unlocked(%struct._IO_FILE* noundef %10), !dbg !1797\l  %12 = icmp ne i32 %11, 0, !dbg !1799\l  br i1 %12, label %13, label %15, !dbg !1800\l|{<s0>T|<s1>F}}"];
+	Node0x2372140:s0 -> Node0x2372190;
+	Node0x2372140:s1 -> Node0x23721e0;
+	Node0x2372190 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#eed0c070",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %4, align 8, !dbg !1801, !tbaa !1785\l  call void @sort_die(i8* noundef getelementptr inbounds ([14 x i8], [14 x\l... i8]* @.str.144, i64 0, i64 0), i8* noundef %14), !dbg !1802\l  br label %15, !dbg !1802\l}"];
+	Node0x2372190 -> Node0x23721e0;
+	Node0x23721e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%15:\l15:                                               \l  br label %23, !dbg !1803\l}"];
+	Node0x23721e0 -> Node0x2372320;
+	Node0x2372230 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%16:\l16:                                               \l  %17 = load %struct._IO_FILE*, %struct._IO_FILE** %3, align 8, !dbg !1804,\l... !tbaa !1785\l  %18 = call i32 @rpl_fclose(%struct._IO_FILE* noundef %17), !dbg !1806\l  %19 = icmp ne i32 %18, 0, !dbg !1807\l  br i1 %19, label %20, label %22, !dbg !1808\l|{<s0>T|<s1>F}}"];
+	Node0x2372230:s0 -> Node0x2372280;
+	Node0x2372230:s1 -> Node0x23722d0;
+	Node0x2372280 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#eed0c070",label="{%20:\l20:                                               \l  %21 = load i8*, i8** %4, align 8, !dbg !1809, !tbaa !1785\l  call void @sort_die(i8* noundef getelementptr inbounds ([13 x i8], [13 x\l... i8]* @.str.61, i64 0, i64 0), i8* noundef %21), !dbg !1810\l  br label %22, !dbg !1810\l}"];
+	Node0x2372280 -> Node0x23722d0;
+	Node0x23722d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%22:\l22:                                               \l  br label %23, !dbg !1811\l}"];
+	Node0x23722d0 -> Node0x2372320;
+	Node0x2372320 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%23:\l23:                                               \l  ret void, !dbg !1812\l}"];
+}

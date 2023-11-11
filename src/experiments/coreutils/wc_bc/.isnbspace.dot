@@ -1,0 +1,5 @@
+digraph "CFG for 'isnbspace' function" {
+	label="CFG for 'isnbspace' function";
+
+	Node0x1e70c50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !1296\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1295, metadata\l... !DIExpression()), !dbg !1300\l  %3 = load i32, i32* %2, align 4, !dbg !1301, !tbaa !1296\l  %4 = call i32 @rpl_btowc(i32 noundef %3) #24, !dbg !1302\l  %5 = call i32 @iswnbspace(i32 noundef %4) #24, !dbg !1303\l  ret i32 %5, !dbg !1304\l}"];
+}

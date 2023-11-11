@@ -1,0 +1,24 @@
+digraph "CFG for 'user_group_str' function" {
+	label="CFG for 'user_group_str' function";
+
+	Node0x2387760 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !983\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !980, metadata\l... !DIExpression()), !dbg !987\l  store i8* %1, i8** %4, align 8, !tbaa !983\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !981, metadata\l... !DIExpression()), !dbg !988\l  %6 = bitcast i8** %5 to i8*, !dbg !989\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #22, !dbg !989\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !982, metadata\l... !DIExpression()), !dbg !990\l  store i8* null, i8** %5, align 8, !dbg !990, !tbaa !983\l  %7 = load i8*, i8** %3, align 8, !dbg !991, !tbaa !983\l  %8 = icmp ne i8* %7, null, !dbg !991\l  br i1 %8, label %9, label %31, !dbg !993\l|{<s0>T|<s1>F}}"];
+	Node0x2387760:s0 -> Node0x23877b0;
+	Node0x2387760:s1 -> Node0x23878f0;
+	Node0x23877b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e36c5570",label="{%9:\l9:                                                \l  %10 = load i8*, i8** %4, align 8, !dbg !994, !tbaa !983\l  %11 = icmp ne i8* %10, null, !dbg !994\l  br i1 %11, label %12, label %27, !dbg !997\l|{<s0>T|<s1>F}}"];
+	Node0x23877b0:s0 -> Node0x2387800;
+	Node0x23877b0:s1 -> Node0x2387850;
+	Node0x2387800 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6a38570",label="{%12:\l12:                                               \l  %13 = load i8*, i8** %3, align 8, !dbg !998, !tbaa !983\l  %14 = call i64 @strlen(i8* noundef %13) #23, !dbg !1000\l  %15 = add i64 %14, 1, !dbg !1001\l  %16 = load i8*, i8** %4, align 8, !dbg !1002, !tbaa !983\l  %17 = call i64 @strlen(i8* noundef %16) #23, !dbg !1003\l  %18 = add i64 %15, %17, !dbg !1004\l  %19 = add i64 %18, 1, !dbg !1005\l  %20 = call noalias nonnull i8* @xmalloc(i64 noundef %19) #24, !dbg !1006\l  store i8* %20, i8** %5, align 8, !dbg !1007, !tbaa !983\l  %21 = load i8*, i8** %5, align 8, !dbg !1008, !tbaa !983\l  %22 = load i8*, i8** %3, align 8, !dbg !1009, !tbaa !983\l  %23 = call i8* @stpcpy(i8* noundef %21, i8* noundef %22) #22, !dbg !1010\l  %24 = call i8* @stpcpy(i8* noundef %23, i8* noundef getelementptr inbounds\l... ([2 x i8], [2 x i8]* @.str.27.81, i64 0, i64 0)) #22, !dbg !1011\l  %25 = load i8*, i8** %4, align 8, !dbg !1012, !tbaa !983\l  %26 = call i8* @stpcpy(i8* noundef %24, i8* noundef %25) #22, !dbg !1013\l  br label %30, !dbg !1014\l}"];
+	Node0x2387800 -> Node0x23878a0;
+	Node0x2387850 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#efcebd70",label="{%27:\l27:                                               \l  %28 = load i8*, i8** %3, align 8, !dbg !1015, !tbaa !983\l  %29 = call noalias nonnull i8* @xstrdup(i8* noundef %28), !dbg !1017\l  store i8* %29, i8** %5, align 8, !dbg !1018, !tbaa !983\l  br label %30\l}"];
+	Node0x2387850 -> Node0x23878a0;
+	Node0x23878a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e36c5570",label="{%30:\l30:                                               \l  br label %38, !dbg !1019\l}"];
+	Node0x23878a0 -> Node0x23879e0;
+	Node0x23878f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%31:\l31:                                               \l  %32 = load i8*, i8** %4, align 8, !dbg !1020, !tbaa !983\l  %33 = icmp ne i8* %32, null, !dbg !1020\l  br i1 %33, label %34, label %37, !dbg !1022\l|{<s0>T|<s1>F}}"];
+	Node0x23878f0:s0 -> Node0x2387940;
+	Node0x23878f0:s1 -> Node0x2387990;
+	Node0x2387940 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#efcebd70",label="{%34:\l34:                                               \l  %35 = load i8*, i8** %4, align 8, !dbg !1023, !tbaa !983\l  %36 = call noalias nonnull i8* @xstrdup(i8* noundef %35), !dbg !1025\l  store i8* %36, i8** %5, align 8, !dbg !1026, !tbaa !983\l  br label %37, !dbg !1027\l}"];
+	Node0x2387940 -> Node0x2387990;
+	Node0x2387990 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%37:\l37:                                               \l  br label %38\l}"];
+	Node0x2387990 -> Node0x23879e0;
+	Node0x23879e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%38:\l38:                                               \l  %39 = load i8*, i8** %5, align 8, !dbg !1028, !tbaa !983\l  %40 = bitcast i8** %5 to i8*, !dbg !1029\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %40) #22, !dbg !1029\l  ret i8* %39, !dbg !1030\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'get_stat_birthtime_ns' function" {
+	label="CFG for 'get_stat_birthtime_ns' function";
+
+	Node0x11545b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !1495\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !1494,\l... metadata !DIExpression()), !dbg !1499\l  ret i64 0, !dbg !1500\l}"];
+}

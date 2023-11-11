@@ -1,0 +1,5 @@
+digraph "CFG for 'xmalloc' function" {
+	label="CFG for 'xmalloc' function";
+
+	Node0x1d9b5f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !695\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !694, metadata\l... !DIExpression()), !dbg !699\l  %3 = load i64, i64* %2, align 8, !dbg !700, !tbaa !695\l  %4 = call noalias i8* @malloc(i64 noundef %3) #22, !dbg !701\l  %5 = call i8* @nonnull(i8* noundef %4) #23, !dbg !702\l  ret i8* %5, !dbg !703\l}"];
+}

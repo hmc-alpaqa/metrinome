@@ -1,0 +1,24 @@
+digraph "CFG for 'parse_duration' function" {
+	label="CFG for 'parse_duration' function";
+
+	Node0x95fc60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca double, align 8\l  %4 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !737\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !734, metadata\l... !DIExpression()), !dbg !741\l  %5 = bitcast double* %3 to i8*, !dbg !742\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %5) #23, !dbg !742\l  call void @llvm.dbg.declare(metadata double* %3, metadata !735, metadata\l... !DIExpression()), !dbg !743\l  %6 = bitcast i8** %4 to i8*, !dbg !744\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #23, !dbg !744\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !736, metadata\l... !DIExpression()), !dbg !745\l  %7 = load i8*, i8** %2, align 8, !dbg !746, !tbaa !737\l  %8 = call zeroext i1 @xstrtod(i8* noundef %7, i8** noundef %4, double*\l... noundef %3, double (i8*, i8**)* noundef @cl_strtod), !dbg !748\l  br i1 %8, label %13, label %9, !dbg !749\l|{<s0>T|<s1>F}}"];
+	Node0x95fc60:s0 -> Node0x95fd00;
+	Node0x95fc60:s1 -> Node0x95fcb0;
+	Node0x95fcb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ca3b3770",label="{%9:\l9:                                                \l  %10 = call i32* @__errno_location() #24, !dbg !750\l  %11 = load i32, i32* %10, align 4, !dbg !750, !tbaa !751\l  %12 = icmp eq i32 %11, 34, !dbg !753\l  br i1 %12, label %13, label %31, !dbg !754\l|{<s0>T|<s1>F}}"];
+	Node0x95fcb0:s0 -> Node0x95fd00;
+	Node0x95fcb0:s1 -> Node0x95fe40;
+	Node0x95fd00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = load double, double* %3, align 8, !dbg !755, !tbaa !756\l  %15 = fcmp ole double 0.000000e+00, %14, !dbg !758\l  br i1 %15, label %16, label %31, !dbg !759\l|{<s0>T|<s1>F}}"];
+	Node0x95fd00:s0 -> Node0x95fd50;
+	Node0x95fd00:s1 -> Node0x95fe40;
+	Node0x95fd50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = load i8*, i8** %4, align 8, !dbg !760, !tbaa !737\l  %18 = load i8, i8* %17, align 1, !dbg !761, !tbaa !762\l  %19 = sext i8 %18 to i32, !dbg !761\l  %20 = icmp ne i32 %19, 0, !dbg !761\l  br i1 %20, label %21, label %27, !dbg !763\l|{<s0>T|<s1>F}}"];
+	Node0x95fd50:s0 -> Node0x95fda0;
+	Node0x95fd50:s1 -> Node0x95fdf0;
+	Node0x95fda0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#c32e3170",label="{%21:\l21:                                               \l  %22 = load i8*, i8** %4, align 8, !dbg !764, !tbaa !737\l  %23 = getelementptr inbounds i8, i8* %22, i64 1, !dbg !765\l  %24 = load i8, i8* %23, align 1, !dbg !766, !tbaa !762\l  %25 = sext i8 %24 to i32, !dbg !766\l  %26 = icmp ne i32 %25, 0, !dbg !766\l  br i1 %26, label %31, label %27, !dbg !767\l|{<s0>T|<s1>F}}"];
+	Node0x95fda0:s0 -> Node0x95fe40;
+	Node0x95fda0:s1 -> Node0x95fdf0;
+	Node0x95fdf0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%27:\l27:                                               \l  %28 = load i8*, i8** %4, align 8, !dbg !768, !tbaa !737\l  %29 = load i8, i8* %28, align 1, !dbg !769, !tbaa !762\l  %30 = call zeroext i1 @apply_time_suffix(double* noundef %3, i8 noundef\l... signext %29), !dbg !770\l  br i1 %30, label %34, label %31, !dbg !771\l|{<s0>T|<s1>F}}"];
+	Node0x95fdf0:s0 -> Node0x95fe90;
+	Node0x95fdf0:s1 -> Node0x95fe40;
+	Node0x95fe40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6a8bef70",label="{%31:\l31:                                               \l  %32 = load i8*, i8** %2, align 8, !dbg !772, !tbaa !737\l  %33 = call i8* @quote(i8* noundef %32), !dbg !772\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([25 x i8], [25 x i8]* @.str.46, i64 0, i64\l... 0), i8* noundef %33), !dbg !772\l  call void @usage(i32 noundef 125) #25, !dbg !774\l  unreachable, !dbg !774\l}"];
+	Node0x95fe90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%34:\l34:                                               \l  %35 = load double, double* %3, align 8, !dbg !775, !tbaa !756\l  %36 = bitcast i8** %4 to i8*, !dbg !776\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %36) #23, !dbg !776\l  %37 = bitcast double* %3 to i8*, !dbg !776\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %37) #23, !dbg !776\l  ret double %35, !dbg !777\l}"];
+}

@@ -1,0 +1,43 @@
+digraph "CFG for 'c_ispunct' function" {
+	label="CFG for 'c_ispunct' function";
+
+	Node0x190c330 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !1640\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1639, metadata\l... !DIExpression()), !dbg !1644\l  %4 = load i32, i32* %3, align 4, !dbg !1645, !tbaa !1640\l  switch i32 %4, label %6 [\l    i32 33, label %5\l    i32 34, label %5\l    i32 35, label %5\l    i32 36, label %5\l    i32 37, label %5\l    i32 38, label %5\l    i32 39, label %5\l    i32 40, label %5\l    i32 41, label %5\l    i32 42, label %5\l    i32 43, label %5\l    i32 44, label %5\l    i32 45, label %5\l    i32 46, label %5\l    i32 47, label %5\l    i32 58, label %5\l    i32 59, label %5\l    i32 60, label %5\l    i32 61, label %5\l    i32 62, label %5\l    i32 63, label %5\l    i32 64, label %5\l    i32 91, label %5\l    i32 92, label %5\l    i32 93, label %5\l    i32 94, label %5\l    i32 95, label %5\l    i32 96, label %5\l    i32 123, label %5\l    i32 124, label %5\l    i32 125, label %5\l    i32 126, label %5\l  ], !dbg !1646\l|{<s0>def|<s1>33|<s2>34|<s3>35|<s4>36|<s5>37|<s6>38|<s7>39|<s8>40|<s9>41|<s10>42|<s11>43|<s12>44|<s13>45|<s14>46|<s15>47|<s16>58|<s17>59|<s18>60|<s19>61|<s20>62|<s21>63|<s22>64|<s23>91|<s24>92|<s25>93|<s26>94|<s27>95|<s28>96|<s29>123|<s30>124|<s31>125|<s32>126}}"];
+	Node0x190c330:s0 -> Node0x190a1c0;
+	Node0x190c330:s1 -> Node0x190a170;
+	Node0x190c330:s2 -> Node0x190a170;
+	Node0x190c330:s3 -> Node0x190a170;
+	Node0x190c330:s4 -> Node0x190a170;
+	Node0x190c330:s5 -> Node0x190a170;
+	Node0x190c330:s6 -> Node0x190a170;
+	Node0x190c330:s7 -> Node0x190a170;
+	Node0x190c330:s8 -> Node0x190a170;
+	Node0x190c330:s9 -> Node0x190a170;
+	Node0x190c330:s10 -> Node0x190a170;
+	Node0x190c330:s11 -> Node0x190a170;
+	Node0x190c330:s12 -> Node0x190a170;
+	Node0x190c330:s13 -> Node0x190a170;
+	Node0x190c330:s14 -> Node0x190a170;
+	Node0x190c330:s15 -> Node0x190a170;
+	Node0x190c330:s16 -> Node0x190a170;
+	Node0x190c330:s17 -> Node0x190a170;
+	Node0x190c330:s18 -> Node0x190a170;
+	Node0x190c330:s19 -> Node0x190a170;
+	Node0x190c330:s20 -> Node0x190a170;
+	Node0x190c330:s21 -> Node0x190a170;
+	Node0x190c330:s22 -> Node0x190a170;
+	Node0x190c330:s23 -> Node0x190a170;
+	Node0x190c330:s24 -> Node0x190a170;
+	Node0x190c330:s25 -> Node0x190a170;
+	Node0x190c330:s26 -> Node0x190a170;
+	Node0x190c330:s27 -> Node0x190a170;
+	Node0x190c330:s28 -> Node0x190a170;
+	Node0x190c330:s29 -> Node0x190a170;
+	Node0x190c330:s30 -> Node0x190a170;
+	Node0x190c330:s31 -> Node0x190a170;
+	Node0x190c330:s32 -> Node0x190a170;
+	Node0x190a170 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%5:\l5:                                                \l  store i1 true, i1* %2, align 1, !dbg !1647\l  br label %7, !dbg !1647\l}"];
+	Node0x190a170 -> Node0x190a210;
+	Node0x190a1c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%6:\l6:                                                \l  store i1 false, i1* %2, align 1, !dbg !1649\l  br label %7, !dbg !1649\l}"];
+	Node0x190a1c0 -> Node0x190a210;
+	Node0x190a210 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i1, i1* %2, align 1, !dbg !1650\l  ret i1 %8, !dbg !1650\l}"];
+}

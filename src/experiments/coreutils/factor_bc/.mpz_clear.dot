@@ -1,0 +1,10 @@
+digraph "CFG for 'mpz_clear' function" {
+	label="CFG for 'mpz_clear' function";
+
+	Node0x1b8a120 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.__mpz_struct*, align 8\l  store %struct.__mpz_struct* %0, %struct.__mpz_struct** %2, align 8, !tbaa\l... !782\l  call void @llvm.dbg.declare(metadata %struct.__mpz_struct** %2, metadata\l... !781, metadata !DIExpression()), !dbg !786\l  %3 = load %struct.__mpz_struct*, %struct.__mpz_struct** %2, align 8, !dbg\l... !787, !tbaa !782\l  %4 = getelementptr inbounds %struct.__mpz_struct, %struct.__mpz_struct* %3,\l... i32 0, i32 0, !dbg !789\l  %5 = load i32, i32* %4, align 8, !dbg !789, !tbaa !790\l  %6 = icmp ne i32 %5, 0, !dbg !787\l  br i1 %6, label %7, label %15, !dbg !793\l|{<s0>T|<s1>F}}"];
+	Node0x1b8a120:s0 -> Node0x1b8a170;
+	Node0x1b8a120:s1 -> Node0x1b8a1c0;
+	Node0x1b8a170 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%7:\l7:                                                \l  %8 = load %struct.__mpz_struct*, %struct.__mpz_struct** %2, align 8, !dbg\l... !794, !tbaa !782\l  %9 = getelementptr inbounds %struct.__mpz_struct, %struct.__mpz_struct* %8,\l... i32 0, i32 2, !dbg !795\l  %10 = load i64*, i64** %9, align 8, !dbg !795, !tbaa !796\l  %11 = load %struct.__mpz_struct*, %struct.__mpz_struct** %2, align 8, !dbg\l... !797, !tbaa !782\l  %12 = getelementptr inbounds %struct.__mpz_struct, %struct.__mpz_struct*\l... %11, i32 0, i32 0, !dbg !798\l  %13 = load i32, i32* %12, align 8, !dbg !798, !tbaa !790\l  %14 = sext i32 %13 to i64, !dbg !797\l  call void @gmp_free_limbs(i64* noundef %10, i64 noundef %14), !dbg !799\l  br label %15, !dbg !799\l}"];
+	Node0x1b8a170 -> Node0x1b8a1c0;
+	Node0x1b8a1c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  ret void, !dbg !800\l}"];
+}

@@ -1,0 +1,22 @@
+digraph "CFG for 'next_prime' function" {
+	label="CFG for 'next_prime' function";
+
+	Node0x194c060 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !723\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !722, metadata\l... !DIExpression()), !dbg !727\l  %3 = load i64, i64* %2, align 8, !dbg !728, !tbaa !723\l  %4 = icmp ult i64 %3, 10, !dbg !730\l  br i1 %4, label %5, label %6, !dbg !731\l|{<s0>T|<s1>F}}"];
+	Node0x194c060:s0 -> Node0x194c0b0;
+	Node0x194c060:s1 -> Node0x194c100;
+	Node0x194c0b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#abc8fd70",label="{%5:\l5:                                                \l  store i64 10, i64* %2, align 8, !dbg !732, !tbaa !723\l  br label %6, !dbg !733\l}"];
+	Node0x194c0b0 -> Node0x194c100;
+	Node0x194c100 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%6:\l6:                                                \l  %7 = load i64, i64* %2, align 8, !dbg !734, !tbaa !723\l  %8 = or i64 %7, 1, !dbg !734\l  store i64 %8, i64* %2, align 8, !dbg !734, !tbaa !723\l  br label %9, !dbg !735\l}"];
+	Node0x194c100 -> Node0x194c150;
+	Node0x194c150 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load i64, i64* %2, align 8, !dbg !736, !tbaa !723\l  %11 = icmp ne i64 -1, %10, !dbg !737\l  br i1 %11, label %12, label %16, !dbg !738\l|{<s0>T|<s1>F}}"];
+	Node0x194c150:s0 -> Node0x194c1a0;
+	Node0x194c150:s1 -> Node0x194c1f0;
+	Node0x194c1a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%12:\l12:                                               \l  %13 = load i64, i64* %2, align 8, !dbg !739, !tbaa !723\l  %14 = call zeroext i1 @is_prime(i64 noundef %13) #24, !dbg !740\l  %15 = xor i1 %14, true, !dbg !741\l  br label %16\l}"];
+	Node0x194c1a0 -> Node0x194c1f0;
+	Node0x194c1f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%16:\l16:                                               \l  %17 = phi i1 [ false, %9 ], [ %15, %12 ], !dbg !742\l  br i1 %17, label %18, label %21, !dbg !735\l|{<s0>T|<s1>F}}"];
+	Node0x194c1f0:s0 -> Node0x194c240;
+	Node0x194c1f0:s1 -> Node0x194c290;
+	Node0x194c240 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%18:\l18:                                               \l  %19 = load i64, i64* %2, align 8, !dbg !743, !tbaa !723\l  %20 = add i64 %19, 2, !dbg !743\l  store i64 %20, i64* %2, align 8, !dbg !743, !tbaa !723\l  br label %9, !dbg !735, !llvm.loop !744\l}"];
+	Node0x194c240 -> Node0x194c150;
+	Node0x194c290 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%21:\l21:                                               \l  %22 = load i64, i64* %2, align 8, !dbg !748, !tbaa !723\l  ret i64 %22, !dbg !749\l}"];
+}

@@ -1,0 +1,17 @@
+digraph "CFG for 'tzfree' function" {
+	label="CFG for 'tzfree' function";
+
+	Node0x27eabc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%1:\l  %2 = alloca %struct.tm_zone*, align 8\l  %3 = alloca %struct.tm_zone*, align 8\l  store %struct.tm_zone* %0, %struct.tm_zone** %2, align 8, !tbaa !1520\l  call void @llvm.dbg.declare(metadata %struct.tm_zone** %2, metadata !1516,\l... metadata !DIExpression()), !dbg !1524\l  %4 = load %struct.tm_zone*, %struct.tm_zone** %2, align 8, !dbg !1525, !tbaa\l... !1520\l  %5 = icmp ne %struct.tm_zone* %4, inttoptr (i64 1 to %struct.tm_zone*), !dbg\l... !1526\l  br i1 %5, label %6, label %20, !dbg !1527\l|{<s0>T|<s1>F}}"];
+	Node0x27eabc0:s0 -> Node0x27eac50;
+	Node0x27eabc0:s1 -> Node0x27ead90;
+	Node0x27eac50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%6:\l6:                                                \l  br label %7, !dbg !1528\l}"];
+	Node0x27eac50 -> Node0x27eaca0;
+	Node0x27eaca0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load %struct.tm_zone*, %struct.tm_zone** %2, align 8, !dbg !1529, !tbaa\l... !1520\l  %9 = icmp ne %struct.tm_zone* %8, null, !dbg !1528\l  br i1 %9, label %10, label %19, !dbg !1528\l|{<s0>T|<s1>F}}"];
+	Node0x27eaca0:s0 -> Node0x27eacf0;
+	Node0x27eaca0:s1 -> Node0x27ead40;
+	Node0x27eacf0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%10:\l10:                                               \l  %11 = bitcast %struct.tm_zone** %3 to i8*, !dbg !1530\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %11) #24, !dbg !1530\l  call void @llvm.dbg.declare(metadata %struct.tm_zone** %3, metadata !1517,\l... metadata !DIExpression()), !dbg !1531\l  %12 = load %struct.tm_zone*, %struct.tm_zone** %2, align 8, !dbg !1532,\l... !tbaa !1520\l  %13 = getelementptr inbounds %struct.tm_zone, %struct.tm_zone* %12, i32 0,\l... i32 0, !dbg !1533\l  %14 = load %struct.tm_zone*, %struct.tm_zone** %13, align 8, !dbg !1533,\l... !tbaa !1520\l  store %struct.tm_zone* %14, %struct.tm_zone** %3, align 8, !dbg !1531, !tbaa\l... !1520\l  %15 = load %struct.tm_zone*, %struct.tm_zone** %2, align 8, !dbg !1534,\l... !tbaa !1520\l  %16 = bitcast %struct.tm_zone* %15 to i8*, !dbg !1534\l  call void @free(i8* noundef %16) #24, !dbg !1535\l  %17 = load %struct.tm_zone*, %struct.tm_zone** %3, align 8, !dbg !1536,\l... !tbaa !1520\l  store %struct.tm_zone* %17, %struct.tm_zone** %2, align 8, !dbg !1537, !tbaa\l... !1520\l  %18 = bitcast %struct.tm_zone** %3 to i8*, !dbg !1538\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %18) #24, !dbg !1538\l  br label %7, !dbg !1528, !llvm.loop !1539\l}"];
+	Node0x27eacf0 -> Node0x27eaca0;
+	Node0x27ead40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%19:\l19:                                               \l  br label %20, !dbg !1528\l}"];
+	Node0x27ead40 -> Node0x27ead90;
+	Node0x27ead90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%20:\l20:                                               \l  ret void, !dbg !1542\l}"];
+}

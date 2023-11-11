@@ -1,0 +1,12 @@
+digraph "CFG for 'component_start' function" {
+	label="CFG for 'component_start' function";
+
+	Node0x21d27a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !680\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !679, metadata\l... !DIExpression()), !dbg !684\l  br label %3, !dbg !685\l}"];
+	Node0x21d27a0 -> Node0x21d2820;
+	Node0x21d2820 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l3:                                                \l  %4 = load i8*, i8** %2, align 8, !dbg !686, !tbaa !680\l  %5 = load i8, i8* %4, align 1, !dbg !687, !tbaa !688\l  %6 = sext i8 %5 to i32, !dbg !687\l  %7 = icmp eq i32 %6, 47, !dbg !689\l  br i1 %7, label %8, label %11, !dbg !685\l|{<s0>T|<s1>F}}"];
+	Node0x21d2820:s0 -> Node0x21d2870;
+	Node0x21d2820:s1 -> Node0x21d28c0;
+	Node0x21d2870 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%8:\l8:                                                \l  %9 = load i8*, i8** %2, align 8, !dbg !690, !tbaa !680\l  %10 = getelementptr inbounds i8, i8* %9, i32 1, !dbg !690\l  store i8* %10, i8** %2, align 8, !dbg !690, !tbaa !680\l  br label %3, !dbg !685, !llvm.loop !691\l}"];
+	Node0x21d2870 -> Node0x21d2820;
+	Node0x21d28c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%11:\l11:                                               \l  %12 = load i8*, i8** %2, align 8, !dbg !694, !tbaa !680\l  ret i8* %12, !dbg !695\l}"];
+}

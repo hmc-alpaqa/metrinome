@@ -1,0 +1,5 @@
+digraph "CFG for 'die_pipe' function" {
+	label="CFG for 'die_pipe' function";
+
+	Node0x10bdfb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = call i32 @raise(i32 noundef 13) #24, !dbg !949\l  call void @exit(i32 noundef 1) #25, !dbg !950\l  unreachable, !dbg !950\l}"];
+}

@@ -1,0 +1,24 @@
+digraph "CFG for 'leaf_optimization' function" {
+	label="CFG for 'leaf_optimization' function";
+
+	Node0x21abf70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca %struct._ftsent*, align 8\l  %5 = alloca i32, align 4\l  store %struct._ftsent* %0, %struct._ftsent** %4, align 8, !tbaa !1002\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %4, metadata !1000,\l... metadata !DIExpression()), !dbg !1006\l  store i32 %1, i32* %5, align 4, !tbaa !1007\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !1001, metadata\l... !DIExpression()), !dbg !1009\l  %6 = load %struct._ftsent*, %struct._ftsent** %4, align 8, !dbg !1010, !tbaa\l... !1002\l  %7 = load i32, i32* %5, align 4, !dbg !1011, !tbaa !1007\l  %8 = call i64 @filesystem_type(%struct._ftsent* noundef %6, i32 noundef %7),\l... !dbg !1012\l  switch i64 %8, label %14 [\l    i64 0, label %9\l    i64 1397113167, label %10\l    i64 4283649346, label %11\l    i64 26985, label %12\l    i64 40864, label %13\l  ], !dbg !1013\l|{<s0>def|<s1>0|<s2>1397113167|<s3>4283649346|<s4>26985|<s5>40864}}"];
+	Node0x21abf70:s0 -> Node0x21ac150;
+	Node0x21abf70:s1 -> Node0x21abfc0;
+	Node0x21abf70:s2 -> Node0x21ac010;
+	Node0x21abf70:s3 -> Node0x21ac060;
+	Node0x21abf70:s4 -> Node0x21ac0b0;
+	Node0x21abf70:s5 -> Node0x21ac100;
+	Node0x21abfc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%9:\l9:                                                \l  br label %10, !dbg !1014\l}"];
+	Node0x21abfc0 -> Node0x21ac010;
+	Node0x21ac010 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7a88970",label="{%10:\l10:                                               \l  br label %11, !dbg !1014\l}"];
+	Node0x21ac010 -> Node0x21ac060;
+	Node0x21ac060 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ec7f6370",label="{%11:\l11:                                               \l  br label %12, !dbg !1014\l}"];
+	Node0x21ac060 -> Node0x21ac0b0;
+	Node0x21ac0b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d8564670",label="{%12:\l12:                                               \l  br label %13, !dbg !1014\l}"];
+	Node0x21ac0b0 -> Node0x21ac100;
+	Node0x21ac100 [shape=record,color="#b70d28ff", style=filled, fillcolor="#ca3b3770",label="{%13:\l13:                                               \l  store i32 0, i32* %3, align 4, !dbg !1015\l  br label %15, !dbg !1015\l}"];
+	Node0x21ac100 -> Node0x21ac1a0;
+	Node0x21ac150 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%14:\l14:                                               \l  store i32 1, i32* %3, align 4, !dbg !1017\l  br label %15, !dbg !1017\l}"];
+	Node0x21ac150 -> Node0x21ac1a0;
+	Node0x21ac1a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  %16 = load i32, i32* %3, align 4, !dbg !1018\l  ret i32 %16, !dbg !1018\l}"];
+}

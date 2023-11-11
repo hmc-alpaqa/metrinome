@@ -1,0 +1,12 @@
+digraph "CFG for 'mode_create_from_ref' function" {
+	label="CFG for 'mode_create_from_ref' function";
+
+	Node0x253d190 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.mode_change*, align 8\l  %3 = alloca i8*, align 8\l  %4 = alloca %struct.stat, align 8\l  %5 = alloca i32, align 4\l  store i8* %0, i8** %3, align 8, !tbaa !702\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !664, metadata\l... !DIExpression()), !dbg !706\l  %6 = bitcast %struct.stat* %4 to i8*, !dbg !707\l  call void @llvm.lifetime.start.p0i8(i64 144, i8* %6) #21, !dbg !707\l  call void @llvm.dbg.declare(metadata %struct.stat* %4, metadata !665,\l... metadata !DIExpression()), !dbg !708\l  %7 = load i8*, i8** %3, align 8, !dbg !709, !tbaa !702\l  %8 = call i32 @stat(i8* noundef %7, %struct.stat* noundef %4) #21, !dbg !711\l  %9 = icmp ne i32 %8, 0, !dbg !712\l  br i1 %9, label %10, label %11, !dbg !713\l|{<s0>T|<s1>F}}"];
+	Node0x253d190:s0 -> Node0x2598270;
+	Node0x253d190:s1 -> Node0x25982c0;
+	Node0x2598270 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%10:\l10:                                               \l  store %struct.mode_change* null, %struct.mode_change** %2, align 8, !dbg !714\l  store i32 1, i32* %5, align 4\l  br label %15, !dbg !714\l}"];
+	Node0x2598270 -> Node0x2598310;
+	Node0x25982c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%11:\l11:                                               \l  %12 = getelementptr inbounds %struct.stat, %struct.stat* %4, i32 0, i32 3,\l... !dbg !715\l  %13 = load i32, i32* %12, align 8, !dbg !715, !tbaa !716\l  %14 = call %struct.mode_change* @make_node_op_equals(i32 noundef %13, i32\l... noundef 4095), !dbg !721\l  store %struct.mode_change* %14, %struct.mode_change** %2, align 8, !dbg !722\l  store i32 1, i32* %5, align 4\l  br label %15, !dbg !722\l}"];
+	Node0x25982c0 -> Node0x2598310;
+	Node0x2598310 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  %16 = bitcast %struct.stat* %4 to i8*, !dbg !723\l  call void @llvm.lifetime.end.p0i8(i64 144, i8* %16) #21, !dbg !723\l  %17 = load %struct.mode_change*, %struct.mode_change** %2, align 8, !dbg !723\l  ret %struct.mode_change* %17, !dbg !723\l}"];
+}

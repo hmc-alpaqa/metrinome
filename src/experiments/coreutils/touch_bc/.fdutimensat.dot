@@ -1,0 +1,29 @@
+digraph "CFG for 'fdutimensat' function" {
+	label="CFG for 'fdutimensat' function";
+
+	Node0xdfa1e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  %8 = alloca i8*, align 8\l  %9 = alloca %struct.timespec*, align 8\l  %10 = alloca i32, align 4\l  %11 = alloca i32, align 4\l  store i32 %0, i32* %6, align 4, !tbaa !1557\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !1551, metadata\l... !DIExpression()), !dbg !1561\l  store i32 %1, i32* %7, align 4, !tbaa !1557\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !1552, metadata\l... !DIExpression()), !dbg !1562\l  store i8* %2, i8** %8, align 8, !tbaa !1563\l  call void @llvm.dbg.declare(metadata i8** %8, metadata !1553, metadata\l... !DIExpression()), !dbg !1565\l  store %struct.timespec* %3, %struct.timespec** %9, align 8, !tbaa !1563\l  call void @llvm.dbg.declare(metadata %struct.timespec** %9, metadata !1554,\l... metadata !DIExpression()), !dbg !1566\l  store i32 %4, i32* %10, align 4, !tbaa !1557\l  call void @llvm.dbg.declare(metadata i32* %10, metadata !1555, metadata\l... !DIExpression()), !dbg !1567\l  %12 = bitcast i32* %11 to i8*, !dbg !1568\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %12) #22, !dbg !1568\l  call void @llvm.dbg.declare(metadata i32* %11, metadata !1556, metadata\l... !DIExpression()), !dbg !1569\l  store i32 1, i32* %11, align 4, !dbg !1569, !tbaa !1557\l  %13 = load i32, i32* %6, align 4, !dbg !1570, !tbaa !1557\l  %14 = icmp sle i32 0, %13, !dbg !1572\l  br i1 %14, label %15, label %19, !dbg !1573\l|{<s0>T|<s1>F}}"];
+	Node0xdfa1e0:s0 -> Node0xdfe250;
+	Node0xdfa1e0:s1 -> Node0xdfe2a0;
+	Node0xdfe250 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e97a5f70",label="{%15:\l15:                                               \l  %16 = load i32, i32* %6, align 4, !dbg !1574, !tbaa !1557\l  %17 = load %struct.timespec*, %struct.timespec** %9, align 8, !dbg !1575,\l... !tbaa !1563\l  %18 = call i32 @futimens(i32 noundef %16, %struct.timespec* noundef %17)\l... #22, !dbg !1576\l  store i32 %18, i32* %11, align 4, !dbg !1577, !tbaa !1557\l  br label %19, !dbg !1578\l}"];
+	Node0xdfe250 -> Node0xdfe2a0;
+	Node0xdfe2a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  %20 = load i8*, i8** %8, align 8, !dbg !1579, !tbaa !1563\l  %21 = icmp ne i8* %20, null, !dbg !1579\l  br i1 %21, label %22, label %38, !dbg !1581\l|{<s0>T|<s1>F}}"];
+	Node0xdfe2a0:s0 -> Node0xdfe2f0;
+	Node0xdfe2a0:s1 -> Node0xdfe430;
+	Node0xdfe2f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#dc5d4a70",label="{%22:\l22:                                               \l  %23 = load i32, i32* %6, align 4, !dbg !1582, !tbaa !1557\l  %24 = icmp slt i32 %23, 0, !dbg !1583\l  br i1 %24, label %32, label %25, !dbg !1584\l|{<s0>T|<s1>F}}"];
+	Node0xdfe2f0:s0 -> Node0xdfe3e0;
+	Node0xdfe2f0:s1 -> Node0xdfe340;
+	Node0xdfe340 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3947570",label="{%25:\l25:                                               \l  %26 = load i32, i32* %11, align 4, !dbg !1585, !tbaa !1557\l  %27 = icmp eq i32 %26, -1, !dbg !1586\l  br i1 %27, label %28, label %38, !dbg !1587\l|{<s0>T|<s1>F}}"];
+	Node0xdfe340:s0 -> Node0xdfe390;
+	Node0xdfe340:s1 -> Node0xdfe430;
+	Node0xdfe390 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%28:\l28:                                               \l  %29 = call i32* @__errno_location() #23, !dbg !1588\l  %30 = load i32, i32* %29, align 4, !dbg !1588, !tbaa !1557\l  %31 = icmp eq i32 %30, 38, !dbg !1589\l  br i1 %31, label %32, label %38, !dbg !1590\l|{<s0>T|<s1>F}}"];
+	Node0xdfe390:s0 -> Node0xdfe3e0;
+	Node0xdfe390:s1 -> Node0xdfe430;
+	Node0xdfe3e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%32:\l32:                                               \l  %33 = load i32, i32* %7, align 4, !dbg !1591, !tbaa !1557\l  %34 = load i8*, i8** %8, align 8, !dbg !1592, !tbaa !1563\l  %35 = load %struct.timespec*, %struct.timespec** %9, align 8, !dbg !1593,\l... !tbaa !1563\l  %36 = load i32, i32* %10, align 4, !dbg !1594, !tbaa !1557\l  %37 = call i32 @utimensat(i32 noundef %33, i8* noundef %34,\l... %struct.timespec* noundef %35, i32 noundef %36) #22, !dbg !1595\l  store i32 %37, i32* %11, align 4, !dbg !1596, !tbaa !1557\l  br label %38, !dbg !1597\l}"];
+	Node0xdfe3e0 -> Node0xdfe430;
+	Node0xdfe430 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%38:\l38:                                               \l  %39 = load i32, i32* %11, align 4, !dbg !1598, !tbaa !1557\l  %40 = icmp eq i32 %39, 1, !dbg !1600\l  br i1 %40, label %41, label %43, !dbg !1601\l|{<s0>T|<s1>F}}"];
+	Node0xdfe430:s0 -> Node0xdfe480;
+	Node0xdfe430:s1 -> Node0xdfe4d0;
+	Node0xdfe480 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e97a5f70",label="{%41:\l41:                                               \l  %42 = call i32* @__errno_location() #23, !dbg !1602\l  store i32 9, i32* %42, align 4, !dbg !1604, !tbaa !1557\l  store i32 -1, i32* %11, align 4, !dbg !1605, !tbaa !1557\l  br label %43, !dbg !1606\l}"];
+	Node0xdfe480 -> Node0xdfe4d0;
+	Node0xdfe4d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%43:\l43:                                               \l  %44 = load i32, i32* %11, align 4, !dbg !1607, !tbaa !1557\l  %45 = bitcast i32* %11 to i8*, !dbg !1608\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %45) #22, !dbg !1608\l  ret i32 %44, !dbg !1609\l}"];
+}

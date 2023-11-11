@@ -1,0 +1,28 @@
+digraph "CFG for 'string_to_baud' function" {
+	label="CFG for 'string_to_baud' function";
+
+	Node0x16e1ee0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca i8*, align 8\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  store i8* %0, i8** %3, align 8, !tbaa !1082\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1079, metadata\l... !DIExpression()), !dbg !1086\l  %6 = bitcast i32* %4 to i8*, !dbg !1087\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %6) #23, !dbg !1087\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1080, metadata\l... !DIExpression()), !dbg !1088\l  store i32 0, i32* %4, align 4, !dbg !1088, !tbaa !1089\l  br label %7, !dbg !1087\l}"];
+	Node0x16e1ee0 -> Node0x16e1f90;
+	Node0x16e1f90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i32, i32* %4, align 4, !dbg !1091, !tbaa !1089\l  %9 = sext i32 %8 to i64, !dbg !1093\l  %10 = getelementptr inbounds [35 x %struct.speed_map], [35 x\l... %struct.speed_map]* @speeds, i64 0, i64 %9, !dbg !1093\l  %11 = getelementptr inbounds %struct.speed_map, %struct.speed_map* %10, i32\l... 0, i32 0, !dbg !1094\l  %12 = load i8*, i8** %11, align 8, !dbg !1094, !tbaa !1095\l  %13 = icmp ne i8* %12, null, !dbg !1098\l  br i1 %13, label %15, label %14, !dbg !1099\l|{<s0>T|<s1>F}}"];
+	Node0x16e1f90:s0 -> Node0x16e2030;
+	Node0x16e1f90:s1 -> Node0x16e1fe0;
+	Node0x16e1fe0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%14:\l14:                                               \l  store i32 2, i32* %5, align 4\l  br label %34, !dbg !1099\l}"];
+	Node0x16e1fe0 -> Node0x16e2170;
+	Node0x16e2030 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  %16 = load i8*, i8** %3, align 8, !dbg !1100, !tbaa !1082\l  %17 = load i32, i32* %4, align 4, !dbg !1100, !tbaa !1089\l  %18 = sext i32 %17 to i64, !dbg !1100\l  %19 = getelementptr inbounds [35 x %struct.speed_map], [35 x\l... %struct.speed_map]* @speeds, i64 0, i64 %18, !dbg !1100\l  %20 = getelementptr inbounds %struct.speed_map, %struct.speed_map* %19, i32\l... 0, i32 0, !dbg !1100\l  %21 = load i8*, i8** %20, align 8, !dbg !1100, !tbaa !1095\l  %22 = call i32 @strcmp(i8* noundef %16, i8* noundef %21) #24, !dbg !1100\l  %23 = icmp eq i32 %22, 0, !dbg !1100\l  br i1 %23, label %24, label %30, !dbg !1102\l|{<s0>T|<s1>F}}"];
+	Node0x16e2030:s0 -> Node0x16e2080;
+	Node0x16e2030:s1 -> Node0x16e20d0;
+	Node0x16e2080 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%24:\l24:                                               \l  %25 = load i32, i32* %4, align 4, !dbg !1103, !tbaa !1089\l  %26 = sext i32 %25 to i64, !dbg !1104\l  %27 = getelementptr inbounds [35 x %struct.speed_map], [35 x\l... %struct.speed_map]* @speeds, i64 0, i64 %26, !dbg !1104\l  %28 = getelementptr inbounds %struct.speed_map, %struct.speed_map* %27, i32\l... 0, i32 1, !dbg !1105\l  %29 = load i32, i32* %28, align 8, !dbg !1105, !tbaa !1106\l  store i32 %29, i32* %2, align 4, !dbg !1107\l  store i32 1, i32* %5, align 4\l  br label %34, !dbg !1107\l}"];
+	Node0x16e2080 -> Node0x16e2170;
+	Node0x16e20d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%30:\l30:                                               \l  br label %31, !dbg !1100\l}"];
+	Node0x16e20d0 -> Node0x16e2120;
+	Node0x16e2120 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%31:\l31:                                               \l  %32 = load i32, i32* %4, align 4, !dbg !1108, !tbaa !1089\l  %33 = add nsw i32 %32, 1, !dbg !1108\l  store i32 %33, i32* %4, align 4, !dbg !1108, !tbaa !1089\l  br label %7, !dbg !1109, !llvm.loop !1110\l}"];
+	Node0x16e2120 -> Node0x16e1f90;
+	Node0x16e2170 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%34:\l34:                                               \l  %35 = bitcast i32* %4 to i8*, !dbg !1109\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %35) #23, !dbg !1109\l  %36 = load i32, i32* %5, align 4\l  switch i32 %36, label %40 [\l    i32 2, label %37\l    i32 1, label %38\l  ]\l|{<s0>def|<s1>2|<s2>1}}"];
+	Node0x16e2170:s0 -> Node0x16e2260;
+	Node0x16e2170:s1 -> Node0x16e21c0;
+	Node0x16e2170:s2 -> Node0x16e2210;
+	Node0x16e21c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%37:\l37:                                               \l  store i32 -1, i32* %2, align 4, !dbg !1114\l  br label %38, !dbg !1114\l}"];
+	Node0x16e21c0 -> Node0x16e2210;
+	Node0x16e2210 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%38:\l38:                                               \l  %39 = load i32, i32* %2, align 4, !dbg !1115\l  ret i32 %39, !dbg !1115\l}"];
+	Node0x16e2260 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5572df70",label="{%40:\l40:                                               \l  unreachable\l}"];
+}

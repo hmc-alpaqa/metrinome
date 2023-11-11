@@ -1,0 +1,5 @@
+digraph "CFG for 'mbszero' function" {
+	label="CFG for 'mbszero' function";
+
+	Node0x1c99a60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.savewd*, align 8\l  store %struct.savewd* %0, %struct.savewd** %2, align 8, !tbaa !1752\l  call void @llvm.dbg.declare(metadata %struct.savewd** %2, metadata !1751,\l... metadata !DIExpression()), !dbg !1756\l  %3 = load %struct.savewd*, %struct.savewd** %2, align 8, !dbg !1757, !tbaa\l... !1752\l  %4 = bitcast %struct.savewd* %3 to i8*, !dbg !1758\l  call void @llvm.memset.p0i8.i64(i8* align 4 %4, i8 0, i64 8, i1 false), !dbg\l... !1758\l  ret void, !dbg !1759\l}"];
+}

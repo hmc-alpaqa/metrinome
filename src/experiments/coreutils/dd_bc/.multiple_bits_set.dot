@@ -1,0 +1,5 @@
+digraph "CFG for 'multiple_bits_set' function" {
+	label="CFG for 'multiple_bits_set' function";
+
+	Node0xf907c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !1318\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1317, metadata\l... !DIExpression()), !dbg !1322\l  %3 = load i32, i32* %2, align 4, !dbg !1323, !tbaa !1318\l  %4 = load i32, i32* %2, align 4, !dbg !1323, !tbaa !1318\l  %5 = sub nsw i32 %4, 1, !dbg !1323\l  %6 = and i32 %3, %5, !dbg !1323\l  %7 = icmp ne i32 %6, 0, !dbg !1323\l  ret i1 %7, !dbg !1324\l}"];
+}

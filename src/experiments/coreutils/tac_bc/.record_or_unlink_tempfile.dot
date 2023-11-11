@@ -1,0 +1,5 @@
+digraph "CFG for 'record_or_unlink_tempfile' function" {
+	label="CFG for 'record_or_unlink_tempfile' function";
+
+	Node0x22e0c10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca %struct._IO_FILE*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !851\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !849, metadata\l... !DIExpression()), !dbg !855\l  store %struct._IO_FILE* %1, %struct._IO_FILE** %4, align 8, !tbaa !851\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %4, metadata !850,\l... metadata !DIExpression()), !dbg !856\l  %5 = load i8*, i8** %3, align 8, !dbg !857, !tbaa !851\l  %6 = call i32 @unlink(i8* noundef %5) #21, !dbg !858\l  ret void, !dbg !859\l}"];
+}

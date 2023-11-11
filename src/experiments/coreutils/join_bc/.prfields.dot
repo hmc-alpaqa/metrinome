@@ -1,0 +1,42 @@
+digraph "CFG for 'prfields' function" {
+	label="CFG for 'prfields' function";
+
+	Node0x9b4770 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%3:\l  %4 = alloca %struct.line*, align 8\l  %5 = alloca i64, align 8\l  %6 = alloca i64, align 8\l  %7 = alloca i64, align 8\l  %8 = alloca i64, align 8\l  %9 = alloca i8, align 1\l  store %struct.line* %0, %struct.line** %4, align 8, !tbaa !802\l  call void @llvm.dbg.declare(metadata %struct.line** %4, metadata !796,\l... metadata !DIExpression()), !dbg !806\l  store i64 %1, i64* %5, align 8, !tbaa !807\l  call void @llvm.dbg.declare(metadata i64* %5, metadata !797, metadata\l... !DIExpression()), !dbg !809\l  store i64 %2, i64* %6, align 8, !tbaa !807\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !798, metadata\l... !DIExpression()), !dbg !810\l  %10 = bitcast i64* %7 to i8*, !dbg !811\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %10) #22, !dbg !811\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !799, metadata\l... !DIExpression()), !dbg !812\l  %11 = bitcast i64* %8 to i8*, !dbg !813\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %11) #22, !dbg !813\l  call void @llvm.dbg.declare(metadata i64* %8, metadata !800, metadata\l... !DIExpression()), !dbg !814\l  %12 = load i8, i8* @autoformat, align 1, !dbg !815, !tbaa !816, !range !818\l  %13 = trunc i8 %12 to i1, !dbg !815\l  br i1 %13, label %14, label %16, !dbg !815\l|{<s0>T|<s1>F}}"];
+	Node0x9b4770:s0 -> Node0x9b4850;
+	Node0x9b4770:s1 -> Node0x9b48a0;
+	Node0x9b4850 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b2ccfb70",label="{%14:\l14:                                               \l  %15 = load i64, i64* %6, align 8, !dbg !819, !tbaa !807\l  br label %20, !dbg !815\l}"];
+	Node0x9b4850 -> Node0x9b48f0;
+	Node0x9b48a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b2ccfb70",label="{%16:\l16:                                               \l  %17 = load %struct.line*, %struct.line** %4, align 8, !dbg !820, !tbaa !802\l  %18 = getelementptr inbounds %struct.line, %struct.line* %17, i32 0, i32 1,\l... !dbg !821\l  %19 = load i64, i64* %18, align 8, !dbg !821, !tbaa !822\l  br label %20, !dbg !815\l}"];
+	Node0x9b48a0 -> Node0x9b48f0;
+	Node0x9b48f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%20:\l20:                                               \l  %21 = phi i64 [ %15, %14 ], [ %19, %16 ], !dbg !815\l  store i64 %21, i64* %8, align 8, !dbg !814, !tbaa !807\l  call void @llvm.lifetime.start.p0i8(i64 1, i8* %9) #22, !dbg !825\l  call void @llvm.dbg.declare(metadata i8* %9, metadata !801, metadata\l... !DIExpression()), !dbg !826\l  %22 = load i32, i32* @tab, align 4, !dbg !827, !tbaa !828\l  %23 = icmp slt i32 %22, 0, !dbg !830\l  br i1 %23, label %24, label %25, !dbg !827\l|{<s0>T|<s1>F}}"];
+	Node0x9b48f0:s0 -> Node0x9b4940;
+	Node0x9b48f0:s1 -> Node0x9b4990;
+	Node0x9b4940 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#a7c5fe70",label="{%24:\l24:                                               \l  br label %27, !dbg !827\l}"];
+	Node0x9b4940 -> Node0x9b49e0;
+	Node0x9b4990 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#bfd3f670",label="{%25:\l25:                                               \l  %26 = load i32, i32* @tab, align 4, !dbg !831, !tbaa !828\l  br label %27, !dbg !827\l}"];
+	Node0x9b4990 -> Node0x9b49e0;
+	Node0x9b49e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%27:\l27:                                               \l  %28 = phi i32 [ 32, %24 ], [ %26, %25 ], !dbg !827\l  %29 = trunc i32 %28 to i8, !dbg !827\l  store i8 %29, i8* %9, align 1, !dbg !826, !tbaa !832\l  store i64 0, i64* %7, align 8, !dbg !833, !tbaa !807\l  br label %30, !dbg !835\l}"];
+	Node0x9b49e0 -> Node0x9b4a30;
+	Node0x9b4a30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%30:\l30:                                               \l  %31 = load i64, i64* %7, align 8, !dbg !836, !tbaa !807\l  %32 = load i64, i64* %5, align 8, !dbg !838, !tbaa !807\l  %33 = icmp slt i64 %31, %32, !dbg !839\l  br i1 %33, label %34, label %38, !dbg !840\l|{<s0>T|<s1>F}}"];
+	Node0x9b4a30:s0 -> Node0x9b4a80;
+	Node0x9b4a30:s1 -> Node0x9b4ad0;
+	Node0x9b4a80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%34:\l34:                                               \l  %35 = load i64, i64* %7, align 8, !dbg !841, !tbaa !807\l  %36 = load i64, i64* %8, align 8, !dbg !842, !tbaa !807\l  %37 = icmp slt i64 %35, %36, !dbg !843\l  br label %38\l}"];
+	Node0x9b4a80 -> Node0x9b4ad0;
+	Node0x9b4ad0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%38:\l38:                                               \l  %39 = phi i1 [ false, %30 ], [ %37, %34 ], !dbg !844\l  br i1 %39, label %40, label %49, !dbg !845\l|{<s0>T|<s1>F}}"];
+	Node0x9b4ad0:s0 -> Node0x9b4b20;
+	Node0x9b4ad0:s1 -> Node0x9b4bc0;
+	Node0x9b4b20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%40:\l40:                                               \l  %41 = load i8, i8* %9, align 1, !dbg !846, !tbaa !832\l  %42 = sext i8 %41 to i32, !dbg !846\l  %43 = call i32 @putchar_unlocked(i32 noundef %42), !dbg !846\l  %44 = load i64, i64* %7, align 8, !dbg !848, !tbaa !807\l  %45 = load %struct.line*, %struct.line** %4, align 8, !dbg !849, !tbaa !802\l  call void @prfield(i64 noundef %44, %struct.line* noundef %45), !dbg !850\l  br label %46, !dbg !851\l}"];
+	Node0x9b4b20 -> Node0x9b4b70;
+	Node0x9b4b70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%46:\l46:                                               \l  %47 = load i64, i64* %7, align 8, !dbg !852, !tbaa !807\l  %48 = add nsw i64 %47, 1, !dbg !852\l  store i64 %48, i64* %7, align 8, !dbg !852, !tbaa !807\l  br label %30, !dbg !853, !llvm.loop !854\l}"];
+	Node0x9b4b70 -> Node0x9b4a30;
+	Node0x9b4bc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%49:\l49:                                               \l  %50 = load i64, i64* %5, align 8, !dbg !858, !tbaa !807\l  %51 = add nsw i64 %50, 1, !dbg !860\l  store i64 %51, i64* %7, align 8, !dbg !861, !tbaa !807\l  br label %52, !dbg !862\l}"];
+	Node0x9b4bc0 -> Node0x9b4c10;
+	Node0x9b4c10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%52:\l52:                                               \l  %53 = load i64, i64* %7, align 8, !dbg !863, !tbaa !807\l  %54 = load i64, i64* %8, align 8, !dbg !865, !tbaa !807\l  %55 = icmp slt i64 %53, %54, !dbg !866\l  br i1 %55, label %56, label %65, !dbg !867\l|{<s0>T|<s1>F}}"];
+	Node0x9b4c10:s0 -> Node0x9b4c60;
+	Node0x9b4c10:s1 -> Node0x9b4d00;
+	Node0x9b4c60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%56:\l56:                                               \l  %57 = load i8, i8* %9, align 1, !dbg !868, !tbaa !832\l  %58 = sext i8 %57 to i32, !dbg !868\l  %59 = call i32 @putchar_unlocked(i32 noundef %58), !dbg !868\l  %60 = load i64, i64* %7, align 8, !dbg !870, !tbaa !807\l  %61 = load %struct.line*, %struct.line** %4, align 8, !dbg !871, !tbaa !802\l  call void @prfield(i64 noundef %60, %struct.line* noundef %61), !dbg !872\l  br label %62, !dbg !873\l}"];
+	Node0x9b4c60 -> Node0x9b4cb0;
+	Node0x9b4cb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%62:\l62:                                               \l  %63 = load i64, i64* %7, align 8, !dbg !874, !tbaa !807\l  %64 = add nsw i64 %63, 1, !dbg !874\l  store i64 %64, i64* %7, align 8, !dbg !874, !tbaa !807\l  br label %52, !dbg !875, !llvm.loop !876\l}"];
+	Node0x9b4cb0 -> Node0x9b4c10;
+	Node0x9b4d00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%65:\l65:                                               \l  call void @llvm.lifetime.end.p0i8(i64 1, i8* %9) #22, !dbg !878\l  %66 = bitcast i64* %8 to i8*, !dbg !878\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %66) #22, !dbg !878\l  %67 = bitcast i64* %7 to i8*, !dbg !878\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %67) #22, !dbg !878\l  ret void, !dbg !878\l}"];
+}

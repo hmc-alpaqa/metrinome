@@ -1,0 +1,5 @@
+digraph "CFG for 'long_int_avg' function" {
+	label="CFG for 'long_int_avg' function";
+
+	Node0x18f1880 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !1640\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !1638, metadata\l... !DIExpression()), !dbg !1644\l  store i64 %1, i64* %4, align 8, !tbaa !1640\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1639, metadata\l... !DIExpression()), !dbg !1645\l  %5 = load i64, i64* %3, align 8, !dbg !1646, !tbaa !1640\l  %6 = call i64 @shr(i64 noundef %5, i32 noundef 1), !dbg !1647\l  %7 = load i64, i64* %4, align 8, !dbg !1648, !tbaa !1640\l  %8 = call i64 @shr(i64 noundef %7, i32 noundef 1), !dbg !1649\l  %9 = add nsw i64 %6, %8, !dbg !1650\l  %10 = load i64, i64* %3, align 8, !dbg !1651, !tbaa !1640\l  %11 = load i64, i64* %4, align 8, !dbg !1652, !tbaa !1640\l  %12 = or i64 %10, %11, !dbg !1653\l  %13 = and i64 %12, 1, !dbg !1654\l  %14 = add nsw i64 %9, %13, !dbg !1655\l  ret i64 %14, !dbg !1656\l}"];
+}

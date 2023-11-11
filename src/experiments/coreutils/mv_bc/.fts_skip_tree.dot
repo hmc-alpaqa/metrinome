@@ -1,0 +1,5 @@
+digraph "CFG for 'fts_skip_tree' function" {
+	label="CFG for 'fts_skip_tree' function";
+
+	Node0x10df800 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.FTS*, align 8\l  %4 = alloca %struct._ftsent*, align 8\l  store %struct.FTS* %0, %struct.FTS** %3, align 8, !tbaa !1591\l  call void @llvm.dbg.declare(metadata %struct.FTS** %3, metadata !1589,\l... metadata !DIExpression()), !dbg !1595\l  store %struct._ftsent* %1, %struct._ftsent** %4, align 8, !tbaa !1591\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %4, metadata !1590,\l... metadata !DIExpression()), !dbg !1596\l  %5 = load %struct.FTS*, %struct.FTS** %3, align 8, !dbg !1597, !tbaa !1591\l  %6 = load %struct._ftsent*, %struct._ftsent** %4, align 8, !dbg !1598, !tbaa\l... !1591\l  %7 = call i32 @rpl_fts_set(%struct.FTS* noundef %5, %struct._ftsent* noundef\l... %6, i32 noundef 4), !dbg !1599\l  %8 = load %struct.FTS*, %struct.FTS** %3, align 8, !dbg !1600, !tbaa !1591\l  %9 = call %struct._ftsent* @rpl_fts_read(%struct.FTS* noundef %8), !dbg !1600\l  ret void, !dbg !1601\l}"];
+}

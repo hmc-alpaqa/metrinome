@@ -1,0 +1,26 @@
+digraph "CFG for 'atomic_link' function" {
+	label="CFG for 'atomic_link' function";
+
+	Node0xb95260 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i8*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !918\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !915, metadata\l... !DIExpression()), !dbg !922\l  store i32 %1, i32* %5, align 4, !tbaa !923\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !916, metadata\l... !DIExpression()), !dbg !925\l  store i8* %2, i8** %6, align 8, !tbaa !918\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !917, metadata\l... !DIExpression()), !dbg !926\l  %7 = load i8, i8* @symbolic_link, align 1, !dbg !927, !tbaa !928, !range !930\l  %8 = trunc i8 %7 to i1, !dbg !927\l  br i1 %8, label %9, label %21, !dbg !927\l|{<s0>T|<s1>F}}"];
+	Node0xb95260:s0 -> Node0xb6c6c0;
+	Node0xb95260:s1 -> Node0xb6c800;
+	Node0xb6c6c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%9:\l9:                                                \l  %10 = load i8, i8* @relative, align 1, !dbg !931, !tbaa !928, !range !930\l  %11 = trunc i8 %10 to i1, !dbg !931\l  br i1 %11, label %12, label %13, !dbg !931\l|{<s0>T|<s1>F}}"];
+	Node0xb6c6c0:s0 -> Node0xb6c710;
+	Node0xb6c6c0:s1 -> Node0xb6c760;
+	Node0xb6c710 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%12:\l12:                                               \l  br label %19, !dbg !931\l}"];
+	Node0xb6c710 -> Node0xb6c7b0;
+	Node0xb6c760 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %4, align 8, !dbg !932, !tbaa !918\l  %15 = load i32, i32* %5, align 4, !dbg !933, !tbaa !923\l  %16 = load i8*, i8** %6, align 8, !dbg !934, !tbaa !918\l  %17 = call i32 @symlinkat(i8* noundef %14, i32 noundef %15, i8* noundef %16)\l... #24, !dbg !935\l  %18 = call i32 @errnoize(i32 noundef %17), !dbg !936\l  br label %19, !dbg !931\l}"];
+	Node0xb6c760 -> Node0xb6c7b0;
+	Node0xb6c7b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%19:\l19:                                               \l  %20 = phi i32 [ -1, %12 ], [ %18, %13 ], !dbg !931\l  br label %37, !dbg !927\l}"];
+	Node0xb6c7b0 -> Node0xb6c940;
+	Node0xb6c800 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%21:\l21:                                               \l  %22 = load i8, i8* @beware_hard_dir_link, align 1, !dbg !937, !tbaa !928,\l... !range !930\l  %23 = trunc i8 %22 to i1, !dbg !937\l  br i1 %23, label %24, label %25, !dbg !937\l|{<s0>T|<s1>F}}"];
+	Node0xb6c800:s0 -> Node0xb6c850;
+	Node0xb6c800:s1 -> Node0xb6c8a0;
+	Node0xb6c850 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%24:\l24:                                               \l  br label %35, !dbg !937\l}"];
+	Node0xb6c850 -> Node0xb6c8f0;
+	Node0xb6c8a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%25:\l25:                                               \l  %26 = load i8*, i8** %4, align 8, !dbg !938, !tbaa !918\l  %27 = load i32, i32* %5, align 4, !dbg !939, !tbaa !923\l  %28 = load i8*, i8** %6, align 8, !dbg !940, !tbaa !918\l  %29 = load i8, i8* @logical, align 1, !dbg !941, !tbaa !928, !range !930\l  %30 = trunc i8 %29 to i1, !dbg !941\l  %31 = zext i1 %30 to i64, !dbg !941\l  %32 = select i1 %30, i32 1024, i32 0, !dbg !941\l  %33 = call i32 @linkat(i32 noundef -100, i8* noundef %26, i32 noundef %27,\l... i8* noundef %28, i32 noundef %32) #24, !dbg !942\l  %34 = call i32 @errnoize(i32 noundef %33), !dbg !943\l  br label %35, !dbg !937\l}"];
+	Node0xb6c8a0 -> Node0xb6c8f0;
+	Node0xb6c8f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%35:\l35:                                               \l  %36 = phi i32 [ -1, %24 ], [ %34, %25 ], !dbg !937\l  br label %37, !dbg !927\l}"];
+	Node0xb6c8f0 -> Node0xb6c940;
+	Node0xb6c940 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%37:\l37:                                               \l  %38 = phi i32 [ %20, %19 ], [ %36, %35 ], !dbg !927\l  ret i32 %38, !dbg !944\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'xmemdup' function" {
+	label="CFG for 'xmemdup' function";
+
+	Node0x27340c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !804\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !802, metadata\l... !DIExpression()), !dbg !808\l  store i64 %1, i64* %4, align 8, !tbaa !809\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !803, metadata\l... !DIExpression()), !dbg !811\l  %5 = load i64, i64* %4, align 8, !dbg !812, !tbaa !809\l  %6 = call noalias nonnull i8* @xmalloc(i64 noundef %5) #22, !dbg !813\l  %7 = load i8*, i8** %3, align 8, !dbg !814, !tbaa !804\l  %8 = load i64, i64* %4, align 8, !dbg !815, !tbaa !809\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 1 %6, i8* align 1 %7, i64 %8,\l... i1 false), !dbg !816\l  ret i8* %6, !dbg !817\l}"];
+}

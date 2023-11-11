@@ -1,0 +1,5 @@
+digraph "CFG for 'cycle_check_init' function" {
+	label="CFG for 'cycle_check_init' function";
+
+	Node0x16e7c10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.cycle_check_state*, align 8\l  store %struct.cycle_check_state* %0, %struct.cycle_check_state** %2, align\l... 8, !tbaa !1515\l  call void @llvm.dbg.declare(metadata %struct.cycle_check_state** %2,\l... metadata !1514, metadata !DIExpression()), !dbg !1519\l  %3 = load %struct.cycle_check_state*, %struct.cycle_check_state** %2, align\l... 8, !dbg !1520, !tbaa !1515\l  %4 = getelementptr inbounds %struct.cycle_check_state,\l... %struct.cycle_check_state* %3, i32 0, i32 1, !dbg !1521\l  store i64 0, i64* %4, align 8, !dbg !1522, !tbaa !1523\l  %5 = load %struct.cycle_check_state*, %struct.cycle_check_state** %2, align\l... 8, !dbg !1528, !tbaa !1515\l  %6 = getelementptr inbounds %struct.cycle_check_state,\l... %struct.cycle_check_state* %5, i32 0, i32 2, !dbg !1529\l  store i32 9827862, i32* %6, align 8, !dbg !1530, !tbaa !1531\l  ret void, !dbg !1532\l}"];
+}

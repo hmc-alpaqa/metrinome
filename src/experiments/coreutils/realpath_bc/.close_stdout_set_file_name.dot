@@ -1,0 +1,5 @@
+digraph "CFG for 'close_stdout_set_file_name' function" {
+	label="CFG for 'close_stdout_set_file_name' function";
+
+	Node0x9a16b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !698\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !697, metadata\l... !DIExpression()), !dbg !702\l  %3 = load i8*, i8** %2, align 8, !dbg !703, !tbaa !698\l  store i8* %3, i8** @file_name, align 8, !dbg !704, !tbaa !698\l  ret void, !dbg !705\l}"];
+}

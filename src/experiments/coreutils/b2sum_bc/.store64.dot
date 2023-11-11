@@ -1,0 +1,5 @@
+digraph "CFG for 'store64' function" {
+	label="CFG for 'store64' function";
+
+	Node0x12813f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !879\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !877, metadata\l... !DIExpression()), !dbg !883\l  store i64 %1, i64* %4, align 8, !tbaa !884\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !878, metadata\l... !DIExpression()), !dbg !886\l  %5 = load i8*, i8** %3, align 8, !dbg !887, !tbaa !879\l  %6 = bitcast i64* %4 to i8*, !dbg !888\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 1 %5, i8* align 8 %6, i64 8,\l... i1 false), !dbg !888\l  ret void, !dbg !889\l}"];
+}

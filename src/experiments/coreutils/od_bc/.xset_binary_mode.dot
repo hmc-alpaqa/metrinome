@@ -1,0 +1,10 @@
+digraph "CFG for 'xset_binary_mode' function" {
+	label="CFG for 'xset_binary_mode' function";
+
+	Node0xb72410 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !1233\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1231, metadata\l... !DIExpression()), !dbg !1237\l  store i32 %1, i32* %4, align 4, !tbaa !1233\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1232, metadata\l... !DIExpression()), !dbg !1238\l  %5 = load i32, i32* %3, align 4, !dbg !1239, !tbaa !1233\l  %6 = load i32, i32* %4, align 4, !dbg !1241, !tbaa !1233\l  %7 = call i32 @set_binary_mode(i32 noundef %5, i32 noundef %6), !dbg !1242\l  %8 = icmp slt i32 %7, 0, !dbg !1243\l  br i1 %8, label %9, label %10, !dbg !1244\l|{<s0>T|<s1>F}}"];
+	Node0xb72410:s0 -> Node0xb72460;
+	Node0xb72410:s1 -> Node0xb724b0;
+	Node0xb72460 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%9:\l9:                                                \l  call void @xset_binary_mode_error(), !dbg !1245\l  br label %10, !dbg !1245\l}"];
+	Node0xb72460 -> Node0xb724b0;
+	Node0xb724b0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  ret void, !dbg !1246\l}"];
+}

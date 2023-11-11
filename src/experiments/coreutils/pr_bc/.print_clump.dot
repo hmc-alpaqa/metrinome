@@ -1,0 +1,12 @@
+digraph "CFG for 'print_clump' function" {
+	label="CFG for 'print_clump' function";
+
+	Node0x16a0a30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%3:\l  %4 = alloca %struct.COLUMN*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i8*, align 8\l  store %struct.COLUMN* %0, %struct.COLUMN** %4, align 8, !tbaa !1126\l  call void @llvm.dbg.declare(metadata %struct.COLUMN** %4, metadata !1123,\l... metadata !DIExpression()), !dbg !1130\l  store i32 %1, i32* %5, align 4, !tbaa !1131\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !1124, metadata\l... !DIExpression()), !dbg !1133\l  store i8* %2, i8** %6, align 8, !tbaa !1126\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !1125, metadata\l... !DIExpression()), !dbg !1134\l  br label %7, !dbg !1135\l}"];
+	Node0x16a0a30 -> Node0x16a0ab0;
+	Node0x16a0ab0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i32, i32* %5, align 4, !dbg !1136, !tbaa !1131\l  %9 = add nsw i32 %8, -1, !dbg !1136\l  store i32 %9, i32* %5, align 4, !dbg !1136, !tbaa !1131\l  %10 = icmp ne i32 %8, 0, !dbg !1135\l  br i1 %10, label %11, label %18, !dbg !1135\l|{<s0>T|<s1>F}}"];
+	Node0x16a0ab0:s0 -> Node0x16a0b00;
+	Node0x16a0ab0:s1 -> Node0x16a0b50;
+	Node0x16a0b00 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%11:\l11:                                               \l  %12 = load %struct.COLUMN*, %struct.COLUMN** %4, align 8, !dbg !1137, !tbaa\l... !1126\l  %13 = getelementptr inbounds %struct.COLUMN, %struct.COLUMN* %12, i32 0, i32\l... 4, !dbg !1138\l  %14 = load void (i8)*, void (i8)** %13, align 8, !dbg !1138, !tbaa !1139\l  %15 = load i8*, i8** %6, align 8, !dbg !1142, !tbaa !1126\l  %16 = getelementptr inbounds i8, i8* %15, i32 1, !dbg !1142\l  store i8* %16, i8** %6, align 8, !dbg !1142, !tbaa !1126\l  %17 = load i8, i8* %15, align 1, !dbg !1143, !tbaa !1144\l  call void %14(i8 noundef signext %17), !dbg !1145\l  br label %7, !dbg !1135, !llvm.loop !1146\l}"];
+	Node0x16a0b00 -> Node0x16a0ab0;
+	Node0x16a0b50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%18:\l18:                                               \l  ret void, !dbg !1150\l}"];
+}

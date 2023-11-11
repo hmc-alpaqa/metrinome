@@ -1,0 +1,9 @@
+digraph "CFG for 'xalignalloc' function" {
+	label="CFG for 'xalignalloc' function";
+
+	Node0x254de90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i8*, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !857\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !854, metadata\l... !DIExpression()), !dbg !861\l  store i64 %1, i64* %4, align 8, !tbaa !857\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !855, metadata\l... !DIExpression()), !dbg !862\l  %6 = bitcast i8** %5 to i8*, !dbg !863\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #24, !dbg !863\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !856, metadata\l... !DIExpression()), !dbg !864\l  %7 = load i64, i64* %3, align 8, !dbg !865, !tbaa !857\l  %8 = load i64, i64* %4, align 8, !dbg !866, !tbaa !857\l  %9 = call noalias i8* @alignalloc(i64 noundef %7, i64 noundef %8) #25, !dbg\l... !867\l  store i8* %9, i8** %5, align 8, !dbg !864, !tbaa !868\l  %10 = load i8*, i8** %5, align 8, !dbg !870, !tbaa !868\l  %11 = icmp ne i8* %10, null, !dbg !870\l  br i1 %11, label %13, label %12, !dbg !872\l|{<s0>T|<s1>F}}"];
+	Node0x254de90:s0 -> Node0x254df30;
+	Node0x254de90:s1 -> Node0x254dee0;
+	Node0x254dee0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%12:\l12:                                               \l  call void @xalloc_die() #26, !dbg !873\l  unreachable, !dbg !873\l}"];
+	Node0x254df30 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %5, align 8, !dbg !874, !tbaa !868\l  %15 = bitcast i8** %5 to i8*, !dbg !875\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %15) #24, !dbg !875\l  ret i8* %14, !dbg !876\l}"];
+}

@@ -1,0 +1,10 @@
+digraph "CFG for 'c_locale' function" {
+	label="CFG for 'c_locale' function";
+
+	Node0xc98a40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load volatile %struct.__locale_struct*, %struct.__locale_struct**\l... @c_locale_cache, align 8, !dbg !989, !tbaa !991\l  %2 = icmp ne %struct.__locale_struct* %1, null, !dbg !989\l  br i1 %2, label %5, label %3, !dbg !995\l|{<s0>T|<s1>F}}"];
+	Node0xc98a40:s0 -> Node0xc98ae0;
+	Node0xc98a40:s1 -> Node0xc98a90;
+	Node0xc98a90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%3:\l3:                                                \l  %4 = call %struct.__locale_struct* @newlocale(i32 noundef 8127, i8* noundef\l... getelementptr inbounds ([2 x i8], [2 x i8]* @.str.161, i64 0, i64 0),\l... %struct.__locale_struct* noundef null) #22, !dbg !996\l  store volatile %struct.__locale_struct* %4, %struct.__locale_struct**\l... @c_locale_cache, align 8, !dbg !997, !tbaa !991\l  br label %5, !dbg !998\l}"];
+	Node0xc98a90 -> Node0xc98ae0;
+	Node0xc98ae0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  %6 = load volatile %struct.__locale_struct*, %struct.__locale_struct**\l... @c_locale_cache, align 8, !dbg !999, !tbaa !991\l  ret %struct.__locale_struct* %6, !dbg !1000\l}"];
+}

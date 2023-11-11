@@ -1,0 +1,5 @@
+digraph "CFG for 'hash_get_n_buckets_used' function" {
+	label="CFG for 'hash_get_n_buckets_used' function";
+
+	Node0x262a0d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.hash_table*, align 8\l  store %struct.hash_table* %0, %struct.hash_table** %2, align 8, !tbaa !1816\l  call void @llvm.dbg.declare(metadata %struct.hash_table** %2, metadata\l... !1815, metadata !DIExpression()), !dbg !1820\l  %3 = load %struct.hash_table*, %struct.hash_table** %2, align 8, !dbg !1821,\l... !tbaa !1816\l  %4 = getelementptr inbounds %struct.hash_table, %struct.hash_table* %3, i32\l... 0, i32 3, !dbg !1822\l  %5 = load i64, i64* %4, align 8, !dbg !1822, !tbaa !1823\l  ret i64 %5, !dbg !1826\l}"];
+}

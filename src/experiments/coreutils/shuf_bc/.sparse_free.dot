@@ -1,0 +1,5 @@
+digraph "CFG for 'sparse_free' function" {
+	label="CFG for 'sparse_free' function";
+
+	Node0x19b2280 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.hash_table*, align 8\l  store %struct.hash_table* %0, %struct.hash_table** %2, align 8, !tbaa !799\l  call void @llvm.dbg.declare(metadata %struct.hash_table** %2, metadata !798,\l... metadata !DIExpression()), !dbg !803\l  %3 = load %struct.hash_table*, %struct.hash_table** %2, align 8, !dbg !804,\l... !tbaa !799\l  call void @hash_free(%struct.hash_table* noundef %3), !dbg !805\l  ret void, !dbg !806\l}"];
+}

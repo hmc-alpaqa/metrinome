@@ -1,0 +1,14 @@
+digraph "CFG for 'printv' function" {
+	label="CFG for 'printv' function";
+
+	Node0x24e5e60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.valinfo*, align 8\l  store %struct.valinfo* %0, %struct.valinfo** %2, align 8, !tbaa !792\l  call void @llvm.dbg.declare(metadata %struct.valinfo** %2, metadata !791,\l... metadata !DIExpression()), !dbg !796\l  %3 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !797, !tbaa\l... !792\l  %4 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %3, i32 0, i32\l... 0, !dbg !798\l  %5 = load i32, i32* %4, align 8, !dbg !798, !tbaa !799\l  switch i32 %5, label %20 [\l    i32 0, label %6\l    i32 1, label %14\l  ], !dbg !801\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0x24e5e60:s0 -> Node0x24e62c0;
+	Node0x24e5e60:s1 -> Node0x24e6220;
+	Node0x24e5e60:s2 -> Node0x24e6270;
+	Node0x24e6220 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%6:\l6:                                                \l  %7 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !802,\l... !tbaa !792\l  %8 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !804, !tbaa\l... !792\l  %9 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %8, i32 0, i32\l... 1, !dbg !805\l  %10 = bitcast %union.anon* %9 to [1 x %struct.__mpz_struct]*, !dbg !806\l  %11 = getelementptr inbounds [1 x %struct.__mpz_struct], [1 x\l... %struct.__mpz_struct]* %10, i64 0, i64 0, !dbg !804\l  %12 = call i64 @mpz_out_str(%struct._IO_FILE* noundef %7, i32 noundef 10,\l... %struct.__mpz_struct* noundef %11), !dbg !807\l  %13 = call i32 @putchar_unlocked(i32 noundef 10), !dbg !808\l  br label %21, !dbg !809\l}"];
+	Node0x24e6220 -> Node0x24e6310;
+	Node0x24e6270 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%14:\l14:                                               \l  %15 = load %struct.valinfo*, %struct.valinfo** %2, align 8, !dbg !810, !tbaa\l... !792\l  %16 = getelementptr inbounds %struct.valinfo, %struct.valinfo* %15, i32 0,\l... i32 1, !dbg !811\l  %17 = bitcast %union.anon* %16 to i8**, !dbg !812\l  %18 = load i8*, i8** %17, align 8, !dbg !812, !tbaa !813\l  %19 = call i32 @puts(i8* noundef %18), !dbg !814\l  br label %21, !dbg !815\l}"];
+	Node0x24e6270 -> Node0x24e6310;
+	Node0x24e62c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%20:\l20:                                               \l  unreachable, !dbg !816\l}"];
+	Node0x24e6310 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%21:\l21:                                               \l  ret void, !dbg !817\l}"];
+}

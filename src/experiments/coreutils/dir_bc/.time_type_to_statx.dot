@@ -1,0 +1,20 @@
+digraph "CFG for 'time_type_to_statx' function" {
+	label="CFG for 'time_type_to_statx' function";
+
+	Node0x213d400 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca i32, align 4\l  %2 = load i32, i32* @time_type, align 4, !dbg !1870, !tbaa !1871\l  switch i32 %2, label %7 [\l    i32 1, label %3\l    i32 0, label %4\l    i32 2, label %5\l    i32 3, label %6\l  ], !dbg !1874\l|{<s0>def|<s1>1|<s2>0|<s3>2|<s4>3}}"];
+	Node0x213d400:s0 -> Node0x213d710;
+	Node0x213d400:s1 -> Node0x213d5d0;
+	Node0x213d400:s2 -> Node0x213d620;
+	Node0x213d400:s3 -> Node0x213d670;
+	Node0x213d400:s4 -> Node0x213d6c0;
+	Node0x213d5d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%3:\l3:                                                \l  store i32 128, i32* %1, align 4, !dbg !1875\l  br label %8, !dbg !1875\l}"];
+	Node0x213d5d0 -> Node0x213d760;
+	Node0x213d620 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%4:\l4:                                                \l  store i32 64, i32* %1, align 4, !dbg !1877\l  br label %8, !dbg !1877\l}"];
+	Node0x213d620 -> Node0x213d760;
+	Node0x213d670 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%5:\l5:                                                \l  store i32 32, i32* %1, align 4, !dbg !1878\l  br label %8, !dbg !1878\l}"];
+	Node0x213d670 -> Node0x213d760;
+	Node0x213d6c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%6:\l6:                                                \l  store i32 2048, i32* %1, align 4, !dbg !1879\l  br label %8, !dbg !1879\l}"];
+	Node0x213d6c0 -> Node0x213d760;
+	Node0x213d710 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%7:\l7:                                                \l  unreachable, !dbg !1880\l}"];
+	Node0x213d760 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = load i32, i32* %1, align 4, !dbg !1881\l  ret i32 %9, !dbg !1881\l}"];
+}

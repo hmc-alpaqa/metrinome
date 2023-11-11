@@ -1,0 +1,22 @@
+digraph "CFG for 'decode_line_length' function" {
+	label="CFG for 'decode_line_length' function";
+
+	Node0xb3afa0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca i32, align 4\l  store i8* %0, i8** %3, align 8, !tbaa !1874\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1872, metadata\l... !DIExpression()), !dbg !1878\l  %6 = bitcast i64* %4 to i8*, !dbg !1879\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #27, !dbg !1879\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !1873, metadata\l... !DIExpression()), !dbg !1880\l  %7 = load i8*, i8** %3, align 8, !dbg !1881, !tbaa !1874\l  %8 = call i32 @xstrtoumax(i8* noundef %7, i8** noundef null, i32 noundef 0,\l... i64* noundef %4, i8* noundef getelementptr inbounds ([1 x i8], [1 x i8]*\l... @.str, i64 0, i64 0)), !dbg !1882\l  switch i32 %8, label %18 [\l    i32 0, label %9\l    i32 1, label %17\l  ], !dbg !1883\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0xb3afa0:s0 -> Node0xb3b180;
+	Node0xb3afa0:s1 -> Node0xb3aff0;
+	Node0xb3afa0:s2 -> Node0xb3b130;
+	Node0xb3aff0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%9:\l9:                                                \l  %10 = load i64, i64* %4, align 8, !dbg !1884, !tbaa !1886\l  %11 = icmp ule i64 %10, 9223372036854775807, !dbg !1888\l  br i1 %11, label %12, label %14, !dbg !1884\l|{<s0>T|<s1>F}}"];
+	Node0xb3aff0:s0 -> Node0xb3b040;
+	Node0xb3aff0:s1 -> Node0xb3b090;
+	Node0xb3b040 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%12:\l12:                                               \l  %13 = load i64, i64* %4, align 8, !dbg !1889, !tbaa !1886\l  br label %15, !dbg !1884\l}"];
+	Node0xb3b040 -> Node0xb3b0e0;
+	Node0xb3b090 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%14:\l14:                                               \l  br label %15, !dbg !1884\l}"];
+	Node0xb3b090 -> Node0xb3b0e0;
+	Node0xb3b0e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%15:\l15:                                               \l  %16 = phi i64 [ %13, %12 ], [ 0, %14 ], !dbg !1884\l  store i64 %16, i64* %2, align 8, !dbg !1890\l  store i32 1, i32* %5, align 4\l  br label %19, !dbg !1890\l}"];
+	Node0xb3b0e0 -> Node0xb3b1d0;
+	Node0xb3b130 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7a88970",label="{%17:\l17:                                               \l  store i64 0, i64* %2, align 8, !dbg !1891\l  store i32 1, i32* %5, align 4\l  br label %19, !dbg !1891\l}"];
+	Node0xb3b130 -> Node0xb3b1d0;
+	Node0xb3b180 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%18:\l18:                                               \l  store i64 -1, i64* %2, align 8, !dbg !1892\l  store i32 1, i32* %5, align 4\l  br label %19, !dbg !1892\l}"];
+	Node0xb3b180 -> Node0xb3b1d0;
+	Node0xb3b1d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%19:\l19:                                               \l  %20 = bitcast i64* %4 to i8*, !dbg !1893\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %20) #27, !dbg !1893\l  %21 = load i64, i64* %2, align 8, !dbg !1893\l  ret i64 %21, !dbg !1893\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for '_mm256_setzero_si256' function" {
+	label="CFG for '_mm256_setzero_si256' function";
+
+	Node0x20647d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca \<4 x i64\>, align 32\l  store \<4 x i64\> zeroinitializer, \<4 x i64\>* %1, align 32, !tbaa !1291\l  %2 = load \<4 x i64\>, \<4 x i64\>* %1, align 32, !tbaa !1291\l  ret \<4 x i64\> %2\l}"];
+}

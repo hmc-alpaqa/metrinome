@@ -1,0 +1,17 @@
+digraph "CFG for 'get_outstatus' function" {
+	label="CFG for 'get_outstatus' function";
+
+	Node0x2566730 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i32, i32* @get_outstatus.outstat_errno, align 4, !dbg !1779, !tbaa\l... !1781\l  %2 = icmp eq i32 %1, 0, !dbg !1785\l  br i1 %2, label %3, label %12, !dbg !1786\l|{<s0>T|<s1>F}}"];
+	Node0x2566730:s0 -> Node0x25667c0;
+	Node0x2566730:s1 -> Node0x2566900;
+	Node0x25667c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%3:\l3:                                                \l  %4 = call i32 @fstat(i32 noundef 1, %struct.stat* noundef\l... @get_outstatus.outstat) #24, !dbg !1787\l  %5 = icmp eq i32 %4, 0, !dbg !1788\l  br i1 %5, label %6, label %7, !dbg !1787\l|{<s0>T|<s1>F}}"];
+	Node0x25667c0:s0 -> Node0x2566810;
+	Node0x25667c0:s1 -> Node0x2566860;
+	Node0x2566810 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e0dbd870",label="{%6:\l6:                                                \l  br label %10, !dbg !1787\l}"];
+	Node0x2566810 -> Node0x25668b0;
+	Node0x2566860 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5c1a970",label="{%7:\l7:                                                \l  %8 = call i32* @__errno_location() #25, !dbg !1789\l  %9 = load i32, i32* %8, align 4, !dbg !1789, !tbaa !1781\l  br label %10, !dbg !1787\l}"];
+	Node0x2566860 -> Node0x25668b0;
+	Node0x25668b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%10:\l10:                                               \l  %11 = phi i32 [ -1, %6 ], [ %9, %7 ], !dbg !1787\l  store i32 %11, i32* @get_outstatus.outstat_errno, align 4, !dbg !1790, !tbaa\l... !1781\l  br label %12, !dbg !1791\l}"];
+	Node0x25668b0 -> Node0x2566900;
+	Node0x2566900 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = load i32, i32* @get_outstatus.outstat_errno, align 4, !dbg !1792,\l... !tbaa !1781\l  %14 = icmp slt i32 %13, 0, !dbg !1793\l  %15 = zext i1 %14 to i64, !dbg !1792\l  %16 = select i1 %14, %struct.stat* @get_outstatus.outstat, %struct.stat*\l... null, !dbg !1792\l  ret %struct.stat* %16, !dbg !1794\l}"];
+}

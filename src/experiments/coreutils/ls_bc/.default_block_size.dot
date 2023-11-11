@@ -1,0 +1,5 @@
+digraph "CFG for 'default_block_size' function" {
+	label="CFG for 'default_block_size' function";
+
+	Node0xc0d490 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = call i8* @getenv(i8* noundef getelementptr inbounds ([16 x i8], [16 x\l... i8]* @.str.9.359, i64 0, i64 0)) #27, !dbg !1870\l  %2 = icmp ne i8* %1, null, !dbg !1870\l  %3 = zext i1 %2 to i64, !dbg !1870\l  %4 = select i1 %2, i32 512, i32 1024, !dbg !1870\l  %5 = sext i32 %4 to i64, !dbg !1870\l  ret i64 %5, !dbg !1871\l}"];
+}

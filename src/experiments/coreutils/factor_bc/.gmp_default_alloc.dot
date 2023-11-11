@@ -1,0 +1,16 @@
+digraph "CFG for 'gmp_default_alloc' function" {
+	label="CFG for 'gmp_default_alloc' function";
+
+	Node0x1a0b070 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i64, align 8\l  %3 = alloca i8*, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !783\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !781, metadata\l... !DIExpression()), !dbg !787\l  %4 = bitcast i8** %3 to i8*, !dbg !788\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #23, !dbg !788\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !782, metadata\l... !DIExpression()), !dbg !789\l  %5 = load i64, i64* %2, align 8, !dbg !790, !tbaa !783\l  %6 = icmp ugt i64 %5, 0, !dbg !790\l  br i1 %6, label %7, label %8, !dbg !793\l|{<s0>T|<s1>F}}"];
+	Node0x1a0b070:s0 -> Node0x1a0b100;
+	Node0x1a0b070:s1 -> Node0x1a0b150;
+	Node0x1a0b100 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  br label %9, !dbg !793\l}"];
+	Node0x1a0b100 -> Node0x1a0b1a0;
+	Node0x1a0b150 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%8:\l8:                                                \l  call void @__assert_fail(i8* noundef getelementptr inbounds ([9 x i8], [9 x\l... i8]* @.str.41.73, i64 0, i64 0), i8* noundef getelementptr inbounds ([18 x\l... i8], [18 x i8]* @.str.1.74, i64 0, i64 0), i32 noundef 300, i8* noundef\l... getelementptr inbounds ([32 x i8], [32 x i8]*\l... @__PRETTY_FUNCTION__.gmp_default_alloc, i64 0, i64 0)) #24, !dbg !790\l  unreachable, !dbg !790\l}"];
+	Node0x1a0b1a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load i64, i64* %2, align 8, !dbg !794, !tbaa !783\l  %11 = call noalias i8* @malloc(i64 noundef %10) #23, !dbg !795\l  store i8* %11, i8** %3, align 8, !dbg !796, !tbaa !797\l  %12 = load i8*, i8** %3, align 8, !dbg !799, !tbaa !797\l  %13 = icmp ne i8* %12, null, !dbg !799\l  br i1 %13, label %15, label %14, !dbg !801\l|{<s0>T|<s1>F}}"];
+	Node0x1a0b1a0:s0 -> Node0x1a0b240;
+	Node0x1a0b1a0:s1 -> Node0x1a0b1f0;
+	Node0x1a0b1f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cc403a70",label="{%14:\l14:                                               \l  call void @gmp_die(i8* noundef getelementptr inbounds ([45 x i8], [45 x i8]*\l... @.str.42.75, i64 0, i64 0)), !dbg !802\l  br label %15, !dbg !802\l}"];
+	Node0x1a0b1f0 -> Node0x1a0b240;
+	Node0x1a0b240 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  %16 = load i8*, i8** %3, align 8, !dbg !803, !tbaa !797\l  %17 = bitcast i8** %3 to i8*, !dbg !804\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %17) #23, !dbg !804\l  ret i8* %16, !dbg !805\l}"];
+}

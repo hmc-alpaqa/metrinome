@@ -1,0 +1,43 @@
+digraph "CFG for 'rpl_fcntl_DUPFD_CLOEXEC' function" {
+	label="CFG for 'rpl_fcntl_DUPFD_CLOEXEC' function";
+
+	Node0x243ea20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i32, align 4\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !845\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !342, metadata\l... !DIExpression()), !dbg !849\l  store i32 %1, i32* %4, align 4, !tbaa !845\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !343, metadata\l... !DIExpression()), !dbg !850\l  %8 = bitcast i32* %5 to i8*, !dbg !851\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #21, !dbg !851\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !344, metadata\l... !DIExpression()), !dbg !852\l  %9 = load i32, i32* @rpl_fcntl_DUPFD_CLOEXEC.have_dupfd_cloexec, align 4,\l... !dbg !853, !tbaa !845\l  %10 = icmp sle i32 0, %9, !dbg !855\l  br i1 %10, label %11, label %31, !dbg !856\l|{<s0>T|<s1>F}}"];
+	Node0x243ea20:s0 -> Node0x243fc60;
+	Node0x243ea20:s1 -> Node0x243fe90;
+	Node0x243fc60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e36c5570",label="{%11:\l11:                                               \l  %12 = load i32, i32* %3, align 4, !dbg !857, !tbaa !845\l  %13 = load i32, i32* %4, align 4, !dbg !859, !tbaa !845\l  %14 = call i32 (i32, i32, ...) @fcntl(i32 noundef %12, i32 noundef 1030, i32\l... noundef %13), !dbg !860\l  store i32 %14, i32* %5, align 4, !dbg !861, !tbaa !845\l  %15 = load i32, i32* %5, align 4, !dbg !862, !tbaa !845\l  %16 = icmp sle i32 0, %15, !dbg !864\l  br i1 %16, label %21, label %17, !dbg !865\l|{<s0>T|<s1>F}}"];
+	Node0x243fc60:s0 -> Node0x243fd00;
+	Node0x243fc60:s1 -> Node0x243fcb0;
+	Node0x243fcb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7ac8e70",label="{%17:\l17:                                               \l  %18 = call i32* @__errno_location() #22, !dbg !866\l  %19 = load i32, i32* %18, align 4, !dbg !866, !tbaa !845\l  %20 = icmp ne i32 %19, 22, !dbg !867\l  br i1 %20, label %21, label %22, !dbg !868\l|{<s0>T|<s1>F}}"];
+	Node0x243fcb0:s0 -> Node0x243fd00;
+	Node0x243fcb0:s1 -> Node0x243fd50;
+	Node0x243fd00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%21:\l21:                                               \l  store i32 1, i32* @rpl_fcntl_DUPFD_CLOEXEC.have_dupfd_cloexec, align 4, !dbg\l... !869, !tbaa !845\l  br label %30, !dbg !871\l}"];
+	Node0x243fd00 -> Node0x243fe40;
+	Node0x243fd50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ead5c970",label="{%22:\l22:                                               \l  %23 = load i32, i32* %3, align 4, !dbg !872, !tbaa !845\l  %24 = load i32, i32* %4, align 4, !dbg !874, !tbaa !845\l  %25 = call i32 @rpl_fcntl_DUPFD(i32 noundef %23, i32 noundef %24), !dbg !875\l  store i32 %25, i32* %5, align 4, !dbg !876, !tbaa !845\l  %26 = load i32, i32* %5, align 4, !dbg !877, !tbaa !845\l  %27 = icmp sge i32 %26, 0, !dbg !879\l  br i1 %27, label %28, label %29, !dbg !880\l|{<s0>T|<s1>F}}"];
+	Node0x243fd50:s0 -> Node0x243fda0;
+	Node0x243fd50:s1 -> Node0x243fdf0;
+	Node0x243fda0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c7d7f070",label="{%28:\l28:                                               \l  store i32 -1, i32* @rpl_fcntl_DUPFD_CLOEXEC.have_dupfd_cloexec, align 4,\l... !dbg !881, !tbaa !845\l  br label %29, !dbg !882\l}"];
+	Node0x243fda0 -> Node0x243fdf0;
+	Node0x243fdf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ead5c970",label="{%29:\l29:                                               \l  br label %30\l}"];
+	Node0x243fdf0 -> Node0x243fe40;
+	Node0x243fe40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e36c5570",label="{%30:\l30:                                               \l  br label %35, !dbg !883\l}"];
+	Node0x243fe40 -> Node0x243fee0;
+	Node0x243fe90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e36c5570",label="{%31:\l31:                                               \l  %32 = load i32, i32* %3, align 4, !dbg !884, !tbaa !845\l  %33 = load i32, i32* %4, align 4, !dbg !885, !tbaa !845\l  %34 = call i32 @rpl_fcntl_DUPFD(i32 noundef %32, i32 noundef %33), !dbg !886\l  store i32 %34, i32* %5, align 4, !dbg !887, !tbaa !845\l  br label %35\l}"];
+	Node0x243fe90 -> Node0x243fee0;
+	Node0x243fee0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%35:\l35:                                               \l  %36 = load i32, i32* %5, align 4, !dbg !888, !tbaa !845\l  %37 = icmp sle i32 0, %36, !dbg !889\l  br i1 %37, label %38, label %64, !dbg !890\l|{<s0>T|<s1>F}}"];
+	Node0x243fee0:s0 -> Node0x243ff30;
+	Node0x243fee0:s1 -> Node0x24400c0;
+	Node0x243ff30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e36c5570",label="{%38:\l38:                                               \l  %39 = load i32, i32* @rpl_fcntl_DUPFD_CLOEXEC.have_dupfd_cloexec, align 4,\l... !dbg !891, !tbaa !845\l  %40 = icmp eq i32 %39, -1, !dbg !892\l  br i1 %40, label %41, label %64, !dbg !893\l|{<s0>T|<s1>F}}"];
+	Node0x243ff30:s0 -> Node0x243ff80;
+	Node0x243ff30:s1 -> Node0x24400c0;
+	Node0x243ff80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6bfa670",label="{%41:\l41:                                               \l  %42 = bitcast i32* %6 to i8*, !dbg !894\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %42) #21, !dbg !894\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !345, metadata\l... !DIExpression()), !dbg !895\l  %43 = load i32, i32* %5, align 4, !dbg !896, !tbaa !845\l  %44 = call i32 (i32, i32, ...) @fcntl(i32 noundef %43, i32 noundef 1), !dbg\l... !897\l  store i32 %44, i32* %6, align 4, !dbg !895, !tbaa !845\l  %45 = load i32, i32* %6, align 4, !dbg !898, !tbaa !845\l  %46 = icmp slt i32 %45, 0, !dbg !899\l  br i1 %46, label %53, label %47, !dbg !900\l|{<s0>T|<s1>F}}"];
+	Node0x243ff80:s0 -> Node0x2440020;
+	Node0x243ff80:s1 -> Node0x243ffd0;
+	Node0x243ffd0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8d6cc70",label="{%47:\l47:                                               \l  %48 = load i32, i32* %5, align 4, !dbg !901, !tbaa !845\l  %49 = load i32, i32* %6, align 4, !dbg !902, !tbaa !845\l  %50 = or i32 %49, 1, !dbg !903\l  %51 = call i32 (i32, i32, ...) @fcntl(i32 noundef %48, i32 noundef 2, i32\l... noundef %50), !dbg !904\l  %52 = icmp eq i32 %51, -1, !dbg !905\l  br i1 %52, label %53, label %62, !dbg !906\l|{<s0>T|<s1>F}}"];
+	Node0x243ffd0:s0 -> Node0x2440020;
+	Node0x243ffd0:s1 -> Node0x2440070;
+	Node0x2440020 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8d6cc70",label="{%53:\l53:                                               \l  %54 = bitcast i32* %7 to i8*, !dbg !907\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %54) #21, !dbg !907\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !348, metadata\l... !DIExpression()), !dbg !908\l  %55 = call i32* @__errno_location() #22, !dbg !909\l  %56 = load i32, i32* %55, align 4, !dbg !909, !tbaa !845\l  store i32 %56, i32* %7, align 4, !dbg !908, !tbaa !845\l  %57 = load i32, i32* %5, align 4, !dbg !910, !tbaa !845\l  %58 = call i32 @close(i32 noundef %57), !dbg !911\l  %59 = load i32, i32* %7, align 4, !dbg !912, !tbaa !845\l  %60 = call i32* @__errno_location() #22, !dbg !913\l  store i32 %59, i32* %60, align 4, !dbg !914, !tbaa !845\l  store i32 -1, i32* %5, align 4, !dbg !915, !tbaa !845\l  %61 = bitcast i32* %7 to i8*, !dbg !916\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %61) #21, !dbg !916\l  br label %62, !dbg !917\l}"];
+	Node0x2440020 -> Node0x2440070;
+	Node0x2440070 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6bfa670",label="{%62:\l62:                                               \l  %63 = bitcast i32* %6 to i8*, !dbg !918\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %63) #21, !dbg !918\l  br label %64, !dbg !919\l}"];
+	Node0x2440070 -> Node0x24400c0;
+	Node0x24400c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%64:\l64:                                               \l  %65 = load i32, i32* %5, align 4, !dbg !920, !tbaa !845\l  %66 = bitcast i32* %5 to i8*, !dbg !921\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %66) #21, !dbg !921\l  ret i32 %65, !dbg !922\l}"];
+}

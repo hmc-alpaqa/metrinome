@@ -1,0 +1,27 @@
+digraph "CFG for 'print_stats' function" {
+	label="CFG for 'print_stats' function";
+
+	Node0xf43600 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i32, i32* @status_level, align 4, !dbg !1315, !tbaa !1317\l  %2 = icmp eq i32 %1, 1, !dbg !1321\l  br i1 %2, label %3, label %4, !dbg !1322\l|{<s0>T|<s1>F}}"];
+	Node0xf43600:s0 -> Node0xf445e0;
+	Node0xf43600:s1 -> Node0xf44690;
+	Node0xf445e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%3:\l3:                                                \l  br label %33, !dbg !1323\l}"];
+	Node0xf445e0 -> Node0xf448c0;
+	Node0xf44690 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%4:\l4:                                                \l  %5 = load i32, i32* @progress_len, align 4, !dbg !1324, !tbaa !1317\l  %6 = icmp slt i32 0, %5, !dbg !1326\l  br i1 %6, label %7, label %10, !dbg !1327\l|{<s0>T|<s1>F}}"];
+	Node0xf44690:s0 -> Node0xf446e0;
+	Node0xf44690:s1 -> Node0xf44730;
+	Node0xf446e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%7:\l7:                                                \l  %8 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg\l... !1328, !tbaa !1330\l  %9 = call i32 @fputc_unlocked(i32 noundef 10, %struct._IO_FILE* noundef %8),\l... !dbg !1328\l  store i32 0, i32* @progress_len, align 4, !dbg !1332, !tbaa !1317\l  br label %10, !dbg !1333\l}"];
+	Node0xf446e0 -> Node0xf44730;
+	Node0xf44730 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%10:\l10:                                               \l  %11 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg\l... !1334, !tbaa !1330\l  %12 = load i64, i64* @r_full, align 8, !dbg !1335, !tbaa !1336\l  %13 = load i64, i64* @r_partial, align 8, !dbg !1338, !tbaa !1336\l  %14 = load i64, i64* @w_full, align 8, !dbg !1339, !tbaa !1336\l  %15 = load i64, i64* @w_partial, align 8, !dbg !1340, !tbaa !1336\l  %16 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE*\l... noundef %11, i8* noundef getelementptr inbounds ([40 x i8], [40 x i8]*\l... @.str.87, i64 0, i64 0), i64 noundef %12, i64 noundef %13, i64 noundef %14,\l... i64 noundef %15), !dbg !1341\l  %17 = load i64, i64* @r_truncate, align 8, !dbg !1342, !tbaa !1336\l  %18 = icmp ne i64 %17, 0, !dbg !1344\l  br i1 %18, label %19, label %28, !dbg !1345\l|{<s0>T|<s1>F}}"];
+	Node0xf44730:s0 -> Node0xf44780;
+	Node0xf44730:s1 -> Node0xf447d0;
+	Node0xf44780 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b99e70",label="{%19:\l19:                                               \l  %20 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg\l... !1346, !tbaa !1330\l  %21 = load i64, i64* @r_truncate, align 8, !dbg !1347, !tbaa !1336\l  %22 = call i64 @select_plural(i64 noundef %21), !dbg !1347\l  %23 = icmp eq i64 %22, 1, !dbg !1347\l  %24 = zext i1 %23 to i64, !dbg !1347\l  %25 = select i1 %23, i8* getelementptr inbounds ([22 x i8], [22 x i8]*\l... @.str.89, i64 0, i64 0), i8* getelementptr inbounds ([23 x i8], [23 x i8]*\l... @.str.88, i64 0, i64 0), !dbg !1347\l  %26 = load i64, i64* @r_truncate, align 8, !dbg !1348, !tbaa !1336\l  %27 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE*\l... noundef %20, i8* noundef %25, i64 noundef %26), !dbg !1349\l  br label %28, !dbg !1349\l}"];
+	Node0xf44780 -> Node0xf447d0;
+	Node0xf447d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%28:\l28:                                               \l  %29 = load i32, i32* @status_level, align 4, !dbg !1350, !tbaa !1317\l  %30 = icmp eq i32 %29, 2, !dbg !1352\l  br i1 %30, label %31, label %32, !dbg !1353\l|{<s0>T|<s1>F}}"];
+	Node0xf447d0:s0 -> Node0xf44820;
+	Node0xf447d0:s1 -> Node0xf44870;
+	Node0xf44820 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%31:\l31:                                               \l  br label %33, !dbg !1354\l}"];
+	Node0xf44820 -> Node0xf448c0;
+	Node0xf44870 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%32:\l32:                                               \l  call void @print_xfer_stats(i64 noundef 0), !dbg !1355\l  br label %33, !dbg !1356\l}"];
+	Node0xf44870 -> Node0xf448c0;
+	Node0xf448c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%33:\l33:                                               \l  ret void, !dbg !1356\l}"];
+}

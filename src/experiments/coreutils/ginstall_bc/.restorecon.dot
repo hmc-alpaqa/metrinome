@@ -1,0 +1,5 @@
+digraph "CFG for 'restorecon' function" {
+	label="CFG for 'restorecon' function";
+
+	Node0x170edb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca %struct.selabel_handle*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i8, align 1\l  store %struct.selabel_handle* %0, %struct.selabel_handle** %4, align 8,\l... !tbaa !1743\l  call void @llvm.dbg.declare(metadata %struct.selabel_handle** %4, metadata\l... !1740, metadata !DIExpression()), !dbg !1747\l  store i8* %1, i8** %5, align 8, !tbaa !1743\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1741, metadata\l... !DIExpression()), !dbg !1748\l  %7 = zext i1 %2 to i8\l  store i8 %7, i8* %6, align 1, !tbaa !1749\l  call void @llvm.dbg.declare(metadata i8* %6, metadata !1742, metadata\l... !DIExpression()), !dbg !1751\l  %8 = call i32* @__errno_location() #26, !dbg !1752\l  store i32 95, i32* %8, align 4, !dbg !1753, !tbaa !1754\l  ret i1 false, !dbg !1756\l}"];
+}

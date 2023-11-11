@@ -1,0 +1,5 @@
+digraph "CFG for 'setlocale_null_r' function" {
+	label="CFG for 'setlocale_null_r' function";
+
+	Node0x1208830 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca i64, align 8\l  store i32 %0, i32* %4, align 4, !tbaa !765\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !762, metadata\l... !DIExpression()), !dbg !769\l  store i8* %1, i8** %5, align 8, !tbaa !770\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !763, metadata\l... !DIExpression()), !dbg !772\l  store i64 %2, i64* %6, align 8, !tbaa !773\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !764, metadata\l... !DIExpression()), !dbg !775\l  %7 = load i32, i32* %4, align 4, !dbg !776, !tbaa !765\l  %8 = load i8*, i8** %5, align 8, !dbg !777, !tbaa !770\l  %9 = load i64, i64* %6, align 8, !dbg !778, !tbaa !773\l  %10 = call i32 @setlocale_null_unlocked(i32 noundef %7, i8* noundef %8, i64\l... noundef %9), !dbg !779\l  ret i32 %10, !dbg !780\l}"];
+}

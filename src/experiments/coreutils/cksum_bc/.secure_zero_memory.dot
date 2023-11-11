@@ -1,0 +1,5 @@
+digraph "CFG for 'secure_zero_memory' function" {
+	label="CFG for 'secure_zero_memory' function";
+
+	Node0x1e22720 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1279\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !288, metadata\l... !DIExpression()), !dbg !1283\l  store i64 %1, i64* %4, align 8, !tbaa !1284\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !289, metadata\l... !DIExpression()), !dbg !1286\l  %5 = load volatile i8* (i8*, i32, i64)*, i8* (i8*, i32, i64)**\l... @secure_zero_memory.memset_v, align 8, !dbg !1287, !tbaa !1279\l  %6 = load i8*, i8** %3, align 8, !dbg !1288, !tbaa !1279\l  %7 = load i64, i64* %4, align 8, !dbg !1289, !tbaa !1284\l  %8 = call i8* %5(i8* noundef %6, i32 noundef 0, i64 noundef %7), !dbg !1287\l  ret void, !dbg !1290\l}"];
+}

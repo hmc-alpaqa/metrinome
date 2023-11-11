@@ -1,0 +1,9 @@
+digraph "CFG for 'quoting_options_from_style' function" {
+	label="CFG for 'quoting_options_from_style' function";
+
+	Node0xa38410 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  store i32 %1, i32* %3, align 4, !tbaa !760\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !758, metadata\l... !DIExpression()), !dbg !763\l  call void @llvm.dbg.declare(metadata %struct.quoting_options* %0, metadata\l... !759, metadata !DIExpression()), !dbg !764\l  %4 = bitcast %struct.quoting_options* %0 to i8*, !dbg !764\l  call void @llvm.memset.p0i8.i64(i8* align 8 %4, i8 0, i64 56, i1 false),\l... !dbg !764\l  %5 = load i32, i32* %3, align 4, !dbg !765, !tbaa !760\l  %6 = icmp eq i32 %5, 10, !dbg !767\l  br i1 %6, label %7, label %8, !dbg !768\l|{<s0>T|<s1>F}}"];
+	Node0xa38410:s0 -> Node0xa39970;
+	Node0xa38410:s1 -> Node0xa399c0;
+	Node0xa39970 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%7:\l7:                                                \l  call void @abort() #21, !dbg !769\l  unreachable, !dbg !769\l}"];
+	Node0xa399c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%8:\l8:                                                \l  %9 = load i32, i32* %3, align 4, !dbg !770, !tbaa !760\l  %10 = getelementptr inbounds %struct.quoting_options,\l... %struct.quoting_options* %0, i32 0, i32 0, !dbg !771\l  store i32 %9, i32* %10, align 8, !dbg !772, !tbaa !773\l  ret void, !dbg !777\l}"];
+}

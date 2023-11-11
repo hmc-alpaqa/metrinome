@@ -1,0 +1,10 @@
+digraph "CFG for 'strict_posix2' function" {
+	label="CFG for 'strict_posix2' function";
+
+	Node0x17f0c20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca i32, align 4\l  %2 = bitcast i32* %1 to i8*, !dbg !751\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %2) #21, !dbg !751\l  call void @llvm.dbg.declare(metadata i32* %1, metadata !750, metadata\l... !DIExpression()), !dbg !752\l  %3 = call i32 @posix2_version(), !dbg !753\l  store i32 %3, i32* %1, align 4, !dbg !752, !tbaa !754\l  %4 = load i32, i32* %1, align 4, !dbg !758, !tbaa !754\l  %5 = icmp sle i32 200112, %4, !dbg !759\l  br i1 %5, label %6, label %9, !dbg !760\l|{<s0>T|<s1>F}}"];
+	Node0x17f0c20:s0 -> Node0x17d8ff0;
+	Node0x17f0c20:s1 -> Node0x17d9040;
+	Node0x17d8ff0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%6:\l6:                                                \l  %7 = load i32, i32* %1, align 4, !dbg !761, !tbaa !754\l  %8 = icmp slt i32 %7, 200809, !dbg !762\l  br label %9\l}"];
+	Node0x17d8ff0 -> Node0x17d9040;
+	Node0x17d9040 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = phi i1 [ false, %0 ], [ %8, %6 ], !dbg !763\l  %11 = bitcast i32* %1 to i8*, !dbg !764\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %11) #21, !dbg !764\l  ret i1 %10, !dbg !765\l}"];
+}

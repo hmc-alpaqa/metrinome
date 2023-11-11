@@ -1,0 +1,10 @@
+digraph "CFG for 'ignorable_missing' function" {
+	label="CFG for 'ignorable_missing' function";
+
+	Node0x10afd50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca %struct.rm_options*, align 8\l  %4 = alloca i32, align 4\l  store %struct.rm_options* %0, %struct.rm_options** %3, align 8, !tbaa !1525\l  call void @llvm.dbg.declare(metadata %struct.rm_options** %3, metadata\l... !1523, metadata !DIExpression()), !dbg !1529\l  store i32 %1, i32* %4, align 4, !tbaa !1530\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1524, metadata\l... !DIExpression()), !dbg !1532\l  %5 = load %struct.rm_options*, %struct.rm_options** %3, align 8, !dbg !1533,\l... !tbaa !1525\l  %6 = getelementptr inbounds %struct.rm_options, %struct.rm_options* %5, i32\l... 0, i32 0, !dbg !1534\l  %7 = load i8, i8* %6, align 8, !dbg !1534, !tbaa !1535, !range !1538\l  %8 = trunc i8 %7 to i1, !dbg !1534\l  br i1 %8, label %9, label %12, !dbg !1539\l|{<s0>T|<s1>F}}"];
+	Node0x10afd50:s0 -> Node0x10b75f0;
+	Node0x10afd50:s1 -> Node0x10b7640;
+	Node0x10b75f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%9:\l9:                                                \l  %10 = load i32, i32* %4, align 4, !dbg !1540, !tbaa !1530\l  %11 = call zeroext i1 @nonexistent_file_errno(i32 noundef %10), !dbg !1541\l  br label %12\l}"];
+	Node0x10b75f0 -> Node0x10b7640;
+	Node0x10b7640 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = phi i1 [ false, %2 ], [ %11, %9 ], !dbg !1542\l  ret i1 %13, !dbg !1543\l}"];
+}

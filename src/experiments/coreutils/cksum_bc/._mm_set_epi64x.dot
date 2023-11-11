@@ -1,0 +1,5 @@
+digraph "CFG for '_mm_set_epi64x' function" {
+	label="CFG for '_mm_set_epi64x' function";
+
+	Node0x27c0090 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  %5 = alloca \<2 x i64\>, align 16\l  store i64 %0, i64* %3, align 8, !tbaa !1279\l  store i64 %1, i64* %4, align 8, !tbaa !1279\l  %6 = load i64, i64* %4, align 8, !tbaa !1279\l  %7 = insertelement \<2 x i64\> undef, i64 %6, i32 0\l  %8 = load i64, i64* %3, align 8, !tbaa !1279\l  %9 = insertelement \<2 x i64\> %7, i64 %8, i32 1\l  store \<2 x i64\> %9, \<2 x i64\>* %5, align 16, !tbaa !1283\l  %10 = load \<2 x i64\>, \<2 x i64\>* %5, align 16, !tbaa !1283\l  ret \<2 x i64\> %10\l}"];
+}

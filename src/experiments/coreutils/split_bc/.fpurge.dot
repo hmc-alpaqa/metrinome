@@ -1,0 +1,5 @@
+digraph "CFG for 'fpurge' function" {
+	label="CFG for 'fpurge' function";
+
+	Node0xcc2da0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct._IO_FILE*, align 8\l  store %struct._IO_FILE* %0, %struct._IO_FILE** %2, align 8, !tbaa !1070\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %2, metadata !1069,\l... metadata !DIExpression()), !dbg !1074\l  %3 = load %struct._IO_FILE*, %struct._IO_FILE** %2, align 8, !dbg !1075,\l... !tbaa !1070\l  call void @__fpurge(%struct._IO_FILE* noundef %3) #24, !dbg !1076\l  ret i32 0, !dbg !1077\l}"];
+}

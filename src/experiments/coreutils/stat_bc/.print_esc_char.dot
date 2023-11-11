@@ -1,0 +1,37 @@
+digraph "CFG for 'print_esc_char' function" {
+	label="CFG for 'print_esc_char' function";
+
+	Node0x16390c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !1385\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !1384, metadata\l... !DIExpression()), !dbg !1388\l  %3 = load i8, i8* %2, align 1, !dbg !1389, !tbaa !1385\l  %4 = sext i8 %3 to i32, !dbg !1389\l  switch i32 %4, label %14 [\l    i32 97, label %5\l    i32 98, label %6\l    i32 101, label %7\l    i32 102, label %8\l    i32 110, label %9\l    i32 114, label %10\l    i32 116, label %11\l    i32 118, label %12\l    i32 34, label %13\l    i32 92, label %13\l  ], !dbg !1390\l|{<s0>def|<s1>97|<s2>98|<s3>101|<s4>102|<s5>110|<s6>114|<s7>116|<s8>118|<s9>34|<s10>92}}"];
+	Node0x16390c0:s0 -> Node0x1639a30;
+	Node0x16390c0:s1 -> Node0x1639760;
+	Node0x16390c0:s2 -> Node0x16397b0;
+	Node0x16390c0:s3 -> Node0x1639800;
+	Node0x16390c0:s4 -> Node0x1639850;
+	Node0x16390c0:s5 -> Node0x16398a0;
+	Node0x16390c0:s6 -> Node0x16398f0;
+	Node0x16390c0:s7 -> Node0x1639940;
+	Node0x16390c0:s8 -> Node0x1639990;
+	Node0x16390c0:s9 -> Node0x16399e0;
+	Node0x16390c0:s10 -> Node0x16399e0;
+	Node0x1639760 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%5:\l5:                                                \l  store i8 7, i8* %2, align 1, !dbg !1391, !tbaa !1385\l  br label %17, !dbg !1393\l}"];
+	Node0x1639760 -> Node0x1639a80;
+	Node0x16397b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%6:\l6:                                                \l  store i8 8, i8* %2, align 1, !dbg !1394, !tbaa !1385\l  br label %17, !dbg !1395\l}"];
+	Node0x16397b0 -> Node0x1639a80;
+	Node0x1639800 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%7:\l7:                                                \l  store i8 27, i8* %2, align 1, !dbg !1396, !tbaa !1385\l  br label %17, !dbg !1397\l}"];
+	Node0x1639800 -> Node0x1639a80;
+	Node0x1639850 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%8:\l8:                                                \l  store i8 12, i8* %2, align 1, !dbg !1398, !tbaa !1385\l  br label %17, !dbg !1399\l}"];
+	Node0x1639850 -> Node0x1639a80;
+	Node0x16398a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%9:\l9:                                                \l  store i8 10, i8* %2, align 1, !dbg !1400, !tbaa !1385\l  br label %17, !dbg !1401\l}"];
+	Node0x16398a0 -> Node0x1639a80;
+	Node0x16398f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%10:\l10:                                               \l  store i8 13, i8* %2, align 1, !dbg !1402, !tbaa !1385\l  br label %17, !dbg !1403\l}"];
+	Node0x16398f0 -> Node0x1639a80;
+	Node0x1639940 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%11:\l11:                                               \l  store i8 9, i8* %2, align 1, !dbg !1404, !tbaa !1385\l  br label %17, !dbg !1405\l}"];
+	Node0x1639940 -> Node0x1639a80;
+	Node0x1639990 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%12:\l12:                                               \l  store i8 11, i8* %2, align 1, !dbg !1406, !tbaa !1385\l  br label %17, !dbg !1407\l}"];
+	Node0x1639990 -> Node0x1639a80;
+	Node0x16399e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2cab570",label="{%13:\l13:                                               \l  br label %17, !dbg !1408\l}"];
+	Node0x16399e0 -> Node0x1639a80;
+	Node0x1639a30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d4dbe670",label="{%14:\l14:                                               \l  %15 = load i8, i8* %2, align 1, !dbg !1409, !tbaa !1385\l  %16 = sext i8 %15 to i32, !dbg !1409\l  call void (i32, i32, i8*, ...) @error(i32 noundef 0, i32 noundef 0, i8*\l... noundef getelementptr inbounds ([35 x i8], [35 x i8]* @.str.93, i64 0, i64\l... 0), i32 noundef %16), !dbg !1409\l  br label %17, !dbg !1410\l}"];
+	Node0x1639a30 -> Node0x1639a80;
+	Node0x1639a80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%17:\l17:                                               \l  %18 = load i8, i8* %2, align 1, !dbg !1411, !tbaa !1385\l  %19 = sext i8 %18 to i32, !dbg !1411\l  %20 = call i32 @putchar_unlocked(i32 noundef %19), !dbg !1411\l  ret void, !dbg !1412\l}"];
+}

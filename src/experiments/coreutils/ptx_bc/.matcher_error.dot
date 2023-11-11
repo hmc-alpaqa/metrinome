@@ -1,0 +1,5 @@
+digraph "CFG for 'matcher_error' function" {
+	label="CFG for 'matcher_error' function";
+
+	Node0x169e470 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = call i32* @__errno_location() #21, !dbg !856\l  %2 = load i32, i32* %1, align 4, !dbg !856, !tbaa !857\l  call void (i32, i32, i8*, ...) @error(i32 noundef 1, i32 noundef %2, i8*\l... noundef getelementptr inbounds ([36 x i8], [36 x i8]* @.str.68, i64 0, i64\l... 0)), !dbg !856\l  unreachable, !dbg !856\l}"];
+}

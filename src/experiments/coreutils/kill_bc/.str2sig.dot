@@ -1,0 +1,5 @@
+digraph "CFG for 'str2sig' function" {
+	label="CFG for 'str2sig' function";
+
+	Node0x1b83ce0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i32*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !662\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !660, metadata\l... !DIExpression()), !dbg !666\l  store i32* %1, i32** %4, align 8, !tbaa !662\l  call void @llvm.dbg.declare(metadata i32** %4, metadata !661, metadata\l... !DIExpression()), !dbg !667\l  %5 = load i8*, i8** %3, align 8, !dbg !668, !tbaa !662\l  %6 = call i32 @str2signum(i8* noundef %5), !dbg !669\l  %7 = load i32*, i32** %4, align 8, !dbg !670, !tbaa !662\l  store i32 %6, i32* %7, align 4, !dbg !671, !tbaa !672\l  %8 = load i32*, i32** %4, align 8, !dbg !674, !tbaa !662\l  %9 = load i32, i32* %8, align 4, !dbg !675, !tbaa !672\l  %10 = icmp slt i32 %9, 0, !dbg !676\l  %11 = zext i1 %10 to i64, !dbg !675\l  %12 = select i1 %10, i32 -1, i32 0, !dbg !675\l  ret i32 %12, !dbg !677\l}"];
+}

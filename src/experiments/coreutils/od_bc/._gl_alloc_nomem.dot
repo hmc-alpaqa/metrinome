@@ -1,0 +1,5 @@
+digraph "CFG for '_gl_alloc_nomem' function" {
+	label="CFG for '_gl_alloc_nomem' function";
+
+	Node0xbd0030 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = call i32* @__errno_location() #24, !dbg !1230\l  store i32 12, i32* %1, align 4, !dbg !1231, !tbaa !1232\l  ret i8* null, !dbg !1236\l}"];
+}

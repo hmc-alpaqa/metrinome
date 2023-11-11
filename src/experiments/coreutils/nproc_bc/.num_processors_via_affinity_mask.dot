@@ -1,0 +1,29 @@
+digraph "CFG for 'num_processors_via_affinity_mask' function" {
+	label="CFG for 'num_processors_via_affinity_mask' function";
+
+	Node0xe58e70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = alloca i64, align 8\l  %2 = alloca %struct.cpu_set_t, align 8\l  %3 = alloca i64, align 8\l  %4 = alloca i32, align 4\l  %5 = bitcast %struct.cpu_set_t* %2 to i8*, !dbg !901\l  call void @llvm.lifetime.start.p0i8(i64 128, i8* %5) #22, !dbg !901\l  call void @llvm.dbg.declare(metadata %struct.cpu_set_t* %2, metadata !887,\l... metadata !DIExpression()), !dbg !902\l  %6 = call i32 @sched_getaffinity(i32 noundef 0, i64 noundef 128,\l... %struct.cpu_set_t* noundef %2) #22, !dbg !903\l  %7 = icmp eq i32 %6, 0, !dbg !904\l  br i1 %7, label %8, label %21, !dbg !905\l|{<s0>T|<s1>F}}"];
+	Node0xe58e70:s0 -> Node0xe453e0;
+	Node0xe58e70:s1 -> Node0xe45570;
+	Node0xe453e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%8:\l8:                                                \l  %9 = bitcast i64* %3 to i8*, !dbg !906\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %9) #22, !dbg !906\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !898, metadata\l... !DIExpression()), !dbg !907\l  %10 = call i32 @__sched_cpucount(i64 noundef 128, %struct.cpu_set_t* noundef\l... %2) #22, !dbg !908\l  %11 = sext i32 %10 to i64, !dbg !908\l  store i64 %11, i64* %3, align 8, !dbg !909, !tbaa !910\l  %12 = load i64, i64* %3, align 8, !dbg !914, !tbaa !910\l  %13 = icmp ugt i64 %12, 0, !dbg !916\l  br i1 %13, label %14, label %16, !dbg !917\l|{<s0>T|<s1>F}}"];
+	Node0xe453e0:s0 -> Node0xe45430;
+	Node0xe453e0:s1 -> Node0xe45480;
+	Node0xe45430 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%14:\l14:                                               \l  %15 = load i64, i64* %3, align 8, !dbg !918, !tbaa !910\l  store i64 %15, i64* %1, align 8, !dbg !919\l  store i32 1, i32* %4, align 4\l  br label %17, !dbg !919\l}"];
+	Node0xe45430 -> Node0xe454d0;
+	Node0xe45480 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%16:\l16:                                               \l  store i32 0, i32* %4, align 4, !dbg !920\l  br label %17, !dbg !920\l}"];
+	Node0xe45480 -> Node0xe454d0;
+	Node0xe454d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c5333470",label="{%17:\l17:                                               \l  %18 = bitcast i64* %3 to i8*, !dbg !920\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %18) #22, !dbg !920\l  %19 = load i32, i32* %4, align 4\l  switch i32 %19, label %22 [\l    i32 0, label %20\l  ]\l|{<s0>def|<s1>0}}"];
+	Node0xe454d0:s0 -> Node0xe455c0;
+	Node0xe454d0:s1 -> Node0xe45520;
+	Node0xe45520 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d0473d70",label="{%20:\l20:                                               \l  br label %21, !dbg !921\l}"];
+	Node0xe45520 -> Node0xe45570;
+	Node0xe45570 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%21:\l21:                                               \l  store i32 0, i32* %4, align 4, !dbg !922\l  br label %22, !dbg !922\l}"];
+	Node0xe45570 -> Node0xe455c0;
+	Node0xe455c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%22:\l22:                                               \l  %23 = bitcast %struct.cpu_set_t* %2 to i8*, !dbg !922\l  call void @llvm.lifetime.end.p0i8(i64 128, i8* %23) #22, !dbg !922\l  %24 = load i32, i32* %4, align 4\l  switch i32 %24, label %28 [\l    i32 0, label %25\l    i32 1, label %26\l  ]\l|{<s0>def|<s1>0|<s2>1}}"];
+	Node0xe455c0:s0 -> Node0xe456b0;
+	Node0xe455c0:s1 -> Node0xe45610;
+	Node0xe455c0:s2 -> Node0xe45660;
+	Node0xe45610 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#c32e3170",label="{%25:\l25:                                               \l  store i64 0, i64* %1, align 8, !dbg !923\l  br label %26, !dbg !923\l}"];
+	Node0xe45610 -> Node0xe45660;
+	Node0xe45660 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%26:\l26:                                               \l  %27 = load i64, i64* %1, align 8, !dbg !924\l  ret i64 %27, !dbg !924\l}"];
+	Node0xe456b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5977e370",label="{%28:\l28:                                               \l  unreachable\l}"];
+}

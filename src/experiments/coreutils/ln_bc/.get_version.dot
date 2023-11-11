@@ -1,0 +1,15 @@
+digraph "CFG for 'get_version' function" {
+	label="CFG for 'get_version' function";
+
+	Node0xbcc9d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !917\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !915, metadata\l... !DIExpression()), !dbg !921\l  store i8* %1, i8** %5, align 8, !tbaa !917\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !916, metadata\l... !DIExpression()), !dbg !922\l  %6 = load i8*, i8** %5, align 8, !dbg !923, !tbaa !917\l  %7 = icmp eq i8* %6, null, !dbg !925\l  br i1 %7, label %13, label %8, !dbg !926\l|{<s0>T|<s1>F}}"];
+	Node0xbcc9d0:s0 -> Node0xbccaa0;
+	Node0xbcc9d0:s1 -> Node0xbcca50;
+	Node0xbcca50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e97a5f70",label="{%8:\l8:                                                \l  %9 = load i8*, i8** %5, align 8, !dbg !927, !tbaa !917\l  %10 = load i8, i8* %9, align 1, !dbg !928, !tbaa !929\l  %11 = sext i8 %10 to i32, !dbg !928\l  %12 = icmp eq i32 %11, 0, !dbg !930\l  br i1 %12, label %13, label %14, !dbg !931\l|{<s0>T|<s1>F}}"];
+	Node0xbcca50:s0 -> Node0xbccaa0;
+	Node0xbcca50:s1 -> Node0xbccaf0;
+	Node0xbccaa0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e97a5f70",label="{%13:\l13:                                               \l  store i32 2, i32* %3, align 4, !dbg !932\l  br label %21, !dbg !932\l}"];
+	Node0xbccaa0 -> Node0xbccb40;
+	Node0xbccaf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%14:\l14:                                               \l  %15 = load i8*, i8** %4, align 8, !dbg !933, !tbaa !917\l  %16 = load i8*, i8** %5, align 8, !dbg !933, !tbaa !917\l  %17 = load void ()*, void ()** @argmatch_die, align 8, !dbg !933, !tbaa !917\l  %18 = call i64 @__xargmatch_internal(i8* noundef %15, i8* noundef %16, i8**\l... noundef getelementptr inbounds ([9 x i8*], [9 x i8*]* @backup_args, i64 0,\l... i64 0), i8* noundef bitcast ([8 x i32]* @backup_types to i8*), i64 noundef 4,\l... void ()* noundef %17, i1 noundef zeroext true), !dbg !933\l  %19 = getelementptr inbounds [8 x i32], [8 x i32]* @backup_types, i64 0, i64\l... %18, !dbg !933\l  %20 = load i32, i32* %19, align 4, !dbg !933, !tbaa !929\l  store i32 %20, i32* %3, align 4, !dbg !934\l  br label %21, !dbg !934\l}"];
+	Node0xbccaf0 -> Node0xbccb40;
+	Node0xbccb40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%21:\l21:                                               \l  %22 = load i32, i32* %3, align 4, !dbg !935\l  ret i32 %22, !dbg !935\l}"];
+}

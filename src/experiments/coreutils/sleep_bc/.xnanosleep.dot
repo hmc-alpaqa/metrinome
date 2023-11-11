@@ -1,0 +1,36 @@
+digraph "CFG for 'xnanosleep' function" {
+	label="CFG for 'xnanosleep' function";
+
+	Node0x96a9b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%1:\l  %2 = alloca i32, align 4\l  %3 = alloca double, align 8\l  %4 = alloca %struct.timespec, align 8\l  %5 = alloca i32, align 4\l  store double %0, double* %3, align 8, !tbaa !703\l  call void @llvm.dbg.declare(metadata double* %3, metadata !695, metadata\l... !DIExpression()), !dbg !707\l  %6 = load double, double* %3, align 8, !dbg !708, !tbaa !703\l  %7 = fcmp ole double 0x43E0000000000000, %6, !dbg !710\l  br i1 %7, label %8, label %16, !dbg !711\l|{<s0>T|<s1>F}}"];
+	Node0x96a9b0:s0 -> Node0x96aa80;
+	Node0x96a9b0:s1 -> Node0x96abc0;
+	Node0x96aa80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#bfd3f670",label="{%8:\l8:                                                \l  br label %9, !dbg !712\l}"];
+	Node0x96aa80 -> Node0x96aad0;
+	Node0x96aad0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#ca3b3770",label="{%9:\l9:                                                \l  %10 = call i32 @pause(), !dbg !714\l  br label %11, !dbg !714\l}"];
+	Node0x96aad0 -> Node0x96ab20;
+	Node0x96ab20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#ca3b3770",label="{%11:\l11:                                               \l  %12 = call i32* @__errno_location() #23, !dbg !715\l  %13 = load i32, i32* %12, align 4, !dbg !715, !tbaa !716\l  %14 = icmp eq i32 %13, 4, !dbg !718\l  br i1 %14, label %9, label %15, !dbg !714, !llvm.loop !719\l|{<s0>T|<s1>F}}"];
+	Node0x96ab20:s0 -> Node0x96aad0;
+	Node0x96ab20:s1 -> Node0x96ab70;
+	Node0x96ab70 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#bfd3f670",label="{%15:\l15:                                               \l  br label %16, !dbg !723\l}"];
+	Node0x96ab70 -> Node0x96abc0;
+	Node0x96abc0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%16:\l16:                                               \l  %17 = bitcast %struct.timespec* %4 to i8*, !dbg !724\l  call void @llvm.lifetime.start.p0i8(i64 16, i8* %17) #24, !dbg !724\l  call void @llvm.dbg.declare(metadata %struct.timespec* %4, metadata !696,\l... metadata !DIExpression()), !dbg !725\l  %18 = load double, double* %3, align 8, !dbg !726, !tbaa !703\l  %19 = call \{ i64, i64 \} @dtotimespec(double noundef %18) #23, !dbg !727\l  %20 = bitcast %struct.timespec* %4 to \{ i64, i64 \}*, !dbg !727\l  %21 = getelementptr inbounds \{ i64, i64 \}, \{ i64, i64 \}* %20, i32 0, i32 0,\l... !dbg !727\l  %22 = extractvalue \{ i64, i64 \} %19, 0, !dbg !727\l  store i64 %22, i64* %21, align 8, !dbg !727\l  %23 = getelementptr inbounds \{ i64, i64 \}, \{ i64, i64 \}* %20, i32 0, i32 1,\l... !dbg !727\l  %24 = extractvalue \{ i64, i64 \} %19, 1, !dbg !727\l  store i64 %24, i64* %23, align 8, !dbg !727\l  br label %25, !dbg !728\l}"];
+	Node0x96abc0 -> Node0x96ac10;
+	Node0x96ac10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%25:\l25:                                               \l  %26 = call i32* @__errno_location() #23, !dbg !729\l  store i32 0, i32* %26, align 4, !dbg !733, !tbaa !716\l  %27 = call i32 @rpl_nanosleep(%struct.timespec* noundef %4,\l... %struct.timespec* noundef %4), !dbg !734\l  %28 = icmp eq i32 %27, 0, !dbg !736\l  br i1 %28, label %29, label %30, !dbg !737\l|{<s0>T|<s1>F}}"];
+	Node0x96ac10:s0 -> Node0x96ac60;
+	Node0x96ac10:s1 -> Node0x96acb0;
+	Node0x96ac60 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%29:\l29:                                               \l  br label %40, !dbg !738\l}"];
+	Node0x96ac60 -> Node0x96adf0;
+	Node0x96acb0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%30:\l30:                                               \l  %31 = call i32* @__errno_location() #23, !dbg !739\l  %32 = load i32, i32* %31, align 4, !dbg !739, !tbaa !716\l  %33 = icmp ne i32 %32, 4, !dbg !741\l  br i1 %33, label %34, label %39, !dbg !742\l|{<s0>T|<s1>F}}"];
+	Node0x96acb0:s0 -> Node0x96ad00;
+	Node0x96acb0:s1 -> Node0x96ada0;
+	Node0x96ad00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%34:\l34:                                               \l  %35 = call i32* @__errno_location() #23, !dbg !743\l  %36 = load i32, i32* %35, align 4, !dbg !743, !tbaa !716\l  %37 = icmp ne i32 %36, 0, !dbg !744\l  br i1 %37, label %38, label %39, !dbg !745\l|{<s0>T|<s1>F}}"];
+	Node0x96ad00:s0 -> Node0x96ad50;
+	Node0x96ad00:s1 -> Node0x96ada0;
+	Node0x96ad50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#abc8fd70",label="{%38:\l38:                                               \l  store i32 -1, i32* %2, align 4, !dbg !746\l  store i32 1, i32* %5, align 4\l  br label %41, !dbg !746\l}"];
+	Node0x96ad50 -> Node0x96ae40;
+	Node0x96ada0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%39:\l39:                                               \l  br label %25, !dbg !747, !llvm.loop !748\l}"];
+	Node0x96ada0 -> Node0x96ac10;
+	Node0x96adf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%40:\l40:                                               \l  store i32 0, i32* %2, align 4, !dbg !751\l  store i32 1, i32* %5, align 4\l  br label %41, !dbg !751\l}"];
+	Node0x96adf0 -> Node0x96ae40;
+	Node0x96ae40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%41:\l41:                                               \l  %42 = bitcast %struct.timespec* %4 to i8*, !dbg !752\l  call void @llvm.lifetime.end.p0i8(i64 16, i8* %42) #24, !dbg !752\l  %43 = load i32, i32* %2, align 4, !dbg !752\l  ret i32 %43, !dbg !752\l}"];
+}

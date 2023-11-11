@@ -1,0 +1,24 @@
+digraph "CFG for 'rpl_fts_set' function" {
+	label="CFG for 'rpl_fts_set' function";
+
+	Node0x25fc0e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca %struct.FTS*, align 8\l  %6 = alloca %struct._ftsent*, align 8\l  %7 = alloca i32, align 4\l  store %struct.FTS* %0, %struct.FTS** %5, align 8, !tbaa !1520\l  call void @llvm.dbg.declare(metadata %struct.FTS** %5, metadata !1517,\l... metadata !DIExpression()), !dbg !1524\l  store %struct._ftsent* %1, %struct._ftsent** %6, align 8, !tbaa !1520\l  call void @llvm.dbg.declare(metadata %struct._ftsent** %6, metadata !1518,\l... metadata !DIExpression()), !dbg !1525\l  store i32 %2, i32* %7, align 4, !tbaa !1526\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !1519, metadata\l... !DIExpression()), !dbg !1528\l  %8 = load i32, i32* %7, align 4, !dbg !1529, !tbaa !1526\l  %9 = icmp ne i32 %8, 0, !dbg !1531\l  br i1 %9, label %10, label %24, !dbg !1532\l|{<s0>T|<s1>F}}"];
+	Node0x25fc0e0:s0 -> Node0x25fc130;
+	Node0x25fc0e0:s1 -> Node0x25fc2c0;
+	Node0x25fc130 [shape=record,color="#b70d28ff", style=filled, fillcolor="#d6524470",label="{%10:\l10:                                               \l  %11 = load i32, i32* %7, align 4, !dbg !1533, !tbaa !1526\l  %12 = icmp ne i32 %11, 1, !dbg !1534\l  br i1 %12, label %13, label %24, !dbg !1535\l|{<s0>T|<s1>F}}"];
+	Node0x25fc130:s0 -> Node0x25fc180;
+	Node0x25fc130:s1 -> Node0x25fc2c0;
+	Node0x25fc180 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f2907270",label="{%13:\l13:                                               \l  %14 = load i32, i32* %7, align 4, !dbg !1536, !tbaa !1526\l  %15 = icmp ne i32 %14, 2, !dbg !1537\l  br i1 %15, label %16, label %24, !dbg !1538\l|{<s0>T|<s1>F}}"];
+	Node0x25fc180:s0 -> Node0x25fc1d0;
+	Node0x25fc180:s1 -> Node0x25fc2c0;
+	Node0x25fc1d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f6bfa670",label="{%16:\l16:                                               \l  %17 = load i32, i32* %7, align 4, !dbg !1539, !tbaa !1526\l  %18 = icmp ne i32 %17, 3, !dbg !1540\l  br i1 %18, label %19, label %24, !dbg !1541\l|{<s0>T|<s1>F}}"];
+	Node0x25fc1d0:s0 -> Node0x25fc220;
+	Node0x25fc1d0:s1 -> Node0x25fc2c0;
+	Node0x25fc220 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dedcdb70",label="{%19:\l19:                                               \l  %20 = load i32, i32* %7, align 4, !dbg !1542, !tbaa !1526\l  %21 = icmp ne i32 %20, 4, !dbg !1543\l  br i1 %21, label %22, label %24, !dbg !1544\l|{<s0>T|<s1>F}}"];
+	Node0x25fc220:s0 -> Node0x25fc270;
+	Node0x25fc220:s1 -> Node0x25fc2c0;
+	Node0x25fc270 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#bfd3f670",label="{%22:\l22:                                               \l  %23 = call i32* @__errno_location() #24, !dbg !1545\l  store i32 22, i32* %23, align 4, !dbg !1545, !tbaa !1526\l  store i32 1, i32* %4, align 4, !dbg !1547\l  br label %29, !dbg !1547\l}"];
+	Node0x25fc270 -> Node0x25fc310;
+	Node0x25fc2c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%24:\l24:                                               \l  %25 = load i32, i32* %7, align 4, !dbg !1548, !tbaa !1526\l  %26 = trunc i32 %25 to i16, !dbg !1548\l  %27 = load %struct._ftsent*, %struct._ftsent** %6, align 8, !dbg !1549,\l... !tbaa !1520\l  %28 = getelementptr inbounds %struct._ftsent, %struct._ftsent* %27, i32 0,\l... i32 16, !dbg !1550\l  store i16 %26, i16* %28, align 4, !dbg !1551, !tbaa !1552\l  store i32 0, i32* %4, align 4, !dbg !1554\l  br label %29, !dbg !1554\l}"];
+	Node0x25fc2c0 -> Node0x25fc310;
+	Node0x25fc310 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%29:\l29:                                               \l  %30 = load i32, i32* %4, align 4, !dbg !1555\l  ret i32 %30, !dbg !1555\l}"];
+}

@@ -1,0 +1,12 @@
+digraph "CFG for 'bkm_scale_by_power' function" {
+	label="CFG for 'bkm_scale_by_power' function";
+
+	Node0xa0cd80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%3:\l  %4 = alloca i64*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i32, align 4\l  %7 = alloca i32, align 4\l  store i64* %0, i64** %4, align 8, !tbaa !765\l  call void @llvm.dbg.declare(metadata i64** %4, metadata !761, metadata\l... !DIExpression()), !dbg !769\l  store i32 %1, i32* %5, align 4, !tbaa !770\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !762, metadata\l... !DIExpression()), !dbg !772\l  store i32 %2, i32* %6, align 4, !tbaa !770\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !763, metadata\l... !DIExpression()), !dbg !773\l  %8 = bitcast i32* %7 to i8*, !dbg !774\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %8) #21, !dbg !774\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !764, metadata\l... !DIExpression()), !dbg !775\l  store i32 0, i32* %7, align 4, !dbg !775, !tbaa !776\l  br label %9, !dbg !777\l}"];
+	Node0xa0cd80 -> Node0xa0f1c0;
+	Node0xa0f1c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load i32, i32* %6, align 4, !dbg !778, !tbaa !770\l  %11 = add nsw i32 %10, -1, !dbg !778\l  store i32 %11, i32* %6, align 4, !dbg !778, !tbaa !770\l  %12 = icmp ne i32 %10, 0, !dbg !777\l  br i1 %12, label %13, label %19, !dbg !777\l|{<s0>T|<s1>F}}"];
+	Node0xa0f1c0:s0 -> Node0xa0f210;
+	Node0xa0f1c0:s1 -> Node0xa0f260;
+	Node0xa0f210 [shape=record,color="#b70d28ff", style=filled, fillcolor="#bb1b2c70",label="{%13:\l13:                                               \l  %14 = load i64*, i64** %4, align 8, !dbg !779, !tbaa !765\l  %15 = load i32, i32* %5, align 4, !dbg !780, !tbaa !770\l  %16 = call i32 @bkm_scale(i64* noundef %14, i32 noundef %15), !dbg !781\l  %17 = load i32, i32* %7, align 4, !dbg !782, !tbaa !776\l  %18 = or i32 %17, %16, !dbg !782\l  store i32 %18, i32* %7, align 4, !dbg !782, !tbaa !776\l  br label %9, !dbg !777, !llvm.loop !783\l}"];
+	Node0xa0f210 -> Node0xa0f1c0;
+	Node0xa0f260 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%19:\l19:                                               \l  %20 = load i32, i32* %7, align 4, !dbg !787, !tbaa !776\l  %21 = bitcast i32* %7 to i8*, !dbg !788\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %21) #21, !dbg !788\l  ret i32 %20, !dbg !789\l}"];
+}

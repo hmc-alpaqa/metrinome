@@ -1,0 +1,10 @@
+digraph "CFG for 'direxists' function" {
+	label="CFG for 'direxists' function";
+
+	Node0xd91f20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca %struct.stat, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !1058\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !1035, metadata\l... !DIExpression()), !dbg !1062\l  %4 = bitcast %struct.stat* %3 to i8*, !dbg !1063\l  call void @llvm.lifetime.start.p0i8(i64 144, i8* %4) #24, !dbg !1063\l  call void @llvm.dbg.declare(metadata %struct.stat* %3, metadata !1036,\l... metadata !DIExpression()), !dbg !1064\l  %5 = load i8*, i8** %2, align 8, !dbg !1065, !tbaa !1058\l  %6 = call i32 @stat(i8* noundef %5, %struct.stat* noundef %3) #24, !dbg !1065\l  %7 = icmp eq i32 %6, 0, !dbg !1066\l  br i1 %7, label %8, label %13, !dbg !1067\l|{<s0>T|<s1>F}}"];
+	Node0xd91f20:s0 -> Node0xd92030;
+	Node0xd91f20:s1 -> Node0xd92080;
+	Node0xd92030 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7b39670",label="{%8:\l8:                                                \l  %9 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 3,\l... !dbg !1068\l  %10 = load i32, i32* %9, align 8, !dbg !1068, !tbaa !1069\l  %11 = and i32 %10, 61440, !dbg !1068\l  %12 = icmp eq i32 %11, 16384, !dbg !1068\l  br label %13\l}"];
+	Node0xd92030 -> Node0xd92080;
+	Node0xd92080 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%13:\l13:                                               \l  %14 = phi i1 [ false, %1 ], [ %12, %8 ], !dbg !1074\l  %15 = bitcast %struct.stat* %3 to i8*, !dbg !1075\l  call void @llvm.lifetime.end.p0i8(i64 144, i8* %15) #24, !dbg !1075\l  ret i1 %14, !dbg !1076\l}"];
+}

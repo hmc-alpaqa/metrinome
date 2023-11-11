@@ -1,0 +1,5 @@
+digraph "CFG for 'selabel_close' function" {
+	label="CFG for 'selabel_close' function";
+
+	Node0x1b50bf0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.selabel_handle*, align 8\l  store %struct.selabel_handle* %0, %struct.selabel_handle** %2, align 8,\l... !tbaa !1740\l  call void @llvm.dbg.declare(metadata %struct.selabel_handle** %2, metadata\l... !1739, metadata !DIExpression()), !dbg !1744\l  %3 = call i32* @__errno_location() #26, !dbg !1745\l  store i32 95, i32* %3, align 4, !dbg !1746, !tbaa !1747\l  ret void, !dbg !1749\l}"];
+}

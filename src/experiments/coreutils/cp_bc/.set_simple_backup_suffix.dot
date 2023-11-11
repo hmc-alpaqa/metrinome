@@ -1,0 +1,23 @@
+digraph "CFG for 'set_simple_backup_suffix' function" {
+	label="CFG for 'set_simple_backup_suffix' function";
+
+	Node0xf3d130 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !1471\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !1470, metadata\l... !DIExpression()), !dbg !1475\l  %3 = load i8*, i8** %2, align 8, !dbg !1476, !tbaa !1471\l  %4 = icmp ne i8* %3, null, !dbg !1476\l  br i1 %4, label %7, label %5, !dbg !1478\l|{<s0>T|<s1>F}}"];
+	Node0xf3d130:s0 -> Node0xf3fe40;
+	Node0xf3d130:s1 -> Node0xf3fdf0;
+	Node0xf3fdf0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f59c7d70",label="{%5:\l5:                                                \l  %6 = call i8* @getenv(i8* noundef getelementptr inbounds ([21 x i8], [21 x\l... i8]* @.str.279, i64 0, i64 0)) #26, !dbg !1479\l  store i8* %6, i8** %2, align 8, !dbg !1480, !tbaa !1471\l  br label %7, !dbg !1481\l}"];
+	Node0xf3fdf0 -> Node0xf3fe40;
+	Node0xf3fe40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i8*, i8** %2, align 8, !dbg !1482, !tbaa !1471\l  %9 = icmp ne i8* %8, null, !dbg !1482\l  br i1 %9, label %10, label %22, !dbg !1483\l|{<s0>T|<s1>F}}"];
+	Node0xf3fe40:s0 -> Node0xf3fe90;
+	Node0xf3fe40:s1 -> Node0xf3ff80;
+	Node0xf3fe90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#dc5d4a70",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %2, align 8, !dbg !1484, !tbaa !1471\l  %12 = load i8, i8* %11, align 1, !dbg !1485, !tbaa !1486\l  %13 = sext i8 %12 to i32, !dbg !1485\l  %14 = icmp ne i32 %13, 0, !dbg !1485\l  br i1 %14, label %15, label %22, !dbg !1487\l|{<s0>T|<s1>F}}"];
+	Node0xf3fe90:s0 -> Node0xf3fee0;
+	Node0xf3fe90:s1 -> Node0xf3ff80;
+	Node0xf3fee0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3947570",label="{%15:\l15:                                               \l  %16 = load i8*, i8** %2, align 8, !dbg !1488, !tbaa !1471\l  %17 = load i8*, i8** %2, align 8, !dbg !1489, !tbaa !1471\l  %18 = call i8* @last_component(i8* noundef %17) #27, !dbg !1490\l  %19 = icmp eq i8* %16, %18, !dbg !1491\l  br i1 %19, label %20, label %22, !dbg !1482\l|{<s0>T|<s1>F}}"];
+	Node0xf3fee0:s0 -> Node0xf3ff30;
+	Node0xf3fee0:s1 -> Node0xf3ff80;
+	Node0xf3ff30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%20:\l20:                                               \l  %21 = load i8*, i8** %2, align 8, !dbg !1492, !tbaa !1471\l  br label %23, !dbg !1482\l}"];
+	Node0xf3ff30 -> Node0xf3ffd0;
+	Node0xf3ff80 [shape=record,color="#b70d28ff", style=filled, fillcolor="#c5333470",label="{%22:\l22:                                               \l  br label %23, !dbg !1482\l}"];
+	Node0xf3ff80 -> Node0xf3ffd0;
+	Node0xf3ffd0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%23:\l23:                                               \l  %24 = phi i8* [ %21, %20 ], [ getelementptr inbounds ([2 x i8], [2 x i8]*\l... @.str.1.280, i64 0, i64 0), %22 ], !dbg !1482\l  store i8* %24, i8** @simple_backup_suffix, align 8, !dbg !1493, !tbaa !1471\l  ret void, !dbg !1494\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'debugging' function" {
+	label="CFG for 'debugging' function";
+
+	Node0x16c6c60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.parser_control*, align 8\l  store %struct.parser_control* %0, %struct.parser_control** %2, align 8,\l... !tbaa !1641\l  call void @llvm.dbg.declare(metadata %struct.parser_control** %2, metadata\l... !1640, metadata !DIExpression()), !dbg !1645\l  %3 = load %struct.parser_control*, %struct.parser_control** %2, align 8,\l... !dbg !1646, !tbaa !1641\l  %4 = getelementptr inbounds %struct.parser_control, %struct.parser_control*\l... %3, i32 0, i32 23, !dbg !1647\l  %5 = load i8, i8* %4, align 1, !dbg !1647, !tbaa !1648, !range !1656\l  %6 = trunc i8 %5 to i1, !dbg !1647\l  ret i1 %6, !dbg !1657\l}"];
+}

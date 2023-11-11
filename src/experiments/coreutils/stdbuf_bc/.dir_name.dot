@@ -1,0 +1,9 @@
+digraph "CFG for 'dir_name' function" {
+	label="CFG for 'dir_name' function";
+
+	Node0x124d6f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !994\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !992, metadata\l... !DIExpression()), !dbg !998\l  %4 = bitcast i8** %3 to i8*, !dbg !999\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #22, !dbg !999\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !993, metadata\l... !DIExpression()), !dbg !1000\l  %5 = load i8*, i8** %2, align 8, !dbg !1001, !tbaa !994\l  %6 = call noalias i8* @mdir_name(i8* noundef %5), !dbg !1002\l  store i8* %6, i8** %3, align 8, !dbg !1000, !tbaa !994\l  %7 = load i8*, i8** %3, align 8, !dbg !1003, !tbaa !994\l  %8 = icmp ne i8* %7, null, !dbg !1003\l  br i1 %8, label %10, label %9, !dbg !1005\l|{<s0>T|<s1>F}}"];
+	Node0x124d6f0:s0 -> Node0x124d7d0;
+	Node0x124d6f0:s1 -> Node0x124d780;
+	Node0x124d780 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%9:\l9:                                                \l  call void @xalloc_die() #23, !dbg !1006\l  unreachable, !dbg !1006\l}"];
+	Node0x124d7d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %3, align 8, !dbg !1007, !tbaa !994\l  %12 = bitcast i8** %3 to i8*, !dbg !1008\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %12) #22, !dbg !1008\l  ret i8* %11, !dbg !1009\l}"];
+}

@@ -1,0 +1,19 @@
+digraph "CFG for 'proper_name_lite' function" {
+	label="CFG for 'proper_name_lite' function";
+
+	Node0x17a8450 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1126\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1123, metadata\l... !DIExpression()), !dbg !1130\l  store i8* %1, i8** %4, align 8, !tbaa !1126\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1124, metadata\l... !DIExpression()), !dbg !1131\l  %6 = bitcast i8** %5 to i8*, !dbg !1132\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #23, !dbg !1132\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1125, metadata\l... !DIExpression()), !dbg !1133\l  %7 = load i8*, i8** %3, align 8, !dbg !1134, !tbaa !1126\l  store i8* %7, i8** %5, align 8, !dbg !1133, !tbaa !1126\l  %8 = load i8*, i8** %5, align 8, !dbg !1135, !tbaa !1126\l  %9 = load i8*, i8** %3, align 8, !dbg !1136, !tbaa !1126\l  %10 = icmp ne i8* %8, %9, !dbg !1137\l  br i1 %10, label %11, label %13, !dbg !1135\l|{<s0>T|<s1>F}}"];
+	Node0x17a8450:s0 -> Node0x17a84e0;
+	Node0x17a8450:s1 -> Node0x17a8530;
+	Node0x17a84e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#de614d70",label="{%11:\l11:                                               \l  %12 = load i8*, i8** %5, align 8, !dbg !1138, !tbaa !1126\l  br label %23, !dbg !1135\l}"];
+	Node0x17a84e0 -> Node0x17a8670;
+	Node0x17a8530 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%13:\l13:                                               \l  %14 = call i8* @locale_charset(), !dbg !1139\l  %15 = call i32 @c_strcasecmp(i8* noundef %14, i8* noundef getelementptr\l... inbounds ([6 x i8], [6 x i8]* @.str.145, i64 0, i64 0)) #24, !dbg !1140\l  %16 = icmp eq i32 %15, 0, !dbg !1141\l  br i1 %16, label %17, label %19, !dbg !1140\l|{<s0>T|<s1>F}}"];
+	Node0x17a8530:s0 -> Node0x17a8580;
+	Node0x17a8530:s1 -> Node0x17a85d0;
+	Node0x17a8580 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e0dbd870",label="{%17:\l17:                                               \l  %18 = load i8*, i8** %4, align 8, !dbg !1142, !tbaa !1126\l  br label %21, !dbg !1140\l}"];
+	Node0x17a8580 -> Node0x17a8620;
+	Node0x17a85d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f5c1a970",label="{%19:\l19:                                               \l  %20 = load i8*, i8** %3, align 8, !dbg !1143, !tbaa !1126\l  br label %21, !dbg !1140\l}"];
+	Node0x17a85d0 -> Node0x17a8620;
+	Node0x17a8620 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4987a70",label="{%21:\l21:                                               \l  %22 = phi i8* [ %18, %17 ], [ %20, %19 ], !dbg !1140\l  br label %23, !dbg !1135\l}"];
+	Node0x17a8620 -> Node0x17a8670;
+	Node0x17a8670 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%23:\l23:                                               \l  %24 = phi i8* [ %12, %11 ], [ %22, %21 ], !dbg !1135\l  %25 = bitcast i8** %5 to i8*, !dbg !1144\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %25) #23, !dbg !1144\l  ret i8* %24, !dbg !1145\l}"];
+}

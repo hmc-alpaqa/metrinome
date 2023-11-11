@@ -1,0 +1,10 @@
+digraph "CFG for 'scratch_buffer_free.320' function" {
+	label="CFG for 'scratch_buffer_free.320' function";
+
+	Node0x224f370 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.scratch_buffer*, align 8\l  store %struct.scratch_buffer* %0, %struct.scratch_buffer** %2, align 8,\l... !tbaa !1895\l  call void @llvm.dbg.declare(metadata %struct.scratch_buffer** %2, metadata\l... !1894, metadata !DIExpression()), !dbg !1899\l  %3 = load %struct.scratch_buffer*, %struct.scratch_buffer** %2, align 8,\l... !dbg !1900, !tbaa !1895\l  %4 = getelementptr inbounds %struct.scratch_buffer, %struct.scratch_buffer*\l... %3, i32 0, i32 0, !dbg !1902\l  %5 = load i8*, i8** %4, align 16, !dbg !1902, !tbaa !1903\l  %6 = load %struct.scratch_buffer*, %struct.scratch_buffer** %2, align 8,\l... !dbg !1906, !tbaa !1895\l  %7 = getelementptr inbounds %struct.scratch_buffer, %struct.scratch_buffer*\l... %6, i32 0, i32 2, !dbg !1907\l  %8 = bitcast %union.anon.4* %7 to [1024 x i8]*, !dbg !1908\l  %9 = getelementptr inbounds [1024 x i8], [1024 x i8]* %8, i64 0, i64 0, !dbg\l... !1906\l  %10 = icmp ne i8* %5, %9, !dbg !1909\l  br i1 %10, label %11, label %15, !dbg !1910\l|{<s0>T|<s1>F}}"];
+	Node0x224f370:s0 -> Node0x2252510;
+	Node0x224f370:s1 -> Node0x2252560;
+	Node0x2252510 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e8765c70",label="{%11:\l11:                                               \l  %12 = load %struct.scratch_buffer*, %struct.scratch_buffer** %2, align 8,\l... !dbg !1911, !tbaa !1895\l  %13 = getelementptr inbounds %struct.scratch_buffer, %struct.scratch_buffer*\l... %12, i32 0, i32 0, !dbg !1912\l  %14 = load i8*, i8** %13, align 16, !dbg !1912, !tbaa !1903\l  call void @free(i8* noundef %14) #27, !dbg !1913\l  br label %15, !dbg !1913\l}"];
+	Node0x2252510 -> Node0x2252560;
+	Node0x2252560 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%15:\l15:                                               \l  ret void, !dbg !1914\l}"];
+}

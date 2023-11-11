@@ -1,0 +1,15 @@
+digraph "CFG for 'nonexistent_file_errno' function" {
+	label="CFG for 'nonexistent_file_errno' function";
+
+	Node0x1cbd080 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i32, align 4\l  store i32 %0, i32* %3, align 4, !tbaa !1016\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !1015, metadata\l... !DIExpression()), !dbg !1020\l  %4 = load i32, i32* %3, align 4, !dbg !1021, !tbaa !1016\l  switch i32 %4, label %6 [\l    i32 84, label %5\l    i32 22, label %5\l    i32 2, label %5\l    i32 20, label %5\l  ], !dbg !1022\l|{<s0>def|<s1>84|<s2>22|<s3>2|<s4>20}}"];
+	Node0x1cbd080:s0 -> Node0x1cbd190;
+	Node0x1cbd080:s1 -> Node0x1cbd140;
+	Node0x1cbd080:s2 -> Node0x1cbd140;
+	Node0x1cbd080:s3 -> Node0x1cbd140;
+	Node0x1cbd080:s4 -> Node0x1cbd140;
+	Node0x1cbd140 [shape=record,color="#b70d28ff", style=filled, fillcolor="#cc403a70",label="{%5:\l5:                                                \l  store i1 true, i1* %2, align 1, !dbg !1023\l  br label %7, !dbg !1023\l}"];
+	Node0x1cbd140 -> Node0x1cbd1e0;
+	Node0x1cbd190 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ecd3c570",label="{%6:\l6:                                                \l  store i1 false, i1* %2, align 1, !dbg !1025\l  br label %7, !dbg !1025\l}"];
+	Node0x1cbd190 -> Node0x1cbd1e0;
+	Node0x1cbd1e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%7:\l7:                                                \l  %8 = load i1, i1* %2, align 1, !dbg !1026\l  ret i1 %8, !dbg !1026\l}"];
+}

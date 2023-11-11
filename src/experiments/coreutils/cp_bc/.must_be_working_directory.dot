@@ -1,0 +1,31 @@
+digraph "CFG for 'must_be_working_directory' function" {
+	label="CFG for 'must_be_working_directory' function";
+
+	Node0x1159020 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b2ccfb70",label="{%1:\l  %2 = alloca i1, align 1\l  %3 = alloca i8*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1471\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1470, metadata\l... !DIExpression()), !dbg !1475\l  br label %4, !dbg !1476\l}"];
+	Node0x1159020 -> Node0x115c300;
+	Node0x115c300 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f4c5ad70",label="{%4:\l4:                                                \l  %5 = load i8*, i8** %3, align 8, !dbg !1477, !tbaa !1471\l  %6 = getelementptr inbounds i8, i8* %5, i32 1, !dbg !1477\l  store i8* %6, i8** %3, align 8, !dbg !1477, !tbaa !1471\l  %7 = load i8, i8* %5, align 1, !dbg !1478, !tbaa !1479\l  %8 = sext i8 %7 to i32, !dbg !1478\l  %9 = icmp eq i32 %8, 46, !dbg !1480\l  br i1 %9, label %10, label %34, !dbg !1476\l|{<s0>T|<s1>F}}"];
+	Node0x115c300:s0 -> Node0x115c350;
+	Node0x115c300:s1 -> Node0x115c5d0;
+	Node0x115c350 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%10:\l10:                                               \l  %11 = load i8*, i8** %3, align 8, !dbg !1481, !tbaa !1471\l  %12 = load i8, i8* %11, align 1, !dbg !1484, !tbaa !1479\l  %13 = sext i8 %12 to i32, !dbg !1484\l  %14 = icmp ne i32 %13, 47, !dbg !1485\l  br i1 %14, label %15, label %20, !dbg !1486\l|{<s0>T|<s1>F}}"];
+	Node0x115c350:s0 -> Node0x115c3a0;
+	Node0x115c350:s1 -> Node0x115c3f0;
+	Node0x115c3a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#88abfd70",label="{%15:\l15:                                               \l  %16 = load i8*, i8** %3, align 8, !dbg !1487, !tbaa !1471\l  %17 = load i8, i8* %16, align 1, !dbg !1488, !tbaa !1479\l  %18 = icmp ne i8 %17, 0, !dbg !1489\l  %19 = xor i1 %18, true, !dbg !1489\l  store i1 %19, i1* %2, align 1, !dbg !1490\l  br label %35, !dbg !1490\l}"];
+	Node0x115c3a0 -> Node0x115c620;
+	Node0x115c3f0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%20:\l20:                                               \l  br label %21, !dbg !1491\l}"];
+	Node0x115c3f0 -> Node0x115c440;
+	Node0x115c440 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%21:\l21:                                               \l  %22 = load i8*, i8** %3, align 8, !dbg !1492, !tbaa !1471\l  %23 = getelementptr inbounds i8, i8* %22, i32 1, !dbg !1492\l  store i8* %23, i8** %3, align 8, !dbg !1492, !tbaa !1471\l  %24 = load i8, i8* %23, align 1, !dbg !1493, !tbaa !1479\l  %25 = sext i8 %24 to i32, !dbg !1493\l  %26 = icmp eq i32 %25, 47, !dbg !1494\l  br i1 %26, label %27, label %28, !dbg !1491\l|{<s0>T|<s1>F}}"];
+	Node0x115c440:s0 -> Node0x115c490;
+	Node0x115c440:s1 -> Node0x115c4e0;
+	Node0x115c490 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%27:\l27:                                               \l  br label %21, !dbg !1495, !llvm.loop !1496\l}"];
+	Node0x115c490 -> Node0x115c440;
+	Node0x115c4e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%28:\l28:                                               \l  %29 = load i8*, i8** %3, align 8, !dbg !1499, !tbaa !1471\l  %30 = load i8, i8* %29, align 1, !dbg !1501, !tbaa !1479\l  %31 = icmp ne i8 %30, 0, !dbg !1501\l  br i1 %31, label %33, label %32, !dbg !1502\l|{<s0>T|<s1>F}}"];
+	Node0x115c4e0:s0 -> Node0x115c580;
+	Node0x115c4e0:s1 -> Node0x115c530;
+	Node0x115c530 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#88abfd70",label="{%32:\l32:                                               \l  store i1 true, i1* %2, align 1, !dbg !1503\l  br label %35, !dbg !1503\l}"];
+	Node0x115c530 -> Node0x115c620;
+	Node0x115c580 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f3c7b170",label="{%33:\l33:                                               \l  br label %4, !dbg !1476, !llvm.loop !1504\l}"];
+	Node0x115c580 -> Node0x115c300;
+	Node0x115c5d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#88abfd70",label="{%34:\l34:                                               \l  store i1 false, i1* %2, align 1, !dbg !1506\l  br label %35, !dbg !1506\l}"];
+	Node0x115c5d0 -> Node0x115c620;
+	Node0x115c620 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b2ccfb70",label="{%35:\l35:                                               \l  %36 = load i1, i1* %2, align 1, !dbg !1507\l  ret i1 %36, !dbg !1507\l}"];
+}

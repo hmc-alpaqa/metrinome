@@ -1,0 +1,13 @@
+digraph "CFG for 'set_normal_color' function" {
+	label="CFG for 'set_normal_color' function";
+
+	Node0x2049280 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = load i8, i8* @print_with_color, align 1, !dbg !1869, !tbaa !1871,\l... !range !1875\l  %2 = trunc i8 %1 to i1, !dbg !1869\l  br i1 %2, label %3, label %6, !dbg !1876\l|{<s0>T|<s1>F}}"];
+	Node0x2049280:s0 -> Node0x204f750;
+	Node0x2049280:s1 -> Node0x204f820;
+	Node0x204f750 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%3:\l3:                                                \l  %4 = call zeroext i1 @is_colored(i32 noundef 4), !dbg !1877\l  br i1 %4, label %5, label %6, !dbg !1878\l|{<s0>T|<s1>F}}"];
+	Node0x204f750:s0 -> Node0x204f7d0;
+	Node0x204f750:s1 -> Node0x204f820;
+	Node0x204f7d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f1ccb870",label="{%5:\l5:                                                \l  call void @put_indicator(%struct.bin_str* noundef getelementptr inbounds\l... ([24 x %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64\l... 0)), !dbg !1879\l  call void @put_indicator(%struct.bin_str* noundef getelementptr inbounds\l... ([24 x %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64\l... 4)), !dbg !1881\l  call void @put_indicator(%struct.bin_str* noundef getelementptr inbounds\l... ([24 x %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64\l... 1)), !dbg !1882\l  br label %6, !dbg !1883\l}"];
+	Node0x204f7d0 -> Node0x204f820;
+	Node0x204f820 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%6:\l6:                                                \l  ret void, !dbg !1884\l}"];
+}

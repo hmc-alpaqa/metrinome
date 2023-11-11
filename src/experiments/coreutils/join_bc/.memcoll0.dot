@@ -1,0 +1,15 @@
+digraph "CFG for 'memcoll0' function" {
+	label="CFG for 'memcoll0' function";
+
+	Node0xb21d70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l  %5 = alloca i32, align 4\l  %6 = alloca i8*, align 8\l  %7 = alloca i64, align 8\l  %8 = alloca i8*, align 8\l  %9 = alloca i64, align 8\l  store i8* %0, i8** %6, align 8, !tbaa !798\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !794, metadata\l... !DIExpression()), !dbg !802\l  store i64 %1, i64* %7, align 8, !tbaa !803\l  call void @llvm.dbg.declare(metadata i64* %7, metadata !795, metadata\l... !DIExpression()), !dbg !805\l  store i8* %2, i8** %8, align 8, !tbaa !798\l  call void @llvm.dbg.declare(metadata i8** %8, metadata !796, metadata\l... !DIExpression()), !dbg !806\l  store i64 %3, i64* %9, align 8, !tbaa !803\l  call void @llvm.dbg.declare(metadata i64* %9, metadata !797, metadata\l... !DIExpression()), !dbg !807\l  %10 = load i64, i64* %7, align 8, !dbg !808, !tbaa !803\l  %11 = load i64, i64* %9, align 8, !dbg !810, !tbaa !803\l  %12 = icmp eq i64 %10, %11, !dbg !811\l  br i1 %12, label %13, label %21, !dbg !812\l|{<s0>T|<s1>F}}"];
+	Node0xb21d70:s0 -> Node0xb21df0;
+	Node0xb21d70:s1 -> Node0xb21e90;
+	Node0xb21df0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ec7f6370",label="{%13:\l13:                                               \l  %14 = load i8*, i8** %6, align 8, !dbg !813, !tbaa !798\l  %15 = load i8*, i8** %8, align 8, !dbg !814, !tbaa !798\l  %16 = load i64, i64* %7, align 8, !dbg !815, !tbaa !803\l  %17 = call i32 @memcmp(i8* noundef %14, i8* noundef %15, i64 noundef %16)\l... #22, !dbg !816\l  %18 = icmp eq i32 %17, 0, !dbg !817\l  br i1 %18, label %19, label %21, !dbg !818\l|{<s0>T|<s1>F}}"];
+	Node0xb21df0:s0 -> Node0xb21e40;
+	Node0xb21df0:s1 -> Node0xb21e90;
+	Node0xb21e40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ead5c970",label="{%19:\l19:                                               \l  %20 = call i32* @__errno_location() #23, !dbg !819\l  store i32 0, i32* %20, align 4, !dbg !821, !tbaa !822\l  store i32 0, i32* %5, align 4, !dbg !824\l  br label %27, !dbg !824\l}"];
+	Node0xb21e40 -> Node0xb21ee0;
+	Node0xb21e90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#cc403a70",label="{%21:\l21:                                               \l  %22 = load i8*, i8** %6, align 8, !dbg !825, !tbaa !798\l  %23 = load i64, i64* %7, align 8, !dbg !826, !tbaa !803\l  %24 = load i8*, i8** %8, align 8, !dbg !827, !tbaa !798\l  %25 = load i64, i64* %9, align 8, !dbg !828, !tbaa !803\l  %26 = call i32 @strcoll_loop(i8* noundef %22, i64 noundef %23, i8* noundef\l... %24, i64 noundef %25), !dbg !829\l  store i32 %26, i32* %5, align 4, !dbg !830\l  br label %27, !dbg !830\l}"];
+	Node0xb21e90 -> Node0xb21ee0;
+	Node0xb21ee0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%27:\l27:                                               \l  %28 = load i32, i32* %5, align 4, !dbg !831\l  ret i32 %28, !dbg !831\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'interrupt_handler' function" {
+	label="CFG for 'interrupt_handler' function";
+
+	Node0x2359c90 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !1027\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !1026, metadata\l... !DIExpression()), !dbg !1031\l  call void @delete_all_files(i1 noundef zeroext true), !dbg !1032\l  %3 = load i32, i32* %2, align 4, !dbg !1033, !tbaa !1027\l  %4 = call void (i32)* @signal(i32 noundef %3, void (i32)* noundef null) #22,\l... !dbg !1034\l  %5 = load i32, i32* %2, align 4, !dbg !1035, !tbaa !1027\l  %6 = call i32 @raise(i32 noundef %5) #22, !dbg !1036\l  ret void, !dbg !1037\l}"];
+}

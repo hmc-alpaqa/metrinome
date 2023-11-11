@@ -1,0 +1,23 @@
+digraph "CFG for 'get_format_flags' function" {
+	label="CFG for 'get_format_flags' function";
+
+	Node0x237c110 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#a1c0ff70",label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i32*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca i64, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1033\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1028, metadata\l... !DIExpression()), !dbg !1037\l  store i32* %1, i32** %4, align 8, !tbaa !1033\l  call void @llvm.dbg.declare(metadata i32** %4, metadata !1029, metadata\l... !DIExpression()), !dbg !1038\l  %7 = bitcast i32* %5 to i8*, !dbg !1039\l  call void @llvm.lifetime.start.p0i8(i64 4, i8* %7) #22, !dbg !1039\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !1030, metadata\l... !DIExpression()), !dbg !1040\l  store i32 0, i32* %5, align 4, !dbg !1040, !tbaa !1041\l  %8 = bitcast i64* %6 to i8*, !dbg !1043\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #22, !dbg !1043\l  call void @llvm.dbg.declare(metadata i64* %6, metadata !1031, metadata\l... !DIExpression()), !dbg !1044\l  store i64 0, i64* %6, align 8, !dbg !1044, !tbaa !1045\l  br label %9, !dbg !1043\l}"];
+	Node0x237c110 -> Node0x237c160;
+	Node0x237c160 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%9:\l9:                                                \l  %10 = load i8*, i8** %3, align 8, !dbg !1047, !tbaa !1033\l  %11 = load i64, i64* %6, align 8, !dbg !1050, !tbaa !1045\l  %12 = getelementptr inbounds i8, i8* %10, i64 %11, !dbg !1047\l  %13 = load i8, i8* %12, align 1, !dbg !1047, !tbaa !1051\l  %14 = sext i8 %13 to i32, !dbg !1047\l  switch i32 %14, label %22 [\l    i32 45, label %15\l    i32 48, label %15\l    i32 39, label %16\l    i32 35, label %19\l  ], !dbg !1052\l|{<s0>def|<s1>45|<s2>48|<s3>39|<s4>35}}"];
+	Node0x237c160:s0 -> Node0x237c2a0;
+	Node0x237c160:s1 -> Node0x237c1b0;
+	Node0x237c160:s2 -> Node0x237c1b0;
+	Node0x237c160:s3 -> Node0x237c200;
+	Node0x237c160:s4 -> Node0x237c250;
+	Node0x237c1b0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%15:\l15:                                               \l  br label %28, !dbg !1053\l}"];
+	Node0x237c1b0 -> Node0x237c2f0;
+	Node0x237c200 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%16:\l16:                                               \l  %17 = load i32, i32* %5, align 4, !dbg !1055, !tbaa !1041\l  %18 = or i32 %17, 1, !dbg !1055\l  store i32 %18, i32* %5, align 4, !dbg !1055, !tbaa !1041\l  br label %28, !dbg !1056\l}"];
+	Node0x237c200 -> Node0x237c2f0;
+	Node0x237c250 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ef886b70",label="{%19:\l19:                                               \l  %20 = load i32, i32* %5, align 4, !dbg !1057, !tbaa !1041\l  %21 = or i32 %20, 2, !dbg !1057\l  store i32 %21, i32* %5, align 4, !dbg !1057, !tbaa !1041\l  br label %28, !dbg !1058\l}"];
+	Node0x237c250 -> Node0x237c2f0;
+	Node0x237c2a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#a1c0ff70",label="{%22:\l22:                                               \l  %23 = load i32, i32* %5, align 4, !dbg !1059, !tbaa !1041\l  %24 = load i32*, i32** %4, align 8, !dbg !1060, !tbaa !1033\l  store i32 %23, i32* %24, align 4, !dbg !1061, !tbaa !1041\l  %25 = load i64, i64* %6, align 8, !dbg !1062, !tbaa !1045\l  %26 = bitcast i64* %6 to i8*, !dbg !1063\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %26) #22, !dbg !1063\l  %27 = bitcast i32* %5 to i8*, !dbg !1064\l  call void @llvm.lifetime.end.p0i8(i64 4, i8* %27) #22, !dbg !1064\l  ret i64 %25, !dbg !1065\l}"];
+	Node0x237c2f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%28:\l28:                                               \l  br label %29, !dbg !1066\l}"];
+	Node0x237c2f0 -> Node0x237c340;
+	Node0x237c340 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%29:\l29:                                               \l  %30 = load i64, i64* %6, align 8, !dbg !1067, !tbaa !1045\l  %31 = add nsw i64 %30, 1, !dbg !1067\l  store i64 %31, i64* %6, align 8, !dbg !1067, !tbaa !1045\l  br label %9, !dbg !1063, !llvm.loop !1068\l}"];
+	Node0x237c340 -> Node0x237c160;
+}

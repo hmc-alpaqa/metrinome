@@ -1,0 +1,5 @@
+digraph "CFG for 'scratch_buffer_grow' function" {
+	label="CFG for 'scratch_buffer_grow' function";
+
+	Node0x999020 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = alloca %struct.scratch_buffer*, align 8\l  store %struct.scratch_buffer* %0, %struct.scratch_buffer** %2, align 8,\l... !tbaa !720\l  call void @llvm.dbg.declare(metadata %struct.scratch_buffer** %2, metadata\l... !719, metadata !DIExpression()), !dbg !724\l  %3 = load %struct.scratch_buffer*, %struct.scratch_buffer** %2, align 8,\l... !dbg !725, !tbaa !720\l  %4 = call zeroext i1 @gl_scratch_buffer_grow(%struct.scratch_buffer* noundef\l... %3), !dbg !725\l  %5 = zext i1 %4 to i64, !dbg !725\l  %6 = call i64 @llvm.expect.i64(i64 %5, i64 1), !dbg !725\l  %7 = icmp ne i64 %6, 0, !dbg !725\l  ret i1 %7, !dbg !726\l}"];
+}

@@ -1,0 +1,5 @@
+digraph "CFG for 'security_compute_create' function" {
+	label="CFG for 'security_compute_create' function";
+
+	Node0x2510c70 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l  %5 = alloca i8*, align 8\l  %6 = alloca i8*, align 8\l  %7 = alloca i16, align 2\l  %8 = alloca i8**, align 8\l  store i8* %0, i8** %5, align 8, !tbaa !1878\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !1874, metadata\l... !DIExpression()), !dbg !1882\l  store i8* %1, i8** %6, align 8, !tbaa !1878\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !1875, metadata\l... !DIExpression()), !dbg !1883\l  store i16 %2, i16* %7, align 2, !tbaa !1884\l  call void @llvm.dbg.declare(metadata i16* %7, metadata !1876, metadata\l... !DIExpression()), !dbg !1886\l  store i8** %3, i8*** %8, align 8, !tbaa !1878\l  call void @llvm.dbg.declare(metadata i8*** %8, metadata !1877, metadata\l... !DIExpression()), !dbg !1887\l  %9 = call i32* @__errno_location() #27, !dbg !1888\l  store i32 95, i32* %9, align 4, !dbg !1889, !tbaa !1890\l  ret i32 -1, !dbg !1892\l}"];
+}

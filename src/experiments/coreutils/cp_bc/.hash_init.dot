@@ -1,0 +1,9 @@
+digraph "CFG for 'hash_init' function" {
+	label="CFG for 'hash_init' function";
+
+	Node0xef7350 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%0:\l  %1 = call noalias %struct.hash_table* @hash_initialize(i64 noundef 103,\l... %struct.hash_tuning* noundef null, i64 (i8*, i64)* noundef @src_to_dest_hash,\l... i1 (i8*, i8*)* noundef @src_to_dest_compare, void (i8*)* noundef\l... @src_to_dest_free), !dbg !1467\l  store %struct.hash_table* %1, %struct.hash_table** @src_to_dest, align 8,\l... !dbg !1468, !tbaa !1469\l  %2 = load %struct.hash_table*, %struct.hash_table** @src_to_dest, align 8,\l... !dbg !1473, !tbaa !1469\l  %3 = icmp eq %struct.hash_table* %2, null, !dbg !1475\l  br i1 %3, label %4, label %5, !dbg !1476\l|{<s0>T|<s1>F}}"];
+	Node0xef7350:s0 -> Node0xef73a0;
+	Node0xef7350:s1 -> Node0xef73f0;
+	Node0xef73a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6687ed70",label="{%4:\l4:                                                \l  call void @xalloc_die() #26, !dbg !1477\l  unreachable, !dbg !1477\l}"];
+	Node0xef73f0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  ret void, !dbg !1478\l}"];
+}
