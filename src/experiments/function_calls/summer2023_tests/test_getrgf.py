@@ -67,7 +67,6 @@ class DataCollector:
         file = dotfile_dir.split('/')[-1]  # needed for table
 
         for graph_name, graph in graphs.items():
-            print('Graph Name: ', graph_name)
             if graph_name != '_main.dot':
                 continue
 
@@ -123,7 +122,7 @@ class DataCollector:
             data.to_csv(
                 "/app/code/experiments/function_calls/data/getrgfapc_data.csv")
 
-        print(data[['graph_name', 'getrgfapc']])
+        print(data[['graph_name', 'getrgfapc', 'getrgfapc_time']])
 
 
 def round_tuple_of_exprs(tup, num_digits):
