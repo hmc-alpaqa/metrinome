@@ -18,7 +18,7 @@ import time
 from sympy.utilities import lambdify
 import math
 import cmath
-from experiments.branch_apc.graph_simplification import simplify_graphs
+# from experiments.branch_apc.graph_simplification import simplify_graphs
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 PRECISION = 11
@@ -53,7 +53,7 @@ class FunctionCallPathComplexity(ABC):
 
         # GRAPH SIMPLIFICATION  ================================================
         # for testing branch apc code, all other teams comment these 3 lines out
-        dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
+        # dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
         # self.logger.d_msg(f"simplified calldict: {calldict}")
         # self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
         # GRAPH SIMPLIFICATION  ================================================

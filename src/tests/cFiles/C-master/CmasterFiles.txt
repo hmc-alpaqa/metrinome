@@ -1,9 +1,7 @@
-/app/code/tests/cFiles/C-master/math/armstrong_number.c isArmstrong
-/app/code/tests/cFiles/C-master/math/cantor_set.c propagatea/app/code/tests/cFiles/C-master/sorting/bead_sort.c bead_sort
+/app/code/tests/cFiles/C-master/sorting/bead_sort.c bead_sort
 /app/code/tests/cFiles/C-master/sorting/binary_insertion_sort.c insertionSort
 /app/code/tests/cFiles/C-master/sorting/bogo_sort.c bogo_sort
 /app/code/tests/cFiles/C-master/sorting/bubble_sort.c bubbleSort
-/app/code/tests/cFiles/C-master/sorting/bubble_sort_2.c bubble_sort
 /app/code/tests/cFiles/C-master/sorting/bubble_sort_recursion.c bubbleSort
 /app/code/tests/cFiles/C-master/sorting/bucket_sort.c BucketSort
 /app/code/tests/cFiles/C-master/sorting/cocktail_sort.c cocktailSort
@@ -12,7 +10,6 @@
 /app/code/tests/cFiles/C-master/sorting/cycle_sort.c cycleSort
 /app/code/tests/cFiles/C-master/sorting/gnome_sort.c sort
 /app/code/tests/cFiles/C-master/sorting/heap_sort.c heapsort
-/app/code/tests/cFiles/C-master/sorting/heap_sort_2.c heapSort
 /app/code/tests/cFiles/C-master/sorting/insertion_sort.c insertionSort
 /app/code/tests/cFiles/C-master/sorting/insertion_sort_recursive.c RecursionInsertionSort
 /app/code/tests/cFiles/C-master/sorting/merge_sort.c merge_sort
@@ -72,5 +69,5 @@
 /app/code/tests/cFiles/C-master/math/palindrome.c isPalindrome
 /app/code/tests/cFiles/C-master/math/prime.c isPrime
 /app/code/tests/cFiles/C-master/math/prime_factoriziation.c int_fact
-/app/code/tests/cFiles/C-master/math/prime_sieve.c prime 
+/app/code/tests/cFiles/C-master/math/prime_sieve.c prime
 /app/code/tests/cFiles/C-master/math/strong_number.c isStrong

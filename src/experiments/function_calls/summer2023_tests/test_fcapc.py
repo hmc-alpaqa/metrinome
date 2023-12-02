@@ -55,10 +55,10 @@ class DataCollector:
                 if notin(graph_name, funcs):
                     continue
                 
-                print("=========================runing old function call path complexity for 200 seconds==========================")
+                print("=========================runing old function call path complexity for 6000 seconds==========================")
                 start_time = time.time()
                 try:
-                    with Timeout(200):
+                    with Timeout(6000):
                         fcapc = self.fcn_call_apc_computer.evaluate(graph,graphs)
                         # print(fcapc)
                         fcruntime = time.time() - start_time
