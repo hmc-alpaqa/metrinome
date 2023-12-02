@@ -1,6 +1,5 @@
-/app/code/tests/cFiles/C-master/sorting/bead_sort.c bead_sort
 /app/code/tests/cFiles/C-master/sorting/binary_insertion_sort.c insertionSort
-/app/code/tests/cFiles/C-master/sorting/bogo_sort.c bogo_sort
+/app/code/tests/cFiles/C-master/sorting/bogo_sort.c sort
 /app/code/tests/cFiles/C-master/sorting/bubble_sort.c bubbleSort
 /app/code/tests/cFiles/C-master/sorting/bubble_sort_2.c bubble_sort
 /app/code/tests/cFiles/C-master/sorting/bubble_sort_recursion.c bubbleSort
