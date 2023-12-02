@@ -110,7 +110,7 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
             print(f"FAILED TO RUN ON {name}, depth={i}")
             traceback.print_exception(type(e), e, e.__traceback__)
             # see if traceback contains subprocess.TimeoutExpired and if so, break out of loop
-            if any([isinstance(e, subprocess.TimeoutExpired) for e in e.args]):
+            if isinstance(e, subprocess.TimeoutExpired):
                 print(f"TIMEOUT ON {name}, depth={i}")
                 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 break
