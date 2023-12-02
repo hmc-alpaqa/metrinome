@@ -39,7 +39,8 @@ class CPPConvert(converter.ConverterAbstract):
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
-        self.logger.d_msg(f"Creating dot files for {filename}, {file_extension}")
+        self.logger.d_msg(
+            f"Creating dot files for {filename}, {file_extension}")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
@@ -104,15 +105,15 @@ class CPPConvert(converter.ConverterAbstract):
                     elif call_label != "":
                         label = f" [label=\"CALLS{call_label}\"]"
                     node_to_add += label
-                        #print(label)
+                    # print(label)
                     # print(node_to_add)
                     nodes.append(node_to_add)
 
                     counter += 1
                 else:
                     edges += [line]
-            #print(node_map)
-            #print(edges)
+            # print(node_map)
+            # print(edges)
         return nodes, edges, node_map, counter
 
     def convert_file_to_standard(self, file: str,
@@ -183,9 +184,9 @@ class CPPConvert(converter.ConverterAbstract):
         os.chdir(os.path.split(filepath)[0])
 
         if self._optimize:
-            c1_str = f"clang++-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
         else:
-            c1_str = f"clang++-6.0 -emit-llvm -S {filepath}{file_extension} -o-"\
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S {filepath}{file_extension} -o-"\
 
         c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
@@ -213,7 +214,8 @@ class CPPConvert(converter.ConverterAbstract):
                 err_msg = ''.join(error_lines)
 
                 if len(err_msg) == 0:
-                    self.logger.d_msg(f"Got the following error msg: {str(err_msg)}")
+                    self.logger.d_msg(
+                        f"Got the following error msg: {str(err_msg)}")
 
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
