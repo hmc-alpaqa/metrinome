@@ -35,7 +35,7 @@ void postOrderTraversal(struct node *node)
     printf("\t%d\t", node->data);
 }
 
-int main(void)
+int main_func(void)
 {
     /* traversals can be done by simply invoking the
        function with a pointer to the root node.

@@ -30,7 +30,7 @@ bool findPathDFS(Graph g, int nV, Vertex src, Vertex dest)
     return dfsPathCheck(g, nV, src, dest);
 }
 
-int main(void)
+int main_func(void)
 {
     int V = 6;
     Graph g = newGraph(V);

@@ -38,7 +38,7 @@ void addEdge(struct Graph *graph, int src, int dest);
 void printGraph(struct Graph *graph);
 void bfs(struct Graph *graph, int startVertex);
 
-int main()
+int main_func()
 {
     int vertices, edges, source, i, src, dst;
     printf("Enter the number of vertices\n");

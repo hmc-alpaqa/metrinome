@@ -252,7 +252,7 @@ void delete_bt(node **root, int ele)
 /**
  * main function
  */
-int main()
+int main_func()
 {
     printf("BINARY THREADED TREE: \n");
     node *root = NULL;

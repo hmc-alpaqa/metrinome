@@ -20,7 +20,7 @@ void naive_search(char *str, char *pattern)
     }
 }
 
-int main()
+int main_func()
 {
     char str[] = "AABCAB12AFAABCABFFEGABCAB";
     char pat1[] = "ABCAB";

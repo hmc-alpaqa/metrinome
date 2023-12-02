@@ -134,7 +134,7 @@ double forward_euler(double dx, double x0, double x_max, double *y,
 /**
     Main Function
 */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     double X0 = 0.f;          /* initial value of x0 */
     double X_MAX = 10.F;      /* upper limit of integration */

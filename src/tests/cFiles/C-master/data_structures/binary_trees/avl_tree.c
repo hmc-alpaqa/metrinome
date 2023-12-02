@@ -271,7 +271,7 @@ void printPostOrder(avlNode *node)
     printf("  %d  ", (node->key));
 }
 
-int main()
+int main_func()
 {
     int choice;
     int flag = 1;

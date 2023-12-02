@@ -35,7 +35,7 @@ int fib(int n)
     return out;
 }
 
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     int number;
 

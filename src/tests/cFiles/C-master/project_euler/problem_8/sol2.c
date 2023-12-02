@@ -8,7 +8,7 @@
 #include <string.h> /* for memmove */
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     int position = 0, num_bad_chars = 0;
     int num_digits = 4;

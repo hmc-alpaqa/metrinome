@@ -74,7 +74,7 @@ static void test()
 }
 
 /** Driver Code */
-int main()
+int main_func()
 {
     /* Intializes random number generator */
     srand(time(NULL));

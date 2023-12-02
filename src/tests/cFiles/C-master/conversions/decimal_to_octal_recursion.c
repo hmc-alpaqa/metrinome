@@ -18,7 +18,7 @@ int decimal_to_octal(int decimal)
         return ((decimal_to_octal(decimal / 8) * 10) + decimal % 8);
     }
 }
-int main()
+int main_func()
 {
     int octalNumber, decimalNumber;
     printf("\nEnter your decimal number : ");

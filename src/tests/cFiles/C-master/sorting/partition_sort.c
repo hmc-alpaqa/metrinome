@@ -52,7 +52,7 @@ void printArray(int arr[], int n)
     printf("\n");
 }
 
-int main()
+int main_func()
 {
     int arr[20];
     int i, range = 100;

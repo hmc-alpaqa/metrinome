@@ -29,7 +29,7 @@ void sort(int *a, int n)
     while (!check_sorted(a, n)) shuffle(a, n);
 }
 
-int main()
+int main_func()
 {
     int numbers[6];
     int i;

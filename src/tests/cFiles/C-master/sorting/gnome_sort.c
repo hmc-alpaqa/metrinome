@@ -28,7 +28,7 @@ void display(int *array, int n)
     printf("\n");
 }
 
-int main()
+int main_func()
 {
     int size = 6;
     int i;

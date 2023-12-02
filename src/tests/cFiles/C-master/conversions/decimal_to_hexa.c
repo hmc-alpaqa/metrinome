@@ -2,7 +2,7 @@
 #include <stdio.h>
 void decimal2Hexadecimal(long num);
 
-int main()
+int main_func()
 {
     long decimalnum;
 

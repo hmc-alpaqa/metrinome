@@ -76,7 +76,7 @@ void display(double **A, int N)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     int mat_size = 3;  // default matrix size
     const int range = 10;

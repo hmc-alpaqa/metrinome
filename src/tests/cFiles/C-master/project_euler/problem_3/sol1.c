@@ -36,7 +36,7 @@ char isprime(int no)
 }
 
 /** Main function */
-int main()
+int main_func()
 {
     int maxNumber = 0;
     int n = 0;

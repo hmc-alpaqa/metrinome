@@ -38,7 +38,7 @@ void won(const char word[], int score); // checks if player has won or lost
  * @brief Main Function
  * @returns 0 on exit
  */
-int main() {
+int main_func() {
 
     struct game_instance game = new_game(); // new game created
     char guess; // current letter guessed by player

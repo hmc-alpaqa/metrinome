@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main()
+int main_func()
 {
     int i, n, l = 0;
 

@@ -76,7 +76,7 @@ const char *day_string(int day)
 #endif
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     int count_sundays = 0;
     const short start_year = 1901;

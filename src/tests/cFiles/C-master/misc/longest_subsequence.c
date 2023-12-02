@@ -79,7 +79,7 @@ void longestSub(int *ARRAY, int ARRAY_LENGTH, int **RESULT, int *RESULT_LENGTH)
     }
 }
 
-int main()
+int main_func()
 {
     int EXAMPLE_LENGTH = 8;
     int EXAMPLE[] = {18, 2, 15, 4, 30, 0, 11, 12};

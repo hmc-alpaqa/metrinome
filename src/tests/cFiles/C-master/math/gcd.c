@@ -8,7 +8,7 @@ int GCD(int x, int y)
     return GCD(y, x % y);
 }
 
-int main()
+int main_func()
 {
     int a, b;
     printf("Input two numbers:\n");

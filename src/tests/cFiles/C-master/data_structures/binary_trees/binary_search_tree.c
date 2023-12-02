@@ -246,7 +246,7 @@ void inOrder(node *root)
 }
 
 /** Main funcion */
-int main()
+int main_func()
 {
     // this reference don't change.
     // only the tree changes.

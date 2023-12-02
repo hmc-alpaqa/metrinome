@@ -260,7 +260,12 @@ def main() -> None:
 
         pregenerated = []
 
-        file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files_single(src_filepath, file_path, file_name, False, function[2]) if file_name not in pregenerated else generate_files_premade(src_filepath, file_path, file_name)))
+        intended_function = function[2]
+
+        if intended_function == "main":
+            intended_function = "main_func"
+
+        file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files_single(src_filepath, file_path, file_name, False, intended_function) if file_name not in pregenerated else generate_files_premade(src_filepath, file_path, file_name)))
 
         functions = [function[1]]
         # functions = ['even_odd']

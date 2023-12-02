@@ -290,7 +290,7 @@ static void test3(struct term *poly1, struct term *poly2, struct term *poly3)
  * @brief Main function
  * @returns 0 on exit
  */
-int main(void)
+int main_func(void)
 {
     struct term *poly1 = NULL, *poly2 = NULL, *poly3 = NULL;
     test1(poly1, poly2, poly3);

@@ -112,7 +112,7 @@ static void test()
  * @brief Main function
  * @returns 0
  */
-int main()
+int main_func()
 {
     test();  // run self-test implementations
     return 0;

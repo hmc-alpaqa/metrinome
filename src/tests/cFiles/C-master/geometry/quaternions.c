@@ -166,7 +166,7 @@ static void test()
     assert(fabsf(test_quat.q3 - quat.q3) < .01);
 }
 
-int main()
+int main_func()
 {
     test();
     return 0;

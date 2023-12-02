@@ -47,7 +47,7 @@ void test_adler32()
 /** @} */
 
 /** Main function */
-int main()
+int main_func()
 {
     test_adler32();
     return 0;

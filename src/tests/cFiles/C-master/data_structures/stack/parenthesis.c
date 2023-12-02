@@ -95,7 +95,7 @@ void destroyStack(void)
     }
 }
 
-int main(void)
+int main_func(void)
 {
     int t;
     printf("\t\tBalanced parenthesis\n\n");

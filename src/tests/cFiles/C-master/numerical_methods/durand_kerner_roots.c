@@ -92,7 +92,7 @@ char check_termination(long double delta)
 /***
  * the comandline inputs are taken as coeffiecients of a polynomial
  */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     long double *coeffs = NULL;
     long double complex *s0 = NULL;

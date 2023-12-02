@@ -37,7 +37,7 @@ void shellSort(int array[], int len)
                 swap(&array[j], &array[j + gap]);
 }
 
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     int i;
     int array[ELEMENT_NR];

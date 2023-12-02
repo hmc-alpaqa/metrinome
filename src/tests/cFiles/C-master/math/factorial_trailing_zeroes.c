@@ -4,7 +4,7 @@ number n
 */
 #include <math.h>  //including math.h header file to use pow function
 #include <stdio.h>
-int main()
+int main_func()
 {
     int i, n, test = 0, count = 0;
     // taking input number n

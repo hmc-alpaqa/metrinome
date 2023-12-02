@@ -75,7 +75,7 @@ void test_c_atoi()
  * the main function take one argument of type char*
  * example : ./program 123
  */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     test_c_atoi();
 

@@ -27,7 +27,7 @@ unsigned long long number_of_paths(int N)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     int N = 20;
 

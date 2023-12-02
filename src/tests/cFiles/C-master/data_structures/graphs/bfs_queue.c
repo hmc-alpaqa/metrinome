@@ -33,7 +33,7 @@ bool findPathBFS(Graph g, int nV, Vertex src, Vertex dest)
     return false;
 }
 
-int main(void)
+int main_func(void)
 {
     int V = 10;
     Graph g = newGraph(V);

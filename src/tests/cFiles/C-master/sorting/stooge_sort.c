@@ -1,7 +1,7 @@
 #include <stdio.h>
 void stoogesort(int[], int, int);
 
-int main()
+int main_func()
 {
     int arr[100], i, n;
 

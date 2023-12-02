@@ -92,7 +92,7 @@ char remove_digits(big_int *digit, int N)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     unsigned int N = 5;
     big_int *ptr = add_digit(NULL, 1); /* start with 1 */

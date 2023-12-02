@@ -102,7 +102,7 @@ void test()
 }
 
 /** Main function */
-int main(void)
+int main_func(void)
 {
     test();
     return 0;

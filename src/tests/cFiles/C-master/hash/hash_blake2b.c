@@ -544,7 +544,7 @@ static void test()
  *
  * @returns 0 on successful program exit
  */
-int main()
+int main_func()
 {
     test();
     return 0;

@@ -76,7 +76,7 @@ void example();
  * @brief   Main function
  * @returns 0   on exit
  */
-int main()
+int main_func()
 {
     // examples for better understanding
     example();

@@ -42,7 +42,7 @@ int find(int *p, int x)
 void join(int *p, int x, int y) { p[find(p, x)] = find(p, y); }
 
 /** Main function */
-int main()
+int main_func()
 {
     int union_set[MAX_SIZE];
 

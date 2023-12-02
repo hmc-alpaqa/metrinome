@@ -28,7 +28,7 @@ int binarySearch(int array[], int leng, int searchX)
     return -1; /* not found */
 }
 
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     int array[len] = {5, 8, 10, 14, 16};
 

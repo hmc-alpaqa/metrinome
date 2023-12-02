@@ -34,7 +34,7 @@ double complex d_func(double complex x) { return 2. * x; }
 /**
  * main function
  */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     double delta = 1;
     double complex cdelta = 1;

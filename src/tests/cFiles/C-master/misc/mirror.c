@@ -6,7 +6,7 @@ void saisie(
 int compte(char *s);
 char *miroir(char *s);
 
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     char chaine[20];
     saisie(chaine);

@@ -153,7 +153,7 @@ static void test() {
  * @brief Main function
  * @returns 0 on exit
  */
-int main() {
+int main_func() {
     test();
 
     Vector vec;

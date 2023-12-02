@@ -35,7 +35,7 @@ struct Stack *createStack();
 void push(struct Stack *, int);
 int pop(struct Stack *);
 
-int main()
+int main_func()
 {
     int vertices, edges, i, src, dst;
     printf("Enter the number of vertices\n");

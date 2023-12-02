@@ -30,7 +30,7 @@ unsigned long long sum_of_primes(unsigned long N)
 }
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     unsigned long n = 100;
 

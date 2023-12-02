@@ -10,7 +10,7 @@ void push(struct node *);
 void pop(struct node *);
 void display(struct node *);
 
-int main()
+int main_func()
 {
     int x = 0, item;
     printf("\t****stack using linked list****\n");

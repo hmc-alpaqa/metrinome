@@ -67,7 +67,7 @@ void cleanup() { WSACleanup(); }
 /**
  * @brief Driver code
  */
-int main()
+int main_func()
 {
 #ifdef _WIN32
     // when using winsock2.h, startup required

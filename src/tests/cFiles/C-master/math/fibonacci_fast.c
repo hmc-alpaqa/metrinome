@@ -62,7 +62,7 @@ void fib(unsigned long n, unsigned long *C, unsigned long *D)
 /**
  * main function
  */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     unsigned long number, result;
 

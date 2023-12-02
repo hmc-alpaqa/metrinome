@@ -742,7 +742,7 @@ void checkBlack(Node *temp, int c)
     checkBlack(temp->right, c);
 }
 
-int main()
+int main_func()
 {
     Node *root = NULL;
     int scanValue, choice = 1;

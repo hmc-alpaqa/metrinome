@@ -53,7 +53,7 @@ void RadixSort(int a[], int n)
     }
 }
 
-int main()
+int main_func()
 {
     int i, n, a[10];
     printf("Enter the number of elements :: ");

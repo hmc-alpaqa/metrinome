@@ -94,7 +94,7 @@ void modifiedBinarySearch(const int **mat, int n, int m, int x)
 }
 
 /** Main function */
-int main()
+int main_func()
 {
     int x;     // element to be searched
     int m, n;  // m = columns, n = rows

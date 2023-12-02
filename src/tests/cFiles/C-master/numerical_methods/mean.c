@@ -5,7 +5,7 @@
 
 #define MAX_LEN INT_MAX
 
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     int *a, n = 10, i, j, temp, sum = 0;
     float mean;

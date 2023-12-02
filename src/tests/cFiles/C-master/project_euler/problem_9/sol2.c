@@ -20,7 +20,7 @@
 #include <stdlib.h>
 
 /** Main function */
-int main(void)
+int main_func(void)
 {
     int N = 1000;
 

@@ -105,7 +105,7 @@ char is_sum_of_abundant(unsigned long N)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     long MAX_N = 28123; /* Limit of numbers to check */
 

@@ -43,7 +43,7 @@ void destroy(Range);
 /*
     main : simle frame program with a simple UI
 */
-int main()
+int main_func()
 {
     int n = 0; /* for user input */
 

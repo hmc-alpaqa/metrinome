@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 /** Main function */
-int main(void)
+int main_func(void)
 {
     unsigned s1 = 0, s2 = 0, i;
     for (i = 1; i <= 100; i++)

@@ -125,7 +125,7 @@ void test_function(const float *test_data, const int number_of_samples)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     const float test_data1[] = {3, 4, 5, -1.4, -3.6, 1.9, 1.};
     test_function(test_data1, sizeof(test_data1) / sizeof(test_data1[0]));

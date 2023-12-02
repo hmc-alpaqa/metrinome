@@ -20,7 +20,7 @@ long long toDecimal(int octal_value)
     return decimal_value;
 }
 
-int main()
+int main_func()
 {
     printf("Enter octal value: ");
 

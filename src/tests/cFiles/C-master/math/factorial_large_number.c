@@ -91,7 +91,7 @@ void multiply(large_num *num, unsigned long n)
 /**
  * main function
  */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     int number, i;
 

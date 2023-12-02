@@ -31,7 +31,7 @@ void test()
 }
 
 /** Driver Code */
-int main()
+int main_func()
 {
     test();
     return 0;

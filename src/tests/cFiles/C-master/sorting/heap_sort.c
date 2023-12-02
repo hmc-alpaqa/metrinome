@@ -48,7 +48,7 @@ void build_maxheap(int *a, int n)
     }
 }
 
-int main()
+int main_func()
 {
     int n, i;
     printf("Enter number of elements of array\n");

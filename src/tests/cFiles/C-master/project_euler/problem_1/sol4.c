@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 /** Main function */
-int main()
+int main_func()
 {
     int t;
     printf("Enter number of times you want to try");

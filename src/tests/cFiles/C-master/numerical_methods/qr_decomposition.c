@@ -15,7 +15,7 @@
 /**
  * main function
  */
-int main(void)
+int main_func(void)
 {
     double **A;
     unsigned int ROWS, COLUMNS;

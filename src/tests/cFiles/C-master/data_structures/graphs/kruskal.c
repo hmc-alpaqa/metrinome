@@ -142,7 +142,7 @@ void KruskalMST(struct Graph *graph)
 }
 
 // Driver program to test above functions
-int main()
+int main_func()
 {
     /* Let us create following weighted graph
             10

@@ -103,7 +103,7 @@ void merge_sort(int *a, int n, int l, int r)
 /** @} */
 
 /** Main function */
-int main(void)
+int main_func(void)
 {
     int *a, n, i;
     printf("Enter Array size: ");

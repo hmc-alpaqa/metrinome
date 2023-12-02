@@ -43,7 +43,7 @@ void test_djb2(void)
 /** @} */
 
 /** Main function */
-int main()
+int main_func()
 {
     test_djb2();
     return 0;

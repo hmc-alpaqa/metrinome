@@ -25,7 +25,7 @@ void shakersort(int *a, int n)
             }
     }
 }
-int main()
+int main_func()
 {
     int n;
     scanf("%d", &n);

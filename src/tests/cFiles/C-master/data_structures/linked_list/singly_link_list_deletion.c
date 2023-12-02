@@ -127,7 +127,7 @@ static void test()
     printf("Self-tests successfully passed!\n");
 }
 //////////////////////////////////////////////////////////////////
-int main()
+int main_func()
 {
     int n = 0, pos = 0, p = 0, num = 0, c = 0;
     printf("\n1.self test mode");

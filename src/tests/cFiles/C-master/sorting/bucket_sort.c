@@ -181,7 +181,7 @@ void printBuckets(struct Node *list)
     }
 }
 
-int main(void)
+int main_func(void)
 {
     int array[NARRAY] = {29, 25, -1, 49, 9, 37, 21, 43};
 

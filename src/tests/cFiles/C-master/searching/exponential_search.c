@@ -69,7 +69,7 @@ int64_t binary_search(const int64_t* arr, const uint16_t l_index, const uint16_t
  * @brief Main function
  * @returns 0 on exit
  */
-int main() 
+int main_func() 
 {
     test();  // run self-test implementations
     return 0;

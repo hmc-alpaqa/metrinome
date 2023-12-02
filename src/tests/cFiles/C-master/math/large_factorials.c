@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main()
+int main_func()
 {
     int a[16500], T;
     long long int i, j;

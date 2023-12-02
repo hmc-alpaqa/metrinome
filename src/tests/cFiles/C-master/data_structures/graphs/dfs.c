@@ -22,7 +22,7 @@ void addEdge(struct Graph *, int, int);
 void printGraph(struct Graph *);
 void dfs(struct Graph *, int);
 
-int main()
+int main_func()
 {
     int vertices, edges, source, i, src, dst;
     printf("Enter the number of vertices\n");

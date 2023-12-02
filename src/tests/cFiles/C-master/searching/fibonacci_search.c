@@ -62,7 +62,7 @@ int fibMonaccianSearch(int arr[], int x, int n)
     return -1;
 }
 
-int main(void)
+int main_func(void)
 {
     int arr[] = {10, 22, 35, 40, 45, 50, 80, 82, 85, 90, 100};
     int n = sizeof(arr) / sizeof(arr[0]);

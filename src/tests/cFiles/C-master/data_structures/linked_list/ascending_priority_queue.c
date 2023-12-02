@@ -139,7 +139,7 @@ void show()
 
 void destroyqueue() { front = rear = NULL; }
 
-int main()
+int main_func()
 {
     int x, ch;
 

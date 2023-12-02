@@ -81,7 +81,7 @@ void free_memory(CantorSet *head)
 }
 
 /** Main function */
-int main(int argc, char const *argv[])
+int main_func(int argc, char const *argv[])
 {
     int start_num, end_num, levels;
 

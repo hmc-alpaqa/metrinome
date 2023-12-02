@@ -52,7 +52,7 @@ void printList(struct Node *ptr)
 }
 
 /* Drier program to test above function*/
-int main()
+int main_func()
 {
     /* Start with the empty list */
     struct Node *head = NULL;

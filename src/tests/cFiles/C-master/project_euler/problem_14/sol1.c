@@ -41,7 +41,7 @@ long long collatz(long long start_num)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     long long max_len = 0, max_len_num = 0;
     long long MAX_NUM = 1000000;

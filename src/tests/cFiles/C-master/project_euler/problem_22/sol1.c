@@ -67,7 +67,7 @@ void lazy_sort(char data[][MAX_NAME_LEN], int LEN)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     unsigned long COUNT = 0;
     char *fname = "names.txt";

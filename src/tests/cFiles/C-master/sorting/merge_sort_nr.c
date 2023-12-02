@@ -67,7 +67,7 @@ void show(int x[], int n)
     printf("\n\n");
 }
 
-int main()  // main function
+int main_func()  // main function
 {
     int i, n, x[20];
 

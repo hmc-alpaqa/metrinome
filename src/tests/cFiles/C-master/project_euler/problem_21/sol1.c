@@ -33,7 +33,7 @@ unsigned long sum_of_divisors(unsigned int N)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     unsigned long sum = 0;
     unsigned int MAX_N = 500;

@@ -22,7 +22,7 @@ int top(Heap *heap); /*Returns the top element of the heap or returns INT_MIN if
 int empty(Heap *heap); /*Checks if heap is empty*/
 int size(Heap *heap);  /*Returns the size of heap*/
 
-int main()
+int main_func()
 {
     Heap *head = create_heap(head);
     push(head, 10);

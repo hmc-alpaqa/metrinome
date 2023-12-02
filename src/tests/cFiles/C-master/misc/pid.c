@@ -55,7 +55,7 @@ float pid_step(struct pid *controller, float dt, float error)
     return p + controller->integral + d;
 }
 
-int main()
+int main_func()
 {
     printf("PID Controller Example\n");
 

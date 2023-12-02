@@ -43,7 +43,7 @@ void test_sdbm()
 /** @} */
 
 /** Main function */
-int main()
+int main_func()
 {
     test_sdbm();
     return 0;

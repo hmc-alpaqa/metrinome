@@ -1,5 +1,5 @@
 #include <stdio.h>
-int main()
+int main_func()
 {
     int a[200], n, counter, temp, i;
     a[0] = 1;

@@ -312,7 +312,7 @@ void test2()
 /**
  * main function
  */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     srand(time(NULL));
 

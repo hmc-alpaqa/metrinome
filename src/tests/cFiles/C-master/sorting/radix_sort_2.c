@@ -65,7 +65,7 @@ void display(int *arr, int N)
     putchar('\n');
 }
 
-int main(int argc, const char *argv[])
+int main_func(int argc, const char *argv[])
 {
     int n;
     printf("Enter size of array:\n");

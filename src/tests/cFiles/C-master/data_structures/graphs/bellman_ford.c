@@ -112,7 +112,7 @@ void BellmanFord(struct Graph *graph, int src)
 }
 
 // Driver Function
-int main()
+int main_func()
 {
     int V, E, gsrc;
     int src, dst, weight;

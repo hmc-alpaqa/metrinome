@@ -100,7 +100,7 @@ void show()
 
 void destroyqueue() { q.front = q.rear = NULL; }
 
-int main()
+int main_func()
 {
     int x, ch;
 

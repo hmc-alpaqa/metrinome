@@ -53,7 +53,7 @@ float eliminate(float m[ARRAY_SIZE][ARRAY_SIZE], int i, int n)
     }
     return m[ARRAY_SIZE - 1][ARRAY_SIZE - 1];
 }
-int main(void)
+int main_func(void)
 {
     int i, j, n, k = 0, l;
     float m[ARRAY_SIZE][ARRAY_SIZE], mul, tmp[ARRAY_SIZE][ARRAY_SIZE], val,

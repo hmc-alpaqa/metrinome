@@ -25,7 +25,7 @@ struct node *newNode(int data)
     return node;
 }
 
-int main(void)
+int main_func(void)
 {
     /* new node can be created here as :-
 

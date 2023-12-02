@@ -129,7 +129,7 @@ uint64_t sigma(uint64_t N)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     uint64_t N = 1000;
 

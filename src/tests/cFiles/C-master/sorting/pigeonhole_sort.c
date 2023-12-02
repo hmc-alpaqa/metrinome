@@ -41,7 +41,7 @@ void pigeonholeSort(int arr[], int size)
     free(holes);
 }
 
-int main()
+int main_func()
 {
     int i, n;
 

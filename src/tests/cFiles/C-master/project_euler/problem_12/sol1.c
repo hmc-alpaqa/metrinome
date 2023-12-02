@@ -30,7 +30,7 @@ long count_divisors(long long n)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     int MAX_DIVISORS = 500;
     long i = 1, num_divisors;

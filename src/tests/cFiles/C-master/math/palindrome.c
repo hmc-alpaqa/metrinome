@@ -11,7 +11,7 @@
 bool isPalindrome(int number);
 
 /** Driver Code */
-int main()
+int main_func()
 {
     assert(isPalindrome(0));
     assert(isPalindrome(1));

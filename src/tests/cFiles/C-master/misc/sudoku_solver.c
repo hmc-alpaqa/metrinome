@@ -243,7 +243,7 @@ void test()
 }
 
 /** \brief Main function */
-int main()
+int main_func()
 {
     test();
 

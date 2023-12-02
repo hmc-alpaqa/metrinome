@@ -228,7 +228,7 @@ static void test()
  * @brief Main Function
  * @returns 0 on exit
  */
-int main()
+int main_func()
 {
     test();
     return 0;

@@ -7,7 +7,7 @@ float f(float x)
            x * x * x;  // This is the expresion of the function to integrate?
 }
 
-int main()
+int main_func()
 {
     int i, n;
     float a, b, h, x, s2, s3, sum, integral;

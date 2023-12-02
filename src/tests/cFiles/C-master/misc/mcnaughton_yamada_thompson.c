@@ -590,7 +590,7 @@ static void test(void) {
  * @brief Main function
  * @returns 0 on exit
  */
-int main(void) {
+int main_func(void) {
     test(); // run self-test implementations
     return 0;
 }

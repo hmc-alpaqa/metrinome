@@ -12,7 +12,7 @@ void hanoi(int noOfDisks, char where, char to, char extra)
         hanoi(noOfDisks - 1, extra, to, where);
     }
 }
-int main(void)
+int main_func(void)
 {
     int noOfDisks;
 

@@ -45,7 +45,7 @@ static int check_number(unsigned long long n)
  *
  * @return 0 on exit
  */
-int main(void)
+int main_func(void)
 {
     for (unsigned long long n = 20;; n += 20)
     {

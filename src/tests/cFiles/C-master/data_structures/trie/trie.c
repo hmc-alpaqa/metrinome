@@ -154,7 +154,7 @@ void trie_print (
 
 /*------Demonstrate purposes uses text file called dictionary -------*/
 
-int main() {
+int main_func() {
     int ret = 0;
     struct trie * root = NULL;
     struct trie * trie = NULL;

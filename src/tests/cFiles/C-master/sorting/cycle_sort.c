@@ -80,7 +80,7 @@ void cycleSort(int *arr, int n)
 }
 
 // Driver program to test above function
-int main()
+int main_func()
 {
     int n;  // Size of array elements
 

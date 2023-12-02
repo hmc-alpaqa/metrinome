@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     long n = 100;
     long long sum = 0;

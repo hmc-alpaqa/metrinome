@@ -20,7 +20,7 @@ void warshall()
                     tc[s][t] = 1;
 }
 
-int main(void)
+int main_func(void)
 {
     warshall();
     int i, j;

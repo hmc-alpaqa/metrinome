@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     unsigned long long n, curr_no, num_steps = 0;
     if (argc == 2)

@@ -80,7 +80,7 @@ unsigned int get_digits(unsigned char *number)
 }
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     unsigned char
         fn[MAX_DIGITS + 1]; /* array to store digits of a large number */

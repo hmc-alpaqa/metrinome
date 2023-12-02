@@ -44,7 +44,7 @@ void test_xor8()
 /** @} */
 
 /** Main function */
-int main()
+int main_func()
 {
     test_xor8();
     return 0;

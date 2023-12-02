@@ -268,7 +268,7 @@ void keyboard_cb(unsigned char key, int x, int y)
 #endif
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     test();
 

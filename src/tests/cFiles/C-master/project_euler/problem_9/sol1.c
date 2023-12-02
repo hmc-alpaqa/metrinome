@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 /** Main function */
-int main(void)
+int main_func(void)
 {
     for (int a = 1; a < 300; a++)
         for (int b = a + 1; b < 400; b++)

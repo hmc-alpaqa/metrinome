@@ -46,7 +46,7 @@ void rabin_karp_search(char *str, char *pattern, int d, int q)
     }
 }
 
-int main()
+int main_func()
 {
     char str[] = "AABCAB12AFAABCABFFEGABCAB";
     char pat1[] = "ABCAB";

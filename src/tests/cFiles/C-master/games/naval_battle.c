@@ -810,7 +810,7 @@ void printPositioning(int Player, int boat, int nm)
  * @brief Main function
  * @returns 0 on exit
  */
-int main()
+int main_func()
 {
     int Player1[10][10];
     int Player2[10][10];

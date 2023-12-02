@@ -47,7 +47,7 @@ int ternarySearch(int l, int r, int key, int ar[])
 }
 
 // Driver code
-int main()
+int main_func()
 {
     int l, r, p, key;
 

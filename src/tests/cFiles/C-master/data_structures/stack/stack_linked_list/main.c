@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "stack.h"
 
-int main()
+int main_func()
 {
     Stack_T stk;
     stk = Stack_init();

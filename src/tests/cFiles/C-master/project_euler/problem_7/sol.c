@@ -9,7 +9,7 @@
 /** Main function
  * @return 0 on exit
  */
-int main(void)
+int main_func(void)
 {
     char *sieve;
     size_t i;

@@ -64,7 +64,7 @@ void test()
  * Driver Code
  * @return None
  */
-int main()
+int main_func()
 {
     test();
     return 0;

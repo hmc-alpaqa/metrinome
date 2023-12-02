@@ -99,7 +99,7 @@ static void test()
  * @brief Main function
  * @returns 0 on exit
  */
-int main()
+int main_func()
 {
     /* Intializes random number generator */
     srand(time(NULL));

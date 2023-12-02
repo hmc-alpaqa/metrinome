@@ -3,7 +3,7 @@
 
 #define MAXBITS 100
 
-int main()
+int main_func()
 {
     // input of the user
     int inputNumber;

@@ -48,7 +48,7 @@ void PrintSortedPermutations(char *str)
     } while (largerPermFound);
 }
 
-int main()
+int main_func()
 {
     int n;  // size of string
     scanf("%d\n", &n);

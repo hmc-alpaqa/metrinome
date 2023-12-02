@@ -16,7 +16,7 @@ int ways(int n, int *a, int k)
     return ways(n, a, k - 1) + ways(n - a[k - 1], a, k);
 }
 
-int main()
+int main_func()
 {
     int m;
     int t;

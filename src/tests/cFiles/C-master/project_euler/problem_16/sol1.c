@@ -9,7 +9,7 @@
 #include <stdlib.h>
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     const double tmp = log(10) / log(2); /* required to get number of digits */
     unsigned long MAX_NUM_DIGITS;

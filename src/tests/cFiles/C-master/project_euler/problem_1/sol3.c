@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 /** Main function */
-int main()
+int main_func()
 {
     int n = 0;
     int sum = 0;

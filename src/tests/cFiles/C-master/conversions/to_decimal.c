@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-int main(void)
+int main_func(void)
 {
     int base, i, j;
     char number[100];

@@ -66,7 +66,7 @@ static void test()
 }
 
 /** Driver Code */
-int main(int argc, const char *argv[])
+int main_func(int argc, const char *argv[])
 {
     /* Intializes random number generator */
     srand(time(NULL));

@@ -33,7 +33,7 @@ int interpolationSearch(int arr[], int n, int key)
     return -1;
 }
 
-int main()
+int main_func()
 {
     int x;
     int arr[] = {10, 12, 13, 16, 18, 19, 20, 21, 22, 23, 24, 33, 35, 42, 47};

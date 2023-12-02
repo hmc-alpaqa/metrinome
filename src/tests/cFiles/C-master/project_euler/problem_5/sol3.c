@@ -47,7 +47,7 @@ unsigned long lcm(unsigned long a, unsigned long b)
 /** Main function
  * @returns 0 on exit
  */
-int main(void)
+int main_func(void)
 {
     unsigned long ans = 1;
     unsigned long i;

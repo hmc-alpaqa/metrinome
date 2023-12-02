@@ -42,7 +42,7 @@ bool hasHamiltonianPath(Graph g, int nV, Vertex src, Vertex dest)
     return hamiltonR(g, nV, src, dest, nV - 1);
 }
 
-int main(void)
+int main_func(void)
 {
     Edge e;
     int n;

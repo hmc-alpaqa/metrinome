@@ -61,7 +61,7 @@ static void tests() {
  * @brief Main function
  * @returns 0 on exit
 */
-int main()
+int main_func()
 {
     tests();  // run self-test implementations
     return 0;

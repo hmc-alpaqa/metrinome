@@ -12,7 +12,7 @@ int linearsearch(int *arr, int size, int val)
     return 0;
 }
 
-int main()
+int main_func()
 {
     int n, i, v;
     printf("Enter the size of the array:\n");

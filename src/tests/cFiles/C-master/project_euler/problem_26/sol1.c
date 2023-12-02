@@ -22,7 +22,7 @@ int compare(const void *a, const void *b)
 }
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     unsigned short max_digits = 0, max_idx_number = 0;
 

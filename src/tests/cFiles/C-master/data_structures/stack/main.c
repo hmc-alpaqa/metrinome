@@ -9,7 +9,7 @@ void display();
 
 int a[100], top = -1;
 
-int main()
+int main_func()
 {
     int x;
     while (1)

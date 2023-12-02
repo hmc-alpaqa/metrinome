@@ -59,7 +59,7 @@ long long int get_product(FILE *fp, long start_pos, int num_digits)
 }
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     int position = 0;
     int num_digits = 4;

@@ -16,7 +16,7 @@ int three_digits(int n)
     return d;
 }
 
-int main(void)
+int main_func(void)
 {
     int binary_num, d = 0, base = 1, remainder, td, res = 0, ord = 1;
 

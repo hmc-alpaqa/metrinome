@@ -62,7 +62,7 @@ static void test()
 /** Main function
  *  @returns integer 0
  */
-int main(int argc, const char *argv[])
+int main_func(int argc, const char *argv[])
 {
     /* Intializes random number generator */
     srand(time(NULL));

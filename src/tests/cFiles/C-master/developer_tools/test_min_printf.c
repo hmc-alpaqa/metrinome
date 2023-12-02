@@ -21,7 +21,7 @@
  * In each line user will see number or string covered with two colons, they are used to check from where the printing was started and where it ends
  * @returns 0 on exit
 */
-int main()
+int main_func()
 {
     // print strings using `printf` and `min_printf`
     min_printf(":%d: :%1.6d:\n", 12, 56);

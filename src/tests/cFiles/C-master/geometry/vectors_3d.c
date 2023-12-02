@@ -257,7 +257,7 @@ static void test()
  *
  * @return 0 on exit
  */
-int main(void)
+int main_func(void)
 {
     test();
 

@@ -22,7 +22,7 @@ int is_palindromic(unsigned int n)
 }
 
 /** Main function */
-int main(void)
+int main_func(void)
 {
     unsigned int i, j, max = 0;
     for (i = 100; i <= 999; i++)

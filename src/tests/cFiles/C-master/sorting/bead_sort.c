@@ -72,7 +72,7 @@ void bead_sort(int *a, size_t len)
 /** @} */
 
 /** Main function */
-int main(int argc, const char *argv[])
+int main_func(int argc, const char *argv[])
 {
     int n;
     printf("Enter size of array:\n");

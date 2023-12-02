@@ -50,7 +50,7 @@ static void test()
     }
     free(arr);
 }
-int main(int argc, const char *argv[])
+int main_func(int argc, const char *argv[])
 {
     /* Intializes random number generator */
     srand(time(NULL));

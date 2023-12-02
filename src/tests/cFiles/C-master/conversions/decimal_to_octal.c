@@ -2,7 +2,7 @@
 #include <stdio.h>
 void decimal2Octal(long decimalnum);
 
-int main()
+int main_func()
 {
     long decimalnum;
 

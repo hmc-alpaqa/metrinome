@@ -34,7 +34,7 @@ bool hasEulerPath(Graph g, int nV, Vertex v, Vertex w)
     return true;
 }
 
-int main(void)
+int main_func(void)
 {
     Edge e;
     int n;

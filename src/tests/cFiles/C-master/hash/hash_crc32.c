@@ -51,7 +51,7 @@ void test_crc32()
 /** @} */
 
 /** Main function */
-int main()
+int main_func()
 {
     test_crc32();
     return 0;

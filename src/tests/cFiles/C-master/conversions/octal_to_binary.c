@@ -49,7 +49,7 @@ long octalToBinary(int octalnum)
  * @brief Main function
  * @returns 0 on exit
  */
-int main()
+int main_func()
 {
     int octalnum;
 

@@ -385,7 +385,7 @@ void nearsearch(Tptr p, char *s, int d)
 
 #define NUMBER_OF_STRING 3
 
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     char *arr[NUMBER_OF_STRING] = {"apple", "cat", "boy"};
 

@@ -47,7 +47,7 @@ int isArmstrong(int x)
 }
 
 //
-int main()
+int main_func()
 {
     int x = 153;
     if (isArmstrong(x) == 1)

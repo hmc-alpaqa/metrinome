@@ -53,7 +53,7 @@ void error()
  * @brief Main function
  * @returns 0 on exit
  */
-int main()
+int main_func()
 {
     /** Variable Declarations */
     uint32_t

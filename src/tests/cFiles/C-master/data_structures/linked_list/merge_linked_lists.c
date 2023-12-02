@@ -55,7 +55,7 @@ void printlist(struct node *temp)
     printf("\n");
 }
 
-int main()
+int main_func()
 {
     // Linked List 1: 1->3->5->7   :   Linked List 2: 2->4->6
     //  making lists

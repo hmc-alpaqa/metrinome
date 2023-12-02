@@ -78,7 +78,7 @@ void random_quick(int *a, int left, int right)
     }
 }
 
-int main()
+int main_func()
 {
     srand(time(0));
     int num;

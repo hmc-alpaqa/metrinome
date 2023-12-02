@@ -172,7 +172,7 @@ static void test(int16_t *pcm, uint8_t *coded, int16_t *decoded, size_t len)
  * @param argv commandline array of arguments (ignored)
  * @returns 0 on exit
  */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     /* output alaw encoded by encode() */
     uint8_t coded[LEN];

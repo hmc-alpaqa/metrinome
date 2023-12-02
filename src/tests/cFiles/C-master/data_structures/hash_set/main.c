@@ -2,7 +2,7 @@
 
 #include "hash_set.h"
 
-int main()
+int main_func()
 {
     hash_set_t *set = init_hash_set();
 

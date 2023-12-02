@@ -43,7 +43,7 @@ void cocktailSort(int arr[], int size)
     }
 }
 
-int main()
+int main_func()
 {
     int i, n;
 

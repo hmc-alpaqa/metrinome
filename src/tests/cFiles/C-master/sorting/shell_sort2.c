@@ -63,7 +63,7 @@ void shell_sort(int *array, long LEN)
 /** @} */
 
 /** Main function */
-int main(int argc, char *argv[])
+int main_func(int argc, char *argv[])
 {
     int i;
     long size = 500;

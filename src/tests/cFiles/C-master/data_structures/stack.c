@@ -39,7 +39,7 @@ int isEmpty();
 ////////////////////////////////////////////////////////////////////////////////
 // MAIN ENTRY POINT
 
-int main(int argc, char const *argv[])
+int main_func(int argc, char const *argv[])
 {
     int x, y, z;
 

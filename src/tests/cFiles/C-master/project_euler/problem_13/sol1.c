@@ -120,7 +120,7 @@ int print_number(uint8_t *number, uint8_t N, int8_t num_digits_to_print)
 }
 
 /** Main function */
-int main(void)
+int main_func(void)
 {
     /* number of digits of the large number */
     const int N = 10;

@@ -71,7 +71,7 @@ void quickSort(int arr[], int lower, int upper)
     }
 }
 
-int main()
+int main_func()
 {
     int n;
     printf("Enter size of array:\n");

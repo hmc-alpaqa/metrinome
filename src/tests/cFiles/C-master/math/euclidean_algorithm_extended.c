@@ -147,7 +147,7 @@ static void test()
  * @brief Main Function
  * @returns 0 upon successful program exit
  */
-int main()
+int main_func()
 {
     test();  // run self-test implementations
     return 0;

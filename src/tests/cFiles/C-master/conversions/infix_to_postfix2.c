@@ -153,7 +153,7 @@ static void test() {
  * @brief Main function
  * @returns 0 on exit
  */
-int main() {
+int main_func() {
 	st.top = -1;			/// initialize
 	test();				/// run self-test implementations
 	char inf[25];			///< to store input infix expression

@@ -381,7 +381,7 @@ void test2()
  * This function calls the test
  * function
  */
-int main()
+int main_func()
 {
     srand(time(NULL));
     test();

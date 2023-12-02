@@ -100,7 +100,7 @@ static void test()
  * @brief Main function
  * @return 0 on exit
  */
-int main()
+int main_func()
 {
     // Performing the test
     test();

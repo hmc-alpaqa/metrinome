@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-int main()
+int main_func()
 {
 #define MAX_STR_LEN 17
     char hex[MAX_STR_LEN];

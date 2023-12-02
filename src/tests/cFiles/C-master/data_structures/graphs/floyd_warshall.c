@@ -82,7 +82,7 @@ void FloydWarshall(struct Graph *graph)
 }
 
 // Driver Function
-int main()
+int main_func()
 {
     int V, E;
     int src, dst, weight;

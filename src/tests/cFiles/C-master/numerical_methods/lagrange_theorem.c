@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int main_func()
 {
     float x[20], y[20], a, sum, p;
     int n, i, j;

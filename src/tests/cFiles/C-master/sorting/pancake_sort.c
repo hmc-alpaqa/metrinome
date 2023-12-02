@@ -65,7 +65,7 @@ void display(int arr[], int n)
 #define N 50
 
 // Driver program to test above function
-int main()
+int main_func()
 {
     int arr[N];
     for (int i = 0; i < N; i++)

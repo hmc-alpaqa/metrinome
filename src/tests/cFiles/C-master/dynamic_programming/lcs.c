@@ -159,7 +159,7 @@ static void test() {
  * @param argv commandline array of arguments (ignored)
  * @returns 0 on exit
  */
-int main(int argc, char *argv[]) {
+int main_func(int argc, char *argv[]) {
 	test();  // run self-test implementations
 	return 0;
 }

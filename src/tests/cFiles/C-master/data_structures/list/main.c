@@ -11,7 +11,7 @@ void print_list(char **array)
     printf("\n");
 }
 
-int main()
+int main_func()
 {
     List_T list1, list2, list3;
     char **str1 = (char **)malloc(100 * sizeof(char *));

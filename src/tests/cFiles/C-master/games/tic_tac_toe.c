@@ -34,7 +34,7 @@ static char game_table[9];
  * @returns 0 on clean exit. 
  * @note No checks are included for program execution failures!
  */
-int main()
+int main_func()
 {   
     srand( (unsigned int)time(NULL));
     int l = 0;

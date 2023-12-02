@@ -70,7 +70,7 @@ static void test()
  * @param argv commandline array of arguments (ignored)
  * @returns 0 on exit
  */
-int main(int argc, const char *argv[])
+int main_func(int argc, const char *argv[])
 {
     test();	// execute the tests
     return 0;

@@ -115,7 +115,7 @@ void test()
 }
 
 /** Main function */
-int main()
+int main_func()
 {
     test();
 

@@ -101,7 +101,7 @@ const char *hex_to_oct(const char *hex)
  * @brief Main function
  * @returns 0 on exit
  */
-int main()
+int main_func()
 {
 #define MAX_HEX_STR_LEN 17 /* FFFF_FFFF_FFFF_FFFF */
     char hex[MAX_HEX_STR_LEN];

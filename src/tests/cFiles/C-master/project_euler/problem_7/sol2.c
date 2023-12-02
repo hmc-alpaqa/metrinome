@@ -8,7 +8,7 @@
 /** Main function
  * @return 0 on exit
  */
-int main()
+int main_func()
 {
     int n;
     scanf("%d", &n);

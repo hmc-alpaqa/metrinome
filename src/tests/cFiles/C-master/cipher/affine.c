@@ -200,7 +200,7 @@ static void tests()
  *
  * @returns 0 upon successful program exit
  */
-int main()
+int main_func()
 {
     tests();
     return 0;

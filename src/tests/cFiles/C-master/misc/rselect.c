@@ -62,7 +62,7 @@ int rselect(int a[], int l, int r, int n, int o)
     }
     return -1;
 }
-int main()
+int main_func()
 {
     srand(time(NULL));
     int n, o, i, *a;

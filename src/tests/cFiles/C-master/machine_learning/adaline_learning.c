@@ -395,7 +395,7 @@ void test3(double eta)
 }
 
 /** Main function */
-int main(int argc, char **argv)
+int main_func(int argc, char **argv)
 {
     srand(time(NULL));  // initialize random number generator
 

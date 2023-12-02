@@ -3,7 +3,7 @@
  */
 #include <stdio.h>
 
-int main()
+int main_func()
 {
     long int binary, hexa = 0, i = 1, remainder;
 

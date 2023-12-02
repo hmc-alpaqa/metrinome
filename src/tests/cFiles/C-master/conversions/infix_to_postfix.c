@@ -33,7 +33,7 @@ void convert(char infix[],
  * @brief main function
  * @returns 0 on exit
  */
-int main()
+int main_func()
 {
     char infix[20], postfix[20];  // initialize empty infix and postfix array
 

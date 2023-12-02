@@ -182,7 +182,7 @@ void user_graph(uint16_t G[][MAX], uint16_t MST[][MAX], uint16_t V)
  * @param argv commandline array of arguments (ignored)
  * @returns 0 on exit
  */
-int main(int argc, char const *argv[])
+int main_func(int argc, char const *argv[])
 {   
 
     uint16_t G[MAX][MAX];    ///< weighted, connected graph G

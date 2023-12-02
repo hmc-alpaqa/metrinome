@@ -8,7 +8,7 @@
 /* includes the dictionary */
 #include "dict.h"
 
-int main(void)
+int main_func(void)
 {
     Dictionary *testObj1;
     Dictionary *testObj2;

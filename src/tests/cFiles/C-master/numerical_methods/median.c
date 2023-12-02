@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int main_func()
 {
     int a[10], n, i, j, temp;
     float mean, median;

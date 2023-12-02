@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int main_func()
 {
     int *ARRAY = NULL, ARRAY_LENGTH, i, TEMPORARY_ELEMENT, isSorted = 0;
     float MEAN = 0, VARIANCE = 0, STAND;
