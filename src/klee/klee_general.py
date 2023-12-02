@@ -83,6 +83,7 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
             klee_command = klee_function(output_file, i)
             print(klee_command)
             results = klee_with_preferences_general(klee_command, timeout)
+            time_elapsed : float = results[1]
             klee_stats_params = "--table-format=simple --print-all"
             stats = subprocess.run(f"{klee_path}-stats {klee_stats_params} {output_file}", shell=True, stdout=PIPE, stderr=PIPE, check=True)
             if remove:
@@ -97,6 +98,10 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
                         stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
                         stats_dict["PythonTime"] = results
             results_dict[(name, i)] = stats_dict
+            if time_elapsed > timeout:
+                print(f"TIMEOUT ON {name}, depth={i}")
+                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                break
         except Exception as e:
             if remove:
                 subprocess.run(f"rm -r {output_file}", shell=True, check=False)
@@ -104,6 +109,11 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
                 subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
             print(f"FAILED TO RUN ON {name}, depth={i}")
             traceback.print_exception(type(e), e, e.__traceback__)
+            # see if traceback contains subprocess.TimeoutExpired and if so, break out of loop
+            if any([isinstance(e, subprocess.TimeoutExpired) for e in e.args]):
+                print(f"TIMEOUT ON {name}, depth={i}")
+                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                break
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     return results_dict
@@ -133,6 +143,20 @@ def generate_files(src_filepath, filepath, func_name, optimized):
         names.append(f"{func_name}_{i}_{opt_str}")
     return names
 
+def generate_files_single(src_filepath, filepath, func_name, optimized, single_function_name):
+    filename = f"{src_filepath}{func_name}.c"
+    output = KleeUtils(Log()).show_single_func_defs(filename, function_name=single_function_name, optimized=optimized)
+    names = []
+    for i in output:
+        opt_str = optimized*"optimized"
+        new_name = f"{filepath}{func_name}_{i}_{opt_str}.c"
+        bcname = f"{filepath}{func_name}_{i}_{opt_str}.bc"
+        with open(new_name, "w+") as file:
+            file.write(output[i])
+        cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -Xclang -disable-O0-optnone  -o {bcname} {new_name}"
+        subprocess.run(cmd, shell=True, capture_output=True, check=True)
+        names.append(f"{func_name}_{i}_{opt_str}")
+    return names
 
 def generate_files_premade(src_filepath, filepath, filename):
     cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -Xclang -disable-O0-optnone  -o {filepath}{filename}_klee.bc {src_filepath}{filename}_klee.c"
@@ -236,15 +260,15 @@ def main() -> None:
 
         pregenerated = []
 
-        file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files(src_filepath, file_path, file_name, False) if file_name not in pregenerated else generate_files_premade(src_filepath, file_path, file_name)))
+        file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files_single(src_filepath, file_path, file_name, False, function[2]) if file_name not in pregenerated else generate_files_premade(src_filepath, file_path, file_name)))
 
-        functions = [function[2]]
+        functions = [function[1]]
         # functions = ['even_odd']
 
 
         labels = ["normal"] # the labels for the different "compilation methods"
 
-        xaxis = ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024'] # max depth value
+        xaxis = [i for i in range(2, 100, 2)] # all possible values for the input variable
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','20','25','50','100','500','1000'] # for factorial
         #xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'] #for quicksort
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','20','25','27','28','29','30','33',"35",'36'] #for fib_rec_wrapper
@@ -252,7 +276,7 @@ def main() -> None:
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','16','17'] #for partition
         # xaxis = ['20','21','22','23','24','30','50']
         # xaxis = ['1', '2', '3', '200']
-        timeout = 1000 #timeout
+        timeout = 60 #timeout
         fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
                 "SysTime", "PythonTime"] # all klee output fields that we are interested in
         remove = True # whether klee files should be deleted after the important data is collected. Usually set to True

@@ -157,7 +157,80 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self._logger = logger
 
-    def show_func_defs(self, filename: str, size: int = 1000,
+    def show_single_func_defs(self, filename: str, function_name: str, size: int = 100,
+                              optimized: bool = False) -> dict[str, str]:
+
+        """
+        Generate the set of klee-compatible files.
+
+        Create a new set of files based on an existing file that are formatted properly
+        to work with klee.
+        """
+        self._logger.d_msg(f"Going to parse file {filename}")
+        if optimized:
+            cppargs = ['-O3', '-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
+        else:
+            cppargs = ['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
+            # cppargs = ['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include', r'-I/usr/include/x86_64-linux-gnu/']
+        ast = parse_file(filename, use_cpp=True, cpp_path='gcc', cpp_args=cppargs)
+        self._logger.d_msg("Going to visit functions.")
+        func_visitor = FuncVisitor(self._logger)
+        func_visitor.visit(ast)
+
+        uuids: set[uuid.UUID] = set()
+        klee_formatted_files = dict()
+        # for func_name in func_visitor.vars.keys():
+        variables = [list(v) for v in func_visitor.vars[function_name]]
+        var_names = []
+
+        file_str = "#include <klee/klee.h>\n"
+        file_str += f"#include <{filename}>\n"
+        file_str += f"#define SIZE {size}\n"
+        file_str += "int main() {\n"
+        # print(variables)
+        # exit(0)
+        for var in variables:
+            if var[0][-4:] == "[];\n":
+                var[0] = var[0].replace("[]", "[SIZE]")
+            
+            # if it contains a pointer, we need to make it symbolic same as an array
+            # do this by adding SIZE to the end of the declaration
+            # for example, int *a; becomes int a[SIZE];
+            # we need to do this for each * so int **a; becomes int a[SIZE][SIZE];
+            for i in range(var[0].count('*')):
+                # remove the first * from the declaration
+                var[0] = var[0].replace('*', '', 1)
+                # add SIZE to the end of the declaration
+                var[0] = var[0].replace(';', f"[SIZE];", 1)
+
+
+            file_str += f"\n\t{var[0]}"
+
+            name = uuid.uuid4()
+            while name in uuids:
+                name = uuid.uuid4()
+            uuids.add(name)
+            
+            file_str += f"\tklee_make_symbolic(&{var[1]}," + \
+                        f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
+            if ('int' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
+                file_str += f"""\tif (({var[1]}<-1) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
+            if ('size_t' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
+                file_str += f"""\tif (({var[1]}<=0) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
+            var_names.append(var[1])
+
+        if func_visitor.types[function_name] == 'void':
+            file_str += f"\t{function_name}({', '.join(var_names)});\n"
+            file_str += "\treturn 0;\n"
+        elif None in var_names:
+            file_str += f"\treturn {function_name}();\n"
+        else:
+            file_str += f"\treturn {function_name}({', '.join(var_names)});\n"
+        file_str += "}\n"
+        klee_formatted_files[function_name] = file_str
+        return klee_formatted_files
+
+    def show_func_defs(self, filename: str, size: int = 100,
                        optimized: bool = False) -> dict[str, str]:
         """
         Generate the set of klee-compatible files.
@@ -186,9 +259,22 @@ class KleeUtils:
             file_str += f"#include <{filename}>\n"
             file_str += f"#define SIZE {size}\n"
             file_str += "int main() {\n"
+            # print(variables)
+            # exit(0)
             for var in variables:
                 if var[0][-4:] == "[];\n":
                     var[0] = var[0].replace("[]", "[SIZE]")
+                
+                # if it contains a pointer, we need to make it symbolic same as an array
+                # do this by adding SIZE to the end of the declaration
+                # for example, int *a; becomes int a[SIZE];
+                # we need to do this for each * so int **a; becomes int a[SIZE][SIZE];
+                for i in range(var[0].count('*')):
+                    # remove the first * from the declaration
+                    var[0] = var[0].replace('*', '', 1)
+                    # add SIZE to the end of the declaration
+                    var[0] = var[0].replace(';', f"[SIZE];", 1)
+
 
                 file_str += f"\n\t{var[0]}"
 
@@ -196,11 +282,13 @@ class KleeUtils:
                 while name in uuids:
                     name = uuid.uuid4()
                 uuids.add(name)
-
+                
                 file_str += f"\tklee_make_symbolic(&{var[1]}," + \
                             f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
                 if ('int' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
                     file_str += f"""\tif (({var[1]}<-1) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
+                if ('size_t' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
+                    file_str += f"""\tif (({var[1]}<=0) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
                 var_names.append(var[1])
 
             if func_visitor.types[func_name] == 'void':
