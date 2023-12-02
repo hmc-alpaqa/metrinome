@@ -1,3 +1,4 @@
 FROM harveymudd/metrinome:latest 
 
-COPY src/* /app/code/
+COPY src/ /app/code/
+RUN pip install networkx
