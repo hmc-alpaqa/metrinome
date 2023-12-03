@@ -133,7 +133,13 @@ class FuncVisitor(c_ast.NodeVisitor):
         """
         # Node is a pycparser.c_ast.funcdef
         args = node.decl.type.args  # type ParamList.
-        return_type = node.decl.type.type.type.names[0]
+        # print(node.decl.type.type.type.names)
+
+        try:
+            return_type = node.decl.type.type.type.names[0]
+        except AttributeError:
+            return_type = None
+
         self._logger.i_msg(f"Looking at {node.decl.name}()")
         self.types[node.decl.name] = return_type
         if args is not None:
@@ -157,21 +163,35 @@ class KleeUtils:
         """Create a new instance of KleeUtils."""
         self._logger = logger
 
-    def show_single_func_defs(self, filename: str, function_name: str, size: int = 100,
-                              optimized: bool = False) -> dict[str, str]:
+    def generate_assume_loops(self, var_name, dimensions):
+        loop_str = ""
+        indent = "\t\t"
+        for d in range(dimensions):
+            loop_str += f"{indent}for (int i{d} = 0; i{d} < SIZE; i{d}++) {{\n"
+            indent += "\t"
 
+        # Adding klee_assume statement
+        indices = "[" + "][".join(f"i{d}" for d in range(dimensions)) + "]"
+        loop_str += f"{indent}klee_assume({var_name}{indices} <= MAX_VALUE);\n"
+
+        # Closing braces
+        for d in range(dimensions):
+            indent = indent[:-1]
+            loop_str += f"{indent}}}\n"
+
+        return loop_str
+
+    def show_single_func_defs(self, filename: str, function_name: str, size: int = 100,
+                            optimized: bool = False) -> dict[str, str]:
         """
         Generate the set of klee-compatible files.
-
-        Create a new set of files based on an existing file that are formatted properly
-        to work with klee.
         """
         self._logger.d_msg(f"Going to parse file {filename}")
         if optimized:
             cppargs = ['-O3', '-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
         else:
             cppargs = ['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include']
-            # cppargs = ['-nostdinc', '-E', r'-I/app/pycparser/utils/fake_libc_include', r'-I/usr/include/x86_64-linux-gnu/']
+
         ast = parse_file(filename, use_cpp=True, cpp_path='gcc', cpp_args=cppargs)
         self._logger.d_msg("Going to visit functions.")
         func_visitor = FuncVisitor(self._logger)
@@ -179,46 +199,43 @@ class KleeUtils:
 
         uuids: set[uuid.UUID] = set()
         klee_formatted_files = dict()
-        # for func_name in func_visitor.vars.keys():
         variables = [list(v) for v in func_visitor.vars[function_name]]
         var_names = []
 
         file_str = "#include <klee/klee.h>\n"
         file_str += f"#include <{filename}>\n"
         file_str += f"#define SIZE {size}\n"
+        file_str += f"#define MAX_VALUE 65536\n"
         file_str += "int main() {\n"
-        # print(variables)
-        # exit(0)
-        for var in variables:
-            if var[0][-4:] == "[];\n":
-                var[0] = var[0].replace("[]", "[SIZE]")
-            
-            # if it contains a pointer, we need to make it symbolic same as an array
-            # do this by adding SIZE to the end of the declaration
-            # for example, int *a; becomes int a[SIZE];
-            # we need to do this for each * so int **a; becomes int a[SIZE][SIZE];
-            for i in range(var[0].count('*')):
-                # remove the first * from the declaration
-                var[0] = var[0].replace('*', '', 1)
-                # add SIZE to the end of the declaration
-                var[0] = var[0].replace(';', f"[SIZE];", 1)
 
+        for var in variables:
+            dimensions = var[0].count('[') or var[0].count('*')
+            if dimensions > 0:
+                var[0] = var[0].replace("[]", "[SIZE]")
+                var[0] = var[0].replace('*', '', dimensions)
+                var[0] = var[0].replace(';', f"{'[SIZE]' * dimensions};", 1)
 
             file_str += f"\n\t{var[0]}"
-
             name = uuid.uuid4()
             while name in uuids:
                 name = uuid.uuid4()
             uuids.add(name)
-            
+
             file_str += f"\tklee_make_symbolic(&{var[1]}," + \
                         f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
+
+            if dimensions > 0:
+                file_str += self.generate_assume_loops(var[1], dimensions)
+
+            # Other conditions remain unchanged
             if ('int' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
                 file_str += f"""\tif (({var[1]}<-1) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
             if ('size_t' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
                 file_str += f"""\tif (({var[1]}<=0) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
+
             var_names.append(var[1])
 
+        # Function call and return statements
         if func_visitor.types[function_name] == 'void':
             file_str += f"\t{function_name}({', '.join(var_names)});\n"
             file_str += "\treturn 0;\n"
