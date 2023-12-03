@@ -181,7 +181,7 @@ class KleeUtils:
 
         return loop_str
 
-    def show_single_func_defs(self, filename: str, function_name: str, size: int = 100,
+    def show_single_func_defs(self, filename: str, function_name: str, size: int = 1024,
                             optimized: bool = False) -> dict[str, str]:
         """
         Generate the set of klee-compatible files.
@@ -224,8 +224,8 @@ class KleeUtils:
             file_str += f"\tklee_make_symbolic(&{var[1]}," + \
                         f" sizeof({var[1]}), \"{str(name).replace('-', '')}\");\n"
 
-            if dimensions > 0:
-                file_str += self.generate_assume_loops(var[1], dimensions)
+            # if dimensions > 0:
+            #     file_str += self.generate_assume_loops(var[1], dimensions)
 
             # Other conditions remain unchanged
             if ('int' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):

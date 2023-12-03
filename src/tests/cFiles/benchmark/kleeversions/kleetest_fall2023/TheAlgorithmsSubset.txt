@@ -1,4 +1,4 @@
-/app/code/tests/cFiles/C-master/sorting/bead_sort.c bead_sort
+!/app/code/tests/cFiles/C-master/sorting/bead_sort.c bead_sort
 /app/code/tests/cFiles/C-master/sorting/binary_insertion_sort.c insertionSort
 /app/code/tests/cFiles/C-master/sorting/bogo_sort.c sort
 /app/code/tests/cFiles/C-master/sorting/bubble_sort.c bubbleSort
@@ -18,7 +18,7 @@
 /app/code/tests/cFiles/C-master/sorting/odd_even_sort.c oddEvenSort
 /app/code/tests/cFiles/C-master/sorting/pancake_sort.c pancakeSort
 /app/code/tests/cFiles/C-master/sorting/partition_sort.c partitionSort
-/app/code/tests/cFiles/C-master/sorting/patience_sort.c patience_sort
+!/app/code/tests/cFiles/C-master/sorting/patience_sort.c patienceSort
 /app/code/tests/cFiles/C-master/sorting/pigeonholeSort.c pigeonholeSort
 /app/code/tests/cFiles/C-master/sorting/quick_sort.c quickSort
 /app/code/tests/cFiles/C-master/sorting/radix_sort.c RadixSort

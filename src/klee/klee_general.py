@@ -285,7 +285,7 @@ def main() -> None:
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','16','17'] #for partition
         # xaxis = ['20','21','22','23','24','30','50']
         # xaxis = ['1', '2', '3', '200']
-        timeout = 60 #timeout
+        timeout = 1000 #timeout
         fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
                 "SysTime", "PythonTime"] # all klee output fields that we are interested in
         remove = True # whether klee files should be deleted after the important data is collected. Usually set to True
