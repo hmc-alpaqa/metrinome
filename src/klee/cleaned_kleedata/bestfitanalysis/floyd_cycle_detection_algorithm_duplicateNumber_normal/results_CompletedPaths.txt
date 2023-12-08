@@ -1,0 +1,1 @@
+algorithm_duplicateNumber_normal exp O(2.86 * 1.40^n)

@@ -1,0 +1,4 @@
+,Unnamed: 0,ICov(%),BCov(%),CompletedPaths,GeneratedTests,RealTime,UserTime,SysTime,PythonTime
+0,max depth=2,8.17,7.69,3,3,0.04,0.03,0.0,0.0425167083740234
+1,max depth=4,29.43,30.77,5,5,0.04,0.03,0.01,0.0479495525360107
+2,max depth=6,43.6,50.0,9,9,0.12,0.11,0.01,0.1276605129241943

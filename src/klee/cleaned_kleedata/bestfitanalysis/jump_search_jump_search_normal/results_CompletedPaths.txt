@@ -1,0 +1,1 @@
+h_normal quadratic O(0.90 * n^2)

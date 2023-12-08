@@ -14,12 +14,12 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-path = Path('../../src/tests/cFiles/example_apc/cleaned_kleedata')
+path = Path('../../src/klee/cleaned_kleedata')
 analysis_path = path / 'bestfitanalysis'
 plotly_htmls = path / 'plotly_htmls'
 plotly_images = path / 'plotly_images'
 
-for dir_ in [analysis_path, plotly_htmls]:
+for dir_ in [analysis_path, plotly_htmls, plotly_images]:
     if not os.path.exists(dir_):
         os.mkdir(dir_)
 # %%
@@ -83,6 +83,9 @@ def experiment_plotly(file):
 
     x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
     y = np.array([int(j) for j in fram.loc[:, column_name]])
+
+    if len(x) <= 1:
+        return
     # ensure intercept is (0, 0) (default is (1, 0))
     x -= 1
     # remove values from x > 25
@@ -97,8 +100,8 @@ def experiment_plotly(file):
     # small fig size
     fig.update_layout(
         autosize=False,
-        width=500,
-        height=350,
+        width=1000,
+        height=700,
     )
     fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='data'))
     fig.update_xaxes(title='Depth')
@@ -142,7 +145,7 @@ def experiment_plotly(file):
             label = f'{func} {aic:.3f}'
             fig.add_trace(go.Scatter(x=plot_x, y=plot_y,
                                      name=label, mode='lines', visible=None if i < 2 else 'legendonly'))
-        
+
         # label the legend "MSEs"
         fig.update_layout(legend_title_text='MSEs')
 
@@ -165,8 +168,10 @@ def experiment_plotly(file):
         fig.update_yaxes(autorange=True)
         # fig.write_html(plotly_htmls / f'{func_name}.html')
         # save to file
-        fig.write_image(plotly_images / f'{func_name}.png', format='png', width=1000, height=600, scale=1)
-        results_file.write(f'{func_name} {min_func} {convert_func_to_order_with_lead(min_func, coeffs_dict[min_func])}\n')
+        fig.write_image(
+            plotly_images / f'{func_name}.png', format='png', width=1000, height=600, scale=1)
+        results_file.write(
+            f'{func_name} {min_func} {convert_func_to_order_with_lead(min_func, coeffs_dict[min_func])}\n')
         fig.show()
 
 
@@ -232,13 +237,25 @@ for file in sorted(os.listdir(path)):
 print(f'Finished {num_files} files')
 
 # %%
+# list out files with <= 10 max depth
+count = 0
+for file in sorted(os.listdir(path)):
+    if "." not in file and os.path.isfile(path / file):
+        fram = pd.read_csv(path / file)
+        x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 1]])
+        if len(x) <= 7:
+            count += 1
+            print(file, len(x))
+print(count)
+
+# %%
 # single file debugging
 file = 'example_apc_functions_quickSort_normal'
 file = 'example_apc_functions_max_value_iter_normal'
 file = 'example_apc_functions_fib_rec_normal'
 file = 'example_apc_functions_power_rec_normal'
 file = 'example_apc_functions_' + 'polypath_notrec_eli_normal'
-file = 'example_apc_functions_' + 'insertionSort_normal' 
+file = 'example_apc_functions_' + 'insertionSort_normal'
 experiment_plotly(file)
 # %%
 

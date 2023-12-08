@@ -1,0 +1,3 @@
+KLEE: WARNING: undefined reference to function: __isoc99_scanf
+KLEE: WARNING: undefined reference to function: printf
+KLEE: WARNING ONCE: Alignment of memory from call "malloc" is not modelled. Using alignment of 8.

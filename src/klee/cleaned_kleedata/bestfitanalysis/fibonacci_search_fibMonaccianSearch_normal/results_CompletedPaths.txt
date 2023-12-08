@@ -1,0 +1,1 @@
+naccianSearch_normal exp O(2.82 * 1.34^n)

@@ -7,8 +7,7 @@ from pathlib import Path
 import plotly.express as px
 
 
-path = Path('../../src/tests/cFiles/example_apc/kleedata')
-path = Path('../../src/tests/cFiles/example_apc/kleetest_long_array_v2')
+path = Path('../../src/klee/kleetest_fall2023')
 cleaned_path = path / '../cleaned_kleedata'
 if not os.path.exists(cleaned_path):
     os.mkdir(cleaned_path)
@@ -21,7 +20,7 @@ def comparedepth(series, depth):
 
 for file in os.listdir(path):
     if "." not in file and os.path.isfile(path / file):
-        func_name = file[len('example_apc_functions_'):]
+        func_name = file
         plt.clf()
         fram = pd.read_csv(path / file)
         x = np.array([int(i.split("=")[1]) for i in fram.iloc[:, 0]])

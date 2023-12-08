@@ -1,0 +1,1 @@
+t_normal exp O(2.12 * 1.41^n)

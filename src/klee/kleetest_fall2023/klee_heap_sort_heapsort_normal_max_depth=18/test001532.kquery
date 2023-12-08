@@ -1,0 +1,92 @@
+array 06fa832cf5154359bd8893cf698ca7af[4096] : w32 -> w8 = symbolic
+array 6cbc379e528f4b5eb6f5ced991a07151[4] : w32 -> w8 = symbolic
+(query [(Eq false
+             (Slt N0:(ReadLSB w32 0 6cbc379e528f4b5eb6f5ced991a07151)
+                  4294967295))
+         (Eq false (Slt 1024 N0))
+         (Sle 2 N0)
+         (Ult N1:(Mul w64 4 (SExt w64 N0))
+              4093)
+         (Sle 2 N2:(Add w32 4294967295 N0))
+         (Slt 2 N2)
+         (Slt (ReadLSB w32 8 U0:[N3:(Add w32 3 N4:(Extract w32 0 N1))=(Read w8 7 06fa832cf5154359bd8893cf698ca7af),
+                                 N5:(Add w32 2 N4)=(Read w8 6 06fa832cf5154359bd8893cf698ca7af),
+                                 N6:(Add w32 1 N4)=(Read w8 5 06fa832cf5154359bd8893cf698ca7af),
+                                 N4=(Read w8 4 06fa832cf5154359bd8893cf698ca7af)] @ 06fa832cf5154359bd8893cf698ca7af)
+              N7:(ReadLSB w32 12 U0))
+         (Eq false
+             (Slt N7
+                  N8:(ReadLSB w32 N4 06fa832cf5154359bd8893cf698ca7af)))
+         (Sle 6 N2)
+         (Slt 6 N2)
+         (Slt (ReadLSB w32 24 U0)
+              N9:(ReadLSB w32 28 U0))
+         (Slt N9 N8)
+         (Slt (ReadLSB w32 8 U1:[N10:(Add w32 3
+                                              N11:(Extract w32 0 (Mul w64 4 (SExt w64 N2))))=N12:(Read w8 15 U0),
+                                 N13:(Add w32 2 N11)=N14:(Read w8 14 U0),
+                                 N15:(Add w32 1 N11)=N16:(Read w8 13 U0),
+                                 N11=N17:(Read w8 12 U0)] @
+                             U2:[15=N18:(Read w8 N3 06fa832cf5154359bd8893cf698ca7af),
+                                 14=N19:(Read w8 N5 06fa832cf5154359bd8893cf698ca7af),
+                                 13=N20:(Read w8 N6 06fa832cf5154359bd8893cf698ca7af),
+                                 12=N21:(Read w8 N4 06fa832cf5154359bd8893cf698ca7af),
+                                 7=N12,
+                                 6=N14,
+                                 5=N16,
+                                 4=N17] @ U0)
+              N22:(ReadLSB w32 12 U1))
+         (Eq false
+             (Slt N22
+                  (ReadLSB w32 N11 U2)))
+         (Eq false
+             (Slt 6 N23:(Add w32 4294967294 N0)))
+         (Slt (ReadLSB w32 8 U3:[N24:(Add w32 3
+                                              N25:(Extract w32 0 (Mul w64 4 (SExt w64 N23))))=N26:(Read w8 15 U1),
+                                 N27:(Add w32 2 N25)=N28:(Read w8 14 U1),
+                                 N29:(Add w32 1 N25)=N30:(Read w8 13 U1),
+                                 N25=N31:(Read w8 12 U1)] @
+                             U4:[15=N32:(Read w8 N10 U2),
+                                 14=N33:(Read w8 N13 U2),
+                                 13=N34:(Read w8 N15 U2),
+                                 12=N35:(Read w8 N11 U2),
+                                 7=N26,
+                                 6=N28,
+                                 5=N30,
+                                 4=N31] @ U1)
+              (ReadLSB w32 12 U3))
+         (Slt (ReadLSB w32 8 U5:[N36:(Add w32 3
+                                              N37:(Extract w32 0 (Mul w64 4
+                                                                          (SExt w64 (Add w32 4294967293 N0)))))=N38:(Read w8 15 U3),
+                                 N39:(Add w32 2 N37)=N40:(Read w8 14 U3),
+                                 N41:(Add w32 1 N37)=N42:(Read w8 13 U3),
+                                 N37=N43:(Read w8 12 U3)] @
+                             U6:[15=(Read w8 N24 U4),
+                                 14=(Read w8 N27 U4),
+                                 13=(Read w8 N29 U4),
+                                 12=(Read w8 N25 U4),
+                                 7=N38,
+                                 6=N40,
+                                 5=N42,
+                                 4=N43] @ U3)
+              N44:(ReadLSB w32 12 U5))
+         (Eq false
+             (Slt N44
+                  (ReadLSB w32 N37 U6)))
+         (Eq false
+             (Slt (ReadLSB w32 8 U7:[(Add w32 3
+                                              N45:(Extract w32 0 (Mul w64 4
+                                                                          (SExt w64 (Add w32 4294967292 N0)))))=N46:(Read w8 15 U5),
+                                     (Add w32 2 N45)=N47:(Read w8 14 U5),
+                                     (Add w32 1 N45)=N48:(Read w8 13 U5),
+                                     N45=N49:(Read w8 12 U5),
+                                     15=N50:(Read w8 N36 U6),
+                                     14=N51:(Read w8 N39 U6),
+                                     13=N52:(Read w8 N41 U6),
+                                     12=N53:(Read w8 N37 U6),
+                                     7=N46,
+                                     6=N47,
+                                     5=N48,
+                                     4=N49] @ U5)
+                  (ReadLSB w32 12 U7)))]
+        false)

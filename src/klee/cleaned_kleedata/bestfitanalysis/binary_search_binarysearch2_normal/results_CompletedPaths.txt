@@ -1,0 +1,1 @@
+arch2_normal exp O(1.37 * 1.25^n)

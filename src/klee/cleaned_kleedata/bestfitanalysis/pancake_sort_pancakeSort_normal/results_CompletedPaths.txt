@@ -1,0 +1,1 @@
+rt_normal exp O(1.00 * 1.58^n)
