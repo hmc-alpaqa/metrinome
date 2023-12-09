@@ -27,7 +27,12 @@ class CPPConvert(converter.ConverterAbstract):
         self._edge_pattern = "->"
         self._name_pattern = "([a-zA-Z0-9]+ )"
         self._optimize = False
-        self._call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
+        # self._call_pattern = r"(@_)[A-Z0-9]{2,}[A-Za-z0-9_]*\("
+        # TODO: merge in david's code to correct parsing and other graph conversions
+        # For now, this ignores the _Z6 prefix that was previously matched,
+        # and we remove the underscore after @
+        # this fix was needed to make clang work (instead of clang++)
+        self._call_pattern = r"(@)[A-Za-z0-9_]*\("
 
     def name(self) -> str:
         """Get the name of the CPP converter."""
