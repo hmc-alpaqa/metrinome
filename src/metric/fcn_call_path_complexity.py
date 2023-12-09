@@ -276,6 +276,8 @@ class FunctionCallPathComplexity(ABC):
                     if called_fcn in ['START', 'CALLS']:  # label is not an actual call
                         continue
                     if called_fcn not in used_graphs:  # if function hasn't been called and processed earlier
+                        if not any(called_fcn == graph.split(".")[-2] for graph in all_graphs):
+                            continue
                         # add new functions being called to used_graphs
                         used_graphs.append(called_fcn)
                         # find graph from all_cfgs, add to graphs_to_process
