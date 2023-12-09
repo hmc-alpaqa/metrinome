@@ -1,1 +1,3 @@
-/app/code/experiments/function_calls/benchmark/even_odd_f2f.c
+/app/code/experiments/function_calls/benchmark/even_odd_f2f.c even
+/app/code/experiments/function_calls/benchmark/palindrome_recursive.c palindrome_r
+/app/code/experiments/function_calls/benchmark/partition_f2f.c partition
