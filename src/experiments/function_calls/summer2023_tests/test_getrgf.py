@@ -79,6 +79,7 @@ class DataCollector:
                         #     print("error incorrect apc:",getrgf['rfcapc'])
                         #     sys.exit()
                 except Exception as exc:
+                    print(exc)
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
                 
