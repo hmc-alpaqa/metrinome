@@ -53,7 +53,7 @@ class FunctionCallPathComplexity(ABC):
                     if called_fcn in ['START', 'CALLS']:
                         continue
                     if called_fcn not in used_graphs:
-                        if not any(called_fcn == graph_name.split('.')[1] for graph in all_cfgs):
+                        if not any(called_fcn == graph_name.split('.')[1] for graph_name in all_cfgs):
                             continue
                         used_graphs.append(called_fcn)
                         # find graph from all_cfgs, add to graphs_to_process
