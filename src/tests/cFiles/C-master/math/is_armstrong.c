@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-int main_func()
+int main_func(int n)
 {
-    int n, sum = 0, i, num;
-    printf("Enter number: ");
-    scanf("%d", &n);
+    int sum = 0, i, num;
+    // printf("Enter number: ");
+    // scanf("%d", &n);
     num = n;
     while (n != 0)
     {
@@ -14,11 +14,11 @@ int main_func()
     }
     if (sum == num)
     {
-        printf("%d is an armstrong number!\n", num);
+        return 1;
     }
     else
     {
-        printf("%d is not an armstrong number!\n", num);
+        return 0;
     }
     return 0;
 }

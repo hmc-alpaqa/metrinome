@@ -1,11 +1,12 @@
 #include <stdio.h>
-int main_func()
+int main_func(int n)
 {
-    int a[200], n, counter, temp, i;
+    // int a[200], n, counter, temp, i;
+    int a[200], counter, temp, i;
     a[0] = 1;
     counter = 0;
     printf("Enter a whole number to Find its Factorial: ");
-    scanf("%d", &n);
+    // scanf("%d", &n);
     if (n < 0)
         printf("Cannot Calculate factorials for negative numbers.");
     else

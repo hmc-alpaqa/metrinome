@@ -4,11 +4,14 @@ number n
 */
 #include <math.h>  //including math.h header file to use pow function
 #include <stdio.h>
-int main_func()
+int main_func(int n)
 {
-    int i, n, test = 0, count = 0;
+    // int i, n, test = 0, count = 0;
+
+    int i, test = 0, count = 0;
+
     // taking input number n
-    scanf("%d", &n);
+    // scanf("%d", &n);
 
     // looping from 1 till loop break
     for (i = 1;; i++)

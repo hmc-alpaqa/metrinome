@@ -24,7 +24,7 @@ bool isPrime(int x)
         return false;
     }
 
-    double squareRoot = sqrt(x);
+    int squareRoot = (int) sqrt(x);
 
     for (int i = 3; i <= squareRoot; i += 2)
     {

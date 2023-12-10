@@ -13,12 +13,12 @@ long int factorial(int x)  // long int for more than 10 factorial
     }
     return fac;  // returning x factorial
 }
-int main_func()
+int main_func(int n)
 {
     long int f1, f2, f3;  // long int for more than 10 factorial
-    int n;
+    // int n;
     float C;  // C is catalan number for n;
-    scanf("%d", &n);
+    // scanf("%d", &n);
     f1 = factorial(2 * n);
     f2 = factorial(n + 1);
     f3 = factorial(n);

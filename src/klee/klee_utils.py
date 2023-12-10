@@ -209,11 +209,14 @@ class KleeUtils:
         file_str += "int main() {\n"
 
         for var in variables:
-            dimensions = var[0].count('[') or var[0].count('*')
-            if dimensions > 0:
+            brackets = var[0].count('[]') 
+            pointers = var[0].count('*')
+            if brackets > 0:
                 var[0] = var[0].replace("[]", "[SIZE]")
-                var[0] = var[0].replace('*', '', dimensions)
-                var[0] = var[0].replace(';', f"{'[SIZE]' * dimensions};", 1)
+            
+            if pointers > 0:
+                var[0] = var[0].replace('*', '', pointers)
+                var[0] = var[0].replace(';', f"{'[SIZE]' * pointers};", 1)
 
             file_str += f"\n\t{var[0]}"
             name = uuid.uuid4()
@@ -229,7 +232,7 @@ class KleeUtils:
 
             # Other conditions remain unchanged
             if ('int' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
-                file_str += f"""\tif (({var[1]}<-1) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
+                file_str += f"""\tif (({var[1]}<=0) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
             if ('size_t' in var[0]) and ('[' not in var[0]) and ('*' not in var[0]):
                 file_str += f"""\tif (({var[1]}<=0) || ({var[1]}>1024)) {{\n\t\t return 0;}}\n"""
 

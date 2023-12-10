@@ -110,11 +110,6 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
                 subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
             print(f"FAILED TO RUN ON {name}, depth={i}")
             traceback.print_exception(type(e), e, e.__traceback__)
-            # see if traceback contains subprocess.TimeoutExpired and if so, break out of loop
-            if isinstance(e, subprocess.TimeoutExpired):
-                print(f"TIMEOUT ON {name}, depth={i}")
-                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                break
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     return results_dict
@@ -164,7 +159,10 @@ def generate_files_premade(src_filepath, filepath, filename):
     subprocess.run(cmd, shell=True, capture_output=True, check=True)
     return [filename+"_klee"]
 
-
+def generate_files_premade_single(src_filepath, filepath, func_name, optimized, single_function_name):
+    cmd = f"clang-6.0 -I /app/klee/include -emit-llvm -c -g -Xclang -disable-O0-optnone  -o {src_filepath}{func_name}_{single_function_name}_.bc {src_filepath}{func_name}_{single_function_name}_.c"
+    subprocess.run(cmd, shell=True, capture_output=True, check=True)
+    return [f"{func_name}_{single_function_name}_"]
 
 def run_klee_general(name, filepath, klee_functions, labels, xaxis, xlabel, fields, klee_path, remove, timeout):
     results_list = []
@@ -224,6 +222,10 @@ def main() -> None:
                 # if line begins with !, skip it
                 if line[0] == '!':
                     continue
+                
+                should_generate = True
+                if line[0] == '>':
+                    should_generate = False
                 # Strip whitespace and check if the line is not empty
                 line = line.strip()
                 if not line:
@@ -237,11 +239,13 @@ def main() -> None:
 
                 dir_path = dir_path + '/'
 
+                dir_path = dir_path.replace('>', '')
+
                 # Remove the .c extension from the file name
                 file_name = file_name_with_extension.replace('.c', '')
 
                 # Add the extracted information to the result array
-                result.append([dir_path, file_name, function_name])
+                result.append([dir_path, file_name, function_name, should_generate])
         return result
     
     functions_to_run = parseCFileList("/app/code/tests/cFiles/benchmark/kleeversions/kleetest_fall2023/TheAlgorithmsSubset.txt")
@@ -251,6 +255,7 @@ def main() -> None:
     for function in functions_to_run:
         print(function)
         src_filepath = function[0] # location of source files to run klee on, end with a slash
+
         klee_path = "/app/build/bin/klee"
         klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-depth={var} {filepath}"
         # klee_params_lambda = lambda output, var, filepath: f" --output-dir={output} --max-time={var}min --watchdog {filepath}"
@@ -266,18 +271,22 @@ def main() -> None:
 
         intended_function = function[2]
 
+        if not function[3]:
+            pregenerated.append(function[1])
+            src_filepath = "/app/code/tests/cFiles/benchmark/kleeversions/kleetest_fall2023/"
+
         if intended_function == "main":
             intended_function = "main_func"
 
-        file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files_single(src_filepath, file_path, file_name, False, intended_function) if file_name not in pregenerated else generate_files_premade(src_filepath, file_path, file_name)))
-
+        file_generation_function = lambda src_filepath, file_path, file_name: list(zip(generate_files_single(src_filepath, file_path, file_name, False, intended_function) if file_name not in pregenerated else generate_files_premade_single(src_filepath, file_path, file_name, False, intended_function)))
+        
         functions = [function[1]]
         # functions = ['even_odd']
 
 
         labels = ["normal"] # the labels for the different "compilation methods"
 
-        xaxis = [i for i in range(2, 100, 2)] # all possible values for the input variable
+        xaxis = [i for i in range(1, 100)] # all possible values for the input variable
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','20','25','50','100','500','1000'] # for factorial
         #xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'] #for quicksort
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','20','25','27','28','29','30','33',"35",'36'] #for fib_rec_wrapper
@@ -285,7 +294,7 @@ def main() -> None:
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','16','17'] #for partition
         # xaxis = ['20','21','22','23','24','30','50']
         # xaxis = ['1', '2', '3', '200']
-        timeout = 1000 #timeout
+        timeout = 10000 #timeout
         fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
                 "SysTime", "PythonTime"] # all klee output fields that we are interested in
         remove = True # whether klee files should be deleted after the important data is collected. Usually set to True

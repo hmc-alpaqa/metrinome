@@ -91,31 +91,32 @@ void multiply(large_num *num, unsigned long n)
 /**
  * main function
  */
-int main_func(int argc, char *argv[])
+int main_func(int number)
 {
-    int number, i;
+    // int number, i;
+    // int i;
 
     // Asks for the number/position of term in Fibonnacci sequence
-    if (argc == 2)
-        number = atoi(argv[1]);
-    else
-    {
-        printf("Enter the value of n(n starts from 0 ): ");
-        scanf("%d", &number);
-    }
+    // if (argc == 2)
+    //     number = atoi(argv[1]);
+    // else
+    // {
+    //     printf("Enter the value of n(n starts from 0 ): ");
+    //     scanf("%d", &number);
+    // }
 
     large_num *result = new_number();
 
-    clock_t start_time = clock();
-    for (i = 2; i <= number; i++) /* Multiply every number from 2 thru N */
+    // clock_t start_time = clock();
+    for (int i = 2; i <= number; i++) /* Multiply every number from 2 thru N */
         multiply(result, i);
-    double time_taken = (clock() - start_time) * (double)1e3 / CLOCKS_PER_SEC;
+    // double time_taken = (clock() - start_time) * (double)1e3 / CLOCKS_PER_SEC;
     // time_taken = (clock() - start_time) / (double) CLOCKS_PER_SEC;
 
     printf("%d! = ", number);
-    for (i = result->num_digits; i > 0; i--)
+    for (int i = result->num_digits; i > 0; i--)
         putchar(result->digits[i - 1] + '0');
-    printf("\nTime taken: %.4g ms\n", time_taken);
+    // printf("\nTime taken: %.4g ms\n", time_taken);
 
     delete_number(result);
     return 0;
