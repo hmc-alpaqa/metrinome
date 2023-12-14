@@ -79,10 +79,21 @@ class DataCollector:
                 if notin(graph_name, funcs):
                     continue
                 
+                if graph_name == "bubble_sort_2_cfg.bubble_sort.dot" or graph_name == "heap_sort_2_cfg.heapSort.dot":
+                    new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
+                          "rapc_time": 'na'}
+                    data = data.append(new_row, ignore_index=True)
+                    data = data[["graph_name", "rapc", "rapc_time"]]
+                    print(data[["graph_name", "rapc", "rapc_time"]])
+                    if not os.path.exists("/app/code/experiments/function_calls/data"):
+                        os.makedirs("/app/code/experiments/function_calls/data")
+                    data.to_csv("/app/code/experiments/function_calls/data/rapc_data.csv")
+                    continue
+
                 print("=========================runing recursive path complexity for 200 seconds==========================")
                 start_time = time.time()
                 try:
-                    with Timeout(200):
+                    with Timeout(2):
                         rapc = self.rapc_computer.evaluate(graph)
                         rruntime = time.time() - start_time
                 except Exception as exc:

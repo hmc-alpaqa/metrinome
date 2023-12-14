@@ -55,10 +55,21 @@ class DataCollector:
                 if notin(graph_name, funcs):
                     continue
                 
+                if graph_name == "bubble_sort_2_cfg.bubble_sort.dot" or graph_name == "heap_sort_2_cfg.heapSort.dot":
+                    new_row = {"file_name": file, "graph_name": graph.name, "fcapc": 'na',
+                          "fcapc_time": 'na',"naiveMathTime":"na", "firstHalfTime":"na"}
+                    data = data.append(new_row, ignore_index=True)
+                    data = data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']]
+                    print(data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']])
+                    if not os.path.exists("/app/code/experiments/function_calls/data"):
+                        os.makedirs("/app/code/experiments/function_calls/data")
+                        data.to_csv("/app/code/experiments/function_calls/data/fcapc_data.csv")
+                    continue
+
                 print("=========================runing old function call path complexity for 6000 seconds==========================")
                 start_time = time.time()
                 try:
-                    with Timeout(6000):
+                    with Timeout(6):
                         fcapc = self.fcn_call_apc_computer.evaluate(graph,graphs)
                         # print(fcapc)
                         fcruntime = time.time() - start_time
