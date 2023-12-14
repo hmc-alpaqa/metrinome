@@ -9,18 +9,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main_func()
+int main_func(int n, int arr[])
 {
-    int i, n, l = 0;
-
-    printf("Enter size of array = ");
-    scanf("%d", &n);
+    int i, l = 0;
 
     int *a = (int *)malloc(n * sizeof(int));
     printf("Enter %d elements in array :\n", n);
     for (i = 0; i < n; i++)
     {
-        scanf("%d", &a[i]);
+        a[i] = arr[i];
         if (a[i] > l)
             l = a[i];
     }
