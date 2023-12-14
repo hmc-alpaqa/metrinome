@@ -113,9 +113,10 @@ int main_func(int number)
     // double time_taken = (clock() - start_time) * (double)1e3 / CLOCKS_PER_SEC;
     // time_taken = (clock() - start_time) / (double) CLOCKS_PER_SEC;
 
-    printf("%d! = ", number);
-    for (int i = result->num_digits; i > 0; i--)
-        putchar(result->digits[i - 1] + '0');
+    // printf("%d! = ", number);
+    for (int i = result->num_digits; i > 0; i--);
+        
+        // printf(result->digits[i - 1] + '0');
     // printf("\nTime taken: %.4g ms\n", time_taken);
 
     delete_number(result);

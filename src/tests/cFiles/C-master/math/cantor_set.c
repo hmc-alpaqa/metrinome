@@ -81,22 +81,8 @@ void free_memory(CantorSet *head)
 }
 
 /** Main function */
-int main_func(int argc, char const *argv[])
+int main_func(int start_num, int end_num, int levels)
 {
-    int start_num, end_num, levels;
-
-    if (argc < 2)
-    {
-        printf("Enter 3 arguments: start_num \t end_num \t levels\n");
-        scanf("%d %d %d", &start_num, &end_num, &levels);
-    }
-    else
-    {
-        start_num = atoi(argv[1]);
-        end_num = atoi(argv[2]);
-        levels = atoi(argv[3]);
-    }
-
     if (start_num < 0 || end_num < 0 || levels < 0)
     {
         fprintf(stderr, "All numbers must be positive\n");
