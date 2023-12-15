@@ -93,7 +93,7 @@ class DataCollector:
                 print("=========================runing recursive path complexity for 200 seconds==========================")
                 start_time = time.time()
                 try:
-                    with Timeout(2):
+                    with Timeout(200):
                         rapc = self.rapc_computer.evaluate(graph)
                         rruntime = time.time() - start_time
                 except Exception as exc:

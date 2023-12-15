@@ -69,7 +69,7 @@ class DataCollector:
                 print("=========================runing old function call path complexity for 6000 seconds==========================")
                 start_time = time.time()
                 try:
-                    with Timeout(6):
+                    with Timeout(6000):
                         fcapc = self.fcn_call_apc_computer.evaluate(graph,graphs)
                         # print(fcapc)
                         fcruntime = time.time() - start_time
