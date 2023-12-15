@@ -91,6 +91,7 @@ void multiply(large_num *num, unsigned long n)
 /**
  * main function
  */
+//TESTED IN METRINOME
 int main(int argc, char *argv[])
 {
     int number, i;

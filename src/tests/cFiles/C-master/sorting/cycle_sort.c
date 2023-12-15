@@ -21,7 +21,7 @@ void swap(int *first, int *second)
     *first = *second;
     *second = temp;
 }
-
+//TESTED IN METRINOME
 // Function sort the array using Cycle sort
 void cycleSort(int *arr, int n)
 {

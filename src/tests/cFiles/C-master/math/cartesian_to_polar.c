@@ -19,6 +19,7 @@
  * @param [out] r pointer to store polar radius
  * @param [out] theta pointer to store polar angle (in radian)
  */
+//TESTED IN METRINOME
 void to_polar(double x, double y, double *r, double *theta)
 {
     double thetaFinal = 0.f;

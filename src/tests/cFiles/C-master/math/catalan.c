@@ -13,6 +13,7 @@ long int factorial(int x)  // long int for more than 10 factorial
     }
     return fac;  // returning x factorial
 }
+//TESTED IN METRINOME
 int main()
 {
     long int f1, f2, f3;  // long int for more than 10 factorial

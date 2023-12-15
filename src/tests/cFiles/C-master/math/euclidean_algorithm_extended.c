@@ -66,6 +66,7 @@ static inline void calculate_next_xy(int quotient, int prev[2])
  * @returns euclidean_result_t containing the gcd, and values x and y such that
  * ax + by = gcd
  */
+//TESTED IN METRINOME
 euclidean_result_t extended_euclidean_algorithm(int a, int b)
 {
     int previous_remainder = 1;

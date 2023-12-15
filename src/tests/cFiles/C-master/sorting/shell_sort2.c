@@ -38,6 +38,7 @@ inline void swap(int *a, int *b)
  * @param [in,out] array array to sort
  * @param [in] LEN length of the array
  */
+//TESTED IN METRINOME
 void shell_sort(int *array, long LEN)
 {
     const int gaps[] = {701, 301, 132, 57, 23, 10, 4, 1};

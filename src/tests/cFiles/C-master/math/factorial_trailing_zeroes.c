@@ -4,6 +4,7 @@ number n
 */
 #include <math.h>  //including math.h header file to use pow function
 #include <stdio.h>
+//TESTED IN METRINOME
 int main()
 {
     int i, n, test = 0, count = 0;

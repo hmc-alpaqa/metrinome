@@ -30,6 +30,7 @@ void swap(int *a, int *b)
  * @param r right index for merge
  * @param n total number of elements in the array
  */
+//TESTED IN METRINOME
 void merge(int *a, int l, int r, int n)
 {
     int *b = (int *)malloc(n * sizeof(int)); /* dynamic memory must be freed */

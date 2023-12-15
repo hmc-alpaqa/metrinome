@@ -61,6 +61,7 @@ void lcslen(const char *s1, const char *s2, int l1, int l2, int **L, int **B) {
  * @param B matrix of size l1 x l2
  * @returns lcs longest common subsequence
  */
+//TESTED IN METRINOME
 char *lcsbuild(const char *s1, int l1, int l2, int **L, int **B) {
 	int	 i, j, lcsl;
 	char	*lcs;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//TESTED IN METRINOME
 void sort(int *numbers, int size)
 {
     int pos = 0;

@@ -53,6 +53,7 @@ uint8_t findIndex(const int8_t *arr, const uint8_t size)
  * @param size size of the array
  * @returns void
  */
+//TESTED IN METRINOME
 void selectionSort(int8_t *arr, const uint8_t size)
 {
     if (size <= 1)

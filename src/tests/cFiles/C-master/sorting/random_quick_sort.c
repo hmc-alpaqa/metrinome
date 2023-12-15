@@ -37,6 +37,7 @@ void swap(int *a, int *b)
     *b = t;
 }
 
+//TESTED IN METRINOME
 void random_quick(int *a, int left, int right)
 {
     if (left >= right)

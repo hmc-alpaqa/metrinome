@@ -16,6 +16,7 @@ with each other until one single unit of sorted array is achieved. */
 void mergesort(int x[], int n);
 void show(int x[], int n);
 
+//TESTED IN METRINOME
 void mergesort(int x[], int n)
 {
     int temp[50], i, j, k, lb1, lb2, ub1, ub2, size;

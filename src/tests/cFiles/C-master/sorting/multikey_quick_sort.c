@@ -84,6 +84,7 @@ void ssort1(char *x[], int n, int depth)
     ssort1(x + n - r, r, depth);
 }
 
+//TESTED IN METRINOME
 void ssort1main(char *x[], int n) { ssort1(x, n, 0); }
 
 // ssort2 -- Faster Version of Multikey Quicksort

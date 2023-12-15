@@ -18,6 +18,7 @@
  * \returns location of x assuming array arr[l..r] is present
  * \returns -1 otherwise
  */
+//TESTED IN METRINOME
 int binarysearch1(const int *arr, int l, int r, int x)
 {
     if (r >= l)
@@ -48,6 +49,7 @@ int binarysearch1(const int *arr, int l, int r, int x)
  * \returns location of x assuming array arr[l..r] is present
  * \returns -1 otherwise
  */
+//TESTED IN METRINOME
 int binarysearch2(const int *arr, int l, int r, int x)
 {
     int mid = l + (r - l) / 2;

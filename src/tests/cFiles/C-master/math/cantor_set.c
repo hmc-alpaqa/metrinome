@@ -81,6 +81,7 @@ void free_memory(CantorSet *head)
 }
 
 /** Main function */
+//TESTED IN METRINOME
 int main(int argc, char const *argv[])
 {
     int start_num, end_num, levels;

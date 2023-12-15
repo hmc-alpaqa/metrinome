@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//TESTED IN METRINOME
 int main()
 {
     int i, n, l = 0;

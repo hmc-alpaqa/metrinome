@@ -21,6 +21,7 @@
  * @return index where the value was found
  * @return -1 if value not found
  */
+//TESTED IN METRINOME
 int jump_search(const int *arr, int x, size_t n)
 {
     int step = floor(sqrt(n));

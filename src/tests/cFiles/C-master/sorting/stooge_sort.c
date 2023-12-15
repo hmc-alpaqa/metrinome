@@ -18,6 +18,7 @@ int main()
     return 0;
 }
 
+//TESTED IN METRINOME
 void stoogesort(int arr[], int i, int j)
 {
     int temp, k;

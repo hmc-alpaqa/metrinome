@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//TESTED IN METRINOME
 int linearsearch(int *arr, int size, int val)
 {
     int i;

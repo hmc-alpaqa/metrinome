@@ -25,6 +25,7 @@ void swap(int *first, int *second)
  * @param arr array to be sorted
  * @param size size of array
  */
+//TESTED IN METRINOME
 void selectionSort(int *arr, int size)
 {
     for (int i = 0; i < size - 1; i++)

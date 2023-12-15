@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//TESTED IN METRINOME
 void pigeonholeSort(int arr[], int size)
 {
     int i, j, min = arr[0], max = arr[0], range;

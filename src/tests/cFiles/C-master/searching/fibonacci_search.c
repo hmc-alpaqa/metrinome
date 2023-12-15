@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//TESTED IN METRINOME
 int fibMonaccianSearch(int arr[], int x, int n)
 {
     /* Initialize fibonacci numbers */

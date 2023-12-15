@@ -14,6 +14,7 @@
  * @param n index of number in Fibonacci sequence
  * @returns nth value of fibonacci sequence for all n >= 0
  */
+//TESTED IN METRINOME
 int fib(unsigned int n) {
     float seq = (1 / sqrt(5) * pow(((1 + sqrt(5)) / 2), n + 1)) - (1 / sqrt(5) * pow(((1 - sqrt(5)) / 2), n + 1));
 

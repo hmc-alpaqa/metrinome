@@ -2,6 +2,7 @@
 #include <string.h>
 
 /* Naive Pattern Search algorithm (brute force way) */
+//TESTED IN METRINOME
 void naive_search(char *str, char *pattern)
 {
     int len_str = strlen(str);

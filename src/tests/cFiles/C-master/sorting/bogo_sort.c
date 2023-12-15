@@ -24,6 +24,7 @@ void shuffle(int *a, int n)
     }
 }
 
+//TESTED IN METRINOME
 void bogo_sort(int *a, int n)
 {
     while (!check_sorted(a, n)) shuffle(a, n);

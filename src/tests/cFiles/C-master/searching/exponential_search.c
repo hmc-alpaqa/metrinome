@@ -26,6 +26,7 @@ static void test(); ///< used to run the self-test implementations
  * \returns the index of the element (n) in the array (arr)
  * \returns -1 if the element wasn't found
  */
+//TESTED IN METRINOME
 int64_t exponential_search(const int64_t* arr, const uint16_t length, const int64_t n) 
 {
     if ( length == 0 ) { return -1; }

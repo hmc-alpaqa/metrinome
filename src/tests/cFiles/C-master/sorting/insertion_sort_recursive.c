@@ -17,6 +17,7 @@
  * @param arr array to be sorted
  * @param size size of array
  */
+//TESTED IN METRINOME
 void RecursionInsertionSort(int *arr, int size)
 {
     if(size <= 0)

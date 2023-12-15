@@ -57,6 +57,7 @@ int main()
     return 0;
 }
 
+//TESTED IN METRINOME
 Range int_fact(int n)
 {
     assert(n > 1); /* precondition : n must be greater then 1*/

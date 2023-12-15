@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 /** Main function */
+//TESTED IN METRINOME
 int main(int argc, char *argv[])
 {
     unsigned long long n, curr_no, num_steps = 0;
