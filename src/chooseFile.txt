@@ -1,1 +1,1 @@
-/app/code/tests/cFiles/C-master/CmasterFiles.txt
+/app/code/tests/cFiles/SV_benchmark/array-crafted/files.txt
