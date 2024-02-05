@@ -1,1 +1,15 @@
 /app/code/tests/cFiles/SV_benchmark/array-crafted/bAnd1.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bAnd2.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bAnd3.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bAnd4.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bAnd5.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bor1.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bor2.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bor3.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bor4.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/bor5.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/mapavg1.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/mapavg1.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/mapavg1.c 
+/app/code/tests/cFiles/SV_benchmark/array-crafted/mapavg1.c 
+
