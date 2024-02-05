@@ -1,0 +1,4 @@
+* in txt file means these functions are commented out (coded up in the testing functions)
+/app/code/tests/cFiles/SV_benchmark/busybox-1.22.0/basename-1.c
+*/app/code/tests/cFiles/SV_benchmark/busybox-1.22.0/basename-2.c
+*/app/code/tests/cFiles/SV_benchmark/busybox-1.22.0/chgrp-incomplete-1.c

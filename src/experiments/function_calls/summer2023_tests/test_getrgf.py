@@ -34,12 +34,14 @@ class DataCollector:
                              
         with open("/app/code/chooseFile.txt") as filess:
             filePath = [line.rstrip() for line in filess]
-            print(filePath)
-        with open(filePath[0]) as funcs:
+            print(filePath[0])
+        with open(filePath[0]) as funcs: # open the first filePath in chooseFile
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
             files = [line.rstrip() for line in funcs]
 
         for i in files:
+            if i[0:1] == "*":
+                continue
             file = i.split()[0]
             funcs = i.split()[1:]
             print(f"Now analyzing {file}")
