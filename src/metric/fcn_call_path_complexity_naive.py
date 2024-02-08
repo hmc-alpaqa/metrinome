@@ -74,6 +74,7 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["graphProcessTime"] = time.time() - start_time
         apc = self.fcn_call_apc(all_edges, call_list)
         self.apc_times["firstHalfTime"] = self.apc_times["graphProcessTime"] + self.apc_times["graphSystemsTime"] + self.apc_times["gammaTime"]
+        print (f"***APC: {self.apc_times}")
         return self.apc_times
         
     def fcn_call_apc(self, edgelist, call_list):
@@ -270,6 +271,7 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"rStar: {rStar}")
             pc = sympy.N(1/rStar)**symbols("n")
             self.apc_times["apcTime2"] = time.time() - start_time
+            self.apc_times["naiveMathTime"] = "case2"
         start_time = time.time()
         self.logger.d_msg(f"pc: {pc}")
         apc = pc

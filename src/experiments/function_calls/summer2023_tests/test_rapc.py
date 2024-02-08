@@ -33,6 +33,8 @@ class DataCollector:
             files = [line.rstrip() for line in funcs]
 
         for i in files:
+            if i[0:1] == "*":
+                continue
             file = i.split()[0]
             funcs = i.split()[1:]
             print(f"function that we wish to analyze: {funcs}")
