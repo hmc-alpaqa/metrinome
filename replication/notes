@@ -1,5 +1,5 @@
 to build, go to main metrinome directory and run:
-sudo docker build -t apcmetrinome/metrinome-iapc -f replication/Dockerfile .
+sudo docker build -t apcmetrinome/dockerapc -f replication/Dockerfile .
 
 to push to dockerhub:
 sudo docker login
