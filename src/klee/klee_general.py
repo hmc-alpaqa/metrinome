@@ -8,7 +8,7 @@ import subprocess
 import time
 import re
 import traceback
-from subprocess import PIPE
+from subprocess import TimeoutExpired, PIPE
 from typing import List, Optional, Tuple, Dict, Union
 import matplotlib.pyplot as plt  # type: ignore
 import pandas as pd  # type: ignore
@@ -78,31 +78,42 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
     results_dict = {}
     for i in xaxis:
         try:
-            output_file = f"{filepath}klee_{name}_{xlabel}={i}"
-            output_file = output_file.replace(" ", "_")
+            output_file = f"{filepath}klee_{name}_{xlabel}={i}".replace(" ", "_")
             klee_command = klee_function(output_file, i)
             print(klee_command)
             results = klee_with_preferences_general(klee_command, timeout)
-            time_elapsed : float = results[1]
+            time_elapsed: float = results[-1]  # Assuming the last return value is the time elapsed
             klee_stats_params = "--table-format=simple --print-all"
             print(f"{klee_path}-stats {klee_stats_params} {output_file}")
             stats = subprocess.run(f"{klee_path}-stats {klee_stats_params} {output_file}", shell=True, stdout=PIPE, stderr=PIPE, check=True)
+
             if remove:
                 subprocess.run(f"rm -r {output_file}", shell=True, check=False)
             else:
                 subprocess.run(f"for f in {output_file}/test*; do rm \"$f\"; done", shell=True, check=True)
+
             stats_decoded = stats.stdout.decode().split("\n")
             headers = stats_decoded[0].split()[1:]
             values = map(float, stats_decoded[2].split()[1:])
             stats_dict = dict(zip(headers, values))
-            stats_dict["GeneratedTests"], stats_dict["CompletedPaths"], _, \
-                        stats_dict["RealTime"], stats_dict["UserTime"], stats_dict["SysTime"], \
-                        stats_dict["PythonTime"] = results
+
+            # Unpack results to update stats_dict
+            generated_tests, completed_paths, _, real_time, user_time, sys_time, python_time = results[:-1]
+            stats_dict.update({
+                "GeneratedTests": generated_tests,
+                "CompletedPaths": completed_paths,
+                "RealTime": real_time,
+                "UserTime": user_time,
+                "SysTime": sys_time,
+                "PythonTime": python_time
+            })
+
             results_dict[(name, i)] = stats_dict
-            if time_elapsed > timeout:
-                print(f"TIMEOUT ON {name}, depth={i}")
-                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                break
+
+        except TimeoutExpired:
+            print(f"TIMEOUT ON {name}, depth={i}")
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            break  # Break the loop only on timeout
         except Exception as e:
             if remove:
                 subprocess.run(f"rm -r {output_file}", shell=True, check=False)
@@ -111,9 +122,9 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
             print(f"FAILED TO RUN ON {name}, depth={i}")
             traceback.print_exception(type(e), e, e.__traceback__)
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            # Continue the loop despite other exceptions
 
     return results_dict
-
 
 def create_pandas_general(results, name, xaxis, xlabel, fields) -> pd.DataFrame:
     """Create a pandas dataframe from the results of a Klee experiment."""
@@ -294,7 +305,7 @@ def main() -> None:
         # xaxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15','16','17'] #for partition
         # xaxis = ['20','21','22','23','24','30','50']
         # xaxis = ['1', '2', '3', '200']
-        timeout = 10000 #timeout
+        timeout = 100 #timeout
         fields = ["ICov(%)", 'BCov(%)', "CompletedPaths", "GeneratedTests", "RealTime", "UserTime",
                 "SysTime", "PythonTime"] # all klee output fields that we are interested in
         remove = True # whether klee files should be deleted after the important data is collected. Usually set to True
