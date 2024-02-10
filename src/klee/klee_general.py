@@ -83,6 +83,7 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
             print(klee_command)
             results = klee_with_preferences_general(klee_command, timeout)
             time_elapsed: float = results[-1]  # Assuming the last return value is the time elapsed
+
             klee_stats_params = "--table-format=simple --print-all"
             print(f"{klee_path}-stats {klee_stats_params} {output_file}")
             stats = subprocess.run(f"{klee_path}-stats {klee_stats_params} {output_file}", shell=True, stdout=PIPE, stderr=PIPE, check=True)
@@ -98,7 +99,8 @@ def klee_compare_general(filepath, name, xaxis, xlabel, klee_function, klee_path
             stats_dict = dict(zip(headers, values))
 
             # Unpack results to update stats_dict
-            generated_tests, completed_paths, _, real_time, user_time, sys_time, python_time = results[:-1]
+            print(results)
+            generated_tests, completed_paths, _, real_time, user_time, sys_time, python_time = results
             stats_dict.update({
                 "GeneratedTests": generated_tests,
                 "CompletedPaths": completed_paths,
