@@ -184,11 +184,11 @@ class CPPConvert(converter.ConverterAbstract):
         os.chdir(os.path.split(filepath)[0])
 
         if self._optimize:
-            c1_str = f"clang{'++' if file_extension == '.cpp' else ''} -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
         else:
-            c1_str = f"clang{'++' if file_extension == '.cpp' else ''} -emit-llvm -S {filepath}{file_extension} -o-"\
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S {filepath}{file_extension} -o-"\
 
-        c2_str = "/usr/lib/llvm-14/bin/opt -dot-cfg"
+        c2_str = "/usr/lib/llvm-6.0/bin/opt -dot-cfg"
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
 
         self.logger.d_msg(f"Command One: {commands[0]}")
