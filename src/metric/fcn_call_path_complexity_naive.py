@@ -327,7 +327,8 @@ class FunctionCallPathComplexity(ABC):
         full_sys = init_eqns + system
         self.apc_times["graphSystemsTime"] = time.time() - start_time
         start_time = time.time()
-        gamma = sympy.expand(self.eliminate(full_sys, symbs))
+        gamma = sympy.simplify(sympy.expand(self.eliminate(full_sys, symbs)))
+        # gamma = sympy.expand(self.eliminate(full_sys, symbs))
         self.apc_times["gammaTime"] = time.time() - start_time
         return gamma
 
@@ -337,6 +338,7 @@ class FunctionCallPathComplexity(ABC):
         # so combine it with a common denominator, and then find discriminant of 
         # numerator (since the overall expression is equal to 0, ignore denom)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
+        # print(f"polynomial {sympy.simplify(polynomial)}")
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
     # def calculateDiscrim(self, polynomial):
     #     """Takes in a polynomial and calculates its discriminant"""

@@ -472,6 +472,7 @@ class FunctionCallPathComplexity(ABC):
         # so combine it with a common denominator, and then find discriminant of
         # numerator (since the overall expression is equal to 0, ignore denom)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
+        # print(f"polynomial {sympy.simplify(sympy.expand(polynomial))}")
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
 
     def termPow(self, term, symb):
