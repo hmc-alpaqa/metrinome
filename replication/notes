@@ -3,10 +3,10 @@ sudo docker build -t apcmetrinome/dockerapc -f replication/Dockerfile .
 
 to push to dockerhub:
 sudo docker login
-sudo docker push apcmetrinome/metrinome-iapc
+sudo docker push apcmetrinome/dockerapc
 
 to run:
-sudo docker run -it apcmetrinome/metrinome-iapc /bin/zsh
+sudo docker run -it apcmetrinome/dockerapc
 
 to run experiments inside docker:
 ./Testing.sh
