@@ -162,8 +162,10 @@ class CPPConvert(converter.ConverterAbstract):
         as the dot files generated from Java CFGs.
         """
         print(f"filename in convert_to_standard_format {filename}")
+        print(f"Environment:{Env.TMP_PATH}")
         files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
         for name in files:
+            print(f"filename: ",name)
             if "global" in name.lower():
                 os.remove(name)
                 files.remove(name)
@@ -213,10 +215,10 @@ class CPPConvert(converter.ConverterAbstract):
                 signal.alarm(0)
                 err_msg = ''.join(error_lines)
 
-                if len(err_msg) == 0:
+                if len(err_msg) != 0:
                     self.logger.d_msg(
                         f"Got the following error msg: {str(err_msg)}")
-
+            self.logger.d_msg(f"dot file intermediary #1: {command}")
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
                 self.logger.d_msg(f"dot file intermediary: {command}")
@@ -226,3 +228,4 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger.d_msg(f"Found the following .dot files: {files}")
         for file in files:
             subprocess.call(["mv", file, Env.TMP_PATH])
+
