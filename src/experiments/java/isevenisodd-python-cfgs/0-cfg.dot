@@ -1,0 +1,13 @@
+digraph "&lt;module&gt;" {  
+"36" [label = <(&lt;operator&gt;.assignment,is_even_python = def is_even_python(...))<SUB>1</SUB>> ]
+"61" [label = <(&lt;operator&gt;.assignment,is_odd_python = def is_odd_python(...))<SUB>7</SUB>> ]
+"13" [label = <(METHOD_REF,def is_even_python(...),is_even_python = def is_even_python(...))<SUB>1</SUB>> ]
+"38" [label = <(METHOD_REF,def is_odd_python(...),is_odd_python = def is_odd_python(...))<SUB>7</SUB>> ]
+"7" [label = <(METHOD,&lt;module&gt;)<SUB>1</SUB>> ]
+"11" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "36" -> "38" 
+  "61" -> "11" 
+  "13" -> "36" 
+  "38" -> "61" 
+  "7" -> "13" 
+}

@@ -1,0 +1,5 @@
+digraph "&lt;init&gt;" {  
+"76" [label = <(METHOD,&lt;init&gt;)> ]
+"81" [label = <(METHOD_RETURN,void)> ]
+  "76" -> "81" 
+}

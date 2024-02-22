@@ -1,0 +1,5 @@
+digraph "println" {  
+"110" [label = <(METHOD,println)> ]
+"115" [label = <(METHOD_RETURN,ANY)> ]
+  "110" -> "115" 
+}
