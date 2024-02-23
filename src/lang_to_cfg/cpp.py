@@ -222,7 +222,8 @@ class CPPConvert(converter.ConverterAbstract):
             with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, shell=False) as line2:
                 self.logger.d_msg(f"dot file intermediary: {command}")
-                line2.communicate()
+                std_data, stderr_data = line2.communicate()
+                print(f"std data post popen:{std_data}")
 
         files = glob2.glob("*.dot")
         self.logger.d_msg(f"Found the following .dot files: {files}")
