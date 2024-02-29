@@ -226,7 +226,7 @@ class CPPConvert(converter.ConverterAbstract):
                 print(f"std data post popen:{std_data}")
 
         files = glob2.glob("*.dot")
-        print("glub glob: ", glob2.glob("*")) # LEFT OFF HERE 2/22: NO DOT FILES IN ENVIRONMENT AT ALL
+        print("glub glob: ", glob2.glob("../*")) # LEFT OFF HERE 2/22: NO DOT FILES IN ENVIRONMENT AT ALL
         self.logger.d_msg(f"Found the following .dot files: {files}")
         for file in files:
             subprocess.call(["mv", file, Env.TMP_PATH])
