@@ -55,6 +55,8 @@ class DataCollector:
                 runtime = 0.0
                 rruntime = 0.0
                 bruntime = 0.0
+
+                # correct rapc
                 try:
                     with Timeout(300):
                         rapc = self.recursive_apc_computer.evaluate(graph)
@@ -63,6 +65,9 @@ class DataCollector:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
                 start_time = time.time()
+
+
+                # Naive rapc
                 try:
                     with Timeout(300):
                         recurlist = []
@@ -81,23 +86,30 @@ class DataCollector:
                     print(f"Exception: {exc}")
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
                 start_time = time.time()
+
+                # original APC (cannot handle recursive)
                 try:
                     with Timeout(300):
                         apc = self.apc_computer.evaluate(graph)
                         runtime = time.time() - start_time
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
+                # cyclo    
                 try:
                     with Timeout(200):
                         cyclo = self.cyclo_computer.evaluate(graph)
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
-
+                
+                #npath 
                 try:
                     with Timeout(200):
                         npath = self.npath_computer.evaluate(graph)
                 except Exception as exc:
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
+
+
 
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
                            "rapc": rapc, "brapc": brapc, "cyclo": cyclo, "npath": npath,

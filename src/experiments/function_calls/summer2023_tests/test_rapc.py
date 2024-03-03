@@ -26,9 +26,10 @@ class DataCollector:
         """Compute the metrics for all files and store the data."""
         data = pd.DataFrame({"file_name": [], "graph_name": [], "rapc": [], "rapc_time": [],"exception": [],"exception_type": []})
         with open("/app/code/chooseFile.txt") as filess:
-            filePath = [line.rstrip() for line in filess]
+            filePathwithComments = [line.rstrip() for line in filess]
+            filePath = filePathwithComments[0].split()[0]
             print(filePath)
-        with open(filePath[0]) as funcs:
+        with open(filePath) as funcs:
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
             files = [line.rstrip() for line in funcs]
 

@@ -33,15 +33,17 @@ class DataCollector:
                              "exception": [],"exception_type": [],"case":[],'gamma':[]})
                              
         with open("/app/code/chooseFile.txt") as filess:
-            filePath = [line.rstrip() for line in filess]
-            print(filePath[0])
-        with open(filePath[0]) as funcs: # open the first filePath in chooseFile
+            filePathwithComments = [line.rstrip() for line in filess]
+            filePath = filePathwithComments[0].split()[0]
+            print(f"benchmark that we are testing {filePath}")
+        with open(filePath) as funcs: # open the first filePath in chooseFile
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
             files = [line.rstrip() for line in funcs]
 
         for i in files:
             if i[0:1] == "*":
                 continue
+            print(f"IIIIII: {i}")
             file = i.split()[0]
             funcs = i.split()[1:]
             print(f"Now analyzing {file}")
