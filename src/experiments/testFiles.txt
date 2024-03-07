@@ -1,14 +1,1 @@
-/app/code/tests/cFiles/C-master/sorting/bead_sort.c bead_sort
-/app/code/tests/cFiles/C-master/sorting/comb_sort.c sort
-/app/code/tests/cFiles/C-master/sorting/gnome_sort.c sort
-/app/code/tests/cFiles/C-master/sorting/partition_sort.c partitionSort
-/app/code/tests/cFiles/C-master/sorting/patience_sort.c patienceSort
-/app/code/tests/cFiles/C-master/searching/modified_binary_search.c modifiedBinarySearch
-/app/code/tests/cFiles/C-master/greedy_approach/dijkstra.c dijkstra
-/app/code/tests/cFiles/C-master/dynamic_programming/matrix_chain_order.c matrixChainOrder
-/app/code/tests/cFiles/C-master/math/cantor_set.c main
-/app/code/tests/cFiles/C-master/dynamic_programming/lcs.c lcsbuild
-/app/code/tests/cFiles/C-master/math/lerp.c main
 /app/code/experiments/function_calls/benchmark/even_odd_f2f.c is_even
-/app/code/experiments/function_calls/benchmark/palindrome_recursive.c palindrome_r
-/app/code/experiments/function_calls/benchmark/partition_f2f.c partition

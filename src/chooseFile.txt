@@ -1,5 +1,4 @@
-/app/code/tests/cFiles/C-master/CmasterFiles.txt          // ISSTA benchmark
-
+/app/code/experiments/testFiles.txt   
 
 we are only testing in the above file, below is a list of file path for easy copy paste:
 /app/code/tests/cFiles/SV_benchmark/busybox-1.22.0/files.txt

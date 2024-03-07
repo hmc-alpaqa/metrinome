@@ -1,3 +1,2 @@
-,graph_name,rapc,fcapc,getrgfapc,rapc_time,fcapc_time,getrgfapc_time,firstHalfTime,naiveFirstHalfTime,getrgfTime,naiveMathTime,longest for getrgf,longest time,case,gamma
-0,bubble_sort_2_cfg.bubble_sort,na,na,0.173947223947289*1.29064880134671**n,na,na,0.6065778732299805,0.3974344730377197,na,0.044320344924926765,na,gammaTime,0.379,1.0,(-T0*(x**5 + 2*x**4 - 1) + x**3*(x**5 + x**4 - 1))/(x**5 + 2*x**4 - 1)
-1,heap_sort_2_cfg.heapSort,na,na,0.0555555555555555*1.0**n*n**2,na,na,0.40998339653015137,0.28343868255615234,na,0.03630542755126953,na,gammaTime,0.27899999999999997,1.0,(-T0*(x**6 - 2*x**3 + 1) + x**3*(x**6 - x**3 + 1))/(x**6 - 2*x**3 + 1)
+,program name,apc-r,napc-ip,apc-ip,apc-r time,napc-ip time,apc-ip time,apc-ip eliminate time,napc-ip eliminate time,apc-ip bounding time (GETRGF),napc-ip bounding time (SYMB-CALC),longest time,case
+0,even_odd_f2f_cfg.is_even,na,n/3,0.333333333333333*1.0**n*n,na,0.6053714752197266,0.4898016452789306,0.34026360511779785,0.20971179008483887,0.03641700744628906,0.3106253147125244,0.305,1.0

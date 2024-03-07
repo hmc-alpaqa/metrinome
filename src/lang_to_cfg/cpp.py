@@ -48,16 +48,26 @@ class CPPConvert(converter.ConverterAbstract):
             f"Creating dot files for {filename}, {file_extension}")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
+        print("The filename", filename)
         file_count = self.convert_to_standard_format(filename)
+        print("The converted filename", filename)        
         self.logger.d_msg(f"File count is: {file_count}")
         if file_count == 0:
             Env.clean_temps()
             return None
 
+        
         name = os.path.split(filename)[1]
+        print("FOUND NAME",name)
         graphs: dict[str, ControlFlowGraph] = {}
         filename = f"{Env.TMP_DOT_PATH}/{name}"
+        print("Next filename", filename)
         files = glob2.glob(f"{Env.TMP_DOT_PATH}/*.dot")
+        print("files",files)
+        # Ana comment: PRINTING THE DOT FILE AFTER FORMATTING
+        for littlefile in files:
+            log = open(littlefile, "r").read()
+            print(log)
         for file in files:
             graph_name = os.path.basename(file)
             self.logger.d_msg(f"graph_name: {graph_name}")
@@ -65,6 +75,7 @@ class CPPConvert(converter.ConverterAbstract):
                                                [Metadata.with_language(KnownExtensions.C)])
             graphs[graph_name] = graph
         Env.clean_temps()
+        print("graphs",graphs)
         return graphs
 
     def parse_original(self, file: str) -> tuple[list[str], list[str],
