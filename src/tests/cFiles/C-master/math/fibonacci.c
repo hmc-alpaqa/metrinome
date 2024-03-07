@@ -23,6 +23,7 @@
  * Only till 47th and 48th fibonacci element can be stored in `int` and
  * `unsigned int` respectively (takes more than 20 seconds to print)
  */
+//TESTED IN METRINOME
 unsigned int fib(int number)
 {
     // Check for negative integers

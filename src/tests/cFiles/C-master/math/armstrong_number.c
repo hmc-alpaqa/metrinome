@@ -27,6 +27,7 @@ int order(int x)
 
 // Function to check whether the given number is
 // Armstrong number or not
+//TESTED IN METRINOME
 int isArmstrong(int x)
 {
     // Calling order function

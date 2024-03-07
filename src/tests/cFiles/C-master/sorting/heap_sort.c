@@ -26,7 +26,7 @@ void max_heapify(int *a, int i, int n)
     a[j / 2] = temp;
     return;
 }
-
+//TESTED IN METRINOME
 void heapsort(int *a, int n)
 {
     int i, temp;

@@ -508,6 +508,7 @@ class Command:
         import <file-like-1> <file-like-2> ... <file-like-n>
         """
         # Iterate through all file-like objects.
+        print(" WE ACTUALLY USE DO_IMPORT!!!!!!!!!!!!!!!!")
         all_files = []
         allowed_extensions = ["dot"]
         for full_path in args_list:
@@ -515,6 +516,8 @@ class Command:
             if files == []:
                 self.logger.v_msg(f"Could not get files from: {full_path}")
                 return
+            print("FILES",files)
+            print("ALL FILES",all_files)
             all_files += files
 
         self.logger.d_msg(f"Convert {all_files}")

@@ -1,0 +1,16 @@
+digraph "is_odd_python" {  
+1 [label="START"]
+2
+3
+4
+5
+6
+7 [label="EXIT"]
+1 -> 2 
+1 -> 5 
+2 -> 7
+3 -> 7 
+4 -> 3
+5 -> 4 
+6 -> 1 
+}

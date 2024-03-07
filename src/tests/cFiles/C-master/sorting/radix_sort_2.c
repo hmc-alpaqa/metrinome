@@ -47,6 +47,7 @@ void countSort(int *arr, int n, int place)
  n --- Array Size
  max --- Maximum element in Array
  */
+//TESTED IN METRINOME
 void radixsort2(int *arr, int n,
                 int max)  // max is the maximum element in the array
 {

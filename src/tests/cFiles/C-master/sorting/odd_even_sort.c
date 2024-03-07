@@ -49,6 +49,7 @@ void swap(int32_t *first, int32_t *second)
  * @param size the size of the array
  * @returns void
  */
+//TESTED IN METRINOME
 void oddEvenSort(int *arr, int size)
 {
     bool isSorted = false;

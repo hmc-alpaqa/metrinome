@@ -94,6 +94,7 @@ void heapifyUp(int8_t *arr, uint8_t i)
  * @param size size of the array
  * @returns void
  */
+//TESTED IN METRINOME
 void heapSort(int8_t *arr, const uint8_t size)
 {
     if (size <= 1)

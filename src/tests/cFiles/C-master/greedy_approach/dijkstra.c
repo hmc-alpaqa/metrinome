@@ -32,6 +32,7 @@ int queue_has_something() { return (qp > 0); }
 int visited[MAX];
 int vp = 0;
 
+//TESTED IN METRINOME
 void dijkstra(int s)
 {
     dist[s] = 0;

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//TESTED IN METRINOME
 int fib(int n)
 {
     // Out of Range checking

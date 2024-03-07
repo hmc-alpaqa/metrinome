@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 // Function to perform Ternary Search
+//TESTED IN METRINOME
 int ternarySearch(int l, int r, int key, int ar[])
 {
     if (r >= l)

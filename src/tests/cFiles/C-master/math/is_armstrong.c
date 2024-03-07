@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+//TESTED IN METRINOME
 int main()
 {
     int n, sum = 0, i, num;

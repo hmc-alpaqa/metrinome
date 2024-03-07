@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+//TESTED IN METRINOME
 int main()
 {
     int a[16500], T;

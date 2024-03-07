@@ -13,6 +13,7 @@
  * @param x number to check
  * @return `true` if given number is prime number, otherwise `false`
  */
+//TESTED IN METRINOME
 bool isPrime(int x)
 {
     if (x == 2)

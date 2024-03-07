@@ -12,6 +12,7 @@
  * @param number
  * @return `true` if given number is strong number, otherwise `false`
  */
+//TESTED IN METRINOME
 bool isStrong(int number)
 {
     if (number < 0)

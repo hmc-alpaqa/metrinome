@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #define len 5
 
+//TESTED IN METRINOME
 int binarySearch(int array[], int leng, int searchX)
 {
     int pos = -1, right, left, i = 0;

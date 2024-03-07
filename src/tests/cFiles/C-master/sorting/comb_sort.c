@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #define SHRINK 1.3  // suggested shrink factor value
 
+//TESTED IN METRINOME
 void sort(int *numbers, int size)
 {
     int gap = size;

@@ -62,6 +62,7 @@ uint16_t minimum(uint16_t arr[], uint16_t N)
  * @brief Used to find MST of user-generated adj matrix G
  * @returns void
  */
+//TESTED IN METRINOME
 void prim(uint16_t G[][MAX], uint16_t MST[][MAX], uint16_t V)
 {
     uint16_t u, v;

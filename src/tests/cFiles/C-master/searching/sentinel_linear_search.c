@@ -33,6 +33,7 @@
  * @param key the value we want to search
  * @return i if found, otherwise -1 is returned.
  */
+//TESTED IN METRINOME
 int sentinel_linear_search( int arr[], int len, int key ){
 	if(key == arr[len-1]){
 		return len-1;

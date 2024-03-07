@@ -1,0 +1,16 @@
+digraph "is_odd_python" {  
+"46" [label = <(&lt;operator&gt;.equals,n == 0)<SUB>8</SUB>> ]
+"48" [label = <(RETURN,return False,return False)<SUB>9</SUB>> ]
+"56" [label = <(RETURN,return is_even_python(n - 1),return is_even_python(n - 1))<SUB>11</SUB>> ]
+"55" [label = <(is_even_python,is_even_python(n - 1))<SUB>11</SUB>> ]
+"53" [label = <(&lt;operator&gt;.subtraction,n - 1)<SUB>11</SUB>> ]
+"39" [label = <(METHOD,is_odd_python)<SUB>7</SUB>> ]
+"43" [label = <(METHOD_RETURN,ANY)<SUB>7</SUB>> ]
+  "46" -> "48" 
+  "46" -> "53" 
+  "48" -> "43" 
+  "56" -> "43" 
+  "55" -> "56" 
+  "53" -> "55" 
+  "39" -> "46" 
+}

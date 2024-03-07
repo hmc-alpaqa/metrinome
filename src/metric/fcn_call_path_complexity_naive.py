@@ -53,6 +53,8 @@ class FunctionCallPathComplexity(ABC):
                     if called_fcn in ['START', 'CALLS']:
                         continue
                     if called_fcn not in used_graphs:
+                        if not any(called_fcn == graph_name.split('.')[1] for graph_name in all_cfgs):
+                            continue
                         used_graphs.append(called_fcn)
                         # find graph from all_cfgs, add to graphs_to_process
                         for graph_name in all_cfgs:
@@ -72,6 +74,7 @@ class FunctionCallPathComplexity(ABC):
         self.apc_times["graphProcessTime"] = time.time() - start_time
         apc = self.fcn_call_apc(all_edges, call_list)
         self.apc_times["firstHalfTime"] = self.apc_times["graphProcessTime"] + self.apc_times["graphSystemsTime"] + self.apc_times["gammaTime"]
+        print (f"***APC: {self.apc_times}")
         return self.apc_times
         
     def fcn_call_apc(self, edgelist, call_list):
@@ -268,6 +271,7 @@ class FunctionCallPathComplexity(ABC):
             self.logger.d_msg(f"rStar: {rStar}")
             pc = sympy.N(1/rStar)**symbols("n")
             self.apc_times["apcTime2"] = time.time() - start_time
+            self.apc_times["naiveMathTime"] = "case2"
         start_time = time.time()
         self.logger.d_msg(f"pc: {pc}")
         apc = pc
@@ -323,7 +327,8 @@ class FunctionCallPathComplexity(ABC):
         full_sys = init_eqns + system
         self.apc_times["graphSystemsTime"] = time.time() - start_time
         start_time = time.time()
-        gamma = sympy.expand(self.eliminate(full_sys, symbs))
+        gamma = sympy.simplify(sympy.expand(self.eliminate(full_sys, symbs)))
+        # gamma = sympy.expand(self.eliminate(full_sys, symbs))
         self.apc_times["gammaTime"] = time.time() - start_time
         return gamma
 
@@ -333,6 +338,7 @@ class FunctionCallPathComplexity(ABC):
         # so combine it with a common denominator, and then find discriminant of 
         # numerator (since the overall expression is equal to 0, ignore denom)
         polynomial = sympy.fraction(sympy.together(polynomial))[0]
+        # print(f"polynomial {sympy.simplify(polynomial)}")
         return sympy.discriminant(polynomial, sympy.symbols("T0"))
     # def calculateDiscrim(self, polynomial):
     #     """Takes in a polynomial and calculates its discriminant"""

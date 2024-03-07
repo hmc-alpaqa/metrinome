@@ -30,6 +30,7 @@ int findMax(int arr[], int n)
 }
 
 // Sorts the array using flip operations
+//TESTED IN METRINOME
 void pancakeSort(int *arr, int n)
 {
     // Start from the complete array and one by one reduce current size by one

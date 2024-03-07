@@ -21,6 +21,8 @@
  * @param array_sort the array to be sorted
  * @returns void
  */
+
+//TESTED IN METRINOME
 void bubble_sort(int* array_sort)
 {
 	bool is_sorted = false;

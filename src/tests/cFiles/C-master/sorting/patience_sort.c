@@ -19,6 +19,7 @@
  * @param length length of the target array
  * @returns void
  */
+//TESTED IN METRINOME
 void patienceSort(int *array, int length) {
     // An array of pointers used to store each pile
     int* *piles = (int* *) malloc(sizeof(int*) * length);

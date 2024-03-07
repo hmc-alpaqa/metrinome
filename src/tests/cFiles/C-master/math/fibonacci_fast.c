@@ -20,6 +20,7 @@
  * \param [out] C left half interval value - end result here. Cannot be NULL
  * \param [out] D right half interval can be discarded at end and can be NULL
  */
+//TESTED IN METRINOME
 void fib(unsigned long n, unsigned long *C, unsigned long *D)
 {
     // Out of Range checking

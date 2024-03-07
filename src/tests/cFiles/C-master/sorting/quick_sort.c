@@ -56,6 +56,7 @@ int partition(int arr[], int lower, int upper)
     lower --- Starting index
     upper --- Ending index
 */
+//TESTED IN METRINOME
 void quickSort(int arr[], int lower, int upper)
 {
     if (upper > lower)

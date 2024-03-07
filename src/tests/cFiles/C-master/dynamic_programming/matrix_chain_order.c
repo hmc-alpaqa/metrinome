@@ -23,6 +23,7 @@
  * @param s location to store results
  * @returns number of operations
  */
+//TESTED IN METRINOME
 int matrixChainOrder(int l, const int *p, int *s)
 {
     // mat stores the cost for a chain that starts at i and ends on j (inclusive

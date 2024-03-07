@@ -26,6 +26,7 @@ int main()
  * @return `true` if given number is palindrome number
  * @return `false` if number is not a palindrome number
  */
+//TESTED IN METRINOME
 bool isPalindrome(int number)
 {
     int reversedNumber = 0;

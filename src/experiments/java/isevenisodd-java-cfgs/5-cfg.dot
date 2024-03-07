@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.fieldAccess" {  
+"116" [label = <(METHOD,&lt;operator&gt;.fieldAccess)> ]
+"120" [label = <(METHOD_RETURN,ANY)> ]
+  "116" -> "120" 
+}

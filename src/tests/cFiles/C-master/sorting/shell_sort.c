@@ -26,7 +26,7 @@ void swap(int *a, int *b)
     *a = *b;
     *b = tmp;
 }
-
+//TESTED IN METRINOME
 void shellSort(int array[], int len)
 {
     int i, j, gap;

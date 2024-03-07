@@ -45,6 +45,7 @@ int binarySearch(const int **mat, int i, int j_low, int j_high, int x)
  * @param m number of columns in the matrix
  * @param x value to search for
  */
+//TESTED IN METRINOME
 void modifiedBinarySearch(const int **mat, int n, int m, int x)
 {  // If Single row matrix
     if (n == 1)

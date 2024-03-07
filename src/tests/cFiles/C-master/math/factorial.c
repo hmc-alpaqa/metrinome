@@ -1,4 +1,6 @@
 #include <stdio.h>
+
+//TESTED IN METRINOME
 int main()
 {
     int a[200], n, counter, temp, i;

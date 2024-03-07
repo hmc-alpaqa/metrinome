@@ -4,6 +4,7 @@
 /* Kabin-Karp algorithm for pattern searching
    d: radix-d notation. Ex. number from 0->9, d = 10
    q: prime number for hashing */
+//TESTED IN METRINOME
 void rabin_karp_search(char *str, char *pattern, int d, int q)
 {
     int len_str = strlen(str);

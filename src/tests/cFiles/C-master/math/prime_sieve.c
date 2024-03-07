@@ -18,6 +18,7 @@ const unsigned long long MAX_SIZE = 1000000;  /// variable upto which prime numb
  * @param p array to be updated
  * @returns void
  */
+//TESTED IN METRINOME
 void prime(int *p)
 {
 	for(long long int i=3;i<=MAX_SIZE;i+=2) { p[i]=1; }

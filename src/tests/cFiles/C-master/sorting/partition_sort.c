@@ -34,7 +34,7 @@ int partition(int arr[], int low, int high)
         swap(&arr[i], &arr[j]);
     }
 }
-
+//TESTED IN METRINOME
 void partitionSort(int arr[], int low, int high)
 {
     if (low < high)

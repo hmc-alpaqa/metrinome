@@ -31,6 +31,7 @@ int binarySearch(int *arr, int key, int low, int high)
  arr[] --- Array to be sorted
  size --- Array Size
  */
+//TESTED IN METRINOME
 void insertionSort(int *arr, int size)
 {
     int i, j, key, index;

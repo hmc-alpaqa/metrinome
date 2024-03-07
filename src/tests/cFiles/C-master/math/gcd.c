@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 // Euclid's algorithm
+//TESTED IN METRINOME
 int GCD(int x, int y)
 {
     if (y == 0)

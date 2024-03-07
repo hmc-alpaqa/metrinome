@@ -14,6 +14,7 @@ void computeArray(char *pattern, int size, int arr[NUM_OF_CHARS])
     for (i = 0; i < size; i++) arr[(int)pattern[i]] = i;
 }
 /* Boyer Moore Search algorithm  */
+//TESTED IN METRINOME
 void boyer_moore_search(char *str, char *pattern)
 {
     int n = strlen(str);

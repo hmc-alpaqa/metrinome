@@ -34,6 +34,8 @@ void display(const int *arr, int n)
  * @param [in,out] a array to be sorted
  * @param [in] len Array Size
  */
+
+//TESTED IN METRINOME
 void bead_sort(int *a, size_t len)
 {
     int i, j, max, sum;

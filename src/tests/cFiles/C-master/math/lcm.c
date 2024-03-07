@@ -16,6 +16,7 @@ int gcd(int a, int b)
 }
 
 // Function to return LCM of two numbers
+//TESTED IN METRINOME
 int lcm(int a, int b) { return (a * b) / gcd(a, b); }
 
 // Driver program

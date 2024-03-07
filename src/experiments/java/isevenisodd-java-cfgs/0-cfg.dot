@@ -1,0 +1,21 @@
+digraph "main" {  
+"21" [label = <(println,System.out.println(is_even_java(4)))<SUB>3</SUB>> ]
+"27" [label = <(println,System.out.println(is_odd_java(4)))<SUB>4</SUB>> ]
+"22" [label = <(&lt;operator&gt;.fieldAccess,System.out)<SUB>3</SUB>> ]
+"25" [label = <(is_even_java,is_even_java(4))<SUB>3</SUB>> ]
+"28" [label = <(&lt;operator&gt;.fieldAccess,System.out)<SUB>4</SUB>> ]
+"31" [label = <(is_odd_java,is_odd_java(4))<SUB>4</SUB>> ]
+"24" [label = <(FIELD_IDENTIFIER,out,out)<SUB>3</SUB>> ]
+"30" [label = <(FIELD_IDENTIFIER,out,out)<SUB>4</SUB>> ]
+"18" [label = <(METHOD,main)<SUB>2</SUB>> ]
+"35" [label = <(METHOD_RETURN,void)<SUB>2</SUB>> ]
+  "21" -> "30" 
+  "27" -> "35" 
+  "22" -> "25" 
+  "25" -> "21" 
+  "28" -> "31" 
+  "31" -> "27" 
+  "24" -> "22" 
+  "30" -> "28" 
+  "18" -> "24" 
+}

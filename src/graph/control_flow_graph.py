@@ -129,6 +129,12 @@ class ControlFlowGraph:
             a_k  -> a_m
         }
         """
+
+        # ATTEMPT TO INSERT JOERN"S MODIFIED DOT FILE IN METRINOME
+        # if filename == "/app/code/tmp_dot/even_odd_f2f_cfg.is_even.dot":
+        #     name = os.path.split('/app/code/experiments/java/isevenisodd-python-cfgs/1-cfg_modified.dot')[1]
+        #     print("!!!!!!!!Changed the dot file!!!!!!!")
+        # print("THE FILENAME", filename)
         name = os.path.split(filename)[1]
         calls = {}
         # Initialize graph based on type.

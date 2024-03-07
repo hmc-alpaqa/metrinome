@@ -6,7 +6,7 @@ sudo docker login
 sudo docker push apcmetrinome/metrinome-iapc
 
 to run:
-sudo docker run -it apcmetrinome/metrinome-iapc /bin/zsh
+sudo docker run -v ./results:/app/code/experiments/function_calls/data -it apcmetrinome/metrinome-iapc /bin/zsh
 
 to run experiments inside docker:
 ./Testing.sh

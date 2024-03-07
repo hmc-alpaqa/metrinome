@@ -4,6 +4,7 @@
 #define TRUE 1
 #define FALSE 0
 
+//TESTED IN METRINOME
 void cocktailSort(int arr[], int size)
 {
     int i, changed = TRUE, temp, start = 0, end = size - 1;
