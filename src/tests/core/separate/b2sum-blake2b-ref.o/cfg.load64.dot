@@ -1,5 +1,0 @@
-digraph "CFG for 'load64' function" {
-	label="CFG for 'load64' function";
-
-	Node0x18f4100 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  %3 = alloca i64, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !68\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !66, metadata\l... !DIExpression()), !dbg !72\l  %4 = bitcast i64* %3 to i8*, !dbg !73\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #5, !dbg !73\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !67, metadata\l... !DIExpression()), !dbg !74\l  %5 = bitcast i64* %3 to i8*, !dbg !75\l  %6 = load i8*, i8** %2, align 8, !dbg !76, !tbaa !68\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 8 %5, i8* align 1 %6, i64 8,\l... i1 false), !dbg !75\l  %7 = load i64, i64* %3, align 8, !dbg !77, !tbaa !78\l  %8 = bitcast i64* %3 to i8*, !dbg !80\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %8) #5, !dbg !80\l  ret i64 %7, !dbg !81\l}"];
-}

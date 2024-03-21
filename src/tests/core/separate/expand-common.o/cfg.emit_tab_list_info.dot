@@ -1,5 +1,0 @@
-digraph "CFG for 'emit_tab_list_info' function" {
-	label="CFG for 'emit_tab_list_info' function";
-
-	Node0x1f2f680 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !171,\l... !tbaa !172\l  %2 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([62 x i8], [62 x\l... i8]* @.str.11, i32 0, i32 0), %struct._IO_FILE* %1), !dbg !171\l  %3 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !176,\l... !tbaa !172\l  %4 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([365 x i8], [365 x\l... i8]* @.str.12, i32 0, i32 0), %struct._IO_FILE* %3), !dbg !176\l  ret void, !dbg !177\l}"];
-}

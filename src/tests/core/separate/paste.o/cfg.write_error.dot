@@ -1,6 +1,0 @@
-digraph "CFG for 'write_error' function" {
-	label="CFG for 'write_error' function";
-
-	Node0x22c6d20 [shape=record,label="{%0:\l  %1 = call i32* @__errno_location() #11, !dbg !72\l  %2 = load i32, i32* %1, align 4, !dbg !72, !tbaa !73\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 %2, i8* getelementptr\l... inbounds ([12 x i8], [12 x i8]* @.str.42, i32 0, i32 0)), !dbg !72\l  unreachable, !dbg !72\l}"];
-	Node0x22c7610 [shape=record,label="{%3:                                                  \l  unreachable, !dbg !77\l}"];
-}

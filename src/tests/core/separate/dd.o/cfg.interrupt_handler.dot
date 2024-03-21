@@ -1,5 +1,0 @@
-digraph "CFG for 'interrupt_handler' function" {
-	label="CFG for 'interrupt_handler' function";
-
-	Node0x1d9e4b0 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !367\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !366, metadata\l... !DIExpression()), !dbg !371\l  %3 = load i32, i32* %2, align 4, !dbg !372, !tbaa !367\l  store volatile i32 %3, i32* @interrupt_signal, align 4, !dbg !373, !tbaa !367\l  ret void, !dbg !374\l}"];
-}

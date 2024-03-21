@@ -1,5 +1,0 @@
-digraph "CFG for 'known_value' function" {
-	label="CFG for 'known_value' function";
-
-	Node0x1555050 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !230\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !229, metadata\l... !DIExpression()), !dbg !234\l  %3 = load i64, i64* %2, align 8, !dbg !235, !tbaa !230\l  %4 = icmp ult i64 %3, -2, !dbg !236\l  ret i1 %4, !dbg !237\l}"];
-}

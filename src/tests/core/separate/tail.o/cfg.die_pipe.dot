@@ -1,6 +1,0 @@
-digraph "CFG for 'die_pipe' function" {
-	label="CFG for 'die_pipe' function";
-
-	Node0x1e32a60 [shape=record,label="{%0:\l  %1 = call i32 @raise(i32 13) #12, !dbg !222\l  call void @exit(i32 1) #13, !dbg !223\l  unreachable, !dbg !223\l}"];
-	Node0x1e32ab0 [shape=record,label="{%2:                                                  \l  unreachable, !dbg !224\l}"];
-}

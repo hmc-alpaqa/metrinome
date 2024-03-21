@@ -1,5 +1,0 @@
-digraph "CFG for 'print_DBL' function" {
-	label="CFG for 'print_DBL' function";
-
-	Node0x23e4830 [shape=record,label="{%1:\l  %2 = alloca double, align 8\l  %3 = alloca [40 x i8], align 16\l  store double %0, double* %2, align 8, !tbaa !55\l  call void @llvm.dbg.declare(metadata double* %2, metadata !50, metadata\l... !DIExpression()), !dbg !59\l  %4 = bitcast [40 x i8]* %3 to i8*, !dbg !59\l  call void @llvm.lifetime.start.p0i8(i64 40, i8* %4) #9, !dbg !59\l  call void @llvm.dbg.declare(metadata [40 x i8]* %3, metadata !51, metadata\l... !DIExpression()), !dbg !59\l  %5 = getelementptr inbounds [40 x i8], [40 x i8]* %3, i32 0, i32 0, !dbg !59\l  %6 = load double, double* %2, align 8, !dbg !59, !tbaa !55\l  %7 = call i32 @dtoastr(i8* %5, i64 40, i32 1, i32 0, double %6), !dbg !59\l  %8 = getelementptr inbounds [40 x i8], [40 x i8]* %3, i32 0, i32 0, !dbg !59\l  %9 = call i32 @puts(i8* %8), !dbg !59\l  %10 = bitcast [40 x i8]* %3 to i8*, !dbg !59\l  call void @llvm.lifetime.end.p0i8(i64 40, i8* %10) #9, !dbg !59\l  ret void, !dbg !59\l}"];
-}

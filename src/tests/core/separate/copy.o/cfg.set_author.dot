@@ -1,5 +1,0 @@
-digraph "CFG for 'set_author' function" {
-	label="CFG for 'set_author' function";
-
-	Node0x1d6ecd0 [shape=record,label="{%3:\l  %4 = alloca i8*, align 8\l  %5 = alloca i32, align 4\l  %6 = alloca %struct.stat*, align 8\l  store i8* %0, i8** %4, align 8, !tbaa !168\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !165, metadata\l... !DIExpression()), !dbg !172\l  store i32 %1, i32* %5, align 4, !tbaa !173\l  call void @llvm.dbg.declare(metadata i32* %5, metadata !166, metadata\l... !DIExpression()), !dbg !175\l  store %struct.stat* %2, %struct.stat** %6, align 8, !tbaa !168\l  call void @llvm.dbg.declare(metadata %struct.stat** %6, metadata !167,\l... metadata !DIExpression()), !dbg !176\l  %7 = load i8*, i8** %4, align 8, !dbg !177, !tbaa !168\l  %8 = load i32, i32* %5, align 4, !dbg !178, !tbaa !173\l  %9 = load %struct.stat*, %struct.stat** %6, align 8, !dbg !179, !tbaa !168\l  ret void, !dbg !180\l}"];
-}
