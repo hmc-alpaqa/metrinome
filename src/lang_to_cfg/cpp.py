@@ -163,7 +163,7 @@ class CPPConvert(converter.ConverterAbstract):
         """
         print(f"filename in convert_to_standard_format {filename}")
         print(f"Environment:{Env.TMP_PATH}")
-        files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
+        files = glob2.glob(f"{Env.TMP_PATH}/.*.dot")
         for name in files:
             print(f"filename: ",name)
             if "global" in name.lower():
@@ -190,12 +190,16 @@ class CPPConvert(converter.ConverterAbstract):
         else:
             c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S {filepath}{file_extension} -o-"
 
+        self.logger.d_msg(f"filepath: {filepath}")
+        name = os.path.split(filepath)[1]
         c2_str = f"clang-14 -emit-llvm -S {filepath}{file_extension} -o- | /usr/lib/llvm-14/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
 
-        self.logger.d_msg(f"Command One: {commands[0]}")
-        self.logger.d_msg(f"Command Two: {commands[1]}")
-        subprocess.run(commands[1],shell=True)
+        # self.logger.d_msg(f"Command One: {commands[0]}")
+        # self.logger.d_msg(f"Command Two: {commands[1]}")
+        self.logger.d_msg(f"Command: {c2_str}")
+        subprocess.run("pwd",shell=True)
+        subprocess.run(c2_str,shell=True)
         # with subprocess.Popen(commands[1], stdin=None, stdout=subprocess.PIPE,
         #                       stderr=subprocess.PIPE, shell=False) as line1:
             # command = line1.stdout
@@ -224,10 +228,10 @@ class CPPConvert(converter.ConverterAbstract):
             #     self.logger.d_msg(f"dot file intermediary: {command}")
             #     std_data, stderr_data = line2.communicate()
             #     print(f"std data post popen:{std_data}")
-
-        files = glob2.glob("../../../*.dot")
-        print("glub glob: ", glob2.glob("*")) # LEFT OFF HERE 2/22: NO DOT FILES IN ENVIRONMENT AT ALL
-        self.logger.d_msg(f"Found the following .dot files: {files}")
+        # subprocess.run()
+        files = glob2.glob(".*.dot")
+        self.logger.d_msg(f"glub glob: {files}")
         for file in files:
+            print("fileeee:", file)
             subprocess.call(["mv", file, Env.TMP_PATH])
 
