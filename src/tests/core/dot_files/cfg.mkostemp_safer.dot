@@ -1,5 +1,0 @@
-digraph "CFG for 'mkostemp_safer' function" {
-	label="CFG for 'mkostemp_safer' function";
-
-	Node0x12fa4f0 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i32, align 4\l  store i8* %0, i8** %3, align 8, !tbaa !1156\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1154, metadata\l... !DIExpression()), !dbg !1160\l  store i32 %1, i32* %4, align 4, !tbaa !1161\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1155, metadata\l... !DIExpression()), !dbg !1163\l  %5 = load i8*, i8** %3, align 8, !dbg !1164, !tbaa !1156\l  %6 = load i32, i32* %4, align 4, !dbg !1165, !tbaa !1161\l  %7 = call i32 @mkostemp(i8* %5, i32 %6), !dbg !1166\l  %8 = load i32, i32* %4, align 4, !dbg !1167, !tbaa !1161\l  %9 = call i32 @fd_safer_flag(i32 %7, i32 %8), !dbg !1168\l  ret i32 %9, !dbg !1169\l}"];
-}

@@ -1,5 +1,0 @@
-digraph "CFG for 'to_uchar' function" {
-	label="CFG for 'to_uchar' function";
-
-	Node0x24fcdb0 [shape=record,label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !369\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !368, metadata\l... !DIExpression()), !dbg !372\l  %3 = load i8, i8* %2, align 1, !dbg !373, !tbaa !369\l  ret i8 %3, !dbg !374\l}"];
-}

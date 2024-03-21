@@ -1,5 +1,0 @@
-digraph "CFG for 'randread_set_handler' function" {
-	label="CFG for 'randread_set_handler' function";
-
-	Node0x143b030 [shape=record,label="{%2:\l  %3 = alloca %struct.randread_source*, align 8\l  %4 = alloca void (i8*)*, align 8\l  store %struct.randread_source* %0, %struct.randread_source** %3, align 8,\l... !tbaa !895\l  call void @llvm.dbg.declare(metadata %struct.randread_source** %3, metadata\l... !893, metadata !DIExpression()), !dbg !899\l  store void (i8*)* %1, void (i8*)** %4, align 8, !tbaa !895\l  call void @llvm.dbg.declare(metadata void (i8*)** %4, metadata !894,\l... metadata !DIExpression()), !dbg !900\l  %5 = load void (i8*)*, void (i8*)** %4, align 8, !dbg !901, !tbaa !895\l  %6 = load %struct.randread_source*, %struct.randread_source** %3, align 8,\l... !dbg !902, !tbaa !895\l  %7 = getelementptr inbounds %struct.randread_source,\l... %struct.randread_source* %6, i32 0, i32 1, !dbg !903\l  store void (i8*)* %5, void (i8*)** %7, align 8, !dbg !904, !tbaa !905\l  ret void, !dbg !907\l}"];
-}

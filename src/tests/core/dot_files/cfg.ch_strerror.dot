@@ -1,5 +1,0 @@
-digraph "CFG for 'ch_strerror' function" {
-	label="CFG for 'ch_strerror' function";
-
-	Node0x10c4850 [shape=record,label="{%0:\l  %1 = load i32, i32* @last_cherror, align 4, !dbg !890, !tbaa !891\l  %2 = call i8* @gai_strerror(i32 %1) #11, !dbg !895\l  ret i8* %2, !dbg !896\l}"];
-}

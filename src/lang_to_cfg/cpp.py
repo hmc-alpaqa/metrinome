@@ -188,44 +188,44 @@ class CPPConvert(converter.ConverterAbstract):
         if self._optimize:
             c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
         else:
-            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S {filepath}{file_extension} -o-"\
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S {filepath}{file_extension} -o-"
 
-        c2_str = "/usr/lib/llvm-14/bin/opt -dot-cfg"
+        c2_str = f"clang-14 -emit-llvm -S {filepath}{file_extension} -o- | /usr/lib/llvm-14/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
         commands = [shlex.split(c1_str), shlex.split(c2_str)]
 
         self.logger.d_msg(f"Command One: {commands[0]}")
         self.logger.d_msg(f"Command Two: {commands[1]}")
+        subprocess.run(commands[1],shell=True)
+        # with subprocess.Popen(commands[1], stdin=None, stdout=subprocess.PIPE,
+        #                       stderr=subprocess.PIPE, shell=False) as line1:
+            # command = line1.stdout
+            # if line1.stderr is not None:
+            #     def handler(signum: int, frame: FrameType) -> None:
+            #         raise TimeoutError("Timed out.")
 
-        with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE, shell=False) as line1:
-            command = line1.stdout
-            if line1.stderr is not None:
-                def handler(signum: int, frame: FrameType) -> None:
-                    raise TimeoutError("Timed out.")
+            #     signal.signal(signal.SIGALRM, handler)
+            #     error_lines = []
+            #     try:
+            #         for line in line1.stderr:
+            #             signal.alarm(5)
+            #             error_lines.append(str(line))
+            #     except TimeoutError as err:
+            #         self.logger.d_msg(str(err))
 
-                signal.signal(signal.SIGALRM, handler)
-                error_lines = []
-                try:
-                    for line in line1.stderr:
-                        signal.alarm(5)
-                        error_lines.append(str(line))
-                except TimeoutError as err:
-                    self.logger.d_msg(str(err))
+            #     signal.alarm(0)
+            #     err_msg = ''.join(error_lines)
 
-                signal.alarm(0)
-                err_msg = ''.join(error_lines)
+            #     if len(err_msg) != 0:
+            #         self.logger.d_msg(
+            #             f"Got the following error msg: {str(err_msg)}")
+            # self.logger.d_msg(f"dot file intermediary #1: {command}")
+            # with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
+            #                       stderr=subprocess.PIPE, shell=False) as line2:
+            #     self.logger.d_msg(f"dot file intermediary: {command}")
+            #     std_data, stderr_data = line2.communicate()
+            #     print(f"std data post popen:{std_data}")
 
-                if len(err_msg) != 0:
-                    self.logger.d_msg(
-                        f"Got the following error msg: {str(err_msg)}")
-            self.logger.d_msg(f"dot file intermediary #1: {command}")
-            with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
-                                  stderr=subprocess.PIPE, shell=False) as line2:
-                self.logger.d_msg(f"dot file intermediary: {command}")
-                std_data, stderr_data = line2.communicate()
-                print(f"std data post popen:{std_data}")
-
-        files = glob2.glob("*.dot")
+        files = glob2.glob("../../../*.dot")
         print("glub glob: ", glob2.glob("*")) # LEFT OFF HERE 2/22: NO DOT FILES IN ENVIRONMENT AT ALL
         self.logger.d_msg(f"Found the following .dot files: {files}")
         for file in files:

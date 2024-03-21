@@ -1,5 +1,0 @@
-digraph "CFG for 'defaultcon.94' function" {
-	label="CFG for 'defaultcon.94' function";
-
-	Node0x2792b00 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i32, align 4\l  store i8* %0, i8** %3, align 8, !tbaa !1536\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1534, metadata\l... !DIExpression()), !dbg !1540\l  store i32 %1, i32* %4, align 4, !tbaa !1541\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !1535, metadata\l... !DIExpression()), !dbg !1543\l  %5 = call i32* @__errno_location() #13, !dbg !1544\l  store i32 95, i32* %5, align 4, !dbg !1545, !tbaa !1541\l  ret i32 -1, !dbg !1546\l}"];
-}
