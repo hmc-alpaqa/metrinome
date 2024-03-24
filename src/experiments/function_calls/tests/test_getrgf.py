@@ -35,7 +35,7 @@ class DataCollector:
         with open("/app/code/chooseFile.txt") as filess:
             filePathwithComments = [line.rstrip() for line in filess]
             filePath = filePathwithComments[0].split()[0]
-            print(f"benchmark that we are testing {filePath}")
+            self.logger.d_msg(f"benchmark that we are testing {filePath}")
         with open(filePath) as funcs: # open the first filePath in chooseFile
             # files = ['/app/code/experiments/recursion/files/catalan-numbers-1.c' ]
             files = [line.rstrip() for line in funcs]
@@ -43,12 +43,11 @@ class DataCollector:
         for i in files:
             if i[0:1] == "*":
                 continue
-            print(f"IIIIII: {i}")
             file = i.split()[0]
             funcs = i.split()[1:]
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            print(graphs)
+            self.logger.d_msg(graphs)
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
