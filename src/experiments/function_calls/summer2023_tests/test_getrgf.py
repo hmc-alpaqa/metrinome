@@ -59,7 +59,7 @@ class DataCollector:
             for graph_name, graph in graphs.items():
                 print('Graph Name: ', graph_name)
                
-                getrgfapc: Union[str, PathComplexityRes] = {'rfcapc': 'na', "getrgfTime": 'na', "firstHalfTime": 'na'}
+                getrgfapc: Union[str, PathComplexityRes] = {'rfcapc': 'error, might be timeout', "getrgfTime": 'na', "firstHalfTime": 'na', "case": 'na', "gamma":'na'}
                 exception_type = "na"
                 getrgfruntime = 0.0
 
@@ -86,7 +86,7 @@ class DataCollector:
                     print(exc)
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                
+                print(getrgfapc)
                 new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"], 
                         "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time":get_max_time(getrgfapc)[1], 
                         "getrgfTime":getrgfapc["getrgfTime"], "firstHalfTime": getrgfapc['firstHalfTime'],
@@ -115,7 +115,7 @@ def round_expr(expr, num_digits):
     return expr.xreplace({n : round(n, num_digits) for n in expr.atoms(Number)})
 
 def get_max_time(apc):
-    if apc == {'rfcapc':"na"}:
+    if apc['rfcapc'] == 'error, might be timeout':
         return ("na",0)
     l = ["graphProcessTime","graphSystemsTime", "gammaTime", "discrimTime", 
         "realnrootsTime", "genFuncTime", "rootsDictTime","getrgfTime","apcTime2","cleanTime"]
