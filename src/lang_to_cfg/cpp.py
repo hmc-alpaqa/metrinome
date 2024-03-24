@@ -161,17 +161,13 @@ class CPPConvert(converter.ConverterAbstract):
         Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
         """
-        print(f"filename in convert_to_standard_format {filename}")
-        print(f"Environment:{Env.TMP_PATH}")
         files = glob2.glob(f"{Env.TMP_PATH}/.*.dot")
         for name in files:
-            print(f"filename: ",name)
             if "global" in name.lower():
                 os.remove(name)
                 files.remove(name)
 
         for file in files:
-            print(f"file in files: {file}")
             self.convert_file_to_standard(file, filename)
 
         return len(files)
@@ -185,53 +181,18 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
 
+        # 1st part of command: compile c files with clang
         if self._optimize:
             c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
         else:
             c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S {filepath}{file_extension} -o-"
-
-        self.logger.d_msg(f"filepath: {filepath}")
-        name = os.path.split(filepath)[1]
-        c2_str = f"clang-14 -emit-llvm -S {filepath}{file_extension} -o- | /usr/lib/llvm-14/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
-        commands = [shlex.split(c1_str), shlex.split(c2_str)]
-
-        # self.logger.d_msg(f"Command One: {commands[0]}")
-        # self.logger.d_msg(f"Command Two: {commands[1]}")
-        self.logger.d_msg(f"Command: {c2_str}")
-        subprocess.run("pwd",shell=True)
-        subprocess.run(c2_str,shell=True)
-        # with subprocess.Popen(commands[1], stdin=None, stdout=subprocess.PIPE,
-        #                       stderr=subprocess.PIPE, shell=False) as line1:
-            # command = line1.stdout
-            # if line1.stderr is not None:
-            #     def handler(signum: int, frame: FrameType) -> None:
-            #         raise TimeoutError("Timed out.")
-
-            #     signal.signal(signal.SIGALRM, handler)
-            #     error_lines = []
-            #     try:
-            #         for line in line1.stderr:
-            #             signal.alarm(5)
-            #             error_lines.append(str(line))
-            #     except TimeoutError as err:
-            #         self.logger.d_msg(str(err))
-
-            #     signal.alarm(0)
-            #     err_msg = ''.join(error_lines)
-
-            #     if len(err_msg) != 0:
-            #         self.logger.d_msg(
-            #             f"Got the following error msg: {str(err_msg)}")
-            # self.logger.d_msg(f"dot file intermediary #1: {command}")
-            # with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
-            #                       stderr=subprocess.PIPE, shell=False) as line2:
-            #     self.logger.d_msg(f"dot file intermediary: {command}")
-            #     std_data, stderr_data = line2.communicate()
-            #     print(f"std data post popen:{std_data}")
-        # subprocess.run()
+        # 2nd half of command: process compiled files to produce dot files using llvm
+        command = c1_str + " | /usr/lib/llvm-14/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
+        self.logger.d_msg(f"Command: {command}")
+        # run command in shell
+        subprocess.run(command,shell=True)
+        # collect resulting dot files
         files = glob2.glob(".*.dot")
-        self.logger.d_msg(f"glub glob: {files}")
+        # move files into our environment
         for file in files:
-            print("fileeee:", file)
             subprocess.call(["mv", file, Env.TMP_PATH])
-
