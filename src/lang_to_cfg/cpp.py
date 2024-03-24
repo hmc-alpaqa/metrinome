@@ -44,8 +44,7 @@ class CPPConvert(converter.ConverterAbstract):
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
-        self.logger.d_msg(
-            f"Creating dot files for {filename}, {file_extension}")
+        self.logger.d_msg(f"Creating dot files for {filename}, {file_extension}")
         self.create_dot_files(filename, file_extension)
         self.logger.d_msg("Converting to standard format")
         file_count = self.convert_to_standard_format(filename)
@@ -182,7 +181,7 @@ class CPPConvert(converter.ConverterAbstract):
         # Make sure the file extension begins with a '.'
         if file_extension[0] != '.':
             file_extension = f".{file_extension}"
-
+        self.logger.d_msg(f"filepath: {filepath}")
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
 

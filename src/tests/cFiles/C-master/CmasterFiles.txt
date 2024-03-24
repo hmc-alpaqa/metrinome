@@ -1,4 +1,4 @@
- * means comment out
+* means comment out
 /app/code/tests/cFiles/C-master/sorting/bead_sort.c bead_sort
 /app/code/tests/cFiles/C-master/sorting/binary_insertion_sort.c insertionSort
 /app/code/tests/cFiles/C-master/sorting/bogo_sort.c bogo_sort
