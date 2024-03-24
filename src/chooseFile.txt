@@ -1,11 +1,11 @@
-/app/code/experiments/testFiles.txt
+/app/code/tests/cFiles/SV_benchmark/files.txt
 
 
 we are only testing in the above file, below is a list of file path for easy copy paste:
 
-/app/code/tests/cFiles/SV_benchmark/files.txt                     // this has 1720 files
 /app/code/experiments/testFiles.txt                               // this is for random quick testing
+/app/code/tests/cFiles/SV_benchmark/files.txt                     // this has 1720 files
 /app/code/tests/cFiles/C-master/CmasterFiles.txt                  // ISSTA2024 benchmark
 /app/code/experiments/function_calls/benchmark/benchmarkFiles.txt    // ICSE2024 poster benchmark
 /app/code/experiments/icse_experiment/files/files.txt             // ICSE2021 paper benchmark
-/app/code/experiments/recursion/files/files.txt                   // this should be example_apc_functions.c, the benchmark for formalize2023
+/app/code/experiments/recursion/files/files.txt                   // this should be example_apc_functions.c, the benchmark for Formalize 2023
