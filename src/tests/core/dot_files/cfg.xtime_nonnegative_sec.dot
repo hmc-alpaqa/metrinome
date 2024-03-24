@@ -1,5 +1,0 @@
-digraph "CFG for 'xtime_nonnegative_sec' function" {
-	label="CFG for 'xtime_nonnegative_sec' function";
-
-	Node0x1905180 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !992\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !991, metadata\l... !DIExpression()), !dbg !996\l  %3 = load i64, i64* %2, align 8, !dbg !997, !tbaa !992\l  %4 = sdiv i64 %3, 1000000000, !dbg !998\l  ret i64 %4, !dbg !999\l}"];
-}

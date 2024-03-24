@@ -1,5 +1,0 @@
-digraph "CFG for 'emit_bug_reporting_address' function" {
-	label="CFG for 'emit_bug_reporting_address' function";
-
-	Node0x1484a50 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !614,\l... !tbaa !615\l  %2 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([2 x i8], [2 x\l... i8]* @.str.3.87, i32 0, i32 0), %struct._IO_FILE* %1), !dbg !614\l  %3 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([20 x i8], [20\l... x i8]* @.str.16.102, i32 0, i32 0), i8* getelementptr inbounds ([22 x i8],\l... [22 x i8]* @.str.17.103, i32 0, i32 0)), !dbg !619\l  %4 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([20 x i8], [20\l... x i8]* @.str.18.104, i32 0, i32 0), i8* getelementptr inbounds ([14 x i8],\l... [14 x i8]* @.str.19.105, i32 0, i32 0), i8* getelementptr inbounds ([40 x\l... i8], [40 x i8]* @.str.20.106, i32 0, i32 0)), !dbg !620\l  %5 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([39 x i8], [39\l... x i8]* @.str.21.107, i32 0, i32 0), i8* getelementptr inbounds ([29 x i8],\l... [29 x i8]* @.str.22.108, i32 0, i32 0)), !dbg !621\l  ret void, !dbg !622\l}"];
-}

@@ -1,5 +1,0 @@
-digraph "CFG for 'no_more_lines' function" {
-	label="CFG for 'no_more_lines' function";
-
-	Node0x2413fc0 [shape=record,label="{%0:\l  %1 = load i64, i64* @current_line, align 8, !dbg !431, !tbaa !432\l  %2 = add i64 %1, 1, !dbg !436\l  %3 = call %struct.cstring* @find_line(i64 %2), !dbg !437\l  %4 = icmp eq %struct.cstring* %3, null, !dbg !438\l  ret i1 %4, !dbg !439\l}"];
-}

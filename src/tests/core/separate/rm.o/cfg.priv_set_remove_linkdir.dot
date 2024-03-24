@@ -1,5 +1,0 @@
-digraph "CFG for 'priv_set_remove_linkdir' function" {
-	label="CFG for 'priv_set_remove_linkdir' function";
-
-	Node0xe50e30 [shape=record,label="{%0:\l  ret i32 -1, !dbg !138\l}"];
-}

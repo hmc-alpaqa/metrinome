@@ -1,5 +1,0 @@
-digraph "CFG for 'xcharalloc' function" {
-	label="CFG for 'xcharalloc' function";
-
-	Node0x164d4f0 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !43\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !42, metadata\l... !DIExpression()), !dbg !47\l  %3 = load i64, i64* %2, align 8, !dbg !48, !tbaa !43\l  %4 = call noalias i8* @xmalloc(i64 %3), !dbg !48\l  ret i8* %4, !dbg !49\l}"];
-}

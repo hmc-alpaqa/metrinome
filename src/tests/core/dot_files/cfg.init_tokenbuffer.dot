@@ -1,5 +1,0 @@
-digraph "CFG for 'init_tokenbuffer' function" {
-	label="CFG for 'init_tokenbuffer' function";
-
-	Node0x1779620 [shape=record,label="{%1:\l  %2 = alloca %struct.tokenbuffer*, align 8\l  store %struct.tokenbuffer* %0, %struct.tokenbuffer** %2, align 8, !tbaa !740\l  call void @llvm.dbg.declare(metadata %struct.tokenbuffer** %2, metadata\l... !739, metadata !DIExpression()), !dbg !744\l  %3 = load %struct.tokenbuffer*, %struct.tokenbuffer** %2, align 8, !dbg\l... !745, !tbaa !740\l  %4 = getelementptr inbounds %struct.tokenbuffer, %struct.tokenbuffer* %3,\l... i32 0, i32 0, !dbg !746\l  store i64 0, i64* %4, align 8, !dbg !747, !tbaa !748\l  %5 = load %struct.tokenbuffer*, %struct.tokenbuffer** %2, align 8, !dbg\l... !751, !tbaa !740\l  %6 = getelementptr inbounds %struct.tokenbuffer, %struct.tokenbuffer* %5,\l... i32 0, i32 1, !dbg !752\l  store i8* null, i8** %6, align 8, !dbg !753, !tbaa !754\l  ret void, !dbg !755\l}"];
-}

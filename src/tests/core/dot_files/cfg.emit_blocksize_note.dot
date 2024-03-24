@@ -1,5 +1,0 @@
-digraph "CFG for 'emit_blocksize_note' function" {
-	label="CFG for 'emit_blocksize_note' function";
-
-	Node0x127bda0 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !421\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !420, metadata\l... !DIExpression()), !dbg !425\l  %3 = load i8*, i8** %2, align 8, !dbg !426, !tbaa !421\l  %4 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([223 x i8],\l... [223 x i8]* @.str.55, i32 0, i32 0), i8* %3), !dbg !427\l  ret void, !dbg !428\l}"];
-}

@@ -1,9 +1,0 @@
-digraph "CFG for 'xalloc' function" {
-	label="CFG for 'xalloc' function";
-
-	Node0x1f3b520 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  %3 = alloca i8*, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !17\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !15, metadata\l... !DIExpression()), !dbg !21\l  %4 = bitcast i8** %3 to i8*, !dbg !22\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #9, !dbg !22\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !16, metadata\l... !DIExpression()), !dbg !23\l  %5 = load i64, i64* %2, align 8, !dbg !24, !tbaa !17\l  %6 = call noalias i8* @malloc(i64 %5) #9, !dbg !25\l  store i8* %6, i8** %3, align 8, !dbg !23, !tbaa !26\l  %7 = load i8*, i8** %3, align 8, !dbg !28, !tbaa !26\l  %8 = icmp ne i8* %7, null, !dbg !28\l  br i1 %8, label %9, label %12, !dbg !30\l|{<s0>T|<s1>F}}"];
-	Node0x1f3b520:s0 -> Node0x1f3bfb0;
-	Node0x1f3b520:s1 -> Node0x1f3c000;
-	Node0x1f3bfb0 [shape=record,label="{%9:\l\l  %10 = load i8*, i8** %3, align 8, !dbg !31, !tbaa !26\l  %11 = bitcast i8** %3 to i8*, !dbg !32\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %11) #9, !dbg !32\l  ret i8* %10, !dbg !33\l}"];
-	Node0x1f3c000 [shape=record,label="{%12:\l\l  %13 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg !34,\l... !tbaa !26\l  %14 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %13,\l... i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.2, i32 0, i32 0)),\l... !dbg !35\l  call void @exit(i32 1) #10, !dbg !36\l  unreachable, !dbg !36\l}"];
-}

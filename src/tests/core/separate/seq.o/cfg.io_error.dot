@@ -1,6 +1,0 @@
-digraph "CFG for 'io_error' function" {
-	label="CFG for 'io_error' function";
-
-	Node0x218b320 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !95,\l... !tbaa !96\l  call void @clearerr_unlocked(%struct._IO_FILE* %1) #12, !dbg !95\l  %2 = call i32* @__errno_location() #13, !dbg !100\l  %3 = load i32, i32* %2, align 4, !dbg !100, !tbaa !101\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 %3, i8* getelementptr\l... inbounds ([12 x i8], [12 x i8]* @.str.50, i32 0, i32 0)), !dbg !100\l  unreachable, !dbg !100\l}"];
-	Node0x21ee640 [shape=record,label="{%4:                                                  \l  unreachable, !dbg !103\l}"];
-}

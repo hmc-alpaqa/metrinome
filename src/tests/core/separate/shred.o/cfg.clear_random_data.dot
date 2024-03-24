@@ -1,5 +1,0 @@
-digraph "CFG for 'clear_random_data' function" {
-	label="CFG for 'clear_random_data' function";
-
-	Node0x1c64c90 [shape=record,label="{%0:\l  %1 = load %struct.randint_source*, %struct.randint_source** @randint_source,\l... align 8, !dbg !120, !tbaa !121\l  %2 = call i32 @randint_all_free(%struct.randint_source* %1), !dbg !125\l  ret void, !dbg !126\l}"];
-}

@@ -1,5 +1,0 @@
-digraph "CFG for 'cdb_fchdir' function" {
-	label="CFG for 'cdb_fchdir' function";
-
-	Node0x2533400 [shape=record,label="{%1:\l  %2 = alloca %union.anon.8*, align 8\l  store %union.anon.8* %0, %union.anon.8** %2, align 8, !tbaa !931\l  call void @llvm.dbg.declare(metadata %union.anon.8** %2, metadata !930,\l... metadata !DIExpression()), !dbg !935\l  %3 = load %union.anon.8*, %union.anon.8** %2, align 8, !dbg !936, !tbaa !931\l  %4 = getelementptr inbounds %union.anon.8, %union.anon.8* %3, i32 0, i32 0,\l... !dbg !937\l  %5 = load i32, i32* %4, align 4, !dbg !937, !tbaa !938\l  %6 = call i32 @fchdir(i32 %5) #11, !dbg !941\l  ret i32 %6, !dbg !942\l}"];
-}

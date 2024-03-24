@@ -1,5 +1,0 @@
-digraph "CFG for 'just' function" {
-	label="CFG for 'just' function";
-
-	Node0x145ab10 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  %3 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !808\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !806, metadata\l... !DIExpression()), !dbg !812\l  %4 = bitcast i64* %3 to i8*, !dbg !813\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %4) #12, !dbg !813\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !807, metadata\l... !DIExpression()), !dbg !814\l  store i64 -1, i64* %3, align 8, !dbg !814, !tbaa !808\l  %5 = load i64, i64* %2, align 8, !dbg !815, !tbaa !808\l  %6 = load i64, i64* %3, align 8, !dbg !816, !tbaa !808\l  %7 = and i64 %5, %6, !dbg !817\l  %8 = bitcast i64* %3 to i8*, !dbg !818\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %8) #12, !dbg !818\l  ret i64 %7, !dbg !819\l}"];
-}

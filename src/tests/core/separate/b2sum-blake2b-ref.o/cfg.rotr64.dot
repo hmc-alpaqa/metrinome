@@ -1,5 +1,0 @@
-digraph "CFG for 'rotr64' function" {
-	label="CFG for 'rotr64' function";
-
-	Node0x1a2fb30 [shape=record,label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i32, align 4\l  store i64 %0, i64* %3, align 8, !tbaa !67\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !65, metadata\l... !DIExpression()), !dbg !71\l  store i32 %1, i32* %4, align 4, !tbaa !72\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !66, metadata\l... !DIExpression()), !dbg !74\l  %5 = load i64, i64* %3, align 8, !dbg !75, !tbaa !67\l  %6 = load i32, i32* %4, align 4, !dbg !76, !tbaa !72\l  %7 = zext i32 %6 to i64, !dbg !77\l  %8 = lshr i64 %5, %7, !dbg !77\l  %9 = load i64, i64* %3, align 8, !dbg !78, !tbaa !67\l  %10 = load i32, i32* %4, align 4, !dbg !79, !tbaa !72\l  %11 = sub i32 64, %10, !dbg !80\l  %12 = zext i32 %11 to i64, !dbg !81\l  %13 = shl i64 %9, %12, !dbg !81\l  %14 = or i64 %8, %13, !dbg !82\l  ret i64 %14, !dbg !83\l}"];
-}

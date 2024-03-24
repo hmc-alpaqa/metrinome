@@ -1,5 +1,0 @@
-digraph "CFG for 'initseq' function" {
-	label="CFG for 'initseq' function";
-
-	Node0xc932d0 [shape=record,label="{%1:\l  %2 = alloca %struct.seq*, align 8\l  store %struct.seq* %0, %struct.seq** %2, align 8, !tbaa !756\l  call void @llvm.dbg.declare(metadata %struct.seq** %2, metadata !755,\l... metadata !DIExpression()), !dbg !760\l  %3 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !761, !tbaa !756\l  %4 = getelementptr inbounds %struct.seq, %struct.seq* %3, i32 0, i32 0, !dbg\l... !762\l  store i64 0, i64* %4, align 8, !dbg !763, !tbaa !764\l  %5 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !767, !tbaa !756\l  %6 = getelementptr inbounds %struct.seq, %struct.seq* %5, i32 0, i32 1, !dbg\l... !768\l  store i64 0, i64* %6, align 8, !dbg !769, !tbaa !770\l  %7 = load %struct.seq*, %struct.seq** %2, align 8, !dbg !771, !tbaa !756\l  %8 = getelementptr inbounds %struct.seq, %struct.seq* %7, i32 0, i32 2, !dbg\l... !772\l  store %struct.line** null, %struct.line*** %8, align 8, !dbg !773, !tbaa !774\l  ret void, !dbg !775\l}"];
-}

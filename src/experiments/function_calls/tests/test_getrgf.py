@@ -92,7 +92,7 @@ class DataCollector:
                         "getrgfTime":getrgfapc["getrgfTime"], "firstHalfTime": getrgfapc['firstHalfTime'],
                         "exception_type": exception_type,'case':getrgfapc['case'],'gamma':getrgfapc['gamma']}
 
-                data = data.append(new_row, ignore_index=True)
+                data = data._append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
                 data = data[["graph_name", "getrgfapc", "getrgfapc_time", 'getrgfTime', 'firstHalfTime', "longest for getrgf", "longest time",'case','gamma']]
 
