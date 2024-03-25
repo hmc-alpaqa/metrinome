@@ -61,7 +61,7 @@ class DataCollector:
                 if graph_name == "bubble_sort_2_cfg.bubble_sort.dot" or graph_name == "heap_sort_2_cfg.heapSort.dot":
                     new_row = {"file_name": file, "graph_name": graph.name, "fcapc": 'na',
                           "fcapc_time": 'na',"naiveMathTime":"na", "firstHalfTime":"na"}
-                    data = data.append(new_row, ignore_index=True)
+                    data = data._append(new_row, ignore_index=True)
                     data = data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']]
                     print(data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']])
                     if not os.path.exists("/app/code/experiments/function_calls/data"):
@@ -84,7 +84,7 @@ class DataCollector:
                 new_row = {"file_name": file, "graph_name": graph.name, "fcapc": fcapc['apc'],
                            "fcapc_time": fcruntime,'naiveMathTime': fcapc['naiveMathTime'],'firstHalfTime':fcapc['firstHalfTime'], "exception_type": exception_type}
 
-                data = data.append(new_row, ignore_index=True)
+                data = data._append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
                 data = data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']]
 

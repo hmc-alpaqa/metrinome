@@ -185,13 +185,23 @@ class CPPConvert(converter.ConverterAbstract):
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
 
-        # 1st part of command: compile c files with clang
         if self._optimize:
-            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
         else:
-            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S {filepath}{file_extension} -o-"
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S {filepath}{file_extension} -o-"
         # 2nd half of command: process compiled files to produce dot files using llvm
-        command = c1_str + " | /usr/lib/llvm-14/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
+        command = c1_str + " | /usr/lib/llvm-6.0/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
+
+        # ============== NEW CLANG FOR RUNNING WITH DOCKER ==========================================
+        # # 1st part of command: compile c files with clang
+        # if self._optimize:
+        #     c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+        # else:
+        #     c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S {filepath}{file_extension} -o-"
+        # # 2nd half of command: process compiled files to produce dot files using llvm
+        # command = c1_str + " | /usr/lib/llvm-14/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
+        # ============== NEW CLANG FOR RUNNING WITH DOCKER ==========================================
+
         self.logger.d_msg(f"Command: {command}")
         # run command in shell
         subprocess.run(command,shell=True)

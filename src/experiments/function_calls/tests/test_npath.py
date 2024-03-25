@@ -105,7 +105,7 @@ class DataCollector:
                 new_row = {"file_name": file, "graph_name": graph.name, "npath": npath,
                            "npath_time": nruntime,"exception_type": exception_type}
 
-                data = data.append(new_row, ignore_index=True)
+                data = data._append(new_row, ignore_index=True)
                 # only keep columns graph_name, npath, npath_time
                 data = data[["graph_name", "npath", "npath_time"]]
 
