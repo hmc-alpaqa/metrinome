@@ -69,7 +69,7 @@ class DataCollector:
                 new_row = {"file_name": file, "graph_name": graph.name, "apc": apc,
                            "apc_time": runtime,"exception_type": exception_type}
 
-                data = data._append(new_row, ignore_index=True)
+                data = data.append(new_row, ignore_index=True)
                 # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
                 data = data[["graph_name", "apc", "apc_time"]]
 

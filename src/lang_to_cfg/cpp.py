@@ -165,7 +165,8 @@ class CPPConvert(converter.ConverterAbstract):
         Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
         """
-        files = glob2.glob(f"{Env.TMP_PATH}/.*.dot")
+        files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
+        print("files:", files)
         for name in files:
             if "global" in name.lower():
                 os.remove(name)
@@ -190,7 +191,7 @@ class CPPConvert(converter.ConverterAbstract):
         else:
             c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S {filepath}{file_extension} -o-"
         # 2nd half of command: process compiled files to produce dot files using llvm
-        command = c1_str + " | /usr/lib/llvm-6.0/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
+        command = c1_str + " | /usr/lib/llvm-6.0/bin/opt -dot-cfg -disable-output -enable-newgvn=0"
 
         # ============== NEW CLANG FOR RUNNING WITH DOCKER ==========================================
         # # 1st part of command: compile c files with clang
@@ -206,7 +207,8 @@ class CPPConvert(converter.ConverterAbstract):
         # run command in shell
         subprocess.run(command,shell=True)
         # collect resulting dot files
-        files = glob2.glob(".*.dot")
+        files = glob2.glob("*.dot")
+        print("files before:",files)
         # move files into our environment
         for file in files:
             subprocess.call(["mv", file, Env.TMP_PATH])
