@@ -53,9 +53,9 @@ class FunctionCallPathComplexity(ABC):
 
         # GRAPH SIMPLIFICATION  ================================================
         # for testing branch apc code, all other teams comment these 3 lines out
-        dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
-        self.logger.d_msg(f"simplified calldict: {calldict}")
-        self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
+        # dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
+        # self.logger.d_msg(f"simplified calldict: {calldict}")
+        # self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
         # GRAPH SIMPLIFICATION  ================================================
 
         graphProcessTime = time.time() - start_time
@@ -130,7 +130,7 @@ class FunctionCallPathComplexity(ABC):
         try:
             numroots = len(self.realnroots(discrim))
         except Exception as e:
-            self.logger.e_msg(f"Error: {e}")
+            # self.logger.e_msg(f"Error: {e}")
             numroots = 0
         realnrootsTime = time.time() - start_time
         self.logger.d_msg(f"realnrootsTime:{realnrootsTime}")

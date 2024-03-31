@@ -166,7 +166,6 @@ class CPPConvert(converter.ConverterAbstract):
         as the dot files generated from Java CFGs.
         """
         files = glob2.glob(f"{Env.TMP_PATH}/.*.dot")
-        print("files:", files)
         for name in files:
             if "global" in name.lower():
                 os.remove(name)
@@ -208,7 +207,6 @@ class CPPConvert(converter.ConverterAbstract):
         subprocess.run(command,shell=True)
         # collect resulting dot files
         files = glob2.glob(".*.dot")
-        print("files before:",files)
         # move files into our environment
         for file in files:
             subprocess.call(["mv", file, Env.TMP_PATH])

@@ -91,7 +91,7 @@ class FunctionCallPathComplexity(ABC):
         try:
             numroots = len(self.realnroots(discrim))
         except Exception as e:
-            self.logger.e_msg(f"Error: {e}")
+            # self.logger.e_msg(f"Error: {e}")
             numroots = 0
         self.apc_times["realnrootsTime"] = time.time() - start_time
 

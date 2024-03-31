@@ -16,7 +16,7 @@ class DataCollector:
 
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
-        log = Log(log_level=LogLevel.DEBUG)
+        log = Log(log_level=LogLevel.REGULAR)
         self.fcn_call_apc_computer = fcn_call_path_complexity_naive.FunctionCallPathComplexity(log)
         self.converter = CPPConvert(log)
 
@@ -40,7 +40,6 @@ class DataCollector:
             funcs = i.split()[1:]
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            print(graphs)
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
@@ -53,14 +52,16 @@ class DataCollector:
                 
                 fcapc: Union[str, PathComplexityRes] = {"apc":"na", "firstHalfTime": "na", "naiveMathTime": "na"}
                 exception_type = "na"
-                fcruntime = 0.0
+                fcruntime = 'timeout with 6000'
             
                 if notin(graph_name, funcs):
                     continue
                 
-                if graph_name == "bubble_sort_2_cfg.bubble_sort.dot" or graph_name == "heap_sort_2_cfg.heapSort.dot":
+                if graph_name == "bubble_sort_2_.bubble_sort.dot" or graph_name == "heap_sort_2_.heapSort.dot" \
+                or graph_name == "bucket_sort_.BucketSort.dot" or graph_name == 'cantor_set_.main.dot'\
+                    or graph_name == "prime_sieve_.prime.dot" or graph_name == "strong_number_.isStrong.dot":
                     new_row = {"file_name": file, "graph_name": graph.name, "fcapc": 'na',
-                          "fcapc_time": 'na',"naiveMathTime":"na", "firstHalfTime":"na"}
+                          "fcapc_time": 'timeout with 6000',"naiveMathTime":"na", "firstHalfTime":"na"}
                     data = data._append(new_row, ignore_index=True)
                     data = data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']]
                     print(data[["graph_name", "fcapc", "fcapc_time", "naiveMathTime", 'firstHalfTime']])

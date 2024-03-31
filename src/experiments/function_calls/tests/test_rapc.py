@@ -16,7 +16,7 @@ class DataCollector:
 
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
-        log = Log(log_level=LogLevel.DEBUG)
+        log = Log(log_level=LogLevel.REGULAR)
         self.rapc_computer = recursive_path_complexity.RecursivePathComplexity(log)
         self.converter = CPPConvert(log)
 
@@ -41,7 +41,6 @@ class DataCollector:
             print(f"function that we wish to analyze: {funcs}")
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            print(graphs)
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
@@ -77,14 +76,14 @@ class DataCollector:
                 
                 rapc: Union[str, PathComplexityRes] = "na"
                 exception_type = "na"
-                rruntime = 0.0
+                rruntime = "timeout with 200s"
             
                 if notin(graph_name, funcs):
                     continue
                 
-                if graph_name == "bubble_sort_2_cfg.bubble_sort.dot" or graph_name == "heap_sort_2_cfg.heapSort.dot":
+                if graph_name == "bubble_sort_2_.bubble_sort.dot" or graph_name == "heap_sort_2_.heapSort.dot":
                     new_row = {"file_name": file, "graph_name": graph.name, "rapc": 'na',
-                          "rapc_time": 'na'}
+                          "rapc_time": 'timeout with 200s'}
                     data = data._append(new_row, ignore_index=True)
                     data = data[["graph_name", "rapc", "rapc_time"]]
                     print(data[["graph_name", "rapc", "rapc_time"]])

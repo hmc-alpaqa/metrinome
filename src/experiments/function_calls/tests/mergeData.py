@@ -56,19 +56,19 @@ mergefinal = mergefinal[new_order]
 
 # CHANGES FOR ISSTA SUBMISSION ARTIFACT DOCKER IMAGE (change csvs for readability during test replication)
 # comment out when not pushing to docker
-# new_order = ['graph_name','rapc','fcapc','getrgfapc','rapc_time','fcapc_time','getrgfapc_time','firstHalfTime','naiveFirstHalfTime','getrgfTime', 'naiveMathTime','longest time','case']
-# mergefinal = mergefinal[new_order]
-# mergefinal.rename(columns = {'graph_name':'program name'}, inplace = True)
-# mergefinal.rename(columns = {'rapc':'apc-r'}, inplace = True)
-# mergefinal.rename(columns = {'fcapc':'napc-ip'}, inplace = True)
-# mergefinal.rename(columns = {'getrgfapc':'apc-ip'}, inplace = True)
-# mergefinal.rename(columns = {'rapc_time':'apc-r time'}, inplace = True)
-# mergefinal.rename(columns = {'fcapc_time':'napc-ip time'}, inplace = True)
-# mergefinal.rename(columns = {'getrgfapc_time':'apc-ip time'}, inplace = True)
-# mergefinal.rename(columns = {'naiveFirstHalfTime':'napc-ip eliminate time'}, inplace = True)
-# mergefinal.rename(columns = {'firstHalfTime':'apc-ip eliminate time'}, inplace = True)
-# mergefinal.rename(columns = {'getrgfTime':'apc-ip bounding time (GETRGF)'}, inplace = True)
-# mergefinal.rename(columns = {'naiveMathTime':'napc-ip bounding time (SYMB-CALC)'}, inplace = True)
+new_order = ['graph_name','rapc','fcapc','getrgfapc','rapc_time','fcapc_time','getrgfapc_time','firstHalfTime','naiveFirstHalfTime','getrgfTime', 'naiveMathTime','longest time','case']
+mergefinal = mergefinal[new_order]
+mergefinal.rename(columns = {'graph_name':'program name'}, inplace = True)
+mergefinal.rename(columns = {'rapc':'apc-r'}, inplace = True)
+mergefinal.rename(columns = {'fcapc':'napc-ip'}, inplace = True)
+mergefinal.rename(columns = {'getrgfapc':'apc-ip'}, inplace = True)
+mergefinal.rename(columns = {'rapc_time':'apc-r time'}, inplace = True)
+mergefinal.rename(columns = {'fcapc_time':'napc-ip time'}, inplace = True)
+mergefinal.rename(columns = {'getrgfapc_time':'apc-ip time'}, inplace = True)
+mergefinal.rename(columns = {'naiveFirstHalfTime':'napc-ip eliminate time'}, inplace = True)
+mergefinal.rename(columns = {'firstHalfTime':'apc-ip eliminate time'}, inplace = True)
+mergefinal.rename(columns = {'getrgfTime':'apc-ip bounding time (GETRGF)'}, inplace = True)
+mergefinal.rename(columns = {'naiveMathTime':'napc-ip bounding time (SYMB-CALC)'}, inplace = True)
 # stop commenting out here
 
 print('=========================printing final data table=================================')

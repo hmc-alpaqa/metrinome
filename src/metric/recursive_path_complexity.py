@@ -79,7 +79,7 @@ class RecursivePathComplexity(ABC):
                 genFunc = possibleGenFunc[0]/(1-x)
                 self.logger.d_msg(f"Generating Function: {genFunc}")
             else:
-                print(possibleGenFunc)
+                # print(possibleGenFunc)
                 self.logger.e_msg("PANIC PANIC Oh dear, not sure which generating function is right")
             denominator = 1
             for factor in genFunc.args:

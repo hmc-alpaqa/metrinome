@@ -16,7 +16,7 @@ class DataCollector:
 
     def __init__(self) -> None:
         """Create a new instance of the data collector."""
-        log = Log(log_level=LogLevel.DEBUG)
+        log = Log(log_level=LogLevel.REGULAR)
         self.getrgf_computer = fcn_call_path_complexity.FunctionCallPathComplexity(log)
         self.converter = CPPConvert(log)
 
@@ -47,7 +47,6 @@ class DataCollector:
             funcs = i.split()[1:]
             print(f"Now analyzing {file}")
             graphs = self.converter.to_graph(os.path.splitext(file)[0], ".c")
-            print(graphs)
             if graphs is None:
                 graphs = self.converter.to_graph(
                     os.path.splitext(file)[0], ".cpp")
@@ -70,7 +69,7 @@ class DataCollector:
                 try:
                     with Timeout(4000):
                         getrgfapc = self.getrgf_computer.evaluate(graph, graphs)
-                        print(getrgfapc)
+                        # print(getrgfapc)
                         getrgfruntime = time.time() - start_time
                         # if "V0_3" in str(getrgfapc["rfcapc"]):
                         #     print("ERROR V0_3 in apc")
@@ -85,7 +84,7 @@ class DataCollector:
                     print(exc)
                     exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
-                print(getrgfapc)
+                # print(getrgfapc)
                 new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"], 
                         "getrgfapc_time": getrgfruntime, "longest for getrgf": get_max_time(getrgfapc)[0], "longest time":get_max_time(getrgfapc)[1], 
                         "getrgfTime":getrgfapc["getrgfTime"], "firstHalfTime": getrgfapc['firstHalfTime'],
