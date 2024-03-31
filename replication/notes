@@ -1,12 +1,12 @@
 to build, go to main metrinome directory and run:
-sudo docker build -t apcmetrinome/dockerapc -f replication/Dockerfile .
+sudo docker build -t apcmetrinome/issta -f replication/Dockerfile .
 
 to push to dockerhub:
 sudo docker login
-sudo docker push apcmetrinome/dockerapc
+sudo docker push apcmetrinome/issta
 
 to run:
-sudo docker run -it apcmetrinome/dockerapc
+sudo docker run -it apcmetrinome/issta
 
 to run experiments inside docker:
 ./Testing.sh
