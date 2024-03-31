@@ -5,8 +5,23 @@ to push to dockerhub:
 sudo docker login
 sudo docker push apcmetrinome/issta
 
-to run:
+to run the docker image (without externally copied results):
+sudo docker login
 sudo docker run -it apcmetrinome/issta
+
+to run the docker image (with externally copied results):
+sudo docker login
+sudo docker run -v ./results:/app/code/experiments/function_calls/data -it apcmetrinome/issta
+
 
 to run experiments inside docker:
 ./Testing.sh
+
+to view results of experiments:
+open the "results" folder automatically generated in the directory the docker image is running in
+open final_data.csv
+
+notes:
+the full experiments will take some time to run, up to a day
+the full experiments should not be run on a personal computer or laptop
+the other csv files in "results" display the data of each of apc-r, napc-ip, and apc-ip separately
