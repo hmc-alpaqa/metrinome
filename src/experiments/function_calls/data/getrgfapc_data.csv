@@ -1,2 +1,3 @@
-,graph_name,getrgfapc,getrgfapc_time,getrgfTime,firstHalfTime,longest for getrgf,longest time,case,gamma
-0,even_odd_f2f_cfg.is_even,0.333333333333333*1.0**n*n,0.48980164527893066,0.03641700744628906,0.34026360511779785,gammaTime,0.305,1.0,-T0 + x**3*(x**3*(T0 + 1) + 1)
+,graph_name,getrgfapc,getrgfapc_time,getrgfTime,firstHalfTime,case,gamma
+0,joern.is_odd_java,0.2*1.0**n*n,0.2954838275909424,0.026782751083374023,0.1934816837310791,1.0,T0*x**10 - T0 + x**8 + x**3
+1,joern.is_even_java,0.2*1.0**n*n,0.13963055610656738,0.0070650577545166016,0.07707023620605469,1.0,T0*x**10 - T0 + x**8 + x**3
