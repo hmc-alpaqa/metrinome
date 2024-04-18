@@ -40,13 +40,13 @@ class CPPConvert(converter.ConverterAbstract):
 
     def to_graph(self,
                  filename: str,
-                 file_extension: str) -> Optional[dict[str, ControlFlowGraph]]:
+                 file_extension: str,
+                 simplify: bool = False) -> Optional[dict[str, ControlFlowGraph]]:
         """Create a CFG from a C++ source file."""
         Env.make_temp()
         Env.clean_temps()
-        self.logger.d_msg(
-            f"Creating dot files for {filename}, {file_extension}")
-        self.create_dot_files(filename, file_extension)
+        self.logger.d_msg(f"Creating dot files for {filename}, {file_extension}")
+        self.create_dot_files(filename, file_extension, simplify)
         self.logger.d_msg("Converting to standard format")
         print("The filename", filename)
         file_count = self.convert_to_standard_format(filename)
@@ -177,67 +177,55 @@ class CPPConvert(converter.ConverterAbstract):
         Each dot file generated from the .cpp source is converted to the same format
         as the dot files generated from Java CFGs.
         """
-        print(f"filename in convert_to_standard_format {filename}")
-        files = glob2.glob(f"{Env.TMP_PATH}/*.dot")
+        files = glob2.glob(f"{Env.TMP_PATH}/.*.dot")
+        print("files:", files)
         for name in files:
             if "global" in name.lower():
                 os.remove(name)
                 files.remove(name)
 
         for file in files:
-            print(f"file in files: {file}")
             self.convert_file_to_standard(file, filename)
 
         return len(files)
 
-    def create_dot_files(self, filepath: str, file_extension: str) -> None:
+    def create_dot_files(self, filepath: str, file_extension: str, simplify: bool = False) -> None:
         """Create a .dot file representing a CFG for each function from a .cpp file."""
         # Make sure the file extension begins with a '.'
         if file_extension[0] != '.':
             file_extension = f".{file_extension}"
-
+        self.logger.d_msg(f"filepath: {filepath}")
         self.logger.d_msg(f"Going to dir: {os.path.split(filepath)[0]}")
         os.chdir(os.path.split(filepath)[0])
 
+        # if self._optimize:
+        #     c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+        # else:
+        #     c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-6.0 -emit-llvm -S {filepath}{file_extension} -o-"
+        # # 2nd half of command: process compiled files to produce dot files using llvm
+        # command = c1_str + " | /usr/lib/llvm-6.0/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
+
+        # ============== NEW CLANG FOR RUNNING WITH DOCKER ==========================================
+        # 1st part of command: compile c files with clang
         if self._optimize:
-            c1_str = f"clang{'++' if file_extension == '.cpp' else ''} -emit-llvm -S -O3 {filepath}{file_extension} -o-"
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S -O3 {filepath}{file_extension} -o-"
         else:
-            c1_str = f"clang{'++' if file_extension == '.cpp' else ''} -emit-llvm -S {filepath}{file_extension} -o-"\
+            c1_str = f"clang{'++' if file_extension == '.cpp' else ''}-14 -emit-llvm -S {filepath}{file_extension} -o-"
+        # 2nd half of command: process compiled files to produce dot files using llvm
+        if not simplify:
+            command = c1_str + " | /usr/lib/llvm-14/bin/opt -dot-cfg -disable-output -enable-new-pm=0"
+        #to use pythonBranching:
+        else: 
+            command = c1_str + " | /usr/lib/llvm-14/bin/opt -simplifycfg -dot-cfg -disable-output -enable-new-pm=0"
 
-        c2_str = "/usr/lib/llvm-14/bin/opt -dot-cfg"
-        commands = [shlex.split(c1_str), shlex.split(c2_str)]
+        # ============== NEW CLANG FOR RUNNING WITH DOCKER ==========================================
 
-        self.logger.d_msg(f"Command One: {commands[0]}")
-        self.logger.d_msg(f"Command Two: {commands[1]}")
-
-        with subprocess.Popen(commands[0], stdin=None, stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE, shell=False) as line1:
-            command = line1.stdout
-            if line1.stderr is not None:
-                def handler(signum: int, frame: FrameType) -> None:
-                    raise TimeoutError("Timed out.")
-
-                signal.signal(signal.SIGALRM, handler)
-                error_lines = []
-                try:
-                    for line in line1.stderr:
-                        signal.alarm(5)
-                        error_lines.append(str(line))
-                except TimeoutError as err:
-                    self.logger.d_msg(str(err))
-
-                signal.alarm(0)
-                err_msg = ''.join(error_lines)
-
-                if len(err_msg) == 0:
-                    self.logger.d_msg(
-                        f"Got the following error msg: {str(err_msg)}")
-
-            with subprocess.Popen(commands[1], stdin=command, stdout=subprocess.PIPE,
-                                  stderr=subprocess.PIPE, shell=False) as line2:
-                line2.communicate()
-
-        files = glob2.glob("*.dot")
-        self.logger.d_msg(f"Found the following .dot files: {files}")
+        self.logger.d_msg(f"Command: {command}")
+        # run command in shell
+        subprocess.run(command,shell=True)
+        # collect resulting dot files
+        files = glob2.glob(".*.dot")
+        print("files before:",files)
+        # move files into our environment
         for file in files:
             subprocess.call(["mv", file, Env.TMP_PATH])

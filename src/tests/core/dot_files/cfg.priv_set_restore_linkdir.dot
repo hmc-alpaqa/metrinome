@@ -1,5 +1,0 @@
-digraph "CFG for 'priv_set_restore_linkdir' function" {
-	label="CFG for 'priv_set_restore_linkdir' function";
-
-	Node0x2477c00 [shape=record,label="{%0:\l  ret i32 -1, !dbg !945\l}"];
-}

@@ -1,5 +1,0 @@
-digraph "CFG for 'lstatat' function" {
-	label="CFG for 'lstatat' function";
-
-	Node0x147f2e0 [shape=record,label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca %struct.stat*, align 8\l  store i32 %0, i32* %4, align 4, !tbaa !845\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !842, metadata\l... !DIExpression()), !dbg !849\l  store i8* %1, i8** %5, align 8, !tbaa !850\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !843, metadata\l... !DIExpression()), !dbg !852\l  store %struct.stat* %2, %struct.stat** %6, align 8, !tbaa !850\l  call void @llvm.dbg.declare(metadata %struct.stat** %6, metadata !844,\l... metadata !DIExpression()), !dbg !853\l  %7 = load i32, i32* %4, align 4, !dbg !854, !tbaa !845\l  %8 = load i8*, i8** %5, align 8, !dbg !855, !tbaa !850\l  %9 = load %struct.stat*, %struct.stat** %6, align 8, !dbg !856, !tbaa !850\l  %10 = call i32 @fstatat(i32 %7, i8* %8, %struct.stat* %9, i32 256) #12, !dbg\l... !857\l  ret i32 %10, !dbg !858\l}"];
-}

@@ -1,6 +1,0 @@
-digraph "CFG for 'cleanup_fatal' function" {
-	label="CFG for 'cleanup_fatal' function";
-
-	Node0x2363930 [shape=record,label="{%0:\l  call void @cleanup(), !dbg !429\l  call void @exit(i32 1) #10, !dbg !430\l  unreachable, !dbg !430\l}"];
-	Node0x2363d40 [shape=record,label="{%1:                                                  \l  unreachable, !dbg !431\l}"];
-}

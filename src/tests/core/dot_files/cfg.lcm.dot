@@ -1,5 +1,0 @@
-digraph "CFG for 'lcm' function" {
-	label="CFG for 'lcm' function";
-
-	Node0x1bd7a20 [shape=record,label="{%2:\l  %3 = alloca i64, align 8\l  %4 = alloca i64, align 8\l  store i64 %0, i64* %3, align 8, !tbaa !363\l  call void @llvm.dbg.declare(metadata i64* %3, metadata !361, metadata\l... !DIExpression()), !dbg !367\l  store i64 %1, i64* %4, align 8, !tbaa !363\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !362, metadata\l... !DIExpression()), !dbg !368\l  %5 = load i64, i64* %3, align 8, !dbg !369, !tbaa !363\l  %6 = load i64, i64* %4, align 8, !dbg !370, !tbaa !363\l  %7 = load i64, i64* %3, align 8, !dbg !371, !tbaa !363\l  %8 = load i64, i64* %4, align 8, !dbg !372, !tbaa !363\l  %9 = call i64 @gcd(i64 %7, i64 %8) #13, !dbg !373\l  %10 = udiv i64 %6, %9, !dbg !374\l  %11 = mul i64 %5, %10, !dbg !375\l  ret i64 %11, !dbg !376\l}"];
-}

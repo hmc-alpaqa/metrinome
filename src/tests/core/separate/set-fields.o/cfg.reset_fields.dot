@@ -1,5 +1,0 @@
-digraph "CFG for 'reset_fields' function" {
-	label="CFG for 'reset_fields' function";
-
-	Node0x218ab60 [shape=record,label="{%0:\l  store i64 0, i64* @n_frp, align 8, !dbg !106, !tbaa !107\l  store i64 0, i64* @n_frp_allocated, align 8, !dbg !111, !tbaa !107\l  %1 = load %struct.field_range_pair*, %struct.field_range_pair** @frp, align\l... 8, !dbg !112, !tbaa !113\l  %2 = bitcast %struct.field_range_pair* %1 to i8*, !dbg !112\l  call void @free(i8* %2) #9, !dbg !115\l  store %struct.field_range_pair* null, %struct.field_range_pair** @frp, align\l... 8, !dbg !116, !tbaa !113\l  ret void, !dbg !117\l}"];
-}

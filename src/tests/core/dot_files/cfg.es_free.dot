@@ -1,5 +1,0 @@
-digraph "CFG for 'es_free' function" {
-	label="CFG for 'es_free' function";
-
-	Node0x13cd570 [shape=record,label="{%1:\l  %2 = alloca %struct.E_string*, align 8\l  store %struct.E_string* %0, %struct.E_string** %2, align 8, !tbaa !140\l  call void @llvm.dbg.declare(metadata %struct.E_string** %2, metadata !139,\l... metadata !DIExpression()), !dbg !144\l  %3 = load %struct.E_string*, %struct.E_string** %2, align 8, !dbg !145,\l... !tbaa !140\l  %4 = getelementptr inbounds %struct.E_string, %struct.E_string* %3, i32 0,\l... i32 0, !dbg !146\l  %5 = load i8*, i8** %4, align 8, !dbg !146, !tbaa !147\l  call void @free(i8* %5) #12, !dbg !150\l  %6 = load %struct.E_string*, %struct.E_string** %2, align 8, !dbg !151,\l... !tbaa !140\l  %7 = getelementptr inbounds %struct.E_string, %struct.E_string* %6, i32 0,\l... i32 1, !dbg !152\l  %8 = load i8*, i8** %7, align 8, !dbg !152, !tbaa !153\l  call void @free(i8* %8) #12, !dbg !154\l  ret void, !dbg !155\l}"];
-}

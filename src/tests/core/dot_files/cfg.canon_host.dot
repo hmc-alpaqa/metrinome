@@ -1,5 +1,0 @@
-digraph "CFG for 'canon_host' function" {
-	label="CFG for 'canon_host' function";
-
-	Node0x108a8f0 [shape=record,label="{%1:\l  %2 = alloca i8*, align 8\l  store i8* %0, i8** %2, align 8, !tbaa !893\l  call void @llvm.dbg.declare(metadata i8** %2, metadata !892, metadata\l... !DIExpression()), !dbg !897\l  %3 = load i8*, i8** %2, align 8, !dbg !898, !tbaa !893\l  %4 = call noalias i8* @canon_host_r(i8* %3, i32* @last_cherror), !dbg !899\l  ret i8* %4, !dbg !900\l}"];
-}

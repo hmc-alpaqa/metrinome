@@ -1,5 +1,0 @@
-digraph "CFG for 'current_timespec' function" {
-	label="CFG for 'current_timespec' function";
-
-	Node0x1908410 [shape=record,label="{%0:\l  %1 = alloca %struct.timespec, align 8\l  call void @llvm.dbg.declare(metadata %struct.timespec* %1, metadata !998,\l... metadata !DIExpression()), !dbg !999\l  call void @gettime(%struct.timespec* %1), !dbg !1000\l  %2 = bitcast %struct.timespec* %1 to \{ i64, i64 \}*, !dbg !1001\l  %3 = load \{ i64, i64 \}, \{ i64, i64 \}* %2, align 8, !dbg !1001\l  ret \{ i64, i64 \} %3, !dbg !1001\l}"];
-}

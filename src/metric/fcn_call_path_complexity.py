@@ -18,7 +18,7 @@ import time
 from sympy.utilities import lambdify
 import math
 import cmath
-# from experiments.branch_apc.graph_simplification import simplify_graphs
+from experiments.branch_apc.graph_simplification import simplify_graphs
 
 PathComplexityRes = tuple[Union[float, str], Union[float, str]]
 PRECISION = 11
@@ -36,12 +36,10 @@ class FunctionCallPathComplexity(ABC):
         """Return the name of the metric computed by this class."""
         return "Function Call Path Complexity"
 
-    def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph]) -> Union[int, PathComplexityRes]:
+    def evaluate(self, cfg: ControlFlowGraph, all_cfgs: List[ControlFlowGraph], branching : str = "branching") -> Union[int, PathComplexityRes]:
         """Given a graph, compute the metric."""
         # TODO: use full name of cfg (file name is deleted here)
-        self.logger.d_msg(
-            f"RGF FCAPC =========================================================")
-        self.logger.d_msg(f"graph name:{cfg.name.split('.')}")
+        self.logger.d_msg(f"RGF FCAPC =========================================================")
         self.logger.d_msg(f"graph name:{cfg.name.split('.')[1]}")
         self.logger.d_msg(f"cfg repr:{cfg.rich_repr()}")
 
@@ -54,9 +52,10 @@ class FunctionCallPathComplexity(ABC):
 
         # GRAPH SIMPLIFICATION  ================================================
         # for testing branch apc code, all other teams comment these 3 lines out
-        # dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
-        # self.logger.d_msg(f"simplified calldict: {calldict}")
-        # self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
+        if branching == "branching":
+            dictgraphs, calldict = simplify_graphs(dictgraphs, calldict)
+            self.logger.d_msg(f"simplified calldict: {calldict}")
+            self.logger.d_msg(f"simplified dictgraphs: {dictgraphs}")
         # GRAPH SIMPLIFICATION  ================================================
 
         graphProcessTime = time.time() - start_time
@@ -87,8 +86,7 @@ class FunctionCallPathComplexity(ABC):
         # eliminate equations into a single gamma function with variables T0 and x (gammaTime)
         gammaTime = 0.0
         start_time = time.time()
-        optimizedGamma = self.optimizedEliminate(
-            splitsystems, splitsymbols, lookupDict, idxDict)
+        optimizedGamma = self.optimizedEliminate(splitsystems, splitsymbols, lookupDict, idxDict)
         gammaTime = time.time() - start_time
         self.logger.d_msg(
             f"Gamma Function: {optimizedGamma}, time: {gammaTime}")

@@ -1,5 +1,0 @@
-digraph "CFG for 'randint_get_source' function" {
-	label="CFG for 'randint_get_source' function";
-
-	Node0x141ecd0 [shape=record,label="{%1:\l  %2 = alloca %struct.randint_source*, align 8\l  store %struct.randint_source* %0, %struct.randint_source** %2, align 8,\l... !tbaa !818\l  call void @llvm.dbg.declare(metadata %struct.randint_source** %2, metadata\l... !817, metadata !DIExpression()), !dbg !822\l  %3 = load %struct.randint_source*, %struct.randint_source** %2, align 8,\l... !dbg !823, !tbaa !818\l  %4 = getelementptr inbounds %struct.randint_source, %struct.randint_source*\l... %3, i32 0, i32 0, !dbg !824\l  %5 = load %struct.randread_source*, %struct.randread_source** %4, align 8,\l... !dbg !824, !tbaa !825\l  ret %struct.randread_source* %5, !dbg !828\l}"];
-}

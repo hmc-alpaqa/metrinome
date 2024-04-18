@@ -1,5 +1,0 @@
-digraph "CFG for 'base2_length' function" {
-	label="CFG for 'base2_length' function";
-
-	Node0xd6f260 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !747\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !746, metadata\l... !DIExpression()), !dbg !751\l  %3 = load i32, i32* %2, align 4, !dbg !752, !tbaa !747\l  %4 = mul nsw i32 %3, 8, !dbg !753\l  ret i32 %4, !dbg !754\l}"];
-}

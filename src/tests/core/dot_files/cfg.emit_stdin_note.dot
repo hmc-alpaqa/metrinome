@@ -1,5 +1,0 @@
-digraph "CFG for 'emit_stdin_note' function" {
-	label="CFG for 'emit_stdin_note' function";
-
-	Node0x13ca1a0 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !615,\l... !tbaa !616\l  %2 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([56 x i8], [56 x\l... i8]* @.str.17, i32 0, i32 0), %struct._IO_FILE* %1), !dbg !615\l  ret void, !dbg !620\l}"];
-}

@@ -1,5 +1,0 @@
-digraph "CFG for 'isbase32' function" {
-	label="CFG for 'isbase32' function";
-
-	Node0x115e3a0 [shape=record,label="{%1:\l  %2 = alloca i8, align 1\l  store i8 %0, i8* %2, align 1, !tbaa !648\l  call void @llvm.dbg.declare(metadata i8* %2, metadata !647, metadata\l... !DIExpression()), !dbg !651\l  %3 = load i8, i8* %2, align 1, !dbg !652, !tbaa !648\l  %4 = call zeroext i8 @to_uchar(i8 signext %3), !dbg !653\l  %5 = zext i8 %4 to i64, !dbg !654\l  %6 = getelementptr inbounds [256 x i8], [256 x i8]* @b32, i64 0, i64 %5,\l... !dbg !654\l  %7 = load i8, i8* %6, align 1, !dbg !654, !tbaa !648\l  %8 = sext i8 %7 to i32, !dbg !654\l  %9 = icmp sle i32 0, %8, !dbg !655\l  ret i1 %9, !dbg !656\l}"];
-}

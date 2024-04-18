@@ -38,21 +38,22 @@ clean:
 # =========================
 
 build: 
-	docker build --tag harveymudd/metrinome:latest -f ../Dockerfile ../
-
+	docker build -t apcmetrinome/develop:latest .
+push:
+	docker push apcmetrinome/develop
 ifeq ($(UNAME_S),Darwin)
 run:
 	docker container prune -f --filter "label=metrinome_repl" > /dev/null
-	docker run --name metrinome_repl --label metrinome_repl -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
+	docker run --name metrinome_repl --label metrinome_repl -it -v ${shell pwd}:/app/code apcmetrinome/develop:latest
 else
 run:
 	docker container prune -f --filter "label=metrinome_repl"
-	docker run --name metrinome_repl --label metrinome_repl -it -v ${shell pwd}:/app/code harveymudd/metrinome:latest /bin/zsh
+	docker run --name metrinome_repl --label metrinome_repl -it -v ${shell pwd}:/app/code apcmetrinome/develop:latest
 endif
 
 
 run-detached:
-	docker run --name detached_repl -d -it -v $(shell pwd):/app/code harveymudd/metrinome:latest /bin/zsh
+	docker run --name detached_repl -d -it -v $(shell pwd):/app/code apcmetrinome/develop:latest
 
 start-detached:
 	docker start detached_repl

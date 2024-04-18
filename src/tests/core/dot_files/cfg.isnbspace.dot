@@ -1,5 +1,0 @@
-digraph "CFG for 'isnbspace' function" {
-	label="CFG for 'isnbspace' function";
-
-	Node0x1b0f320 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !329\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !328, metadata\l... !DIExpression()), !dbg !333\l  %3 = load i32, i32* %2, align 4, !dbg !334, !tbaa !329\l  %4 = call i32 @btowc(i32 %3) #12, !dbg !335\l  %5 = call i32 @iswnbspace(i32 %4) #13, !dbg !336\l  ret i32 %5, !dbg !337\l}"];
-}

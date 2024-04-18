@@ -1,6 +1,0 @@
-digraph "CFG for 'print_and_abort' function" {
-	label="CFG for 'print_and_abort' function";
-
-	Node0x23330d0 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stderr, align 8, !dbg\l... !1737, !tbaa !1738\l  %2 = call i32 (%struct._IO_FILE*, i8*, ...) @fprintf(%struct._IO_FILE* %1,\l... i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.386, i32 0, i32 0), i8*\l... getelementptr inbounds ([17 x i8], [17 x i8]* @.str.1.387, i32 0, i32 0)),\l... !dbg !1742\l  %3 = load volatile i32, i32* @exit_failure, align 4, !dbg !1743, !tbaa !1744\l  call void @exit(i32 %3) #15, !dbg !1746\l  unreachable, !dbg !1746\l}"];
-	Node0x2333120 [shape=record,label="{%4:                                                  \l  ret void, !dbg !1747\l}"];
-}

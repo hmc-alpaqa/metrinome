@@ -1,5 +1,0 @@
-digraph "CFG for 'signal_restore' function" {
-	label="CFG for 'signal_restore' function";
-
-	Node0x1016fe0 [shape=record,label="{%0:\l  call void @signal_setup(i1 zeroext false), !dbg !1395\l  ret void, !dbg !1396\l}"];
-}

@@ -1,5 +1,0 @@
-digraph "CFG for 'xtime_sec' function" {
-	label="CFG for 'xtime_sec' function";
-
-	Node0x1905c00 [shape=record,label="{%1:\l  %2 = alloca i64, align 8\l  store i64 %0, i64* %2, align 8, !tbaa !992\l  call void @llvm.dbg.declare(metadata i64* %2, metadata !991, metadata\l... !DIExpression()), !dbg !996\l  %3 = load i64, i64* %2, align 8, !dbg !997, !tbaa !992\l  %4 = load i64, i64* %2, align 8, !dbg !998, !tbaa !992\l  %5 = icmp slt i64 %4, 0, !dbg !999\l  %6 = zext i1 %5 to i32, !dbg !999\l  %7 = sext i32 %6 to i64, !dbg !1000\l  %8 = add nsw i64 %3, %7, !dbg !1001\l  %9 = sdiv i64 %8, 1000000000, !dbg !1002\l  %10 = load i64, i64* %2, align 8, !dbg !1003, !tbaa !992\l  %11 = icmp slt i64 %10, 0, !dbg !1004\l  %12 = zext i1 %11 to i32, !dbg !1004\l  %13 = sext i32 %12 to i64, !dbg !1005\l  %14 = sub nsw i64 %9, %13, !dbg !1006\l  ret i64 %14, !dbg !1007\l}"];
-}

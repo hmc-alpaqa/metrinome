@@ -1,9 +1,0 @@
-digraph "CFG for 'check_for_offset' function" {
-	label="CFG for 'check_for_offset' function";
-
-	Node0x2389130 [shape=record,label="{%3:\l  %4 = alloca %struct.control*, align 8\l  %5 = alloca i8*, align 8\l  %6 = alloca i8*, align 8\l  store %struct.control* %0, %struct.control** %4, align 8, !tbaa !434\l  call void @llvm.dbg.declare(metadata %struct.control** %4, metadata !431,\l... metadata !DIExpression()), !dbg !438\l  store i8* %1, i8** %5, align 8, !tbaa !434\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !432, metadata\l... !DIExpression()), !dbg !439\l  store i8* %2, i8** %6, align 8, !tbaa !434\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !433, metadata\l... !DIExpression()), !dbg !440\l  %7 = load i8*, i8** %6, align 8, !dbg !441, !tbaa !434\l  %8 = load %struct.control*, %struct.control** %4, align 8, !dbg !443, !tbaa\l... !434\l  %9 = getelementptr inbounds %struct.control, %struct.control* %8, i32 0, i32\l... 0, !dbg !444\l  %10 = call i32 @xstrtoimax(i8* %7, i8** null, i32 10, i64* %9, i8*\l... getelementptr inbounds ([1 x i8], [1 x i8]* @.str.2, i32 0, i32 0)), !dbg !445\l  %11 = icmp ne i32 %10, 0, !dbg !446\l  br i1 %11, label %12, label %15, !dbg !447\l|{<s0>T|<s1>F}}"];
-	Node0x2389130:s0 -> Node0x238ae00;
-	Node0x2389130:s1 -> Node0x23914e0;
-	Node0x238ae00 [shape=record,label="{%12:\l\l  %13 = load i8*, i8** %5, align 8, !dbg !448, !tbaa !434\l  %14 = call i8* @quote(i8* %13), !dbg !448\l  call void (i32, i32, i8*, ...) @error(i32 1, i32 0, i8* getelementptr\l... inbounds ([37 x i8], [37 x i8]* @.str.50, i32 0, i32 0), i8* %14), !dbg !448\l  unreachable, !dbg !448\l}"];
-	Node0x23914e0 [shape=record,label="{%15:\l\l  ret void, !dbg !449\l}"];
-}

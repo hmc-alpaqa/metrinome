@@ -1,11 +1,13 @@
 FROM ubuntu
 
 RUN apt update
+RUN apt install -y lolcat
+RUN gem install lolcat
 RUN apt install -y git
 RUN apt install -y python3
 RUN apt install -y pip
-RUN apt install -y clang
-RUN apt install -y llvm
+RUN apt install -y clang-14
+RUN apt install -y llvm-14
 
 # RUN apt install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
 
@@ -26,4 +28,6 @@ RUN CC=/usr/bin/clang
 WORKDIR /app/code/
 ENV PYTHON_VERSION=3.9.1
 ENV PYTHONPATH=/app/code/
-CMD ["bash"]
+# give permission to run bash file in docker container
+RUN chmod u+x Benchmark.sh
+CMD ["bash","Benchmark.sh"]

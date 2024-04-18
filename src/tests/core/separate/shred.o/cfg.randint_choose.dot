@@ -1,5 +1,0 @@
-digraph "CFG for 'randint_choose' function" {
-	label="CFG for 'randint_choose' function";
-
-	Node0x1cc6360 [shape=record,label="{%2:\l  %3 = alloca %struct.randint_source*, align 8\l  %4 = alloca i64, align 8\l  store %struct.randint_source* %0, %struct.randint_source** %3, align 8,\l... !tbaa !123\l  call void @llvm.dbg.declare(metadata %struct.randint_source** %3, metadata\l... !121, metadata !DIExpression()), !dbg !127\l  store i64 %1, i64* %4, align 8, !tbaa !128\l  call void @llvm.dbg.declare(metadata i64* %4, metadata !122, metadata\l... !DIExpression()), !dbg !130\l  %5 = load %struct.randint_source*, %struct.randint_source** %3, align 8,\l... !dbg !131, !tbaa !123\l  %6 = load i64, i64* %4, align 8, !dbg !132, !tbaa !128\l  %7 = sub i64 %6, 1, !dbg !133\l  %8 = call i64 @randint_genmax(%struct.randint_source* %5, i64 %7), !dbg !134\l  ret i64 %8, !dbg !135\l}"];
-}

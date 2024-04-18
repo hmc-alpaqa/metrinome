@@ -1,5 +1,0 @@
-digraph "CFG for 'create_temp' function" {
-	label="CFG for 'create_temp' function";
-
-	Node0x172cad0 [shape=record,label="{%1:\l  %2 = alloca %struct._IO_FILE**, align 8\l  store %struct._IO_FILE** %0, %struct._IO_FILE*** %2, align 8, !tbaa !1167\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE*** %2, metadata !1166,\l... metadata !DIExpression()), !dbg !1171\l  %3 = load %struct._IO_FILE**, %struct._IO_FILE*** %2, align 8, !dbg !1172,\l... !tbaa !1167\l  %4 = call %struct.tempnode* @maybe_create_temp(%struct._IO_FILE** %3, i1\l... zeroext false), !dbg !1173\l  ret %struct.tempnode* %4, !dbg !1174\l}"];
-}

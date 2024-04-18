@@ -1,5 +1,0 @@
-digraph "CFG for 'siginfo_handler' function" {
-	label="CFG for 'siginfo_handler' function";
-
-	Node0x1d9e160 [shape=record,label="{%1:\l  %2 = alloca i32, align 4\l  store i32 %0, i32* %2, align 4, !tbaa !367\l  call void @llvm.dbg.declare(metadata i32* %2, metadata !366, metadata\l... !DIExpression()), !dbg !371\l  %3 = load volatile i32, i32* @info_signal_count, align 4, !dbg !372, !tbaa\l... !367\l  %4 = add nsw i32 %3, 1, !dbg !372\l  store volatile i32 %4, i32* @info_signal_count, align 4, !dbg !372, !tbaa\l... !367\l  ret void, !dbg !373\l}"];
-}

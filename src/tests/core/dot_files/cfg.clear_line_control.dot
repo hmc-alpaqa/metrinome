@@ -1,5 +1,0 @@
-digraph "CFG for 'clear_line_control' function" {
-	label="CFG for 'clear_line_control' function";
-
-	Node0x13737d0 [shape=record,label="{%1:\l  %2 = alloca %struct.line*, align 8\l  store %struct.line* %0, %struct.line** %2, align 8, !tbaa !1344\l  call void @llvm.dbg.declare(metadata %struct.line** %2, metadata !1343,\l... metadata !DIExpression()), !dbg !1348\l  %3 = load %struct.line*, %struct.line** %2, align 8, !dbg !1349, !tbaa !1344\l  %4 = getelementptr inbounds %struct.line, %struct.line* %3, i32 0, i32 0,\l... !dbg !1350\l  store i64 0, i64* %4, align 8, !dbg !1351, !tbaa !1352\l  %5 = load %struct.line*, %struct.line** %2, align 8, !dbg !1355, !tbaa !1344\l  %6 = getelementptr inbounds %struct.line, %struct.line* %5, i32 0, i32 1,\l... !dbg !1356\l  store i64 0, i64* %6, align 8, !dbg !1357, !tbaa !1358\l  %7 = load %struct.line*, %struct.line** %2, align 8, !dbg !1359, !tbaa !1344\l  %8 = getelementptr inbounds %struct.line, %struct.line* %7, i32 0, i32 2,\l... !dbg !1360\l  store i64 0, i64* %8, align 8, !dbg !1361, !tbaa !1362\l  ret void, !dbg !1363\l}"];
-}

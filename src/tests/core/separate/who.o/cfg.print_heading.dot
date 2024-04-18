@@ -1,5 +1,0 @@
-digraph "CFG for 'print_heading' function" {
-	label="CFG for 'print_heading' function";
-
-	Node0x1012450 [shape=record,label="{%0:\l  call void @print_line(i32 -1, i8* getelementptr inbounds ([5 x i8], [5 x\l... i8]* @.str.61, i32 0, i32 0), i8 signext 32, i32 -1, i8* getelementptr\l... inbounds ([5 x i8], [5 x i8]* @.str.62, i32 0, i32 0), i8* getelementptr\l... inbounds ([5 x i8], [5 x i8]* @.str.63, i32 0, i32 0), i8* getelementptr\l... inbounds ([5 x i8], [5 x i8]* @.str.64, i32 0, i32 0), i8* getelementptr\l... inbounds ([4 x i8], [4 x i8]* @.str.65, i32 0, i32 0), i8* getelementptr\l... inbounds ([8 x i8], [8 x i8]* @.str.66, i32 0, i32 0), i8* getelementptr\l... inbounds ([5 x i8], [5 x i8]* @.str.67, i32 0, i32 0)), !dbg !299\l  ret void, !dbg !300\l}"];
-}

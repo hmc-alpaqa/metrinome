@@ -1,5 +1,0 @@
-digraph "CFG for 'restore_default_color' function" {
-	label="CFG for 'restore_default_color' function";
-
-	Node0x1016f90 [shape=record,label="{%0:\l  call void @put_indicator(%struct.bin_str* getelementptr inbounds ([24 x\l... %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64 0)),\l... !dbg !1395\l  call void @put_indicator(%struct.bin_str* getelementptr inbounds ([24 x\l... %struct.bin_str], [24 x %struct.bin_str]* @color_indicator, i64 0, i64 1)),\l... !dbg !1396\l  ret void, !dbg !1397\l}"];
-}

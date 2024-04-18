@@ -1,5 +1,0 @@
-digraph "CFG for 'cache_stat_init' function" {
-	label="CFG for 'cache_stat_init' function";
-
-	Node0x274dcf0 [shape=record,label="{%1:\l  %2 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %2, align 8, !tbaa !1562\l  call void @llvm.dbg.declare(metadata %struct.stat** %2, metadata !1561,\l... metadata !DIExpression()), !dbg !1566\l  %3 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !1567, !tbaa !1562\l  %4 = getelementptr inbounds %struct.stat, %struct.stat* %3, i32 0, i32 8,\l... !dbg !1568\l  store i64 -1, i64* %4, align 8, !dbg !1569, !tbaa !1570\l  %5 = load %struct.stat*, %struct.stat** %2, align 8, !dbg !1575, !tbaa !1562\l  ret %struct.stat* %5, !dbg !1576\l}"];
-}

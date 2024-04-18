@@ -1,5 +1,0 @@
-digraph "CFG for 'emit_size_note' function" {
-	label="CFG for 'emit_size_note' function";
-
-	Node0x1e1c080 [shape=record,label="{%0:\l  %1 = load %struct._IO_FILE*, %struct._IO_FILE** @stdout, align 8, !dbg !420,\l... !tbaa !421\l  %2 = call i32 @fputs_unlocked(i8* getelementptr inbounds ([212 x i8], [212 x\l... i8]* @.str.56, i32 0, i32 0), %struct._IO_FILE* %1), !dbg !420\l  ret void, !dbg !425\l}"];
-}

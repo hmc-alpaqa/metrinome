@@ -1,5 +1,0 @@
-digraph "CFG for 'randint_free' function" {
-	label="CFG for 'randint_free' function";
-
-	Node0x14286f0 [shape=record,label="{%1:\l  %2 = alloca %struct.randint_source*, align 8\l  store %struct.randint_source* %0, %struct.randint_source** %2, align 8,\l... !tbaa !817\l  call void @llvm.dbg.declare(metadata %struct.randint_source** %2, metadata\l... !816, metadata !DIExpression()), !dbg !821\l  %3 = load %struct.randint_source*, %struct.randint_source** %2, align 8,\l... !dbg !822, !tbaa !817\l  %4 = bitcast %struct.randint_source* %3 to i8*, !dbg !822\l  call void @explicit_bzero(i8* %4, i64 24) #12, !dbg !823\l  %5 = load %struct.randint_source*, %struct.randint_source** %2, align 8,\l... !dbg !824, !tbaa !817\l  %6 = bitcast %struct.randint_source* %5 to i8*, !dbg !824\l  call void @free(i8* %6) #12, !dbg !825\l  ret void, !dbg !826\l}"];
-}

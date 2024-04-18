@@ -1,9 +1,0 @@
-digraph "CFG for 'xfopen' function" {
-	label="CFG for 'xfopen' function";
-
-	Node0x15fbb80 [shape=record,label="{%2:\l  %3 = alloca i8*, align 8\l  %4 = alloca i8*, align 8\l  %5 = alloca %struct._IO_FILE*, align 8\l  store i8* %0, i8** %3, align 8, !tbaa !1168\l  call void @llvm.dbg.declare(metadata i8** %3, metadata !1165, metadata\l... !DIExpression()), !dbg !1172\l  store i8* %1, i8** %4, align 8, !tbaa !1168\l  call void @llvm.dbg.declare(metadata i8** %4, metadata !1166, metadata\l... !DIExpression()), !dbg !1173\l  %6 = bitcast %struct._IO_FILE** %5 to i8*, !dbg !1174\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %6) #12, !dbg !1174\l  call void @llvm.dbg.declare(metadata %struct._IO_FILE** %5, metadata !1167,\l... metadata !DIExpression()), !dbg !1175\l  %7 = load i8*, i8** %3, align 8, !dbg !1176, !tbaa !1168\l  %8 = load i8*, i8** %4, align 8, !dbg !1177, !tbaa !1168\l  %9 = call %struct._IO_FILE* @stream_open(i8* %7, i8* %8), !dbg !1178\l  store %struct._IO_FILE* %9, %struct._IO_FILE** %5, align 8, !dbg !1175,\l... !tbaa !1168\l  %10 = load %struct._IO_FILE*, %struct._IO_FILE** %5, align 8, !dbg !1179,\l... !tbaa !1168\l  %11 = icmp ne %struct._IO_FILE* %10, null, !dbg !1179\l  br i1 %11, label %14, label %12, !dbg !1181\l|{<s0>T|<s1>F}}"];
-	Node0x15fbb80:s0 -> Node0x15fe5c0;
-	Node0x15fbb80:s1 -> Node0x15fe570;
-	Node0x15fe570 [shape=record,label="{%12:\l\l  %13 = load i8*, i8** %3, align 8, !dbg !1182, !tbaa !1168\l  call void @sort_die(i8* getelementptr inbounds ([12 x i8], [12 x i8]*\l... @.str.141, i32 0, i32 0), i8* %13) #13, !dbg !1183\l  unreachable, !dbg !1183\l}"];
-	Node0x15fe5c0 [shape=record,label="{%14:\l\l  %15 = load %struct._IO_FILE*, %struct._IO_FILE** %5, align 8, !dbg !1184,\l... !tbaa !1168\l  %16 = bitcast %struct._IO_FILE** %5 to i8*, !dbg !1185\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %16) #12, !dbg !1185\l  ret %struct._IO_FILE* %15, !dbg !1186\l}"];
-}

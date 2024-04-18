@@ -1,5 +1,0 @@
-digraph "CFG for 'cleanup' function" {
-	label="CFG for 'cleanup' function";
-
-	Node0x2089cc0 [shape=record,label="{%0:\l  %1 = load i8*, i8** @number_buff, align 8, !dbg !405, !tbaa !406\l  call void @free(i8* %1) #13, !dbg !410\l  %2 = load i8*, i8** @clump_buff, align 8, !dbg !411, !tbaa !406\l  call void @free(i8* %2) #13, !dbg !412\l  %3 = load %struct.COLUMN*, %struct.COLUMN** @column_vector, align 8, !dbg\l... !413, !tbaa !406\l  %4 = bitcast %struct.COLUMN* %3 to i8*, !dbg !413\l  call void @free(i8* %4) #13, !dbg !414\l  %5 = load i32*, i32** @line_vector, align 8, !dbg !415, !tbaa !406\l  %6 = bitcast i32* %5 to i8*, !dbg !415\l  call void @free(i8* %6) #13, !dbg !416\l  %7 = load i32*, i32** @end_vector, align 8, !dbg !417, !tbaa !406\l  %8 = bitcast i32* %7 to i8*, !dbg !417\l  call void @free(i8* %8) #13, !dbg !418\l  %9 = load i8*, i8** @buff, align 8, !dbg !419, !tbaa !406\l  call void @free(i8* %9) #13, !dbg !420\l  ret void, !dbg !421\l}"];
-}

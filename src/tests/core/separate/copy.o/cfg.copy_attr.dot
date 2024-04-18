@@ -1,5 +1,0 @@
-digraph "CFG for 'copy_attr' function" {
-	label="CFG for 'copy_attr' function";
-
-	Node0x1d6ebb0 [shape=record,label="{%5:\l  %6 = alloca i8*, align 8\l  %7 = alloca i32, align 4\l  %8 = alloca i8*, align 8\l  %9 = alloca i32, align 4\l  %10 = alloca %struct.cp_options*, align 8\l  store i8* %0, i8** %6, align 8, !tbaa !180\l  call void @llvm.dbg.declare(metadata i8** %6, metadata !175, metadata\l... !DIExpression()), !dbg !184\l  store i32 %1, i32* %7, align 4, !tbaa !185\l  call void @llvm.dbg.declare(metadata i32* %7, metadata !176, metadata\l... !DIExpression()), !dbg !187\l  store i8* %2, i8** %8, align 8, !tbaa !180\l  call void @llvm.dbg.declare(metadata i8** %8, metadata !177, metadata\l... !DIExpression()), !dbg !188\l  store i32 %3, i32* %9, align 4, !tbaa !185\l  call void @llvm.dbg.declare(metadata i32* %9, metadata !178, metadata\l... !DIExpression()), !dbg !189\l  store %struct.cp_options* %4, %struct.cp_options** %10, align 8, !tbaa !180\l  call void @llvm.dbg.declare(metadata %struct.cp_options** %10, metadata\l... !179, metadata !DIExpression()), !dbg !190\l  ret i1 true, !dbg !191\l}"];
-}

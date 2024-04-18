@@ -1,5 +1,0 @@
-digraph "CFG for 'fgetfilecon' function" {
-	label="CFG for 'fgetfilecon' function";
-
-	Node0xa722d0 [shape=record,label="{%2:\l  %3 = alloca i32, align 4\l  %4 = alloca i8**, align 8\l  store i32 %0, i32* %3, align 4, !tbaa !597\l  call void @llvm.dbg.declare(metadata i32* %3, metadata !595, metadata\l... !DIExpression()), !dbg !601\l  store i8** %1, i8*** %4, align 8, !tbaa !602\l  call void @llvm.dbg.declare(metadata i8*** %4, metadata !596, metadata\l... !DIExpression()), !dbg !604\l  %5 = call i32* @__errno_location() #13, !dbg !605\l  store i32 95, i32* %5, align 4, !dbg !606, !tbaa !597\l  ret i32 -1, !dbg !607\l}"];
-}

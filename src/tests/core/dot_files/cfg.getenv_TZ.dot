@@ -1,5 +1,0 @@
-digraph "CFG for 'getenv_TZ' function" {
-	label="CFG for 'getenv_TZ' function";
-
-	Node0x22c0ea0 [shape=record,label="{%0:\l  %1 = call i8* @getenv(i8* getelementptr inbounds ([3 x i8], [3 x i8]*\l... @.str.151, i32 0, i32 0)) #11, !dbg !686\l  ret i8* %1, !dbg !687\l}"];
-}

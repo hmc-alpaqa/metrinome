@@ -1,5 +1,0 @@
-digraph "CFG for 'get_stat_atime' function" {
-	label="CFG for 'get_stat_atime' function";
-
-	Node0x14de7d0 [shape=record,label="{%1:\l  %2 = alloca %struct.timespec, align 8\l  %3 = alloca %struct.stat*, align 8\l  store %struct.stat* %0, %struct.stat** %3, align 8, !tbaa !96\l  call void @llvm.dbg.declare(metadata %struct.stat** %3, metadata !95,\l... metadata !DIExpression()), !dbg !100\l  %4 = load %struct.stat*, %struct.stat** %3, align 8, !dbg !101, !tbaa !96\l  %5 = getelementptr inbounds %struct.stat, %struct.stat* %4, i32 0, i32 11,\l... !dbg !101\l  %6 = bitcast %struct.timespec* %2 to i8*, !dbg !101\l  %7 = bitcast %struct.timespec* %5 to i8*, !dbg !101\l  call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 8 %6, i8* align 8 %7, i64 16,\l... i1 false), !dbg !101, !tbaa.struct !102\l  %8 = bitcast %struct.timespec* %2 to \{ i64, i64 \}*, !dbg !105\l  %9 = load \{ i64, i64 \}, \{ i64, i64 \}* %8, align 8, !dbg !105\l  ret \{ i64, i64 \} %9, !dbg !105\l}"];
-}

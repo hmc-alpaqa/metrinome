@@ -1,9 +1,0 @@
-digraph "CFG for 'find_backup_file_name' function" {
-	label="CFG for 'find_backup_file_name' function";
-
-	Node0x23eeac0 [shape=record,label="{%3:\l  %4 = alloca i32, align 4\l  %5 = alloca i8*, align 8\l  %6 = alloca i32, align 4\l  %7 = alloca i8*, align 8\l  store i32 %0, i32* %4, align 4, !tbaa !949\l  call void @llvm.dbg.declare(metadata i32* %4, metadata !945, metadata\l... !DIExpression()), !dbg !953\l  store i8* %1, i8** %5, align 8, !tbaa !954\l  call void @llvm.dbg.declare(metadata i8** %5, metadata !946, metadata\l... !DIExpression()), !dbg !956\l  store i32 %2, i32* %6, align 4, !tbaa !957\l  call void @llvm.dbg.declare(metadata i32* %6, metadata !947, metadata\l... !DIExpression()), !dbg !958\l  %8 = bitcast i8** %7 to i8*, !dbg !959\l  call void @llvm.lifetime.start.p0i8(i64 8, i8* %8) #13, !dbg !959\l  call void @llvm.dbg.declare(metadata i8** %7, metadata !948, metadata\l... !DIExpression()), !dbg !960\l  %9 = load i32, i32* %4, align 4, !dbg !961, !tbaa !949\l  %10 = load i8*, i8** %5, align 8, !dbg !962, !tbaa !954\l  %11 = load i32, i32* %6, align 4, !dbg !963, !tbaa !957\l  %12 = call i8* @backupfile_internal(i32 %9, i8* %10, i32 %11, i1 zeroext\l... false), !dbg !964\l  store i8* %12, i8** %7, align 8, !dbg !960, !tbaa !954\l  %13 = load i8*, i8** %7, align 8, !dbg !965, !tbaa !954\l  %14 = icmp ne i8* %13, null, !dbg !965\l  br i1 %14, label %16, label %15, !dbg !967\l|{<s0>T|<s1>F}}"];
-	Node0x23eeac0:s0 -> Node0x23eebe0;
-	Node0x23eeac0:s1 -> Node0x23eeb90;
-	Node0x23eeb90 [shape=record,label="{%15:\l\l  call void @xalloc_die() #15, !dbg !968\l  unreachable, !dbg !968\l}"];
-	Node0x23eebe0 [shape=record,label="{%16:\l\l  %17 = load i8*, i8** %7, align 8, !dbg !969, !tbaa !954\l  %18 = bitcast i8** %7 to i8*, !dbg !970\l  call void @llvm.lifetime.end.p0i8(i64 8, i8* %18) #13, !dbg !970\l  ret i8* %17, !dbg !971\l}"];
-}
