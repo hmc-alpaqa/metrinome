@@ -1,0 +1,2 @@
+,graph_name,getrgfapc,getrgfapc_time,getrgfTime,firstHalfTime,longest for getrgf,longest time,case,gamma
+0,even_odd_f2f_.is_even,0.333333333333333*1.0**n*n,0.2442009449005127,0.014682531356811523,0.14980268478393555,gammaTime,0.133,1.0,-T0 + x**3*(x**3*(T0 + 1) + 1)

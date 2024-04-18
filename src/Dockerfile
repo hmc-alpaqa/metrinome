@@ -6,6 +6,8 @@ RUN apt install -y python3
 RUN apt install -y pip
 RUN apt install -y clang-14
 RUN apt install -y llvm-14
+RUN apt install -y curl
+RUN apt install -y unzip
 
 # RUN apt install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
 
@@ -20,12 +22,16 @@ RUN pip install glob2
 RUN pip install pandas
 RUN pip install wllvm
 
+
+RUN curl -L https://github.com/ShiftLeftSecurity/joern/releases/latest/download/joern-install.sh | bash
+RUN joern --server
+
 # RUN pip install clang
 RUN CC=/usr/bin/clang
 
 WORKDIR /app/code/
 ENV PYTHON_VERSION=3.9.1
 ENV PYTHONPATH=/app/code/
-RUN chmod u+x Benchmark.sh
+# RUN chmod u+x Benchmark.sh
 # customize command line prompt to look nice :)
 RUN /bin/bash -c "echo \"PS1='\[\033[01;32m\]➜ \[\033[00m\] \[\033[01;36m\]\W \[\033[00m\]'\" >> /root/.bashrc "
