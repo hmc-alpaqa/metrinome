@@ -12,6 +12,7 @@ import sys
 from graph.control_flow_graph import ControlFlowGraph
 from sympy import Number
 import glob2
+from experiments.dotconvert import multiConvert
 
 class DataCollector:
     """Compute and store all complexity metrics and timing data."""
@@ -32,10 +33,12 @@ class DataCollector:
         data = pd.DataFrame({"graph_name": [], "getrgfapc": [],
                              "getrgfapc_time": [], "firstHalfTime": [], "getrgfTime":[],
                              "exception": [],"exception_type": [],"case":[],'gamma':[]})
-        all_files = glob2.glob("/app/code/experiments/function_calls/files/joern/*")
+        all_files = glob2.glob("/app/code/experiments/function_calls/files/joern/*.*")
         print(all_files)
+        newFiles = multiConvert(all_files)
+        print(newFiles)
         graphs = {}
-        for file in all_files:
+        for file in newFiles:
                 filepath, _ = os.path.splitext(file)
                 graph = ControlFlowGraph.from_file(file)
                 graphs[file]= graph                     

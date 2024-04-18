@@ -1,0 +1,16 @@
+digraph "is_odd_java" {  
+"60" [label = <(&lt;operator&gt;.equals,n == 0)<SUB>16</SUB>> ]
+"64" [label = <(RETURN,return false;,return false;)<SUB>17</SUB>> ]
+"68" [label = <(RETURN,return is_even_java(n - 1);,return is_even_java(n - 1);)<SUB>19</SUB>> ]
+"69" [label = <(is_even_java,is_even_java(n - 1))<SUB>19</SUB>> ]
+"70" [label = <(&lt;operator&gt;.subtraction,n - 1)<SUB>19</SUB>> ]
+"56" [label = <(METHOD,is_odd_java)<SUB>15</SUB>> ]
+"75" [label = <(METHOD_RETURN,boolean)<SUB>15</SUB>> ]
+  "60" -> "64" 
+  "60" -> "70" 
+  "64" -> "75" 
+  "68" -> "75" 
+  "69" -> "68" 
+  "70" -> "69" 
+  "56" -> "60" 
+}

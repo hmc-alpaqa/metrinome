@@ -1,13 +1,15 @@
 import re
 def multiConvert(names):
     calls = []
+    outputFiles = []
     for name in names: 
         f = open(name, "r")
         l1 = f.readline()
         fl = re.compile('.* \"(.*)\" {')
         calls += [fl.findall(l1)[0]]
     for name in names:
-        convert(name, calls)
+        outputFiles += [convert(name, calls)]
+    return outputFiles
 
 def convert(name, calls):
     def flatten(tup):
@@ -26,7 +28,7 @@ def convert(name, calls):
     firstline = fl.findall(l1)[0]
     name = firstline[1]
     firstline = (firstline[0], firstline[2])
-    newname = "joern." + name + ".dot"
+    newname = "/app/code/experiments/function_calls/files/joern/clean/joern." + name + ".dot"
     k = open(newname, "w")
     k.write(flatten(firstline)+ "\n")
     l = f.readline()
@@ -57,5 +59,5 @@ def convert(name, calls):
         l = f.readline()
         matches = vl.findall(l)
     k.write("}")
+    return newname
 
-multiConvert(["1-cfg.dot","2-cfg.dot"])
