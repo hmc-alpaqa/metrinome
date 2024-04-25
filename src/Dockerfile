@@ -8,6 +8,7 @@ RUN apt install -y clang-14
 RUN apt install -y llvm-14
 RUN apt install -y curl
 RUN apt install -y unzip
+RUN apt install -y openjdk-19-jdk openjdk-19-jre
 
 # RUN apt install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
 
@@ -21,10 +22,9 @@ RUN pip install networkx
 RUN pip install glob2
 RUN pip install pandas
 RUN pip install wllvm
-
+RUN pip install cpgqls-client
 
 RUN curl -L https://github.com/ShiftLeftSecurity/joern/releases/latest/download/joern-install.sh | bash
-RUN joern --server
 
 # RUN pip install clang
 RUN CC=/usr/bin/clang
@@ -34,4 +34,7 @@ ENV PYTHON_VERSION=3.9.1
 ENV PYTHONPATH=/app/code/
 # RUN chmod u+x Benchmark.sh
 # customize command line prompt to look nice :)
+ENV PATH = "${PATH}:/opt/joern/joern-cli"
 RUN /bin/bash -c "echo \"PS1='\[\033[01;32m\]➜ \[\033[00m\] \[\033[01;36m\]\W \[\033[00m\]'\" >> /root/.bashrc "
+
+# CMD ["bash","../../opt/joern/joern-cli/joern --server"]

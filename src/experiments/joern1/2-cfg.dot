@@ -1,0 +1,155 @@
+digraph "quadragintuple_nested_loops" {  
+"79" [label = <(&lt;operator&gt;.assignment,x = 20)<SUB>533</SUB>> ]
+"289" [label = <(RETURN,return x;,return x;)<SUB>616</SUB>> ]
+"83" [label = <(&lt;operator&gt;.greaterThan,x &gt; 0)<SUB>534</SUB>> ]
+"284" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>614</SUB>> ]
+"88" [label = <(&lt;operator&gt;.greaterThan,x &gt; 1)<SUB>536</SUB>> ]
+"286" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>614</SUB>> ]
+"279" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>612</SUB>> ]
+"93" [label = <(&lt;operator&gt;.greaterThan,x &gt; 2)<SUB>538</SUB>> ]
+"281" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>612</SUB>> ]
+"274" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>610</SUB>> ]
+"98" [label = <(&lt;operator&gt;.greaterThan,x &gt; 3)<SUB>540</SUB>> ]
+"276" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>610</SUB>> ]
+"269" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>608</SUB>> ]
+"103" [label = <(&lt;operator&gt;.greaterThan,x &gt; 4)<SUB>542</SUB>> ]
+"271" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>608</SUB>> ]
+"264" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>606</SUB>> ]
+"108" [label = <(&lt;operator&gt;.greaterThan,x &gt; 5)<SUB>544</SUB>> ]
+"266" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>606</SUB>> ]
+"259" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>604</SUB>> ]
+"113" [label = <(&lt;operator&gt;.greaterThan,x &gt; 6)<SUB>546</SUB>> ]
+"261" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>604</SUB>> ]
+"254" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>602</SUB>> ]
+"118" [label = <(&lt;operator&gt;.greaterThan,x &gt; 7)<SUB>548</SUB>> ]
+"256" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>602</SUB>> ]
+"249" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>600</SUB>> ]
+"123" [label = <(&lt;operator&gt;.greaterThan,x &gt; 8)<SUB>550</SUB>> ]
+"251" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>600</SUB>> ]
+"244" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>598</SUB>> ]
+"128" [label = <(&lt;operator&gt;.greaterThan,x &gt; 9)<SUB>552</SUB>> ]
+"246" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>598</SUB>> ]
+"239" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>596</SUB>> ]
+"133" [label = <(&lt;operator&gt;.greaterThan,x &gt; 10)<SUB>554</SUB>> ]
+"241" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>596</SUB>> ]
+"234" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>594</SUB>> ]
+"138" [label = <(&lt;operator&gt;.greaterThan,x &gt; 11)<SUB>556</SUB>> ]
+"236" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>594</SUB>> ]
+"229" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>592</SUB>> ]
+"143" [label = <(&lt;operator&gt;.greaterThan,x &gt; 12)<SUB>558</SUB>> ]
+"231" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>592</SUB>> ]
+"224" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>590</SUB>> ]
+"148" [label = <(&lt;operator&gt;.greaterThan,x &gt; 13)<SUB>560</SUB>> ]
+"226" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>590</SUB>> ]
+"219" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>588</SUB>> ]
+"153" [label = <(&lt;operator&gt;.greaterThan,x &gt; 14)<SUB>562</SUB>> ]
+"221" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>588</SUB>> ]
+"214" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>586</SUB>> ]
+"158" [label = <(&lt;operator&gt;.greaterThan,x &gt; 15)<SUB>564</SUB>> ]
+"216" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>586</SUB>> ]
+"209" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>584</SUB>> ]
+"163" [label = <(&lt;operator&gt;.greaterThan,x &gt; 16)<SUB>566</SUB>> ]
+"211" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>584</SUB>> ]
+"204" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>582</SUB>> ]
+"168" [label = <(&lt;operator&gt;.greaterThan,x &gt; 17)<SUB>568</SUB>> ]
+"206" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>582</SUB>> ]
+"199" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>580</SUB>> ]
+"173" [label = <(&lt;operator&gt;.greaterThan,x &gt; 18)<SUB>570</SUB>> ]
+"201" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>580</SUB>> ]
+"194" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>578</SUB>> ]
+"178" [label = <(&lt;operator&gt;.greaterThan,x &gt; 19)<SUB>572</SUB>> ]
+"196" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>578</SUB>> ]
+"182" [label = <(&lt;operator&gt;.assignment,x = vigintuple_nested_loops(2))<SUB>574</SUB>> ]
+"186" [label = <(&lt;operator&gt;.assignment,x = 20)<SUB>575</SUB>> ]
+"189" [label = <(&lt;operator&gt;.assignment,x = x - 1)<SUB>576</SUB>> ]
+"184" [label = <(vigintuple_nested_loops,vigintuple_nested_loops(2))<SUB>574</SUB>> ]
+"191" [label = <(&lt;operator&gt;.subtraction,x - 1)<SUB>576</SUB>> ]
+"76" [label = <(METHOD,quadragintuple_nested_loops)<SUB>531</SUB>> ]
+"291" [label = <(METHOD_RETURN,int)<SUB>531</SUB>> ]
+  "79" -> "83" 
+  "289" -> "291" 
+  "83" -> "88" 
+  "83" -> "289" 
+  "284" -> "83" 
+  "88" -> "93" 
+  "88" -> "286" 
+  "286" -> "284" 
+  "279" -> "88" 
+  "93" -> "98" 
+  "93" -> "281" 
+  "281" -> "279" 
+  "274" -> "93" 
+  "98" -> "103" 
+  "98" -> "276" 
+  "276" -> "274" 
+  "269" -> "98" 
+  "103" -> "108" 
+  "103" -> "271" 
+  "271" -> "269" 
+  "264" -> "103" 
+  "108" -> "113" 
+  "108" -> "266" 
+  "266" -> "264" 
+  "259" -> "108" 
+  "113" -> "118" 
+  "113" -> "261" 
+  "261" -> "259" 
+  "254" -> "113" 
+  "118" -> "123" 
+  "118" -> "256" 
+  "256" -> "254" 
+  "249" -> "118" 
+  "123" -> "128" 
+  "123" -> "251" 
+  "251" -> "249" 
+  "244" -> "123" 
+  "128" -> "133" 
+  "128" -> "246" 
+  "246" -> "244" 
+  "239" -> "128" 
+  "133" -> "138" 
+  "133" -> "241" 
+  "241" -> "239" 
+  "234" -> "133" 
+  "138" -> "143" 
+  "138" -> "236" 
+  "236" -> "234" 
+  "229" -> "138" 
+  "143" -> "148" 
+  "143" -> "231" 
+  "231" -> "229" 
+  "224" -> "143" 
+  "148" -> "153" 
+  "148" -> "226" 
+  "226" -> "224" 
+  "219" -> "148" 
+  "153" -> "158" 
+  "153" -> "221" 
+  "221" -> "219" 
+  "214" -> "153" 
+  "158" -> "163" 
+  "158" -> "216" 
+  "216" -> "214" 
+  "209" -> "158" 
+  "163" -> "168" 
+  "163" -> "211" 
+  "211" -> "209" 
+  "204" -> "163" 
+  "168" -> "173" 
+  "168" -> "206" 
+  "206" -> "204" 
+  "199" -> "168" 
+  "173" -> "178" 
+  "173" -> "201" 
+  "201" -> "199" 
+  "194" -> "173" 
+  "178" -> "184" 
+  "178" -> "196" 
+  "196" -> "194" 
+  "182" -> "186" 
+  "186" -> "191" 
+  "189" -> "178" 
+  "184" -> "182" 
+  "191" -> "189" 
+  "76" -> "79" 
+}
