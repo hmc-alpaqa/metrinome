@@ -2,26 +2,37 @@ FROM ubuntu
 
 RUN apt update
 RUN apt install -y git
+RUN apt install -y wget
 RUN apt install -y python3
+RUN apt install -y python3.12-venv
 RUN apt install -y pip
 RUN apt install -y clang-14
 RUN apt install -y llvm-14
 RUN apt install -y curl
 RUN apt install -y unzip
-RUN apt install -y openjdk-19-jdk openjdk-19-jre
+# RUN apt install -y openjdk-19-jdk openjdk-19-jre
+
+#[WARNING] could be sketchy oops
+RUN wget https://download.oracle.com/java/19/archive/jdk-19.0.2_linux-x64_bin.deb
+RUN apt -qqy install ./jdk-19.0.2_linux-x64_bin.deb
+RUN update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-19/bin/java 1919
+
 
 # RUN apt install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
 
 # COPY src/ /app/code/
-RUN pip install networkx 
-RUN pip install pycparser
-RUN pip install mpmath
-RUN pip install sympy
-RUN pip install numpy
-RUN pip install glob2
-RUN pip install pandas
-RUN pip install wllvm
-RUN pip install cpgqls-client
+RUN python3 -m venv ./myvenv
+RUN . ./myvenv/bin/activate
+# RUN rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
+RUN . ./myvenv/bin/activate && pip install networkx
+RUN . ./myvenv/bin/activate && pip install pycparser
+RUN . ./myvenv/bin/activate && pip install mpmath
+RUN . ./myvenv/bin/activate && pip install sympy
+RUN . ./myvenv/bin/activate && pip install numpy
+RUN . ./myvenv/bin/activate && pip install glob2
+RUN . ./myvenv/bin/activate && pip install pandas
+RUN . ./myvenv/bin/activate && pip install wllvm
+RUN . ./myvenv/bin/activate && pip install cpgqls-client
 
 RUN curl -L https://github.com/ShiftLeftSecurity/joern/releases/latest/download/joern-install.sh | bash
 
