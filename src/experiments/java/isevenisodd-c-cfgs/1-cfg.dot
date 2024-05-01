@@ -1,5 +1,0 @@
-digraph "is_even" {  
-"9" [label = <(METHOD,is_even)<SUB>4</SUB>> ]
-"12" [label = <(METHOD_RETURN,int)<SUB>4</SUB>> ]
-  "9" -> "12" 
-}

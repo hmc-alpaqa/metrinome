@@ -13,12 +13,11 @@ RUN apt install -y openjdk-19-jdk openjdk-19-jre
 # RUN apt install -y clang-6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-tools zsh vim tmux
 
 # COPY src/ /app/code/
-RUN pip install networkx
+RUN pip install networkx 
 RUN pip install pycparser
 RUN pip install mpmath
 RUN pip install sympy
 RUN pip install numpy
-RUN pip install networkx
 RUN pip install glob2
 RUN pip install pandas
 RUN pip install wllvm

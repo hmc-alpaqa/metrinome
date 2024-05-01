@@ -1,0 +1,9 @@
+digraph "&lt;module&gt;" {  
+"23" [label = <(&lt;operator&gt;.assignment,simple = def simple(...))<SUB>1</SUB>> ]
+"13" [label = <(METHOD_REF,def simple(...),simple = def simple(...))<SUB>1</SUB>> ]
+"7" [label = <(METHOD,&lt;module&gt;)<SUB>1</SUB>> ]
+"11" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "23" -> "11" 
+  "13" -> "23" 
+  "7" -> "13" 
+}

@@ -1,0 +1,7 @@
+digraph "simple" {  
+"19" [label = <(RETURN,return 1,return 1)<SUB>2</SUB>> ]
+"14" [label = <(METHOD,simple)<SUB>1</SUB>> ]
+"17" [label = <(METHOD_RETURN,__builtin.int)<SUB>1</SUB>> ]
+  "19" -> "17" 
+  "14" -> "19" 
+}

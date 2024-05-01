@@ -21,6 +21,7 @@ RUN pip install networkx
 RUN pip install glob2
 RUN pip install pandas
 RUN pip install wllvm
+RUN pip install rich
 
 # RUN pip install clang
 RUN CC=/usr/bin/clang
