@@ -22,29 +22,28 @@ RUN update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-19/bin/jav
 
 # COPY src/ /app/code/
 RUN python3 -m venv ./myvenv
-RUN . ./myvenv/bin/activate
 # RUN rm -rf /usr/lib/python3.11/EXTERNALLY-MANAGED
-RUN . ./myvenv/bin/activate && pip install networkx
-RUN . ./myvenv/bin/activate && pip install pycparser
-RUN . ./myvenv/bin/activate && pip install mpmath
-RUN . ./myvenv/bin/activate && pip install sympy
-RUN . ./myvenv/bin/activate && pip install numpy
-RUN . ./myvenv/bin/activate && pip install glob2
-RUN . ./myvenv/bin/activate && pip install pandas
-RUN . ./myvenv/bin/activate && pip install wllvm
-RUN . ./myvenv/bin/activate && pip install cpgqls-client
+RUN . ./myvenv/bin/activate && pip install networkx pycparser mpmath sympy numpy glob2 pandas wllvm cpgqls-client virtualenv
+RUN . ../../myvenv/bin/activate
 
 RUN curl -L https://github.com/ShiftLeftSecurity/joern/releases/latest/download/joern-install.sh | bash
 
 # RUN pip install clang
 RUN CC=/usr/bin/clang
 
+
 WORKDIR /app/code/
+
+
+
 ENV PYTHON_VERSION=3.9.1
 ENV PYTHONPATH=/app/code/
 # RUN chmod u+x Benchmark.sh
-# customize command line prompt to look nice :)
+
 ENV PATH = "${PATH}:/opt/joern/joern-cli"
+ENV PATH="/myvenv/bin:${PATH}"
+
+# customize command line prompt to look nice :)
 RUN /bin/bash -c "echo \"PS1='\[\033[01;32m\]➜ \[\033[00m\] \[\033[01;36m\]\W \[\033[00m\]'\" >> /root/.bashrc "
 
 # CMD ["bash","../../opt/joern/joern-cli/joern --server"]
