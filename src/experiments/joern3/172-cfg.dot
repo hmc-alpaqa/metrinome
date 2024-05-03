@@ -1,5 +1,0 @@
-digraph "memmove" {  
-"6350" [label = <(METHOD,memmove)> ]
-"6355" [label = <(METHOD_RETURN,ANY)> ]
-  "6350" -> "6355" 
-}

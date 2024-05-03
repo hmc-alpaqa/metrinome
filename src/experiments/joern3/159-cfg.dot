@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.logicalNot" {  
-"6292" [label = <(METHOD,&lt;operator&gt;.logicalNot)> ]
-"6295" [label = <(METHOD_RETURN,ANY)> ]
-  "6292" -> "6295" 
-}

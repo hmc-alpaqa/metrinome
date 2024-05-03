@@ -1,5 +1,0 @@
-digraph "accept" {  
-"1714" [label = <(METHOD,accept)<SUB>3</SUB>> ]
-"1718" [label = <(METHOD_RETURN,void)<SUB>3</SUB>> ]
-  "1714" -> "1718" 
-}

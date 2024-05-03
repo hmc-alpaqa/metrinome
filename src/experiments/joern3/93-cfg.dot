@@ -1,5 +1,0 @@
-digraph "&lt;global&gt;" {  
-"3675" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
-"4519" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
-  "3675" -> "4519" 
-}

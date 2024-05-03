@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.equals" {  
-"6195" [label = <(METHOD,&lt;operator&gt;.equals)> ]
-"6199" [label = <(METHOD_RETURN,ANY)> ]
-  "6195" -> "6199" 
-}

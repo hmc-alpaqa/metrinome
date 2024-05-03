@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.indirectFieldAccess" {  
-"6249" [label = <(METHOD,&lt;operator&gt;.indirectFieldAccess)> ]
-"6253" [label = <(METHOD_RETURN,ANY)> ]
-  "6249" -> "6253" 
-}

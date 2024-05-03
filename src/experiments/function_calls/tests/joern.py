@@ -54,16 +54,27 @@ class DataCollector:
             
             # convert joern dot files into format metrinome uses
             newFiles += multiConvert(all_files)
+            
+            # we don't need joern files after conversion
+            os.system(f"rm -rf {export_path}")
+
+            
 
 
-        #os.system(f"rm -rf {export_path}")
+        
         
         print(newFiles)
         graphs = {}
+
         for file in newFiles:
                 filepath, _ = os.path.splitext(file)
                 graph = ControlFlowGraph.from_file(file)
                 graphs[file]= graph                     
+        
+        # delete all dotfiles
+        os.system("rm -rf experiments/function_calls/files/joern/clean/*")
+
+        
         for graph_name, graph in graphs.items():
             print('Graph Name: ', graph_name)
             
@@ -92,7 +103,7 @@ class DataCollector:
                 exception_type = "Timeout" if isinstance(exc, TimeoutError) else "Other"
 
             
-            new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"], 
+            new_row = {"file_name": file, "graph_name": graph.name[6:],  "getrgfapc": getrgfapc["rfcapc"], 
                     "getrgfapc_time": getrgfruntime, 
                     "getrgfTime":getrgfapc["getrgfTime"], "firstHalfTime": getrgfapc['firstHalfTime'],
                     "exception_type": exception_type}

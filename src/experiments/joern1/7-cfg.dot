@@ -1,5 +1,0 @@
-digraph "vigintuple_nested_loops" {  
-"323" [label = <(METHOD,vigintuple_nested_loops)> ]
-"326" [label = <(METHOD_RETURN,ANY)> ]
-  "323" -> "326" 
-}

@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.logicalOr" {  
-"6244" [label = <(METHOD,&lt;operator&gt;.logicalOr)> ]
-"6248" [label = <(METHOD_RETURN,ANY)> ]
-  "6244" -> "6248" 
-}

@@ -1,9 +1,0 @@
-digraph "fib_rec_wrapper" {  
-"1547" [label = <(RETURN,return fib_rec(n);,return fib_rec(n);)<SUB>16</SUB>> ]
-"1548" [label = <(fib_rec,fib_rec(n))<SUB>16</SUB>> ]
-"1544" [label = <(METHOD,fib_rec_wrapper)<SUB>15</SUB>> ]
-"1550" [label = <(METHOD_RETURN,int)<SUB>15</SUB>> ]
-  "1547" -> "1550" 
-  "1548" -> "1547" 
-  "1544" -> "1548" 
-}

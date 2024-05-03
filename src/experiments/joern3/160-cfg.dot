@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.assignmentDivision" {  
-"6296" [label = <(METHOD,&lt;operator&gt;.assignmentDivision)> ]
-"6300" [label = <(METHOD_RETURN,ANY)> ]
-  "6296" -> "6300" 
-}

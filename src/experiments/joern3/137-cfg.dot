@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.addition" {  
-"6185" [label = <(METHOD,&lt;operator&gt;.addition)> ]
-"6189" [label = <(METHOD_RETURN,ANY)> ]
-  "6185" -> "6189" 
-}

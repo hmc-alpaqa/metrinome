@@ -1,5 +1,0 @@
-digraph "&lt;operators&gt;.assignmentShiftLeft" {  
-"6331" [label = <(METHOD,&lt;operators&gt;.assignmentShiftLeft)> ]
-"6335" [label = <(METHOD_RETURN,ANY)> ]
-  "6331" -> "6335" 
-}

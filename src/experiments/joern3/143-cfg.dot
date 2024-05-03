@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.division" {  
-"6214" [label = <(METHOD,&lt;operator&gt;.division)> ]
-"6218" [label = <(METHOD_RETURN,ANY)> ]
-  "6214" -> "6218" 
-}

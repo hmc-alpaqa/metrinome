@@ -1,9 +1,0 @@
-digraph "factorial" {  
-"1429" [label = <(RETURN,return fac_aux(n, 1);,return fac_aux(n, 1);)<SUB>14</SUB>> ]
-"1430" [label = <(fac_aux,fac_aux(n, 1))<SUB>14</SUB>> ]
-"1426" [label = <(METHOD,factorial)<SUB>13</SUB>> ]
-"1433" [label = <(METHOD_RETURN,int)<SUB>13</SUB>> ]
-  "1429" -> "1433" 
-  "1430" -> "1429" 
-  "1426" -> "1430" 
-}

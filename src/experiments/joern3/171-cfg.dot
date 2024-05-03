@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.preDecrement" {  
-"6346" [label = <(METHOD,&lt;operator&gt;.preDecrement)> ]
-"6349" [label = <(METHOD_RETURN,ANY)> ]
-  "6346" -> "6349" 
-}

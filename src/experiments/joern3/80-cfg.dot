@@ -1,5 +1,0 @@
-digraph "whileLoop" {  
-"3035" [label = <(METHOD,whileLoop)<SUB>5</SUB>> ]
-"3048" [label = <(METHOD_RETURN,void)<SUB>5</SUB>> ]
-  "3035" -> "3048" 
-}

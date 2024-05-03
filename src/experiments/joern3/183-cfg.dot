@@ -1,5 +1,0 @@
-digraph "MAXN" {  
-"6402" [label = <(METHOD,MAXN)<SUB>3</SUB>> ]
-"6404" [label = <(METHOD_RETURN,ANY)> ]
-  "6402" -> "6404" 
-}

@@ -1,5 +1,0 @@
-digraph "puts" {  
-"6395" [label = <(METHOD,puts)> ]
-"6398" [label = <(METHOD_RETURN,ANY)> ]
-  "6395" -> "6398" 
-}

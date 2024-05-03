@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.conditional" {  
-"6286" [label = <(METHOD,&lt;operator&gt;.conditional)> ]
-"6291" [label = <(METHOD_RETURN,ANY)> ]
-  "6286" -> "6291" 
-}

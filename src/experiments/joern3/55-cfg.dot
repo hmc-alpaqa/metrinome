@@ -1,5 +1,0 @@
-digraph "display" {  
-"1720" [label = <(METHOD,display)<SUB>4</SUB>> ]
-"1724" [label = <(METHOD_RETURN,void)<SUB>4</SUB>> ]
-  "1720" -> "1724" 
-}

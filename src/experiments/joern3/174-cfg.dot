@@ -1,5 +1,0 @@
-digraph "memcmp" {  
-"6362" [label = <(METHOD,memcmp)> ]
-"6367" [label = <(METHOD_RETURN,ANY)> ]
-  "6362" -> "6367" 
-}

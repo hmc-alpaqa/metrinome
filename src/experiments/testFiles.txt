@@ -1,1 +1,1 @@
-experiments/function_calls/benchmark
+experiments/function_calls/benchmark/even_odd_f2f.c

@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.modulo" {  
-"6224" [label = <(METHOD,&lt;operator&gt;.modulo)> ]
-"6228" [label = <(METHOD_RETURN,ANY)> ]
-  "6224" -> "6228" 
-}

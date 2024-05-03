@@ -1,5 +1,0 @@
-digraph "&lt;operator&gt;.indirectIndexAccess" {  
-"6190" [label = <(METHOD,&lt;operator&gt;.indirectIndexAccess)> ]
-"6194" [label = <(METHOD_RETURN,ANY)> ]
-  "6190" -> "6194" 
-}
