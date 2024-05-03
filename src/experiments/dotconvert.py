@@ -19,6 +19,10 @@ def convert(name, calls):
                 elem = str(nodeDict[elem])
             sum += elem
         return sum
+    with open(name, "rbU") as f:
+        num_lines = sum(1 for _ in f)
+    if num_lines == 5:
+        return
     count = 0
     nodeDict = {}
     label = "START"
@@ -27,6 +31,8 @@ def convert(name, calls):
     fl = re.compile('(.* )\"(.*)\" ({)')
     firstline = fl.findall(l1)[0]
     name = firstline[1]
+    if name[:3] == "&lt":
+        return 
     firstline = (firstline[0], firstline[2])
     newname = "/app/code/experiments/function_calls/files/joern/clean/joern." + name + ".dot"
     k = open(newname, "w")
