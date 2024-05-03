@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.greaterEqualsThan" {  
+"6305" [label = <(METHOD,&lt;operator&gt;.greaterEqualsThan)> ]
+"6309" [label = <(METHOD_RETURN,ANY)> ]
+  "6305" -> "6309" 
+}

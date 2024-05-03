@@ -1,0 +1,56 @@
+digraph "inverse" {  
+"2874" [label = <(&lt;operator&gt;.assignment,det = determinant(matrix, N))<SUB>70</SUB>> ]
+"2891" [label = <(adjoint,adjoint(matrix, adj))<SUB>78</SUB>> ]
+"2937" [label = <(RETURN,return 1;,return 1;)<SUB>86</SUB>> ]
+"2876" [label = <(determinant,determinant(matrix, N))<SUB>70</SUB>> ]
+"2882" [label = <(&lt;operator&gt;.equals,det == 0)<SUB>72</SUB>> ]
+"2900" [label = <(&lt;operator&gt;.lessThan,i &lt; N)<SUB>80</SUB>> ]
+"2905" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>80</SUB>> ]
+"2878" [label = <(N,N)<SUB>70</SUB>> ]
+"2886" [label = <(printf,printf(&quot;Matrix is not invertible.\n&quot;))<SUB>73</SUB>> ]
+"2888" [label = <(RETURN,return 0;,return 0;)<SUB>74</SUB>> ]
+"2897" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>80</SUB>> ]
+"2902" [label = <(N,N)<SUB>80</SUB>> ]
+"2914" [label = <(&lt;operator&gt;.lessThan,j &lt; N)<SUB>81</SUB>> ]
+"2919" [label = <(&lt;operator&gt;.postIncrement,j++)<SUB>81</SUB>> ]
+"2911" [label = <(&lt;operator&gt;.assignment,j = 0)<SUB>81</SUB>> ]
+"2916" [label = <(N,N)<SUB>81</SUB>> ]
+"2922" [label = <(&lt;operator&gt;.assignment,inverse[i][j] = adj[i][j] / (float)det)<SUB>82</SUB>> ]
+"2923" [label = <(&lt;operator&gt;.indirectIndexAccess,inverse[i][j])<SUB>82</SUB>> ]
+"2928" [label = <(&lt;operator&gt;.division,adj[i][j] / (float)det)<SUB>82</SUB>> ]
+"2924" [label = <(&lt;operator&gt;.indirectIndexAccess,inverse[i])<SUB>82</SUB>> ]
+"2929" [label = <(&lt;operator&gt;.indirectIndexAccess,adj[i][j])<SUB>82</SUB>> ]
+"2934" [label = <(&lt;operator&gt;.cast,(float)det)<SUB>82</SUB>> ]
+"2930" [label = <(&lt;operator&gt;.indirectIndexAccess,adj[i])<SUB>82</SUB>> ]
+"2935" [label = <(UNKNOWN,float,float)<SUB>82</SUB>> ]
+"2869" [label = <(METHOD,inverse)<SUB>69</SUB>> ]
+"2939" [label = <(METHOD_RETURN,int)<SUB>69</SUB>> ]
+  "2874" -> "2882" 
+  "2891" -> "2897" 
+  "2937" -> "2939" 
+  "2876" -> "2874" 
+  "2882" -> "2886" 
+  "2882" -> "2891" 
+  "2900" -> "2911" 
+  "2900" -> "2937" 
+  "2905" -> "2902" 
+  "2878" -> "2876" 
+  "2886" -> "2888" 
+  "2888" -> "2939" 
+  "2897" -> "2902" 
+  "2902" -> "2900" 
+  "2914" -> "2924" 
+  "2914" -> "2905" 
+  "2919" -> "2916" 
+  "2911" -> "2916" 
+  "2916" -> "2914" 
+  "2922" -> "2919" 
+  "2923" -> "2930" 
+  "2928" -> "2922" 
+  "2924" -> "2923" 
+  "2929" -> "2935" 
+  "2934" -> "2928" 
+  "2930" -> "2929" 
+  "2935" -> "2934" 
+  "2869" -> "2878" 
+}

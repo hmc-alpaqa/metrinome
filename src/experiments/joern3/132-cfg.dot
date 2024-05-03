@@ -1,0 +1,5 @@
+digraph "scanf" {  
+"6163" [label = <(METHOD,scanf)> ]
+"6166" [label = <(METHOD_RETURN,ANY)> ]
+  "6163" -> "6166" 
+}

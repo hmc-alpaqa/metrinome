@@ -1,0 +1,51 @@
+digraph "main" {  
+"24" [label = <(printf,printf(&quot;Enter the number of elements you want t...)<SUB>13</SUB>> ]
+"26" [label = <(scanf,scanf(&quot;%d&quot;, &amp;n))<SUB>14</SUB>> ]
+"30" [label = <(printf,printf(&quot;Enter element in ascending order \n&quot;))<SUB>16</SUB>> ]
+"54" [label = <(printf,printf(&quot;Enter the number you want to search : &quot;))<SUB>24</SUB>> ]
+"56" [label = <(scanf,scanf(&quot;%d&quot;, &amp;val))<SUB>25</SUB>> ]
+"60" [label = <(&lt;operator&gt;.assignment,found = bSearchAsc(list, n, val))<SUB>27</SUB>> ]
+"79" [label = <(RETURN,return 0;,return 0;)<SUB>38</SUB>> ]
+"28" [label = <(&lt;operator&gt;.addressOf,&amp;n)<SUB>14</SUB>> ]
+"37" [label = <(&lt;operator&gt;.lessThan,i &lt; n)<SUB>18</SUB>> ]
+"40" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>18</SUB>> ]
+"58" [label = <(&lt;operator&gt;.addressOf,&amp;val)<SUB>25</SUB>> ]
+"62" [label = <(bSearchAsc,bSearchAsc(list, n, val))<SUB>27</SUB>> ]
+"67" [label = <(&lt;operator&gt;.equals,found ==  - 1)<SUB>29</SUB>> ]
+"34" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>18</SUB>> ]
+"43" [label = <(printf,printf(&quot;Enter element %d : &quot;, i + 1))<SUB>20</SUB>> ]
+"48" [label = <(scanf,scanf(&quot;%d&quot;, &amp;list[i]))<SUB>21</SUB>> ]
+"69" [label = <(&lt;operator&gt;.minus,- 1)<SUB>29</SUB>> ]
+"72" [label = <(printf,printf(&quot;\nItem not found&quot;))<SUB>31</SUB>> ]
+"45" [label = <(&lt;operator&gt;.addition,i + 1)<SUB>20</SUB>> ]
+"50" [label = <(&lt;operator&gt;.addressOf,&amp;list[i])<SUB>21</SUB>> ]
+"76" [label = <(printf,printf(&quot;\nItem found at %d&quot;, found))<SUB>35</SUB>> ]
+"51" [label = <(&lt;operator&gt;.indirectIndexAccess,list[i])<SUB>21</SUB>> ]
+"17" [label = <(METHOD,main)<SUB>8</SUB>> ]
+"81" [label = <(METHOD_RETURN,int)<SUB>8</SUB>> ]
+  "24" -> "28" 
+  "26" -> "30" 
+  "30" -> "34" 
+  "54" -> "58" 
+  "56" -> "62" 
+  "60" -> "69" 
+  "79" -> "81" 
+  "28" -> "26" 
+  "37" -> "45" 
+  "37" -> "54" 
+  "40" -> "37" 
+  "58" -> "56" 
+  "62" -> "60" 
+  "67" -> "72" 
+  "67" -> "76" 
+  "34" -> "37" 
+  "43" -> "51" 
+  "48" -> "40" 
+  "69" -> "67" 
+  "72" -> "79" 
+  "45" -> "43" 
+  "50" -> "48" 
+  "76" -> "79" 
+  "51" -> "50" 
+  "17" -> "24" 
+}

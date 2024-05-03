@@ -1,0 +1,9 @@
+digraph "&lt;global&gt;" {  
+"1034" [label = <(&lt;operator&gt;.assignment,digits[] = { 0,1,2,3,4,5,6,7,8,9 })<SUB>3</SUB>> ]
+"1036" [label = <(&lt;operator&gt;.arrayInitializer,{ 0,1,2,3,4,5,6,7,8,9 })<SUB>3</SUB>> ]
+"1031" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"1276" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "1034" -> "1276" 
+  "1036" -> "1034" 
+  "1031" -> "1036" 
+}

@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.indirection" {  
+"6301" [label = <(METHOD,&lt;operator&gt;.indirection)> ]
+"6304" [label = <(METHOD_RETURN,ANY)> ]
+  "6301" -> "6304" 
+}

@@ -1,0 +1,22 @@
+digraph "accept" {  
+"4901" [label = <(&lt;operator&gt;.lessThan,i &lt; s)<SUB>27</SUB>> ]
+"4904" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>27</SUB>> ]
+"4898" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>27</SUB>> ]
+"4907" [label = <(printf,printf(&quot;Enter element %d : &quot;, i + 1))<SUB>29</SUB>> ]
+"4912" [label = <(scanf,scanf(&quot;%d&quot;, &amp;Arr[i]))<SUB>30</SUB>> ]
+"4909" [label = <(&lt;operator&gt;.addition,i + 1)<SUB>29</SUB>> ]
+"4914" [label = <(&lt;operator&gt;.addressOf,&amp;Arr[i])<SUB>30</SUB>> ]
+"4915" [label = <(&lt;operator&gt;.indirectIndexAccess,Arr[i])<SUB>30</SUB>> ]
+"4891" [label = <(METHOD,accept)<SUB>24</SUB>> ]
+"4918" [label = <(METHOD_RETURN,void)<SUB>24</SUB>> ]
+  "4901" -> "4918" 
+  "4901" -> "4909" 
+  "4904" -> "4901" 
+  "4898" -> "4901" 
+  "4907" -> "4915" 
+  "4912" -> "4904" 
+  "4909" -> "4907" 
+  "4914" -> "4912" 
+  "4915" -> "4914" 
+  "4891" -> "4898" 
+}

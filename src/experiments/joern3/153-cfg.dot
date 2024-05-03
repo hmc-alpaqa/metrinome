@@ -1,0 +1,5 @@
+digraph "malloc" {  
+"6264" [label = <(METHOD,malloc)> ]
+"6267" [label = <(METHOD_RETURN,ANY)> ]
+  "6264" -> "6267" 
+}

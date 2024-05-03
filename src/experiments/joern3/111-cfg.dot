@@ -1,0 +1,5 @@
+digraph "ssort" {  
+"4855" [label = <(METHOD,ssort)<SUB>7</SUB>> ]
+"4859" [label = <(METHOD_RETURN,void)<SUB>7</SUB>> ]
+  "4855" -> "4859" 
+}

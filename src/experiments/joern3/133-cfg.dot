@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.addressOf" {  
+"6167" [label = <(METHOD,&lt;operator&gt;.addressOf)> ]
+"6170" [label = <(METHOD_RETURN,ANY)> ]
+  "6167" -> "6170" 
+}

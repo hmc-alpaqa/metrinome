@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.arrayInitializer" {  
+"6281" [label = <(METHOD,&lt;operator&gt;.arrayInitializer)> ]
+"6285" [label = <(METHOD_RETURN,ANY)> ]
+  "6281" -> "6285" 
+}

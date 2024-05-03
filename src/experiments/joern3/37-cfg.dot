@@ -1,0 +1,16 @@
+digraph "is_even" {  
+"1342" [label = <(&lt;operator&gt;.equals,n == 0)<SUB>9</SUB>> ]
+"1346" [label = <(RETURN,return 1;,return 1;)<SUB>11</SUB>> ]
+"1350" [label = <(RETURN,return is_odd(n - 1);,return is_odd(n - 1);)<SUB>15</SUB>> ]
+"1351" [label = <(is_odd,is_odd(n - 1))<SUB>15</SUB>> ]
+"1352" [label = <(&lt;operator&gt;.subtraction,n - 1)<SUB>15</SUB>> ]
+"1338" [label = <(METHOD,is_even)<SUB>7</SUB>> ]
+"1355" [label = <(METHOD_RETURN,int)<SUB>7</SUB>> ]
+  "1342" -> "1346" 
+  "1342" -> "1352" 
+  "1346" -> "1355" 
+  "1350" -> "1355" 
+  "1351" -> "1350" 
+  "1352" -> "1351" 
+  "1338" -> "1342" 
+}

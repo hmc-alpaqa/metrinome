@@ -1,0 +1,5 @@
+digraph "&lt;operators&gt;.assignmentOr" {  
+"6380" [label = <(METHOD,&lt;operators&gt;.assignmentOr)> ]
+"6384" [label = <(METHOD_RETURN,ANY)> ]
+  "6380" -> "6384" 
+}

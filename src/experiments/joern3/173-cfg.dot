@@ -1,0 +1,5 @@
+digraph "memset" {  
+"6356" [label = <(METHOD,memset)> ]
+"6361" [label = <(METHOD_RETURN,ANY)> ]
+  "6356" -> "6361" 
+}

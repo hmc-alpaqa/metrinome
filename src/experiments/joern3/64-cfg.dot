@@ -1,0 +1,5 @@
+digraph "linear_search_rec" {  
+"2027" [label = <(METHOD,linear_search_rec)<SUB>4</SUB>> ]
+"2032" [label = <(METHOD_RETURN,int)<SUB>4</SUB>> ]
+  "2027" -> "2032" 
+}

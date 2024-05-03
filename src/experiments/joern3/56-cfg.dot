@@ -1,0 +1,5 @@
+digraph "isort" {  
+"1726" [label = <(METHOD,isort)<SUB>5</SUB>> ]
+"1730" [label = <(METHOD_RETURN,void)<SUB>5</SUB>> ]
+  "1726" -> "1730" 
+}

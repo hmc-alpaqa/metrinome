@@ -1,0 +1,28 @@
+digraph "binaryToDecimal" {  
+"229" [label = <(&lt;operator&gt;.assignment,decimal = 0)<SUB>5</SUB>> ]
+"232" [label = <(&lt;operator&gt;.assignment,base = 1)<SUB>5</SUB>> ]
+"259" [label = <(RETURN,return decimal;,return decimal;)<SUB>14</SUB>> ]
+"236" [label = <(&lt;operator&gt;.greaterThan,binary &gt; 0)<SUB>7</SUB>> ]
+"241" [label = <(&lt;operator&gt;.assignment,lastDigit = binary % 10)<SUB>8</SUB>> ]
+"246" [label = <(&lt;operator&gt;.assignment,binary = binary / 10)<SUB>9</SUB>> ]
+"251" [label = <(&lt;operator&gt;.assignmentPlus,decimal += lastDigit * base)<SUB>10</SUB>> ]
+"256" [label = <(&lt;operator&gt;.assignmentMultiplication,base *= 2)<SUB>11</SUB>> ]
+"243" [label = <(&lt;operator&gt;.modulo,binary % 10)<SUB>8</SUB>> ]
+"248" [label = <(&lt;operator&gt;.division,binary / 10)<SUB>9</SUB>> ]
+"253" [label = <(&lt;operator&gt;.multiplication,lastDigit * base)<SUB>10</SUB>> ]
+"224" [label = <(METHOD,binaryToDecimal)<SUB>4</SUB>> ]
+"261" [label = <(METHOD_RETURN,int)<SUB>4</SUB>> ]
+  "229" -> "232" 
+  "232" -> "236" 
+  "259" -> "261" 
+  "236" -> "243" 
+  "236" -> "259" 
+  "241" -> "248" 
+  "246" -> "253" 
+  "251" -> "256" 
+  "256" -> "236" 
+  "243" -> "241" 
+  "248" -> "246" 
+  "253" -> "251" 
+  "224" -> "229" 
+}

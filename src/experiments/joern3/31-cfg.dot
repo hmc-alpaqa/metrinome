@@ -1,0 +1,124 @@
+digraph "choose_sum_and_count_89" {  
+"1115" [label = <(&lt;operator&gt;.assignment,count = 0)<SUB>31</SUB>> ]
+"1272" [label = <(RETURN,return count;,return count;)<SUB>68</SUB>> ]
+"1124" [label = <(&lt;operator&gt;.lessThan,i &lt; 10)<SUB>33</SUB>> ]
+"1127" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>33</SUB>> ]
+"1136" [label = <(&lt;operator&gt;.equals,n_chosen == len)<SUB>36</SUB>> ]
+"1247" [label = <(&lt;operator&gt;.lessThan,i &lt; max_types)<SUB>64</SUB>> ]
+"1250" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>64</SUB>> ]
+"1121" [label = <(&lt;operator&gt;.assignment,i=0)<SUB>33</SUB>> ]
+"1130" [label = <(&lt;operator&gt;.assignment,digitcounts[i]=0)<SUB>34</SUB>> ]
+"1147" [label = <(&lt;operator&gt;.assignment,sum=0)<SUB>39</SUB>> ]
+"1240" [label = <(RETURN,return 1;,return 1;)<SUB>61</SUB>> ]
+"1244" [label = <(&lt;operator&gt;.assignment,i = at)<SUB>64</SUB>> ]
+"1261" [label = <(&lt;operator&gt;.assignmentPlus,count += choose_sum_and_count_89(got, n_chosen ...)<SUB>66</SUB>> ]
+"1131" [label = <(&lt;operator&gt;.indirectIndexAccess,digitcounts[i])<SUB>34</SUB>> ]
+"1141" [label = <(&lt;operator&gt;.logicalNot,!got)<SUB>37</SUB>> ]
+"1155" [label = <(&lt;operator&gt;.lessThan,i &lt; len)<SUB>40</SUB>> ]
+"1158" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>40</SUB>> ]
+"1181" [label = <(&lt;operator&gt;.equals,sum == 0)<SUB>45</SUB>> ]
+"1188" [label = <(&lt;operator&gt;.logicalAnd,(sum != 1) &amp;&amp; (sum != 89))<SUB>48</SUB>> ]
+"1210" [label = <(&lt;operator&gt;.equals,sum == 89)<SUB>53</SUB>> ]
+"1254" [label = <(IDENTIFIER,got,if (got))<SUB>65</SUB>> ]
+"1263" [label = <(choose_sum_and_count_89,choose_sum_and_count_89(got, n_chosen + 1, len,...)<SUB>66</SUB>> ]
+"1144" [label = <(RETURN,return 1;,return 1;)<SUB>37</SUB>> ]
+"1152" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>40</SUB>> ]
+"1162" [label = <(&lt;operator&gt;.assignment,digit=digits[got[i]])<SUB>41</SUB>> ]
+"1169" [label = <(&lt;operator&gt;.postIncrement,digitcounts[digit]++)<SUB>42</SUB>> ]
+"1173" [label = <(&lt;operator&gt;.assignment,sum=sum + digit * digit)<SUB>43</SUB>> ]
+"1185" [label = <(RETURN,return 1;,return 1;)<SUB>46</SUB>> ]
+"1189" [label = <(&lt;operator&gt;.notEquals,sum != 1)<SUB>48</SUB>> ]
+"1192" [label = <(&lt;operator&gt;.notEquals,sum != 89)<SUB>48</SUB>> ]
+"1215" [label = <(&lt;operator&gt;.assignment,count_this_comb=factorial(len))<SUB>54</SUB>> ]
+"1236" [label = <(&lt;operator&gt;.assignmentPlus,(*count89)+=count_this_comb)<SUB>58</SUB>> ]
+"1256" [label = <(&lt;operator&gt;.assignment,got[n_chosen] = i)<SUB>65</SUB>> ]
+"1265" [label = <(&lt;operator&gt;.addition,n_chosen + 1)<SUB>66</SUB>> ]
+"1164" [label = <(&lt;operator&gt;.indirectIndexAccess,digits[got[i]])<SUB>41</SUB>> ]
+"1170" [label = <(&lt;operator&gt;.indirectIndexAccess,digitcounts[digit])<SUB>42</SUB>> ]
+"1175" [label = <(&lt;operator&gt;.addition,sum + digit * digit)<SUB>43</SUB>> ]
+"1197" [label = <(&lt;operator&gt;.logicalAnd,(sum != 1) &amp;&amp; (sum != 89))<SUB>49</SUB>> ]
+"1217" [label = <(factorial,factorial(len))<SUB>54</SUB>> ]
+"1224" [label = <(&lt;operator&gt;.lessThan,i&lt;10)<SUB>55</SUB>> ]
+"1227" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>55</SUB>> ]
+"1237" [label = <(&lt;operator&gt;.indirection,*count89)<SUB>58</SUB>> ]
+"1257" [label = <(&lt;operator&gt;.indirectIndexAccess,got[n_chosen])<SUB>65</SUB>> ]
+"1166" [label = <(&lt;operator&gt;.indirectIndexAccess,got[i])<SUB>41</SUB>> ]
+"1177" [label = <(&lt;operator&gt;.multiplication,digit * digit)<SUB>43</SUB>> ]
+"1198" [label = <(&lt;operator&gt;.notEquals,sum != 1)<SUB>49</SUB>> ]
+"1201" [label = <(&lt;operator&gt;.notEquals,sum != 89)<SUB>49</SUB>> ]
+"1205" [label = <(&lt;operator&gt;.assignment,sum=sum_square_digits(sum))<SUB>50</SUB>> ]
+"1221" [label = <(&lt;operator&gt;.assignment,i=0)<SUB>55</SUB>> ]
+"1230" [label = <(&lt;operator&gt;.assignmentDivision,count_this_comb/=factorial(digitcounts[i]))<SUB>56</SUB>> ]
+"1207" [label = <(sum_square_digits,sum_square_digits(sum))<SUB>50</SUB>> ]
+"1232" [label = <(factorial,factorial(digitcounts[i]))<SUB>56</SUB>> ]
+"1233" [label = <(&lt;operator&gt;.indirectIndexAccess,digitcounts[i])<SUB>56</SUB>> ]
+"1105" [label = <(METHOD,choose_sum_and_count_89)<SUB>28</SUB>> ]
+"1274" [label = <(METHOD_RETURN,long)<SUB>28</SUB>> ]
+  "1115" -> "1121" 
+  "1272" -> "1274" 
+  "1124" -> "1131" 
+  "1124" -> "1136" 
+  "1127" -> "1124" 
+  "1136" -> "1141" 
+  "1136" -> "1244" 
+  "1247" -> "1254" 
+  "1247" -> "1272" 
+  "1250" -> "1247" 
+  "1121" -> "1124" 
+  "1130" -> "1127" 
+  "1147" -> "1152" 
+  "1240" -> "1274" 
+  "1244" -> "1247" 
+  "1261" -> "1250" 
+  "1131" -> "1130" 
+  "1141" -> "1144" 
+  "1141" -> "1147" 
+  "1155" -> "1166" 
+  "1155" -> "1181" 
+  "1158" -> "1155" 
+  "1181" -> "1185" 
+  "1181" -> "1189" 
+  "1188" -> "1198" 
+  "1188" -> "1210" 
+  "1210" -> "1217" 
+  "1210" -> "1240" 
+  "1254" -> "1257" 
+  "1254" -> "1265" 
+  "1263" -> "1261" 
+  "1144" -> "1274" 
+  "1152" -> "1155" 
+  "1162" -> "1170" 
+  "1169" -> "1177" 
+  "1173" -> "1158" 
+  "1185" -> "1274" 
+  "1189" -> "1188" 
+  "1189" -> "1192" 
+  "1192" -> "1188" 
+  "1215" -> "1221" 
+  "1236" -> "1240" 
+  "1256" -> "1265" 
+  "1265" -> "1263" 
+  "1164" -> "1162" 
+  "1170" -> "1169" 
+  "1175" -> "1173" 
+  "1197" -> "1207" 
+  "1197" -> "1210" 
+  "1217" -> "1215" 
+  "1224" -> "1233" 
+  "1224" -> "1237" 
+  "1227" -> "1224" 
+  "1237" -> "1236" 
+  "1257" -> "1256" 
+  "1166" -> "1164" 
+  "1177" -> "1175" 
+  "1198" -> "1197" 
+  "1198" -> "1201" 
+  "1201" -> "1197" 
+  "1205" -> "1198" 
+  "1221" -> "1224" 
+  "1230" -> "1227" 
+  "1207" -> "1205" 
+  "1232" -> "1230" 
+  "1233" -> "1232" 
+  "1105" -> "1115" 
+}

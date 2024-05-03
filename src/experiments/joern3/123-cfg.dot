@@ -1,0 +1,157 @@
+digraph "check_winner" {  
+"5636" [label = <(RETURN,return 0;,return 0;)<SUB>20</SUB>> ]
+"5484" [label = <(&lt;operator&gt;.lessThan,i &lt; 3)<SUB>9</SUB>> ]
+"5487" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>9</SUB>> ]
+"5565" [label = <(&lt;operator&gt;.logicalNot,!b[1][1])<SUB>15</SUB>> ]
+"5575" [label = <(&lt;operator&gt;.logicalAnd,b[1][1] == b[0][0] &amp;&amp; b[2][2] == b[0][0])<SUB>17</SUB>> ]
+"5606" [label = <(&lt;operator&gt;.logicalAnd,b[1][1] == b[2][0] &amp;&amp; b[0][2] == b[1][1])<SUB>18</SUB>> ]
+"5481" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>9</SUB>> ]
+"5566" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1][1])<SUB>15</SUB>> ]
+"5572" [label = <(RETURN,return 0;,return 0;)<SUB>15</SUB>> ]
+"5576" [label = <(&lt;operator&gt;.equals,b[1][1] == b[0][0])<SUB>17</SUB>> ]
+"5587" [label = <(&lt;operator&gt;.equals,b[2][2] == b[0][0])<SUB>17</SUB>> ]
+"5599" [label = <(RETURN,return b[0][0];,return b[0][0];)<SUB>17</SUB>> ]
+"5607" [label = <(&lt;operator&gt;.equals,b[1][1] == b[2][0])<SUB>18</SUB>> ]
+"5618" [label = <(&lt;operator&gt;.equals,b[0][2] == b[1][1])<SUB>18</SUB>> ]
+"5630" [label = <(RETURN,return b[1][1];,return b[1][1];)<SUB>18</SUB>> ]
+"5491" [label = <(&lt;operator&gt;.logicalAnd,b[i][0] &amp;&amp; b[i][1] == b[i][0] &amp;&amp; b[i][2] == b[i...)<SUB>10</SUB>> ]
+"5528" [label = <(&lt;operator&gt;.logicalAnd,b[0][i] &amp;&amp; b[1][i] == b[0][i] &amp;&amp; b[2][i] == b[0...)<SUB>12</SUB>> ]
+"5567" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1])<SUB>15</SUB>> ]
+"5577" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1][1])<SUB>17</SUB>> ]
+"5582" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][0])<SUB>17</SUB>> ]
+"5588" [label = <(&lt;operator&gt;.indirectIndexAccess,b[2][2])<SUB>17</SUB>> ]
+"5593" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][0])<SUB>17</SUB>> ]
+"5600" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][0])<SUB>17</SUB>> ]
+"5608" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1][1])<SUB>18</SUB>> ]
+"5613" [label = <(&lt;operator&gt;.indirectIndexAccess,b[2][0])<SUB>18</SUB>> ]
+"5619" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][2])<SUB>18</SUB>> ]
+"5624" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1][1])<SUB>18</SUB>> ]
+"5631" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1][1])<SUB>18</SUB>> ]
+"5492" [label = <(&lt;operator&gt;.logicalAnd,b[i][0] &amp;&amp; b[i][1] == b[i][0])<SUB>10</SUB>> ]
+"5509" [label = <(&lt;operator&gt;.equals,b[i][2] == b[i][0])<SUB>10</SUB>> ]
+"5521" [label = <(RETURN,return b[i][0];,return b[i][0];)<SUB>11</SUB>> ]
+"5529" [label = <(&lt;operator&gt;.logicalAnd,b[0][i] &amp;&amp; b[1][i] == b[0][i])<SUB>12</SUB>> ]
+"5546" [label = <(&lt;operator&gt;.equals,b[2][i] == b[0][i])<SUB>12</SUB>> ]
+"5558" [label = <(RETURN,return b[0][i];,return b[0][i];)<SUB>13</SUB>> ]
+"5578" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1])<SUB>17</SUB>> ]
+"5583" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>17</SUB>> ]
+"5589" [label = <(&lt;operator&gt;.indirectIndexAccess,b[2])<SUB>17</SUB>> ]
+"5594" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>17</SUB>> ]
+"5601" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>17</SUB>> ]
+"5609" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1])<SUB>18</SUB>> ]
+"5614" [label = <(&lt;operator&gt;.indirectIndexAccess,b[2])<SUB>18</SUB>> ]
+"5620" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>18</SUB>> ]
+"5625" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1])<SUB>18</SUB>> ]
+"5632" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1])<SUB>18</SUB>> ]
+"5493" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][0])<SUB>10</SUB>> ]
+"5498" [label = <(&lt;operator&gt;.equals,b[i][1] == b[i][0])<SUB>10</SUB>> ]
+"5510" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][2])<SUB>10</SUB>> ]
+"5515" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][0])<SUB>10</SUB>> ]
+"5522" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][0])<SUB>11</SUB>> ]
+"5530" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][i])<SUB>12</SUB>> ]
+"5535" [label = <(&lt;operator&gt;.equals,b[1][i] == b[0][i])<SUB>12</SUB>> ]
+"5547" [label = <(&lt;operator&gt;.indirectIndexAccess,b[2][i])<SUB>12</SUB>> ]
+"5552" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][i])<SUB>12</SUB>> ]
+"5559" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][i])<SUB>13</SUB>> ]
+"5494" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>10</SUB>> ]
+"5499" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][1])<SUB>10</SUB>> ]
+"5504" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][0])<SUB>10</SUB>> ]
+"5511" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>10</SUB>> ]
+"5516" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>10</SUB>> ]
+"5523" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>11</SUB>> ]
+"5531" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>12</SUB>> ]
+"5536" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1][i])<SUB>12</SUB>> ]
+"5541" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0][i])<SUB>12</SUB>> ]
+"5548" [label = <(&lt;operator&gt;.indirectIndexAccess,b[2])<SUB>12</SUB>> ]
+"5553" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>12</SUB>> ]
+"5560" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>13</SUB>> ]
+"5500" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>10</SUB>> ]
+"5505" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>10</SUB>> ]
+"5537" [label = <(&lt;operator&gt;.indirectIndexAccess,b[1])<SUB>12</SUB>> ]
+"5542" [label = <(&lt;operator&gt;.indirectIndexAccess,b[0])<SUB>12</SUB>> ]
+"5476" [label = <(METHOD,check_winner)<SUB>6</SUB>> ]
+"5638" [label = <(METHOD_RETURN,int)<SUB>6</SUB>> ]
+  "5636" -> "5638" 
+  "5484" -> "5494" 
+  "5484" -> "5567" 
+  "5487" -> "5484" 
+  "5565" -> "5572" 
+  "5565" -> "5578" 
+  "5575" -> "5601" 
+  "5575" -> "5609" 
+  "5606" -> "5632" 
+  "5606" -> "5636" 
+  "5481" -> "5484" 
+  "5566" -> "5565" 
+  "5572" -> "5638" 
+  "5576" -> "5575" 
+  "5576" -> "5589" 
+  "5587" -> "5575" 
+  "5599" -> "5638" 
+  "5607" -> "5606" 
+  "5607" -> "5620" 
+  "5618" -> "5606" 
+  "5630" -> "5638" 
+  "5491" -> "5523" 
+  "5491" -> "5531" 
+  "5528" -> "5560" 
+  "5528" -> "5487" 
+  "5567" -> "5566" 
+  "5577" -> "5583" 
+  "5582" -> "5576" 
+  "5588" -> "5594" 
+  "5593" -> "5587" 
+  "5600" -> "5599" 
+  "5608" -> "5614" 
+  "5613" -> "5607" 
+  "5619" -> "5625" 
+  "5624" -> "5618" 
+  "5631" -> "5630" 
+  "5492" -> "5491" 
+  "5492" -> "5511" 
+  "5509" -> "5491" 
+  "5521" -> "5638" 
+  "5529" -> "5528" 
+  "5529" -> "5548" 
+  "5546" -> "5528" 
+  "5558" -> "5638" 
+  "5578" -> "5577" 
+  "5583" -> "5582" 
+  "5589" -> "5588" 
+  "5594" -> "5593" 
+  "5601" -> "5600" 
+  "5609" -> "5608" 
+  "5614" -> "5613" 
+  "5620" -> "5619" 
+  "5625" -> "5624" 
+  "5632" -> "5631" 
+  "5493" -> "5492" 
+  "5493" -> "5500" 
+  "5498" -> "5492" 
+  "5510" -> "5516" 
+  "5515" -> "5509" 
+  "5522" -> "5521" 
+  "5530" -> "5529" 
+  "5530" -> "5537" 
+  "5535" -> "5529" 
+  "5547" -> "5553" 
+  "5552" -> "5546" 
+  "5559" -> "5558" 
+  "5494" -> "5493" 
+  "5499" -> "5505" 
+  "5504" -> "5498" 
+  "5511" -> "5510" 
+  "5516" -> "5515" 
+  "5523" -> "5522" 
+  "5531" -> "5530" 
+  "5536" -> "5542" 
+  "5541" -> "5535" 
+  "5548" -> "5547" 
+  "5553" -> "5552" 
+  "5560" -> "5559" 
+  "5500" -> "5499" 
+  "5505" -> "5504" 
+  "5537" -> "5536" 
+  "5542" -> "5541" 
+  "5476" -> "5481" 
+}

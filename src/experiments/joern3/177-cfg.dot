@@ -1,0 +1,5 @@
+digraph "putchar" {  
+"6376" [label = <(METHOD,putchar)> ]
+"6379" [label = <(METHOD_RETURN,ANY)> ]
+  "6376" -> "6379" 
+}

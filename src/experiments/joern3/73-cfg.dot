@@ -1,0 +1,33 @@
+digraph "transpose" {  
+"2744" [label = <(&lt;operator&gt;.lessThan,i &lt; N)<SUB>44</SUB>> ]
+"2749" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>44</SUB>> ]
+"2741" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>44</SUB>> ]
+"2746" [label = <(N,N)<SUB>44</SUB>> ]
+"2758" [label = <(&lt;operator&gt;.lessThan,j &lt; N)<SUB>45</SUB>> ]
+"2763" [label = <(&lt;operator&gt;.postIncrement,j++)<SUB>45</SUB>> ]
+"2755" [label = <(&lt;operator&gt;.assignment,j = 0)<SUB>45</SUB>> ]
+"2760" [label = <(N,N)<SUB>45</SUB>> ]
+"2766" [label = <(&lt;operator&gt;.assignment,transposed[i][j] = matrix[j][i])<SUB>46</SUB>> ]
+"2767" [label = <(&lt;operator&gt;.indirectIndexAccess,transposed[i][j])<SUB>46</SUB>> ]
+"2772" [label = <(&lt;operator&gt;.indirectIndexAccess,matrix[j][i])<SUB>46</SUB>> ]
+"2768" [label = <(&lt;operator&gt;.indirectIndexAccess,transposed[i])<SUB>46</SUB>> ]
+"2773" [label = <(&lt;operator&gt;.indirectIndexAccess,matrix[j])<SUB>46</SUB>> ]
+"2734" [label = <(METHOD,transpose)<SUB>43</SUB>> ]
+"2777" [label = <(METHOD_RETURN,void)<SUB>43</SUB>> ]
+  "2744" -> "2777" 
+  "2744" -> "2755" 
+  "2749" -> "2746" 
+  "2741" -> "2746" 
+  "2746" -> "2744" 
+  "2758" -> "2768" 
+  "2758" -> "2749" 
+  "2763" -> "2760" 
+  "2755" -> "2760" 
+  "2760" -> "2758" 
+  "2766" -> "2763" 
+  "2767" -> "2773" 
+  "2772" -> "2766" 
+  "2768" -> "2767" 
+  "2773" -> "2772" 
+  "2734" -> "2741" 
+}

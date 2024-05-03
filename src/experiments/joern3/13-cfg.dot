@@ -1,0 +1,143 @@
+digraph "delete_" {  
+"554" [label = <(RETURN,return root;,return root;)<SUB>96</SUB>> ]
+"429" [label = <(&lt;operator&gt;.equals,root == NULL)<SUB>61</SUB>> ]
+"436" [label = <(&lt;operator&gt;.greaterThan,x &gt; root-&gt;data)<SUB>63</SUB>> ]
+"433" [label = <(RETURN,return NULL;,return NULL;)<SUB>62</SUB>> ]
+"438" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;data)<SUB>63</SUB>> ]
+"442" [label = <(&lt;operator&gt;.assignment,root-&gt;right_child = delete_(root-&gt;right_child, x))<SUB>64</SUB>> ]
+"440" [label = <(FIELD_IDENTIFIER,data,data)<SUB>63</SUB>> ]
+"443" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>64</SUB>> ]
+"446" [label = <(delete_,delete_(root-&gt;right_child, x))<SUB>64</SUB>> ]
+"445" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>64</SUB>> ]
+"447" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>64</SUB>> ]
+"454" [label = <(&lt;operator&gt;.lessThan,x &lt; root-&gt;data)<SUB>65</SUB>> ]
+"449" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>64</SUB>> ]
+"456" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;data)<SUB>65</SUB>> ]
+"460" [label = <(&lt;operator&gt;.assignment,root-&gt;left_child = delete_(root-&gt;left_child, x))<SUB>66</SUB>> ]
+"458" [label = <(FIELD_IDENTIFIER,data,data)<SUB>65</SUB>> ]
+"461" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>66</SUB>> ]
+"464" [label = <(delete_,delete_(root-&gt;left_child, x))<SUB>66</SUB>> ]
+"463" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>66</SUB>> ]
+"465" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>66</SUB>> ]
+"472" [label = <(&lt;operator&gt;.logicalAnd,root-&gt;left_child == NULL &amp;&amp; root-&gt;right_child =...)<SUB>70</SUB>> ]
+"467" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>66</SUB>> ]
+"473" [label = <(&lt;operator&gt;.equals,root-&gt;left_child == NULL)<SUB>70</SUB>> ]
+"478" [label = <(&lt;operator&gt;.equals,root-&gt;right_child == NULL)<SUB>70</SUB>> ]
+"484" [label = <(free,free(root))<SUB>72</SUB>> ]
+"486" [label = <(RETURN,return NULL;,return NULL;)<SUB>73</SUB>> ]
+"474" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>70</SUB>> ]
+"479" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>70</SUB>> ]
+"476" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>70</SUB>> ]
+"481" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>70</SUB>> ]
+"491" [label = <(&lt;operator&gt;.logicalOr,root-&gt;left_child == NULL || root-&gt;right_child =...)<SUB>77</SUB>> ]
+"492" [label = <(&lt;operator&gt;.equals,root-&gt;left_child == NULL)<SUB>77</SUB>> ]
+"497" [label = <(&lt;operator&gt;.equals,root-&gt;right_child == NULL)<SUB>77</SUB>> ]
+"523" [label = <(free,free(root))<SUB>84</SUB>> ]
+"525" [label = <(RETURN,return temp;,return temp;)<SUB>85</SUB>> ]
+"493" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>77</SUB>> ]
+"498" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>77</SUB>> ]
+"505" [label = <(&lt;operator&gt;.equals,root-&gt;left_child == NULL)<SUB>80</SUB>> ]
+"530" [label = <(&lt;operator&gt;.assignment,*temp = find_minimum(root-&gt;right_child))<SUB>91</SUB>> ]
+"536" [label = <(&lt;operator&gt;.assignment,root-&gt;data = temp-&gt;data)<SUB>92</SUB>> ]
+"543" [label = <(&lt;operator&gt;.assignment,root-&gt;right_child = delete_(root-&gt;right_child, ...)<SUB>93</SUB>> ]
+"495" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>77</SUB>> ]
+"500" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>77</SUB>> ]
+"506" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>80</SUB>> ]
+"511" [label = <(&lt;operator&gt;.assignment,temp = root-&gt;right_child)<SUB>81</SUB>> ]
+"532" [label = <(find_minimum,find_minimum(root-&gt;right_child))<SUB>91</SUB>> ]
+"537" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;data)<SUB>92</SUB>> ]
+"540" [label = <(&lt;operator&gt;.indirectFieldAccess,temp-&gt;data)<SUB>92</SUB>> ]
+"544" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>93</SUB>> ]
+"547" [label = <(delete_,delete_(root-&gt;right_child, temp-&gt;data))<SUB>93</SUB>> ]
+"508" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>80</SUB>> ]
+"513" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>81</SUB>> ]
+"518" [label = <(&lt;operator&gt;.assignment,temp = root-&gt;left_child)<SUB>83</SUB>> ]
+"533" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>91</SUB>> ]
+"539" [label = <(FIELD_IDENTIFIER,data,data)<SUB>92</SUB>> ]
+"542" [label = <(FIELD_IDENTIFIER,data,data)<SUB>92</SUB>> ]
+"546" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>93</SUB>> ]
+"548" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>93</SUB>> ]
+"551" [label = <(&lt;operator&gt;.indirectFieldAccess,temp-&gt;data)<SUB>93</SUB>> ]
+"515" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>81</SUB>> ]
+"520" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>83</SUB>> ]
+"535" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>91</SUB>> ]
+"550" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>93</SUB>> ]
+"553" [label = <(FIELD_IDENTIFIER,data,data)<SUB>93</SUB>> ]
+"522" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>83</SUB>> ]
+"424" [label = <(METHOD,delete_)<SUB>58</SUB>> ]
+"556" [label = <(METHOD_RETURN,struct node)<SUB>58</SUB>> ]
+  "554" -> "556" 
+  "429" -> "433" 
+  "429" -> "440" 
+  "436" -> "445" 
+  "436" -> "458" 
+  "433" -> "556" 
+  "438" -> "436" 
+  "442" -> "554" 
+  "440" -> "438" 
+  "443" -> "449" 
+  "446" -> "442" 
+  "445" -> "443" 
+  "447" -> "446" 
+  "454" -> "463" 
+  "454" -> "476" 
+  "449" -> "447" 
+  "456" -> "454" 
+  "460" -> "554" 
+  "458" -> "456" 
+  "461" -> "467" 
+  "464" -> "460" 
+  "463" -> "461" 
+  "465" -> "464" 
+  "472" -> "484" 
+  "472" -> "495" 
+  "467" -> "465" 
+  "473" -> "472" 
+  "473" -> "481" 
+  "478" -> "472" 
+  "484" -> "486" 
+  "486" -> "556" 
+  "474" -> "473" 
+  "479" -> "478" 
+  "476" -> "474" 
+  "481" -> "479" 
+  "491" -> "508" 
+  "491" -> "535" 
+  "492" -> "491" 
+  "492" -> "500" 
+  "497" -> "491" 
+  "523" -> "525" 
+  "525" -> "556" 
+  "493" -> "492" 
+  "498" -> "497" 
+  "505" -> "515" 
+  "505" -> "522" 
+  "530" -> "539" 
+  "536" -> "546" 
+  "543" -> "554" 
+  "495" -> "493" 
+  "500" -> "498" 
+  "506" -> "505" 
+  "511" -> "523" 
+  "532" -> "530" 
+  "537" -> "542" 
+  "540" -> "536" 
+  "544" -> "550" 
+  "547" -> "543" 
+  "508" -> "506" 
+  "513" -> "511" 
+  "518" -> "523" 
+  "533" -> "532" 
+  "539" -> "537" 
+  "542" -> "540" 
+  "546" -> "544" 
+  "548" -> "553" 
+  "551" -> "547" 
+  "515" -> "513" 
+  "520" -> "518" 
+  "535" -> "533" 
+  "550" -> "548" 
+  "553" -> "551" 
+  "522" -> "520" 
+  "424" -> "429" 
+}

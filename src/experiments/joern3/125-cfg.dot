@@ -1,0 +1,90 @@
+digraph "test_move" {  
+"5697" [label = <(&lt;operator&gt;.assignment,best = -1)<SUB>38</SUB>> ]
+"5701" [label = <(&lt;operator&gt;.assignment,changed = 0)<SUB>38</SUB>> ]
+"5717" [label = <(for_ij,for_ij {
+		if (b[i][j]) continue;
+
+		changed = ...)<SUB>42</SUB>> ]
+"5792" [label = <(RETURN,return changed ? best : 0;,return changed ? best : 0;)<SUB>57</SUB>> ]
+"5699" [label = <(&lt;operator&gt;.minus,-1)<SUB>38</SUB>> ]
+"5705" [label = <(&lt;operator&gt;.assignment,score = check_winner())<SUB>40</SUB>> ]
+"5793" [label = <(&lt;operator&gt;.conditional,changed ? best : 0)<SUB>57</SUB>> ]
+"5707" [label = <(check_winner,check_winner())<SUB>40</SUB>> ]
+"5709" [label = <(RETURN,return (score == val) ? 1 : -1;,return (score == val) ? 1 : -1;)<SUB>40</SUB>> ]
+"5710" [label = <(&lt;operator&gt;.conditional,(score == val) ? 1 : -1)<SUB>40</SUB>> ]
+"5724" [label = <(&lt;operator&gt;.lessThan,i &lt; 3)<SUB>42</SUB>> ]
+"5727" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>42</SUB>> ]
+"5711" [label = <(&lt;operator&gt;.equals,score == val)<SUB>40</SUB>> ]
+"5715" [label = <(&lt;operator&gt;.minus,-1)<SUB>40</SUB>> ]
+"5721" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>42</SUB>> ]
+"5734" [label = <(&lt;operator&gt;.lessThan,j &lt; 3)<SUB>42</SUB>> ]
+"5737" [label = <(&lt;operator&gt;.postIncrement,j++)<SUB>42</SUB>> ]
+"5731" [label = <(&lt;operator&gt;.assignment,j = 0)<SUB>42</SUB>> ]
+"5748" [label = <(&lt;operator&gt;.assignment,changed = b[i][j] = val)<SUB>45</SUB>> ]
+"5757" [label = <(&lt;operator&gt;.assignment,score = -test_move(-val, depth + 1))<SUB>46</SUB>> ]
+"5766" [label = <(&lt;operator&gt;.assignment,b[i][j] = 0)<SUB>47</SUB>> ]
+"5789" [label = <(&lt;operator&gt;.assignment,best = score)<SUB>54</SUB>> ]
+"5741" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][j])<SUB>43</SUB>> ]
+"5750" [label = <(&lt;operator&gt;.assignment,b[i][j] = val)<SUB>45</SUB>> ]
+"5759" [label = <(&lt;operator&gt;.minus,-test_move(-val, depth + 1))<SUB>46</SUB>> ]
+"5767" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][j])<SUB>47</SUB>> ]
+"5774" [label = <(&lt;operator&gt;.lessEqualsThan,score &lt;= best)<SUB>49</SUB>> ]
+"5780" [label = <(&lt;operator&gt;.logicalNot,!depth)<SUB>50</SUB>> ]
+"5742" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>43</SUB>> ]
+"5751" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i][j])<SUB>45</SUB>> ]
+"5760" [label = <(test_move,test_move(-val, depth + 1))<SUB>46</SUB>> ]
+"5768" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>47</SUB>> ]
+"5783" [label = <(&lt;operator&gt;.assignment,best_i = i)<SUB>51</SUB>> ]
+"5786" [label = <(&lt;operator&gt;.assignment,best_j = j)<SUB>52</SUB>> ]
+"5752" [label = <(&lt;operator&gt;.indirectIndexAccess,b[i])<SUB>45</SUB>> ]
+"5761" [label = <(&lt;operator&gt;.minus,-val)<SUB>46</SUB>> ]
+"5763" [label = <(&lt;operator&gt;.addition,depth + 1)<SUB>46</SUB>> ]
+"5688" [label = <(METHOD,test_move)<SUB>35</SUB>> ]
+"5797" [label = <(METHOD_RETURN,int)<SUB>35</SUB>> ]
+  "5697" -> "5701" 
+  "5701" -> "5707" 
+  "5717" -> "5721" 
+  "5717" -> "5793" 
+  "5792" -> "5797" 
+  "5699" -> "5697" 
+  "5705" -> "5717" 
+  "5705" -> "5711" 
+  "5793" -> "5792" 
+  "5707" -> "5705" 
+  "5709" -> "5797" 
+  "5710" -> "5709" 
+  "5724" -> "5731" 
+  "5724" -> "5793" 
+  "5727" -> "5724" 
+  "5711" -> "5710" 
+  "5711" -> "5715" 
+  "5715" -> "5710" 
+  "5721" -> "5724" 
+  "5734" -> "5742" 
+  "5734" -> "5727" 
+  "5737" -> "5734" 
+  "5731" -> "5734" 
+  "5748" -> "5761" 
+  "5757" -> "5768" 
+  "5766" -> "5774" 
+  "5789" -> "5737" 
+  "5741" -> "5737" 
+  "5741" -> "5752" 
+  "5750" -> "5748" 
+  "5759" -> "5757" 
+  "5767" -> "5766" 
+  "5774" -> "5737" 
+  "5774" -> "5780" 
+  "5780" -> "5783" 
+  "5780" -> "5789" 
+  "5742" -> "5741" 
+  "5751" -> "5750" 
+  "5760" -> "5759" 
+  "5768" -> "5767" 
+  "5783" -> "5786" 
+  "5786" -> "5789" 
+  "5752" -> "5751" 
+  "5761" -> "5763" 
+  "5763" -> "5760" 
+  "5688" -> "5699" 
+}

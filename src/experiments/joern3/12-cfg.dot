@@ -1,0 +1,45 @@
+digraph "insert" {  
+"420" [label = <(RETURN,return root;,return root;)<SUB>54</SUB>> ]
+"384" [label = <(&lt;operator&gt;.equals,root == NULL)<SUB>48</SUB>> ]
+"388" [label = <(RETURN,return new_node(x);,return new_node(x);)<SUB>49</SUB>> ]
+"389" [label = <(new_node,new_node(x))<SUB>49</SUB>> ]
+"394" [label = <(&lt;operator&gt;.greaterThan,x &gt; root-&gt;data)<SUB>50</SUB>> ]
+"396" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;data)<SUB>50</SUB>> ]
+"400" [label = <(&lt;operator&gt;.assignment,root-&gt;right_child = insert(root-&gt;right_child, x))<SUB>51</SUB>> ]
+"398" [label = <(FIELD_IDENTIFIER,data,data)<SUB>50</SUB>> ]
+"401" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>51</SUB>> ]
+"404" [label = <(insert,insert(root-&gt;right_child, x))<SUB>51</SUB>> ]
+"411" [label = <(&lt;operator&gt;.assignment,root-&gt;left_child = insert(root-&gt;left_child, x))<SUB>53</SUB>> ]
+"403" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>51</SUB>> ]
+"405" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>51</SUB>> ]
+"412" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>53</SUB>> ]
+"415" [label = <(insert,insert(root-&gt;left_child, x))<SUB>53</SUB>> ]
+"407" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>51</SUB>> ]
+"414" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>53</SUB>> ]
+"416" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>53</SUB>> ]
+"418" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>53</SUB>> ]
+"379" [label = <(METHOD,insert)<SUB>45</SUB>> ]
+"422" [label = <(METHOD_RETURN,struct node)<SUB>45</SUB>> ]
+  "420" -> "422" 
+  "384" -> "389" 
+  "384" -> "398" 
+  "388" -> "422" 
+  "389" -> "388" 
+  "394" -> "403" 
+  "394" -> "414" 
+  "396" -> "394" 
+  "400" -> "420" 
+  "398" -> "396" 
+  "401" -> "407" 
+  "404" -> "400" 
+  "411" -> "420" 
+  "403" -> "401" 
+  "405" -> "404" 
+  "412" -> "418" 
+  "415" -> "411" 
+  "407" -> "405" 
+  "414" -> "412" 
+  "416" -> "415" 
+  "418" -> "416" 
+  "379" -> "384" 
+}

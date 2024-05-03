@@ -1,0 +1,69 @@
+digraph "adjoint" {  
+"2800" [label = <(&lt;operator&gt;.assignment,sign = 1)<SUB>58</SUB>> ]
+"2784" [label = <(&lt;operator&gt;.equals,N == 1)<SUB>52</SUB>> ]
+"2809" [label = <(&lt;operator&gt;.lessThan,i &lt; N)<SUB>60</SUB>> ]
+"2814" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>60</SUB>> ]
+"2785" [label = <(N,N)<SUB>52</SUB>> ]
+"2790" [label = <(&lt;operator&gt;.assignment,adj[0][0] = 1)<SUB>53</SUB>> ]
+"2797" [label = <(RETURN,return;,return;)<SUB>54</SUB>> ]
+"2806" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>60</SUB>> ]
+"2811" [label = <(N,N)<SUB>60</SUB>> ]
+"2791" [label = <(&lt;operator&gt;.indirectIndexAccess,adj[0][0])<SUB>53</SUB>> ]
+"2823" [label = <(&lt;operator&gt;.lessThan,j &lt; N)<SUB>61</SUB>> ]
+"2828" [label = <(&lt;operator&gt;.postIncrement,j++)<SUB>61</SUB>> ]
+"2792" [label = <(&lt;operator&gt;.indirectIndexAccess,adj[0])<SUB>53</SUB>> ]
+"2820" [label = <(&lt;operator&gt;.assignment,j = 0)<SUB>61</SUB>> ]
+"2825" [label = <(N,N)<SUB>61</SUB>> ]
+"2831" [label = <(getCofactor,getCofactor(matrix, temp, i, j, N))<SUB>62</SUB>> ]
+"2839" [label = <(&lt;operator&gt;.assignment,sign = ((i + j) % 2 == 0) ? 1 : -1)<SUB>63</SUB>> ]
+"2852" [label = <(&lt;operator&gt;.assignment,adj[j][i] = sign * determinant(temp, N - 1))<SUB>64</SUB>> ]
+"2836" [label = <(N,N)<SUB>62</SUB>> ]
+"2841" [label = <(&lt;operator&gt;.conditional,((i + j) % 2 == 0) ? 1 : -1)<SUB>63</SUB>> ]
+"2853" [label = <(&lt;operator&gt;.indirectIndexAccess,adj[j][i])<SUB>64</SUB>> ]
+"2858" [label = <(&lt;operator&gt;.multiplication,sign * determinant(temp, N - 1))<SUB>64</SUB>> ]
+"2842" [label = <(&lt;operator&gt;.equals,(i + j) % 2 == 0)<SUB>63</SUB>> ]
+"2850" [label = <(&lt;operator&gt;.minus,-1)<SUB>63</SUB>> ]
+"2854" [label = <(&lt;operator&gt;.indirectIndexAccess,adj[j])<SUB>64</SUB>> ]
+"2860" [label = <(determinant,determinant(temp, N - 1))<SUB>64</SUB>> ]
+"2843" [label = <(&lt;operator&gt;.modulo,(i + j) % 2)<SUB>63</SUB>> ]
+"2862" [label = <(&lt;operator&gt;.subtraction,N - 1)<SUB>64</SUB>> ]
+"2844" [label = <(&lt;operator&gt;.addition,i + j)<SUB>63</SUB>> ]
+"2863" [label = <(N,N)<SUB>64</SUB>> ]
+"2779" [label = <(METHOD,adjoint)<SUB>51</SUB>> ]
+"2867" [label = <(METHOD_RETURN,void)<SUB>51</SUB>> ]
+  "2800" -> "2806" 
+  "2784" -> "2792" 
+  "2784" -> "2800" 
+  "2809" -> "2867" 
+  "2809" -> "2820" 
+  "2814" -> "2811" 
+  "2785" -> "2784" 
+  "2790" -> "2797" 
+  "2797" -> "2867" 
+  "2806" -> "2811" 
+  "2811" -> "2809" 
+  "2791" -> "2790" 
+  "2823" -> "2836" 
+  "2823" -> "2814" 
+  "2828" -> "2825" 
+  "2792" -> "2791" 
+  "2820" -> "2825" 
+  "2825" -> "2823" 
+  "2831" -> "2844" 
+  "2839" -> "2854" 
+  "2852" -> "2828" 
+  "2836" -> "2831" 
+  "2841" -> "2839" 
+  "2853" -> "2863" 
+  "2858" -> "2852" 
+  "2842" -> "2841" 
+  "2842" -> "2850" 
+  "2850" -> "2841" 
+  "2854" -> "2853" 
+  "2860" -> "2858" 
+  "2843" -> "2842" 
+  "2862" -> "2860" 
+  "2844" -> "2843" 
+  "2863" -> "2862" 
+  "2779" -> "2785" 
+}

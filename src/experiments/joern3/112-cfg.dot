@@ -1,0 +1,25 @@
+digraph "main" {  
+"4865" [label = <(printf,printf(&quot;Enter size of Array : &quot;))<SUB>12</SUB>> ]
+"4867" [label = <(scanf,scanf(&quot;%d&quot;, &amp;n))<SUB>13</SUB>> ]
+"4871" [label = <(accept,accept(list, n))<SUB>14</SUB>> ]
+"4874" [label = <(printf,printf(&quot;\nBefore sorting&quot;))<SUB>15</SUB>> ]
+"4876" [label = <(display,display(list, n))<SUB>16</SUB>> ]
+"4879" [label = <(ssort,ssort(list, n))<SUB>17</SUB>> ]
+"4882" [label = <(printf,printf(&quot;\nAfter sorting&quot;))<SUB>18</SUB>> ]
+"4884" [label = <(display,display(list, n))<SUB>19</SUB>> ]
+"4887" [label = <(RETURN,return 0;,return 0;)<SUB>21</SUB>> ]
+"4869" [label = <(&lt;operator&gt;.addressOf,&amp;n)<SUB>13</SUB>> ]
+"4861" [label = <(METHOD,main)<SUB>9</SUB>> ]
+"4889" [label = <(METHOD_RETURN,int)<SUB>9</SUB>> ]
+  "4865" -> "4869" 
+  "4867" -> "4871" 
+  "4871" -> "4874" 
+  "4874" -> "4876" 
+  "4876" -> "4879" 
+  "4879" -> "4882" 
+  "4882" -> "4884" 
+  "4884" -> "4887" 
+  "4887" -> "4889" 
+  "4869" -> "4867" 
+  "4861" -> "4865" 
+}

@@ -1,0 +1,26 @@
+digraph "inorder" {  
+"562" [label = <(&lt;operator&gt;.notEquals,root != NULL)<SUB>101</SUB>> ]
+"566" [label = <(inorder,inorder(root-&gt;left_child))<SUB>103</SUB>> ]
+"570" [label = <(printf,printf(&quot; %d &quot;, root-&gt;data))<SUB>104</SUB>> ]
+"575" [label = <(inorder,inorder(root-&gt;right_child))<SUB>105</SUB>> ]
+"567" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>103</SUB>> ]
+"572" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;data)<SUB>104</SUB>> ]
+"576" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>105</SUB>> ]
+"569" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>103</SUB>> ]
+"574" [label = <(FIELD_IDENTIFIER,data,data)<SUB>104</SUB>> ]
+"578" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>105</SUB>> ]
+"558" [label = <(METHOD,inorder)<SUB>99</SUB>> ]
+"579" [label = <(METHOD_RETURN,void)<SUB>99</SUB>> ]
+  "562" -> "579" 
+  "562" -> "569" 
+  "566" -> "574" 
+  "570" -> "578" 
+  "575" -> "579" 
+  "567" -> "566" 
+  "572" -> "570" 
+  "576" -> "575" 
+  "569" -> "567" 
+  "574" -> "572" 
+  "578" -> "576" 
+  "558" -> "562" 
+}

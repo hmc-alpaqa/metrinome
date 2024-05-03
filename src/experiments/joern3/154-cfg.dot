@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.sizeOf" {  
+"6268" [label = <(METHOD,&lt;operator&gt;.sizeOf)> ]
+"6271" [label = <(METHOD_RETURN,ANY)> ]
+  "6268" -> "6271" 
+}

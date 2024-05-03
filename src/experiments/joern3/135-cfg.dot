@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.lessThan" {  
+"6176" [label = <(METHOD,&lt;operator&gt;.lessThan)> ]
+"6180" [label = <(METHOD_RETURN,ANY)> ]
+  "6176" -> "6180" 
+}

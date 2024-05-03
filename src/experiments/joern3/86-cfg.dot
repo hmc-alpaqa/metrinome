@@ -1,0 +1,43 @@
+digraph "main" {  
+"3310" [label = <(&lt;operator&gt;.assignment,n = 10)<SUB>53</SUB>> ]
+"3314" [label = <(&lt;operator&gt;.assignment,arr[n] = {5, 9, 1, 0, 2, 5, 11, 67, 4, 3})<SUB>54</SUB>> ]
+"3327" [label = <(printf,printf(&quot;Unsorted list is :\n&quot;))<SUB>56</SUB>> ]
+"3345" [label = <(mergesort,mergesort(arr, n))<SUB>59</SUB>> ]
+"3348" [label = <(printf,printf(&quot;\nSorted list is :\n&quot;))<SUB>61</SUB>> ]
+"3366" [label = <(printf,printf(&quot;\n&quot;))<SUB>63</SUB>> ]
+"3368" [label = <(RETURN,return 0;,return 0;)<SUB>65</SUB>> ]
+"3316" [label = <(&lt;operator&gt;.arrayInitializer,{5, 9, 1, 0, 2, 5, 11, 67, 4, 3})<SUB>54</SUB>> ]
+"3335" [label = <(&lt;operator&gt;.lessThan,i &lt; n)<SUB>57</SUB>> ]
+"3338" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>57</SUB>> ]
+"3340" [label = <(printf,printf(&quot;%d &quot;, arr[i]))<SUB>57</SUB>> ]
+"3356" [label = <(&lt;operator&gt;.lessThan,i &lt; n)<SUB>62</SUB>> ]
+"3359" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>62</SUB>> ]
+"3361" [label = <(printf,printf(&quot;%d &quot;, arr[i]))<SUB>62</SUB>> ]
+"3332" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>57</SUB>> ]
+"3342" [label = <(&lt;operator&gt;.indirectIndexAccess,arr[i])<SUB>57</SUB>> ]
+"3353" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>62</SUB>> ]
+"3363" [label = <(&lt;operator&gt;.indirectIndexAccess,arr[i])<SUB>62</SUB>> ]
+"3307" [label = <(METHOD,main)<SUB>52</SUB>> ]
+"3370" [label = <(METHOD_RETURN,int)<SUB>52</SUB>> ]
+  "3310" -> "3316" 
+  "3314" -> "3327" 
+  "3327" -> "3332" 
+  "3345" -> "3348" 
+  "3348" -> "3353" 
+  "3366" -> "3368" 
+  "3368" -> "3370" 
+  "3316" -> "3314" 
+  "3335" -> "3342" 
+  "3335" -> "3345" 
+  "3338" -> "3335" 
+  "3340" -> "3338" 
+  "3356" -> "3363" 
+  "3356" -> "3366" 
+  "3359" -> "3356" 
+  "3361" -> "3359" 
+  "3332" -> "3335" 
+  "3342" -> "3340" 
+  "3353" -> "3356" 
+  "3363" -> "3361" 
+  "3307" -> "3310" 
+}

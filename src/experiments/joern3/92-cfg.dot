@@ -1,0 +1,31 @@
+digraph "palindrome_r" {  
+"3656" [label = <(RETURN,return palindrome_r(s, b+1, e-1);,return palindrome_r(s, b+1, e-1);)<SUB>9</SUB>> ]
+"3635" [label = <(&lt;operator&gt;.lessEqualsThan,(e - 1) &lt;= b)<SUB>7</SUB>> ]
+"3644" [label = <(&lt;operator&gt;.notEquals,s[b] != s[e-1])<SUB>8</SUB>> ]
+"3657" [label = <(palindrome_r,palindrome_r(s, b+1, e-1))<SUB>9</SUB>> ]
+"3636" [label = <(&lt;operator&gt;.subtraction,e - 1)<SUB>7</SUB>> ]
+"3641" [label = <(RETURN,return 1;,return 1;)<SUB>7</SUB>> ]
+"3645" [label = <(&lt;operator&gt;.indirectIndexAccess,s[b])<SUB>8</SUB>> ]
+"3648" [label = <(&lt;operator&gt;.indirectIndexAccess,s[e-1])<SUB>8</SUB>> ]
+"3654" [label = <(RETURN,return 0;,return 0;)<SUB>8</SUB>> ]
+"3659" [label = <(&lt;operator&gt;.addition,b+1)<SUB>9</SUB>> ]
+"3662" [label = <(&lt;operator&gt;.subtraction,e-1)<SUB>9</SUB>> ]
+"3650" [label = <(&lt;operator&gt;.subtraction,e-1)<SUB>8</SUB>> ]
+"3629" [label = <(METHOD,palindrome_r)<SUB>5</SUB>> ]
+"3665" [label = <(METHOD_RETURN,int)<SUB>5</SUB>> ]
+  "3656" -> "3665" 
+  "3635" -> "3641" 
+  "3635" -> "3645" 
+  "3644" -> "3654" 
+  "3644" -> "3659" 
+  "3657" -> "3656" 
+  "3636" -> "3635" 
+  "3641" -> "3665" 
+  "3645" -> "3650" 
+  "3648" -> "3644" 
+  "3654" -> "3665" 
+  "3659" -> "3662" 
+  "3662" -> "3657" 
+  "3650" -> "3648" 
+  "3629" -> "3636" 
+}

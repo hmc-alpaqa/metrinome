@@ -1,0 +1,5 @@
+digraph "&lt;operator&gt;.arithmeticShiftRight" {  
+"6341" [label = <(METHOD,&lt;operator&gt;.arithmeticShiftRight)> ]
+"6345" [label = <(METHOD_RETURN,ANY)> ]
+  "6341" -> "6345" 
+}

@@ -1,0 +1,19 @@
+digraph "swap" {  
+"4532" [label = <(&lt;operator&gt;.assignment,c = *a)<SUB>9</SUB>> ]
+"4536" [label = <(&lt;operator&gt;.assignment,*a = *b)<SUB>10</SUB>> ]
+"4541" [label = <(&lt;operator&gt;.assignment,*b = c)<SUB>11</SUB>> ]
+"4534" [label = <(&lt;operator&gt;.indirection,*a)<SUB>9</SUB>> ]
+"4537" [label = <(&lt;operator&gt;.indirection,*a)<SUB>10</SUB>> ]
+"4539" [label = <(&lt;operator&gt;.indirection,*b)<SUB>10</SUB>> ]
+"4542" [label = <(&lt;operator&gt;.indirection,*b)<SUB>11</SUB>> ]
+"4527" [label = <(METHOD,swap)<SUB>8</SUB>> ]
+"4545" [label = <(METHOD_RETURN,void)<SUB>8</SUB>> ]
+  "4532" -> "4537" 
+  "4536" -> "4542" 
+  "4541" -> "4545" 
+  "4534" -> "4532" 
+  "4537" -> "4539" 
+  "4539" -> "4536" 
+  "4542" -> "4541" 
+  "4527" -> "4534" 
+}

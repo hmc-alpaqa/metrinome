@@ -1,0 +1,26 @@
+digraph "fib_rec" {  
+"1516" [label = <(&lt;operator&gt;.lessEqualsThan,n &lt;= 1)<SUB>6</SUB>> ]
+"1520" [label = <(RETURN,return n;,return n;)<SUB>7</SUB>> ]
+"1525" [label = <(&lt;operator&gt;.assignment,a = fib_rec(n - 1))<SUB>9</SUB>> ]
+"1532" [label = <(&lt;operator&gt;.assignment,b = fib_rec(n - 2))<SUB>10</SUB>> ]
+"1538" [label = <(RETURN,return a + b;,return a + b;)<SUB>11</SUB>> ]
+"1527" [label = <(fib_rec,fib_rec(n - 1))<SUB>9</SUB>> ]
+"1534" [label = <(fib_rec,fib_rec(n - 2))<SUB>10</SUB>> ]
+"1539" [label = <(&lt;operator&gt;.addition,a + b)<SUB>11</SUB>> ]
+"1528" [label = <(&lt;operator&gt;.subtraction,n - 1)<SUB>9</SUB>> ]
+"1535" [label = <(&lt;operator&gt;.subtraction,n - 2)<SUB>10</SUB>> ]
+"1512" [label = <(METHOD,fib_rec)<SUB>4</SUB>> ]
+"1542" [label = <(METHOD_RETURN,int)<SUB>4</SUB>> ]
+  "1516" -> "1520" 
+  "1516" -> "1528" 
+  "1520" -> "1542" 
+  "1525" -> "1535" 
+  "1532" -> "1539" 
+  "1538" -> "1542" 
+  "1527" -> "1525" 
+  "1534" -> "1532" 
+  "1539" -> "1538" 
+  "1528" -> "1527" 
+  "1535" -> "1534" 
+  "1512" -> "1516" 
+}

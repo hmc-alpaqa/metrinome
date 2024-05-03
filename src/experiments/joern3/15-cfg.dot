@@ -1,0 +1,49 @@
+digraph "main" {  
+"584" [label = <(&lt;operator&gt;.assignment,root = new_node(20))<SUB>127</SUB>> ]
+"588" [label = <(insert,insert(root, 5))<SUB>128</SUB>> ]
+"591" [label = <(insert,insert(root, 1))<SUB>129</SUB>> ]
+"594" [label = <(insert,insert(root, 15))<SUB>130</SUB>> ]
+"597" [label = <(insert,insert(root, 9))<SUB>131</SUB>> ]
+"600" [label = <(insert,insert(root, 7))<SUB>132</SUB>> ]
+"603" [label = <(insert,insert(root, 12))<SUB>133</SUB>> ]
+"606" [label = <(insert,insert(root, 30))<SUB>134</SUB>> ]
+"609" [label = <(insert,insert(root, 25))<SUB>135</SUB>> ]
+"612" [label = <(insert,insert(root, 40))<SUB>136</SUB>> ]
+"615" [label = <(insert,insert(root, 45))<SUB>137</SUB>> ]
+"618" [label = <(insert,insert(root, 42))<SUB>138</SUB>> ]
+"621" [label = <(&lt;operator&gt;.assignment,root = delete_(root, 1))<SUB>143</SUB>> ]
+"626" [label = <(&lt;operator&gt;.assignment,root = delete_(root, 40))<SUB>160</SUB>> ]
+"631" [label = <(&lt;operator&gt;.assignment,root = delete_(root, 45))<SUB>177</SUB>> ]
+"636" [label = <(&lt;operator&gt;.assignment,root = delete_(root, 9))<SUB>193</SUB>> ]
+"641" [label = <(RETURN,return 0;,return 0;)<SUB>212</SUB>> ]
+"586" [label = <(new_node,new_node(20))<SUB>127</SUB>> ]
+"623" [label = <(delete_,delete_(root, 1))<SUB>143</SUB>> ]
+"628" [label = <(delete_,delete_(root, 40))<SUB>160</SUB>> ]
+"633" [label = <(delete_,delete_(root, 45))<SUB>177</SUB>> ]
+"638" [label = <(delete_,delete_(root, 9))<SUB>193</SUB>> ]
+"581" [label = <(METHOD,main)<SUB>109</SUB>> ]
+"643" [label = <(METHOD_RETURN,int)<SUB>109</SUB>> ]
+  "584" -> "588" 
+  "588" -> "591" 
+  "591" -> "594" 
+  "594" -> "597" 
+  "597" -> "600" 
+  "600" -> "603" 
+  "603" -> "606" 
+  "606" -> "609" 
+  "609" -> "612" 
+  "612" -> "615" 
+  "615" -> "618" 
+  "618" -> "623" 
+  "621" -> "628" 
+  "626" -> "633" 
+  "631" -> "638" 
+  "636" -> "641" 
+  "641" -> "643" 
+  "586" -> "584" 
+  "623" -> "621" 
+  "628" -> "626" 
+  "633" -> "631" 
+  "638" -> "636" 
+  "581" -> "586" 
+}

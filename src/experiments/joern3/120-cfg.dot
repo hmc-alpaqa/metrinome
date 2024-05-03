@@ -1,0 +1,146 @@
+digraph "trycell" {  
+"5237" [label = <(&lt;operator&gt;.assignment,row = pos / 9)<SUB>16</SUB>> ]
+"5243" [label = <(&lt;operator&gt;.assignment,col = pos % 9)<SUB>17</SUB>> ]
+"5251" [label = <(&lt;operator&gt;.assignment,used = 0)<SUB>18</SUB>> ]
+"5318" [label = <(&lt;operator&gt;.assignment,row = row / 3 * 3)<SUB>29</SUB>> ]
+"5325" [label = <(&lt;operator&gt;.assignment,col = col / 3 * 3)<SUB>30</SUB>> ]
+"5403" [label = <(&lt;operator&gt;.assignment,x[pos] = 0)<SUB>38</SUB>> ]
+"5408" [label = <(RETURN,return 0;,return 0;)<SUB>39</SUB>> ]
+"5239" [label = <(&lt;operator&gt;.division,pos / 9)<SUB>16</SUB>> ]
+"5245" [label = <(&lt;operator&gt;.modulo,pos % 9)<SUB>17</SUB>> ]
+"5255" [label = <(&lt;operator&gt;.equals,pos == 81)<SUB>20</SUB>> ]
+"5262" [label = <(&lt;operator&gt;.indirectIndexAccess,x[pos])<SUB>21</SUB>> ]
+"5277" [label = <(&lt;operator&gt;.lessThan,i &lt; 9)<SUB>23</SUB>> ]
+"5280" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>23</SUB>> ]
+"5282" [label = <(&lt;operators&gt;.assignmentOr,used |= 1 &lt;&lt; (x[i * 9 + col] - 1))<SUB>24</SUB>> ]
+"5300" [label = <(&lt;operator&gt;.lessThan,j &lt; 9)<SUB>26</SUB>> ]
+"5303" [label = <(&lt;operator&gt;.postIncrement,j++)<SUB>26</SUB>> ]
+"5305" [label = <(&lt;operators&gt;.assignmentOr,used |= 1 &lt;&lt; (x[row * 9 + j] - 1))<SUB>27</SUB>> ]
+"5320" [label = <(&lt;operator&gt;.multiplication,row / 3 * 3)<SUB>29</SUB>> ]
+"5327" [label = <(&lt;operator&gt;.multiplication,col / 3 * 3)<SUB>30</SUB>> ]
+"5337" [label = <(&lt;operator&gt;.lessThan,i &lt; row + 3)<SUB>31</SUB>> ]
+"5342" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>31</SUB>> ]
+"5376" [label = <(&lt;operator&gt;.lessEqualsThan,x[pos] &lt;= 9)<SUB>35</SUB>> ]
+"5381" [label = <(&lt;operator&gt;.expressionList,x[pos]++, used &gt;&gt;= 1)<SUB>35</SUB>> ]
+"5404" [label = <(&lt;operator&gt;.indirectIndexAccess,x[pos])<SUB>38</SUB>> ]
+"5259" [label = <(RETURN,return 1;,return 1;)<SUB>20</SUB>> ]
+"5266" [label = <(RETURN,return trycell(x, pos + 1);,return trycell(x, pos + 1);)<SUB>21</SUB>> ]
+"5274" [label = <(&lt;operator&gt;.assignment,i = 0)<SUB>23</SUB>> ]
+"5284" [label = <(&lt;operator&gt;.shiftLeft,1 &lt;&lt; (x[i * 9 + col] - 1))<SUB>24</SUB>> ]
+"5297" [label = <(&lt;operator&gt;.assignment,j = 0)<SUB>26</SUB>> ]
+"5307" [label = <(&lt;operator&gt;.shiftLeft,1 &lt;&lt; (x[row * 9 + j] - 1))<SUB>27</SUB>> ]
+"5321" [label = <(&lt;operator&gt;.division,row / 3)<SUB>29</SUB>> ]
+"5328" [label = <(&lt;operator&gt;.division,col / 3)<SUB>30</SUB>> ]
+"5334" [label = <(&lt;operator&gt;.assignment,i = row)<SUB>31</SUB>> ]
+"5339" [label = <(&lt;operator&gt;.addition,row + 3)<SUB>31</SUB>> ]
+"5349" [label = <(&lt;operator&gt;.lessThan,j &lt; col + 3)<SUB>32</SUB>> ]
+"5354" [label = <(&lt;operator&gt;.postIncrement,j++)<SUB>32</SUB>> ]
+"5356" [label = <(&lt;operators&gt;.assignmentOr,used |= 1 &lt;&lt; (x[i * 9 + j] - 1))<SUB>33</SUB>> ]
+"5371" [label = <(&lt;operator&gt;.assignment,x[pos] = 1)<SUB>35</SUB>> ]
+"5377" [label = <(&lt;operator&gt;.indirectIndexAccess,x[pos])<SUB>35</SUB>> ]
+"5382" [label = <(&lt;operator&gt;.postIncrement,x[pos]++)<SUB>35</SUB>> ]
+"5386" [label = <(&lt;operators&gt;.assignmentArithmeticShiftRight,used &gt;&gt;= 1)<SUB>35</SUB>> ]
+"5390" [label = <(&lt;operator&gt;.logicalAnd,!(used &amp; 1) &amp;&amp; trycell(x, pos + 1))<SUB>36</SUB>> ]
+"5267" [label = <(trycell,trycell(x, pos + 1))<SUB>21</SUB>> ]
+"5286" [label = <(&lt;operator&gt;.subtraction,x[i * 9 + col] - 1)<SUB>24</SUB>> ]
+"5309" [label = <(&lt;operator&gt;.subtraction,x[row * 9 + j] - 1)<SUB>27</SUB>> ]
+"5346" [label = <(&lt;operator&gt;.assignment,j = col)<SUB>32</SUB>> ]
+"5351" [label = <(&lt;operator&gt;.addition,col + 3)<SUB>32</SUB>> ]
+"5358" [label = <(&lt;operator&gt;.shiftLeft,1 &lt;&lt; (x[i * 9 + j] - 1))<SUB>33</SUB>> ]
+"5372" [label = <(&lt;operator&gt;.indirectIndexAccess,x[pos])<SUB>35</SUB>> ]
+"5383" [label = <(&lt;operator&gt;.indirectIndexAccess,x[pos])<SUB>35</SUB>> ]
+"5391" [label = <(&lt;operator&gt;.logicalNot,!(used &amp; 1))<SUB>36</SUB>> ]
+"5395" [label = <(trycell,trycell(x, pos + 1))<SUB>36</SUB>> ]
+"5401" [label = <(RETURN,return 1;,return 1;)<SUB>36</SUB>> ]
+"5269" [label = <(&lt;operator&gt;.addition,pos + 1)<SUB>21</SUB>> ]
+"5287" [label = <(&lt;operator&gt;.indirectIndexAccess,x[i * 9 + col])<SUB>24</SUB>> ]
+"5310" [label = <(&lt;operator&gt;.indirectIndexAccess,x[row * 9 + j])<SUB>27</SUB>> ]
+"5360" [label = <(&lt;operator&gt;.subtraction,x[i * 9 + j] - 1)<SUB>33</SUB>> ]
+"5392" [label = <(&lt;operator&gt;.and,used &amp; 1)<SUB>36</SUB>> ]
+"5397" [label = <(&lt;operator&gt;.addition,pos + 1)<SUB>36</SUB>> ]
+"5289" [label = <(&lt;operator&gt;.addition,i * 9 + col)<SUB>24</SUB>> ]
+"5312" [label = <(&lt;operator&gt;.addition,row * 9 + j)<SUB>27</SUB>> ]
+"5361" [label = <(&lt;operator&gt;.indirectIndexAccess,x[i * 9 + j])<SUB>33</SUB>> ]
+"5290" [label = <(&lt;operator&gt;.multiplication,i * 9)<SUB>24</SUB>> ]
+"5313" [label = <(&lt;operator&gt;.multiplication,row * 9)<SUB>27</SUB>> ]
+"5363" [label = <(&lt;operator&gt;.addition,i * 9 + j)<SUB>33</SUB>> ]
+"5364" [label = <(&lt;operator&gt;.multiplication,i * 9)<SUB>33</SUB>> ]
+"5232" [label = <(METHOD,trycell)<SUB>14</SUB>> ]
+"5410" [label = <(METHOD_RETURN,int)<SUB>14</SUB>> ]
+  "5237" -> "5245" 
+  "5243" -> "5251" 
+  "5251" -> "5255" 
+  "5318" -> "5328" 
+  "5325" -> "5334" 
+  "5403" -> "5408" 
+  "5408" -> "5410" 
+  "5239" -> "5237" 
+  "5245" -> "5243" 
+  "5255" -> "5259" 
+  "5255" -> "5262" 
+  "5262" -> "5269" 
+  "5262" -> "5274" 
+  "5277" -> "5290" 
+  "5277" -> "5297" 
+  "5280" -> "5277" 
+  "5282" -> "5280" 
+  "5300" -> "5313" 
+  "5300" -> "5321" 
+  "5303" -> "5300" 
+  "5305" -> "5303" 
+  "5320" -> "5318" 
+  "5327" -> "5325" 
+  "5337" -> "5346" 
+  "5337" -> "5372" 
+  "5342" -> "5339" 
+  "5376" -> "5392" 
+  "5376" -> "5404" 
+  "5381" -> "5377" 
+  "5404" -> "5403" 
+  "5259" -> "5410" 
+  "5266" -> "5410" 
+  "5274" -> "5277" 
+  "5284" -> "5282" 
+  "5297" -> "5300" 
+  "5307" -> "5305" 
+  "5321" -> "5320" 
+  "5328" -> "5327" 
+  "5334" -> "5339" 
+  "5339" -> "5337" 
+  "5349" -> "5364" 
+  "5349" -> "5342" 
+  "5354" -> "5351" 
+  "5356" -> "5354" 
+  "5371" -> "5377" 
+  "5377" -> "5376" 
+  "5382" -> "5386" 
+  "5386" -> "5381" 
+  "5390" -> "5401" 
+  "5390" -> "5383" 
+  "5267" -> "5266" 
+  "5286" -> "5284" 
+  "5309" -> "5307" 
+  "5346" -> "5351" 
+  "5351" -> "5349" 
+  "5358" -> "5356" 
+  "5372" -> "5371" 
+  "5383" -> "5382" 
+  "5391" -> "5390" 
+  "5391" -> "5397" 
+  "5395" -> "5390" 
+  "5401" -> "5410" 
+  "5269" -> "5267" 
+  "5287" -> "5286" 
+  "5310" -> "5309" 
+  "5360" -> "5358" 
+  "5392" -> "5391" 
+  "5397" -> "5395" 
+  "5289" -> "5287" 
+  "5312" -> "5310" 
+  "5361" -> "5360" 
+  "5290" -> "5289" 
+  "5313" -> "5312" 
+  "5363" -> "5361" 
+  "5364" -> "5363" 
+  "5232" -> "5239" 
+}

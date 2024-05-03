@@ -1,0 +1,44 @@
+digraph "bsearch_r" {  
+"169" [label = <(&lt;operator&gt;.assignment,k = i + ((j - i) / 2))<SUB>8</SUB>> ]
+"161" [label = <(&lt;operator&gt;.lessThan,j &lt; i)<SUB>5</SUB>> ]
+"171" [label = <(&lt;operator&gt;.addition,i + ((j - i) / 2))<SUB>8</SUB>> ]
+"179" [label = <(&lt;operator&gt;.equals,a[k] == x)<SUB>9</SUB>> ]
+"165" [label = <(RETURN,return -1;,return -1;)<SUB>6</SUB>> ]
+"173" [label = <(&lt;operator&gt;.division,(j - i) / 2)<SUB>8</SUB>> ]
+"180" [label = <(&lt;operator&gt;.indirectIndexAccess,a[k])<SUB>9</SUB>> ]
+"185" [label = <(RETURN,return k;,return k;)<SUB>10</SUB>> ]
+"166" [label = <(&lt;operator&gt;.minus,-1)<SUB>6</SUB>> ]
+"174" [label = <(&lt;operator&gt;.subtraction,j - i)<SUB>8</SUB>> ]
+"190" [label = <(&lt;operator&gt;.lessThan,a[k] &lt; x)<SUB>12</SUB>> ]
+"191" [label = <(&lt;operator&gt;.indirectIndexAccess,a[k])<SUB>12</SUB>> ]
+"196" [label = <(RETURN,return bsearch_r(a, x, k + 1, j);,return bsearch_r(a, x, k + 1, j);)<SUB>13</SUB>> ]
+"197" [label = <(bsearch_r,bsearch_r(a, x, k + 1, j))<SUB>13</SUB>> ]
+"206" [label = <(RETURN,return bsearch_r(a, x, i, k - 1);,return bsearch_r(a, x, i, k - 1);)<SUB>16</SUB>> ]
+"200" [label = <(&lt;operator&gt;.addition,k + 1)<SUB>13</SUB>> ]
+"207" [label = <(bsearch_r,bsearch_r(a, x, i, k - 1))<SUB>16</SUB>> ]
+"211" [label = <(&lt;operator&gt;.subtraction,k - 1)<SUB>16</SUB>> ]
+"154" [label = <(METHOD,bsearch_r)<SUB>4</SUB>> ]
+"214" [label = <(METHOD_RETURN,int)<SUB>4</SUB>> ]
+  "169" -> "180" 
+  "161" -> "166" 
+  "161" -> "174" 
+  "171" -> "169" 
+  "179" -> "185" 
+  "179" -> "191" 
+  "165" -> "214" 
+  "173" -> "171" 
+  "180" -> "179" 
+  "185" -> "214" 
+  "166" -> "165" 
+  "174" -> "173" 
+  "190" -> "200" 
+  "190" -> "211" 
+  "191" -> "190" 
+  "196" -> "214" 
+  "197" -> "196" 
+  "206" -> "214" 
+  "200" -> "197" 
+  "207" -> "206" 
+  "211" -> "207" 
+  "154" -> "161" 
+}

@@ -1,0 +1,60 @@
+digraph "_parseHex" {  
+"3719" [label = <(&lt;operator&gt;.assignment,nVal = 0)<SUB>24</SUB>> ]
+"3777" [label = <(RETURN,return nVal;,return nVal;)<SUB>40</SUB>> ]
+"3725" [label = <(&lt;operator&gt;.assignment,chNow = **pchCursor &amp; 0x5f)<SUB>26</SUB>> ]
+"3732" [label = <(&lt;operator&gt;.logicalOr,(chNow &gt;= ('0'&amp;0x5f) &amp;&amp; chNow &lt;= ('9'&amp;0x5f)) ||...)<SUB>27</SUB>> ]
+"3753" [label = <(&lt;operator&gt;.assignmentMinus,chNow -= 0x10)<SUB>32</SUB>> ]
+"3756" [label = <(&lt;operator&gt;.assignment,nybbleValue = ( chNow &gt; 9 ? chNow - (0x31-0x0a)...)<SUB>33</SUB>> ]
+"3768" [label = <(&lt;operators&gt;.assignmentShiftLeft,nVal &lt;&lt;= 4)<SUB>35</SUB>> ]
+"3771" [label = <(&lt;operator&gt;.assignmentPlus,nVal += nybbleValue)<SUB>36</SUB>> ]
+"3774" [label = <(&lt;operator&gt;.preIncrement,++*pchCursor)<SUB>38</SUB>> ]
+"3727" [label = <(&lt;operator&gt;.and,**pchCursor &amp; 0x5f)<SUB>26</SUB>> ]
+"3733" [label = <(&lt;operator&gt;.logicalAnd,chNow &gt;= ('0'&amp;0x5f) &amp;&amp; chNow &lt;= ('9'&amp;0x5f))<SUB>27</SUB>> ]
+"3744" [label = <(&lt;operator&gt;.logicalAnd,chNow &gt;= 'A' &amp;&amp; chNow &lt;= 'F')<SUB>28</SUB>> ]
+"3758" [label = <(&lt;operator&gt;.conditional,chNow &gt; 9 ? chNow - (0x31-0x0a) : chNow)<SUB>33</SUB>> ]
+"3775" [label = <(&lt;operator&gt;.indirection,*pchCursor)<SUB>38</SUB>> ]
+"3728" [label = <(&lt;operator&gt;.indirection,**pchCursor)<SUB>26</SUB>> ]
+"3734" [label = <(&lt;operator&gt;.greaterEqualsThan,chNow &gt;= ('0'&amp;0x5f))<SUB>27</SUB>> ]
+"3739" [label = <(&lt;operator&gt;.lessEqualsThan,chNow &lt;= ('9'&amp;0x5f))<SUB>27</SUB>> ]
+"3745" [label = <(&lt;operator&gt;.greaterEqualsThan,chNow &gt;= 'A')<SUB>28</SUB>> ]
+"3748" [label = <(&lt;operator&gt;.lessEqualsThan,chNow &lt;= 'F')<SUB>28</SUB>> ]
+"3759" [label = <(&lt;operator&gt;.greaterThan,chNow &gt; 9)<SUB>33</SUB>> ]
+"3762" [label = <(&lt;operator&gt;.subtraction,chNow - (0x31-0x0a))<SUB>33</SUB>> ]
+"3729" [label = <(&lt;operator&gt;.indirection,*pchCursor)<SUB>26</SUB>> ]
+"3736" [label = <(&lt;operator&gt;.and,'0'&amp;0x5f)<SUB>27</SUB>> ]
+"3741" [label = <(&lt;operator&gt;.and,'9'&amp;0x5f)<SUB>27</SUB>> ]
+"3764" [label = <(&lt;operator&gt;.subtraction,0x31-0x0a)<SUB>33</SUB>> ]
+"3715" [label = <(METHOD,_parseHex)<SUB>22</SUB>> ]
+"3779" [label = <(METHOD_RETURN,unsigned int)<SUB>22</SUB>> ]
+  "3719" -> "3729" 
+  "3777" -> "3779" 
+  "3725" -> "3736" 
+  "3732" -> "3753" 
+  "3732" -> "3777" 
+  "3753" -> "3759" 
+  "3756" -> "3768" 
+  "3768" -> "3771" 
+  "3771" -> "3775" 
+  "3774" -> "3729" 
+  "3727" -> "3725" 
+  "3733" -> "3732" 
+  "3733" -> "3745" 
+  "3744" -> "3732" 
+  "3758" -> "3756" 
+  "3775" -> "3774" 
+  "3728" -> "3727" 
+  "3734" -> "3733" 
+  "3734" -> "3741" 
+  "3739" -> "3733" 
+  "3745" -> "3744" 
+  "3745" -> "3748" 
+  "3748" -> "3744" 
+  "3759" -> "3764" 
+  "3759" -> "3758" 
+  "3762" -> "3758" 
+  "3729" -> "3728" 
+  "3736" -> "3734" 
+  "3741" -> "3739" 
+  "3764" -> "3762" 
+  "3715" -> "3719" 
+}

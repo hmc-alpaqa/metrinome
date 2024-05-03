@@ -1,0 +1,5 @@
+digraph "bSearchAsc" {  
+"10" [label = <(METHOD,bSearchAsc)<SUB>6</SUB>> ]
+"15" [label = <(METHOD_RETURN,int)<SUB>6</SUB>> ]
+  "10" -> "15" 
+}

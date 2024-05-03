@@ -1,0 +1,5 @@
+digraph "rand" {  
+"6368" [label = <(METHOD,rand)> ]
+"6370" [label = <(METHOD_RETURN,ANY)> ]
+  "6368" -> "6370" 
+}

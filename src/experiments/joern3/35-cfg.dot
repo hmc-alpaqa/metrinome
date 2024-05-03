@@ -1,0 +1,5 @@
+digraph "is_even" {  
+"1328" [label = <(METHOD,is_even)<SUB>4</SUB>> ]
+"1331" [label = <(METHOD_RETURN,int)<SUB>4</SUB>> ]
+  "1328" -> "1331" 
+}

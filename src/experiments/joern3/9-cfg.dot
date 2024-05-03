@@ -1,0 +1,42 @@
+digraph "search" {  
+"284" [label = <(&lt;operator&gt;.logicalOr,root == NULL || root-&gt;data == x)<SUB>15</SUB>> ]
+"285" [label = <(&lt;operator&gt;.equals,root == NULL)<SUB>15</SUB>> ]
+"288" [label = <(&lt;operator&gt;.equals,root-&gt;data == x)<SUB>15</SUB>> ]
+"294" [label = <(RETURN,return root;,return root;)<SUB>16</SUB>> ]
+"289" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;data)<SUB>15</SUB>> ]
+"291" [label = <(FIELD_IDENTIFIER,data,data)<SUB>15</SUB>> ]
+"299" [label = <(&lt;operator&gt;.greaterThan,x &gt; root-&gt;data)<SUB>17</SUB>> ]
+"301" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;data)<SUB>17</SUB>> ]
+"305" [label = <(RETURN,return search(root-&gt;right_child, x);,return search(root-&gt;right_child, x);)<SUB>18</SUB>> ]
+"303" [label = <(FIELD_IDENTIFIER,data,data)<SUB>17</SUB>> ]
+"306" [label = <(search,search(root-&gt;right_child, x))<SUB>18</SUB>> ]
+"313" [label = <(RETURN,return search(root-&gt;left_child, x);,return search(root-&gt;left_child, x);)<SUB>20</SUB>> ]
+"307" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;right_child)<SUB>18</SUB>> ]
+"314" [label = <(search,search(root-&gt;left_child, x))<SUB>20</SUB>> ]
+"309" [label = <(FIELD_IDENTIFIER,right_child,right_child)<SUB>18</SUB>> ]
+"315" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>20</SUB>> ]
+"317" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>20</SUB>> ]
+"279" [label = <(METHOD,search)<SUB>13</SUB>> ]
+"319" [label = <(METHOD_RETURN,struct node)<SUB>13</SUB>> ]
+  "284" -> "294" 
+  "284" -> "303" 
+  "285" -> "284" 
+  "285" -> "291" 
+  "288" -> "284" 
+  "294" -> "319" 
+  "289" -> "288" 
+  "291" -> "289" 
+  "299" -> "309" 
+  "299" -> "317" 
+  "301" -> "299" 
+  "305" -> "319" 
+  "303" -> "301" 
+  "306" -> "305" 
+  "313" -> "319" 
+  "307" -> "306" 
+  "314" -> "313" 
+  "309" -> "307" 
+  "315" -> "314" 
+  "317" -> "315" 
+  "279" -> "285" 
+}

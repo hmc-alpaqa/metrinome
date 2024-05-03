@@ -1,0 +1,5 @@
+digraph "is_odd" {  
+"1333" [label = <(METHOD,is_odd)<SUB>5</SUB>> ]
+"1336" [label = <(METHOD_RETURN,int)<SUB>5</SUB>> ]
+  "1333" -> "1336" 
+}

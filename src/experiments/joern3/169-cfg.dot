@@ -1,0 +1,5 @@
+digraph "strchr" {  
+"6336" [label = <(METHOD,strchr)> ]
+"6340" [label = <(METHOD_RETURN,ANY)> ]
+  "6336" -> "6340" 
+}

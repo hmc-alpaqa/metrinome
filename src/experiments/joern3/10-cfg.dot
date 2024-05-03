@@ -1,0 +1,27 @@
+digraph "find_minimum" {  
+"345" [label = <(RETURN,return root;,return root;)<SUB>30</SUB>> ]
+"325" [label = <(&lt;operator&gt;.equals,root == NULL)<SUB>26</SUB>> ]
+"329" [label = <(RETURN,return NULL;,return NULL;)<SUB>27</SUB>> ]
+"334" [label = <(&lt;operator&gt;.notEquals,root-&gt;left_child != NULL)<SUB>28</SUB>> ]
+"335" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>28</SUB>> ]
+"340" [label = <(RETURN,return find_minimum(root-&gt;left_child);,return find_minimum(root-&gt;left_child);)<SUB>29</SUB>> ]
+"337" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>28</SUB>> ]
+"341" [label = <(find_minimum,find_minimum(root-&gt;left_child))<SUB>29</SUB>> ]
+"342" [label = <(&lt;operator&gt;.indirectFieldAccess,root-&gt;left_child)<SUB>29</SUB>> ]
+"344" [label = <(FIELD_IDENTIFIER,left_child,left_child)<SUB>29</SUB>> ]
+"321" [label = <(METHOD,find_minimum)<SUB>24</SUB>> ]
+"347" [label = <(METHOD_RETURN,struct node)<SUB>24</SUB>> ]
+  "345" -> "347" 
+  "325" -> "329" 
+  "325" -> "337" 
+  "329" -> "347" 
+  "334" -> "344" 
+  "334" -> "345" 
+  "335" -> "334" 
+  "340" -> "347" 
+  "337" -> "335" 
+  "341" -> "340" 
+  "342" -> "341" 
+  "344" -> "342" 
+  "321" -> "325" 
+}
