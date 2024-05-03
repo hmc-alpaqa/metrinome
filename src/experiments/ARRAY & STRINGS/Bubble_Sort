@@ -1,0 +1,28 @@
+package Algorithms.Sorting;
+public class Bubble_Sort {
+    public static void main (String[] args){
+
+        int[] a = {-1, -10, 0, 25, 90};
+        int n = a.length;
+        boolean swapped;
+
+        for(int i=0; i<n-1; i++){
+            swapped = false;
+            for(int j=i; j<n-1-i; j++){
+                if(a[j] > a[j+1]){
+                    int temp = a[j];
+                    a[j] = a[j+1];
+                    a[j+1] = temp;
+                    swapped = true;
+                }
+            }
+
+            if(swapped == false) break;
+
+        }
+
+        for(int e : a){
+            System.out.print(e + " ");
+        }
+    }
+}

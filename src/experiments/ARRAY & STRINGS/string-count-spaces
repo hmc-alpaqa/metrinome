@@ -1,0 +1,18 @@
+//Problem Statement: Output the amount of spaces in a given string.
+
+class Main {
+  public static void main(String[] args) {
+    // Initializing variables
+    String s = "this is my string";
+    int n = 0;
+    // for each loop that will loop through each character in a string
+    for(char c : s.toCharArray()) {
+      if(c == ' '){
+        // increment integer n by 1 for each space found
+        n+=1;
+      }
+    }
+    // output the number of spaces
+    System.out.println(n);
+  }
+}

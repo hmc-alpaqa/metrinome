@@ -1,0 +1,29 @@
+#This program rotates elements of array list from right to left by p movements.
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Array_Rotation {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        int[] a = {1, 2, 3, 4, 5, 6, 7};
+        int p = sc.nextInt();
+
+        int[] b = new int[a.length];
+
+        for(int i=0; i<a.length - p; i++){
+            b[i] = a[i + p];
+//            System.out.println("b[" + i + "] is " + b[i]);
+        }
+
+        for(int i=a.length - p; i <= a.length - 1; i++){
+            b[i] = a[i + p - a.length];
+        }
+
+        for(int e : b){
+            System.out.print(e + " ");
+        }
+
+    }
+}

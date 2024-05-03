@@ -1,0 +1,37 @@
+import java.util.Scanner;
+
+public class Array2DStructure
+{
+    //simple example of 2D Array structure
+    //Takes in 9 array elements and prints them out in a 2D structure
+    public static void main(String[] args)
+    {
+        Scanner scan = new Scanner(System.in);
+        int[][] arr2d = new int[3][3];// instantiates a 2d array with 3 rows and 3 columns
+        int num = 0;
+        System.out.println("Enter 9 array elements.");
+        for (int i = 0; i < arr2d.length; i++)// loops through the amount of rows
+        {
+            for (int j = 0; j < arr2d[i].length; j++)// loops through the amount of columns
+            {
+                num = scan.nextInt();
+                arr2d[i][j] = num;// stores user input in the next available spot in the array
+            }
+        }
+        System.out.print("The 2D Array looks like this: ");
+        print2DArray(arr2d);// call to static method
+    }
+
+    static void print2DArray(int[][] values)
+    {
+        System.out.println();
+        for (int i = 0; i < values.length; i++)// loops through the amount of rows
+        {
+            for (int j = 0; j < values[i].length; j++)// loops through the amount of columns
+            {
+                System.out.print(values[i][j] + " ");// prints value at one point in the 2d grid
+            }
+            System.out.println();
+        }
+    }
+}
