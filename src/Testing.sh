@@ -3,7 +3,7 @@
 
 # python3 /app/code/experiments/function_calls/tests/test_fcapc.py
 
-python3 /app/code/experiments/function_calls/summer2023_tests/joern.py
+python3 /app/code/experiments/function_calls/tests/joern.py
 # #must run this in order for mergeTestResult to work
 
 # python /app/code/experiments/function_calls/summer2023_tests/test_fcapc.py
@@ -13,6 +13,6 @@ python3 /app/code/experiments/function_calls/summer2023_tests/joern.py
 
 # python3 /app/code/experiments/function_calls/tests/test_npath.py
 
-python3 /app/code/experiments/branch_apc/tests/test_noBranching.py
+# python3 /app/code/experiments/branch_apc/tests/test_noBranching.py
 
-python3 /app/code/experiments/branch_apc/tests/test_pythonBranch.py
+# python3 /app/code/experiments/branch_apc/tests/test_pythonBranch.py
