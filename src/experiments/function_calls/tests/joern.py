@@ -39,23 +39,21 @@ class DataCollector:
                 path = filePathwithComments[0].split()[0]
                 print(f"benchmark that we are testing {path}")
         
-        # this needs to happen no matter which script we run
         with open(path) as funcs:
             files = [line.rstrip() for line in funcs]
 
-        # for i in files:
-        os.system(f"pwd")
-        os.system(f"joern-parse {files[0]}")
-
-        file_name = files[0].split("/")[-1].split(".")[0]   
-        export_path = "experiments/joern-exports/" + file_name
-        os.system(f"joern-export --repr cfg --out {export_path}")
-
-        # delete excess dot files HERE
-
-        all_files = glob2.glob(f"{export_path}/*")
-        # print(all_files)
-        newFiles = multiConvert(all_files)
+        newFiles = []
+        numFiles = len(files)
+        # joern commands
+        for i in range(numFiles):
+            os.system(f"joern-parse {files[i]}")
+            file_name = files[i].split("/")[-1].split(".")[0]
+            export_path = "experiments/joern-exports/" + file_name
+            os.system(f"joern-export --repr cfg --out {export_path}")
+            all_files = glob2.glob(f"{export_path}/*")
+            
+            # convert joern dot files into format metrinome uses
+            newFiles += multiConvert(all_files)
 
 
         #os.system(f"rm -rf {export_path}")
@@ -97,7 +95,7 @@ class DataCollector:
             new_row = {"file_name": file, "graph_name": graph.name,  "getrgfapc": getrgfapc["rfcapc"], 
                     "getrgfapc_time": getrgfruntime, 
                     "getrgfTime":getrgfapc["getrgfTime"], "firstHalfTime": getrgfapc['firstHalfTime'],
-                    "exception_type": exception_type,'case':getrgfapc['case'],'gamma':getrgfapc['gamma']}
+                    "exception_type": exception_type}
 
             data = data._append(new_row, ignore_index=True)
             # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes

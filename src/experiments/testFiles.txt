@@ -1,1 +1,1 @@
-/app/code/experiments/function_calls/benchmark/even_odd_f2f.c is_even
+experiments/function_calls/benchmark
