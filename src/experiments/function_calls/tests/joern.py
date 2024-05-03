@@ -43,11 +43,23 @@ class DataCollector:
         with open(path) as funcs:
             files = [line.rstrip() for line in funcs]
 
-        for i in files:
+        # for i in files:
+        os.system(f"pwd")
+        os.system(f"joern-parse {files[0]}")
 
-        all_files = glob2.glob("/app/code/experiments/function_calls/files/joern/*.*")
-        print(all_files)
+        file_name = files[0].split("/")[-1].split(".")[0]   
+        export_path = "experiments/joern-exports/" + file_name
+        os.system(f"joern-export --repr cfg --out {export_path}")
+
+        # delete excess dot files HERE
+
+        all_files = glob2.glob(f"{export_path}/*")
+        # print(all_files)
         newFiles = multiConvert(all_files)
+
+
+        #os.system(f"rm -rf {export_path}")
+        
         print(newFiles)
         graphs = {}
         for file in newFiles:
@@ -87,7 +99,7 @@ class DataCollector:
                     "getrgfTime":getrgfapc["getrgfTime"], "firstHalfTime": getrgfapc['firstHalfTime'],
                     "exception_type": exception_type,'case':getrgfapc['case'],'gamma':getrgfapc['gamma']}
 
-            data = data.append(new_row, ignore_index=True)
+            data = data._append(new_row, ignore_index=True)
             # only keep columns graph_name, rapc, fcapc, num_vertices, edge_count, and runtimes
             data = data[["graph_name", "getrgfapc", "getrgfapc_time", 'getrgfTime', 'firstHalfTime','case','gamma']]
 

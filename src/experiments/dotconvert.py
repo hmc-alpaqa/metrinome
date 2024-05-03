@@ -9,7 +9,7 @@ def multiConvert(names):
         calls += [fl.findall(l1)[0]]
     for name in names:
         outputFiles += [convert(name, calls)]
-    return outputFiles
+    return list(filter(lambda item: item, outputFiles))
 
 def convert(name, calls):
     def flatten(tup):
@@ -19,7 +19,7 @@ def convert(name, calls):
                 elem = str(nodeDict[elem])
             sum += elem
         return sum
-    with open(name, "rbU") as f:
+    with open(name, "rb") as f:
         num_lines = sum(1 for _ in f)
     if num_lines == 5:
         return
