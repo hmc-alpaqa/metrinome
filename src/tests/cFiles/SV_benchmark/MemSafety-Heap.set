@@ -1,0 +1,7 @@
+memsafety/*.yml
+memsafety-ext/*.yml
+memsafety-ext2/*.yml
+list-ext-properties/*.yml
+memory-alloca/*.yml
+ldv-memsafety/*.yml
+ldv-memsafety-bitfields/*.yml

@@ -1,0 +1,7 @@
+loops/*.yml
+loop-acceleration/*.yml
+ntdrivers/*.yml
+ntdrivers-simplified/*.yml
+locks/*.yml
+memsafety-ext3/*.yml
+pthread-memsafety/*.yml

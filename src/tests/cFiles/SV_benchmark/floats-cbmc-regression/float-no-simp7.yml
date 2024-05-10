@@ -1,0 +1,10 @@
+format_version: '1.0'
+
+# old file name: float-no-simp7_true-unreach-call_true-termination.c
+input_files: 'float-no-simp7.c'
+
+properties:
+  - property_file: ../properties/termination.prp
+    expected_verdict: true
+  - property_file: ../properties/unreach-call.prp
+    expected_verdict: true

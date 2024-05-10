@@ -1,0 +1,4 @@
+systemc/*.yml
+seq-mthreaded/*.yml
+seq-mthreaded-reduced/*.yml
+seq-pthread/*.yml

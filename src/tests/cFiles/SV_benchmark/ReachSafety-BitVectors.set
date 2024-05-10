@@ -1,0 +1,3 @@
+bitvector/*.yml
+bitvector-regression/*.yml
+bitvector-loops/*.yml

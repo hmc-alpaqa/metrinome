@@ -1,0 +1,6 @@
+floats-cdfpl/*.yml
+floats-cbmc-regression/*.yml
+float-benchs/*.yml
+floats-esbmc-regression/*.yml
+float-newlib/*.yml
+loop-floats-scientific-comp/*.yml

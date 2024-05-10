@@ -1,0 +1,7 @@
+array-examples/*.yml
+array-industry-pattern/*.yml
+reducercommutativity/*.yml
+array-tiling/*.yml
+array-programs/*.yml
+array-crafted/*.yml
+array-multidimensional/*.yml

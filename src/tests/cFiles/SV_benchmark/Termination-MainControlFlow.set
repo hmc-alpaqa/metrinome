@@ -1,0 +1,4 @@
+termination-crafted/*.yml
+termination-crafted-lit/*.yml
+termination-numeric/*.yml
+termination-restricted-15/*.yml
